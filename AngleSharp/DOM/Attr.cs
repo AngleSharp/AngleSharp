@@ -11,8 +11,9 @@
         #region Fields
 
         readonly AttrContainer _container;
-        readonly String _name;
-        readonly String _ns;
+        readonly String _localName;
+        readonly String _prefix;
+        readonly String _namespace;
         String _value;
 
         #endregion
@@ -23,9 +24,9 @@
         /// Creates a new NodeAttribute with empty value.
         /// </summary>
         /// <param name="container">The parent of the attribute.</param>
-        /// <param name="name">The name of the attribute.</param>
-        internal Attr(AttrContainer container, String name)
-            : this(container, name, String.Empty, null)
+        /// <param name="localName">The name of the attribute.</param>
+        internal Attr(AttrContainer container, String localName)
+            : this(container, localName, String.Empty)
         {
         }
 
@@ -33,26 +34,30 @@
         /// Creates a new NodeAttribute.
         /// </summary>
         /// <param name="container">The parent of the attribute.</param>
-        /// <param name="name">The name of the attribute.</param>
+        /// <param name="localName">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        internal Attr(AttrContainer container, String name, String value)
-            : this(container, name, value, null)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new NodeAttribute.
-        /// </summary>
-        /// <param name="container">The parent of the attribute.</param>
-        /// <param name="name">The name of the attribute.</param>
-        /// <param name="value">The value of the attribute.</param>
-        /// <param name="ns">The namespace of the attribute.</param>
-        internal Attr(AttrContainer container, String name, String value, String ns)
+        internal Attr(AttrContainer container, String localName, String value)
         {
             _container = container;
-            _name = name;
+            _localName = localName;
             _value = value;
-            _ns = ns ?? String.Empty;
+        }
+
+        /// <summary>
+        /// Creates a new NodeAttribute.
+        /// </summary>
+        /// <param name="container">The parent of the attribute.</param>
+        /// <param name="prefix">The prefix of the attribute.</param>
+        /// <param name="localName">The name of the attribute.</param>
+        /// <param name="value">The value of the attribute.</param>
+        /// <param name="namespaceUri">The namespace of the attribute.</param>
+        internal Attr(AttrContainer container, String prefix, String localName, String value, String namespaceUri)
+        {
+            _prefix = prefix;
+            _localName = localName;
+            _container = container;
+            _value = value;
+            _namespace = namespaceUri;
         }
 
         #endregion
@@ -64,15 +69,7 @@
         /// </summary>
         public String Prefix
         {
-            get
-            {
-                var index = _name.IndexOf(Specification.Colon);
-
-                if (index == -1)
-                    return String.Empty;
-
-                return _name.Substring(0, index);
-            }
+            get { return _prefix; }
         }
 
         /// <summary>
@@ -80,7 +77,7 @@
         /// </summary>
         public Boolean IsId
         {
-            get { return _name.Equals(AttributeNames.Id, StringComparison.OrdinalIgnoreCase); }
+            get { return _prefix == null && _localName.Equals(AttributeNames.Id, StringComparison.OrdinalIgnoreCase); }
         }
 
         /// <summary>
@@ -96,7 +93,7 @@
         /// </summary>
         public String Name
         {
-            get { return _name; }
+            get { return _prefix == null ? _localName : String.Concat(_prefix, ":", _localName); }
         }
 
         /// <summary>
@@ -105,7 +102,7 @@
         public String Value
         {
             get { return _value; }
-            set { _value = value; _container.RaiseChanged(_name, _value); }
+            set { _value = value; _container.RaiseChanged(_localName, _value); }
         }
 
         /// <summary>
@@ -113,15 +110,7 @@
         /// </summary>
         public String LocalName
         {
-            get 
-            {
-                var index = _name.IndexOf(Specification.Colon); 
-                
-                if (index == -1)
-                    return _name;
-
-                return _name.Substring(index + 1);
-            }
+            get { return _localName; }
         }
 
         /// <summary>
@@ -129,7 +118,7 @@
         /// </summary>
         public String NamespaceUri
         {
-            get { return _ns; }
+            get { return _namespace; }
         }
 
         #endregion
@@ -143,7 +132,7 @@
         /// <returns>True if both attributes are equal, otherwise false.</returns>
         public Boolean Equals(IAttr other)
         {
-            return other == this || (_value == other.Value && _name == other.Name);
+            return other == this || (_value == other.Value && _localName == other.Name);
         }
 
         #endregion
@@ -158,16 +147,16 @@
         {
             var temp = Pool.NewStringBuilder();
 
-            if (String.IsNullOrEmpty(_ns))
+            if (String.IsNullOrEmpty(_namespace))
                 temp.Append(LocalName);
-            else if (_ns == Namespaces.XmlUri)
+            else if (_namespace == Namespaces.XmlUri)
                 temp.Append(Namespaces.XmlPrefix).Append(Specification.Colon).Append(LocalName);
-            else if (_ns == Namespaces.XLinkUri)
+            else if (_namespace == Namespaces.XLinkUri)
                 temp.Append(Namespaces.XLinkPrefix).Append(Specification.Colon).Append(LocalName);
-            else if (_ns == Namespaces.XmlNsUri)
+            else if (_namespace == Namespaces.XmlNsUri)
                 temp.Append(XmlNamespaceLocalName());
             else
-                temp.Append(_name);
+                temp.Append(_localName);
 
             temp.Append(Specification.Equality).Append(Specification.DoubleQuote);
 

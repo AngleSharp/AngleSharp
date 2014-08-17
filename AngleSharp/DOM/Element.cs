@@ -517,7 +517,16 @@
         /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String name)
         {
-            return _attributes.Has(name);
+            if (_namespace == Namespaces.HtmlUri)
+                name = name.ToLower();
+
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].Name == name)
+                    return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -528,9 +537,12 @@
         /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String namespaceUri, String localName)
         {
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
+
             for (int i = 0; i < _attributes.Count; i++)
             {
-                if (_attributes[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase) && _attributes[i].NamespaceUri == namespaceUri)
+                if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
                     return true;
             }
 
@@ -544,9 +556,12 @@
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
         public String GetAttribute(String name)
         {
+            if (_namespace == Namespaces.HtmlUri)
+                name = name.ToLower();
+
             for (int i = 0; i < _attributes.Count; i++)
             {
-                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (_attributes[i].Name == name)
                     return _attributes[i].Value;
             }
 
@@ -561,6 +576,9 @@
         /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
         public String GetAttribute(String namespaceUri, String localName)
         {
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
+
             for (int i = 0; i < _attributes.Count; i++)
             {
                 if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
@@ -577,22 +595,27 @@
         /// <param name="value">The desired new value of the attribute.</param>
         public void SetAttribute(String name, String value)
         {
-            if (value == null)
+            if (value != null)
             {
-                RemoveAttribute(name);
-                return;
-            }
+                if (!name.IsXmlName())
+                    throw new DomException(ErrorCode.InvalidCharacter);
 
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (_namespace == Namespaces.HtmlUri)
+                    name = name.ToLower();
+
+                for (int i = 0; i < _attributes.Count; i++)
                 {
-                    _attributes[i].Value = value;
-                    return;
+                    if (_attributes[i].Name == name)
+                    {
+                        _attributes[i].Value = value;
+                        return;
+                    }
                 }
-            }
 
-            _attributes.Add(new Attr(_attributes, name, value));
+                _attributes.Add(new Attr(_attributes, name, value));
+            }
+            else
+                RemoveAttribute(name);
         }
 
         /// <summary>
@@ -602,23 +625,44 @@
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         public void SetAttribute(String namespaceUri, String name, String value)
-        {
-            if (value == null)
+        {            
+            if (value != null)
             {
-                RemoveAttribute(namespaceUri, name);
-                return;
-            }
+                if (String.IsNullOrEmpty(namespaceUri))
+                    namespaceUri = null;
 
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (!name.IsXmlName())
+                    throw new DomException(ErrorCode.InvalidCharacter);
+                else if (!name.IsQualifiedName())
+                    throw new DomException(ErrorCode.Namespace);
+
+                var index = name.IndexOf(Specification.Colon);
+                var prefix = index >= 0 ? name.Substring(0, index) : null;
+                var localName = index >= 0 ? name.Substring(index + 1) : name;
+
+                if (prefix != null && namespaceUri == null)
+                    throw new DomException(ErrorCode.Namespace);
+
+                if (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri)
+                    throw new DomException(ErrorCode.Namespace);
+                else if ((name == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
+                    throw new DomException(ErrorCode.Namespace);
+                else if (namespaceUri == Namespaces.XmlNsUri && (name != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix))
+                    throw new DomException(ErrorCode.Namespace);
+
+                for (int i = 0; i < _attributes.Count; i++)
                 {
-                    _attributes[i].Value = value;
-                    return;
+                    if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _attributes[i].Value = value;
+                        return;
+                    }
                 }
-            }
 
-            _attributes.Add(new Attr(_attributes, name, value, namespaceUri));
+                _attributes.Add(new Attr(_attributes, prefix, localName, value, namespaceUri));
+            }
+            else
+                RemoveAttribute(namespaceUri, name);
         }
 
         /// <summary>
@@ -628,12 +672,15 @@
         /// <returns>The current element.</returns>
         public void RemoveAttribute(String name)
         {
+            if (_namespace == Namespaces.HtmlUri)
+                name = name.ToLower();
+
             for (int i = 0; i < _attributes.Count; i++)
             {
-                if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (_attributes[i].Name == name)
                 {
                     _attributes.RemoveAt(i);
-                    break;
+                    return;
                 }
             }
         }
@@ -646,13 +693,16 @@
         /// <returns>The current element.</returns>
         public void RemoveAttribute(String namespaceUri, String localName)
         {
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
+
             for (int i = 0; i < _attributes.Count; i++)
             {
-                if (_attributes[i].LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase) && _attributes[i].NamespaceUri == namespaceUri)
+                if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
                 {
                     var name = _attributes[i].Name;
                     _attributes.RemoveAt(i);
-                    break;
+                    return;
                 }
             }
         }
