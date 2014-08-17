@@ -21,602 +21,602 @@
         /// <summary>
         /// The html tag.
         /// </summary>
-        public const String Html = "html";
+        public static readonly String Html = "html";
 
         /// <summary>
         /// The body tag.
         /// </summary>
-        public const String Body = "body";
+        public static readonly String Body = "body";
 
         /// <summary>
         /// The head tag.
         /// </summary>
-        public const String Head = "head";
+        public static readonly String Head = "head";
 
         /// <summary>
         /// The meta tag.
         /// </summary>
-        public const String Meta = "meta";
+        public static readonly String Meta = "meta";
 
         /// <summary>
         /// The title tag.
         /// </summary>
-        public const String Title = "title";
+        public static readonly String Title = "title";
 
         /// <summary>
         /// The bgsound tag.
         /// </summary>
-        public const String Bgsound = "bgsound";
+        public static readonly String Bgsound = "bgsound";
 
         /// <summary>
         /// The script tag.
         /// </summary>
-        public const String Script = "script";
+        public static readonly String Script = "script";
 
         /// <summary>
         /// The style tag.
         /// </summary>
-        public const String Style = "style";
+        public static readonly String Style = "style";
 
         /// <summary>
         /// The noembed tag.
         /// </summary>
-        public const String NoEmbed = "noembed";
+        public static readonly String NoEmbed = "noembed";
 
         /// <summary>
         /// The noscript tag.
         /// </summary>
-        public const String NoScript = "noscript";
+        public static readonly String NoScript = "noscript";
 
         /// <summary>
         /// The noframes tag.
         /// </summary>
-        public const String NoFrames = "noframes";
+        public static readonly String NoFrames = "noframes";
 
         /// <summary>
         /// The menu tag.
         /// </summary>
-        public const String Menu = "menu";
+        public static readonly String Menu = "menu";
 
         /// <summary>
         /// The menuitem tag.
         /// </summary>
-        public const String MenuItem = "menuitem";
+        public static readonly String MenuItem = "menuitem";
 
         /// <summary>
         /// The var tag.
         /// </summary>
-        public const String Var = "var";
+        public static readonly String Var = "var";
 
         /// <summary>
         /// The ruby tag.
         /// </summary>
-        public const String Ruby = "ruby";
+        public static readonly String Ruby = "ruby";
 
         /// <summary>
         /// The sub tag.
         /// </summary>
-        public const String Sub = "sub";
+        public static readonly String Sub = "sub";
 
         /// <summary>
         /// The sup tag.
         /// </summary>
-        public const String Sup = "sup";
+        public static readonly String Sup = "sup";
 
         /// <summary>
         /// The rp tag.
         /// </summary>
-        public const String Rp = "rp";
+        public static readonly String Rp = "rp";
 
         /// <summary>
         /// The rt tag.
         /// </summary>
-        public const String Rt = "rt";
+        public static readonly String Rt = "rt";
 
         /// <summary>
         /// The applet tag.
         /// </summary>
-        public const String Applet = "applet";
+        public static readonly String Applet = "applet";
 
         /// <summary>
         /// The embed tag.
         /// </summary>
-        public const String Embed = "embed";
+        public static readonly String Embed = "embed";
 
         /// <summary>
         /// The marquee tag.
         /// </summary>
-        public const String Marquee = "marquee";
+        public static readonly String Marquee = "marquee";
 
         /// <summary>
         /// The param tag.
         /// </summary>
-        public const String Param = "param";
+        public static readonly String Param = "param";
 
         /// <summary>
         /// The object tag.
         /// </summary>
-        public const String Object = "object";
+        public static readonly String Object = "object";
 
         /// <summary>
         /// The canvas tag.
         /// </summary>
-        public const String Canvas = "canvas";
+        public static readonly String Canvas = "canvas";
 
         /// <summary>
         /// The font tag.
         /// </summary>
-        public const String Font = "font";
+        public static readonly String Font = "font";
 
         /// <summary>
         /// The ins tag.
         /// </summary>
-        public const String Ins = "ins";
+        public static readonly String Ins = "ins";
 
         /// <summary>
         /// The del tag.
         /// </summary>
-        public const String Del = "del";
+        public static readonly String Del = "del";
 
         /// <summary>
         /// The template tag.
         /// </summary>
-        public const String Template = "template";
+        public static readonly String Template = "template";
 
         /// <summary>
         /// The caption tag.
         /// </summary>
-        public const String Caption = "caption";
+        public static readonly String Caption = "caption";
 
         /// <summary>
         /// The col tag.
         /// </summary>
-        public const String Col = "col";
+        public static readonly String Col = "col";
 
         /// <summary>
         /// The colgroup tag.
         /// </summary>
-        public const String Colgroup = "colgroup";
+        public static readonly String Colgroup = "colgroup";
 
         /// <summary>
         /// The table tag.
         /// </summary>
-        public const String Table = "table";
+        public static readonly String Table = "table";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String Thead = "thead";
+        public static readonly String Thead = "thead";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String Tbody = "tbody";
+        public static readonly String Tbody = "tbody";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String Tfoot = "tfoot";
+        public static readonly String Tfoot = "tfoot";
 
         /// <summary>
         /// The th tag.
         /// </summary>
-        public const String Th = "th";
+        public static readonly String Th = "th";
 
         /// <summary>
         /// The td tag.
         /// </summary>
-        public const String Td = "td";
+        public static readonly String Td = "td";
 
         /// <summary>
         /// The tr tag.
         /// </summary>
-        public const String Tr = "tr";
+        public static readonly String Tr = "tr";
 
         /// <summary>
         /// The input tag.
         /// </summary>
-        public const String Input = "input";
+        public static readonly String Input = "input";
 
         /// <summary>
         /// The keygen tag.
         /// </summary>
-        public const String Keygen = "keygen";
+        public static readonly String Keygen = "keygen";
 
         /// <summary>
         /// The textarea tag.
         /// </summary>
-        public const String Textarea = "textarea";
+        public static readonly String Textarea = "textarea";
 
         /// <summary>
         /// The p tag.
         /// </summary>
-        public const String P = "p";
+        public static readonly String P = "p";
 
         /// <summary>
         /// The span tag.
         /// </summary>
-        public const String Span = "span";
+        public static readonly String Span = "span";
 
         /// <summary>
         /// The dialog tag.
         /// </summary>
-        public const String Dialog = "dialog";
+        public static readonly String Dialog = "dialog";
 
         /// <summary>
         /// The fieldset tag.
         /// </summary>
-        public const String Fieldset = "fieldset";
+        public static readonly String Fieldset = "fieldset";
 
         /// <summary>
         /// The legend tag.
         /// </summary>
-        public const String Legend = "legend";
+        public static readonly String Legend = "legend";
 
         /// <summary>
         /// The label tag.
         /// </summary>
-        public const String Label = "label";
+        public static readonly String Label = "label";
 
         /// <summary>
         /// The details tag.
         /// </summary>
-        public const String Details = "details";
+        public static readonly String Details = "details";
 
         /// <summary>
         /// The form tag.
         /// </summary>
-        public const String Form = "form";
+        public static readonly String Form = "form";
 
         /// <summary>
         /// The isindex tag.
         /// </summary>
-        public const String IsIndex = "isindex";
+        public static readonly String IsIndex = "isindex";
 
         /// <summary>
         /// The pre tag.
         /// </summary>
-        public const String Pre = "pre";
+        public static readonly String Pre = "pre";
 
         /// <summary>
         /// The datalist tag.
         /// </summary>
-        public const String Datalist = "datalist";
+        public static readonly String Datalist = "datalist";
 
         /// <summary>
         /// The ol tag.
         /// </summary>
-        public const String Ol = "ol";
+        public static readonly String Ol = "ol";
 
         /// <summary>
         /// The tag ul.
         /// </summary>
-        public const String Ul = "ul";
+        public static readonly String Ul = "ul";
 
         /// <summary>
         /// The dl tag.
         /// </summary>
-        public const String Dl = "dl";
+        public static readonly String Dl = "dl";
 
         /// <summary>
         /// The li tag.
         /// </summary>
-        public const String Li = "li";
+        public static readonly String Li = "li";
 
         /// <summary>
         /// The dd tag.
         /// </summary>
-        public const String Dd = "dd";
+        public static readonly String Dd = "dd";
 
         /// <summary>
         /// The dt tag.
         /// </summary>
-        public const String Dt = "dt";
+        public static readonly String Dt = "dt";
 
         /// <summary>
         /// The b tag.
         /// </summary>
-        public const String B = "b";
+        public static readonly String B = "b";
 
         /// <summary>
         /// The big tag.
         /// </summary>
-        public const String Big = "big";
+        public static readonly String Big = "big";
 
         /// <summary>
         /// The strike tag.
         /// </summary>
-        public const String Strike = "strike";
+        public static readonly String Strike = "strike";
 
         /// <summary>
         /// The code tag.
         /// </summary>
-        public const String Code = "code";
+        public static readonly String Code = "code";
 
         /// <summary>
         /// The em tag.
         /// </summary>
-        public const String Em = "em";
+        public static readonly String Em = "em";
 
         /// <summary>
         /// The i tag.
         /// </summary>
-        public const String I = "i";
+        public static readonly String I = "i";
 
         /// <summary>
         /// The s tag.
         /// </summary>
-        public const String S = "s";
+        public static readonly String S = "s";
 
         /// <summary>
         /// The small tag.
         /// </summary>
-        public const String Small = "small";
+        public static readonly String Small = "small";
 
         /// <summary>
         /// The strong tag.
         /// </summary>
-        public const String Strong = "strong";
+        public static readonly String Strong = "strong";
 
         /// <summary>
         /// The u tag.
         /// </summary>
-        public const String U = "u";
+        public static readonly String U = "u";
 
         /// <summary>
         /// The tt tag.
         /// </summary>
-        public const String Tt = "tt";
+        public static readonly String Tt = "tt";
 
         /// <summary>
         /// The nobr tag.
         /// </summary>
-        public const String NoBr = "nobr";
+        public static readonly String NoBr = "nobr";
 
         /// <summary>
         /// The select tag.
         /// </summary>
-        public const String Select = "select";
+        public static readonly String Select = "select";
 
         /// <summary>
         /// The option tag.
         /// </summary>
-        public const String Option = "option";
+        public static readonly String Option = "option";
 
         /// <summary>
         /// The optgroup tag.
         /// </summary>
-        public const String Optgroup = "optgroup";
+        public static readonly String Optgroup = "optgroup";
 
         /// <summary>
         /// The link tag.
         /// </summary>
-        public const String Link = "link";
+        public static readonly String Link = "link";
 
         /// <summary>
         /// The frameset tag.
         /// </summary>
-        public const String Frameset = "frameset";
+        public static readonly String Frameset = "frameset";
 
         /// <summary>
         /// The frame tag.
         /// </summary>
-        public const String Frame = "frame";
+        public static readonly String Frame = "frame";
 
         /// <summary>
         /// The iframe tag.
         /// </summary>
-        public const String Iframe = "iframe";
+        public static readonly String Iframe = "iframe";
 
         /// <summary>
         /// The audio tag.
         /// </summary>
-        public const String Audio = "audio";
+        public static readonly String Audio = "audio";
 
         /// <summary>
         /// The video tag.
         /// </summary>
-        public const String Video = "video";
+        public static readonly String Video = "video";
 
         /// <summary>
         /// The source tag.
         /// </summary>
-        public const String Source = "source";
+        public static readonly String Source = "source";
 
         /// <summary>
         /// The track tag.
         /// </summary>
-        public const String Track = "track";
+        public static readonly String Track = "track";
 
         /// <summary>
         /// The h1 tag.
         /// </summary>
-        public const String H1 = "h1";
+        public static readonly String H1 = "h1";
 
         /// <summary>
         /// The h2 tag.
         /// </summary>
-        public const String H2 = "h2";
+        public static readonly String H2 = "h2";
 
         /// <summary>
         /// The h3 tag.
         /// </summary>
-        public const String H3 = "h3";
+        public static readonly String H3 = "h3";
 
         /// <summary>
         /// The h4 tag.
         /// </summary>
-        public const String H4 = "h4";
+        public static readonly String H4 = "h4";
 
         /// <summary>
         /// The h5 tag.
         /// </summary>
-        public const String H5 = "h5";
+        public static readonly String H5 = "h5";
 
         /// <summary>
         /// The h6 tag.
         /// </summary>
-        public const String H6 = "h6";
+        public static readonly String H6 = "h6";
 
         /// <summary>
         /// The div tag.
         /// </summary>
-        public const String Div = "div";
+        public static readonly String Div = "div";
 
         /// <summary>
         /// The quote tag.
         /// </summary>
-        public const String Quote = "quote";
+        public static readonly String Quote = "quote";
 
         /// <summary>
         /// The blockquote tag.
         /// </summary>
-        public const String BlockQuote = "blockquote";
+        public static readonly String BlockQuote = "blockquote";
 
         /// <summary>
         /// The q tag.
         /// </summary>
-        public const String Q = "q";
+        public static readonly String Q = "q";
 
         /// <summary>
         /// The base tag.
         /// </summary>
-        public const String Base = "base";
+        public static readonly String Base = "base";
 
         /// <summary>
         /// The basefont tag.
         /// </summary>
-        public const String BaseFont = "basefont";
+        public static readonly String BaseFont = "basefont";
 
         /// <summary>
         /// The a tag.
         /// </summary>
-        public const String A = "a";
+        public static readonly String A = "a";
 
         /// <summary>
         /// The area tag.
         /// </summary>
-        public const String Area = "area";
+        public static readonly String Area = "area";
 
         /// <summary>
         /// The button tag.
         /// </summary>
-        public const String Button = "button";
+        public static readonly String Button = "button";
 
         /// <summary>
         /// The cite tag.
         /// </summary>
-        public const String Cite = "cite";
+        public static readonly String Cite = "cite";
 
         /// <summary>
         /// The main tag.
         /// </summary>
-        public const String Main = "main";
+        public static readonly String Main = "main";
 
         /// <summary>
         /// The summary tag.
         /// </summary>
-        public const String Summary = "summary";
+        public static readonly String Summary = "summary";
 
         /// <summary>
         /// The xmp tag.
         /// </summary>
-        public const String Xmp = "xmp";
+        public static readonly String Xmp = "xmp";
 
         /// <summary>
         /// The br tag.
         /// </summary>
-        public const String Br = "br";
+        public static readonly String Br = "br";
 
         /// <summary>
         /// The wbr tag.
         /// </summary>
-        public const String Wbr = "wbr";
+        public static readonly String Wbr = "wbr";
 
         /// <summary>
         /// The hr tag.
         /// </summary>
-        public const String Hr = "hr";
+        public static readonly String Hr = "hr";
 
         /// <summary>
         /// The dir tag.
         /// </summary>
-        public const String Dir = "dir";
+        public static readonly String Dir = "dir";
 
         /// <summary>
         /// The center tag.
         /// </summary>
-        public const String Center = "center";
+        public static readonly String Center = "center";
 
         /// <summary>
         /// The listing tag.
         /// </summary>
-        public const String Listing = "listing";
+        public static readonly String Listing = "listing";
 
         /// <summary>
         /// The img tag.
         /// </summary>
-        public const String Img = "img";
+        public static readonly String Img = "img";
 
         /// <summary>
         /// The image tag (this is not the right tag).
         /// </summary>
-        public const String Image = "image";
+        public static readonly String Image = "image";
 
         /// <summary>
         /// The nav tag.
         /// </summary>
-        public const String Nav = "nav";
+        public static readonly String Nav = "nav";
 
         /// <summary>
         /// The address tag.
         /// </summary>
-        public const String Address = "address";
+        public static readonly String Address = "address";
 
         /// <summary>
         /// The article tag.
         /// </summary>
-        public const String Article = "article";
+        public static readonly String Article = "article";
 
         /// <summary>
         /// The aside tag.
         /// </summary>
-        public const String Aside = "aside";
+        public static readonly String Aside = "aside";
 
         /// <summary>
         /// The figcaption tag.
         /// </summary>
-        public const String Figcaption = "figcaption";
+        public static readonly String Figcaption = "figcaption";
 
         /// <summary>
         /// The figure tag.
         /// </summary>
-        public const String Figure = "figure";
+        public static readonly String Figure = "figure";
 
         /// <summary>
         /// The section tag.
         /// </summary>
-        public const String Section = "section";
+        public static readonly String Section = "section";
 
         /// <summary>
         /// The footer tag.
         /// </summary>
-        public const String Footer = "footer";
+        public static readonly String Footer = "footer";
 
         /// <summary>
         /// The header tag.
         /// </summary>
-        public const String Header = "header";
+        public static readonly String Header = "header";
 
         /// <summary>
         /// The hgroup tag.
         /// </summary>
-        public const String Hgroup = "hgroup";
+        public static readonly String Hgroup = "hgroup";
 
         /// <summary>
         /// The plaintext tag.
         /// </summary>
-        public const String Plaintext = "plaintext";
+        public static readonly String Plaintext = "plaintext";
 
         /// <summary>
         /// The time tag.
@@ -645,7 +645,7 @@
         /// <summary>
         /// The math tag.
         /// </summary>
-        public const String Math = "math";
+        public static readonly String Math = "math";
 
         /// <summary>
         /// The mi tag.
@@ -684,7 +684,7 @@
         /// <summary>
         /// The svg tag.
         /// </summary>
-        public const String Svg = "svg";
+        public static readonly String Svg = "svg";
 
         /// <summary>
         /// The foreignObject tag.

@@ -210,44 +210,21 @@
             if (started)
                 throw new InvalidOperationException("Fragment mode has to be activated before running the parser!");
 
-            switch (context.NodeName)
-            {
-                case Tags.Title:
-                case Tags.Textarea:
-                {
-                    tokenizer.State = HtmlParseMode.RCData;
-                    break;
-                }
-                case Tags.Style:
-                case Tags.Xmp:
-                case Tags.Iframe:
-                case Tags.NoEmbed:
-                case Tags.NoFrames:
-                {
-                    tokenizer.State = HtmlParseMode.Rawtext;
-                    break;
-                }
-                case Tags.Script:
-                {
-                    tokenizer.State = HtmlParseMode.Script;
-                    break;
-                }
-                case Tags.NoScript:
-                {
-                    if (doc.Options.IsScripting) 
-                        tokenizer.State = HtmlParseMode.Rawtext;
+            var tagName = context.NodeName;
 
-                    break;
-                }
-                case Tags.Plaintext:
-                {
-                    tokenizer.State = HtmlParseMode.Plaintext;
-                    break;
-                }
-            }
+            if (tagName.IsOneOf(Tags.Title, Tags.Textarea))
+                tokenizer.State = HtmlParseMode.RCData;
+            else if (tagName.IsOneOf(Tags.Style, Tags.Xmp, Tags.Iframe, Tags.NoEmbed, Tags.NoFrames))
+                tokenizer.State = HtmlParseMode.Rawtext;
+            else if (tagName == Tags.Script)
+                tokenizer.State = HtmlParseMode.Script;
+            else if (tagName == Tags.Plaintext)
+                tokenizer.State = HtmlParseMode.Plaintext;
+            else if (tagName == Tags.NoScript && doc.Options.IsScripting)
+                tokenizer.State = HtmlParseMode.Rawtext;
 
-            var root = new HTMLHtmlElement();
-            doc.AppendChild(root);
+            var root = new HTMLHtmlElement { Owner = doc };
+            doc.AddNode(root);
             open.Add(root);
 
             if (context is HTMLTemplateElement)
@@ -3007,28 +2984,30 @@
         /// <param name="token">The token to examine.</param>
         void Foreign(HtmlToken token)
         {
-            if (token.Type == HtmlTokenType.Character)
+            switch (token.Type)
             {
-                AddCharacters(token.Data.Replace(Specification.Null, Specification.Replacement));
-
-                if (token.HasContent)
-                    frameset = false;
-            }
-            else if (token.Type == HtmlTokenType.Comment)
-            {
-                CurrentNode.AddComment(token.Data);
-            }
-            else if (token.Type == HtmlTokenType.DOCTYPE)
-            {
-                RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
-            }
-            else if (token.Type == HtmlTokenType.StartTag)
-            {
-                var tagName = token.Name;
-
-                switch (tagName)
+                case HtmlTokenType.Character:
                 {
-                    case Tags.Font:
+                    AddCharacters(token.Data.Replace(Specification.Null, Specification.Replacement));
+
+                    if (token.HasContent)
+                        frameset = false;
+
+                    return;
+                }
+                case HtmlTokenType.Comment:
+                    CurrentNode.AddComment(token.Data);
+                    return;
+
+                case HtmlTokenType.DOCTYPE:
+                    RaiseErrorOccurred(ErrorCode.DoctypeTagInappropriate);
+                    return;
+
+                case HtmlTokenType.StartTag:
+                {
+                    var tagName = token.Name;
+
+                    if (tagName == Tags.Font)
                     {
                         var tag = token.AsTag();
 
@@ -3042,92 +3021,54 @@
                         }
 
                         ForeignSpecialTag(tag);
-                        break;
                     }
-                    case Tags.B:
-                    case Tags.Big:
-                    case Tags.BlockQuote:
-                    case Tags.Body:
-                    case Tags.Br:
-                    case Tags.Center:
-                    case Tags.Code:
-                    case Tags.Dd:
-                    case Tags.Div:
-                    case Tags.Dl:
-                    case Tags.Dt:
-                    case Tags.Em:
-                    case Tags.Embed:
-                    case Tags.H1:
-                    case Tags.H2:
-                    case Tags.H3:
-                    case Tags.H4:
-                    case Tags.H5:
-                    case Tags.H6:
-                    case Tags.Head:
-                    case Tags.Hr:
-                    case Tags.I:
-                    case Tags.Img:
-                    case Tags.Li:
-                    case Tags.Listing:
-                    case Tags.Main:
-                    case Tags.Menu:
-                    case Tags.Meta:
-                    case Tags.NoBr:
-                    case Tags.Ol:
-                    case Tags.P:
-                    case Tags.Pre:
-                    case Tags.Ruby:
-                    case Tags.S:
-                    case Tags.Small:
-                    case Tags.Span:
-                    case Tags.Strong:
-                    case Tags.Strike:
-                    case Tags.Sub:
-                    case Tags.Sup:
-                    case Tags.Table:
-                    case Tags.Tt:
-                    case Tags.U:
-                    case Tags.Ul:
-                    case Tags.Var:
+                    else if (tagName.IsOneOf(Tags.B, Tags.Big, Tags.BlockQuote, Tags.Body, Tags.Br, Tags.Center) ||
+                             tagName.IsOneOf(Tags.Code, Tags.Dd, Tags.Div, Tags.Dl, Tags.Dt, Tags.Em) ||
+                             tagName.IsOneOf(Tags.Embed, Tags.Head, Tags.Hr, Tags.I, Tags.Img, Tags.Li, Tags.Ul) ||
+                             tagName.IsOneOf(Tags.H1, Tags.H2, Tags.H3, Tags.H4, Tags.H5, Tags.H6) ||
+                             tagName.IsOneOf(Tags.Listing, Tags.Main, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol) ||
+                             tagName.IsOneOf(Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike) ||
+                             tagName.IsOneOf(Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var))
                         ForeignNormalTag(token);
-                        break;
-
-                    default:
+                    else
                         ForeignSpecialTag(token.AsTag());
-                        break;
+
+                    return;
                 }
-            }
-            else if (token.Type == HtmlTokenType.EndTag)
-            {
-                var tagName = token.Name;
-                var node = CurrentNode;
-                var script = node as HTMLScriptElement;
-
-                if (script == null)
+                case HtmlTokenType.EndTag:
                 {
-                    if (node.NodeName != tagName)
-                        RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
+                    var tagName = token.Name;
+                    var node = CurrentNode;
+                    var script = node as HTMLScriptElement;
 
-                    for (int i = open.Count - 1; i > 0; i--)
+                    if (script == null)
                     {
-                        if (node.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
-                        {
-                            open.RemoveRange(i + 1, open.Count - i - 1);
-                            CloseCurrentNode();
-                            break;
-                        }
+                        if (node.NodeName != tagName)
+                            RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
-                        node = open[i - 1];
-
-                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
+                        for (int i = open.Count - 1; i > 0; i--)
                         {
-                            Home(token);
-                            break;
+                            if (node.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                open.RemoveRange(i + 1, open.Count - i - 1);
+                                CloseCurrentNode();
+                                break;
+                            }
+
+                            node = open[i - 1];
+
+                            if (node.Flags.HasFlag(NodeFlags.HtmlMember))
+                            {
+                                Home(token);
+                                break;
+                            }
                         }
                     }
+                    else
+                        RunScript(script);
+
+                    return;
                 }
-                else
-                    RunScript(script);
             }
         }
 
