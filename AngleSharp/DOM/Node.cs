@@ -807,27 +807,6 @@
         }
 
         /// <summary>
-        /// Runs the mutation macro as defined in 5.2.2 Mutation methods
-        /// of http://www.w3.org/TR/domcore/.
-        /// </summary>
-        /// <param name="nodes">The nodes array to add.</param>
-        /// <returns>A (single) node.</returns>
-        protected INode MutationMacro(INode[] nodes)
-        {
-            if (nodes.Length > 1)
-            {
-                var node = new DocumentFragment();
-
-                for (int i = 0; i < nodes.Length; i++)
-                    node.AppendChild(nodes[i]);
-
-                return node;
-            }
-
-            return nodes[0];
-        }
-
-        /// <summary>
         /// Copies all (Node) properties of the source to the target.
         /// </summary>
         /// <param name="source">The source node.</param>

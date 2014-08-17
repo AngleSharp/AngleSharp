@@ -663,11 +663,8 @@
         /// <param name="nodes">The nodes to prepend.</param>
         public void Prepend(params INode[] nodes)
         {
-            if (Parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                InsertChild(0, node);
-            }
+            var node = nodes.MutationMacro();
+            this.PreInsert(node, FirstChild);
         }
 
         /// <summary>
@@ -676,11 +673,8 @@
         /// <param name="nodes">The nodes to append.</param>
         public void Append(params INode[] nodes)
         {
-            if (Parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                AppendChild(node);
-            }
+            var node = nodes.MutationMacro();
+            this.PreInsert(node, null);
         }
 
         public override Boolean IsEqualNode(INode otherNode)
@@ -718,7 +712,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = MutationMacro(nodes);
+                var node = nodes.MutationMacro();
                 parent.InsertBefore(node, this);
             }
         }
@@ -734,7 +728,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = MutationMacro(nodes);
+                var node = nodes.MutationMacro();
                 parent.InsertBefore(node, NextSibling);
             }
         }
@@ -749,7 +743,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = MutationMacro(nodes);
+                var node = nodes.MutationMacro();
                 parent.ReplaceChild(node, this);
             }
         }

@@ -46,6 +46,7 @@
     <Compile Include="DOM\Collections\HtmlFormControlsCollection.cs" />
     <Compile Include="DOM\Collections\NodeIterator.cs" />
     <Compile Include="Foundation\Extensions\ElementExtensions.cs" />
+    <Compile Include="Foundation\Extensions\ParentNodeExtensions.cs" />
     <Compile Include="Foundation\Extensions\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />

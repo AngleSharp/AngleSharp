@@ -159,7 +159,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = MutationMacro(nodes);
+                var node = nodes.MutationMacro();
                 parent.InsertBefore(node, this);
             }
         }
@@ -175,7 +175,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = MutationMacro(nodes);
+                var node = nodes.MutationMacro();
                 parent.InsertBefore(node, NextSibling);
             }
         }
@@ -190,7 +190,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = MutationMacro(nodes);
+                var node = nodes.MutationMacro();
                 parent.ReplaceChild(node, this);
             }
         }

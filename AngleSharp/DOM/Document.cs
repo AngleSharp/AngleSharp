@@ -1053,11 +1053,8 @@
         /// <param name="nodes">The nodes to prepend.</param>
         public void Prepend(params INode[] nodes)
         {
-            if (Parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                InsertChild(0, node);
-            }
+            var node = nodes.MutationMacro();
+            this.PreInsert(node, FirstChild);
         }
 
         /// <summary>
@@ -1066,11 +1063,8 @@
         /// <param name="nodes">The nodes to append.</param>
         public void Append(params INode[] nodes)
         {
-            if (Parent != null && nodes.Length > 0)
-            {
-                var node = MutationMacro(nodes);
-                AppendChild(node);
-            }
+            var node = nodes.MutationMacro();
+            this.PreInsert(node, null);
         }
 
         /// <summary>
