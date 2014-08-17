@@ -42,22 +42,6 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the token can be used with IsHtmlTIP properties.
-        /// </summary>
-        public override Boolean IsHtmlCompatible
-        {
-            get { return _type == HtmlTokenType.StartTag; }
-        }
-
-        /// <summary>
-        /// Gets if the token can be used with IsHtmlTIP properties.
-        /// </summary>
-        public override Boolean IsMathCompatible
-        {
-            get { return !IsStartTag("mglyph") && !IsStartTag("malignmark"); }
-        }
-
-        /// <summary>
         /// Gets or sets the state of the self-closing flag.
         /// </summary>
         public Boolean IsSelfClosing

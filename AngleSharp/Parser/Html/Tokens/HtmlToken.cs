@@ -153,9 +153,9 @@
         /// <summary>
         /// Gets if the token can be used with IsHtmlTIP properties.
         /// </summary>
-        public virtual Boolean IsHtmlCompatible
+        public Boolean IsHtmlCompatible
         {
-            get { return false; }
+            get { return _type == HtmlTokenType.StartTag || _type == HtmlTokenType.Character; }
         }
 
         /// <summary>
@@ -177,9 +177,9 @@
         /// <summary>
         /// Gets if the token can be used with IsMathMLTIP properties.
         /// </summary>
-        public virtual Boolean IsMathCompatible
+        public Boolean IsMathCompatible
         {
-            get { return false; }
+            get { return (!IsStartTag("mglyph") && !IsStartTag("malignmark")) || _type == HtmlTokenType.Character; }
         }
 
         /// <summary>
@@ -232,97 +232,6 @@
         }
 
         /// <summary>
-        /// Finds out if the current token is a start or end tag token with the given name.
-        /// </summary>
-        /// <param name="name">The name of the tag.</param>
-        /// <returns>True if the token is indeed a start or end tag token with the given name, otherwise false.</returns>
-        public Boolean IsTag(String name)
-        {
-            return (_type == HtmlTokenType.StartTag || _type == HtmlTokenType.EndTag) && _name.Equals(name);
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with the given name.
-        /// </summary>
-        /// <param name="name">The name of the tag.</param>
-        /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
-        public Boolean IsEndTag(String name)
-        {
-            return _type == HtmlTokenType.EndTag && _name.Equals(name);
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with a name that is different than the given one.
-        /// </summary>
-        /// <param name="name">The name of the tag.</param>
-        /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
-        public Boolean IsEndTagInv(String name)
-        {
-            return _type == HtmlTokenType.EndTag && !_name.Equals(name);
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of the other tag.</param>
-        /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
-        public Boolean IsEndTag(String nameA, String nameB)
-        {
-            return _type == HtmlTokenType.EndTag && (_name.Equals(nameA) || _name.Equals(nameB));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
-        public Boolean IsEndTag(String nameA, String nameB, String nameC)
-        {
-            return _type == HtmlTokenType.EndTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with a name that is different than the given one.
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
-        public Boolean IsEndTagInv(String nameA, String nameB, String nameC)
-        {
-            return _type == HtmlTokenType.EndTag && !_name.Equals(nameA) && !_name.Equals(nameB) && !_name.Equals(nameC);
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <param name="nameD">The name of yet another tag.</param>
-        /// <returns>True if the token is indeed an end tag token with the given name, otherwise false.</returns>
-        public Boolean IsEndTag(String nameA, String nameB, String nameC, String nameD)
-        {
-            return _type == HtmlTokenType.EndTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is an end tag token with a name that is different than the given one.
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <param name="nameD">The name of yet another tag.</param>
-        /// <returns>True if the token is indeed an end tag token and does NOT have the given name, otherwise false.</returns>
-        public Boolean IsEndTagInv(String nameA, String nameB, String nameC, String nameD)
-        {
-            return _type == HtmlTokenType.EndTag && !_name.Equals(nameA) && !_name.Equals(nameB) && !_name.Equals(nameC) && !_name.Equals(nameD);
-        }
-
-        /// <summary>
         /// Finds out if the current token is a start tag token with the given name.
         /// </summary>
         /// <param name="name">The name of the tag.</param>
@@ -330,75 +239,6 @@
         public Boolean IsStartTag(String name)
         {
             return _type == HtmlTokenType.StartTag && _name.Equals(name);
-        }
-
-        /// <summary>
-        /// Finds out if the current token is a start tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of the other tag.</param>
-        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(String nameA, String nameB)
-        {
-            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is a start tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(String nameA, String nameB, String nameC)
-        {
-            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is a start tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <param name="nameD">The name of yet another tag.</param>
-        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(String nameA, String nameB, String nameC, String nameD)
-        {
-            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is a start tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <param name="nameD">The name of yet another tag.</param>
-        /// <param name="nameE">One more name.</param>
-        /// <param name="nameF">And another name.</param>
-        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(String nameA, String nameB, String nameC, String nameD, String nameE, String nameF)
-        {
-            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD) || _name.Equals(nameE) || _name.Equals(nameF));
-        }
-
-        /// <summary>
-        /// Finds out if the current token is a start tag token with one of the given name(s).
-        /// </summary>
-        /// <param name="nameA">The name of the tag.</param>
-        /// <param name="nameB">The name of another tag.</param>
-        /// <param name="nameC">The name of the other tag.</param>
-        /// <param name="nameD">The name of yet another tag.</param>
-        /// <param name="nameE">One more name.</param>
-        /// <param name="nameF">And another name.</param>
-        /// <param name="nameG">The name of yet another tag.</param>
-        /// <param name="nameH">One more name.</param>
-        /// <param name="nameJ">And another name.</param>
-        /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(String nameA, String nameB, String nameC, String nameD, String nameE, String nameF, String nameG, String nameH, String nameJ)
-        {
-            return _type == HtmlTokenType.StartTag && (_name.Equals(nameA) || _name.Equals(nameB) || _name.Equals(nameC) || _name.Equals(nameD) || _name.Equals(nameE) || _name.Equals(nameF) || _name.Equals(nameG) || _name.Equals(nameH) || _name.Equals(nameJ));
         }
 
         #endregion
