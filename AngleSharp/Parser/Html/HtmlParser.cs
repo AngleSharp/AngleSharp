@@ -2820,7 +2820,7 @@
             var newElement = HtmlElementFactory.Create(element.NodeName, doc);
 
             foreach (var attr in element.Attributes)
-                newElement.SetAttribute(attr.Name, attr.Value);
+                newElement.AddAttribute(attr.Name, attr.Value);
 
             return newElement;
         }
@@ -3571,8 +3571,7 @@
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);
 
-            for (var i = 0; i < tag.Attributes.Count; i++)
-                element.SetAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
+            element.SetAttributes(tag.Attributes);
         }
 
         /// <summary>

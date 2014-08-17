@@ -43,8 +43,11 @@
         /// <param name="attributes">The attributes to set.</param>
         public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
         {
-            foreach (var attribute in attributes)
+            for (var i = 0; i < attributes.Count; i++)
+            {
+                var attribute = attributes[i];
                 element.AddAttribute(attribute.Key, attribute.Value);
+            }
         }
 
         /// <summary>
