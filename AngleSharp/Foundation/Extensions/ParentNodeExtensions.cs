@@ -53,8 +53,9 @@
         }
 
         /// <summary>
-        /// Inserts nodes before the current node.
+        /// Inserts nodes before the given child.
         /// </summary>
+        /// <param name="child">The context object.</param>
         /// <param name="nodes">The nodes to insert before.</param>
         /// <returns>The current element.</returns>
         public static void InsertBefore(this INode child, params INode[] nodes)
@@ -64,13 +65,14 @@
             if (parent != null && nodes.Length > 0)
             {
                 var node = nodes.MutationMacro();
-                parent.InsertBefore(node, child);
+                parent.PreInsert(node, child);
             }
         }
 
         /// <summary>
-        /// Inserts nodes after the current node.
+        /// Inserts nodes after the given child.
         /// </summary>
+        /// <param name="child">The context object.</param>
         /// <param name="nodes">The nodes to insert after.</param>
         /// <returns>The current element.</returns>
         public static void InsertAfter(this INode child, params INode[] nodes)
@@ -80,13 +82,14 @@
             if (parent != null && nodes.Length > 0)
             {
                 var node = nodes.MutationMacro();
-                parent.InsertBefore(node, child.NextSibling);
+                parent.PreInsert(node, child.NextSibling);
             }
         }
 
         /// <summary>
-        /// Replaces the current node with the nodes.
+        /// Replaces the given child with the nodes.
         /// </summary>
+        /// <param name="child">The context object.</param>
         /// <param name="nodes">The nodes to replace.</param>
         public static void ReplaceWith(this INode child, params INode[] nodes)
         {
@@ -100,14 +103,15 @@
         }
 
         /// <summary>
-        /// Removes the current element from the parent.
+        /// Removes the child from its parent.
         /// </summary>
+        /// <param name="child">The context object.</param>
         public static void RemoveFromParent(this INode child)
         {
             var parent = child.Parent;
 
             if (parent != null)
-                parent.RemoveChild(child);
+                parent.PreRemove(child);
         }
     }
 }
