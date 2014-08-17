@@ -126,7 +126,7 @@
             {
                 if (IsQuirksForced)
                     return true;
-                else if (_name == null || !_name.Equals("html"))
+                else if (_name == null || _name != "html")
                     return true;
                 else if (PublicIdentifier.StartsWith("+//Silmaril//dtd html Pro v0r11 19970101//", StringComparison.OrdinalIgnoreCase))
                     return true;
@@ -262,9 +262,9 @@
         {
             get
             {
-                if (_name != null && _name.Equals("html"))
+                if (_name != null && _name == "html")
                 {
-                    if(IsPublicIdentifierMissing)
+                    if (IsPublicIdentifierMissing)
                         return IsSystemIdentifierMissing || SystemIdentifier.Equals("about:legacy-compat");
                     else if (PublicIdentifier.Equals("-//W3C//DTD HTML 4.0//EN"))
                         return IsSystemIdentifierMissing || SystemIdentifier.Equals("http://www.w3.org/TR/REC-html40/strict.dtd");

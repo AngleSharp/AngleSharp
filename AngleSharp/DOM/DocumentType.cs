@@ -17,6 +17,8 @@
         internal DocumentType(String name)
             : base(name, NodeType.DocumentType)
         {
+            PublicIdentifier = String.Empty;
+            SystemIdentifier = String.Empty;
         }
 
         #endregion

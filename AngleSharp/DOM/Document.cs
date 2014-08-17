@@ -525,7 +525,7 @@
         /// </summary>
         public IImplementation Implementation
         {
-            get { return DomImplementation.Instance; }
+            get { return new DomImplementation(this); }
         }
 
         /// <summary>
@@ -551,7 +551,7 @@
         public String ContentType
         {
             get { return _contentType; }
-            protected set { _contentType = value; }
+            internal set { _contentType = value; }
         }
 
         /// <summary>
@@ -750,7 +750,7 @@
 
                     if (_documentElement == null)
                     {
-                        _documentElement = new HTMLHtmlElement();
+                        _documentElement = new HTMLHtmlElement { Owner = this };
                         AppendChild(_documentElement);
                     }
 
@@ -758,11 +758,11 @@
 
                     if (_head == null)
                     {
-                        _head = new HTMLHeadElement();
+                        _head = new HTMLHeadElement { Owner = this };
                         _documentElement.AppendChild(_head);
                     }
 
-                    _title = new HTMLTitleElement();
+                    _title = new HTMLTitleElement { Owner = this };
                     _head.AppendChild(_title);
                 }
 

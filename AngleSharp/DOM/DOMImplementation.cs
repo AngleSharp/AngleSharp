@@ -9,17 +9,12 @@
     /// </summary>
     sealed class DomImplementation : IImplementation
     {
-        #region Fields
+        #region Features
 
-        readonly Dictionary<String, String[]> _features;
+        static readonly Dictionary<String, String[]> _features = new Dictionary<String, String[]>(StringComparer.OrdinalIgnoreCase);
 
-        #endregion
-
-        #region Singleton
-
-        private DomImplementation()
+        static DomImplementation()
         {
-            _features = new Dictionary<String, String[]>(StringComparer.OrdinalIgnoreCase);
             AddFeature("XML", "1.0", "2.0");
             AddFeature("HTML", "1.0", "2.0");
             AddFeature("Core", "2.0");
@@ -28,19 +23,32 @@
             AddFeature("CSS", "2.0");
             AddFeature("CSS2", "2.0");
             AddFeature("Traversal", "2.0");
-            //Events 2.0
-            //UIEvents 2.0
+            AddFeature("Events", "2.0");
+            AddFeature("UIEvents", "2.0");
+            AddFeature("HTMLEvents", "2.0");
+            AddFeature("Range", "2.0");
             //MutationEvents 2.0
-            //HTMLEvents 2.0
-            //Range 2.0
         }
 
-        void AddFeature(String feature, params String[] versions)
+        static void AddFeature(String feature, params String[] versions)
         {
             _features.Add(feature, versions);
         }
 
-        public static readonly DomImplementation Instance = new DomImplementation();
+        #endregion
+
+        #region Fields
+
+        readonly Document _owner;
+
+        #endregion
+
+        #region ctor
+
+        public DomImplementation(Document owner)
+        {
+            _owner = owner;
+        }
 
         #endregion
 
@@ -56,7 +64,12 @@
         /// <returns>A new DocumentType node with the owner document set to null.</returns>
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
-            return new DocumentType(qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId };
+            if (!qualifiedName.IsXmlName())
+                throw new DomException(ErrorCode.InvalidCharacter);
+            else if (!qualifiedName.IsQualifiedName())
+                throw new DomException(ErrorCode.Namespace);
+
+            return new DocumentType(qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId, Owner = _owner };
         }
 
         /// <summary>
@@ -71,9 +84,17 @@
             var doc = new XmlDocument();
 
             if (doctype != null)
-                doc.AppendChild(doctype as Node);
+                doc.AppendChild(doctype);
 
-            //doc.NodeName = qualifiedName ?? doc.NodeName;
+            if (!String.IsNullOrEmpty(qualifiedName))
+            {
+                var element = doc.CreateElementNS(namespaceUri, qualifiedName);
+
+                if (element != null)
+                    doc.AppendChild(element);
+            }
+
+            doc.BaseUri = _owner.BaseUri;
             return doc;
         }
 
@@ -85,7 +106,16 @@
         public IDocument CreateHtmlDocument(String title)
         {
             var doc = new Document();
-            doc.Title = title;
+            doc.ContentType = MimeTypes.Html;
+            doc.AppendChild(new DocumentType(Tags.Html) { Owner = doc });
+            doc.AppendChild(doc.CreateElement(Tags.Html));
+            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
+
+            if (!String.IsNullOrEmpty(title))
+                doc.Title = title;
+
+            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
+            doc.BaseUri = _owner.BaseUri;
             return doc;
         }
 
