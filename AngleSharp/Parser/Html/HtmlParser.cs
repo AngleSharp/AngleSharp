@@ -291,68 +291,36 @@
                     node = context ?? node;
                 }
 
-                switch (node.NodeName)
-                {
-                    case Tags.Select:
-                        insert = HtmlTreeMode.InSelect;
-                        break;
+                var tagName = node.NodeName;
 
-                    case Tags.Th:
-                    case Tags.Td:
-                        insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
-                        break;
-
-                    case Tags.Tr:
-                        insert = HtmlTreeMode.InRow;
-                        break;
-
-                    case Tags.Thead:
-                    case Tags.Tfoot:
-                    case Tags.Tbody:
-                        insert = HtmlTreeMode.InTableBody;
-                        break;
-
-                    case Tags.Caption:
-                        insert = HtmlTreeMode.InCaption;
-                        break;
-
-                    case Tags.Colgroup:
-                        insert = HtmlTreeMode.InColumnGroup;
-                        break;
-
-                    case Tags.Table:
-                        insert = HtmlTreeMode.InTable;
-                        break;
-
-                    case Tags.Template:
-                        insert = templateMode.Peek();
-                        break;
-
-                    case Tags.Head:
-                        insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-                        break;
-
-                    case Tags.Body:
-                        insert = HtmlTreeMode.InBody;
-                        break;
-
-                    case Tags.Frameset:
-                        insert = HtmlTreeMode.InFrameset;
-                        break;
-
-                    case Tags.Html:
-                        insert = HtmlTreeMode.BeforeHead;
-                        break;
-
-                    default:
-                        if (last)
-                        {
-                            insert = HtmlTreeMode.InBody;
-                            break;
-                        }
-
-                        continue;
-                }
+                if (tagName == Tags.Select)
+                    insert = HtmlTreeMode.InSelect;
+                else if (tagName.IsOneOf(Tags.Th, Tags.Td))
+                    insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
+                else if (tagName == Tags.Tr)
+                    insert = HtmlTreeMode.InRow;
+                else if (tagName.IsOneOf(Tags.Thead, Tags.Tfoot, Tags.Tbody))
+                    insert = HtmlTreeMode.InTableBody;
+                else if (tagName == Tags.Caption)
+                    insert = HtmlTreeMode.InCaption;
+                else if (tagName == Tags.Colgroup)
+                    insert = HtmlTreeMode.InColumnGroup;
+                else if (tagName == Tags.Table)
+                    insert = HtmlTreeMode.InTable;
+                else if (tagName == Tags.Template)
+                    insert = templateMode.Peek();
+                else if (tagName == Tags.Html)
+                    insert = HtmlTreeMode.BeforeHead;
+                else if (tagName == Tags.Head)
+                    insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
+                else if (tagName == Tags.Body)
+                    insert = HtmlTreeMode.InBody;
+                else if (tagName == Tags.Frameset)
+                    insert = HtmlTreeMode.InFrameset;
+                else if (last)
+                    insert = HtmlTreeMode.InBody;
+                else
+                    continue;
 
                 break;
             }
