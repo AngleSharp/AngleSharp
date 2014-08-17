@@ -40,9 +40,13 @@
                 return default(TElement);
 
             var element = (TElement)ctor.Invoke(null);
+            var el = element as Element;
 
             if (element != null)
                 document.Adopt(element);
+
+            if (el != null)
+                el.Close();
 
             return element;
         }
