@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Represents the event args for any UI event.
+    /// </summary>
     class UiEvent : Event, IUiEvent
     {
         #region Properties

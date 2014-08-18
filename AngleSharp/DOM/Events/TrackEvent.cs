@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a track that provides an additional track information.
     /// </summary>
-    sealed class TrackEvent : Event, ITrackEvent
+    class TrackEvent : Event, ITrackEvent
     {
         #region Properties
 

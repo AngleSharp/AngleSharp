@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a custom event that provides an additional details property.
     /// </summary>
-    sealed class CustomEvent : Event, ICustomEvent
+    class CustomEvent : Event, ICustomEvent
     {
         #region Properties
 

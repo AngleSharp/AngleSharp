@@ -6,7 +6,7 @@
     /// Represents the event arguments for a mouse wheel event.
     /// </summary>
     [DomName("WheelEvent")]
-    public interface IWheelEvent : IEvent
+    public interface IWheelEvent : IMouseEvent
     {
         /// <summary>
         /// Gets the mouse wheel delta X.

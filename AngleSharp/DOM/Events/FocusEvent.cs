@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the arguments for a focus event.
     /// </summary>
-    sealed class FocusEvent : UiEvent, IFocusEvent
+    class FocusEvent : UiEvent, IFocusEvent
     {
         #region Properties
 

@@ -15,9 +15,9 @@
             //The real deal
             AddEventConstructor("event", () => new Event());
             AddEventConstructor("focusevent", () => new FocusEvent());
-            AddEventConstructor("keyboardevent", () => new Event());//TODO KeyboardEvent
+            AddEventConstructor("keyboardevent", () => new KeyboardEvent());
             AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
-            AddEventConstructor("mouseevent", () => new Event());//TODO MouseEvent
+            AddEventConstructor("mouseevent", () => new MouseEvent());
             AddEventConstructor("touchevent", () => new Event());//TODO TouchEvent
             AddEventConstructor("uievent", () => new UiEvent());
             AddEventConstructor("customevent", () => new CustomEvent());
