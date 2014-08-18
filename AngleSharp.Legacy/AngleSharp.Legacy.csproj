@@ -1438,6 +1438,9 @@
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\AttrExtensions.cs">
+      <Link>Foundation\Extensions\AttrExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Extensions\CharExtensions.cs">
       <Link>Foundation\Extensions\CharExtensions.cs</Link>
     </Compile>
