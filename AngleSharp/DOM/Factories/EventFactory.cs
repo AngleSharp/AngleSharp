@@ -19,7 +19,7 @@
             AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
             AddEventConstructor("mouseevent", () => new Event());//TODO MouseEvent
             AddEventConstructor("touchevent", () => new Event());//TODO TouchEvent
-            AddEventConstructor("uievent", () => new Event());//TODO UIEvent
+            AddEventConstructor("uievent", () => new UiEvent());
             AddEventConstructor("customevent", () => new CustomEvent());
 
             //Alias
