@@ -363,12 +363,6 @@
         IWindowProxy DefaultView { get; }
 
         /// <summary>
-        /// Gets a live list of all of the currently-available style sheet sets.
-        /// </summary>
-        [DomName("styleSheetSets")]
-        IStringList StyleSheetSets { get; }
-
-        /// <summary>
         /// Loads the document content from the given URL and replaces the current content.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>

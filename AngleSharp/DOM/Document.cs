@@ -28,6 +28,8 @@
         IConfiguration _options;
         ITextSource _source;
         String _referrer;
+        String _lastStyleSheetSet;
+        String _currentStyleSheetSet;
         String _cookie;
         String _contentType;
         ILocation _location;
@@ -811,6 +813,52 @@
         public String Origin
         {
             get { return _location.Origin; }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected stylesheet set.
+        /// </summary>
+        public String SelectedStyleSheetSet
+        {
+            get { return _currentStyleSheetSet; }
+            set
+            {
+                _lastStyleSheetSet = value;
+                EnableStyleSheetsForSet(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the last enabled style sheet set; this property's value changes
+        /// whenever the SelectedStyleSheetSet property is changed.
+        /// </summary>
+        public String LastStyleSheetSet
+        {
+            get { return _lastStyleSheetSet; }
+        }
+
+        /// <summary>
+        /// Gets the preferred style sheet set as set by the page author.
+        /// </summary>
+        public String PreferredStyleSheetSet
+        {
+            get { return StyleSheetSets.FirstOrDefault(); }
+        }
+
+        /// <summary>
+        /// Enables the stylesheets matching the specified name in the current stylesheet set,
+        /// and disables all other stylesheets (except those without a title, which are always enabled).
+        /// </summary>
+        /// <param name="name">The name of the stylesheet set to enable.</param>
+        public void EnableStyleSheetsForSet(String name)
+        {
+            foreach (var sheet in _styleSheets)
+            {
+                if (!String.IsNullOrEmpty(sheet.Title))
+                    sheet.IsDisabled = sheet.Title != name;
+            }
+
+            _currentStyleSheetSet = name;
         }
 
         #endregion
