@@ -40,6 +40,7 @@
     <Compile Include="Attributes\Accessors.cs" />
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="Foundation\Extensions\AttrExtensions.cs" />
     <Compile Include="Foundation\Extensions\CollectionExtensions.cs" />
     <Compile Include="DOM\Collections\HtmlAllCollection.cs" />
     <Compile Include="DOM\Collections\HtmlElementCollection.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Foundation\Setup\Configuration.cs" />
     <Compile Include="Delegates\ErrorEventListener.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
-    <Compile Include="DOM\Collections\AttrContainer.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
     <Compile Include="DOM\Constants\FilterResult.cs" />

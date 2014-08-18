@@ -79,7 +79,7 @@
         {
             base.Close();
 
-            OnAttributeChanged(AttributeNames.Media, value =>
+            RegisterAttributeHandler(AttributeNames.Media, value =>
             {
                 if (_sheet != null)
                     _sheet.Media.MediaText = Media;

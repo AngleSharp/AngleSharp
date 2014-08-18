@@ -170,13 +170,13 @@
         internal override void Close()
         {
             base.Close();
-            OnAttributeChanged(AttributeNames.Media, value =>
+            RegisterAttributeHandler(AttributeNames.Media, value =>
             {
                 if (_sheet != null)
                     _sheet.Media.MediaText = value;
             });
-            OnAttributeChanged(AttributeNames.Href, value => TargetChanged());
-            OnAttributeChanged(AttributeNames.Type, value => TargetChanged());
+            RegisterAttributeHandler(AttributeNames.Href, value => TargetChanged());
+            RegisterAttributeHandler(AttributeNames.Type, value => TargetChanged());
             TargetChanged();
         }
 

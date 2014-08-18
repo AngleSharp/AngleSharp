@@ -284,7 +284,7 @@
 
             if (Owner.Options.IsStyling)
             {
-                OnAttributeChanged(AttributeNames.Style, value => _style.Update(value));
+                RegisterAttributeHandler(AttributeNames.Style, value => _style.Update(value));
                 _style.Update(GetAttribute(AttributeNames.Style));
             }
         }

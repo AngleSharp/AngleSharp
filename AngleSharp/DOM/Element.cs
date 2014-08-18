@@ -13,7 +13,8 @@
         #region Fields
 
         readonly HtmlElementCollection _elements;
-        readonly AttrContainer _attributes;
+        readonly List<IAttr> _attributes;
+        readonly Dictionary<String, Action<String>> _attributeHandlers;
 
         String _prefix;
         String _namespace;
@@ -30,7 +31,8 @@
             : base(name, NodeType.Element, flags)
         {
             _elements = new HtmlElementCollection(this, deep: false);
-            _attributes = new AttrContainer();
+            _attributes = new List<IAttr>();
+            _attributeHandlers = new Dictionary<String, Action<String>>();
         }
 
         #endregion
@@ -275,7 +277,7 @@
         /// <summary>
         /// Gets the associated attribute container.
         /// </summary>
-        internal AttrContainer Attributes
+        internal List<IAttr> Attributes
         {
             get { return _attributes; }
         }
@@ -520,13 +522,7 @@
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLower();
 
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].Name == name)
-                    return true;
-            }
-
-            return false;
+            return _attributes.Has(name);
         }
 
         /// <summary>
@@ -540,13 +536,7 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
-                    return true;
-            }
-
-            return false;
+            return _attributes.Has(namespaceUri, localName);
         }
 
         /// <summary>
@@ -559,13 +549,8 @@
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLower();
 
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].Name == name)
-                    return _attributes[i].Value;
-            }
-
-            return null;
+            var attr = _attributes.Get(name);
+            return attr != null ? attr.Value : null;
         }
 
         /// <summary>
@@ -579,13 +564,8 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            for (int i = 0; i < _attributes.Count; i++)
-            {
-                if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
-                    return _attributes[i].Value;
-            }
-
-            return null;
+            var attr = _attributes.Get(namespaceUri, localName);
+            return attr != null ? attr.Value : null;
         }
 
         /// <summary>
@@ -605,20 +585,15 @@
 
                 for (int i = 0; i < _attributes.Count; i++)
                 {
-                    if (_attributes[i].Name == name)
+                    if (_attributes[i].Prefix == null && _attributes[i].LocalName == name)
                     {
                         _attributes[i].Value = value;
-                        //TODO
-                        // Queue a mutation record of "attributes" for element with name attribute's
-                        // local name, namespace attribute's namespace, and oldValue attribute's value.
                         return;
                     }
                 }
 
-                //TODO
-                // Queue a mutation record of "attributes" for element with name attribute's
-                // local name, namespace attribute's namespace, and oldValue null.
-                _attributes.Add(new Attr(_attributes, name, value));
+                _attributes.Add(new Attr(this, name, value));
+                AttributeChanged(name, null, null);
             }
             else
                 RemoveAttribute(name);
@@ -658,20 +633,16 @@
 
                 for (int i = 0; i < _attributes.Count; i++)
                 {
-                    if (_attributes[i].Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
                     {
                         _attributes[i].Value = value;
-                        //TODO
-                        // Queue a mutation record of "attributes" for element with name attribute's
-                        // local name, namespace attribute's namespace, and oldValue attribute's value.
                         return;
                     }
                 }
 
-                //TODO
-                // Queue a mutation record of "attributes" for element with name attribute's
-                // local name, namespace attribute's namespace, and oldValue null.
-                _attributes.Add(new Attr(_attributes, prefix, localName, value, namespaceUri));
+                var attr = new Attr(this, prefix, localName, value, namespaceUri);
+                _attributes.Add(attr);
+                AttributeChanged(attr.LocalName, attr.NamespaceUri, null);
             }
             else
                 RemoveAttribute(namespaceUri, name);
@@ -689,12 +660,11 @@
 
             for (int i = 0; i < _attributes.Count; i++)
             {
-                if (_attributes[i].Name == name)
+                if (_attributes[i].Prefix == null && _attributes[i].LocalName == name)
                 {
+                    var attr = _attributes[i];
                     _attributes.RemoveAt(i);
-                    //TODO
-                    // Queue a mutation record of "attributes" for element with name attribute's
-                    // local name, namespace attribute's namespace, and oldValue attribute's value.
+                    AttributeChanged(attr.LocalName, attr.NamespaceUri, attr.Value);
                     return;
                 }
             }
@@ -715,10 +685,9 @@
             {
                 if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
                 {
+                    var attr = _attributes[i];
                     _attributes.RemoveAt(i);
-                    //TODO
-                    // Queue a mutation record of "attributes" for element with name attribute's
-                    // local name, namespace attribute's namespace, and oldValue attribute's value.
+                    AttributeChanged(attr.LocalName, attr.NamespaceUri, attr.Value);
                     return;
                 }
             }
@@ -882,23 +851,28 @@
         internal override void Close()
         {
             base.Close();
-            OnAttributeChanged(AttributeNames.Class, value =>
+            RegisterAttributeHandler(AttributeNames.Class, value =>
             {
                 if (_classList != null)
                     _classList.Update(value);
             });
         }
 
-        /// <summary>
-        /// Adds a new attribute if the attribute is not yet created.
-        /// Does not fire the changed event.
-        /// </summary>
-        /// <param name="name">The name of the attribute as a string.</param>
-        /// <param name="value">The desired new value of the attribute.</param>
-        internal void AddAttribute(String name, String value)
+        internal void AttributeChanged(String localName, String namespaceUri, String oldValue)
         {
-            if (!_attributes.Has(name))
-                _attributes.Add(new Attr(_attributes, name, value));
+            Action<String> handler = null;
+
+            if (_attributeHandlers.TryGetValue(localName, out handler))
+            {
+                var attr = _attributes.Get(localName);
+                handler(attr != null ? attr.Value : null);
+            }
+
+            //TODO
+            // Queue a mutation record of "attributes" for element with name attribute's
+            // local name, namespace attribute's namespace, and oldValue attribute's value.
+            // OldValue for new : null
+            // NewValue for deleted : null
         }
 
         protected sealed override String LocateNamespace(String prefix)
@@ -926,13 +900,16 @@
                 target.SetAttribute(source._attributes[i].Name, source._attributes[i].Value);
         }
 
-        protected void OnAttributeChanged(String name, Action<String> callback)
+        protected void RegisterAttributeHandler(String name, Action<String> callback)
         {
-            _attributes.Changed += (s, ev) =>
-            {
-                if (ev.Name.Equals(name, StringComparison.Ordinal))
-                    callback(ev.Value);
-            };
+            Action<String> handler = null;
+
+            if (_attributeHandlers.TryGetValue(name, out handler))
+                handler += callback;
+            else
+                handler = callback;
+
+            _attributeHandlers[name] = handler;
         }
 
         #endregion

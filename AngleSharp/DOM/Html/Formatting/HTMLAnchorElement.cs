@@ -307,7 +307,7 @@
         internal override void Close()
         {
             base.Close();
-            OnAttributeChanged(AttributeNames.Rel, value =>
+            RegisterAttributeHandler(AttributeNames.Rel, value =>
             {
                 if (_relList != null)
                     _relList.Update(value);

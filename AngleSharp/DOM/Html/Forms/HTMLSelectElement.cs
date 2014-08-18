@@ -225,7 +225,7 @@
         internal override void Close()
         {
             base.Close();
-            OnAttributeChanged(AttributeNames.Value, value => Value = value);
+            RegisterAttributeHandler(AttributeNames.Value, value => Value = value);
             Value = GetAttribute(AttributeNames.Value);
         }
 

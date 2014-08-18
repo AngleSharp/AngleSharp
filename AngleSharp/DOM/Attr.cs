@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM.Collections;
     using System;
 
     /// <summary>
@@ -10,7 +9,7 @@
     {
         #region Fields
 
-        readonly AttrContainer _container;
+        readonly Element _container;
         readonly String _localName;
         readonly String _prefix;
         readonly String _namespace;
@@ -25,7 +24,7 @@
         /// </summary>
         /// <param name="container">The parent of the attribute.</param>
         /// <param name="localName">The name of the attribute.</param>
-        internal Attr(AttrContainer container, String localName)
+        internal Attr(Element container, String localName)
             : this(container, localName, String.Empty)
         {
         }
@@ -36,7 +35,7 @@
         /// <param name="container">The parent of the attribute.</param>
         /// <param name="localName">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        internal Attr(AttrContainer container, String localName, String value)
+        internal Attr(Element container, String localName, String value)
         {
             _container = container;
             _localName = localName;
@@ -51,7 +50,7 @@
         /// <param name="localName">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="namespaceUri">The namespace of the attribute.</param>
-        internal Attr(AttrContainer container, String prefix, String localName, String value, String namespaceUri)
+        internal Attr(Element container, String prefix, String localName, String value, String namespaceUri)
         {
             _prefix = prefix;
             _localName = localName;
@@ -102,7 +101,12 @@
         public String Value
         {
             get { return _value; }
-            set { _value = value; _container.RaiseChanged(_localName, _value); }
+            set 
+            { 
+                var oldValue = _value;
+                _value = value; 
+                _container.AttributeChanged(_localName, _namespace, oldValue); 
+            }
         }
 
         /// <summary>
