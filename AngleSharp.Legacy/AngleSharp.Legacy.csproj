@@ -94,9 +94,6 @@
     <Compile Include="..\AngleSharp\DOM\CharacterData.cs">
       <Link>DOM\CharacterData.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\AttrContainer.cs">
-      <Link>DOM\Collections\AttrContainer.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\HtmlAllCollection.cs">
       <Link>DOM\Collections\HtmlAllCollection.cs</Link>
     </Compile>
@@ -975,6 +972,18 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Events\Event.cs">
       <Link>DOM\Events\Event.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\FocusEvent.cs">
+      <Link>DOM\Events\FocusEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\KeyboardEvent.cs">
+      <Link>DOM\Events\KeyboardEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\ModifierExtensions.cs">
+      <Link>DOM\Events\ModifierExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\MouseEvent.cs">
+      <Link>DOM\Events\MouseEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Events\TrackEvent.cs">
       <Link>DOM\Events\TrackEvent.cs</Link>
