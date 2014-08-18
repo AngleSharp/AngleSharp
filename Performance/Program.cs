@@ -39,7 +39,12 @@
                 UrlTest.For("http://www.flickr.com").Result,
                 UrlTest.For("http://www.godaddy.com").Result,
                 UrlTest.For("http://www.reddit.com").Result,
-                UrlTest.For("http://www.nytimes.com").Result
+                UrlTest.For("http://www.nytimes.com").Result,
+                UrlTest.For("http://peacekeeper.futuremark.com/").Result,
+                UrlTest.For("http://www.pcmag.com/").Result,
+                UrlTest.For("http://www.sitepoint.com/").Result,
+                UrlTest.For("http://html5test.com/").Result,
+                UrlTest.For("http://www.spiegel.de/").Result
             };
 
             var parsers = new List<IHtmlParser>
