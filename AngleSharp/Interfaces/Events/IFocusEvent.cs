@@ -6,7 +6,7 @@
     /// Represents the event arguments for a focus event.
     /// </summary>
     [DomName("FocusEvent")]
-    public interface IFocusEvent : IEvent
+    public interface IFocusEvent : IUiEvent
     {
         /// <summary>
         /// Gets the target of the event.
