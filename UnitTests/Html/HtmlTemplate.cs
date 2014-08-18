@@ -2973,9 +2973,9 @@ namespace UnitTests.Html
             Assert.AreEqual(1, dochtml0body1.Attributes.Count);
             Assert.AreEqual("body", dochtml0body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
-            Assert.IsNotNull(dochtml0body1.Attributes["a"]);
-            Assert.AreEqual("a", dochtml0body1.Attributes["a"].Name);
-            Assert.AreEqual("b", dochtml0body1.Attributes["a"].Value);
+            Assert.IsNotNull(dochtml0body1.Attributes.Get("a"));
+            Assert.AreEqual("a", dochtml0body1.Attributes.Get("a").Name);
+            Assert.AreEqual("b", dochtml0body1.Attributes.Get("a").Value);
 
             var dochtml0body1template0 = dochtml0body1.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1template0.ChildNodes.Length);
@@ -3010,9 +3010,9 @@ namespace UnitTests.Html
             Assert.AreEqual(1, dochtml0.Attributes.Count);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
-            Assert.IsNotNull(dochtml0.Attributes["a"]);
-            Assert.AreEqual("a", dochtml0.Attributes["a"].Name);
-            Assert.AreEqual("b", dochtml0.Attributes["a"].Value);
+            Assert.IsNotNull(dochtml0.Attributes.Get("a"));
+            Assert.AreEqual("a", dochtml0.Attributes.Get("a").Name);
+            Assert.AreEqual("b", dochtml0.Attributes.Get("a").Value);
 
             var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0head0.ChildNodes.Length);
@@ -3059,9 +3059,9 @@ namespace UnitTests.Html
             Assert.AreEqual(1, dochtml0.Attributes.Count);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
-            Assert.IsNotNull(dochtml0.Attributes["a"]);
-            Assert.AreEqual("a", dochtml0.Attributes["a"].Name);
-            Assert.AreEqual("b", dochtml0.Attributes["a"].Value);
+            Assert.IsNotNull(dochtml0.Attributes.Get("a"));
+            Assert.AreEqual("a", dochtml0.Attributes.Get("a").Name);
+            Assert.AreEqual("b", dochtml0.Attributes.Get("a").Value);
 
             var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0head0.ChildNodes.Length);
@@ -3108,9 +3108,9 @@ namespace UnitTests.Html
             Assert.AreEqual(1, dochtml0.Attributes.Count);
             Assert.AreEqual("html", dochtml0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
-            Assert.IsNotNull(dochtml0.Attributes["a"]);
-            Assert.AreEqual("a", dochtml0.Attributes["a"].Name);
-            Assert.AreEqual("b", dochtml0.Attributes["a"].Value);
+            Assert.IsNotNull(dochtml0.Attributes.Get("a"));
+            Assert.AreEqual("a", dochtml0.Attributes.Get("a").Name);
+            Assert.AreEqual("b", dochtml0.Attributes.Get("a").Value);
 
             var dochtml0head0 = dochtml0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0head0.ChildNodes.Length);

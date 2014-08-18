@@ -148,7 +148,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1table0colgroup0col0.Attributes.Count);
             Assert.AreEqual("col", dochtml0body1table0colgroup0col0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0col0.NodeType);
-            Assert.AreEqual("bar", dochtml0body1table0colgroup0col0.Attributes["foo"].Value);
+            Assert.AreEqual("bar", dochtml0body1table0colgroup0col0.Attributes.Get("foo").Value);
         }
 
         [TestMethod]

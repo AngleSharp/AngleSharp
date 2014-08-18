@@ -242,7 +242,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -697,7 +697,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -736,7 +736,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -775,7 +775,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -856,7 +856,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -895,7 +895,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -934,7 +934,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -973,7 +973,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -1012,7 +1012,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);
@@ -1056,7 +1056,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1script1.Attributes.Count);
             Assert.AreEqual("script", dochtml0body1script1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1script1.NodeType);
-            Assert.AreEqual("text/plain", dochtml0body1script1.Attributes["type"].Value);
+            Assert.AreEqual("text/plain", dochtml0body1script1.GetAttribute("type"));
 
             var dochtml0body1script1Text0 = dochtml0body1script1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1script1Text0.NodeType);

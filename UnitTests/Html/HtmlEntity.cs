@@ -751,7 +751,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ>YY", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ>YY", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -782,7 +782,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ&", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ&", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -813,7 +813,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ&", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ&", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -844,7 +844,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ&gt=YY", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ&gt=YY", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -875,7 +875,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ> YY", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ> YY", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -906,7 +906,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ>", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ>", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -937,7 +937,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ>", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ>", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -968,7 +968,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ£_id=23", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ£_id=23", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -999,7 +999,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ&prod_id=23", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ&prod_id=23", dochtml0body1div0.GetAttribute("bar"));
         }
 
         [TestMethod]
@@ -1030,7 +1030,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Count);
             Assert.AreEqual("div", dochtml0body1div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("ZZ∏_id=23", dochtml0body1div0.Attributes["bar"].Value);
+            Assert.AreEqual("ZZ∏_id=23", dochtml0body1div0.GetAttribute("bar"));
         }
     }
 }

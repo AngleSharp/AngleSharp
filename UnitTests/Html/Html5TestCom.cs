@@ -69,7 +69,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtmlbodydiv.Attributes.Count);
             Assert.AreEqual("div", dochtmlbodydiv.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydiv.NodeType);
-            Assert.AreEqual("", dochtmlbodydiv.Attributes["foo<bar"].Value);
+            Assert.AreEqual("", dochtmlbodydiv.GetAttribute("foo<bar"));
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtmlbodydiv.Attributes.Count);
             Assert.AreEqual("div", dochtmlbodydiv.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodydiv.NodeType);
-            Assert.AreEqual("`bar`", dochtmlbodydiv.Attributes["foo"].Value);
+            Assert.AreEqual("`bar`", dochtmlbodydiv.Attributes.Get("foo").Value);
         }
 
         [TestMethod]
@@ -415,7 +415,7 @@ namespace UnitTests
             Assert.AreEqual(1, dochtmlbodytableinput.Attributes.Count);
             Assert.AreEqual("input", dochtmlbodytableinput.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodytableinput.NodeType);
-            Assert.AreEqual("hidden", dochtmlbodytableinput.Attributes["type"].Value);
+            Assert.AreEqual("hidden", dochtmlbodytableinput.Attributes.Get("type").Value);
         }
 
         [TestMethod]

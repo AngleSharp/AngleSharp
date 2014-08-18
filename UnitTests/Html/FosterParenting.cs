@@ -1079,7 +1079,7 @@ X</listing>");
             Assert.AreEqual(1, dochtml1body1table0input0.Attributes.Count);
             Assert.AreEqual("input", dochtml1body1table0input0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table0input0.NodeType);
-            Assert.AreEqual("hidDEN", dochtml1body1table0input0.Attributes["type"].Value);
+            Assert.AreEqual("hidDEN", dochtml1body1table0input0.GetAttribute("type"));
         }
 
         [TestMethod]
@@ -1125,7 +1125,7 @@ X</listing>");
             Assert.AreEqual(1, dochtml1body1table1input0.Attributes.Count);
             Assert.AreEqual("input", dochtml1body1table1input0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1input0.NodeType);
-            Assert.AreEqual("hidDEN", dochtml1body1table1input0.Attributes["type"].Value);
+            Assert.AreEqual("hidDEN", dochtml1body1table1input0.GetAttribute("type"));
         }
 
         [TestMethod]
@@ -1171,7 +1171,7 @@ X</listing>");
             Assert.AreEqual(1, dochtml1body1table0input1.Attributes.Count);
             Assert.AreEqual("input", dochtml1body1table0input1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table0input1.NodeType);
-            Assert.AreEqual("hidDEN", dochtml1body1table0input1.Attributes["type"].Value);
+            Assert.AreEqual("hidDEN", dochtml1body1table0input1.GetAttribute("type"));
         }
 
         [TestMethod]
@@ -1217,7 +1217,7 @@ X</listing>");
             Assert.AreEqual(1, dochtml1body1table0input1.Attributes.Count);
             Assert.AreEqual("input", dochtml1body1table0input1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table0input1.NodeType);
-            Assert.AreEqual("hidDEN", dochtml1body1table0input1.Attributes["type"].Value);
+            Assert.AreEqual("hidDEN", dochtml1body1table0input1.GetAttribute("type"));
         }
 
         [TestMethod]
@@ -1253,7 +1253,7 @@ X</listing>");
             Assert.AreEqual(1, dochtml1body1input0.Attributes.Count);
             Assert.AreEqual("input", dochtml1body1input0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1input0.NodeType);
-            Assert.AreEqual(" hidden", dochtml1body1input0.Attributes["type"].Value);
+            Assert.AreEqual(" hidden", dochtml1body1input0.GetAttribute("type"));
 
             var dochtml1body1table1 = dochtml1body1.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml1body1table1.ChildNodes.Length);
@@ -1266,7 +1266,7 @@ X</listing>");
             Assert.AreEqual(1, dochtml1body1table1input0.Attributes.Count);
             Assert.AreEqual("input", dochtml1body1table1input0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1input0.NodeType);
-            Assert.AreEqual("hidDEN", dochtml1body1table1input0.Attributes["type"].Value);
+            Assert.AreEqual("hidDEN", dochtml1body1table1input0.GetAttribute("type"));
         }
 
         [TestMethod]

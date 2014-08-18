@@ -98,7 +98,7 @@ Also not bold.");
             Assert.AreEqual(1, dochtmlbodyfont1.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont1.NodeType);
-            Assert.AreEqual("red", dochtmlbodyfont1.Attributes["color"].Value);
+            Assert.AreEqual("red", dochtmlbodyfont1.Attributes.Get("color").Value);
 
             var dochtmlbodyfonti1 = dochtmlbodyfont1.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyfonti1.ChildNodes.Length);
@@ -127,7 +127,7 @@ Also not bold.");
             Assert.AreEqual(1, dochtmlbodyipfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyipfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyipfont.NodeType);
-            Assert.AreEqual("red", dochtmlbodyipfont.Attributes["color"].Value);
+            Assert.AreEqual("red", dochtmlbodyipfont.Attributes.Get("color").Value);
 
             var text2 = dochtmlbodyipfont.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text2.NodeType);
@@ -138,7 +138,7 @@ Also not bold.");
             Assert.AreEqual(1, dochtmlbodyfont2.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont2.NodeType);
-            Assert.AreEqual("red", dochtmlbodyfont2.Attributes["color"].Value);
+            Assert.AreEqual("red", dochtmlbodyfont2.Attributes.Get("color").Value);
 
             var dochtmlbodyfonti2 = dochtmlbodyfont2.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodyfonti2.ChildNodes.Length);
@@ -161,7 +161,7 @@ Also not bold.");
             Assert.AreEqual(1, dochtmlbodypfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodypfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypfont.NodeType);
-            Assert.AreEqual("red", dochtmlbodypfont.Attributes["color"].Value);
+            Assert.AreEqual("red", dochtmlbodypfont.Attributes.Get("color").Value);
 
             var dochtmlbodypfonti = dochtmlbodypfont.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtmlbodypfonti.ChildNodes.Length);
@@ -261,7 +261,7 @@ Also not bold.");
             Assert.AreEqual(1, dochtmlbodypfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodypfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodypfont.NodeType);
-            Assert.AreEqual("7", dochtmlbodypfont.Attributes["size"].Value);
+            Assert.AreEqual("7", dochtmlbodypfont.Attributes.Get("size").Value);
 
             var text2 = dochtmlbodypfont.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text2.NodeType);
@@ -272,7 +272,7 @@ Also not bold.");
             Assert.AreEqual(1, dochtmlbodyfont.Attributes.Count);
             Assert.AreEqual("font", dochtmlbodyfont.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodyfont.NodeType);
-            Assert.AreEqual("7", dochtmlbodyfont.Attributes["size"].Value);
+            Assert.AreEqual("7", dochtmlbodyfont.Attributes.Get("size").Value);
 
             var text3 = dochtmlbodyfont.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text3.NodeType);
