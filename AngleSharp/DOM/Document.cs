@@ -1150,7 +1150,7 @@
         /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
         /// <param name="qualifiedName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
-        public IElement CreateElementNS(String namespaceUri, String qualifiedName)
+        public IElement CreateElement(String namespaceUri, String qualifiedName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;

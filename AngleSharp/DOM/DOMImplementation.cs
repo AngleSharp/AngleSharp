@@ -88,7 +88,7 @@
 
             if (!String.IsNullOrEmpty(qualifiedName))
             {
-                var element = doc.CreateElementNS(namespaceUri, qualifiedName);
+                var element = doc.CreateElement(namespaceUri, qualifiedName);
 
                 if (element != null)
                     doc.AppendChild(element);
