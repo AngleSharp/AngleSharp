@@ -1064,7 +1064,7 @@
         }
 
         /// <summary>
-        /// Creates an event of the type specified. (NOT IMPLEMENTED YET)
+        /// Creates an event of the type specified.
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>

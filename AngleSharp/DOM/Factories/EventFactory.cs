@@ -41,11 +41,10 @@
         }
 
         /// <summary>
-        /// Creates a new property.
+        /// Creates a new event.
         /// </summary>
-        /// <param name="name">The name of the property.</param>
-        /// <param name="style">The given style set.</param>
-        /// <returns>The created property</returns>
+        /// <param name="name">The name of the event.</param>
+        /// <returns>The created event.</returns>
         public static Event Create(String name)
         {
             Func<Event> eventCreator;
