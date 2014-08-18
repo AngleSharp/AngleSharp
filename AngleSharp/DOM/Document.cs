@@ -882,8 +882,16 @@
         /// </summary>
         public IDocument OpenNew(String type = "text/html", String replace = null)
         {
+            if (_contentType == MimeTypes.Xml)
+                throw new DomException(ErrorCode.InvalidState);
+
+            //If the Document object is not an active document, then abort these steps.
+            //Follow: http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
+
             //TODO
-            return new Document(String.Empty);
+            // If the replace argument is present and has the value "replace", the
+            // existing entries in the session history for the Document object are removed.
+            return new Document(String.Empty) { ContentType = type, BaseUri = BaseUri };
         }
 
         /// <summary>
@@ -919,7 +927,15 @@
         /// <param name="content">The text to be written on the document.</param>
         public void Write(String content)
         {
-            _source.InsertText(content);
+            if (ReadyState != DocumentReadyState.Complete)
+            {
+                _source.InsertText(content);
+                return;
+            }
+
+            var newDoc = OpenNew();
+            newDoc.Write(content);
+            //TODO place newDoc as active document to session manager
         }
 
         /// <summary>
