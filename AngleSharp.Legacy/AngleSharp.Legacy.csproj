@@ -979,6 +979,9 @@
     <Compile Include="..\AngleSharp\DOM\Events\TrackEvent.cs">
       <Link>DOM\Events\TrackEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\UiEvent.cs">
+      <Link>DOM\Events\UiEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
     </Compile>
