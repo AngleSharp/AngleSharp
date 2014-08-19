@@ -112,7 +112,11 @@
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
 
             if (!String.IsNullOrEmpty(title))
-                doc.Title = title;
+            {
+                var titleElement = doc.CreateElement(Tags.Title);
+                titleElement.AppendChild(doc.CreateTextNode(title));
+                doc.Head.AppendChild(titleElement);
+            }
 
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
             doc.BaseUri = _owner.BaseUri;

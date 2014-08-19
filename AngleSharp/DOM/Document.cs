@@ -544,7 +544,7 @@
         /// </summary>
         public IDocumentType Doctype
         {
-            get { return FindChild<DocumentType>(this); }
+            get { return this.FindChild<DocumentType>(); }
         }
 
         /// <summary>
@@ -643,7 +643,7 @@
         /// </summary>
         public IElement DocumentElement
         {
-            get { return FindChild<Element>(this); }
+            get { return this.FindChild<Element>(); }
         }
 
         /// <summary>
@@ -735,40 +735,46 @@
         {
             get
             {
-                var _title = FindChild<IHtmlTitleElement>(Head);
-
-                if (_title != null)
-                    return _title.Text;
+                var title = DocumentElement is ISvgSvgElement ?
+                    DocumentElement.FindChild<ISvgTitleElement>() as IElement :
+                    DocumentElement.FindDescendant<IHtmlTitleElement>();
+                
+                if (title != null)
+                    return title.TextContent.CollapseAndStrip();
 
                 return String.Empty;
             }
             set
             {
-                var _title = FindChild<IHtmlTitleElement>(Head);
-
-                if (_title == null)
+                if (DocumentElement is ISvgSvgElement)
                 {
-                    var _documentElement = DocumentElement;
+                    var title = DocumentElement.FindChild<ISvgTitleElement>();
 
-                    if (_documentElement == null)
+                    if (title == null)
                     {
-                        _documentElement = new HTMLHtmlElement { Owner = this };
-                        AppendChild(_documentElement);
+                        title = new SVGTitleElement { Owner = this };
+                        DocumentElement.AppendChild(title);
                     }
 
-                    var _head = Head;
-
-                    if (_head == null)
-                    {
-                        _head = new HTMLHeadElement { Owner = this };
-                        _documentElement.AppendChild(_head);
-                    }
-
-                    _title = new HTMLTitleElement { Owner = this };
-                    _head.AppendChild(_title);
+                    title.TextContent = value;
                 }
+                else if (DocumentElement is IHtmlElement)
+                {
+                    var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
 
-                _title.Text = value;
+                    if (title == null)
+                    {
+                        var head = Head;
+
+                        if (head == null)
+                            return;
+
+                        title = new HTMLTitleElement { Owner = this };
+                        head.AppendChild(title);
+                    }
+
+                    title.TextContent = value;
+                }
             }
         }
 
@@ -777,7 +783,7 @@
         /// </summary>
         public IHtmlHeadElement Head
         {
-            get { return FindChild<IHtmlHeadElement>(DocumentElement); }
+            get { return DocumentElement.FindChild<IHtmlHeadElement>(); }
         }
 
         /// <summary>
@@ -785,7 +791,7 @@
         /// </summary>
         public IHtmlElement Body
         {
-            get { return FindChild<IHtmlBodyElement>(DocumentElement); }
+            get { return DocumentElement.FindChild<IHtmlBodyElement>(); }
             set { if (Body != null) Body.Replace(value); else DocumentElement.AppendChild(value); }
         }
 
@@ -1440,29 +1446,6 @@
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             parser.Parse();
-        }
-
-        /// <summary>
-        /// Tries to find a direct child of a certain type.
-        /// </summary>
-        /// <param name="parent">The parent that contains the elements.</param>
-        /// <typeparam name="T">The node type to find.</typeparam>
-        /// <returns>The instance or null.</returns>
-        protected static T FindChild<T>(INode parent)
-            where T : class, INode
-        {
-            if (parent == null)
-                return null;
-
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
-            {
-                var child = parent.ChildNodes[i] as T;
-
-                if (child != null)
-                    return child;
-            }
-
-            return null;
         }
 
         /// <summary>

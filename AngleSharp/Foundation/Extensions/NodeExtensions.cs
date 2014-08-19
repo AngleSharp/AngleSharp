@@ -27,46 +27,46 @@
         }
 
         /// <summary>
-        /// Checks if the node is an descendent of the given parent.
+        /// Checks if the node is an descendant of the given parent.
         /// </summary>
-        /// <param name="node">The descendent node to use.</param>
+        /// <param name="node">The descendant node to use.</param>
         /// <param name="parent">The possible parent to use.</param>
         /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
-        public static Boolean IsDescendentOf(this INode node, INode parent)
+        public static Boolean IsDescendantOf(this INode node, INode parent)
         {
             if (node.Parent == null)
                 return false;
             else if (Object.ReferenceEquals(node.Parent, parent))
                 return true;
 
-            return node.Parent.IsDescendentOf(parent);
+            return node.Parent.IsDescendantOf(parent);
         }
 
         /// <summary>
-        /// Gets the descendent nodes of the provided parent, in tree order.
+        /// Gets the descendant nodes of the provided parent, in tree order.
         /// </summary>
-        /// <param name="parent">The parent of the descendents.</param>
-        /// <returns>An iterator over all descendents.</returns>
-        public static IEnumerable<INode> GetDescendentsOf(this INode parent)
+        /// <param name="parent">The parent of the descendants.</param>
+        /// <returns>An iterator over all descendants.</returns>
+        public static IEnumerable<INode> GetDescendantsOf(this INode parent)
         {
             foreach (var child in parent.ChildNodes)
             {
                 yield return child;
 
-                foreach (var subchild in child.GetDescendentsOf())
+                foreach (var subchild in child.GetDescendantsOf())
                     yield return subchild;
             }
         }
 
         /// <summary>
-        /// Checks if the node is an inclusive descendent of the given parent.
+        /// Checks if the node is an inclusive descendant of the given parent.
         /// </summary>
-        /// <param name="node">The descendent node to use.</param>
+        /// <param name="node">The descendant node to use.</param>
         /// <param name="parent">The possible parent to use.</param>
         /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
-        public static Boolean IsInclusiveDescendentOf(this INode node, INode parent)
+        public static Boolean IsInclusiveDescendantOf(this INode node, INode parent)
         {
-            return node == parent || node.IsDescendentOf(parent);
+            return node == parent || node.IsDescendantOf(parent);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@
         /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
         public static Boolean IsAncestorOf(this INode parent, INode node)
         {
-            return node.IsDescendentOf(parent);
+            return node.IsDescendantOf(parent);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@
         /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
         public static Boolean IsInclusiveAncestorOf(this INode parent, INode node)
         {
-            return node == parent || node.IsDescendentOf(parent);
+            return node == parent || node.IsDescendantOf(parent);
         }
 
         /// <summary>
@@ -373,6 +373,53 @@
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// Tries to find a direct child of a certain type.
+        /// </summary>
+        /// <typeparam name="TNode">The node type to find.</typeparam>
+        /// <param name="parent">The parent that contains the elements.</param>
+        /// <returns>The instance or null.</returns>
+        public static TNode FindChild<TNode>(this INode parent)
+            where TNode : class, INode
+        {
+            if (parent == null)
+                return null;
+
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            {
+                var child = parent.ChildNodes[i] as TNode;
+
+                if (child != null)
+                    return child;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Tries to find a descendant of a certain type.
+        /// </summary>
+        /// <typeparam name="TNode">The node type to find.</typeparam>
+        /// <param name="parent">The parent that contains the elements.</param>
+        /// <returns>The instance or null.</returns>
+        public static TNode FindDescendant<TNode>(this INode parent)
+            where TNode : class, INode
+        {
+            if (parent == null)
+                return null;
+
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            {
+                var node = parent.ChildNodes[i];
+                var child = node as TNode ?? node.FindDescendant<TNode>();
+
+                if (child != null)
+                    return child;
+            }
+
+            return null;
         }
 
         /// <summary>
