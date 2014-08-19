@@ -431,6 +431,7 @@
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IElementMap.cs" />
     <Compile Include="Interfaces\IStringList.cs" />
+    <Compile Include="Interfaces\IWindowTimers.cs" />
     <Compile Include="Interfaces\Media\IAudioTrack.cs" />
     <Compile Include="Interfaces\Media\IAudioTrackList.cs" />
     <Compile Include="Interfaces\Media\ICanvasRenderingContext2D.cs" />
