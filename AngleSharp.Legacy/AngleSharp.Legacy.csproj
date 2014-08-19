@@ -991,6 +991,9 @@
     <Compile Include="..\AngleSharp\DOM\Events\UiEvent.cs">
       <Link>DOM\Events\UiEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\WheelEvent.cs">
+      <Link>DOM\Events\WheelEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
     </Compile>
@@ -1659,6 +1662,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IFocusEvent.cs">
       <Link>Interfaces\Events\IFocusEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IInputEvent.cs">
+      <Link>Interfaces\Events\IInputEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IKeyboardEvent.cs">
       <Link>Interfaces\Events\IKeyboardEvent.cs</Link>
