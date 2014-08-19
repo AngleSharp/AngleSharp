@@ -341,6 +341,7 @@
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
     <Compile Include="Interfaces\Events\IFocusEvent.cs" />
+    <Compile Include="Interfaces\Events\IInputEvent.cs" />
     <Compile Include="Interfaces\Events\IKeyboardEvent.cs" />
     <Compile Include="Interfaces\Events\IMessageEvent.cs" />
     <Compile Include="Interfaces\Events\IMouseEvent.cs" />
