@@ -301,6 +301,7 @@
     <Compile Include="DOM\Css\Values\CSSTimingValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
+    <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Foundation\Structures\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="DOM\Xml\XmlDocument.cs" />
@@ -624,7 +625,7 @@
     <Compile Include="DOM\Constants\EventPhase.cs" />
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
-    <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="Foundation\Extensions\InternalConfigurationExtensions.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />
