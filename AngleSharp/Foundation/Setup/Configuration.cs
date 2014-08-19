@@ -218,18 +218,6 @@
         }
 
         /// <summary>
-        /// Creates a request container that is passed to a requester
-        /// object for sending a request to a server. This method is using
-        /// the default request object set over the dependency resolver.
-        /// If nothing is found the default request is constructed.
-        /// </summary>
-        /// <returns>The constructed request object.</returns>
-        public virtual IRequest CreateRequest()
-        {
-            return new DefaultRequest();
-        }
-
-        /// <summary>
         /// Reports an error by writing to the debug console.
         /// </summary>
         /// <param name="e">The parse error event arguments.</param>

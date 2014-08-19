@@ -98,16 +98,6 @@
         }
 
         /// <summary>
-        /// Performs an asynchronous http request with the given options.
-        /// </summary>
-        /// <param name="request">The options to consider.</param>
-        /// <returns>The task that will eventually give the response data.</returns>
-        public Task<IResponse> RequestAsync(IRequest request)
-        {
-            return RequestAsync(request, CancellationToken.None);
-        }
-
-        /// <summary>
         /// Performs an asynchronous http request that can be cancelled.
         /// </summary>
         /// <param name="request">The options to consider.</param>
@@ -220,15 +210,15 @@
             else if (key == HeaderNames.ContentType)
                 _http.ContentType = value;
             else if (key == HeaderNames.Expect)
-                SetProperty("Expect", value);
+                SetProperty(HeaderNames.Expect, value);
             else if (key == HeaderNames.Date)
-                SetProperty("Date", DateTime.Parse(value));
+                SetProperty(HeaderNames.Date, DateTime.Parse(value));
             else if (key == HeaderNames.Host)
-                SetProperty("Host", value);
+                SetProperty(HeaderNames.Host, value);
             else if (key == HeaderNames.IfModifiedSince)
                 SetProperty("IfModifiedSince", DateTime.Parse(value));
             else if (key == HeaderNames.Referer)
-                SetProperty("Referer", value);
+                SetProperty(HeaderNames.Referer, value);
             else if (key == HeaderNames.UserAgent)
                 SetProperty("UserAgent", value);
             else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.ContentLength && key != HeaderNames.TransferEncoding)

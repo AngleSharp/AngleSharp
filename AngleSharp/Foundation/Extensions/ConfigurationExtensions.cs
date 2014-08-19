@@ -65,14 +65,11 @@
             if (requester == null)
                 throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
 
-            var request = configuration.CreateRequest();
-
-            if (request == null)
-                throw new NullReferenceException("Unable to create instance of IRequest. Try changing the provided configuration.");
-
-            request.Address = url;
-            request.Method = HttpMethod.Get;
-            var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+            var response = await requester.RequestAsync(new DefaultRequest
+            {
+                Address = url,
+                Method = HttpMethod.Get
+            }, cancel).ConfigureAwait(false);
             return response.Content;
         }
 
@@ -114,16 +111,13 @@
             if (requester == null)
                 throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
 
-            var request = configuration.CreateRequest();
-
-            if (request == null)
-                throw new NullReferenceException("Unable to create instance of IRequest. Try changing the provided configuration.");
-
-            request.Address = url;
-            request.Method = HttpMethod.Get;
             //TODO
             //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
-            var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+            var response = await requester.RequestAsync(new DefaultRequest
+            {
+                Address = url,
+                Method = HttpMethod.Get
+            }, cancel).ConfigureAwait(false);
             return response.Content;
         }
 
@@ -166,18 +160,16 @@
             if (requester == null)
                 throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
 
-            var request = configuration.CreateRequest();
-
-            if (request == null)
-                throw new NullReferenceException("Unable to create instance of IRequest. Try changing the provided configuration.");
-
-            request.Address = url;
-            request.Content = content;
+            var request = new DefaultRequest
+            {
+                Address = url,
+                Content = content,
+                Method = method
+            };
 
             if (mimeType != null)
                 request.Headers[HeaderNames.ContentType] = mimeType;
 
-            request.Method = method;
             var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
             return response.Content;
         }

@@ -7,7 +7,7 @@
     /// <summary>
     /// The default HTTP request encapsulation type.
     /// </summary>
-    public class DefaultRequest : IRequest
+    sealed class DefaultRequest : IRequest
     {
         #region ctor
 
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets or sets the address should be requested.
         /// </summary>
-        public Uri Address
+        public Url Address
         {
             get;
             set;

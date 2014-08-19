@@ -13,16 +13,21 @@
         /// <summary>
         /// Gets the status code that has been send with the response.
         /// </summary>
-        HttpStatusCode StatusCode { get; set; }
+        HttpStatusCode StatusCode { get; }
+
+        /// <summary>
+        /// Gets the url of the response.
+        /// </summary>
+        Url Address { get; }
 
         /// <summary>
         /// Gets the headers that have been send with the response.
         /// </summary>
-        Dictionary<String, String> Headers { get; set; }
+        Dictionary<String, String> Headers { get; }
 
         /// <summary>
         /// Gets the content that has been send with the response.
         /// </summary>
-        Stream Content { get; set; }
+        Stream Content { get; }
     }
 }

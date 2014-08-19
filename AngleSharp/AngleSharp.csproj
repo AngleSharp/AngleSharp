@@ -511,6 +511,7 @@
     <Compile Include="Foundation\Structures\TransformMatrix.cs" />
     <Compile Include="Foundation\Extensions\ValueExtensions.cs" />
     <Compile Include="Network\Constants\OriginBehavior.cs" />
+    <Compile Include="Network\RequesterExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />

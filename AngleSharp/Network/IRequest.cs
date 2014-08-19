@@ -10,23 +10,23 @@
     public interface IRequest
     {
         /// <summary>
-        /// Gets or sets the used request method.
+        /// Gets the used request method.
         /// </summary>
-        HttpMethod Method { get; set; }
+        HttpMethod Method { get; }
 
         /// <summary>
-        /// Gets or sets the specified request url.
+        /// Gets the specified request url.
         /// </summary>
-        Uri Address { get; set; }
+        Url Address { get; }
 
         /// <summary>
-        /// Gets or sets the headers to send with the request.
+        /// Gets the headers to send with the request.
         /// </summary>
-        Dictionary<String, String> Headers { get; set; }
+        Dictionary<String, String> Headers { get; }
 
         /// <summary>
-        /// Gets or sets the content to send with the request.
+        /// Gets content to send with the request.
         /// </summary>
-        Stream Content { get; set; }
+        Stream Content { get; }
     }
 }
