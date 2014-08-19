@@ -1474,6 +1474,9 @@
     <Compile Include="..\AngleSharp\Foundation\Extensions\IdlExtensions.cs">
       <Link>Foundation\Extensions\IdlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\InternalConfigurationExtensions.cs">
+      <Link>Foundation\Extensions\InternalConfigurationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Extensions\NodeExtensions.cs">
       <Link>Foundation\Extensions\NodeExtensions.cs</Link>
     </Compile>
