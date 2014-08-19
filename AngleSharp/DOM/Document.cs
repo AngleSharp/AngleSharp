@@ -697,14 +697,6 @@
         }
 
         /// <summary>
-        /// Gets a list of the embed, applet and object elements within the current document.
-        /// </summary>
-        public IHtmlCollection Embeds
-        {
-            get { return new HtmlElementCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
-        }
-
-        /// <summary>
         /// Gets a list of the plugin elements within the current document.
         /// </summary>
         public IHtmlCollection Plugins
@@ -717,7 +709,7 @@
         /// </summary>
         public IHtmlCollection Commands
         {
-            get { return new HtmlElementCollection(this, predicate: element => element is HTMLMenuItemElement || element is HTMLButtonElement || element is HTMLAnchorElement); }
+            get { return new HtmlElementCollection(this, predicate: element => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement); }
         }
 
         /// <summary>
@@ -725,7 +717,7 @@
         /// </summary>
         public IHtmlCollection Links
         {
-            get { return new HtmlElementCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
+            get { return new HtmlElementCollection(this, predicate: element => (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
         }
 
         /// <summary>
@@ -791,8 +783,29 @@
         /// </summary>
         public IHtmlElement Body
         {
-            get { return DocumentElement.FindChild<IHtmlBodyElement>(); }
-            set { if (Body != null) Body.Replace(value); else DocumentElement.AppendChild(value); }
+            get { return DocumentElement.FindChild<IHtmlBodyElement>() as IHtmlElement ?? DocumentElement.FindChild<HTMLFrameSetElement>(); }
+            set 
+            {
+                if (value is IHtmlBodyElement == false && value is HTMLFrameSetElement == false)
+                    throw new DomException(ErrorCode.HierarchyRequest);
+
+                var body = Body;
+
+                if (body == value)
+                    return;
+                
+                if (body == null)
+                {
+                    var root = DocumentElement;
+
+                    if (root == null)
+                        throw new DomException(ErrorCode.HierarchyRequest);
+                    else
+                        root.AppendChild(value); 
+                }
+                else
+                    ReplaceChild(value, body);
+            }
         }
 
         /// <summary>

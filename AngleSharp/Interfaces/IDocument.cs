@@ -278,14 +278,9 @@
         IHtmlCollection Scripts { get; }
 
         /// <summary>
-        /// Gets a list of the embed, applet and object elements within the current document.
-        /// </summary>
-        [DomName("embeds")]
-        IHtmlCollection Embeds { get; }
-
-        /// <summary>
         /// Gets a list of the embed elements within the current document.
         /// </summary>
+        [DomName("embeds")]
         [DomName("plugins")]
         IHtmlCollection Plugins { get; }
 
