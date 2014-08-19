@@ -80,7 +80,7 @@ namespace Samples.ViewModels
             various.Add("Images", document.Images.Length);
             various.Add("Scripts", document.Scripts.Length);
             various.Add("Stylesheets", document.StyleSheets.Length);
-            various.Add("Embeds", document.Embeds.Length);
+            various.Add("Plugins", document.Plugins.Length);
             various.Add("Forms", document.Forms.Length);
 
             await Task.Run(() => Inspect(document.DocumentElement, elements, classes, attributes));
