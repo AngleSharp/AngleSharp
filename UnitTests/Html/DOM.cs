@@ -116,6 +116,12 @@ namespace UnitTests
             var doc = new Document();
             var title = "My Title";
             doc.Title = title;
+            Assert.AreEqual("", doc.Title);
+            var html = doc.CreateElement(Tags.Html);
+            var head = doc.CreateElement(Tags.Head);
+            doc.AppendChild(html);
+            html.AppendChild(head);
+            doc.Title = title;
             Assert.AreEqual(title, doc.Title);
         }
 
