@@ -45,6 +45,7 @@
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
     <Compile Include="DOM\Events\UiEvent.cs" />
+    <Compile Include="DOM\Events\WheelEvent.cs" />
     <Compile Include="Foundation\Extensions\AttrExtensions.cs" />
     <Compile Include="Foundation\Extensions\CollectionExtensions.cs" />
     <Compile Include="DOM\Collections\HtmlAllCollection.cs" />

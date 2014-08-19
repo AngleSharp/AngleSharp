@@ -14,12 +14,13 @@
         {
             //The real deal
             AddEventConstructor("event", () => new Event());
+            AddEventConstructor("uievent", () => new UiEvent());
             AddEventConstructor("focusevent", () => new FocusEvent());
             AddEventConstructor("keyboardevent", () => new KeyboardEvent());
             AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
             AddEventConstructor("mouseevent", () => new MouseEvent());
             AddEventConstructor("touchevent", () => new Event());//TODO TouchEvent
-            AddEventConstructor("uievent", () => new UiEvent());
+            AddEventConstructor("wheelevent", () => new WheelEvent());
             AddEventConstructor("customevent", () => new CustomEvent());
 
             //Alias
