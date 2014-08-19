@@ -2155,6 +2155,9 @@
     <Compile Include="..\AngleSharp\Network\IResponse.cs">
       <Link>Network\IResponse.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\RequesterExtensions.cs">
+      <Link>Network\RequesterExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
     </Compile>
