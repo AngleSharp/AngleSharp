@@ -2041,6 +2041,9 @@
     <Compile Include="..\AngleSharp\Interfaces\IWindowProxy.cs">
       <Link>Interfaces\IWindowProxy.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IWindowTimers.cs">
+      <Link>Interfaces\IWindowTimers.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Media\IAudioTrack.cs">
       <Link>Interfaces\Media\IAudioTrack.cs</Link>
     </Compile>
