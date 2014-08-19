@@ -342,6 +342,7 @@
     <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
+    <Compile Include="Interfaces\Events\IErrorEvent.cs" />
     <Compile Include="Interfaces\Events\IFocusEvent.cs" />
     <Compile Include="Interfaces\Events\IInputEvent.cs" />
     <Compile Include="Interfaces\Events\IKeyboardEvent.cs" />
