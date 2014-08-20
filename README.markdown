@@ -1,3 +1,5 @@
+![logo](https://raw.githubusercontent.com/FlorianRappl/AngleSharp/master/header.png)
+
 AngleSharp
 ==========
 
@@ -16,6 +18,8 @@ Documentation is available in form of the public Wiki here at GitHub.
 * [API](https://github.com/FlorianRappl/AngleSharp/wiki/Api)
 * [Examples](https://github.com/FlorianRappl/AngleSharp/wiki/Examples)
 * [Performance](https://github.com/FlorianRappl/AngleSharp/wiki/Performance)
+
+The project's timeline, upcoming implementations, (currently) missing features and milestones is published and maintained in the Wiki as well. Issues should be reported on the GitHub's project page.
 
 More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
 
