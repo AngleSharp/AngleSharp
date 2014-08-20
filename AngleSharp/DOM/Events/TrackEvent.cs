@@ -5,19 +5,14 @@
     /// <summary>
     /// Represents a track that provides an additional track information.
     /// </summary>
-    sealed class TrackEvent : Event, ITrackEvent
+    class TrackEvent : Event, ITrackEvent
     {
-        #region Fields
-
-        Object _track;
-
-        #endregion
-
         #region Properties
 
         public Object Track
         {
-            get { return _track; }
+            get;
+            private set;
         }
 
         #endregion
@@ -26,8 +21,8 @@
 
         public void Init(String type, Boolean bubbles, Boolean cancelable, Object track)
         {
-            _track = track;
             Init(type, bubbles, cancelable);
+            Track = track;
         }
 
         #endregion

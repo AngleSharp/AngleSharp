@@ -71,12 +71,6 @@
         IEnumerable<IStyleEngine> StyleEngines { get; }
 
         /// <summary>
-        /// Creates a new request object that might be passed to a requester.
-        /// </summary>
-        /// <returns>The created request object.</returns>
-        IRequest CreateRequest();
-
-        /// <summary>
         /// Creates a requester for performing web (e.g. HTTP) requests.
         /// </summary>
         /// <returns>The constructed HTTP requester.</returns>

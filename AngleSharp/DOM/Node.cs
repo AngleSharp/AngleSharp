@@ -386,7 +386,7 @@
                 return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
             else if (otherNode.IsAncestorOf(this))
                 return DocumentPositions.Contains | DocumentPositions.Preceding;
-            else if (otherNode.IsDescendentOf(this))
+            else if (otherNode.IsDescendantOf(this))
                 return DocumentPositions.ContainedBy | DocumentPositions.Following;
             else if (otherNode.IsPreceding(this))
                 return DocumentPositions.Preceding;

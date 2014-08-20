@@ -23,7 +23,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/robots.txt");
+                request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
@@ -44,7 +44,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/status/500");
+                request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
@@ -62,7 +62,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/status/400");
+                request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
@@ -80,7 +80,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/status/403");
+                request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
@@ -98,7 +98,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/status/404");
+                request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
@@ -116,7 +116,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/post");
+                request.Address = new Url("http://httpbin.org/post");
                 request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
 
@@ -142,7 +142,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/put");
+                request.Address = new Url("http://httpbin.org/put");
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
 
@@ -168,7 +168,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/delete");
+                request.Address = new Url("http://httpbin.org/delete");
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
@@ -187,7 +187,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/get");
+                request.Address = new Url("http://httpbin.org/get");
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
@@ -206,7 +206,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/get");
+                request.Address = new Url("http://httpbin.org/get");
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
@@ -226,7 +226,7 @@ namespace UnitTests.Library
                 var info = new DefaultInfo();
                 var http = new DefaultRequester(info);
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/user-agent");
+                request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
 
                 var response = http.Request(request);
@@ -251,7 +251,7 @@ namespace UnitTests.Library
             {
                 var http = new DefaultRequester(new DefaultInfo());
                 var request = new DefaultRequest();
-                request.Address = new Uri("http://httpbin.org/robots.txt");
+                request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
                 var response = http.RequestAsync(request);

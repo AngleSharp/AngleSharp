@@ -8,7 +8,7 @@
     /// <summary>
     /// The default HTTP response encapsulation object.
     /// </summary>
-    public class DefaultResponse : IResponse
+    sealed class DefaultResponse : IResponse
     {
         #region ctor
 
@@ -29,6 +29,15 @@
         /// Gets or sets the status code of the response.
         /// </summary>
         public HttpStatusCode StatusCode
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the url of the response.
+        /// </summary>
+        public Url Address
         {
             get;
             set;

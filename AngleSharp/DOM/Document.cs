@@ -28,6 +28,8 @@
         IConfiguration _options;
         ITextSource _source;
         String _referrer;
+        String _lastStyleSheetSet;
+        String _currentStyleSheetSet;
         String _cookie;
         String _contentType;
         ILocation _location;
@@ -542,7 +544,7 @@
         /// </summary>
         public IDocumentType Doctype
         {
-            get { return FindChild<DocumentType>(this); }
+            get { return this.FindChild<DocumentType>(); }
         }
 
         /// <summary>
@@ -641,7 +643,7 @@
         /// </summary>
         public IElement DocumentElement
         {
-            get { return FindChild<Element>(this); }
+            get { return this.FindChild<Element>(); }
         }
 
         /// <summary>
@@ -695,14 +697,6 @@
         }
 
         /// <summary>
-        /// Gets a list of the embed, applet and object elements within the current document.
-        /// </summary>
-        public IHtmlCollection Embeds
-        {
-            get { return new HtmlElementCollection(this, predicate: element => element is HTMLEmbedElement || element is HTMLObjectElement || element is HTMLAppletElement); }
-        }
-
-        /// <summary>
         /// Gets a list of the plugin elements within the current document.
         /// </summary>
         public IHtmlCollection Plugins
@@ -715,7 +709,7 @@
         /// </summary>
         public IHtmlCollection Commands
         {
-            get { return new HtmlElementCollection(this, predicate: element => element is HTMLMenuItemElement || element is HTMLButtonElement || element is HTMLAnchorElement); }
+            get { return new HtmlElementCollection(this, predicate: element => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement); }
         }
 
         /// <summary>
@@ -723,7 +717,7 @@
         /// </summary>
         public IHtmlCollection Links
         {
-            get { return new HtmlElementCollection(this, predicate: element => (element is HTMLAnchorElement || element is HTMLAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
+            get { return new HtmlElementCollection(this, predicate: element => (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
         }
 
         /// <summary>
@@ -733,40 +727,46 @@
         {
             get
             {
-                var _title = FindChild<IHtmlTitleElement>(Head);
-
-                if (_title != null)
-                    return _title.Text;
+                var title = DocumentElement is ISvgSvgElement ?
+                    DocumentElement.FindChild<ISvgTitleElement>() as IElement :
+                    DocumentElement.FindDescendant<IHtmlTitleElement>();
+                
+                if (title != null)
+                    return title.TextContent.CollapseAndStrip();
 
                 return String.Empty;
             }
             set
             {
-                var _title = FindChild<IHtmlTitleElement>(Head);
-
-                if (_title == null)
+                if (DocumentElement is ISvgSvgElement)
                 {
-                    var _documentElement = DocumentElement;
+                    var title = DocumentElement.FindChild<ISvgTitleElement>();
 
-                    if (_documentElement == null)
+                    if (title == null)
                     {
-                        _documentElement = new HTMLHtmlElement { Owner = this };
-                        AppendChild(_documentElement);
+                        title = new SVGTitleElement { Owner = this };
+                        DocumentElement.AppendChild(title);
                     }
 
-                    var _head = Head;
-
-                    if (_head == null)
-                    {
-                        _head = new HTMLHeadElement { Owner = this };
-                        _documentElement.AppendChild(_head);
-                    }
-
-                    _title = new HTMLTitleElement { Owner = this };
-                    _head.AppendChild(_title);
+                    title.TextContent = value;
                 }
+                else if (DocumentElement is IHtmlElement)
+                {
+                    var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
 
-                _title.Text = value;
+                    if (title == null)
+                    {
+                        var head = Head;
+
+                        if (head == null)
+                            return;
+
+                        title = new HTMLTitleElement { Owner = this };
+                        head.AppendChild(title);
+                    }
+
+                    title.TextContent = value;
+                }
             }
         }
 
@@ -775,7 +775,7 @@
         /// </summary>
         public IHtmlHeadElement Head
         {
-            get { return FindChild<IHtmlHeadElement>(DocumentElement); }
+            get { return DocumentElement.FindChild<IHtmlHeadElement>(); }
         }
 
         /// <summary>
@@ -783,8 +783,29 @@
         /// </summary>
         public IHtmlElement Body
         {
-            get { return FindChild<IHtmlBodyElement>(DocumentElement); }
-            set { if (Body != null) Body.Replace(value); else DocumentElement.AppendChild(value); }
+            get { return DocumentElement.FindChild<IHtmlBodyElement>() as IHtmlElement ?? DocumentElement.FindChild<HTMLFrameSetElement>(); }
+            set 
+            {
+                if (value is IHtmlBodyElement == false && value is HTMLFrameSetElement == false)
+                    throw new DomException(ErrorCode.HierarchyRequest);
+
+                var body = Body;
+
+                if (body == value)
+                    return;
+                
+                if (body == null)
+                {
+                    var root = DocumentElement;
+
+                    if (root == null)
+                        throw new DomException(ErrorCode.HierarchyRequest);
+                    else
+                        root.AppendChild(value); 
+                }
+                else
+                    ReplaceChild(value, body);
+            }
         }
 
         /// <summary>
@@ -811,6 +832,52 @@
         public String Origin
         {
             get { return _location.Origin; }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected stylesheet set.
+        /// </summary>
+        public String SelectedStyleSheetSet
+        {
+            get { return _currentStyleSheetSet; }
+            set
+            {
+                _lastStyleSheetSet = value;
+                EnableStyleSheetsForSet(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the last enabled style sheet set; this property's value changes
+        /// whenever the SelectedStyleSheetSet property is changed.
+        /// </summary>
+        public String LastStyleSheetSet
+        {
+            get { return _lastStyleSheetSet; }
+        }
+
+        /// <summary>
+        /// Gets the preferred style sheet set as set by the page author.
+        /// </summary>
+        public String PreferredStyleSheetSet
+        {
+            get { return StyleSheetSets.FirstOrDefault(); }
+        }
+
+        /// <summary>
+        /// Enables the stylesheets matching the specified name in the current stylesheet set,
+        /// and disables all other stylesheets (except those without a title, which are always enabled).
+        /// </summary>
+        /// <param name="name">The name of the stylesheet set to enable.</param>
+        public void EnableStyleSheetsForSet(String name)
+        {
+            foreach (var sheet in _styleSheets)
+            {
+                if (!String.IsNullOrEmpty(sheet.Title))
+                    sheet.IsDisabled = sheet.Title != name;
+            }
+
+            _currentStyleSheetSet = name;
         }
 
         #endregion
@@ -1016,7 +1083,7 @@
         }
 
         /// <summary>
-        /// Creates an event of the type specified. (NOT IMPLEMENTED YET)
+        /// Creates an event of the type specified.
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
@@ -1102,7 +1169,7 @@
         /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
         /// <param name="qualifiedName">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
-        public IElement CreateElementNS(String namespaceUri, String qualifiedName)
+        public IElement CreateElement(String namespaceUri, String qualifiedName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
@@ -1392,29 +1459,6 @@
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             parser.Parse();
-        }
-
-        /// <summary>
-        /// Tries to find a direct child of a certain type.
-        /// </summary>
-        /// <param name="parent">The parent that contains the elements.</param>
-        /// <typeparam name="T">The node type to find.</typeparam>
-        /// <returns>The instance or null.</returns>
-        protected static T FindChild<T>(INode parent)
-            where T : class, INode
-        {
-            if (parent == null)
-                return null;
-
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
-            {
-                var child = parent.ChildNodes[i] as T;
-
-                if (child != null)
-                    return child;
-            }
-
-            return null;
         }
 
         /// <summary>

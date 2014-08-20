@@ -28,7 +28,7 @@ namespace UnitTests.Library
             Assert.AreEqual("C", live[2].TextContent);
             Assert.AreEqual("D", live[3].TextContent);
 
-            var newElement = document.CreateElement("li") as Element;//TODO remove cast ASAP
+            var newElement = document.CreateElement(Tags.Li);
             newElement.TextContent = "E";
             ul.AppendChild(newElement);
 
@@ -140,16 +140,16 @@ namespace UnitTests.Library
             Assert.IsNotNull(body);
             Assert.AreEqual(2, body.ChildNodes.Length);
 
-            var live = document.Embeds;
-            Assert.AreEqual(3, live.Length);
+            var live = document.Plugins;
+            Assert.AreEqual(1, live.Length);
 
-            var div = document.QuerySelector("div");
+            var div = document.QuerySelector(Tags.Div);
             Assert.IsNotNull(div);
 
-            var embed = document.CreateElement("embed") as Element;//TODO remove cast ASAP
+            var embed = document.CreateElement(Tags.Embed);
             div.AppendChild(embed);
 
-            Assert.AreEqual(4, live.Length);
+            Assert.AreEqual(2, live.Length);
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace UnitTests.Library
             var div = document.QuerySelector("body > div.container");
             Assert.IsNotNull(div);
 
-            var a = document.CreateElement("a") as Element;//TODO remove cast ASAP
+            var a = document.CreateElement(Tags.A);
             div.AppendChild(a);
 
             Assert.AreEqual(2, live.Length);

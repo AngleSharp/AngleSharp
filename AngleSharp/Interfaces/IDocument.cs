@@ -168,19 +168,19 @@
         /// <summary>
         /// Creates a new element with the given tag name.
         /// </summary>
-        /// <param name="tagName">A string that specifies the type of element to be created.</param>
+        /// <param name="name">A string that specifies the type of element to be created.</param>
         /// <returns>The created element object.</returns>
         [DomName("createElement")]
-        IElement CreateElement(String tagName);
+        IElement CreateElement(String name);
 
         /// <summary>
         /// Creates a new element with the given tag name and namespace URI.
         /// </summary>
         /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
-        /// <param name="tagName">A string that specifies the type of element to be created.</param>
+        /// <param name="name">A string that specifies the type of element to be created.</param>
         /// <returns>The created element.</returns>
         [DomName("createElementNS")]
-        IElement CreateElementNS(String namespaceUri, String tagName);
+        IElement CreateElement(String namespaceUri, String name);
 
         /// <summary>
         /// Creates a ProcessingInstruction node given the specified name and data strings.
@@ -278,14 +278,9 @@
         IHtmlCollection Scripts { get; }
 
         /// <summary>
-        /// Gets a list of the embed, applet and object elements within the current document.
-        /// </summary>
-        [DomName("embeds")]
-        IHtmlCollection Embeds { get; }
-
-        /// <summary>
         /// Gets a list of the embed elements within the current document.
         /// </summary>
+        [DomName("embeds")]
         [DomName("plugins")]
         IHtmlCollection Plugins { get; }
 
@@ -361,12 +356,6 @@
         /// </summary>
         [DomName("defaultView")]
         IWindowProxy DefaultView { get; }
-
-        /// <summary>
-        /// Gets a live list of all of the currently-available style sheet sets.
-        /// </summary>
-        [DomName("styleSheetSets")]
-        IStringList StyleSheetSets { get; }
 
         /// <summary>
         /// Loads the document content from the given URL and replaces the current content.

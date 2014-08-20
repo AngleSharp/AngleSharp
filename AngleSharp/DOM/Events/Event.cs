@@ -9,15 +9,6 @@
     /// </summary>
     class Event : IEvent
     {
-        #region Empty Event
-
-        /// <summary>
-        /// Gets a dummy placeholder event.
-        /// </summary>
-        public static readonly Event Empty = new Event();
-
-        #endregion
-
         #region Fields
 
         EventFlags _flags;

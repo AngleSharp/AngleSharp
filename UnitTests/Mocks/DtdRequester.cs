@@ -14,7 +14,7 @@ namespace UnitTests
     {
         public IResponse Request(IRequest request)
         {
-            var name = request.Address.Segments[1];
+            var name = request.Address.Path;
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Resources." + name);
 
             if (stream == null)

@@ -232,7 +232,9 @@
                 else
                     _currentTime = value;
 
-                Dispatch(Event.Empty);
+                var ev = new Event();
+                ev.Init(EventNames.DurationChange, true, true);
+                Dispatch(ev);
             }
         }
 

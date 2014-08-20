@@ -85,11 +85,6 @@
             get { return _original.StyleEngines; }
         }
 
-        public IRequest CreateRequest()
-        {
-            return _original.CreateRequest();
-        }
-
         public IRequester GetRequester()
         {
             return _original.GetRequester();

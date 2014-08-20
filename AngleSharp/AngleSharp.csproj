@@ -40,6 +40,12 @@
     <Compile Include="Attributes\Accessors.cs" />
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="DOM\Events\FocusEvent.cs" />
+    <Compile Include="DOM\Events\KeyboardEvent.cs" />
+    <Compile Include="DOM\Events\ModifierExtensions.cs" />
+    <Compile Include="DOM\Events\MouseEvent.cs" />
+    <Compile Include="DOM\Events\UiEvent.cs" />
+    <Compile Include="DOM\Events\WheelEvent.cs" />
     <Compile Include="Foundation\Extensions\AttrExtensions.cs" />
     <Compile Include="Foundation\Extensions\CollectionExtensions.cs" />
     <Compile Include="DOM\Collections\HtmlAllCollection.cs" />
@@ -295,6 +301,7 @@
     <Compile Include="DOM\Css\Values\CSSTimingValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
+    <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Foundation\Structures\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="DOM\Xml\XmlDocument.cs" />
@@ -335,7 +342,9 @@
     <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
+    <Compile Include="Interfaces\Events\IErrorEvent.cs" />
     <Compile Include="Interfaces\Events\IFocusEvent.cs" />
+    <Compile Include="Interfaces\Events\IInputEvent.cs" />
     <Compile Include="Interfaces\Events\IKeyboardEvent.cs" />
     <Compile Include="Interfaces\Events\IMessageEvent.cs" />
     <Compile Include="Interfaces\Events\IMouseEvent.cs" />
@@ -422,6 +431,7 @@
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
     <Compile Include="Interfaces\IElementMap.cs" />
     <Compile Include="Interfaces\IStringList.cs" />
+    <Compile Include="Interfaces\IWindowTimers.cs" />
     <Compile Include="Interfaces\Media\IAudioTrack.cs" />
     <Compile Include="Interfaces\Media\IAudioTrackList.cs" />
     <Compile Include="Interfaces\Media\ICanvasRenderingContext2D.cs" />
@@ -504,6 +514,7 @@
     <Compile Include="Foundation\Structures\TransformMatrix.cs" />
     <Compile Include="Foundation\Extensions\ValueExtensions.cs" />
     <Compile Include="Network\Constants\OriginBehavior.cs" />
+    <Compile Include="Network\RequesterExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
@@ -616,7 +627,7 @@
     <Compile Include="DOM\Constants\EventPhase.cs" />
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
-    <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="Foundation\Extensions\InternalConfigurationExtensions.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />

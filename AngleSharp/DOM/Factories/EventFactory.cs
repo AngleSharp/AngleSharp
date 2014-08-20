@@ -14,12 +14,13 @@
         {
             //The real deal
             AddEventConstructor("event", () => new Event());
-            AddEventConstructor("focusevent", () => new Event());//TODO FocusEvent
-            AddEventConstructor("keyboardevent", () => new Event());//TODO KeyboardEvent
+            AddEventConstructor("uievent", () => new UiEvent());
+            AddEventConstructor("focusevent", () => new FocusEvent());
+            AddEventConstructor("keyboardevent", () => new KeyboardEvent());
             AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
-            AddEventConstructor("mouseevent", () => new Event());//TODO MouseEvent
+            AddEventConstructor("mouseevent", () => new MouseEvent());
             AddEventConstructor("touchevent", () => new Event());//TODO TouchEvent
-            AddEventConstructor("uievent", () => new Event());//TODO UIEvent
+            AddEventConstructor("wheelevent", () => new WheelEvent());
             AddEventConstructor("customevent", () => new CustomEvent());
 
             //Alias
@@ -41,11 +42,10 @@
         }
 
         /// <summary>
-        /// Creates a new property.
+        /// Creates a new event.
         /// </summary>
-        /// <param name="name">The name of the property.</param>
-        /// <param name="style">The given style set.</param>
-        /// <returns>The created property</returns>
+        /// <param name="name">The name of the event.</param>
+        /// <returns>The created event.</returns>
         public static Event Create(String name)
         {
             Func<Event> eventCreator;
