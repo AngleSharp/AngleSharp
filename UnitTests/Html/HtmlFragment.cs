@@ -1,7 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
+﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -469,6 +471,133 @@ namespace UnitTests
             var docbody1Text0 = docbody1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, docbody1Text0.NodeType);
             Assert.AreEqual("X", docbody1Text0.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentButtonWithText()
+        {
+            var doc = DocumentBuilder.HtmlFragment("<button>Boo!</button>");
+            var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
+
+            Assert.IsNotNull(buttonElement);
+            Assert.AreEqual("Boo!", buttonElement.TextContent);
+        }
+
+        [TestMethod]
+        public void FragmentButtonWithTextAndAttribute()
+        {
+            var doc = DocumentBuilder.HtmlFragment("<button type=SEARCH>Boo!</button>");
+            var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
+
+            Assert.IsNotNull(buttonElement);
+            Assert.AreEqual("Boo!", buttonElement.TextContent);
+            Assert.AreEqual("search", buttonElement.Type);
+            Assert.AreEqual("SEARCH", buttonElement.GetAttribute("type"));
+        }
+
+        [TestMethod]
+        public void FragmentButtonDefaultSubmitType()
+        {
+            var doc = DocumentBuilder.HtmlFragment("<button>Boo!</button>");
+            var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
+
+            Assert.IsNotNull(buttonElement);
+            Assert.AreEqual("Boo!", buttonElement.TextContent);
+            Assert.AreEqual("submit", buttonElement.Type);
+            Assert.IsFalse(buttonElement.HasAttribute("type"));
+        }
+        
+        [TestMethod]
+        public void FragmentClassNameCaseNumbered()
+        {
+            var dom = DocumentBuilder.HtmlFragment("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />");
+            var el = dom.QuerySelector("div");
+
+            Assert.IsNotNull(el);
+            Assert.AreEqual(3, el.ClassList.Length);
+
+            CollectionAssert.AreEqual(new List<String>(new [] { "class1", "CLASS2", "claSS3" }), new List<String>(el.ClassList));
+
+            Assert.AreEqual(0, dom.QuerySelectorAll(".class2").Length);
+            Assert.AreEqual(1, dom.QuerySelectorAll(".CLASS2").Length);
+        }
+
+        [TestMethod]
+        public void FragmentClassNameOnlyCase()
+        {
+            var dom = DocumentBuilder.HtmlFragment("<div class=\"class CLASS\" />");
+            var el = dom.QuerySelector("div");
+
+            Assert.IsNotNull(el);
+            Assert.AreEqual(2, el.ClassList.Length);
+
+            CollectionAssert.AreEqual(new List<String>(new[] { "class", "CLASS" }), new List<String>(el.ClassList));
+        }
+
+        [TestMethod]
+        public void FragmentUnquotedAttributeHandling()
+        {
+            var doc = DocumentBuilder.HtmlFragment("<div custattribute=10/23/2012 id=\"tableSample\"><span>sample text</span></div>");
+            var obj = doc.QuerySelector("#tableSample");
+
+            Assert.AreEqual("10/23/2012", obj.GetAttribute("custattribute"));
+        }
+
+        [TestMethod]
+        public void FragmentCaretsInAttributes()
+        {
+            var doc = DocumentBuilder.HtmlFragment("<div><img src=\"test.png\" alt=\">\" /></div>");
+            var div = doc.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+            Assert.AreEqual("<div><img src=\"test.png\" alt=\">\"></div>", div.OuterHtml);
+        }
+
+        [TestMethod]
+        public void FragmentUnwrapWithoutParent()
+        {
+            var s = "This is <b> a big</b> text";
+            var f = DocumentBuilder.HtmlFragment(s);
+            var t = f.QuerySelector("b");
+
+            Assert.AreEqual("<b> a big</b>", t.OuterHtml);
+        }
+
+        [TestMethod]
+        public void FragmentRoundtripEncoding()
+        {
+            var html = "<span>Test &nbsp; nbsp</span>";
+            var dom = DocumentBuilder.HtmlFragment(html);
+
+            var body = dom.QuerySelector("body");
+            Assert.IsNotNull(body);
+
+            var output = body.InnerHtml.Replace("" + (Char)160, "&nbsp;");
+            Assert.AreEqual(html, output);
+        }
+
+        [TestMethod]
+        public void FragmentClassAndStyleAsBoolean()
+        {
+            var html = @"<span class="""" style="""">Test </span><div class style><br /></div>";
+            var dom = DocumentBuilder.HtmlFragment(html);
+
+            var body = dom.QuerySelector("body");
+            Assert.IsNotNull(body);
+
+            var output = body.InnerHtml.Replace("" + (char)160, "&nbsp;");
+            Assert.AreEqual(@"<span class="""">Test </span><div class=""""><br></div>", output);
+        }
+
+        [TestMethod]
+        public void FragmentUtf8HighValuesConversion()
+        {
+            var html = @"<span>&#55449;&#56580;</span>";
+            var dom = DocumentBuilder.HtmlFragment(html);
+            var span = dom.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("\uFFFD\uFFFD", span.InnerHtml);
         }
     }
 }

@@ -18,6 +18,31 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void Html5DocumentType()
+        {
+            var dom = DocumentBuilder.Html("<!doctype html >");
+
+            Assert.AreEqual("html", dom.Doctype.Name);
+            Assert.AreEqual("", dom.Doctype.PublicIdentifier);
+            Assert.AreEqual("", dom.Doctype.SystemIdentifier);
+
+            Assert.AreEqual("<!DOCTYPE html>", dom.Doctype.ToHtml());
+        }
+
+        [TestMethod]
+        public void HtmlDocumenTypeWithPublicIdentifier()
+        {
+            var xhtmlType = "<!DOCTYPE html PUBLIC \"-//w3c//dtd xhtml 1.0\">";
+            
+            var dom = DocumentBuilder.Html(xhtmlType);
+
+            Assert.AreEqual("html", dom.Doctype.Name);
+            Assert.AreEqual("-//w3c//dtd xhtml 1.0", dom.Doctype.PublicIdentifier);
+            Assert.AreEqual("", dom.Doctype.SystemIdentifier);
+            Assert.AreEqual(xhtmlType, dom.Doctype.ToHtml());
+        }
+
+        [TestMethod]
         public void TreeNonConformingTable()
         {
             //8.2.5.4.7 The "in body" insertion mode - "In the non-conforming ..."
