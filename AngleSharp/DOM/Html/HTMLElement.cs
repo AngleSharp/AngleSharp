@@ -278,14 +278,22 @@
             return parent as IHtmlFormElement;
         }
 
+        void UpdateStyle(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                Attributes.Remove(Attributes.Get(AttributeNames.Style));
+
+            _style.Update(value);
+        }
+
         internal override void Close()
         {
             base.Close();
 
             if (Owner.Options.IsStyling)
             {
-                RegisterAttributeHandler(AttributeNames.Style, value => _style.Update(value));
-                _style.Update(GetAttribute(AttributeNames.Style));
+                RegisterAttributeHandler(AttributeNames.Style, value => UpdateStyle(value));
+                UpdateStyle(GetAttribute(AttributeNames.Style));
             }
         }
 
