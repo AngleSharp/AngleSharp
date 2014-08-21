@@ -32,7 +32,7 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
+            get { return (GetAttribute(AttributeNames.Type) ?? "submit").ToLower(); }
             set { SetAttribute(AttributeNames.Type, value); }
         }
 
