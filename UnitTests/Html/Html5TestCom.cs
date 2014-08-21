@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp.DOM;
 using AngleSharp;
+using System;
 
 namespace UnitTests
 {
@@ -447,6 +448,147 @@ namespace UnitTests
             Assert.AreEqual(0, dochtmlbodymath.Attributes.Count);
             Assert.AreEqual("math", dochtmlbodymath.NodeName);
             Assert.AreEqual(NodeType.Element, dochtmlbodymath.NodeType);
+        }
+
+        [TestMethod]
+        public void TabsInClassNames()
+        {
+            var html = "<html><body><div class=\"class1\tclass2\"></div></body></html>";
+            var dom = DocumentBuilder.Html(html);
+            var div = dom.QuerySelector("div");
+
+            Assert.AreEqual(2, div.ClassList.Length);
+            Assert.IsTrue(div.ClassList.Contains("class1"));
+            Assert.IsTrue(div.ClassList.Contains("class2"));
+        }
+
+        [TestMethod]
+        public void NewLinesInClassNames()
+        {
+            var html = "<html><body><div class=\"class1" + Environment.NewLine + "class2  class3\r\n\t class4\"></div></body></html>";
+            var dom = DocumentBuilder.Html(html);
+            var div = dom.QuerySelector("div");
+
+            Assert.AreEqual(4, div.ClassList.Length);
+            Assert.IsTrue(div.ClassList.Contains("class1"));
+            Assert.IsTrue(div.ClassList.Contains("class4"));
+        }
+
+        [TestMethod]
+        public void AutoCloseTwoTagsInARow()
+        {
+            var html = @" <table id=table-uda>
+    <thead>
+        <tr>
+            <th>Attribute
+             <th>Setter Condition
+   <tbody><tr><td><dfn id=dom-uda-protocol title=dom-uda-protocol><code>protocol</code></dfn>
+     <td><a href=#url-scheme title=url-scheme>&lt;scheme&gt;</a>
+     </tr></table>";
+
+            var dom = DocumentBuilder.Html(html);
+
+            Assert.AreEqual(1, dom.QuerySelectorAll("tbody").Length);
+            Assert.AreEqual("table", dom.QuerySelector("tbody").Parent.NodeName);
+        }
+
+        [TestMethod]
+        public void AutoCreateTableTags()
+        {
+            var html = @"<table id=table-uda>
+        <tr>
+            <th>Attribute
+             <th>Setter Condition
+        <tr><td><dfn id=dom-uda-protocol title=dom-uda-protocol><code>protocol</code></dfn>
+     <td><a href=#url-scheme title=url-scheme>&lt;scheme&gt;</a>
+     </tr></table>";
+            var dom = DocumentBuilder.Html(html);
+
+            // should create wrapper
+            Assert.AreEqual(1, dom.QuerySelectorAll("body").Length);
+            Assert.AreEqual(1, dom.QuerySelectorAll("html").Length);
+            Assert.AreEqual(1, dom.QuerySelectorAll("head").Length);
+            Assert.AreEqual(1, dom.QuerySelectorAll("tbody").Length);
+            Assert.AreEqual(2, dom.QuerySelectorAll("th").Length);
+            Assert.AreEqual(2, dom.QuerySelectorAll("tr").Length);
+            Assert.AreEqual("table", dom.QuerySelector("tbody").Parent.NodeName);
+            Assert.AreEqual(11, dom.QuerySelectorAll("body *").Length);
+        }
+
+        [TestMethod]
+        public void AutoCreateHtmlBody()
+        {
+            var test = @"<html>
+                <head>  
+            <script type=""text/javascript"">lf={version: 2064750,baseUrl: '/',helpHtml: '<a class=""email"" href=""mailto:xxxxx@xxxcom"">email</a>',prefs: { pageSize: 0}};
+
+            lf.Scripts={""crypt"":{""path"":""/scripts/thirdp/sha512.min.2009762.js"",""nameSpace"":""Sha512""}};
+
+            </script><link rel=""icon"" type=""image/x-icon"" href=""/favicon.ico""> 
+
+                <title>Title</title>
+            <script type=""text/javascript"" src=""/scripts/thirdp/jquery-1.7.1.min.2009762.js""></script>
+            <script type=""text/javascript"">var _gaq = _gaq || [];
+
+            _gaq.push(['_setAccount', 'UA-xxxxxxx1']);
+
+            _gaq.push(['_trackPageview']);
+            </script>
+
+            </head>
+
+            <body>
+
+            <script type=""text/javascript"">
+            alert('done');
+            </script>";
+
+            var dom = DocumentBuilder.Html(test);
+            Assert.AreEqual(4, dom.QuerySelectorAll("script").Length);
+        }
+
+        [TestMethod]
+        public void AutoCreateHead()
+        {
+            var test = @"<html>
+            <script id=script1 type=""text/javascript"" src=""stuff""></script>
+            <div id=div1>This should be in the body.</div>";
+
+            var dom = DocumentBuilder.Html(test);
+            Assert.AreEqual(dom.QuerySelector("#script1"), dom.QuerySelector("head > :first-child"));
+            Assert.AreEqual(dom.QuerySelector("#div1"), dom.QuerySelector("body > :first-child"));
+        }
+
+        [TestMethod]
+        public void AutoCreateBody()
+        {
+            var test = @"<html>
+                <div id=div1>This should be in the body.</div>
+                <script id=script1 type=""text/javascript"" src=""stuff""></script>";
+
+
+            var dom = DocumentBuilder.Html(test);
+
+            Assert.AreEqual(0, dom.QuerySelector("head").Children.Length);
+            Assert.AreEqual(2, dom.QuerySelector("body").Children.Length);
+
+            Assert.AreEqual(dom.QuerySelector("#div1"), dom.QuerySelector("body > :first-child"));
+        }
+
+        [TestMethod]
+        public void NewLinesInTags()
+        {
+            var test = @"<table 
+                border
+                =0 cellspacing=
+                ""2"" cellpadding=""2"" width=""100%""><span" + (Char)10 + "id=test></span></table>";
+            var dom = DocumentBuilder.HtmlFragment(test);
+
+            var body = dom.QuerySelector("body");
+            Assert.IsNotNull(body);
+
+            var output = body.InnerHtml;
+            Assert.AreEqual(@"<span id=""test""></span><table border=""0"" cellspacing=""2"" cellpadding=""2"" width=""100%""></table>", output);
         }
     }
 }
