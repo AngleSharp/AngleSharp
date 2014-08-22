@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        public CSSCalcValue Top
+        internal CSSCalcValue Top
         {
             get { return _top; }
         }
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        public CSSCalcValue Right
+        internal CSSCalcValue Right
         {
             get { return _right; }
         }
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        public CSSCalcValue Bottom
+        internal CSSCalcValue Bottom
         {
             get { return _bottom; }
         }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        public CSSCalcValue Left
+        internal CSSCalcValue Left
         {
             get { return _left; }
         }

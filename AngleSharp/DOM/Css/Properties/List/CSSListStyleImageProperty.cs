@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        public CSSImageValue Image
+        internal CSSImageValue Image
         {
             get { return _image; }
         }

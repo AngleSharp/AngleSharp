@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        public IEnumerable<CSSImageValue> Images
+        internal IEnumerable<CSSImageValue> Images
         {
             get { return _images; }
         }

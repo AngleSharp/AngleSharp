@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets the custom set font-size, if any.
         /// </summary>
-        public CSSCalcValue Size
+        internal CSSCalcValue Size
         {
             get { return _size; }
         }

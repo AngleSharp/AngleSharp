@@ -94,7 +94,7 @@
         /// <summary>
         /// Gets the custom set size of the font, if any.
         /// </summary>
-        public CSSCalcValue Size
+        internal CSSCalcValue Size
         {
             get { return _size.Size; }
         }

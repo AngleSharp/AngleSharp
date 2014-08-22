@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets the position of the abscissa of the vanishing point.
         /// </summary>
-        public CSSCalcValue X
+        internal CSSCalcValue X
         {
             get { return _x; }
         }
@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the position of the ordinate of the vanishing point.
         /// </summary>
-        public CSSCalcValue Y
+        internal CSSCalcValue Y
         {
             get { return _y; }
         }

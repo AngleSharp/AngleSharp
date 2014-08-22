@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets how far from the left edge of the box the origin of the transform is set.
         /// </summary>
-        public CSSCalcValue X
+        internal CSSCalcValue X
         {
             get { return _x; }
         }
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets how far from the top edge of the box the origin of the transform is set.
         /// </summary>
-        public CSSCalcValue Y
+        internal CSSCalcValue Y
         {
             get { return _y; }
         }
@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets how far from the user eye the z = 0 origin is set.
         /// </summary>
-        public CSSCalcValue Z
+        internal CSSCalcValue Z
         {
             get { return _z; }
         }

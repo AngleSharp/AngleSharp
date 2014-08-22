@@ -8,7 +8,7 @@
     /// More information about the image module:
     /// http://dev.w3.org/csswg/css-images-3/
     /// </summary>
-    public abstract class CSSImageValue : CSSValue
+    abstract class CSSImageValue : CSSValue
     {
         #region Fields
 

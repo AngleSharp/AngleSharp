@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets the timing-functions for the transitions.
         /// </summary>
-        public IEnumerable<CSSTimingValue> TimingFunctions
+        internal IEnumerable<CSSTimingValue> TimingFunctions
         {
             get
             {

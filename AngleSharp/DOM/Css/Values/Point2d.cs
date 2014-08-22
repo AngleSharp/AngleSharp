@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a point value consisting of two lengths.
     /// </summary>
-    public sealed class Point2d 
+    sealed class Point2d 
     {
         #region Fields
 

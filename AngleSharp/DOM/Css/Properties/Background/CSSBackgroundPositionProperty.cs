@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets the list of all given positions.
         /// </summary>
-        public IEnumerable<Point2d> Positions
+        internal IEnumerable<Point2d> Positions
         {
             get { return _positions; }
         }

@@ -42,7 +42,7 @@
         /// Gets the specified max-width of the element. A percentage is calculated
         /// with respect to the width of the containing block.
         /// </summary>
-        public CSSCalcValue Limit
+        internal CSSCalcValue Limit
         {
             get { return _mode; }
         }

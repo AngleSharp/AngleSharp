@@ -31,7 +31,7 @@
         /// Gets the indentation, which is either a percentage of the containing block width
         /// or specified as fixed length. Negative values are allowed.
         /// </summary>
-        public CSSCalcValue Indent
+        internal CSSCalcValue Indent
         {
             get { return _indent; }
         }

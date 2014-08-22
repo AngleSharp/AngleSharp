@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the position if a fixed position has been set.
         /// </summary>
-        public CSSCalcValue Position
+        internal CSSCalcValue Position
         {
             get { return _value; }
         }

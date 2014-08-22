@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the top border.
         /// </summary>
-        public CSSCalcValue Top
+        internal CSSCalcValue Top
         {
             get { return _top; }
         }
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the right border.
         /// </summary>
-        public CSSCalcValue Right
+        internal CSSCalcValue Right
         {
             get { return _right; }
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the bottom border.
         /// </summary>
-        public CSSCalcValue Bottom
+        internal CSSCalcValue Bottom
         {
             get { return _bottom; }
         }
@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the left border.
         /// </summary>
-        public CSSCalcValue Left
+        internal CSSCalcValue Left
         {
             get { return _left; }
         }

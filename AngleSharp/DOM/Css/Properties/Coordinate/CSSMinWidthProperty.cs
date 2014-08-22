@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the minimum height of the element.
         /// </summary>
-        public CSSCalcValue Limit
+        internal CSSCalcValue Limit
         {
             get { return _mode; }
         }

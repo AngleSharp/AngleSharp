@@ -30,7 +30,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        public CSSCalcValue Padding
+        internal CSSCalcValue Padding
         {
             get { return _padding; }
         }

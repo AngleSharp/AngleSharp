@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets the value of the background image property.
         /// </summary>
-        public IEnumerable<CSSImageValue> Images
+        internal IEnumerable<CSSImageValue> Images
         {
             get { return _image.Images; }
         }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets the value of the background position property.
         /// </summary>
-        public IEnumerable<Point2d> Position
+        internal IEnumerable<Point2d> Position
         {
             get { return _position.Positions; }
         }

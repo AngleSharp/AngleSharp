@@ -38,7 +38,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        public CSSCalcValue Margin
+        internal CSSCalcValue Margin
         {
             get { return _margin; }
         }

@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the outset bottom width of the border-image.
         /// </summary>
-        public CSSCalcValue OutsetBottom
+        internal CSSCalcValue OutsetBottom
         {
             get { return _outset.Bottom; }
         }
@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets the outset left width of the border-image.
         /// </summary>
-        public CSSCalcValue OutsetLeft
+        internal CSSCalcValue OutsetLeft
         {
             get { return _outset.Left; }
         }
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets the outset right width of the border-image.
         /// </summary>
-        public CSSCalcValue OutsetRight
+        internal CSSCalcValue OutsetRight
         {
             get { return _outset.Right; }
         }
@@ -62,7 +62,7 @@
         /// <summary>
         /// Gets the outset top width of the border-image.
         /// </summary>
-        public CSSCalcValue OutsetTop
+        internal CSSCalcValue OutsetTop
         {
             get { return _outset.Top; }
         }
@@ -94,7 +94,7 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        public CSSCalcValue SliceBottom
+        internal CSSCalcValue SliceBottom
         {
             get { return _slice.Bottom; }
         }
@@ -102,7 +102,7 @@
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        public CSSCalcValue SliceRight
+        internal CSSCalcValue SliceRight
         {
             get { return _slice.Right; }
         }
@@ -110,7 +110,7 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        public CSSCalcValue SliceTop
+        internal CSSCalcValue SliceTop
         {
             get { return _slice.Top; }
         }
@@ -118,7 +118,7 @@
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        public CSSCalcValue SliceLeft
+        internal CSSCalcValue SliceLeft
         {
             get { return _slice.Left; }
         }
@@ -126,7 +126,7 @@
         /// <summary>
         /// Gets the image source of the border-image.
         /// </summary>
-        public CSSImageValue Source
+        internal CSSImageValue Source
         {
             get { return _source.Image; }
         }

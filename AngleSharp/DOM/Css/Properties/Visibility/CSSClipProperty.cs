@@ -32,7 +32,7 @@
         /// If this value is null, then the clipping is
         /// determined automatically.
         /// </summary>
-        public CSSShapeValue Clip
+        internal CSSShapeValue Clip
         {
             get { return _shape; }
         }

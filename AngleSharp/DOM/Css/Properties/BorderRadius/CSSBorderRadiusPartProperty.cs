@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the horizontal radius of the ellipse.
         /// </summary>
-        public CSSCalcValue HorizontalRadius
+        internal CSSCalcValue HorizontalRadius
         {
             get { return _h; }
         }
@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets the vertical radius of the ellipse.
         /// </summary>
-        public CSSCalcValue VerticalRadius
+        internal CSSCalcValue VerticalRadius
         {
             get { return _v; }
         }

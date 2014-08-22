@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets the enumeration over all timing functions.
         /// </summary>
-        public IEnumerable<CSSTimingValue> TimingFunctions
+        internal IEnumerable<CSSTimingValue> TimingFunctions
         {
             get { return _functions; }
         }

@@ -44,7 +44,7 @@
         /// containing block is not specified explicitly, the percentage value is
         /// treated as none.
         /// </summary>
-        public CSSCalcValue Limit
+        internal CSSCalcValue Limit
         {
             get { return _mode; }
         }

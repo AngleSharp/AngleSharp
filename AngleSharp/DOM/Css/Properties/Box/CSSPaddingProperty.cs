@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the value for the top padding.
         /// </summary>
-        public CSSCalcValue Top
+        internal CSSCalcValue Top
         {
             get { return _top.Padding; }
         }
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the value for the right padding.
         /// </summary>
-        public CSSCalcValue Right
+        internal CSSCalcValue Right
         {
             get { return _right.Padding; }
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the value for the bottom padding.
         /// </summary>
-        public CSSCalcValue Bottom
+        internal CSSCalcValue Bottom
         {
             get { return _bottom.Padding; }
         }
@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets the value for the left padding.
         /// </summary>
-        public CSSCalcValue Left
+        internal CSSCalcValue Left
         {
             get { return _left.Padding; }
         }

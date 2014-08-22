@@ -6,7 +6,7 @@
     /// Gets a computed value. Could also be just an absolute or
     /// relative value.
     /// </summary>
-    public abstract class CSSCalcValue : CSSValue
+    abstract class CSSCalcValue : CSSValue
     {
         #region Fields
 

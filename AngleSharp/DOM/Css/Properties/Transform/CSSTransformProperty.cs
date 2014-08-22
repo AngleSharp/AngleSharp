@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the enumeration over all transformations.
         /// </summary>
-        public IEnumerable<CSSTransformValue> Transforms
+        internal IEnumerable<CSSTransformValue> Transforms
         {
             get { return _transforms; }
         }

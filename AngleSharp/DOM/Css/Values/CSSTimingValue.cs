@@ -7,7 +7,7 @@
     /// Represents a timing-function in CSS.
     /// http://dev.w3.org/csswg/css-transitions/#transition-timing-function
     /// </summary>
-    public abstract class CSSTimingValue : CSSValue
+    abstract class CSSTimingValue : CSSValue
     {
         #region Fields
 

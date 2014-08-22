@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets the timing-functions for the animations.
         /// </summary>
-        public IEnumerable<CSSTimingValue> TimingFunctions
+        internal IEnumerable<CSSTimingValue> TimingFunctions
         {
             get
             {

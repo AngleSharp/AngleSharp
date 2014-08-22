@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-left radius.
         /// </summary>
-        public CSSCalcValue HorizontalBottomLeft
+        internal CSSCalcValue HorizontalBottomLeft
         {
             get { return _bottomLeftHorizontal; }
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the value of the vertical bottom-left radius.
         /// </summary>
-        public CSSCalcValue VerticalBottomLeft
+        internal CSSCalcValue VerticalBottomLeft
         {
             get { return _bottomLeftVertical; }
         }
@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-right radius.
         /// </summary>
-        public CSSCalcValue HorizontalBottomRight
+        internal CSSCalcValue HorizontalBottomRight
         {
             get { return _bottomRightHorizontal; }
         }
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the value of the vertical bottom-right radius.
         /// </summary>
-        public CSSCalcValue VerticalBottomRight
+        internal CSSCalcValue VerticalBottomRight
         {
             get { return _bottomRightVertical; }
         }
@@ -76,7 +76,7 @@
         /// <summary>
         /// Gets the value of the horizontal top-left radius.
         /// </summary>
-        public CSSCalcValue HorizontalTopLeft
+        internal CSSCalcValue HorizontalTopLeft
         {
             get { return _topLeftHorizontal; }
         }
@@ -84,7 +84,7 @@
         /// <summary>
         /// Gets the value of the vertical top-left radius.
         /// </summary>
-        public CSSCalcValue VerticalTopLeft
+        internal CSSCalcValue VerticalTopLeft
         {
             get { return _topLeftVertical; }
         }
@@ -92,7 +92,7 @@
         /// <summary>
         /// Gets the value of the horizontal top-right radius.
         /// </summary>
-        public CSSCalcValue HorizontalTopRight
+        internal CSSCalcValue HorizontalTopRight
         {
             get { return _topRightHorizontal; }
         }
@@ -100,7 +100,7 @@
         /// <summary>
         /// Gets the value of the vertical top-right radius.
         /// </summary>
-        public CSSCalcValue VerticalTopRight
+        internal CSSCalcValue VerticalTopRight
         {
             get { return _topRightVertical; }
         }
