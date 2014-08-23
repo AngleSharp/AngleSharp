@@ -1438,6 +1438,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\NodeFlags.cs">
       <Link>Foundation\Constants\NodeFlags.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\PropertyFlags.cs">
+      <Link>Foundation\Constants\PropertyFlags.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\PropertyNames.cs">
       <Link>Foundation\Constants\PropertyNames.cs</Link>
     </Compile>
