@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSLetterSpacingProperty()
-            : base(PropertyNames.LetterSpacing)
+            : base(PropertyNames.LetterSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
-            _inherited = true;
             _spacing = null;
         }
 

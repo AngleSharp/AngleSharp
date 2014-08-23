@@ -30,7 +30,6 @@
             : base(PropertyNames.TextDecorationLine)
         {
             _line = new List<TextDecorationLine>();
-            _inherited = false;
         }
 
         #endregion

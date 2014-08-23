@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSCoordinateProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Unitless)
         {
-            _inherited = false;
             _value = null;
         }
 

@@ -28,11 +28,10 @@
         }
 
         internal CSSFontFamilyProperty()
-            : base(PropertyNames.FontFamily)
+            : base(PropertyNames.FontFamily, PropertyFlags.Inherited)
         {
             _families = new List<BaseFontFamily>();
             _families.Add(defaultfamilies["serif"]);
-            _inherited = true;
         }
 
         #endregion

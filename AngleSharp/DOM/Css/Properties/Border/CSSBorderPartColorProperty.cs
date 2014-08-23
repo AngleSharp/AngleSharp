@@ -16,10 +16,9 @@
         #region ctor
 
         internal CSSBorderPartColorProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Hashless)
         {
             _color = Color.Transparent;
-            _inherited = false;
         }
 
         #endregion

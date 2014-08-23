@@ -19,7 +19,6 @@
         internal CSSOutlineStyleProperty()
             : base(PropertyNames.OutlineStyle)
         {
-            _inherited = false;
             _style = LineStyle.None;
         }
 

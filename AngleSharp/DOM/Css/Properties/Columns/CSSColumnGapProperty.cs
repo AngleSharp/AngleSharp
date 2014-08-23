@@ -26,7 +26,6 @@
             : base(PropertyNames.ColumnGap)
         {
             _gap = _normal;
-            _inherited = false;
         }
 
         #endregion

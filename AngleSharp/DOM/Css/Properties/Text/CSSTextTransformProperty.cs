@@ -28,10 +28,9 @@
         }
 
         internal CSSTextTransformProperty()
-            : base(PropertyNames.TextTransform)
+            : base(PropertyNames.TextTransform, PropertyFlags.Inherited)
         {
             _mode = TextTransform.None;
-            _inherited = true;
         }
 
         #endregion

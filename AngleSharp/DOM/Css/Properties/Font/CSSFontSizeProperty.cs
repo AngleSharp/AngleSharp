@@ -18,11 +18,10 @@
         #region ctor
 
         internal CSSFontSizeProperty()
-            : base(PropertyNames.FontSize)
+            : base(PropertyNames.FontSize, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
             _mode = FontSize.Medium;
             _size = null;
-            _inherited = true;
         }
 
         #endregion

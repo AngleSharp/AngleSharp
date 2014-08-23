@@ -19,7 +19,6 @@
         internal CSSTextDecorationColorProperty()
             : base(PropertyNames.TextDecorationColor)
         {
-            _inherited = false;
             _color = Color.Black;
         }
 

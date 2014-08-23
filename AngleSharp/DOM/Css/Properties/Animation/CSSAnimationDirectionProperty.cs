@@ -20,7 +20,6 @@
         internal CSSAnimationDirectionProperty()
             : base(PropertyNames.AnimationDirection)
         {
-            _inherited = false;
             _directions = new List<AnimationDirection>();
             _directions.Add(AnimationDirection.Normal);
         }

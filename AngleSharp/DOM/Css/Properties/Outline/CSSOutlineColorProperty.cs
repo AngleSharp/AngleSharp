@@ -20,7 +20,6 @@
         internal CSSOutlineColorProperty()
             : base(PropertyNames.OutlineColor)
         {
-            _inherited = false;
             _mode = _invert;
         }
 

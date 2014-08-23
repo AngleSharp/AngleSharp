@@ -20,7 +20,6 @@
             : base(PropertyNames.TableLayout)
         {
             _fixed = false;
-            _inherited = false;
         }
 
         #endregion

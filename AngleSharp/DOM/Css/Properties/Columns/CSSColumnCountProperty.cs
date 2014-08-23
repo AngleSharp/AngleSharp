@@ -23,7 +23,6 @@
             : base(PropertyNames.ColumnCount)
         {
             _count = null;
-            _inherited = false;
         }
 
         #endregion

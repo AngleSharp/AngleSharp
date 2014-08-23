@@ -30,7 +30,6 @@
         internal CSSBackgroundRepeatProperty()
             : base(PropertyNames.BackgroundRepeat)
         {
-            _inherited = false;
             _repeats = new List<Repeat>();
             _repeats.Add(new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat });
         }

@@ -19,11 +19,10 @@
         #region ctor
 
         internal CSSQuotesProperty()
-            : base(PropertyNames.Quotes)
+            : base(PropertyNames.Quotes, PropertyFlags.Inherited)
         {
             _quotes = new List<Tuple<String, String>>();
             _quotes.Add(_default);
-            _inherited = true;
         }
 
         #endregion

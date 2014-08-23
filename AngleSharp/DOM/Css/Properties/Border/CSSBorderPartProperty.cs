@@ -20,7 +20,6 @@
         internal CSSBorderPartProperty(String name)
             : base(name)
         {
-            _inherited = false;
             _width = Length.Medium;
             _color = Color.Transparent;
             _style = LineStyle.None;

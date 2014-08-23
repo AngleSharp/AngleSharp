@@ -20,7 +20,6 @@
         internal CSSAnimationDurationProperty()
             : base(PropertyNames.AnimationDuration)
         {
-            _inherited = false;
             _times = new List<Time>();
             _times.Add(Time.Zero);
         }

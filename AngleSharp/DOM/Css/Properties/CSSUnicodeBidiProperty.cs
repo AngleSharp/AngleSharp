@@ -32,7 +32,6 @@
             : base(PropertyNames.UnicodeBidi)
         {
             _mode = UnicodeMode.Normal;
-            _inherited = false;
         }
 
         #endregion

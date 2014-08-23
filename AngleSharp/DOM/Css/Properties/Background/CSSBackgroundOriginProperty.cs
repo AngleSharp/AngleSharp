@@ -20,7 +20,6 @@
         internal CSSBackgroundOriginProperty()
             : base(PropertyNames.BackgroundOrigin)
         {
-            _inherited = false;
             _origins = new List<BoxModel>();
             _origins.Add(BoxModel.PaddingBox);
         }

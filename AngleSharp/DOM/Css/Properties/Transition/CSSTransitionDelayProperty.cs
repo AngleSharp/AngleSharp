@@ -20,7 +20,6 @@
         internal CSSTransitionDelayProperty()
             : base(PropertyNames.TransitionDelay)
         {
-            _inherited = false;
             _times = new List<Time>();
             _times.Add(Time.Zero);
         }

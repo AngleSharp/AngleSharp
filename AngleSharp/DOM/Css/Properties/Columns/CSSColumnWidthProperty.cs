@@ -23,7 +23,6 @@
             : base(PropertyNames.ColumnWidth)
         {
             _width = null;
-            _inherited = false;
         }
 
         #endregion

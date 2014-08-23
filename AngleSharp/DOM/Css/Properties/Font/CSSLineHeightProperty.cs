@@ -18,9 +18,8 @@
         #region ctor
 
         internal CSSLineHeightProperty()
-            : base(PropertyNames.LineHeight)
+            : base(PropertyNames.LineHeight, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _mode = _normal;
         }
 

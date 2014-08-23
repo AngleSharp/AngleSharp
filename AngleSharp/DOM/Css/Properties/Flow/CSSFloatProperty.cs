@@ -29,7 +29,6 @@
             : base(PropertyNames.Float)
         {
             _mode = Floating.None;
-            _inherited = false;
         }
 
         #endregion

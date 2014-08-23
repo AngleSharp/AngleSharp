@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSListStyleProperty()
-            : base(PropertyNames.ListStyle)
+            : base(PropertyNames.ListStyle, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _type = ListStyle.Disc;
             _image = null;
             _position = ListPosition.Outside;

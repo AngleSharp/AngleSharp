@@ -20,7 +20,6 @@
         internal CSSAnimationPlayStateProperty()
             : base(PropertyNames.AnimationPlayState)
         {
-            _inherited = false;
             _states = new List<PlayState>();
             _states.Add(PlayState.Running);
         }

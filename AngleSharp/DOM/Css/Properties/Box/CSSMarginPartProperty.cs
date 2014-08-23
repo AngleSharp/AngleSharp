@@ -16,9 +16,8 @@
         #region ctor
 
         internal CSSMarginPartProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Unitless)
         {
-            _inherited = false;
             _margin = CSSCalcValue.Zero;
         }
 

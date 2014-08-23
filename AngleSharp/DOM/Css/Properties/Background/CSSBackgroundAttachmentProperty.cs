@@ -30,7 +30,6 @@
         {
             _attachments = new List<BackgroundAttachment>();
             _attachments.Add(BackgroundAttachment.Scroll);
-            _inherited = false;
         }
 
         #endregion

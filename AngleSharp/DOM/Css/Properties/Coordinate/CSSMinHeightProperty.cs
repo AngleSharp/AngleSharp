@@ -19,7 +19,6 @@
         internal CSSMinHeightProperty()
             : base(PropertyNames.MinHeight)
         {
-            _inherited = false;
             _mode = CSSCalcValue.Zero;
         }
 

@@ -21,7 +21,6 @@
             : base(PropertyNames.BoxDecorationBreak)
         {
             _clone = false;
-            _inherited = false;
         }
 
         #endregion

@@ -25,7 +25,6 @@
         internal CSSBorderImageWidthProperty()
             : base(PropertyNames.BorderImageWidth)
         {
-            _inherited = false;
             _top = _default;
             _right = _default;
             _bottom = _default;

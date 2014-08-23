@@ -19,7 +19,6 @@
         internal CSSOutlineWidthProperty()
             : base(PropertyNames.OutlineWidth)
         {
-            _inherited = false;
             _width = Length.Medium;
         }
 

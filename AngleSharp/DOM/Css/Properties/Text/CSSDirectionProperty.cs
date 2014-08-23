@@ -18,10 +18,9 @@
         #region ctor
 
         internal CSSDirectionProperty()
-            : base(PropertyNames.Direction)
+            : base(PropertyNames.Direction, PropertyFlags.Inherited)
         {
             _mode = DirectionMode.Ltr;
-            _inherited = true;
         }
 
         #endregion

@@ -20,7 +20,6 @@
             : base(PropertyNames.Clip)
         {
             _shape = null;
-            _inherited = false;
         }
 
         #endregion

@@ -29,7 +29,6 @@
         internal CSSBorderImageRepeatProperty()
             : base(PropertyNames.BorderImageRepeat)
         {
-            _inherited = false;
             _horizontal = BorderRepeat.Stretch;
             _vertical = BorderRepeat.Stretch;
         }

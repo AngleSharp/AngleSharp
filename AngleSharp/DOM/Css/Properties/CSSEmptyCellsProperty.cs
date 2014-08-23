@@ -17,10 +17,9 @@
         #region ctor
 
         internal CSSEmptyCellsProperty()
-            : base(PropertyNames.EmptyCells)
+            : base(PropertyNames.EmptyCells, PropertyFlags.Inherited)
         {
             _visible = true;
-            _inherited = true;
         }
 
         #endregion

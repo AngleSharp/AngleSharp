@@ -543,35 +543,6 @@
                     return null;
                 }
 
-                //HASHLESS in QUIRKSMODE:
-                //  background-color
-                //  border-color
-                //  border-top-color
-                //  border-right-color
-                //  border-bottom-color
-                //  border-left-color
-                //  color
-
-                //UNITLESS in QUIRKSMODE:
-                // border-width
-                // margin-left
-                // margin-right
-                // margin-top
-                // margin-bottom
-                // padding-left
-                // padding-right
-                // padding-bottom
-                // padding-top
-                // bottom
-                // left
-                // right
-                // top
-                // height
-                // width
-                // font-size
-                // letter-spacing
-                // word-spacing
-
                 if (tokens.MoveNext())
                 {
                     var property = CssPropertyFactory.Create(propertyName, style);
@@ -585,10 +556,10 @@
 
                         }
 
-                        if (property.TrySetValue(value))
-                            property.IsImportant = IsImportant(tokens);
-                        else if (style != null)
+                        if (!property.TrySetValue(value) && style != null)
                             property = null;
+                        else if (IsImportant(tokens))
+                            property.IsImportant = true;
                     }
 
                     JumpToEndOfDeclaration(tokens);

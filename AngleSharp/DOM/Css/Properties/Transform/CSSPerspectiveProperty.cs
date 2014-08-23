@@ -19,7 +19,6 @@
         internal CSSPerspectiveProperty()
             : base(PropertyNames.Perspective)
         {
-            _inherited = false;
             _distance = Length.Zero;
         }
 

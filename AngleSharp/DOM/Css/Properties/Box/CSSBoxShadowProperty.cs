@@ -21,7 +21,6 @@
             : base(PropertyNames.BoxShadow)
         {
             _shadows = new List<Shadow>();
-            _inherited = false;
         }
 
         #endregion

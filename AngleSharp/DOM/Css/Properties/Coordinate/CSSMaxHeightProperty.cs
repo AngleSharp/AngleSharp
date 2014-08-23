@@ -22,7 +22,6 @@
         internal CSSMaxHeightProperty()
             : base(PropertyNames.MaxHeight)
         {
-            _inherited = false;
             _mode = null;
         }
 

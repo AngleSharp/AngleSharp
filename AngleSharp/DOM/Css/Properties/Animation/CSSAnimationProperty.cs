@@ -20,7 +20,6 @@
         internal CSSAnimationProperty()
             : base(PropertyNames.Animation)
         {
-            _inherited = false;
             _animations = new List<Animation>();
             _animations.Add(new Animation
             {

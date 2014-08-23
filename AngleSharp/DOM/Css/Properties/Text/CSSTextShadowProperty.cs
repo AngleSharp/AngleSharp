@@ -18,10 +18,9 @@
         #region ctor
 
         internal CSSTextShadowProperty()
-            : base(PropertyNames.TextShadow)
+            : base(PropertyNames.TextShadow, PropertyFlags.Inherited)
         {
             _shadows = new List<Shadow>();
-            _inherited = true;
         }
 
         #endregion

@@ -59,10 +59,9 @@
         }
 
         internal CSSCursorProperty()
-            : base(PropertyNames.Cursor)
+            : base(PropertyNames.Cursor, PropertyFlags.Inherited)
         {
             _mode = _auto;
-            _inherited = true;
         }
 
         #endregion

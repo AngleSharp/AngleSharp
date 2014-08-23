@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Foundation.Constants
+﻿namespace AngleSharp
 {
     using System;
 

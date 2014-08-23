@@ -21,7 +21,6 @@
             : base(PropertyNames.CounterReset)
         {
             _resets = new Dictionary<String, Int32>();
-            _inherited = false;
         }
 
         #endregion

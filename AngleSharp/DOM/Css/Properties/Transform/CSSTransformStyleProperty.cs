@@ -20,7 +20,6 @@
             : base(PropertyNames.TransformStyle)
         {
             _flat = true;
-            _inherited = false;
         }
 
         #endregion

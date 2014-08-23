@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSListStyleImageProperty()
-            : base(PropertyNames.ListStyleImage)
+            : base(PropertyNames.ListStyleImage, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _image = null;
         }
 

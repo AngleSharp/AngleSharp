@@ -35,7 +35,7 @@
         }
 
         internal CSSFontProperty()
-            : base(PropertyNames.Font)
+            : base(PropertyNames.Font, PropertyFlags.Inherited)
         {
             _style = new CSSFontStyleProperty();
             _variant = new CSSFontVariantProperty();
@@ -44,7 +44,6 @@
             _size = new CSSFontSizeProperty();
             _family = new CSSFontFamilyProperty();
             _height = new CSSLineHeightProperty();
-            _inherited = true;
         }
 
         #endregion

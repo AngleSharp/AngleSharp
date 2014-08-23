@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSListStyleTypeProperty()
-            : base(PropertyNames.ListStyleType)
+            : base(PropertyNames.ListStyleType, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _style = ListStyle.Disc;
         }
 

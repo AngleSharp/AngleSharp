@@ -27,10 +27,9 @@
         }
 
         internal CSSTextAlignProperty()
-            : base(PropertyNames.TextAlign)
+            : base(PropertyNames.TextAlign, PropertyFlags.Inherited)
         {
             _mode = HorizontalAlignment.Left;
-            _inherited = true;
         }
 
         #endregion

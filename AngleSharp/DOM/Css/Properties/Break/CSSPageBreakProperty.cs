@@ -30,7 +30,6 @@
             : base(name)
         {
             _mode = BreakMode.Auto;
-            _inherited = false;
         }
 
         #endregion

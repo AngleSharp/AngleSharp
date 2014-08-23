@@ -19,7 +19,6 @@
         internal CSSOpacityProperty()
             : base(PropertyNames.Opacity)
         {
-            _inherited = false;
             _value = 1f;
         }
 

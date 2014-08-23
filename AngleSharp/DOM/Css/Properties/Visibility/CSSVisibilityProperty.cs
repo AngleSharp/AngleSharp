@@ -17,10 +17,9 @@
         #region ctor
 
         internal CSSVisibilityProperty()
-            : base(PropertyNames.Visibility)
+            : base(PropertyNames.Visibility, PropertyFlags.Inherited)
         {
             _mode = Visibility.Visible;
-            _inherited = true;
         }
 
         #endregion

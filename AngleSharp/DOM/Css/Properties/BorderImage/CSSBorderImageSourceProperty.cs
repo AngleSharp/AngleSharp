@@ -19,7 +19,6 @@
         internal CSSBorderImageSourceProperty()
             : base(PropertyNames.BorderImageSource)
         {
-            _inherited = false;
             _image = CSSImageValue.None;
         }
 

@@ -23,7 +23,6 @@
         internal CSSBorderImageProperty()
             : base(PropertyNames.BorderImage)
         {
-            _inherited = false;
             _outset = new CSSBorderImageOutsetProperty();
             _repeat = new CSSBorderImageRepeatProperty();
             _slice = new CSSBorderImageSliceProperty();

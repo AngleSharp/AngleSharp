@@ -25,7 +25,6 @@
             _style = new CSSOutlineStyleProperty();
             _width = new CSSOutlineWidthProperty();
             _color = new CSSOutlineColorProperty();
-            _inherited = false;
         }
 
         #endregion

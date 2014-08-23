@@ -20,7 +20,6 @@
         internal CSSAnimationNameProperty()
             : base(PropertyNames.AnimationName)
         {
-            _inherited = false;
             _names = new List<String>();
         }
 

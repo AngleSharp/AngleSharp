@@ -27,10 +27,9 @@
         }
 
         internal CSSFontWeightProperty()
-            : base(PropertyNames.FontWeight)
+            : base(PropertyNames.FontWeight, PropertyFlags.Inherited)
         {
             _weight = _weights["normal"];
-            _inherited = true;
         }
 
         #endregion

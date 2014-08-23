@@ -20,7 +20,6 @@
         internal CSSTransitionProperty()
             : base(PropertyNames.Transition)
         {
-            _inherited = false;
             _transitions = new List<Transition>();
         }
 

@@ -25,7 +25,6 @@
             : base(PropertyNames.ColumnSpan)
         {
             _span = false;
-            _inherited = false;
         }
 
         #endregion

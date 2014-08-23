@@ -19,7 +19,6 @@
         internal CSSBorderRadiusPartProperty(String name)
             : base(name)
         {
-            _inherited = false;
             _h = CSSCalcValue.Zero;
             _v = CSSCalcValue.Zero;
         }

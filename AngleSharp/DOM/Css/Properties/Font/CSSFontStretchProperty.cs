@@ -32,9 +32,8 @@
         }
 
         internal CSSFontStretchProperty()
-            : base(PropertyNames.FontStretch)
+            : base(PropertyNames.FontStretch, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _stretch = FontStretch.Normal;
         }
 

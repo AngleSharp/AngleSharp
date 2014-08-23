@@ -11,7 +11,6 @@
         internal CSSPageBreakAfterProperty()
             : base(PropertyNames.PageBreakAfter)
         {
-            _inherited = false;
         }
 
         #endregion

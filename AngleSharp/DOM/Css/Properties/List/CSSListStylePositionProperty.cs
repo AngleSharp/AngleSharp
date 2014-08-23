@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSListStylePositionProperty()
-            : base(PropertyNames.ListStylePosition)
+            : base(PropertyNames.ListStylePosition, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _position = ListPosition.Outside;
         }
 

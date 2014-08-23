@@ -34,7 +34,6 @@
         internal CSSVerticalAlignProperty()
             : base(PropertyNames.VerticalAlign)
         {
-            _inherited = false;
             _mode = VerticalAlignment.Baseline;
             _shift = CSSCalcValue.Zero;
         }

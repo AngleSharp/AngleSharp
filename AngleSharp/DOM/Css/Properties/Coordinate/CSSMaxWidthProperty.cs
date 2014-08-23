@@ -22,7 +22,6 @@
         internal CSSMaxWidthProperty()
             : base(PropertyNames.MaxWidth)
         {
-            _inherited = false;
             _mode = null;
         }
 

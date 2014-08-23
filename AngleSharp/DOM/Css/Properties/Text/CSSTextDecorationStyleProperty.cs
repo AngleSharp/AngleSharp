@@ -30,7 +30,6 @@
         internal CSSTextDecorationStyleProperty()
             : base(PropertyNames.TextDecorationStyle)
         {
-            _inherited = false;
             _style = TextDecorationStyle.Solid;
         }
 

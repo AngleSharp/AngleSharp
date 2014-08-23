@@ -20,7 +20,6 @@
         internal CSSAnimationFillModeProperty()
             : base(PropertyNames.AnimationFillMode)
         {
-            _inherited = false;
             _fillModes = new List<AnimationFillStyle>();
             _fillModes.Add(AnimationFillStyle.None);
         }

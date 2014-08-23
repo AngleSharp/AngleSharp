@@ -35,7 +35,6 @@
             _origin = new CSSBackgroundOriginProperty();
             _clip = new CSSBackgroundClipProperty();
             _color = new CSSBackgroundColorProperty();
-            _inherited = false;
         }
 
         #endregion

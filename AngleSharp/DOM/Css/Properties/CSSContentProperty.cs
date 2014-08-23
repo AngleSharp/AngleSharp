@@ -31,7 +31,6 @@
             : base(PropertyNames.Content)
         {
             _mode = _normal;
-            _inherited = false;
         }
 
         #endregion

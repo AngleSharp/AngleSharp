@@ -20,7 +20,6 @@
         internal CSSBackgroundImageProperty()
             : base(PropertyNames.BackgroundImage)
         {
-            _inherited = false;
             _images = new List<CSSImageValue>();
         }
 

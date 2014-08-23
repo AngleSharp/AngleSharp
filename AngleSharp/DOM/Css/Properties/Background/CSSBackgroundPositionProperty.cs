@@ -20,7 +20,6 @@
         internal CSSBackgroundPositionProperty()
             : base(PropertyNames.BackgroundPosition)
         {
-            _inherited = false;
             _positions = new List<Point2d>();
             _positions.Add(Point2d.Centered);
         }

@@ -16,9 +16,8 @@
         #region ctor
 
         internal CSSPaddingPartProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Unitless)
         {
-            _inherited = false;
             _padding = CSSCalcValue.Zero;
         }
 

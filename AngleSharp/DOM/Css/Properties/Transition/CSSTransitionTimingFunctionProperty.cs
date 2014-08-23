@@ -20,7 +20,6 @@
         internal CSSTransitionTimingFunctionProperty()
             : base(PropertyNames.TransitionTimingFunction)
         {
-            _inherited = false;
             _functions = new List<CSSTimingValue>();
             _functions.Add(CSSTimingValue.Ease);
         }

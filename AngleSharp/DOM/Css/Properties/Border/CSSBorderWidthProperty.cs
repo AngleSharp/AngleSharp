@@ -22,7 +22,6 @@
         internal CSSBorderWidthProperty()
             : base(PropertyNames.BorderWidth)
         {
-            _inherited = false;
             _top = Length.Medium;
             _right = Length.Medium;
             _bottom = Length.Medium;

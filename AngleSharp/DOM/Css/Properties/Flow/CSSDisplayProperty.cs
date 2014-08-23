@@ -45,7 +45,6 @@
             : base(PropertyNames.Display)
         {
             _mode = DisplayMode.Inline;
-            _inherited = false;
         }
 
         #endregion

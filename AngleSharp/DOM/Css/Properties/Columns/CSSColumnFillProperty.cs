@@ -20,7 +20,6 @@
             : base(PropertyNames.ColumnFill)
         {
             _balanced = true;
-            _inherited = false;
         }
 
         #endregion

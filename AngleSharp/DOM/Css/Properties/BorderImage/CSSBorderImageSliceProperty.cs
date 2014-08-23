@@ -26,7 +26,6 @@
         internal CSSBorderImageSliceProperty()
             : base(PropertyNames.BorderImageSlice)
         {
-            _inherited = false;
             _top = CSSCalcValue.Full;
             _right = CSSCalcValue.Full;
             _bottom = CSSCalcValue.Full;

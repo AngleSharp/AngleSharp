@@ -22,7 +22,6 @@
         internal CSSColumnRuleProperty()
             : base(PropertyNames.ColumnRule)
         {
-            _inherited = false;
             _style = LineStyle.None;
             _width = Length.Medium;
             _color = Color.Transparent;

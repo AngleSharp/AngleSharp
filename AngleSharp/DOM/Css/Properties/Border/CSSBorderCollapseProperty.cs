@@ -17,10 +17,9 @@
         #region ctor
 
         internal CSSBorderCollapseProperty()
-            : base(PropertyNames.BorderCollapse)
+            : base(PropertyNames.BorderCollapse, PropertyFlags.Inherited)
         {
             _separate = true;
-            _inherited = true;
         }
 
         #endregion

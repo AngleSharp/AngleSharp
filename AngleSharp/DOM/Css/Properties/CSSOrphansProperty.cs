@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSOrphansProperty()
-            : base(PropertyNames.Orphans)
+            : base(PropertyNames.Orphans, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _value = 2;
         }
 

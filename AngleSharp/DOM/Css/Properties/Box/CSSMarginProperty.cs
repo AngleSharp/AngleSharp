@@ -22,7 +22,6 @@
         internal CSSMarginProperty()
             : base(PropertyNames.Margin)
         {
-            _inherited = false;
             _left = new CSSMarginLeftProperty();
             _right = new CSSMarginRightProperty();
             _top = new CSSMarginTopProperty();

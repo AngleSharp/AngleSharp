@@ -21,7 +21,6 @@
             : base(PropertyNames.TransitionProperty)
         {
             _properties = new List<String>();
-            _inherited = false;
         }
 
         #endregion

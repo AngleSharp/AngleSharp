@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSFontVariantProperty()
-            : base(PropertyNames.FontVariant)
+            : base(PropertyNames.FontVariant, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _style = FontVariant.Normal;
         }
 

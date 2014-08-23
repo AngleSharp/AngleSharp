@@ -21,7 +21,6 @@
         internal CSSColumnsProperty()
             : base(PropertyNames.Columns)
         {
-            _inherited = false;
             _count = new CSSColumnCountProperty();
             _width = new CSSColumnWidthProperty();
         }

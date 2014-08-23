@@ -21,7 +21,6 @@
         internal CSSTransformOriginProperty()
             : base(PropertyNames.TransformOrigin)
         {
-            _inherited = false;
             _x = CSSCalcValue.Center;
             _y = CSSCalcValue.Center;
             _z = CSSCalcValue.Zero;

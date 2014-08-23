@@ -19,7 +19,6 @@
         internal CSSZIndexProperty()
             : base(PropertyNames.ZIndex)
         {
-            _inherited = false;
             _value = null;
         }
 

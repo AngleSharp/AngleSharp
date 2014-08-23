@@ -20,7 +20,6 @@
         internal CSSBackgroundClipProperty()
             : base(PropertyNames.BackgroundClip)
         {
-            _inherited = false;
             _clips = new List<BoxModel>();
             _clips.Add(BoxModel.BorderBox);
         }

@@ -23,7 +23,6 @@
             : base(PropertyNames.ColumnRuleColor)
         {
             _color = Color.Transparent;
-            _inherited = false;
         }
 
         #endregion

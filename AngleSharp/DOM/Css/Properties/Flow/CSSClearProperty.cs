@@ -30,7 +30,6 @@
             : base(PropertyNames.Clear)
         {
             _mode = ClearMode.None;
-            _inherited = false;
         }
 
         #endregion

@@ -19,7 +19,6 @@
         internal CSSMinWidthProperty()
             : base(PropertyNames.MinWidth)
         {
-            _inherited = false;
             _mode = CSSCalcValue.Zero;
         }
 

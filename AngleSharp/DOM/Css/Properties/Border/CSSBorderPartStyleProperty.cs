@@ -19,7 +19,6 @@
             : base(name)
         {
             _style = LineStyle.None;
-            _inherited = false;
         }
 
         #endregion

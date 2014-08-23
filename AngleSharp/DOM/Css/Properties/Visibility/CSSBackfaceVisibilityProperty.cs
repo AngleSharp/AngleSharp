@@ -20,7 +20,6 @@
             : base(PropertyNames.BackfaceVisibility)
         {
             _visible = true;
-            _inherited = false;
         }
 
         #endregion

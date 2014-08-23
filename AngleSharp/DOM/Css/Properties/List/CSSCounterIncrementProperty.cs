@@ -21,7 +21,6 @@
             : base(PropertyNames.CounterIncrement)
         {
             _increments = new Dictionary<String, Int32>();
-            _inherited = false;
         }
 
         #endregion

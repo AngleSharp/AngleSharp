@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSTextIndentProperty()
-            : base(PropertyNames.TextIndent)
+            : base(PropertyNames.TextIndent, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _indent = CSSCalcValue.Zero;
         }
 

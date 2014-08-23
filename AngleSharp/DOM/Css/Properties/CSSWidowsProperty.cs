@@ -22,9 +22,8 @@
         #region ctor
 
         internal CSSWidowsProperty()
-            : base(PropertyNames.Widows)
+            : base(PropertyNames.Widows, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _value = 2;
         }
 

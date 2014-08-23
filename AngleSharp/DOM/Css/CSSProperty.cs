@@ -11,11 +11,7 @@
     {
         #region Fields
 
-        /// <summary>
-        /// Determines if the property is inherited.
-        /// </summary>
-        protected Boolean _inherited;
-
+        readonly PropertyFlags _flags;
         readonly String _name;
 
         CSSValue _value;
@@ -29,10 +25,12 @@
         /// <summary>
         /// Creates a new CSS property.
         /// </summary>
-        /// <param name="name"></param>
-        internal CSSProperty(String name)
+        /// <param name="name">The name of the property</param>
+        /// <param name="flags">The property flags, if any.</param>
+        internal CSSProperty(String name, PropertyFlags flags = PropertyFlags.None)
         {
             _name = name;
+            _flags = flags;
         }
 
         #endregion
@@ -57,11 +55,11 @@
         }
 
         /// <summary>
-        /// Gets if the property is inherited.
+        /// Gets if the property can be inherited.
         /// </summary>
         internal Boolean IsInherited
         {
-            get { return _inherited; }
+            get { return _flags.HasFlag(PropertyFlags.Inherited); }
         }
 
         #endregion

@@ -22,7 +22,6 @@
         internal CSSPaddingProperty()
             : base(PropertyNames.Padding)
         {
-            _inherited = false;
             _left = new CSSPaddingLeftProperty();
             _right = new CSSPaddingRightProperty();
             _top = new CSSPaddingTopProperty();

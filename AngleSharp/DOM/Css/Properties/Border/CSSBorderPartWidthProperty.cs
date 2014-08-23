@@ -16,9 +16,8 @@
         #region ctor
 
         internal CSSBorderPartWidthProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Unitless)
         {
-            _inherited = false;
             _width = Length.Medium;
         }
 

@@ -20,7 +20,6 @@
             : base(PropertyNames.ColumnRuleStyle)
         {
             _style = LineStyle.None;
-            _inherited = false;
         }
 
         #endregion

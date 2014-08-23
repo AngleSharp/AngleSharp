@@ -20,7 +20,6 @@
         internal CSSAnimationIterationCountProperty()
             : base(PropertyNames.AnimationIterationCount)
         {
-            _inherited = false;
             _iterations = new List<Single>();
             _iterations.Add(1f);
         }

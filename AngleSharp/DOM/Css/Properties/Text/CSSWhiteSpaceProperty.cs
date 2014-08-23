@@ -28,10 +28,9 @@
         }
 
         internal CSSWhiteSpaceProperty()
-            : base(PropertyNames.WhiteSpace)
+            : base(PropertyNames.WhiteSpace, PropertyFlags.Inherited)
         {
             _mode = Whitespace.Normal;
-            _inherited = true;
         }
 
         #endregion

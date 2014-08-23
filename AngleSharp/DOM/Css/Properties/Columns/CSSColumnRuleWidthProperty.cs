@@ -23,7 +23,6 @@
             : base(PropertyNames.ColumnRuleWidth)
         {
             _width = Length.Medium;
-            _inherited = false;
         }
 
         #endregion

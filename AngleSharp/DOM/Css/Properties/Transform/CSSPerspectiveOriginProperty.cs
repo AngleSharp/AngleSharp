@@ -20,7 +20,6 @@
         internal CSSPerspectiveOriginProperty()
             : base(PropertyNames.PerspectiveOrigin)
         {
-            _inherited = false;
             _x = CSSCalcValue.Center;
             _y = CSSCalcValue.Center;
         }

@@ -17,10 +17,9 @@
         #region ctor
 
         internal CSSBackgroundColorProperty()
-            : base(PropertyNames.BackgroundColor)
+            : base(PropertyNames.BackgroundColor, PropertyFlags.Hashless)
         {
             _color = Color.Transparent;
-            _inherited = false;
         }
 
         #endregion

@@ -26,7 +26,6 @@
         internal CSSBorderRadiusProperty()
             : base(PropertyNames.BorderRadius)
         {
-            _inherited = false;
             _topRightHorizontal = CSSCalcValue.Zero;
             _bottomRightHorizontal = CSSCalcValue.Zero;
             _bottomLeftHorizontal = CSSCalcValue.Zero;

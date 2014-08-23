@@ -22,7 +22,6 @@
         internal CSSBorderStyleProperty()
             : base(PropertyNames.BorderStyle)
         {
-            _inherited = false;
             _left = LineStyle.None;
             _right = LineStyle.None;
             _bottom = LineStyle.None;

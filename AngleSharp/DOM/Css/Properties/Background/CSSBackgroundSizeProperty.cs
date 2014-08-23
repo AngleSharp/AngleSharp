@@ -23,7 +23,6 @@
         internal CSSBackgroundSizeProperty()
             : base(PropertyNames.BackgroundSize)
         {
-            _inherited = false;
             _sizes = new List<SizeMode>();
             _sizes.Add(_default);
         }

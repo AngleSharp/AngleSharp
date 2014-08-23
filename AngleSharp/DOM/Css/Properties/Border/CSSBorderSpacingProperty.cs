@@ -18,9 +18,8 @@
         #region ctor
 
         internal CSSBorderSpacingProperty()
-            : base(PropertyNames.BorderSpacing)
+            : base(PropertyNames.BorderSpacing, PropertyFlags.Inherited)
         {
-            _inherited = true;
             _h = Length.Zero;
             _v = Length.Zero;
         }

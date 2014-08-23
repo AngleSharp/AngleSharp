@@ -20,7 +20,6 @@
         internal CSSTransformProperty()
             : base(PropertyNames.Transform)
         {
-            _inherited = false;
             _transforms = new List<CSSTransformValue>();
         }
 

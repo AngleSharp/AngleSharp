@@ -25,7 +25,6 @@
             _style = new CSSTextDecorationStyleProperty();
             _line = new CSSTextDecorationLineProperty();
             _color = new CSSTextDecorationColorProperty();
-            _inherited = false;
         }
 
         #endregion

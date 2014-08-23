@@ -22,7 +22,6 @@
         internal CSSBorderImageOutsetProperty()
             : base(PropertyNames.BorderImageOutset)
         {
-            _inherited = false;
             _top = CSSCalcValue.Zero;
             _right = CSSCalcValue.Zero;
             _bottom = CSSCalcValue.Zero;

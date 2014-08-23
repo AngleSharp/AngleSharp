@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSBorderColorProperty()
-            : base(PropertyNames.BorderColor)
+            : base(PropertyNames.BorderColor, PropertyFlags.Hashless)
         {
-            _inherited = false;
             _top = Color.Transparent;
             _right = Color.Transparent;
             _bottom = Color.Transparent;

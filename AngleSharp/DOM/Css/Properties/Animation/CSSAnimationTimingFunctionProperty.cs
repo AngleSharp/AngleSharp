@@ -20,7 +20,6 @@
         internal CSSAnimationTimingFunctionProperty()
             : base(PropertyNames.AnimationTimingFunction)
         {
-            _inherited = false;
             _functions = new List<CSSTimingValue>();
             _functions.Add(CSSTimingValue.Ease);
         }

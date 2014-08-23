@@ -20,7 +20,6 @@
             : base(PropertyNames.CaptionSide)
         {
             _top = true;
-            _inherited = false;
         }
 
         #endregion
