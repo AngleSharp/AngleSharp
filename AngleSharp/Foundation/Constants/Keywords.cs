@@ -26,6 +26,11 @@
         /// The auto keyword.
         /// </summary>
         public static readonly String Auto = "auto";
+
+        /// <summary>
+        /// The to keyword.
+        /// </summary>
+        public static readonly String To = "to";
         
         /// <summary>
         /// The always keyword.
@@ -51,6 +56,16 @@
         /// The both keyword.
         /// </summary>
         public static readonly String Both = "both";
+
+        /// <summary>
+        /// The forwards keyword.
+        /// </summary>
+        public static readonly String Forwards = "forwards";
+
+        /// <summary>
+        /// The backwards keyword.
+        /// </summary>
+        public static readonly String Backwards = "backwards";
         
         /// <summary>
         /// The page keyword.
@@ -71,6 +86,26 @@
         /// The avoid-column keyword.
         /// </summary>
         public static readonly String AvoidColumn = "avoid-column";
+
+        /// <summary>
+        /// The inset keyword.
+        /// </summary>
+        public static readonly String Inset = "inset";
+
+        /// <summary>
+        /// The outset keyword.
+        /// </summary>
+        public static readonly String Outset = "outset";
+
+        /// <summary>
+        /// The ridge keyword.
+        /// </summary>
+        public static readonly String Ridge = "ridge";
+
+        /// <summary>
+        /// The groove keyword.
+        /// </summary>
+        public static readonly String Groove = "groove";
 
         /// <summary>
         /// The fixed keyword.
@@ -211,6 +246,11 @@
         /// The hidden keyword.
         /// </summary>
         public static readonly String Hidden = "hidden";
+
+        /// <summary>
+        /// The collapse keyword.
+        /// </summary>
+        public static readonly String Collapse = "collapse";
 
         /// <summary>
         /// The static keyword.
@@ -706,5 +746,205 @@
         /// The grabbing keyword.
         /// </summary>
         public static readonly String Grabbing = "grabbing";
+
+        /// <summary>
+        /// The thin keyword.
+        /// </summary>
+        public static readonly String Thin = "thin";
+
+        /// <summary>
+        /// The medium keyword.
+        /// </summary>
+        public static readonly String Medium = "medium";
+
+        /// <summary>
+        /// The thick keyword.
+        /// </summary>
+        public static readonly String Thick = "thick";
+
+        /// <summary>
+        /// The inside keyword.
+        /// </summary>
+        public static readonly String Inside = "inside";
+
+        /// <summary>
+        /// The outside keyword.
+        /// </summary>
+        public static readonly String Outside = "outside";
+
+        /// <summary>
+        /// The border-box keyword.
+        /// </summary>
+        public static readonly String BorderBox = "border-box";
+
+        /// <summary>
+        /// The padding-box keyword.
+        /// </summary>
+        public static readonly String PaddingBox = "padding-box";
+
+        /// <summary>
+        /// The content-box keyword.
+        /// </summary>
+        public static readonly String ContentBox = "content-box";
+
+        /// <summary>
+        /// The reverse keyword.
+        /// </summary>
+        public static readonly String Reverse = "reverse";
+
+        /// <summary>
+        /// The alternate keyword.
+        /// </summary>
+        public static readonly String Alternate = "alternate";
+
+        /// <summary>
+        /// The alternate-reverse keyword.
+        /// </summary>
+        public static readonly String AlternateReverse = "alternate-reverse";
+
+        /// <summary>
+        /// The ease keyword.
+        /// </summary>
+        public static readonly String Ease = "ease";
+
+        /// <summary>
+        /// The ease-in keyword.
+        /// </summary>
+        public static readonly String EaseIn = "ease-in";
+
+        /// <summary>
+        /// The ease-out keyword.
+        /// </summary>
+        public static readonly String EaseOut = "ease-out";
+
+        /// <summary>
+        /// The ease-in-out keyword.
+        /// </summary>
+        public static readonly String EaseInOut = "ease-in-out";
+
+        /// <summary>
+        /// The linear keyword.
+        /// </summary>
+        public static readonly String Linear = "linear";
+
+        /// <summary>
+        /// The step-start keyword.
+        /// </summary>
+        public static readonly String StepStart = "step-start";
+
+        /// <summary>
+        /// The step-end keyword.
+        /// </summary>
+        public static readonly String StepEnd = "step-end";
+
+        /// <summary>
+        /// The disc keyword.
+        /// </summary>
+        public static readonly String Disc = "disc";
+
+        /// <summary>
+        /// The circle keyword.
+        /// </summary>
+        public static readonly String Circle = "circle";
+
+        /// <summary>
+        /// The square keyword.
+        /// </summary>
+        public static readonly String Square = "square";
+
+        /// <summary>
+        /// The decimal keyword.
+        /// </summary>
+        public static readonly String Decimal = "decimal";
+
+        /// <summary>
+        /// The decimal-leading-zero keyword.
+        /// </summary>
+        public static readonly String DecimalLeadingZero = "decimal-leading-zero";
+
+        /// <summary>
+        /// The lower-roman keyword.
+        /// </summary>
+        public static readonly String LowerRoman = "lower-roman";
+
+        /// <summary>
+        /// The upper-roman keyword.
+        /// </summary>
+        public static readonly String UpperRoman = "upper-roman";
+
+        /// <summary>
+        /// The lower-greek keyword.
+        /// </summary>
+        public static readonly String LowerGreek = "lower-greek";
+
+        /// <summary>
+        /// The lower-latin keyword.
+        /// </summary>
+        public static readonly String LowerLatin = "lower-latin";
+
+        /// <summary>
+        /// The upper-latin keyword.
+        /// </summary>
+        public static readonly String UpperLatin = "upper-latin";
+
+        /// <summary>
+        /// The armenian keyword.
+        /// </summary>
+        public static readonly String Armenian = "armenian";
+
+        /// <summary>
+        /// The georgian keyword.
+        /// </summary>
+        public static readonly String Georgian = "georgian";
+
+        /// <summary>
+        /// The lower-alpha keyword.
+        /// </summary>
+        public static readonly String LowerAlpha = "lower-alpha";
+
+        /// <summary>
+        /// The upper-alpha keyword.
+        /// </summary>
+        public static readonly String UpperAlpha = "upper-alpha";
+
+        /// <summary>
+        /// The xx-small keyword.
+        /// </summary>
+        public static readonly String XxSmall = "xx-small";
+
+        /// <summary>
+        /// The x-small keyword.
+        /// </summary>
+        public static readonly String XSmall = "x-small";
+
+        /// <summary>
+        /// The small keyword.
+        /// </summary>
+        public static readonly String Small = "small";
+
+        /// <summary>
+        /// The large keyword.
+        /// </summary>
+        public static readonly String Large = "large";
+
+        /// <summary>
+        /// The x-large keyword.
+        /// </summary>
+        public static readonly String XLarge = "x-large";
+
+        /// <summary>
+        /// The xx-large keyword.
+        /// </summary>
+        public static readonly String XxLarge = "xx-large";
+
+        /// <summary>
+        /// The larger keyword.
+        /// </summary>
+        public static readonly String Larger = "larger";
+
+        /// <summary>
+        /// The smaller keyword.
+        /// </summary>
+        public static readonly String Smaller = "smaller";
     }
 }

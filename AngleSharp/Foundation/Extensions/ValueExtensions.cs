@@ -26,71 +26,71 @@
 
         static ValueExtensions()
         {
-            lineStyles.Add("none", LineStyle.None);
-            lineStyles.Add("solid", LineStyle.Solid);
-            lineStyles.Add("double", LineStyle.Double);
-            lineStyles.Add("dotted", LineStyle.Dotted);
-            lineStyles.Add("dashed", LineStyle.Dashed);
-            lineStyles.Add("inset", LineStyle.Inset);
-            lineStyles.Add("outset", LineStyle.Outset);
-            lineStyles.Add("ridge", LineStyle.Ridge);
-            lineStyles.Add("groove", LineStyle.Groove);
-            lineStyles.Add("hidden", LineStyle.Hidden);
+            lineStyles.Add(Keywords.None, LineStyle.None);
+            lineStyles.Add(Keywords.Solid, LineStyle.Solid);
+            lineStyles.Add(Keywords.Double, LineStyle.Double);
+            lineStyles.Add(Keywords.Dotted, LineStyle.Dotted);
+            lineStyles.Add(Keywords.Dashed, LineStyle.Dashed);
+            lineStyles.Add(Keywords.Inset, LineStyle.Inset);
+            lineStyles.Add(Keywords.Outset, LineStyle.Outset);
+            lineStyles.Add(Keywords.Ridge, LineStyle.Ridge);
+            lineStyles.Add(Keywords.Groove, LineStyle.Groove);
+            lineStyles.Add(Keywords.Hidden, LineStyle.Hidden);
 
-            boxModels.Add("border-box", BoxModel.BorderBox);
-            boxModels.Add("padding-box", BoxModel.PaddingBox);
-            boxModels.Add("content-box", BoxModel.ContentBox);
+            boxModels.Add(Keywords.BorderBox, BoxModel.BorderBox);
+            boxModels.Add(Keywords.PaddingBox, BoxModel.PaddingBox);
+            boxModels.Add(Keywords.ContentBox, BoxModel.ContentBox);
 
-            timingFunctions.Add("ease", CSSTimingValue.Ease);
-            timingFunctions.Add("ease-in", CSSTimingValue.EaseIn);
-            timingFunctions.Add("ease-out", CSSTimingValue.EaseOut);
-            timingFunctions.Add("ease-in-out", CSSTimingValue.EaseInOut);
-            timingFunctions.Add("linear", CSSTimingValue.Linear);
-            timingFunctions.Add("step-start", CSSTimingValue.StepStart);
-            timingFunctions.Add("step-end", CSSTimingValue.StepEnd);
+            timingFunctions.Add(Keywords.Ease, CSSTimingValue.Ease);
+            timingFunctions.Add(Keywords.EaseIn, CSSTimingValue.EaseIn);
+            timingFunctions.Add(Keywords.EaseOut, CSSTimingValue.EaseOut);
+            timingFunctions.Add(Keywords.EaseInOut, CSSTimingValue.EaseInOut);
+            timingFunctions.Add(Keywords.Linear, CSSTimingValue.Linear);
+            timingFunctions.Add(Keywords.StepStart, CSSTimingValue.StepStart);
+            timingFunctions.Add(Keywords.StepEnd, CSSTimingValue.StepEnd);
 
-            fillModes.Add("none", AnimationFillStyle.None);
-            fillModes.Add("forwards", AnimationFillStyle.Forwards);
-            fillModes.Add("backwards", AnimationFillStyle.Backwards);
-            fillModes.Add("both", AnimationFillStyle.Both);
+            fillModes.Add(Keywords.None, AnimationFillStyle.None);
+            fillModes.Add(Keywords.Forwards, AnimationFillStyle.Forwards);
+            fillModes.Add(Keywords.Backwards, AnimationFillStyle.Backwards);
+            fillModes.Add(Keywords.Both, AnimationFillStyle.Both);
 
-            directions.Add("normal", AnimationDirection.Normal);
-            directions.Add("reverse", AnimationDirection.Reverse);
-            directions.Add("alternate", AnimationDirection.Alternate);
-            directions.Add("alternate-reverse", AnimationDirection.AlternateReverse);
+            directions.Add(Keywords.Normal, AnimationDirection.Normal);
+            directions.Add(Keywords.Reverse, AnimationDirection.Reverse);
+            directions.Add(Keywords.Alternate, AnimationDirection.Alternate);
+            directions.Add(Keywords.AlternateReverse, AnimationDirection.AlternateReverse);
 
-            visibilities.Add("visible", Visibility.Visible);
-            visibilities.Add("hidden", Visibility.Hidden);
-            visibilities.Add("collapse", Visibility.Collapse);
+            visibilities.Add(Keywords.Visible, Visibility.Visible);
+            visibilities.Add(Keywords.Hidden, Visibility.Hidden);
+            visibilities.Add(Keywords.Collapse, Visibility.Collapse);
 
-            listStyles.Add("disc", ListStyle.Disc);
-            listStyles.Add("circle", ListStyle.Circle);
-            listStyles.Add("square", ListStyle.Square);
-            listStyles.Add("decimal", ListStyle.Decimal);
-            listStyles.Add("decimal-leading-zero", ListStyle.DecimalLeadingZero);
-            listStyles.Add("lower-roman", ListStyle.LowerRoman);
-            listStyles.Add("upper-roman", ListStyle.UpperRoman);
-            listStyles.Add("lower-greek", ListStyle.LowerGreek);
-            listStyles.Add("lower-latin", ListStyle.LowerLatin);
-            listStyles.Add("upper-latin", ListStyle.UpperLatin);
-            listStyles.Add("armenian", ListStyle.Armenian);
-            listStyles.Add("georgian", ListStyle.Georgian);
-            listStyles.Add("lower-alpha", ListStyle.LowerLatin);
-            listStyles.Add("upper-alpha", ListStyle.UpperLatin);
-            listStyles.Add("none", ListStyle.None);
+            listStyles.Add(Keywords.Disc, ListStyle.Disc);
+            listStyles.Add(Keywords.Circle, ListStyle.Circle);
+            listStyles.Add(Keywords.Square, ListStyle.Square);
+            listStyles.Add(Keywords.Decimal, ListStyle.Decimal);
+            listStyles.Add(Keywords.DecimalLeadingZero, ListStyle.DecimalLeadingZero);
+            listStyles.Add(Keywords.LowerRoman, ListStyle.LowerRoman);
+            listStyles.Add(Keywords.UpperRoman, ListStyle.UpperRoman);
+            listStyles.Add(Keywords.LowerGreek, ListStyle.LowerGreek);
+            listStyles.Add(Keywords.LowerLatin, ListStyle.LowerLatin);
+            listStyles.Add(Keywords.UpperLatin, ListStyle.UpperLatin);
+            listStyles.Add(Keywords.Armenian, ListStyle.Armenian);
+            listStyles.Add(Keywords.Georgian, ListStyle.Georgian);
+            listStyles.Add(Keywords.LowerAlpha, ListStyle.LowerLatin);
+            listStyles.Add(Keywords.UpperAlpha, ListStyle.UpperLatin);
+            listStyles.Add(Keywords.None, ListStyle.None);
 
-            listPositions.Add("inside", ListPosition.Inside);
-            listPositions.Add("outside", ListPosition.Outside);
+            listPositions.Add(Keywords.Inside, ListPosition.Inside);
+            listPositions.Add(Keywords.Outside, ListPosition.Outside);
 
-            fontSizes.Add("xx-small", FontSize.Tiny);
-            fontSizes.Add("x-small", FontSize.Little);
-            fontSizes.Add("small", FontSize.Small);
-            fontSizes.Add("medium", FontSize.Medium);
-            fontSizes.Add("large", FontSize.Large);
-            fontSizes.Add("x-large", FontSize.Big);
-            fontSizes.Add("xx-large", FontSize.Huge);
-            fontSizes.Add("larger", FontSize.Smaller);
-            fontSizes.Add("smaller", FontSize.Larger);
+            fontSizes.Add(Keywords.XxSmall, FontSize.Tiny);
+            fontSizes.Add(Keywords.XSmall, FontSize.Little);
+            fontSizes.Add(Keywords.Small, FontSize.Small);
+            fontSizes.Add(Keywords.Medium, FontSize.Medium);
+            fontSizes.Add(Keywords.Large, FontSize.Large);
+            fontSizes.Add(Keywords.XLarge, FontSize.Big);
+            fontSizes.Add(Keywords.XxLarge, FontSize.Huge);
+            fontSizes.Add(Keywords.Larger, FontSize.Smaller);
+            fontSizes.Add(Keywords.Smaller, FontSize.Larger);
         }
 
         #endregion
@@ -305,7 +305,7 @@
                 return (CSSImageValue)value;
             else if (value is CSSPrimitiveValue<Url>)
                 return CSSImageValue.FromUrl(((CSSPrimitiveValue<Url>)value).Value);
-            else if (value.Is("none"))
+            else if (value.Is(Keywords.None))
                 return CSSImageValue.None;
 
             return null;
@@ -351,15 +351,15 @@
             {
                 var values = (CSSValueList)value;
 
-                if (values.Length == 2 && values[0].Is("to"))
+                if (values.Length == 2 && values[0].Is(Keywords.To))
                 {
-                    if (values[1].Is("bottom"))
+                    if (values[1].Is(Keywords.Bottom))
                         return new Angle(180f, Angle.Unit.Deg);
-                    else if (values[1].Is("right"))
+                    else if (values[1].Is(Keywords.Right))
                         return new Angle(90f, Angle.Unit.Deg);
-                    else if (values[1].Is("left"))
+                    else if (values[1].Is(Keywords.Left))
                         return new Angle(270f, Angle.Unit.Deg);
-                    else if (values[1].Is("top"))
+                    else if (values[1].Is(Keywords.Top))
                         return new Angle(0f, Angle.Unit.Deg);
                 }
             }
@@ -415,11 +415,11 @@
                 return ((CSSPrimitiveValue<Length>)value).Value;
             else if (value is CSSPrimitiveValue<Number> && ((CSSPrimitiveValue<Number>)value).Value == Number.Zero)
                 return Length.Zero;
-            else if (value.Is("thin"))
+            else if (value.Is(Keywords.Thin))
                 return Length.Thin;
-            else if (value.Is("medium"))
+            else if (value.Is(Keywords.Medium))
                 return Length.Medium;
-            else if (value.Is("thick"))
+            else if (value.Is(Keywords.Thick))
                 return Length.Thick;
 
             return null;
@@ -467,15 +467,15 @@
 
                 if (calc != null)
                     return new Point2d(calc);
-                else if (value.Is("left"))
+                else if (value.Is(Keywords.Left))
                     return new Point2d(x: CSSCalcValue.Zero);
-                else if (value.Is("right"))
+                else if (value.Is(Keywords.Right))
                     return new Point2d(x: CSSCalcValue.Full);
-                else if (value.Is("top"))
+                else if (value.Is(Keywords.Top))
                     return new Point2d(y: CSSCalcValue.Zero);
-                else if (value.Is("bottom"))
+                else if (value.Is(Keywords.Bottom))
                     return new Point2d(y: CSSCalcValue.Full);
-                else if (value.Is("center"))
+                else if (value.Is(Keywords.Center))
                     return Point2d.Centered;
             }
             else if (values.Length == 2)
@@ -487,18 +487,18 @@
 
                 if (horizontal == null)
                 {
-                    if (left.Is("left"))
+                    if (left.Is(Keywords.Left))
                         horizontal = CSSCalcValue.Zero;
-                    else if (left.Is("right"))
+                    else if (left.Is(Keywords.Right))
                         horizontal = CSSCalcValue.Full;
-                    else if (left.Is("center"))
+                    else if (left.Is(Keywords.Center))
                         horizontal = CSSCalcValue.Center;
-                    else if (left.Is("top"))
+                    else if (left.Is(Keywords.Top))
                     {
                         horizontal = vertical;
                         vertical = CSSCalcValue.Zero;
                     }
-                    else if (left.Is("bottom"))
+                    else if (left.Is(Keywords.Bottom))
                     {
                         horizontal = vertical;
                         vertical = CSSCalcValue.Full;
@@ -507,18 +507,18 @@
 
                 if (vertical == null)
                 {
-                    if (right.Is("top"))
+                    if (right.Is(Keywords.Top))
                         vertical = CSSCalcValue.Zero;
-                    else if (right.Is("bottom"))
+                    else if (right.Is(Keywords.Bottom))
                         vertical = CSSCalcValue.Full;
-                    else if (right.Is("center"))
+                    else if (right.Is(Keywords.Center))
                         vertical = CSSCalcValue.Center;
-                    else if (right.Is("left"))
+                    else if (right.Is(Keywords.Left))
                     {
                         vertical = horizontal;
                         horizontal = CSSCalcValue.Zero;
                     }
-                    else if (right.Is("right"))
+                    else if (right.Is(Keywords.Right))
                     {
                         vertical = horizontal;
                         horizontal = CSSCalcValue.Full;
@@ -536,17 +536,17 @@
                 var vertical = CSSCalcValue.Center;
                 var value = values[index];
 
-                if (value.Is("left"))
+                if (value.Is(Keywords.Left))
                 {
                     horizontal = CSSCalcValue.Zero;
                     shift = values[index + 1].AsCalc();
                 }
-                else if (value.Is("right"))
+                else if (value.Is(Keywords.Right))
                 {
                     horizontal = CSSCalcValue.Full;
                     shift = values[index + 1].AsCalc();
                 }
-                else if (!value.Is("center"))
+                else if (!value.Is(Keywords.Center))
                     return null;
 
                 if (shift != null && shift != CSSCalcValue.Zero)
@@ -558,21 +558,21 @@
 
                 value = values[++index];
 
-                if (value.Is("top"))
+                if (value.Is(Keywords.Top))
                 {
                     vertical = CSSCalcValue.Zero;
 
                     if (index + 1 < values.Length)
                         shift = values[index + 1].AsCalc();
                 }
-                else if (value.Is("bottom"))
+                else if (value.Is(Keywords.Bottom))
                 {
                     vertical = CSSCalcValue.Full;
 
                     if (index + 1 < values.Length)
                         shift = values[index + 1].AsCalc();
                 }
-                else if (!value.Is("center"))
+                else if (!value.Is(Keywords.Center))
                     return null;
 
                 if (shift != null)
@@ -592,7 +592,7 @@
             if (item.Length < 2)
                 return null;
 
-            var inset = item[0].Is("inset");
+            var inset = item[0].Is(Keywords.Inset);
             var offset = inset ? 1 : 0;
 
             if (inset && item.Length < 3)
