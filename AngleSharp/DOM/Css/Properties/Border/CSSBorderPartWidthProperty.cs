@@ -45,8 +45,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //TODO
-            //UNITLESS in QUIRKSMODE
             var length = value.ToBorderWidth();
 
             if (length.HasValue)

@@ -56,8 +56,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //TODO
-            //UNITLESS in QUIRKSMODE
             FontSize? size;
             var calc = value.AsCalc();
 

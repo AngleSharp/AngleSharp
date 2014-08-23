@@ -543,13 +543,49 @@
                     return null;
                 }
 
+                //HASHLESS in QUIRKSMODE:
+                //  background-color
+                //  border-color
+                //  border-top-color
+                //  border-right-color
+                //  border-bottom-color
+                //  border-left-color
+                //  color
+
+                //UNITLESS in QUIRKSMODE:
+                // border-width
+                // margin-left
+                // margin-right
+                // margin-top
+                // margin-bottom
+                // padding-left
+                // padding-right
+                // padding-bottom
+                // padding-top
+                // bottom
+                // left
+                // right
+                // top
+                // height
+                // width
+                // font-size
+                // letter-spacing
+                // word-spacing
+
                 if (tokens.MoveNext())
                 {
                     var property = CssPropertyFactory.Create(propertyName, style);
 
                     if (property != null)
                     {
-                        if (property.TrySetValue(InValue(tokens)))
+                        var value = InValue(tokens);
+
+                        if (quirks)
+                        {
+
+                        }
+
+                        if (property.TrySetValue(value))
                             property.IsImportant = IsImportant(tokens);
                         else if (style != null)
                             property = null;
@@ -831,15 +867,6 @@
         #endregion
 
         #region Value
-
-        //HASHLESS in QUIRKSMODE:
-        //  background-color
-        //  border-color
-        //  border-top-color
-        //  border-right-color
-        //  border-bottom-color
-        //  border-left-color
-        //  color
 
         /// <summary>
         /// Called before any token in the value regime had been seen.

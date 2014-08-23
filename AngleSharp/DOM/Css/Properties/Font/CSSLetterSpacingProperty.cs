@@ -59,8 +59,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //TODO
-            //UNITLESS in QUIRKSMODE
             if (value.Is("normal"))
                 _spacing = null;
             else if (value.ToLength().HasValue)
