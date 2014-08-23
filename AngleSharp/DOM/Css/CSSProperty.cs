@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -60,6 +59,22 @@
         internal Boolean IsInherited
         {
             get { return _flags.HasFlag(PropertyFlags.Inherited); }
+        }
+
+        /// <summary>
+        /// Gets if the property supports hashless colors in quirksmode.
+        /// </summary>
+        internal Boolean IsHashless
+        {
+            get { return _flags.HasFlag(PropertyFlags.Hashless); }
+        }
+
+        /// <summary>
+        /// Gets if the property supports unitless lengths in quirksmode.
+        /// </summary>
+        internal Boolean IsUnitless
+        {
+            get { return _flags.HasFlag(PropertyFlags.Unitless); }
         }
 
         /// <summary>
@@ -173,7 +188,7 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            return String.Concat(_name, ": ", _value.ToCss(), _important ? (" !" + CssParser.Important) : String.Empty, ";");
+            return String.Concat(_name, ": ", _value.ToCss(), _important ? (" !" + Keywords.Important) : String.Empty, ";");
         }
 
         #endregion

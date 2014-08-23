@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -72,7 +71,7 @@
         /// <returns>A string that contains the code.</returns>
         public virtual String ToCss()
         {
-            return this == Inherit ? CssParser.Inherit : (this == Separator ? "," : (this == Delimiter ? "/" : String.Empty));
+            return this == Inherit ? Keywords.Inherit : (this == Separator ? "," : (this == Delimiter ? "/" : String.Empty));
         }
 
         #endregion

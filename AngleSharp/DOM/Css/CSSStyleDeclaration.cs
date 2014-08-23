@@ -2283,7 +2283,7 @@
             CSSProperty property;
 
             if (_rules.TryGetValue(propertyName, out property) && property.IsImportant)
-                return CssParser.Important;
+                return Keywords.Important;
 
             return String.Empty;
         }
@@ -2324,7 +2324,7 @@
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            if (priority != null && !priority.Equals(CssParser.Important, StringComparison.OrdinalIgnoreCase))
+            if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
                 return;
 
             if (!String.IsNullOrEmpty(propertyValue))

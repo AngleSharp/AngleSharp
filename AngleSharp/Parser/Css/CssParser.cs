@@ -25,16 +25,6 @@
 
         #region Fields
 
-        /// <summary>
-        /// The important keyword.
-        /// </summary>
-        internal static readonly String Important = "important";
-
-        /// <summary>
-        /// The inherit keyword.
-        /// </summary>
-        internal static readonly String Inherit = "inherit";
-
         readonly CssSelectorConstructor selector;
         readonly CssValueBuilder value;
         readonly CssTokenizer tokenizer;
@@ -553,7 +543,14 @@
 
                         if (quirks)
                         {
-
+                            if (property.IsHashless)
+                            {
+                                //TODO Convert Strings / Numbers to Color
+                            }
+                            else if (property.IsUnitless)
+                            {
+                                //TODO Convert Numbers to Length
+                            }
                         }
 
                         if (!property.TrySetValue(value) && style != null)
@@ -578,7 +575,7 @@
         Boolean IsImportant(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
-            return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == Important;
+            return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == Keywords.Important;
         }
 
         #endregion
@@ -1318,7 +1315,7 @@
         /// <returns>The created value.</returns>
         static CSSValue ToIdentifier(String identifier)
         {
-            if (identifier == Inherit)
+            if (identifier == Keywords.Inherit)
                 return CSSValue.Inherit;
 
             return new CSSIdentifierValue(identifier);
