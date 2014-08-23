@@ -30,7 +30,7 @@
         }
 
         internal CSSBreakInsideProperty()
-            : base(PropertyNames.BreakInside, PropertyFlags.Inherited)
+            : base(PropertyNames.BreakInside)
         {
             _mode = BreakMode.Auto;
         }

@@ -62,6 +62,19 @@
             get { return _flags.HasFlag(PropertyFlags.Inherited); }
         }
 
+        /// <summary>
+        /// Gets or sets the value of the property.
+        /// </summary>
+        internal CSSValue Value
+        {
+            get { return _value ?? CSSValue.Inherit; }
+            set
+            {
+                if (IsValid(value))
+                    _value = value;
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -80,19 +93,6 @@
         }
 
         /// <summary>
-        /// Gets or sets the value of the property.
-        /// </summary>
-        public CSSValue Value
-        {
-            get { return _value ?? CSSValue.Inherit; }
-            set 
-            {
-                if (IsValid(value)) 
-                    _value = value; 
-            }
-        }
-
-        /// <summary>
         /// Gets or sets if the !important flag has been set.
         /// </summary>
         public Boolean IsImportant
@@ -104,15 +104,6 @@
         #endregion
 
         #region Internal Methods
-
-        /// <summary>
-        /// Creates a shallow copy of the current object.
-        /// </summary>
-        /// <returns>A copy of the current property.</returns>
-        internal CSSProperty Clone()
-        {
-            return (CSSProperty)this.MemberwiseClone();
-        }
 
         /// <summary>
         /// Tries to set the given value and returns the status.
