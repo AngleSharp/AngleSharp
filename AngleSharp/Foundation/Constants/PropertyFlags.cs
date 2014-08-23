@@ -15,20 +15,16 @@
         /// </summary>
         None = 0x0,
         /// <summary>
-        /// The property has been marked as important.
-        /// </summary>
-        Important = 0x1,
-        /// <summary>
         /// The property can be inherited.
         /// </summary>
-        Inherited = 0x2,
+        Inherited = 0x1,
         /// <summary>
         /// The property supports hashless colors in quirks mode.
         /// </summary>
-        Hashless = 0x4,
+        Hashless = 0x2,
         /// <summary>
         /// The property supports unitless lengths in quirks mode.
         /// </summary>
-        Unitless = 0x8
+        Unitless = 0x4
     }
 }
