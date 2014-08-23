@@ -1432,6 +1432,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\FunctionNames.cs">
       <Link>Foundation\Constants\FunctionNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Constants\Keywords.cs">
+      <Link>Foundation\Constants\Keywords.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
       <Link>Foundation\Constants\Namespaces.cs</Link>
     </Compile>
