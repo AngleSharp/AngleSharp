@@ -6,14 +6,19 @@ namespace Samples.ViewModels
 {
     public class CssRuleViewModel : BaseViewModel
     {
-        ObservableCollection<CssRuleViewModel> children;
-        String name;
-        String typeName;
+        readonly ObservableCollection<CssRuleViewModel> children;
+        readonly String typeName;
+        readonly String name;
+
+        private CssRuleViewModel(Object o)
+        {
+            children = new ObservableCollection<CssRuleViewModel>();
+            typeName = o.GetType().Name;
+        }
 
         public CssRuleViewModel(ICssRule rule)
+            : this((Object)rule)
         {
-            Init(rule);
-
             switch (rule.Type)
             {
                 case CssRuleType.FontFace:
@@ -64,23 +69,17 @@ namespace Samples.ViewModels
             }
         }
 
-        public CssRuleViewModel(CSSProperty declaration)
+        public CssRuleViewModel(ICssProperty declaration)
+            : this((Object)declaration)
         {
-            Init(declaration);
             name = declaration.Name;
             children.Add(new CssRuleViewModel(declaration.Value));
         }
 
-        public CssRuleViewModel(CSSValue value)
+        public CssRuleViewModel(ICssValue value)
+            : this((Object)value)
         {
-            Init(value);
             name = value.CssText;
-        }
-
-        void Init(Object o)
-        {
-            children = new ObservableCollection<CssRuleViewModel>();
-            typeName = o.GetType().Name;
         }
 
         void Populate(ICssStyleDeclaration declarations)
@@ -98,13 +97,11 @@ namespace Samples.ViewModels
         public String Name
         {
             get { return name; }
-            set { name = value; }
         }
 
         public String TypeName
         {
             get { return typeName; }
-            set { typeName = value; }
         }
 
         public ObservableCollection<CssRuleViewModel> Children
