@@ -20,18 +20,18 @@
 
         static CSSFontFamilyProperty()
         {
-            defaultfamilies.Add("serif", new SystemFontFamily(SystemFonts.Serif));
-            defaultfamilies.Add("sans-serif", new SystemFontFamily(SystemFonts.SansSerif));
-            defaultfamilies.Add("monospace", new SystemFontFamily(SystemFonts.Monospace));
-            defaultfamilies.Add("cursive", new SystemFontFamily(SystemFonts.Cursive));
-            defaultfamilies.Add("fantasy", new SystemFontFamily(SystemFonts.Fantasy));
+            defaultfamilies.Add(Keywords.Serif, new SystemFontFamily(SystemFonts.Serif));
+            defaultfamilies.Add(Keywords.SansSerif, new SystemFontFamily(SystemFonts.SansSerif));
+            defaultfamilies.Add(Keywords.Monospace, new SystemFontFamily(SystemFonts.Monospace));
+            defaultfamilies.Add(Keywords.Cursive, new SystemFontFamily(SystemFonts.Cursive));
+            defaultfamilies.Add(Keywords.Fantasy, new SystemFontFamily(SystemFonts.Fantasy));
         }
 
         internal CSSFontFamilyProperty()
             : base(PropertyNames.FontFamily, PropertyFlags.Inherited)
         {
             _families = new List<BaseFontFamily>();
-            _families.Add(defaultfamilies["serif"]);
+            _families.Add(defaultfamilies[Keywords.Serif]);
         }
 
         #endregion

@@ -19,11 +19,11 @@
 
         static CSSPageBreakProperty()
         {
-            modes.Add("auto", BreakMode.Auto);
-            modes.Add("always", BreakMode.Always);
-            modes.Add("avoid", BreakMode.Avoid);
-            modes.Add("left", BreakMode.Left);
-            modes.Add("right", BreakMode.Right);
+            modes.Add(Keywords.Auto, BreakMode.Auto);
+            modes.Add(Keywords.Always, BreakMode.Always);
+            modes.Add(Keywords.Avoid, BreakMode.Avoid);
+            modes.Add(Keywords.Left, BreakMode.Left);
+            modes.Add(Keywords.Right, BreakMode.Right);
         }
 
         internal CSSPageBreakProperty(String name)

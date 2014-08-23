@@ -20,10 +20,10 @@
 
         static CSSTextDecorationLineProperty()
         {
-            modes.Add("underline", TextDecorationLine.Underline);
-            modes.Add("overline", TextDecorationLine.Overline);
-            modes.Add("line-through", TextDecorationLine.LineThrough);
-            modes.Add("blink", TextDecorationLine.Blink);
+            modes.Add(Keywords.Underline, TextDecorationLine.Underline);
+            modes.Add(Keywords.Overline, TextDecorationLine.Overline);
+            modes.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
+            modes.Add(Keywords.Blink, TextDecorationLine.Blink);
         }
 
         internal CSSTextDecorationLineProperty()

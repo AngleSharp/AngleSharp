@@ -20,11 +20,11 @@
 
         static CSSTextDecorationStyleProperty()
         {
-            _styles.Add("solid", TextDecorationStyle.Solid);
-            _styles.Add("double", TextDecorationStyle.Double);
-            _styles.Add("dotted", TextDecorationStyle.Dotted);
-            _styles.Add("dashed", TextDecorationStyle.Dashed);
-            _styles.Add("wavy", TextDecorationStyle.Wavy);
+            _styles.Add(Keywords.Solid, TextDecorationStyle.Solid);
+            _styles.Add(Keywords.Double, TextDecorationStyle.Double);
+            _styles.Add(Keywords.Dotted, TextDecorationStyle.Dotted);
+            _styles.Add(Keywords.Dashed, TextDecorationStyle.Dashed);
+            _styles.Add(Keywords.Wavy, TextDecorationStyle.Wavy);
         }
 
         internal CSSTextDecorationStyleProperty()

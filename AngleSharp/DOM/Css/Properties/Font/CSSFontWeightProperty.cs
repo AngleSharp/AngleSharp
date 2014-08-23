@@ -20,16 +20,16 @@
 
         static CSSFontWeightProperty()
         {
-            _weights.Add("normal", new NormalWeightMode());
-            _weights.Add("bold", new BoldWeightMode());
-            _weights.Add("bolder", new BolderWeightMode());
-            _weights.Add("lighter", new LighterWeightMode());
+            _weights.Add(Keywords.Normal, new NormalWeightMode());
+            _weights.Add(Keywords.Bold, new BoldWeightMode());
+            _weights.Add(Keywords.Bolder, new BolderWeightMode());
+            _weights.Add(Keywords.Lighter, new LighterWeightMode());
         }
 
         internal CSSFontWeightProperty()
             : base(PropertyNames.FontWeight, PropertyFlags.Inherited)
         {
-            _weight = _weights["normal"];
+            _weight = _weights[Keywords.Normal];
         }
 
         #endregion

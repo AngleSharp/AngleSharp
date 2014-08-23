@@ -26,12 +26,12 @@
 
         static CSSFontProperty()
         {
-            _parts.Add("caption", SystemFont.Caption);
-            _parts.Add("icon", SystemFont.Icon);
-            _parts.Add("menu", SystemFont.Menu);
-            _parts.Add("message-box", SystemFont.MessageBox);
-            _parts.Add("small-caption", SystemFont.SmallCaption);
-            _parts.Add("status-bar", SystemFont.StatusBar);
+            _parts.Add(Keywords.Caption, SystemFont.Caption);
+            _parts.Add(Keywords.Icon, SystemFont.Icon);
+            _parts.Add(Keywords.Menu, SystemFont.Menu);
+            _parts.Add(Keywords.MessageBox, SystemFont.MessageBox);
+            _parts.Add(Keywords.SmallCaption, SystemFont.SmallCaption);
+            _parts.Add(Keywords.StatusBar, SystemFont.StatusBar);
         }
 
         internal CSSFontProperty()

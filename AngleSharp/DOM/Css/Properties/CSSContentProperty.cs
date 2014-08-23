@@ -21,10 +21,10 @@
 
         static CSSContentProperty()
         {
-            modes.Add("open-quote", new OpenQuoteContentMode());
-            modes.Add("no-open-quote", new NoOpenQuoteContentMode());
-            modes.Add("close-quote", new CloseQuoteContentMode());
-            modes.Add("no-close-quote", new NoCloseQuoteContentMode());
+            modes.Add(Keywords.OpenQuote, new OpenQuoteContentMode());
+            modes.Add(Keywords.NoOpenQuote, new NoOpenQuoteContentMode());
+            modes.Add(Keywords.CloseQuote, new CloseQuoteContentMode());
+            modes.Add(Keywords.NoCloseQuote, new NoCloseQuoteContentMode());
         }
 
         internal CSSContentProperty()

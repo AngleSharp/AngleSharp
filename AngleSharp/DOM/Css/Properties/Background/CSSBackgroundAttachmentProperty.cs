@@ -20,9 +20,9 @@
 
         static CSSBackgroundAttachmentProperty()
         {
-            _modes.Add("fixed", BackgroundAttachment.Fixed);
-            _modes.Add("local", BackgroundAttachment.Local);
-            _modes.Add("scroll", BackgroundAttachment.Scroll);
+            _modes.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
+            _modes.Add(Keywords.Local, BackgroundAttachment.Local);
+            _modes.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
         }
 
         internal CSSBackgroundAttachmentProperty()

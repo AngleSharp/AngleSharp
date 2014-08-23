@@ -20,10 +20,10 @@
 
         static CSSTextAlignProperty()
         {
-            modes.Add("left", HorizontalAlignment.Left);
-            modes.Add("right", HorizontalAlignment.Right);
-            modes.Add("center", HorizontalAlignment.Center);
-            modes.Add("justify", HorizontalAlignment.Justify);
+            modes.Add(Keywords.Left, HorizontalAlignment.Left);
+            modes.Add(Keywords.Right, HorizontalAlignment.Right);
+            modes.Add(Keywords.Center, HorizontalAlignment.Center);
+            modes.Add(Keywords.Justify, HorizontalAlignment.Justify);
         }
 
         internal CSSTextAlignProperty()

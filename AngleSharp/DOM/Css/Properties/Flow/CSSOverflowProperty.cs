@@ -20,16 +20,16 @@
 
         static CSSOverflowProperty()
         {
-            modes.Add("visible", new VisibleOverflowMode());
-            modes.Add("hidden", new HiddenOverflowMode());
-            modes.Add("scroll", new ScrollOverflowMode());
-            modes.Add("auto", new AutoOverflowMode());
+            modes.Add(Keywords.Visible, new VisibleOverflowMode());
+            modes.Add(Keywords.Hidden, new HiddenOverflowMode());
+            modes.Add(Keywords.Scroll, new ScrollOverflowMode());
+            modes.Add(Keywords.Auto, new AutoOverflowMode());
         }
 
         internal CSSOverflowProperty()
             : base(PropertyNames.Overflow)
         {
-            _mode = modes["visible"];
+            _mode = modes[Keywords.Visible];
         }
 
         #endregion

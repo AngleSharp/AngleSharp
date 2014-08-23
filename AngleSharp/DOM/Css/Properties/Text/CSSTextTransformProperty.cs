@@ -20,11 +20,11 @@
 
         static CSSTextTransformProperty()
         {
-            modes.Add("none", TextTransform.None);
-            modes.Add("capitalize", TextTransform.Capitalize);
-            modes.Add("uppercase", TextTransform.Uppercase);
-            modes.Add("lowercase", TextTransform.Lowercase);
-            modes.Add("full-width", TextTransform.FullWidth);
+            modes.Add(Keywords.None, TextTransform.None);
+            modes.Add(Keywords.Capitalize, TextTransform.Capitalize);
+            modes.Add(Keywords.Uppercase, TextTransform.Uppercase);
+            modes.Add(Keywords.Lowercase, TextTransform.Lowercase);
+            modes.Add(Keywords.FullWidth, TextTransform.FullWidth);
         }
 
         internal CSSTextTransformProperty()

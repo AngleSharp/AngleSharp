@@ -20,10 +20,10 @@
 
         static CSSClearProperty()
         {
-            modes.Add("none", ClearMode.None);
-            modes.Add("left", ClearMode.Left);
-            modes.Add("right", ClearMode.Right);
-            modes.Add("both", ClearMode.Both);
+            modes.Add(Keywords.None, ClearMode.None);
+            modes.Add(Keywords.Left, ClearMode.Left);
+            modes.Add(Keywords.Right, ClearMode.Right);
+            modes.Add(Keywords.Both, ClearMode.Both);
         }
 
         internal CSSClearProperty()

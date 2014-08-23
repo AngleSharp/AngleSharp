@@ -20,9 +20,9 @@
 
         static CSSFontStyleProperty()
         {
-            _styles.Add("normal", FontStyle.Normal);
-            _styles.Add("italic", FontStyle.Italic);
-            _styles.Add("oblique", FontStyle.Oblique);
+            _styles.Add(Keywords.Normal, FontStyle.Normal);
+            _styles.Add(Keywords.Italic, FontStyle.Italic);
+            _styles.Add(Keywords.Oblique, FontStyle.Oblique);
         }
 
         internal CSSFontStyleProperty()

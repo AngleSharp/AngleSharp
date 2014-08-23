@@ -20,17 +20,17 @@
 
         static CSSPositionProperty()
         {
-            modes.Add("static", new StaticPositionMode());
-            modes.Add("relative", new RelativePositionMode());
-            modes.Add("absolute", new AbsolutePositionMode());
-            modes.Add("sticky", new StickyPositionMode());
-            modes.Add("fixed", new FixedPositionMode());
+            modes.Add(Keywords.Static, new StaticPositionMode());
+            modes.Add(Keywords.Relative, new RelativePositionMode());
+            modes.Add(Keywords.Absolute, new AbsolutePositionMode());
+            modes.Add(Keywords.Sticky, new StickyPositionMode());
+            modes.Add(Keywords.Fixed, new FixedPositionMode());
         }
 
         internal CSSPositionProperty()
             : base(PropertyNames.Position)
         {
-            _mode = modes["static"];
+            _mode = modes[Keywords.Static];
         }
 
         #endregion

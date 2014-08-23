@@ -20,12 +20,12 @@
 
         static CSSUnicodeBidiProperty()
         {
-            modes.Add("normal", UnicodeMode.Normal);
-            modes.Add("embed", UnicodeMode.Embed);
-            modes.Add("isolate", UnicodeMode.Isolate);
-            modes.Add("isolate-override", UnicodeMode.IsolateOverride);
-            modes.Add("bidi-override", UnicodeMode.BidiOverride);
-            modes.Add("plaintext", UnicodeMode.Plaintext);
+            modes.Add(Keywords.Normal, UnicodeMode.Normal);
+            modes.Add(Keywords.Embed, UnicodeMode.Embed);
+            modes.Add(Keywords.Isolate, UnicodeMode.Isolate);
+            modes.Add(Keywords.IsolateOverride, UnicodeMode.IsolateOverride);
+            modes.Add(Keywords.BidiOverride, UnicodeMode.BidiOverride);
+            modes.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
         }
 
         internal CSSUnicodeBidiProperty()

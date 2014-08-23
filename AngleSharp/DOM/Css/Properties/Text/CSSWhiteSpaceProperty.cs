@@ -20,11 +20,11 @@
 
         static CSSWhiteSpaceProperty()
         {
-            modes.Add("normal", Whitespace.Normal);
-            modes.Add("pre", Whitespace.Pre);
-            modes.Add("nowrap", Whitespace.NoWrap);
-            modes.Add("pre-wrap", Whitespace.PreWrap);
-            modes.Add("pre-line", Whitespace.PreLine);
+            modes.Add(Keywords.Normal, Whitespace.Normal);
+            modes.Add(Keywords.Pre, Whitespace.Pre);
+            modes.Add(Keywords.Nowrap, Whitespace.NoWrap);
+            modes.Add(Keywords.PreWrap, Whitespace.PreWrap);
+            modes.Add(Keywords.PreLine, Whitespace.PreLine);
         }
 
         internal CSSWhiteSpaceProperty()

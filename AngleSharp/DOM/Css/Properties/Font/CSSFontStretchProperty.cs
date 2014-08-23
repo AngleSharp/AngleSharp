@@ -20,15 +20,15 @@
 
         static CSSFontStretchProperty()
         {
-            _styles.Add("normal", FontStretch.Normal);
-            _styles.Add("ultra-condensed", FontStretch.UltraCondensed);
-            _styles.Add("extra-condensed", FontStretch.ExtraCondensed);
-            _styles.Add("condensed", FontStretch.Condensed);
-            _styles.Add("semi-condensed", FontStretch.SemiCondensed);
-            _styles.Add("semi-expanded", FontStretch.SemiExpanded);
-            _styles.Add("expanded", FontStretch.Expanded);
-            _styles.Add("extra-expanded", FontStretch.ExtraExpanded);
-            _styles.Add("ultra-expanded", FontStretch.UltraExpanded);
+            _styles.Add(Keywords.Normal, FontStretch.Normal);
+            _styles.Add(Keywords.UltraCondensed, FontStretch.UltraCondensed);
+            _styles.Add(Keywords.ExtraCondensed, FontStretch.ExtraCondensed);
+            _styles.Add(Keywords.Condensed, FontStretch.Condensed);
+            _styles.Add(Keywords.SemiCondensed, FontStretch.SemiCondensed);
+            _styles.Add(Keywords.SemiExpanded, FontStretch.SemiExpanded);
+            _styles.Add(Keywords.Expanded, FontStretch.Expanded);
+            _styles.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
+            _styles.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
         }
 
         internal CSSFontStretchProperty()

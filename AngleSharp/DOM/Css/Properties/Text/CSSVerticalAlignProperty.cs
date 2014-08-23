@@ -21,14 +21,14 @@
 
         static CSSVerticalAlignProperty()
         {
-            modes.Add("baseline", VerticalAlignment.Baseline);
-            modes.Add("sub", VerticalAlignment.Sub);
-            modes.Add("super", VerticalAlignment.Super);
-            modes.Add("text-top", VerticalAlignment.TextTop);
-            modes.Add("text-bottom", VerticalAlignment.TextBottom);
-            modes.Add("middle", VerticalAlignment.Middle);
-            modes.Add("top", VerticalAlignment.Top);
-            modes.Add("bottom", VerticalAlignment.Bottom);
+            modes.Add(Keywords.Baseline, VerticalAlignment.Baseline);
+            modes.Add(Keywords.Sub, VerticalAlignment.Sub);
+            modes.Add(Keywords.Super, VerticalAlignment.Super);
+            modes.Add(Keywords.TextTop, VerticalAlignment.TextTop);
+            modes.Add(Keywords.TextBottom, VerticalAlignment.TextBottom);
+            modes.Add(Keywords.Middle, VerticalAlignment.Middle);
+            modes.Add(Keywords.Top, VerticalAlignment.Top);
+            modes.Add(Keywords.Bottom, VerticalAlignment.Bottom);
         }
 
         internal CSSVerticalAlignProperty()

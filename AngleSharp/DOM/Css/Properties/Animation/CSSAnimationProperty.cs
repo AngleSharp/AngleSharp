@@ -29,7 +29,7 @@
                 FillMode = AnimationFillStyle.None,
                 IterationCount = 1f,
                 Direction = AnimationDirection.Normal,
-                Name = "none"
+                Name = Keywords.None
             });
         }
 
@@ -167,7 +167,7 @@
             var delay = Time.Zero;
             var duration = Time.Zero;
             var function = value.ToTimingFunction();
-            var name = "none";
+            var name = Keywords.None;
             var iterationCount = 1f;
 
             if (function == null)
@@ -256,7 +256,7 @@
                 Delay = delay != null ? delay.Value : Time.Zero,
                 Duration = duration != null ? duration.Value : Time.Zero,
                 Timing = function ?? CSSTimingValue.Ease,
-                Name = name ?? "none",
+                Name = name ?? Keywords.None,
                 IterationCount = iterationCount != null ? iterationCount.Value.Value : 1f,
                 FillMode = fillMode.HasValue ? fillMode.Value : AnimationFillStyle.None,
                 Direction = direction.HasValue ? direction.Value : AnimationDirection.Normal

@@ -21,9 +21,9 @@
 
         static CSSBorderImageRepeatProperty()
         {
-            _modes.Add("stretch", BorderRepeat.Stretch);
-            _modes.Add("repeat", BorderRepeat.Repeat);
-            _modes.Add("round", BorderRepeat.Round);
+            _modes.Add(Keywords.Stretch, BorderRepeat.Stretch);
+            _modes.Add(Keywords.Repeat, BorderRepeat.Repeat);
+            _modes.Add(Keywords.Round, BorderRepeat.Round);
         }
 
         internal CSSBorderImageRepeatProperty()

@@ -19,15 +19,15 @@
 
         static CSSBreakProperty()
         {
-            modes.Add("auto", BreakMode.Auto);
-            modes.Add("always", BreakMode.Always);
-            modes.Add("avoid", BreakMode.Avoid);
-            modes.Add("left", BreakMode.Left);
-            modes.Add("right", BreakMode.Right);
-            modes.Add("page", BreakMode.Page);
-            modes.Add("column", BreakMode.Column);
-            modes.Add("avoid-page", BreakMode.AvoidPage);
-            modes.Add("avoid-column", BreakMode.AvoidColumn);
+            modes.Add(Keywords.Auto, BreakMode.Auto);
+            modes.Add(Keywords.Always, BreakMode.Always);
+            modes.Add(Keywords.Avoid, BreakMode.Avoid);
+            modes.Add(Keywords.Left, BreakMode.Left);
+            modes.Add(Keywords.Right, BreakMode.Right);
+            modes.Add(Keywords.Page, BreakMode.Page);
+            modes.Add(Keywords.Column, BreakMode.Column);
+            modes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
+            modes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
         }
 
         internal CSSBreakProperty(String name)

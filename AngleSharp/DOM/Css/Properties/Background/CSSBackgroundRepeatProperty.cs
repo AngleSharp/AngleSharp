@@ -21,10 +21,10 @@
 
         static CSSBackgroundRepeatProperty()
         {
-            _modes.Add("no-repeat", BackgroundRepeat.NoRepeat);
-            _modes.Add("repeat", BackgroundRepeat.Repeat);
-            _modes.Add("round", BackgroundRepeat.Round);
-            _modes.Add("space", BackgroundRepeat.Space);
+            _modes.Add(Keywords.NoRepeat, BackgroundRepeat.NoRepeat);
+            _modes.Add(Keywords.Repeat, BackgroundRepeat.Repeat);
+            _modes.Add(Keywords.Round, BackgroundRepeat.Round);
+            _modes.Add(Keywords.Space, BackgroundRepeat.Space);
         }
 
         internal CSSBackgroundRepeatProperty()

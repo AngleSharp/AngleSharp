@@ -20,9 +20,9 @@
 
         static CSSFloatProperty()
         {
-            modes.Add("none", Floating.None);
-            modes.Add("left", Floating.Left);
-            modes.Add("right", Floating.Right);
+            modes.Add(Keywords.None, Floating.None);
+            modes.Add(Keywords.Left, Floating.Left);
+            modes.Add(Keywords.Right, Floating.Right);
         }
 
         internal CSSFloatProperty()

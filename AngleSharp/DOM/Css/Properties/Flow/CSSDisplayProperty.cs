@@ -20,25 +20,25 @@
 
         static CSSDisplayProperty()
         {
-            modes.Add("none", DisplayMode.None);
-            modes.Add("inline", DisplayMode.Inline);
-            modes.Add("block", DisplayMode.Block);
-            modes.Add("inline-block", DisplayMode.InlineBlock);
-            modes.Add("list-item", DisplayMode.ListItem);
-            modes.Add("inline-table", DisplayMode.InlineTable);
-            modes.Add("table", DisplayMode.Table);
-            modes.Add("table-caption", DisplayMode.TableCaption);
-            modes.Add("table-cell", DisplayMode.TableCell);
-            modes.Add("table-column", DisplayMode.TableColumn);
-            modes.Add("table-column-group", DisplayMode.TableColumnGroup);
-            modes.Add("table-footer-group", DisplayMode.TableFooterGroup);
-            modes.Add("table-header-group", DisplayMode.TableHeaderGroup);
-            modes.Add("table-row", DisplayMode.TableRow);
-            modes.Add("table-row-group", DisplayMode.TableRowGroup);
-            modes.Add("flex", DisplayMode.Flex);
-            modes.Add("inline-flex", DisplayMode.InlineFlex);
-            modes.Add("grid", DisplayMode.Grid);
-            modes.Add("inline-grid", DisplayMode.InlineGrid);
+            modes.Add(Keywords.None, DisplayMode.None);
+            modes.Add(Keywords.Inline, DisplayMode.Inline);
+            modes.Add(Keywords.Block, DisplayMode.Block);
+            modes.Add(Keywords.InlineBlock, DisplayMode.InlineBlock);
+            modes.Add(Keywords.ListItem, DisplayMode.ListItem);
+            modes.Add(Keywords.InlineTable, DisplayMode.InlineTable);
+            modes.Add(Keywords.Table, DisplayMode.Table);
+            modes.Add(Keywords.TableCaption, DisplayMode.TableCaption);
+            modes.Add(Keywords.TableCell, DisplayMode.TableCell);
+            modes.Add(Keywords.TableColumn, DisplayMode.TableColumn);
+            modes.Add(Keywords.TableColumnGroup, DisplayMode.TableColumnGroup);
+            modes.Add(Keywords.TableFooterGroup, DisplayMode.TableFooterGroup);
+            modes.Add(Keywords.TableHeaderGroup, DisplayMode.TableHeaderGroup);
+            modes.Add(Keywords.TableRow, DisplayMode.TableRow);
+            modes.Add(Keywords.TableRowGroup, DisplayMode.TableRowGroup);
+            modes.Add(Keywords.Flex, DisplayMode.Flex);
+            modes.Add(Keywords.InlineFlex, DisplayMode.InlineFlex);
+            modes.Add(Keywords.Grid, DisplayMode.Grid);
+            modes.Add(Keywords.InlineGrid, DisplayMode.InlineGrid);
         }
 
         internal CSSDisplayProperty()
