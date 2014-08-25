@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        Single _value;
-        Unit _unit;
+        readonly Single _value;
+        readonly Unit _unit;
 
         #endregion
 
