@@ -30,8 +30,8 @@
         /// </summary>
         public static readonly Length Thick = new Length(5f, Unit.Px);
 
-        Single _value;
-        Unit _unit;
+        readonly Single _value;
+        readonly Unit _unit;
 
         #endregion
 
