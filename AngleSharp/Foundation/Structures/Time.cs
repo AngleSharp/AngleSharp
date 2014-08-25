@@ -15,8 +15,8 @@
         /// </summary>
         public static readonly Time Zero = new Time(0f, Unit.S);
 
-        Single _value;
-        Unit _unit;
+        readonly Single _value;
+        readonly Unit _unit;
 
         #endregion
 
