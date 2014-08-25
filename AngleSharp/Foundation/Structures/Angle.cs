@@ -15,8 +15,8 @@
         /// </summary>
         public static readonly Angle Zero = new Angle();
 
-        Single _value;
-        Unit _unit;
+        readonly Single _value;
+        readonly Unit _unit;
 
         #endregion
 
