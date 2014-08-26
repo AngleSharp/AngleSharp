@@ -49,6 +49,7 @@
     <Compile Include="DOM\Factories\CssUnitFactory.cs" />
     <Compile Include="Foundation\Constants\Keywords.cs" />
     <Compile Include="Foundation\Constants\PropertyFlags.cs" />
+    <Compile Include="Foundation\Constants\Units.cs" />
     <Compile Include="Foundation\Extensions\AttrExtensions.cs" />
     <Compile Include="Foundation\Extensions\CollectionExtensions.cs" />
     <Compile Include="DOM\Collections\HtmlAllCollection.cs" />
