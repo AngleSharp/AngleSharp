@@ -76,6 +76,67 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the representation of the unit as a string.
+        /// </summary>
+        public String UnitString
+        {
+            get
+            {
+                switch (_unit)
+                {
+                    case Unit.Px:
+                        return Units.Px;
+
+                    case Unit.Em:
+                        return Units.Em;
+
+                    case Unit.Ex:
+                        return Units.Ex;
+
+                    case Unit.Cm:
+                        return Units.Cm;
+
+                    case Unit.Mm:
+                        return Units.Mm;
+
+                    case Unit.In:
+                        return Units.In;
+
+                    case Unit.Pt:
+                        return Units.Pt;
+
+                    case Unit.Pc:
+                        return Units.Pc;
+
+                    case Unit.Ch:
+                        return Units.Ch;
+
+                    case Unit.Rem:
+                        return Units.Rem;
+
+                    case Unit.Vw:
+                        return Units.Vw;
+
+                    case Unit.Vh:
+                        return Units.Vh;
+
+                    case Unit.Vmin:
+                        return Units.Vmin;
+
+                    case Unit.Vmax:
+                        return Units.Vmax;
+
+                    default:
+                        return String.Empty;
+                }
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -218,7 +279,7 @@
             if (_value == 0f)
                 return _value.ToString(CultureInfo.InvariantCulture);
 
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
         }
 
         /// <summary>
@@ -227,7 +288,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(), UnitString);
         }
 
         #endregion

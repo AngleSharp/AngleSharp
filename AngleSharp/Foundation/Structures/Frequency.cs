@@ -40,6 +40,27 @@
             get { return _unit == Unit.Khz ? _value * 1000f : _value; }
         }
 
+        /// <summary>
+        /// Gets the representation of the unit as a string.
+        /// </summary>
+        public String UnitString
+        {
+            get
+            {
+                switch (_unit)
+                {
+                    case Unit.Khz:
+                        return Units.Khz;
+
+                    case Unit.Hz:
+                        return Units.Hz;
+
+                    default:
+                        return String.Empty;
+                }
+            }
+        }
+
         #endregion
 
         #region Casts
@@ -123,7 +144,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(), UnitString);
         }
 
         /// <summary>
@@ -132,7 +153,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
         }
 
         #endregion

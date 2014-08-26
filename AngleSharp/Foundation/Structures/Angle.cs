@@ -57,7 +57,34 @@
 
                     default:
                         return _value;
-                };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the representation of the unit as a string.
+        /// </summary>
+        public String UnitString
+        {
+            get
+            {
+                switch (_unit)
+                {
+                    case Unit.Deg:
+                        return Units.Deg;
+
+                    case Unit.Grad:
+                        return Units.Grad;
+
+                    case Unit.Turn:
+                        return Units.Turn;
+
+                    case Unit.Rad:
+                        return Units.Rad;
+
+                    default:
+                        return String.Empty;
+                }
             }
         }
 
@@ -179,7 +206,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(), UnitString);
         }
 
         /// <summary>
@@ -188,7 +215,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
         }
 
         #endregion

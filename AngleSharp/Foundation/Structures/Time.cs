@@ -45,6 +45,27 @@
             get { return _unit == Unit.S ? _value * 1000f : _value; }
         }
 
+        /// <summary>
+        /// Gets the representation of the unit as a string.
+        /// </summary>
+        public String UnitString
+        {
+            get
+            {
+                switch (_unit)
+                {
+                    case Unit.Ms:
+                        return Units.Ms;
+
+                    case Unit.S:
+                        return Units.S;
+
+                    default:
+                        return String.Empty;
+                }
+            }
+        }
+
         #endregion
 
         #region Casts
@@ -128,7 +149,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(), UnitString);
         }
 
         /// <summary>
@@ -137,7 +158,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
         }
 
         #endregion

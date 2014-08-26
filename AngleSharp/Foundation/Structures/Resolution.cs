@@ -40,6 +40,30 @@
             get { return _value; }
         }
 
+        /// <summary>
+        /// Gets the representation of the unit as a string.
+        /// </summary>
+        public String UnitString
+        {
+            get
+            {
+                switch (_unit)
+                {
+                    case Unit.Dpcm:
+                        return Units.Dpcm;
+
+                    case Unit.Dpi:
+                        return Units.Dpi;
+
+                    case Unit.Dppx:
+                        return Units.Dppx;
+
+                    default:
+                        return String.Empty;
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -113,7 +137,7 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(), UnitString);
         }
 
         /// <summary>
@@ -122,7 +146,7 @@
         /// <returns>The CSS value string.</returns>
         public String ToCss()
         {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), _unit.ToString().ToLower());
+            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
         }
 
         #endregion
