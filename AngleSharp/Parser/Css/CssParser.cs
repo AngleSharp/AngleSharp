@@ -420,34 +420,39 @@
         {
             var token = tokens.Current;
 
-            if (token.Type == CssTokenType.AtKeyword)
+            switch (token.Type)
             {
-                Creator creator;
-
-                if (creators.TryGetValue(((CssKeywordToken)token).Data, out creator))
-                    return creator(this, tokens);
-
-                SkipUnknownRule(tokens);
-                return null;
-            }
-            else if (token.Type == CssTokenType.CurlyBracketClose || token.Type == CssTokenType.RoundBracketClose || token.Type == CssTokenType.SquareBracketClose)
-            {
-                while (tokens.MoveNext()) ;
-                return null;
-            }
-            else
-            {
-                var selector = InSelector(tokens);
-
-                if (selector == null)
+                case CssTokenType.AtKeyword:
                 {
+                    Creator creator;
+
+                    if (creators.TryGetValue(((CssKeywordToken)token).Data, out creator))
+                        return creator(this, tokens);
+
                     SkipUnknownRule(tokens);
                     return null;
                 }
+                case CssTokenType.CurlyBracketClose:
+                case CssTokenType.RoundBracketClose:
+                case CssTokenType.SquareBracketClose:
+                {
+                    while (tokens.MoveNext()) ;
+                    return null;
+                }
+                default:
+                {
+                    var selector = InSelector(tokens);
 
-                var style = new CSSStyleDeclaration();
-                FillDeclarations(style, tokens);
-                return new CSSStyleRule(style) { Selector = selector };
+                    if (selector == null)
+                    {
+                        SkipUnknownRule(tokens);
+                        return null;
+                    }
+
+                    var style = new CSSStyleDeclaration();
+                    FillDeclarations(style, tokens);
+                    return new CSSStyleRule(style) { Selector = selector };
+                }
             }
         }
 
@@ -668,10 +673,12 @@
         CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
             var style = new CSSStyleDeclaration();
-            var rule = new CSSKeyframeRule(style);
-            rule.KeyText = InKeyframeText(tokens);
+            var keyText = InKeyframeText(tokens);
             FillDeclarations(style, tokens);
-            return rule;
+            return new CSSKeyframeRule(style)
+            {
+                KeyText = keyText
+            };
         }
 
         /// <summary>
@@ -752,7 +759,7 @@
                 
                 token = tokens.Current;
 
-                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0 || !tokens.MoveNext())
+                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0 || !tokens.MoveNext())
                     return medium;
             }
 
@@ -772,7 +779,7 @@
 
                 token = tokens.Current;
 
-                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, "and", StringComparison.OrdinalIgnoreCase) != 0)
+                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0)
                     break;
             }
             while (tokens.MoveNext()) ;
@@ -817,12 +824,12 @@
             {
                 var ident = ((CssKeywordToken)token).Data;
 
-                if (String.Compare(ident, "not", StringComparison.OrdinalIgnoreCase) == 0)
+                if (String.Compare(ident, Keywords.Not, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     tokens.MoveNext();
                     medium.IsInverse = true;
                 }
-                else if (String.Compare(ident, "only", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (String.Compare(ident, Keywords.Only, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     tokens.MoveNext();
                     medium.IsExclusive = true;

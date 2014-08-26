@@ -946,5 +946,20 @@
         /// The smaller keyword.
         /// </summary>
         public static readonly String Smaller = "smaller";
+
+        /// <summary>
+        /// The and keyword.
+        /// </summary>
+        public static readonly String And = "and";
+
+        /// <summary>
+        /// The not keyword.
+        /// </summary>
+        public static readonly String Not = "not";
+
+        /// <summary>
+        /// The only keyword.
+        /// </summary>
+        public static readonly String Only = "only";
     }
 }
