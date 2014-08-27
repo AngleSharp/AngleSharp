@@ -961,5 +961,15 @@
         /// The only keyword.
         /// </summary>
         public static readonly String Only = "only";
+
+        /// <summary>
+        /// The show keyword.
+        /// </summary>
+        public static readonly String Show = "show";
+
+        /// <summary>
+        /// The hide keyword.
+        /// </summary>
+        public static readonly String Hide = "hide";
     }
 }

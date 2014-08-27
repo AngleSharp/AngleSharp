@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
     /// </summary>
-    public sealed class CSSTableLayoutProperty : CSSProperty
+    sealed class CSSTableLayoutProperty : CSSProperty, ICssTableLayoutProperty
     {
         #region Fields
 
@@ -50,9 +50,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("fixed"))
+            if (value.Is(Keywords.Fixed))
                 _fixed = true;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _fixed = false;
             else if (value != CSSValue.Inherit)
                 return false;

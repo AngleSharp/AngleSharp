@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content
     /// </summary>
-    public sealed class CSSContentProperty : CSSProperty
+    sealed class CSSContentProperty : CSSProperty, ICssContentProperty
     {
         #region Fields
 
@@ -44,9 +44,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("normal"))
+            if (value.Is(Keywords.Normal))
                 _mode = _normal;
-            else if (value.Is("none"))
+            else if (value.Is(Keywords.None))
                 _mode = null;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);

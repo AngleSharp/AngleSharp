@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/empty-cells
     /// </summary>
-    public sealed class CSSEmptyCellsProperty : CSSProperty
+    sealed class CSSEmptyCellsProperty : CSSProperty, ICssEmptyCellsProperty
     {
         #region Fields
 
@@ -47,9 +47,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("show"))
+            if (value.Is(Keywords.Show))
                 _visible = true;
-            else if (value.Is("hide"))
+            else if (value.Is(Keywords.Hide))
                 _visible = false;
             else if (value != CSSValue.Inherit)
                 return false;

@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/orphans
     /// </summary>
-    public sealed class CSSOrphansProperty : CSSProperty
+    sealed class CSSOrphansProperty : CSSProperty, ICssOrphansProperty
     {
         #region Fields
 

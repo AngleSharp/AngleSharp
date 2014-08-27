@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
     /// </summary>
-    public sealed class CSSCursorProperty : CSSProperty
+    sealed class CSSCursorProperty : CSSProperty, ICssCursorProperty
     {
         #region Fields
 
@@ -93,7 +93,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("auto"))
+            if (value.Is(Keywords.Auto))
                 _mode = _auto;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);

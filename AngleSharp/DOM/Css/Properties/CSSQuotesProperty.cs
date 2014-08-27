@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/quotes
     /// </summary>
-    public sealed class CSSQuotesProperty : CSSProperty
+    sealed class CSSQuotesProperty : CSSProperty, ICssQuotesProperty
     {
         #region Fields
 
@@ -51,7 +51,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
                 _quotes.Clear();
             else if (value is CSSValueList)
             {

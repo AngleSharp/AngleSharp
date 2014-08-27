@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi
     /// </summary>
-    public sealed class CSSUnicodeBidiProperty : CSSProperty
+    sealed class CSSUnicodeBidiProperty : CSSProperty, ICssUnicodeBidiProperty
     {
         #region Fields
 

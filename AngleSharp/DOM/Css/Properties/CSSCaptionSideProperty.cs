@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/caption-side
     /// </summary>
-    public sealed class CSSCaptionSideProperty : CSSProperty
+    sealed class CSSCaptionSideProperty : CSSProperty, ICssCaptionSideProperty
     {
         #region Fields
 
@@ -46,9 +46,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("top"))
+            if (value.Is(Keywords.Top))
                 _top = true;
-            else if (value.Is("bottom"))
+            else if (value.Is(Keywords.Bottom))
                 _top = false;
             else if (value != CSSValue.Inherit)
                 return false;
