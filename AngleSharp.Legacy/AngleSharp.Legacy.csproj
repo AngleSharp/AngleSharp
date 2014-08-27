@@ -1657,6 +1657,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssValue.cs">
       <Link>Interfaces\Css\ICssValue.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssWidowsProperty.cs">
+      <Link>Interfaces\Css\ICssWidowsProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
       <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
     </Compile>
