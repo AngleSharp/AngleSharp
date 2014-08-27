@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline
     /// </summary>
-    public sealed class CSSOutlineProperty : CSSProperty
+    sealed class CSSOutlineProperty : CSSProperty, ICssOutlineProperty
     {
         #region Fields
 
@@ -53,6 +53,21 @@
         public CSSOutlineColorProperty Color
         {
             get { return _color; }
+        }
+
+        Color ICssOutlineColorProperty.Color
+        {
+            get { return _color.Color; }
+        }
+
+        LineStyle ICssOutlineStyleProperty.Style
+        {
+            get { return _style.Style; }
+        }
+
+        Length ICssOutlineWidthProperty.Width
+        {
+            get { return _width.Width; }
         }
 
         #endregion

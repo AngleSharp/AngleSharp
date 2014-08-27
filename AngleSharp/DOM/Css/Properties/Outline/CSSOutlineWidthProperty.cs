@@ -6,7 +6,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-width
     /// </summary>
-    public sealed class CSSOutlineWidthProperty : CSSProperty
+    sealed class CSSOutlineWidthProperty : CSSProperty, ICssOutlineWidthProperty
     {
         #region Fields
 
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the width of the outline of an element. An outline is a
         /// line that is drawn around elements, outside the border edge,
-        /// to make the element stand out:
+        /// to make the element stand out.
         /// </summary>
         public Length Width
         {

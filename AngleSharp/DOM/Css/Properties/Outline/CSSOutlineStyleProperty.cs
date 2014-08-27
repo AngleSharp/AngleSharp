@@ -6,7 +6,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-style
     /// </summary>
-    public sealed class CSSOutlineStyleProperty : CSSProperty
+    sealed class CSSOutlineStyleProperty : CSSProperty, ICssOutlineStyleProperty
     {
         #region Fields
 

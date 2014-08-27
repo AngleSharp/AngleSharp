@@ -50,7 +50,7 @@
 
             if (color.HasValue)
                 _mode = new SolidColorMode(color.Value);
-            else if (value.Is("invert"))
+            else if (value.Is(Keywords.Invert))
                 _mode = _invert;
             else if (value != CSSValue.Inherit)
                 return false;

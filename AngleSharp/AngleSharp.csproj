@@ -340,6 +340,10 @@
     <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />
     <Compile Include="Interfaces\Css\ICssOrphansProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssOutlineColorProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssOutlineProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssOutlineStyleProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssOutlineWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageRule.cs" />
     <Compile Include="Interfaces\Css\ICssProperty.cs" />
     <Compile Include="Interfaces\Css\ICssQuotesProperty.cs" />

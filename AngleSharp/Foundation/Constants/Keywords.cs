@@ -971,5 +971,10 @@
         /// The hide keyword.
         /// </summary>
         public static readonly String Hide = "hide";
+
+        /// <summary>
+        /// The invert keyword.
+        /// </summary>
+        public static readonly String Invert = "invert";
     }
 }
