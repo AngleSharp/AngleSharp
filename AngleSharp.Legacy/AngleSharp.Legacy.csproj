@@ -1591,17 +1591,29 @@
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssCaptionSideProperty.cs">
+      <Link>Interfaces\Css\ICssCaptionSideProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCharsetRule.cs">
       <Link>Interfaces\Css\ICssCharsetRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssConditionRule.cs">
       <Link>Interfaces\Css\ICssConditionRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssContentProperty.cs">
+      <Link>Interfaces\Css\ICssContentProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCounterStyleRule.cs">
       <Link>Interfaces\Css\ICssCounterStyleRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssCursorProperty.cs">
+      <Link>Interfaces\Css\ICssCursorProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssDocumentRule.cs">
       <Link>Interfaces\Css\ICssDocumentRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssEmptyCellsProperty.cs">
+      <Link>Interfaces\Css\ICssEmptyCellsProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFaceRule.cs">
       <Link>Interfaces\Css\ICssFontFaceRule.cs</Link>
@@ -1630,11 +1642,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssNamespaceRule.cs">
       <Link>Interfaces\Css\ICssNamespaceRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOrphansProperty.cs">
+      <Link>Interfaces\Css\ICssOrphansProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperty.cs">
       <Link>Interfaces\Css\ICssProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssQuotesProperty.cs">
+      <Link>Interfaces\Css\ICssQuotesProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
       <Link>Interfaces\Css\ICssRule.cs</Link>
@@ -1653,6 +1671,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssSupportsRule.cs">
       <Link>Interfaces\Css\ICssSupportsRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTableLayoutProperty.cs">
+      <Link>Interfaces\Css\ICssTableLayoutProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssUnicodeBidiProperty.cs">
+      <Link>Interfaces\Css\ICssUnicodeBidiProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssValue.cs">
       <Link>Interfaces\Css\ICssValue.cs</Link>
