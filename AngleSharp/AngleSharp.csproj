@@ -344,6 +344,7 @@
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
+    <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
     <Compile Include="Interfaces\Events\IErrorEvent.cs" />

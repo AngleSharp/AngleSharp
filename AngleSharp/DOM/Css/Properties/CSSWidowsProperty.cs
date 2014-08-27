@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/widows
     /// </summary>
-    public sealed class CSSWidowsProperty : CSSProperty
+    sealed class CSSWidowsProperty : CSSProperty, ICssWidowsProperty
     {
         #region Fields
 
