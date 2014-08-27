@@ -1645,6 +1645,18 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssOrphansProperty.cs">
       <Link>Interfaces\Css\ICssOrphansProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineColorProperty.cs">
+      <Link>Interfaces\Css\ICssOutlineColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineProperty.cs">
+      <Link>Interfaces\Css\ICssOutlineProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineStyleProperty.cs">
+      <Link>Interfaces\Css\ICssOutlineStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineWidthProperty.cs">
+      <Link>Interfaces\Css\ICssOutlineWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
