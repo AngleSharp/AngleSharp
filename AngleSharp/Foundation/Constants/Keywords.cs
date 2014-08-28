@@ -976,5 +976,15 @@
         /// The invert keyword.
         /// </summary>
         public static readonly String Invert = "invert";
+
+        /// <summary>
+        /// The flat keyword.
+        /// </summary>
+        public static readonly String Flat = "flat";
+
+        /// <summary>
+        /// The preserve-3d keyword.
+        /// </summary>
+        public static readonly String Preserve3d = "preserve-3d";
     }
 }

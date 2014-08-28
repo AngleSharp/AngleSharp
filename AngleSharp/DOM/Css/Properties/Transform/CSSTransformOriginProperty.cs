@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
     /// </summary>
-    public sealed class CSSTransformOriginProperty : CSSProperty
+    sealed class CSSTransformOriginProperty : CSSProperty, ICssTransformOriginProperty
     {
         #region Fields
 
@@ -87,13 +87,13 @@
 
             if (z != CSSCalcValue.Zero || list.Length == 2)
             {
-                var x = GetMode(list[0], "left", "right");
-                var y = GetMode(list[1], "top", "bottom");
+                var x = GetMode(list[0], Keywords.Left, Keywords.Right);
+                var y = GetMode(list[1], Keywords.Top, Keywords.Bottom);
 
                 if (y == null || x == null)
                 {
-                    x = GetMode(list[1], "left", "right");
-                    y = GetMode(list[0], "top", "bottom");
+                    x = GetMode(list[1], Keywords.Left, Keywords.Right);
+                    y = GetMode(list[0], Keywords.Top, Keywords.Bottom);
                 }
 
                 if (x != null && y != null)
@@ -122,37 +122,40 @@
             {
                 var ident = ((CSSIdentifierValue)value).Value;
 
-                switch (ident.ToLower())
+                if (ident.Equals(Keywords.Left, StringComparison.OrdinalIgnoreCase))
                 {
-                    case "left":
-                        _x = CSSCalcValue.Zero;
-                        _y = CSSCalcValue.Center;
-                        _z = CSSCalcValue.Zero;
-                        return true;
-
-                    case "center":
-                        _x = CSSCalcValue.Center;
-                        _y = CSSCalcValue.Center;
-                        _z = CSSCalcValue.Zero;
-                        return true;
-
-                    case "right":
-                        _x = CSSCalcValue.Full;
-                        _y = CSSCalcValue.Center;
-                        _z = CSSCalcValue.Zero;
-                        return true;
-
-                    case "top":
-                        _x = CSSCalcValue.Center;
-                        _y = CSSCalcValue.Zero;
-                        _z = CSSCalcValue.Zero;
-                        return true;
-
-                    case "bottom":
-                        _x = CSSCalcValue.Center;
-                        _y = CSSCalcValue.Full;
-                        _z = CSSCalcValue.Zero;
-                        return true;
+                    _x = CSSCalcValue.Zero;
+                    _y = CSSCalcValue.Center;
+                    _z = CSSCalcValue.Zero;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Center;
+                    _y = CSSCalcValue.Center;
+                    _z = CSSCalcValue.Zero;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Right, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Full;
+                    _y = CSSCalcValue.Center;
+                    _z = CSSCalcValue.Zero;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Top, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Center;
+                    _y = CSSCalcValue.Zero;
+                    _z = CSSCalcValue.Zero;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Bottom, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Center;
+                    _y = CSSCalcValue.Full;
+                    _z = CSSCalcValue.Zero;
+                    return true;
                 }
             }
 
@@ -167,11 +170,11 @@
             {
                 var ident = ((CSSIdentifierValue)value).Value;
 
-                if (minIdentifier.Equals(ident, StringComparison.OrdinalIgnoreCase))
+                if (ident.Equals(minIdentifier, StringComparison.OrdinalIgnoreCase))
                     calc = CSSCalcValue.Zero;
-                else if (maxIdentifier.Equals(ident, StringComparison.OrdinalIgnoreCase))
+                else if (ident.Equals(maxIdentifier, StringComparison.OrdinalIgnoreCase))
                     calc = CSSCalcValue.Full;
-                else if ("center".Equals(ident, StringComparison.OrdinalIgnoreCase))
+                else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
                     calc = CSSCalcValue.Center;
             }
 

@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/perspective
     /// </summary>
-    public sealed class CSSPerspectiveProperty : CSSProperty
+    sealed class CSSPerspectiveProperty : CSSProperty, ICssPerspectiveProperty
     {
         #region Fields
 

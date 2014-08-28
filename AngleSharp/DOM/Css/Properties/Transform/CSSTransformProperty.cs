@@ -7,7 +7,7 @@
     /// More information available at MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform
     /// </summary>
-    public sealed class CSSTransformProperty : CSSProperty
+    sealed class CSSTransformProperty : CSSProperty, ICssTransformProperty
     {
         #region Fields
 
@@ -46,7 +46,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
                 _transforms.Clear();
             else if (value is CSSTransformValue)
             {

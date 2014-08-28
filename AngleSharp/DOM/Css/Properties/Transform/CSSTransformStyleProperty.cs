@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style
     /// </summary>
-    public sealed class CSSTransformStyleProperty : CSSProperty
+    sealed class CSSTransformStyleProperty : CSSProperty, ICssTransformStyleProperty
     {
         #region Fields
 
@@ -47,9 +47,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("flat"))
+            if (value.Is(Keywords.Flat))
                 _flat = true;
-            else if (value.Is("preserve-3d"))
+            else if (value.Is(Keywords.Preserve3d))
                 _flat = false;
             else if (value != CSSValue.Inherit)
                 return false;
