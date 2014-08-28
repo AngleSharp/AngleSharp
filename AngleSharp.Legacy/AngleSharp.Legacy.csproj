@@ -1660,6 +1660,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPerspectiveOriginProperty.cs">
+      <Link>Interfaces\Css\ICssPerspectiveOriginProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPerspectiveProperty.cs">
+      <Link>Interfaces\Css\ICssPerspectiveProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperty.cs">
       <Link>Interfaces\Css\ICssProperty.cs</Link>
     </Compile>
@@ -1686,6 +1692,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTableLayoutProperty.cs">
       <Link>Interfaces\Css\ICssTableLayoutProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformOriginProperty.cs">
+      <Link>Interfaces\Css\ICssTransformOriginProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformProperty.cs">
+      <Link>Interfaces\Css\ICssTransformProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformStyleProperty.cs">
+      <Link>Interfaces\Css\ICssTransformStyleProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssUnicodeBidiProperty.cs">
       <Link>Interfaces\Css\ICssUnicodeBidiProperty.cs</Link>
