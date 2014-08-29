@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/display
     /// </summary>
-    public sealed class CSSDisplayProperty : CSSProperty
+    sealed class CSSDisplayProperty : CSSProperty, ICssDisplayProperty
     {
         #region Fields
 

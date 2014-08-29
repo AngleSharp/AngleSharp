@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
     /// </summary>
-    public sealed class CSSZIndexProperty : CSSProperty
+    sealed class CSSZIndexProperty : CSSProperty, ICssZIndexProperty
     {
         #region Fields
 
@@ -55,7 +55,7 @@
         {
             if (value is CSSPrimitiveValue<Number>)
                 _value = (Int32)((CSSPrimitiveValue<Number>)value).Value.Value;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _value = null;
             else if (value != CSSValue.Inherit)
                 return false;

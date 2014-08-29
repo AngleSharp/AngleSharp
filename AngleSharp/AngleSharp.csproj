@@ -325,14 +325,17 @@
     <Compile Include="Interfaces\Css\ICssBackfaceVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCaptionSideProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
+    <Compile Include="Interfaces\Css\ICssClearProperty.cs" />
     <Compile Include="Interfaces\Css\ICssClipProperty.cs" />
     <Compile Include="Interfaces\Css\ICssColorProperty.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssContentProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCounterStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssCursorProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssDisplayProperty.cs" />
     <Compile Include="Interfaces\Css\ICssDocumentRule.cs" />
     <Compile Include="Interfaces\Css\ICssEmptyCellsProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssFloatProperty.cs" />
     <Compile Include="Interfaces\Css\ICssFontFaceRule.cs" />
     <Compile Include="Interfaces\Css\ICssFontFamilyProperty.cs" />
     <Compile Include="Interfaces\Css\ICssFontFeatureValuesRule.cs" />
@@ -357,9 +360,11 @@
     <Compile Include="Interfaces\Css\ICssOutlineProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineStyleProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineWidthProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssOverflowProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageRule.cs" />
     <Compile Include="Interfaces\Css\ICssPerspectiveOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPerspectiveProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssPositionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssProperty.cs" />
     <Compile Include="Interfaces\Css\ICssQuotesProperty.cs" />
     <Compile Include="Interfaces\Css\ICssRule.cs" />
@@ -382,6 +387,7 @@
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWordSpacingProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssZIndexProperty.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
     <Compile Include="Interfaces\Events\IErrorEvent.cs" />

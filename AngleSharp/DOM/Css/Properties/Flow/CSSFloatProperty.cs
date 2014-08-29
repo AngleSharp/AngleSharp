@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/float
     /// </summary>
-    public sealed class CSSFloatProperty : CSSProperty
+    sealed class CSSFloatProperty : CSSProperty, ICssFloatProperty
     {
         #region Fields
 
