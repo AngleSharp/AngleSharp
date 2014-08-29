@@ -322,8 +322,10 @@
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
+    <Compile Include="Interfaces\Css\ICssBackfaceVisibility.cs" />
     <Compile Include="Interfaces\Css\ICssCaptionSideProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
+    <Compile Include="Interfaces\Css\ICssClipProperty.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssContentProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCounterStyleRule.cs" />
@@ -339,6 +341,7 @@
     <Compile Include="Interfaces\Css\ICssMarginRule.cs" />
     <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />
+    <Compile Include="Interfaces\Css\ICssOpacityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOrphansProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineColorProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineProperty.cs" />
@@ -361,6 +364,7 @@
     <Compile Include="Interfaces\Css\ICssTransformStyleProperty.cs" />
     <Compile Include="Interfaces\Css\ICssUnicodeBidiProperty.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
+    <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />

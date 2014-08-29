@@ -6,7 +6,7 @@
     /// More information can be found:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clip
     /// </summary>
-    public sealed class CSSClipProperty : CSSProperty
+    sealed class CSSClipProperty : CSSProperty, ICssClipProperty
     {
         #region Fields
 
@@ -51,7 +51,7 @@
 
             if (shape != null)
                 _shape = shape;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _shape = null;
             else if (value != CSSValue.Inherit)
                 return false;

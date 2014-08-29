@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/visibility
     /// </summary>
-    public sealed class CSSVisibilityProperty : CSSProperty
+    sealed class CSSVisibilityProperty : CSSProperty, ICssVisibilityProperty
     {
         #region Fields
 
