@@ -986,5 +986,10 @@
         /// The preserve-3d keyword.
         /// </summary>
         public static readonly String Preserve3d = "preserve-3d";
+
+        /// <summary>
+        /// The small-caps keyword.
+        /// </summary>
+        public static readonly String SmallCaps = "small-caps";
     }
 }

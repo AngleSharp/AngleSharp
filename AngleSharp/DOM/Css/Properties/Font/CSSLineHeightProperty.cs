@@ -6,7 +6,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
     /// </summary>
-    public sealed class CSSLineHeightProperty : CSSProperty
+    sealed class CSSLineHeightProperty : CSSProperty, ICssLineHeightProperty
     {
         #region Fields
 
@@ -38,7 +38,7 @@
 
             if (calc != null)
                 _mode = new CalcLineHeightMode(calc);
-            else if (value.Is("normal"))
+            else if (value.Is(Keywords.Normal))
                 _mode = _normal;
             else if (value.ToNumber().HasValue)
                 _mode = new MultipleLineHeightMode(value.ToNumber().Value);

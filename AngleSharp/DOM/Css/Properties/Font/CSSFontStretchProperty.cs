@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
     /// </summary>
-    public sealed class CSSFontStretchProperty : CSSProperty
+    sealed class CSSFontStretchProperty : CSSProperty, ICssFontStretchProperty
     {
         #region Fields
 

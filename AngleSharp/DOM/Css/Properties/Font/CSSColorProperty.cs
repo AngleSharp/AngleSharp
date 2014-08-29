@@ -6,7 +6,7 @@
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
     /// </summary>
-    public sealed class CSSColorProperty : CSSProperty
+    sealed class CSSColorProperty : CSSProperty, ICssColorProperty
     {
         #region Fields
 

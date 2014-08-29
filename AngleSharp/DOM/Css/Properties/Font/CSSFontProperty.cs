@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font
     /// </summary>
-    public sealed class CSSFontProperty : CSSProperty
+    sealed class CSSFontProperty : CSSProperty, ICssFontProperty
     {
         #region Fields
 
@@ -85,7 +85,7 @@
         /// <summary>
         /// Gets the mode of the font-size property.
         /// </summary>
-        public FontSize SizeMode
+        public FontSize Mode
         {
             get { return _size.Mode; }
         }
@@ -109,7 +109,7 @@
         /// <summary>
         /// Gets the value of the font family property.
         /// </summary>
-        public IEnumerable<String> Family
+        public IEnumerable<String> Families
         {
             get { return _family.Families; }
         }

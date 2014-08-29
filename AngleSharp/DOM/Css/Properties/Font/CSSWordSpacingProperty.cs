@@ -6,7 +6,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
     /// </summary>
-    public sealed class CSSWordSpacingProperty : CSSProperty
+    sealed class CSSWordSpacingProperty : CSSProperty, ICssWordSpacingProperty
     {
         #region Fields
 
@@ -54,7 +54,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("normal"))
+            if (value.Is(Keywords.Normal))
                 _spacing = null;
             else if (value.ToLength().HasValue)
                 _spacing = value.ToLength();

@@ -6,7 +6,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
     /// </summary>
-    public sealed class CSSFontVariantProperty : CSSProperty
+    sealed class CSSFontVariantProperty : CSSProperty, ICssFontVariantProperty
     {
         #region Fields
 
@@ -45,9 +45,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("normal"))
+            if (value.Is(Keywords.Normal))
                 _style = FontVariant.Normal;
-            else if (value.Is("small-caps"))
+            else if (value.Is(Keywords.SmallCaps))
                 _style = FontVariant.SmallCaps;
             else if (value != CSSValue.Inherit)
                 return false;

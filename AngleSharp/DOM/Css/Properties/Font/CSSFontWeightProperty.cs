@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
     /// </summary>
-    public sealed class CSSFontWeightProperty : CSSProperty
+    sealed class CSSFontWeightProperty : CSSProperty, ICssFontWeightProperty
     {
         #region Fields
 

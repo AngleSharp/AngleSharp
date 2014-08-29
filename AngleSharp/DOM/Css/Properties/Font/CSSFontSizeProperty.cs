@@ -6,7 +6,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
     /// </summary>
-    public sealed class CSSFontSizeProperty : CSSProperty
+    sealed class CSSFontSizeProperty : CSSProperty, ICssFontSizeProperty
     {
         #region Fields
 
