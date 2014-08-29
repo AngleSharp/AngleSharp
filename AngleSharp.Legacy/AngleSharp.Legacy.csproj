@@ -1603,6 +1603,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssClipProperty.cs">
       <Link>Interfaces\Css\ICssClipProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssColorProperty.cs">
+      <Link>Interfaces\Css\ICssColorProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssConditionRule.cs">
       <Link>Interfaces\Css\ICssConditionRule.cs</Link>
     </Compile>
@@ -1624,8 +1627,29 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFaceRule.cs">
       <Link>Interfaces\Css\ICssFontFaceRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFamilyProperty.cs">
+      <Link>Interfaces\Css\ICssFontFamilyProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFeatureValuesRule.cs">
       <Link>Interfaces\Css\ICssFontFeatureValuesRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontProperty.cs">
+      <Link>Interfaces\Css\ICssFontProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontSizeProperty.cs">
+      <Link>Interfaces\Css\ICssFontSizeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontStretchProperty.cs">
+      <Link>Interfaces\Css\ICssFontStretchProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontStyleProperty.cs">
+      <Link>Interfaces\Css\ICssFontStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontVariantProperty.cs">
+      <Link>Interfaces\Css\ICssFontVariantProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontWeightProperty.cs">
+      <Link>Interfaces\Css\ICssFontWeightProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssGroupingRule.cs">
       <Link>Interfaces\Css\ICssGroupingRule.cs</Link>
@@ -1638,6 +1662,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssKeyframesRule.cs">
       <Link>Interfaces\Css\ICssKeyframesRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssLetterSpacingProperty.cs">
+      <Link>Interfaces\Css\ICssLetterSpacingProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssLineHeightProperty.cs">
+      <Link>Interfaces\Css\ICssLineHeightProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMarginRule.cs">
       <Link>Interfaces\Css\ICssMarginRule.cs</Link>
@@ -1737,6 +1767,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssWidowsProperty.cs">
       <Link>Interfaces\Css\ICssWidowsProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssWordSpacingProperty.cs">
+      <Link>Interfaces\Css\ICssWordSpacingProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
       <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
