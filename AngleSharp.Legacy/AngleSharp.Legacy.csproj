@@ -1711,6 +1711,21 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformStyleProperty.cs">
       <Link>Interfaces\Css\ICssTransformStyleProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionDelayProperty.cs">
+      <Link>Interfaces\Css\ICssTransitionDelayProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionDurationProperty.cs">
+      <Link>Interfaces\Css\ICssTransitionDurationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionProperty.cs">
+      <Link>Interfaces\Css\ICssTransitionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionPropertyProperty.cs">
+      <Link>Interfaces\Css\ICssTransitionPropertyProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionTimingFunctionProperty.cs">
+      <Link>Interfaces\Css\ICssTransitionTimingFunctionProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssUnicodeBidiProperty.cs">
       <Link>Interfaces\Css\ICssUnicodeBidiProperty.cs</Link>
     </Compile>
