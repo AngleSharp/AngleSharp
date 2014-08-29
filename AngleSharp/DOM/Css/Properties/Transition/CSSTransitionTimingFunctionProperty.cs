@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-timing-function
     /// </summary>
-    public sealed class CSSTransitionTimingFunctionProperty : CSSProperty
+    sealed class CSSTransitionTimingFunctionProperty : CSSProperty, ICssTransitionTimingFunctionProperty
     {
         #region Fields
 

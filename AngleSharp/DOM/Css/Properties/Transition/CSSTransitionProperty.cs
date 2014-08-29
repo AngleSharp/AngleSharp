@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition
     /// </summary>
-    public sealed class CSSTransitionProperty : CSSProperty
+    sealed class CSSTransitionProperty : CSSProperty, ICssTransitionProperty
     {
         #region Fields
 

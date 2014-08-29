@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-property
     /// </summary>
-    public sealed class CSSTransitionPropertyProperty : CSSProperty
+    sealed class CSSTransitionPropertyProperty : CSSProperty, ICssTransitionPropertyProperty
     {
         #region Fields
 
@@ -46,7 +46,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
                 _properties.Clear();
             else if (value is CSSIdentifierValue)
             {

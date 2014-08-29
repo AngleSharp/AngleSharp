@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-delay
     /// </summary>
-    public sealed class CSSTransitionDelayProperty : CSSProperty
+    sealed class CSSTransitionDelayProperty : CSSProperty, ICssTransitionDelayProperty
     {
         #region Fields
 

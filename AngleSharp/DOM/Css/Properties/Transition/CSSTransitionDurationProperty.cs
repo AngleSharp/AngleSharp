@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-duration
     /// </summary>
-    public sealed class CSSTransitionDurationProperty : CSSProperty
+    sealed class CSSTransitionDurationProperty : CSSProperty, ICssTransitionDurationProperty
     {
         #region Fields
 
