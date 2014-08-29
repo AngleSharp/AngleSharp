@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
     /// </summary>
-    sealed class CSSBackfaceVisibility : CSSProperty, ICssBackfaceVisibility
+    sealed class CSSBackfaceVisibilityProperty : CSSProperty, ICssBackfaceVisibilityProperty
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        internal CSSBackfaceVisibility()
+        internal CSSBackfaceVisibilityProperty()
             : base(PropertyNames.BackfaceVisibility)
         {
             _visible = true;

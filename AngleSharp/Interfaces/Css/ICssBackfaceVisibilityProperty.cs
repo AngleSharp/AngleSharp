@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the CSS backface-visibility property.
     /// </summary>
-    public interface ICssBackfaceVisibility : ICssProperty
+    public interface ICssBackfaceVisibilityProperty : ICssProperty
     {
         /// <summary>
         /// Gets if the back face is visible, allowing the front

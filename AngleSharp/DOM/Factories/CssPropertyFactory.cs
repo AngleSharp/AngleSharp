@@ -41,7 +41,7 @@
             properties.Add(PropertyNames.BreakAfter, () => new CSSBreakAfterProperty());
             properties.Add(PropertyNames.BreakBefore, () => new CSSBreakBeforeProperty());
             properties.Add(PropertyNames.BreakInside, () => new CSSBreakInsideProperty());
-            properties.Add(PropertyNames.BackfaceVisibility, () => new CSSBackfaceVisibility());
+            properties.Add(PropertyNames.BackfaceVisibility, () => new CSSBackfaceVisibilityProperty());
             properties.Add(PropertyNames.BorderTopLeftRadius, () => new CSSBorderTopLeftRadiusProperty());
             properties.Add(PropertyNames.BorderTopRightRadius, () => new CSSBorderTopRightRadiusProperty());
             properties.Add(PropertyNames.BorderBottomLeftRadius, () => new CSSBorderBottomLeftRadiusProperty());
