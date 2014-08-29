@@ -257,8 +257,8 @@
                 {
                     case Specification.Ampersand: temp.Append("&amp;"); break;
                     case Specification.NoBreakSpace: temp.Append("&nbsp;"); break;
-                    case Specification.GreaterThan: temp.Append("&lt;"); break;
-                    case Specification.LessThan: temp.Append("&gt;"); break;
+                    case Specification.GreaterThan: temp.Append("&gt;"); break;
+                    case Specification.LessThan: temp.Append("&lt;"); break;
                     default: temp.Append(_content[i]); break;
                 }
             }
