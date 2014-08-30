@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
     /// </summary>
-    public sealed class CSSBoxShadowProperty : CSSProperty
+    sealed class CSSBoxShadowProperty : CSSProperty, ICssBoxShadowProperty
     {
         #region Fields
 
@@ -46,7 +46,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
                 _shadows.Clear();
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);

@@ -991,5 +991,15 @@
         /// The small-caps keyword.
         /// </summary>
         public static readonly String SmallCaps = "small-caps";
+
+        /// <summary>
+        /// The slice keyword.
+        /// </summary>
+        public static readonly String Slice = "slice";
+
+        /// <summary>
+        /// The clone keyword.
+        /// </summary>
+        public static readonly String Clone = "clone";
     }
 }

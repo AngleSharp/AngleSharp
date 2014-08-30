@@ -323,6 +323,8 @@
     <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssBackfaceVisibilityProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBoxDecorationBreak.cs" />
+    <Compile Include="Interfaces\Css\ICssBoxShadowProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCaptionSideProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssClearProperty.cs" />

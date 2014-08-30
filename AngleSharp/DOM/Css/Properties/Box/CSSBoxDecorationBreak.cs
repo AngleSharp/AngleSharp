@@ -7,7 +7,7 @@
     /// in condensed form at 
     /// http://css-infos.net/property/box-decoration-break
     /// </summary>
-    public sealed class CSSBoxDecorationBreak : CSSProperty
+    sealed class CSSBoxDecorationBreak : CSSProperty, ICssBoxDecorationBreak
     {
         #region Fields
 
@@ -48,9 +48,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("slice"))
+            if (value.Is(Keywords.Slice))
                 _clone = false;
-            else if (value.Is("clone"))
+            else if (value.Is(Keywords.Clone))
                 _clone = true;
             else if (value == CSSValue.Inherit)
                 return true;
