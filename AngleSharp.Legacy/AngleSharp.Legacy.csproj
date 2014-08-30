@@ -1594,6 +1594,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackfaceVisibilityProperty.cs">
       <Link>Interfaces\Css\ICssBackfaceVisibilityProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBoxDecorationBreak.cs">
+      <Link>Interfaces\Css\ICssBoxDecorationBreak.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBoxShadowProperty.cs">
+      <Link>Interfaces\Css\ICssBoxShadowProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCaptionSideProperty.cs">
       <Link>Interfaces\Css\ICssCaptionSideProperty.cs</Link>
     </Compile>
