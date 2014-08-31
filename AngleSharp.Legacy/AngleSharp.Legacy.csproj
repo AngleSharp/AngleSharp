@@ -1789,6 +1789,18 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTableLayoutProperty.cs">
       <Link>Interfaces\Css\ICssTableLayoutProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationColorProperty.cs">
+      <Link>Interfaces\Css\ICssTextDecorationColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationLineProperty.cs">
+      <Link>Interfaces\Css\ICssTextDecorationLineProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationProperty.cs">
+      <Link>Interfaces\Css\ICssTextDecorationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationStyleProperty.cs">
+      <Link>Interfaces\Css\ICssTextDecorationStyleProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformOriginProperty.cs">
       <Link>Interfaces\Css\ICssTransformOriginProperty.cs</Link>
     </Compile>
