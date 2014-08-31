@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-reset
     /// </summary>
-    public sealed class CSSCounterResetProperty : CSSProperty
+    sealed class CSSCounterResetProperty : CSSProperty, ICssCounterResetProperty
     {
         #region Fields
 
@@ -71,7 +71,7 @@
             var value = ident.Value;
             _resets.Clear();
 
-            if (!value.Equals("none", StringComparison.OrdinalIgnoreCase))
+            if (!value.Equals(Keywords.None, StringComparison.OrdinalIgnoreCase))
                 _resets.Add(value, 0);
 
             return true;                

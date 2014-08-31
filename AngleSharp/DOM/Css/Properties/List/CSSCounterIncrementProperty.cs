@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-increment
     /// </summary>
-    public sealed class CSSCounterIncrementProperty : CSSProperty
+    sealed class CSSCounterIncrementProperty : CSSProperty, ICssCounterIncrementProperty
     {
         #region Fields
 
