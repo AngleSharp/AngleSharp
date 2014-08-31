@@ -6,7 +6,7 @@
     /// <summary>
     /// Basis for break-before or break-after property.
     /// </summary>
-    public abstract class CSSBreakProperty : CSSProperty
+    abstract class CSSBreakProperty : CSSProperty
     {
         #region Fields
 

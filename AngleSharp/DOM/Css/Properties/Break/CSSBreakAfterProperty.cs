@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-after
     /// </summary>
-    public sealed class CSSBreakAfterProperty : CSSBreakProperty
+    sealed class CSSBreakAfterProperty : CSSBreakProperty, ICssBreakAfterProperty
     {
         #region ctor
 

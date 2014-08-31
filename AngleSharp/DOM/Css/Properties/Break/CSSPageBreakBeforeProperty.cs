@@ -4,7 +4,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-before
     /// </summary>
-    public sealed class CSSPageBreakBeforeProperty : CSSPageBreakProperty
+    sealed class CSSPageBreakBeforeProperty : CSSPageBreakProperty, ICssPageBreakBeforeProperty
     {
         #region ctor
 

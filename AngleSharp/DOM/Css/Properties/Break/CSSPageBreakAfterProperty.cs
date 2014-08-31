@@ -4,7 +4,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-after
     /// </summary>
-    public sealed class CSSPageBreakAfterProperty : CSSPageBreakProperty
+    sealed class CSSPageBreakAfterProperty : CSSPageBreakProperty, ICssPageBreakAfterProperty
     {
         #region ctor
 

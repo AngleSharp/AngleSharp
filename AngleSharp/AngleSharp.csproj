@@ -325,6 +325,9 @@
     <Compile Include="Interfaces\Css\ICssBackfaceVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBoxDecorationBreak.cs" />
     <Compile Include="Interfaces\Css\ICssBoxShadowProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBreakAfterProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBreakBeforeProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBreakInsideProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCaptionSideProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssClearProperty.cs" />
@@ -363,6 +366,9 @@
     <Compile Include="Interfaces\Css\ICssOutlineStyleProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOverflowProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssPageBreakAfterProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssPageBreakBeforeProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssPageBreakInsideProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageRule.cs" />
     <Compile Include="Interfaces\Css\ICssPerspectiveOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPerspectiveProperty.cs" />

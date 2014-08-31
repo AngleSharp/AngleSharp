@@ -6,7 +6,7 @@
     /// <summary>
     /// Basis for page-break-before or page-break-after property.
     /// </summary>
-    public abstract class CSSPageBreakProperty : CSSProperty
+    abstract class CSSPageBreakProperty : CSSProperty
     {
         #region Fields
 

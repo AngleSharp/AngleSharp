@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-inside
     /// </summary>
-    public sealed class CSSPageBreakInsideProperty : CSSProperty
+    sealed class CSSPageBreakInsideProperty : CSSProperty, ICssPageBreakInsideProperty
     {
         #region Fields
 
@@ -46,9 +46,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("auto"))
+            if (value.Is(Keywords.Auto))
                 _mode = BreakMode.Auto;
-            else if (value.Is("avoid"))
+            else if (value.Is(Keywords.Avoid))
                 _mode = BreakMode.Avoid;
             else if (value != CSSValue.Inherit)
                 return false;

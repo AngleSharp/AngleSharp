@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-before
     /// </summary>
-    public sealed class CSSBreakBeforeProperty : CSSBreakProperty
+    sealed class CSSBreakBeforeProperty : CSSBreakProperty, ICssBreakBeforeProperty
     {
         #region ctor
 
