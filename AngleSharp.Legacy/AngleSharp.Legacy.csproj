@@ -1630,6 +1630,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssContentProperty.cs">
       <Link>Interfaces\Css\ICssContentProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssCounterIncrementProperty.cs">
+      <Link>Interfaces\Css\ICssCounterIncrementProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssCounterResetProperty.cs">
+      <Link>Interfaces\Css\ICssCounterResetProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCounterStyleRule.cs">
       <Link>Interfaces\Css\ICssCounterStyleRule.cs</Link>
     </Compile>
@@ -1692,6 +1698,18 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssLineHeightProperty.cs">
       <Link>Interfaces\Css\ICssLineHeightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStyleImageProperty.cs">
+      <Link>Interfaces\Css\ICssListStyleImageProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStylePositionProperty.cs">
+      <Link>Interfaces\Css\ICssListStylePositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStyleProperty.cs">
+      <Link>Interfaces\Css\ICssListStyleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStyleTypeProperty.cs">
+      <Link>Interfaces\Css\ICssListStyleTypeProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMarginRule.cs">
       <Link>Interfaces\Css\ICssMarginRule.cs</Link>
