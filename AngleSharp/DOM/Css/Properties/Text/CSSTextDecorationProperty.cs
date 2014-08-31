@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
     /// </summary>
-    public sealed class CSSTextDecorationProperty : CSSProperty
+    sealed class CSSTextDecorationProperty : CSSProperty, ICssTextDecorationProperty
     {
         #region Fields
 
@@ -34,25 +34,25 @@
         /// <summary>
         /// Gets the value of the decoration style property.
         /// </summary>
-        public CSSTextDecorationStyleProperty Style
+        public TextDecorationStyle DecorationStyle
         {
-            get { return _style; }
+            get { return _style.DecorationStyle; }
         }
 
         /// <summary>
         /// Gets the value of the line property.
         /// </summary>
-        public CSSTextDecorationLineProperty Line
+        public IEnumerable<TextDecorationLine> Line
         {
-            get { return _line; }
+            get { return _line.Line; }
         }
 
         /// <summary>
         /// Gets the value of the color property.
         /// </summary>
-        public CSSTextDecorationColorProperty Color
+        public Color Color
         {
-            get { return _color; }
+            get { return _color.Color; }
         }
 
         #endregion

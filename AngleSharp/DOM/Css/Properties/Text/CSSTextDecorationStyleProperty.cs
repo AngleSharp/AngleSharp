@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style
     /// </summary>
-    public sealed class CSSTextDecorationStyleProperty : CSSProperty
+    sealed class CSSTextDecorationStyleProperty : CSSProperty, ICssTextDecorationStyleProperty
     {
         #region Fields
 

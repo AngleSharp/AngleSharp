@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
     /// </summary>
-    public sealed class CSSTextDecorationLineProperty : CSSProperty
+    sealed class CSSTextDecorationLineProperty : CSSProperty, ICssTextDecorationLineProperty
     {
         #region Fields
 
@@ -58,7 +58,7 @@
         {
             TextDecorationLine mode;
 
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
                 _line.Clear();
             else if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
             {
