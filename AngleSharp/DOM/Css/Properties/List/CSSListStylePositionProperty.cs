@@ -6,7 +6,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position
     /// </summary>
-    public sealed class CSSListStylePositionProperty : CSSProperty
+    sealed class CSSListStylePositionProperty : CSSProperty, ICssListStylePositionProperty
     {
         #region Fields
 

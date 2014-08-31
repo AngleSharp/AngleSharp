@@ -7,7 +7,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style
     /// </summary>
-    public sealed class CSSListStyleProperty : CSSProperty
+    sealed class CSSListStyleProperty : CSSProperty, ICssListStyleProperty
     {
         #region Fields
 
@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets the selected list-style type.
         /// </summary>
-        public ListStyle Type
+        public ListStyle Style
         {
             get { return _type; }
         }

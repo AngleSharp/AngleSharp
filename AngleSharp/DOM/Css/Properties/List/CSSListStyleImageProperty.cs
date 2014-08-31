@@ -6,7 +6,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-image
     /// </summary>
-    public sealed class CSSListStyleImageProperty : CSSProperty
+    sealed class CSSListStyleImageProperty : CSSProperty, ICssListStyleImageProperty
     {
         #region Fields
 

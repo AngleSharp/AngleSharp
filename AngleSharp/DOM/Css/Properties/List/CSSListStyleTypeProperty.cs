@@ -6,7 +6,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type
     /// </summary>
-    public sealed class CSSListStyleTypeProperty : CSSProperty
+    sealed class CSSListStyleTypeProperty : CSSProperty, ICssListStyleTypeProperty
     {
         #region Fields
 
