@@ -1600,6 +1600,15 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBoxShadowProperty.cs">
       <Link>Interfaces\Css\ICssBoxShadowProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBreakAfterProperty.cs">
+      <Link>Interfaces\Css\ICssBreakAfterProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBreakBeforeProperty.cs">
+      <Link>Interfaces\Css\ICssBreakBeforeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBreakInsideProperty.cs">
+      <Link>Interfaces\Css\ICssBreakInsideProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCaptionSideProperty.cs">
       <Link>Interfaces\Css\ICssCaptionSideProperty.cs</Link>
     </Compile>
@@ -1713,6 +1722,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssOverflowProperty.cs">
       <Link>Interfaces\Css\ICssOverflowProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageBreakAfterProperty.cs">
+      <Link>Interfaces\Css\ICssPageBreakAfterProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageBreakBeforeProperty.cs">
+      <Link>Interfaces\Css\ICssPageBreakBeforeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageBreakInsideProperty.cs">
+      <Link>Interfaces\Css\ICssPageBreakInsideProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
