@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-origins
     /// </summary>
-    public sealed class CSSBackgroundOriginProperty : CSSProperty
+    sealed class CSSBackgroundOriginProperty : CSSProperty, ICssBackgroundOriginProperty
     {
         #region Fields
 

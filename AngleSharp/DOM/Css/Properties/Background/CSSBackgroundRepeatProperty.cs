@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
     /// </summary>
-    public sealed class CSSBackgroundRepeatProperty : CSSProperty
+    sealed class CSSBackgroundRepeatProperty : CSSProperty, ICssBackgroundRepeatProperty
     {
         #region Fields
 
@@ -79,12 +79,12 @@
                 var ident = ((CSSIdentifierValue)values[i]).Value;
                 var repeat = new Repeat();
 
-                if (ident.Equals("repeat-x", StringComparison.OrdinalIgnoreCase))
+                if (ident.Equals(Keywords.RepeatX, StringComparison.OrdinalIgnoreCase))
                 {
                     repeat.Horizontal = BackgroundRepeat.Repeat;
                     repeat.Vertical = BackgroundRepeat.NoRepeat;
                 }
-                else if (ident.Equals("repeat-y", StringComparison.OrdinalIgnoreCase))
+                else if (ident.Equals(Keywords.RepeatY, StringComparison.OrdinalIgnoreCase))
                 {
                     repeat.Horizontal = BackgroundRepeat.NoRepeat;
                     repeat.Vertical = BackgroundRepeat.Repeat;

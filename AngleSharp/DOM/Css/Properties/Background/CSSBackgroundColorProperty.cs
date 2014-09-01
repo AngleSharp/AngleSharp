@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-color
     /// </summary>
-    public sealed class CSSBackgroundColorProperty : CSSProperty
+    sealed class CSSBackgroundColorProperty : CSSProperty, ICssBackgroundColorProperty
     {
         #region Fields
 

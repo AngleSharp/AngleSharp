@@ -133,6 +133,16 @@
         public static readonly String Repeat = "repeat";
 
         /// <summary>
+        /// The repeat-x keyword.
+        /// </summary>
+        public static readonly String RepeatX = "repeat-x";
+
+        /// <summary>
+        /// The repeat-y keyword.
+        /// </summary>
+        public static readonly String RepeatY = "repeat-y";
+
+        /// <summary>
         /// The round keyword.
         /// </summary>
         public static readonly String Round = "round";
@@ -1016,5 +1026,15 @@
         /// The infinite keyword.
         /// </summary>
         public static readonly String Infinite = "infinite";
+
+        /// <summary>
+        /// The cover keyword.
+        /// </summary>
+        public static readonly String Cover = "cover";
+
+        /// <summary>
+        /// The contain keyword.
+        /// </summary>
+        public static readonly String Contain = "contain";
     }
 }

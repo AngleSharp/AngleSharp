@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background
     /// </summary>
-    public sealed class CSSBackgroundProperty : CSSProperty
+    sealed class CSSBackgroundProperty : CSSProperty, ICssBackgroundProperty
     {
         #region Fields
 
@@ -149,30 +149,30 @@
 
                     for (int j = 0; j < entry.Length; j++)
                     {
-                        if (!hasPosition && (entry[j].IsOneOf("top", "left", "center", "bottom", "right") || entry[j].AsCalc() != null))
+                        if (!hasPosition && (entry[j].IsOneOf(Keywords.Top, Keywords.Left, Keywords.Center, Keywords.Bottom, Keywords.Right) || entry[j].AsCalc() != null))
                         {
                             hasPosition = true;
                             position.Add(entry[j]);
 
-                            while (j + 1 < entry.Length && (entry[j + 1].IsOneOf("top", "left", "center", "bottom", "right") || entry[j + 1].AsCalc() != null))
+                            while (j + 1 < entry.Length && (entry[j + 1].IsOneOf(Keywords.Top, Keywords.Left, Keywords.Center, Keywords.Bottom, Keywords.Right) || entry[j + 1].AsCalc() != null))
                                 position.Add(entry[++j]);
 
                             if (j + 1 < entry.Length && entry[j + 1] == CSSValue.Delimiter)
                             {
                                 j += 2;
 
-                                if (j < entry.Length && (entry[j].IsOneOf("auto", "contain", "cover") || entry[j].AsCalc() != null))
+                                if (j < entry.Length && (entry[j].IsOneOf(Keywords.Auto, Keywords.Contain, Keywords.Cover) || entry[j].AsCalc() != null))
                                 {
                                     size.Add(entry[j]);
 
-                                    if (j + 1 < entry.Length && (entry[j + 1].Is("auto") || entry[j + 1].AsCalc() != null))
+                                    if (j + 1 < entry.Length && (entry[j + 1].Is(Keywords.Auto) || entry[j + 1].AsCalc() != null))
                                         size.Add(entry[++j]);
                                 }
                                 else
                                     return false;
                             }
                             else
-                                size.Add(new CSSIdentifierValue("auto"));
+                                size.Add(new CSSIdentifierValue(Keywords.Auto));
 
                             continue;
                         }
@@ -182,15 +182,15 @@
                             hasImage = true;
                             image.Add(entry[j]);
                         }
-                        else if (!hasRepeat && entry[j].IsOneOf("repeat-x", "repeat-y", "repeat", "space", "round", "no-repeat"))
+                        else if (!hasRepeat && entry[j].IsOneOf(Keywords.RepeatX, Keywords.RepeatY, Keywords.Repeat, Keywords.Space, Keywords.Round, Keywords.NoRepeat))
                         {
                             hasRepeat = true;
                             repeat.Add(entry[j]);
 
-                            if (j + 1 < entry.Length && entry[j + 1].IsOneOf("repeat", "space", "round", "no-repeat"))
+                            if (j + 1 < entry.Length && entry[j + 1].IsOneOf(Keywords.Repeat, Keywords.Space, Keywords.Round, Keywords.NoRepeat))
                                 repeat.Add(entry[++j]);
                         }
-                        else if (!hasAttachment && entry[j].IsOneOf("local", "fixed", "scroll"))
+                        else if (!hasAttachment && entry[j].IsOneOf(Keywords.Local, Keywords.Fixed, Keywords.Scroll))
                         {
                             hasAttachment = true;
                             attachment.Add(entry[j]);
@@ -203,7 +203,7 @@
                             if (j + 1 < entry.Length && entry[j + 1].ToBoxModel().HasValue)
                                 clip.Add(entry[++j]);
                             else
-                                clip.Add(new CSSIdentifierValue("border-box"));
+                                clip.Add(new CSSIdentifierValue(Keywords.BorderBox));
                         }
                         else
                         {
@@ -219,24 +219,24 @@
                     }
 
                     if (!hasImage)
-                        image.Add(new CSSIdentifierValue("none"));
+                        image.Add(new CSSIdentifierValue(Keywords.None));
 
                     if (!hasPosition)
                     {
-                        position.Add(new CSSIdentifierValue("center"));
-                        size.Add(new CSSIdentifierValue("auto"));
+                        position.Add(new CSSIdentifierValue(Keywords.Center));
+                        size.Add(new CSSIdentifierValue(Keywords.Auto));
                     }
 
                     if (!hasRepeat)
-                        repeat.Add(new CSSIdentifierValue("repeat"));
+                        repeat.Add(new CSSIdentifierValue(Keywords.Repeat));
 
                     if (!hasAttachment)
-                        attachment.Add(new CSSIdentifierValue("scroll"));
+                        attachment.Add(new CSSIdentifierValue(Keywords.Scroll));
 
                     if (!hasBox)
                     {
-                        origin.Add(new CSSIdentifierValue("border-box"));
-                        clip.Add(new CSSIdentifierValue("border-box"));
+                        origin.Add(new CSSIdentifierValue(Keywords.BorderBox));
+                        clip.Add(new CSSIdentifierValue(Keywords.BorderBox));
                     }
 
                     if (i + 1 < list.Count)

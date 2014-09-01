@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
     /// </summary>
-    public sealed class CSSBackgroundSizeProperty : CSSProperty
+    sealed class CSSBackgroundSizeProperty : CSSProperty, ICssBackgroundSizeProperty
     {
         #region Fields
 
@@ -52,11 +52,11 @@
 
             if (calc != null)
                 return new CalcSizeMode(calc);
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 return _default;
-            else if (value.Is("cover"))
+            else if (value.Is(Keywords.Cover))
                 return _cover;
-            else if (value.Is("contain"))
+            else if (value.Is(Keywords.Contain))
                 return _contain;
 
             return null;
@@ -67,9 +67,9 @@
             var width = horizontal.AsCalc();
             var height = vertical.AsCalc();
 
-            if (width == null && !horizontal.Is("auto"))
+            if (width == null && !horizontal.Is(Keywords.Auto))
                 return null;
-            else if (height == null && !vertical.Is("auto"))
+            else if (height == null && !vertical.Is(Keywords.Auto))
                 return null;
 
             return new CalcSizeMode(width, height);

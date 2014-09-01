@@ -332,6 +332,15 @@
     <Compile Include="Interfaces\Css\ICssAnimationProperty.cs" />
     <Compile Include="Interfaces\Css\ICssAnimationTimingFunctionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBackfaceVisibilityProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundAttachmentProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundClipProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundColorProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundImageProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundOriginProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundPositionProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundRepeatProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBackgroundSizeProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBoxDecorationBreak.cs" />
     <Compile Include="Interfaces\Css\ICssBoxShadowProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBreakAfterProperty.cs" />
