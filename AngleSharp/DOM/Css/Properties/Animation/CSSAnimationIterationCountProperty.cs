@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-iteration-count
     /// </summary>
-    public sealed class CSSAnimationIterationCountProperty : CSSProperty
+    sealed class CSSAnimationIterationCountProperty : CSSProperty, ICssAnimationIterationCountProperty
     {
         #region Fields
 
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the iteration count of the covered animations.
         /// </summary>
-        public List<Single> Iterations
+        public IEnumerable<Single> Iterations
         {
             get { return _iterations; }
         }
@@ -71,7 +71,7 @@
                 if (n.Value >= Number.Zero)
                     return n;
             }
-            else if (value.Is("infinite"))
+            else if (value.Is(Keywords.Infinite))
                 return new CSSPrimitiveValue<Number>(Number.Infinite);
 
             return null;

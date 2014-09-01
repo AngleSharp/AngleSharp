@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-delay
     /// </summary>
-    public sealed class CSSAnimationDelayProperty : CSSProperty
+    sealed class CSSAnimationDelayProperty : CSSProperty, ICssAnimationDelayProperty
     {
         #region Fields
 

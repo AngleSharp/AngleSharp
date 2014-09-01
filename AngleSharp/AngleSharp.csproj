@@ -322,6 +322,15 @@
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationDelayProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationDirectionProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationDurationProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationFillModeProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationIterationCountProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationNameProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationPlayStateProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssAnimationTimingFunctionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBackfaceVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBoxDecorationBreak.cs" />
     <Compile Include="Interfaces\Css\ICssBoxShadowProperty.cs" />

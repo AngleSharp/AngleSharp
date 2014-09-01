@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-fill-mode
     /// </summary>
-    public sealed class CSSAnimationFillModeProperty : CSSProperty
+    sealed class CSSAnimationFillModeProperty : CSSProperty, ICssAnimationFillModeProperty
     {
         #region Fields
 

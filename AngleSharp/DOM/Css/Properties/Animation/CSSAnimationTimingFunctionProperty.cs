@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-timing-function
     /// </summary>
-    public sealed class CSSAnimationTimingFunctionProperty : CSSProperty
+    sealed class CSSAnimationTimingFunctionProperty : CSSProperty, ICssAnimationTimingFunctionProperty
     {
         #region Fields
 

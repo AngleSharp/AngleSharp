@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-direction
     /// </summary>
-    public sealed class CSSAnimationDirectionProperty : CSSProperty
+    sealed class CSSAnimationDirectionProperty : CSSProperty, ICssAnimationDirectionProperty
     {
         #region Fields
 

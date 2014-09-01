@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-duration
     /// </summary>
-    public sealed class CSSAnimationDurationProperty : CSSProperty
+    sealed class CSSAnimationDurationProperty : CSSProperty, ICssAnimationDurationProperty
     {
         #region Fields
 

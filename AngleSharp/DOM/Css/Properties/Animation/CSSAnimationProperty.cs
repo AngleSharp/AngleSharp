@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation
     /// </summary>
-    public sealed class CSSAnimationProperty : CSSProperty
+    sealed class CSSAnimationProperty : CSSProperty, ICssAnimationProperty
     {
         #region Fields
 
@@ -47,6 +47,11 @@
                 foreach (var time in _animations)
                     yield return time.Duration;
             }
+        }
+
+        public IEnumerable<PlayState> States
+        {
+            get { yield break; }
         }
 
         /// <summary>
@@ -112,7 +117,7 @@
         /// <summary>
         /// Gets the iteraction counts of the animations.
         /// </summary>
-        public IEnumerable<Single> IterationCounts
+        public IEnumerable<Single> Iterations
         {
             get
             {

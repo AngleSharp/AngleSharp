@@ -1001,5 +1001,20 @@
         /// The clone keyword.
         /// </summary>
         public static readonly String Clone = "clone";
+
+        /// <summary>
+        /// The running keyword.
+        /// </summary>
+        public static readonly String Running = "running";
+
+        /// <summary>
+        /// The paused keyword.
+        /// </summary>
+        public static readonly String Paused = "paused";
+
+        /// <summary>
+        /// The infinite keyword.
+        /// </summary>
+        public static readonly String Infinite = "infinite";
     }
 }

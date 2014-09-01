@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-play-state
     /// </summary>
-    public sealed class CSSAnimationPlayStateProperty : CSSProperty
+    sealed class CSSAnimationPlayStateProperty : CSSProperty, ICssAnimationPlayStateProperty
     {
         #region Fields
 
@@ -55,9 +55,9 @@
 
                 foreach (var item in values)
                 {
-                    if (item.Is("running"))
+                    if (item.Is(Keywords.Running))
                         states.Add(PlayState.Running);
-                    else if (item.Is("paused"))
+                    else if (item.Is(Keywords.Paused))
                         states.Add(PlayState.Paused);
                     else
                         return false;
