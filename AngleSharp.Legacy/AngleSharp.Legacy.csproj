@@ -1621,6 +1621,33 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackfaceVisibilityProperty.cs">
       <Link>Interfaces\Css\ICssBackfaceVisibilityProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundAttachmentProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundAttachmentProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundClipProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundClipProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundColorProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundColorProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundImageProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundImageProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundOriginProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundOriginProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundPositionProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundPositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundRepeatProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundRepeatProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundSizeProperty.cs">
+      <Link>Interfaces\Css\ICssBackgroundSizeProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBoxDecorationBreak.cs">
       <Link>Interfaces\Css\ICssBoxDecorationBreak.cs</Link>
     </Compile>
