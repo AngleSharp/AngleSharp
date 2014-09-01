@@ -1591,6 +1591,33 @@
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationDelayProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationDelayProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationDirectionProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationDirectionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationDurationProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationDurationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationFillModeProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationFillModeProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationIterationCountProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationIterationCountProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationNameProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationNameProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationPlayStateProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationPlayStateProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationTimingFunctionProperty.cs">
+      <Link>Interfaces\Css\ICssAnimationTimingFunctionProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackfaceVisibilityProperty.cs">
       <Link>Interfaces\Css\ICssBackfaceVisibilityProperty.cs</Link>
     </Compile>
