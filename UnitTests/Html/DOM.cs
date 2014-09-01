@@ -426,5 +426,25 @@ namespace UnitTests
             Assert.AreEqual("head", head.NodeName);
             Assert.AreEqual(NodeType.Element, head.NodeType);
         }
+
+        [TestMethod]
+        public void HtmlCharacterSerialization()
+        {
+            var content = @"<!doctype html><html><head></head><body></body></html>";
+            var doc = DocumentBuilder.Html(content);
+
+            var body = doc.Body;
+            Assert.IsNotNull(body);
+            Assert.AreEqual(String.Empty, body.InnerHtml);
+
+            body.TextContent = "&";
+            Assert.AreEqual("&amp;", body.InnerHtml);
+
+            body.TextContent = "<";
+            Assert.AreEqual("&lt;", body.InnerHtml);
+
+            body.TextContent = ">";
+            Assert.AreEqual("&gt;", body.InnerHtml);
+        }
     }
 }
