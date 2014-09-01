@@ -49,11 +49,6 @@
             }
         }
 
-        public IEnumerable<PlayState> States
-        {
-            get { yield break; }
-        }
-
         /// <summary>
         /// Gets the offsets for the animations.
         /// </summary>
