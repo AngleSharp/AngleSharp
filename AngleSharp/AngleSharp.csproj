@@ -364,10 +364,7 @@
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />
     <Compile Include="Interfaces\Css\ICssOpacityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOrphansProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssOutlineColorProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssOutlineStyleProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssOutlineWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOverflowProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageBreakAfterProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageBreakBeforeProperty.cs" />
