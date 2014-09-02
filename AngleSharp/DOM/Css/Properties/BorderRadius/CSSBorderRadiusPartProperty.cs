@@ -5,7 +5,7 @@
     /// <summary>
     /// Basis for all elementary border-radius properties.
     /// </summary>
-    public class CSSBorderRadiusPartProperty : CSSProperty
+    class CSSBorderRadiusPartProperty : CSSProperty
     {
         #region Fields
 

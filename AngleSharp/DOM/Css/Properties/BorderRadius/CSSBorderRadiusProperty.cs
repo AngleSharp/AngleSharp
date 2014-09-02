@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
     /// </summary>
-    public sealed class CSSBorderRadiusProperty : CSSProperty
+    sealed class CSSBorderRadiusProperty : CSSProperty, ICssBorderRadiusProperty
     {
         #region Fields
 

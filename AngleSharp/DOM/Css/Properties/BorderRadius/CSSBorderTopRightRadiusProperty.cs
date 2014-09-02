@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-right-radius
     /// </summary>
-    public sealed class CSSBorderTopRightRadiusProperty : CSSBorderRadiusPartProperty
+    sealed class CSSBorderTopRightRadiusProperty : CSSBorderRadiusPartProperty, ICssBorderTopRightRadiusProperty
     {
         #region ctor
 
