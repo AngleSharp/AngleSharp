@@ -392,11 +392,7 @@
     <Compile Include="Interfaces\Css\ICssTransformOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformStyleProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTransitionDelayProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTransitionDurationProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransitionProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTransitionPropertyProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTransitionTimingFunctionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssUnicodeBidiProperty.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
