@@ -382,10 +382,7 @@
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\ICssTableLayoutProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTextDecorationColorProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTextDecorationLineProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTextDecorationProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssTextDecorationStyleProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformStyleProperty.cs" />
