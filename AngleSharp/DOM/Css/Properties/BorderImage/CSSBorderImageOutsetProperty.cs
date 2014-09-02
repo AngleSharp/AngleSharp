@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-outset
     /// </summary>
-    public sealed class CSSBorderImageOutsetProperty : CSSProperty
+    sealed class CSSBorderImageOutsetProperty : CSSProperty, ICssBorderImageOutsetProperty
     {
         #region Fields
 

@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-repeat
     /// </summary>
-    public sealed class CSSBorderImageRepeatProperty : CSSProperty
+    sealed class CSSBorderImageRepeatProperty : CSSProperty, ICssBorderImageRepeatProperty
     {
         #region Fields
 

@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-width
     /// </summary>
-    public sealed class CSSBorderImageWidthProperty : CSSProperty
+    sealed class CSSBorderImageWidthProperty : CSSProperty, ICssBorderImageWidthProperty
     {
         #region Fields
 
@@ -60,7 +60,7 @@
 
         static ImageWidthMode ToMode(CSSValue value)
         {
-            if (value.Is("auto"))
+            if (value.Is(Keywords.Auto))
                 return _auto;
 
             var multiple = value.ToNumber();

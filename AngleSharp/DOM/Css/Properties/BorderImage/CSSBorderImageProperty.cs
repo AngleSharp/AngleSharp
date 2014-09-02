@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image
     /// </summary>
-    public sealed class CSSBorderImageProperty : CSSProperty
+    sealed class CSSBorderImageProperty : CSSProperty, ICssBorderImageProperty
     {
         #region Fields
 
@@ -69,7 +69,7 @@
         /// <summary>
         /// Gets the horizontal repeat value of the border-image.
         /// </summary>
-        public BorderRepeat HorizontalRepeat
+        public BorderRepeat Horizontal
         {
             get { return _repeat.Horizontal; }
         }
@@ -77,7 +77,7 @@
         /// <summary>
         /// Gets the vertical repeat value of the border-image.
         /// </summary>
-        public BorderRepeat VerticalRepeat
+        public BorderRepeat Vertical
         {
             get { return _repeat.Vertical; }
         }

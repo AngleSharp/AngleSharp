@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-source
     /// </summary>
-    public sealed class CSSBorderImageSourceProperty : CSSProperty
+    sealed class CSSBorderImageSourceProperty : CSSProperty, ICssBorderImageSourceProperty
     {
         #region Fields
 

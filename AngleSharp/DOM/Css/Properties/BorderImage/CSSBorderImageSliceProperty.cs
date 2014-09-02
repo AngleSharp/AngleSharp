@@ -9,7 +9,7 @@
     /// or even better:
     /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
     /// </summary>
-    public sealed class CSSBorderImageSliceProperty : CSSProperty
+    sealed class CSSBorderImageSliceProperty : CSSProperty, ICssBorderImageSliceProperty
     {
         #region Fields
 
