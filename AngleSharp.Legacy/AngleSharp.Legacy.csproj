@@ -1591,62 +1591,23 @@
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationDelayProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationDelayProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationDirectionProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationDirectionProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationDurationProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationDurationProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationFillModeProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationFillModeProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationIterationCountProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationIterationCountProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationNameProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationNameProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationPlayStateProperty.cs">
       <Link>Interfaces\Css\ICssAnimationPlayStateProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationProperty.cs">
       <Link>Interfaces\Css\ICssAnimationProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationTimingFunctionProperty.cs">
-      <Link>Interfaces\Css\ICssAnimationTimingFunctionProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackfaceVisibilityProperty.cs">
       <Link>Interfaces\Css\ICssBackfaceVisibilityProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundAttachmentProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundAttachmentProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundClipProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundClipProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundColorProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundColorProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundImageProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundImageProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundOriginProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundOriginProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundPositionProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundPositionProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundProperty.cs">
       <Link>Interfaces\Css\ICssBackgroundProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundRepeatProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundRepeatProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderImageProperty.cs">
+      <Link>Interfaces\Css\ICssBorderImageProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundSizeProperty.cs">
-      <Link>Interfaces\Css\ICssBackgroundSizeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderRadiusProperty.cs">
+      <Link>Interfaces\Css\ICssBorderRadiusProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBoxDecorationBreak.cs">
       <Link>Interfaces\Css\ICssBoxDecorationBreak.cs</Link>
@@ -1711,29 +1672,11 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFaceRule.cs">
       <Link>Interfaces\Css\ICssFontFaceRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFamilyProperty.cs">
-      <Link>Interfaces\Css\ICssFontFamilyProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontFeatureValuesRule.cs">
       <Link>Interfaces\Css\ICssFontFeatureValuesRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontProperty.cs">
       <Link>Interfaces\Css\ICssFontProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontSizeProperty.cs">
-      <Link>Interfaces\Css\ICssFontSizeProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontStretchProperty.cs">
-      <Link>Interfaces\Css\ICssFontStretchProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontStyleProperty.cs">
-      <Link>Interfaces\Css\ICssFontStyleProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontVariantProperty.cs">
-      <Link>Interfaces\Css\ICssFontVariantProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssFontWeightProperty.cs">
-      <Link>Interfaces\Css\ICssFontWeightProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssGroupingRule.cs">
       <Link>Interfaces\Css\ICssGroupingRule.cs</Link>
@@ -1750,20 +1693,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssLetterSpacingProperty.cs">
       <Link>Interfaces\Css\ICssLetterSpacingProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssLineHeightProperty.cs">
-      <Link>Interfaces\Css\ICssLineHeightProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStyleImageProperty.cs">
-      <Link>Interfaces\Css\ICssListStyleImageProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStylePositionProperty.cs">
-      <Link>Interfaces\Css\ICssListStylePositionProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStyleProperty.cs">
       <Link>Interfaces\Css\ICssListStyleProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssListStyleTypeProperty.cs">
-      <Link>Interfaces\Css\ICssListStyleTypeProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMarginRule.cs">
       <Link>Interfaces\Css\ICssMarginRule.cs</Link>
@@ -1780,17 +1711,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssOrphansProperty.cs">
       <Link>Interfaces\Css\ICssOrphansProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineColorProperty.cs">
-      <Link>Interfaces\Css\ICssOutlineColorProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineProperty.cs">
       <Link>Interfaces\Css\ICssOutlineProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineStyleProperty.cs">
-      <Link>Interfaces\Css\ICssOutlineStyleProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssOutlineWidthProperty.cs">
-      <Link>Interfaces\Css\ICssOutlineWidthProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssOverflowProperty.cs">
       <Link>Interfaces\Css\ICssOverflowProperty.cs</Link>
@@ -1843,17 +1765,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTableLayoutProperty.cs">
       <Link>Interfaces\Css\ICssTableLayoutProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationColorProperty.cs">
-      <Link>Interfaces\Css\ICssTextDecorationColorProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationLineProperty.cs">
-      <Link>Interfaces\Css\ICssTextDecorationLineProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationProperty.cs">
       <Link>Interfaces\Css\ICssTextDecorationProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationStyleProperty.cs">
-      <Link>Interfaces\Css\ICssTextDecorationStyleProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformOriginProperty.cs">
       <Link>Interfaces\Css\ICssTransformOriginProperty.cs</Link>
@@ -1864,20 +1777,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformStyleProperty.cs">
       <Link>Interfaces\Css\ICssTransformStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionDelayProperty.cs">
-      <Link>Interfaces\Css\ICssTransitionDelayProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionDurationProperty.cs">
-      <Link>Interfaces\Css\ICssTransitionDurationProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionProperty.cs">
       <Link>Interfaces\Css\ICssTransitionProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionPropertyProperty.cs">
-      <Link>Interfaces\Css\ICssTransitionPropertyProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransitionTimingFunctionProperty.cs">
-      <Link>Interfaces\Css\ICssTransitionTimingFunctionProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssUnicodeBidiProperty.cs">
       <Link>Interfaces\Css\ICssUnicodeBidiProperty.cs</Link>
