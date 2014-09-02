@@ -5,7 +5,7 @@
     /// <summary>
     /// Basis for all elementary padding properties.
     /// </summary>
-    public abstract class CSSPaddingPartProperty : CSSProperty
+    abstract class CSSPaddingPartProperty : CSSProperty
     {
         #region Fields
 

@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-left
     /// </summary>
-    public sealed class CSSPaddingLeftProperty : CSSPaddingPartProperty
+    sealed class CSSPaddingLeftProperty : CSSPaddingPartProperty, ICssPaddingLeftProperty
     {
         #region ctor
 

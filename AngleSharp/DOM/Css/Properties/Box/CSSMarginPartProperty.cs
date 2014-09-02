@@ -5,7 +5,7 @@
     /// <summary>
     /// Basis for all elementary margin properties.
     /// </summary>
-    public abstract class CSSMarginPartProperty : CSSProperty
+    abstract class CSSMarginPartProperty : CSSProperty
     {
         #region Fields
 
@@ -57,7 +57,7 @@
 
             if (calc != null)
                 _margin = calc;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _margin = null;
             else if (value != CSSValue.Inherit)
                 return false;

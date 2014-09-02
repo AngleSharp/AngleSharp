@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-bottom
     /// </summary>
-    public sealed class CSSPaddingBottomProperty : CSSPaddingPartProperty
+    sealed class CSSPaddingBottomProperty : CSSPaddingPartProperty, ICssPaddingBottomProperty
     {
         #region ctor
 

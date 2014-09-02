@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-bottom
     /// </summary>
-    public sealed class CSSMarginBottomProperty : CSSMarginPartProperty
+    sealed class CSSMarginBottomProperty : CSSMarginPartProperty, ICssMarginBottomProperty
     {
         #region ctor
 

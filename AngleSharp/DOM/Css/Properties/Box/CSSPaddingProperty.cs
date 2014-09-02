@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding
     /// </summary>
-    public sealed class CSSPaddingProperty : CSSProperty
+    sealed class CSSPaddingProperty : CSSProperty, ICssPaddingProperty
     {
         #region Fields
 

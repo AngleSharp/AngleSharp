@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-top
     /// </summary>
-    public sealed class CSSPaddingTopProperty : CSSPaddingPartProperty
+    sealed class CSSPaddingTopProperty : CSSPaddingPartProperty, ICssPaddingTopProperty
     {
         #region ctor
 

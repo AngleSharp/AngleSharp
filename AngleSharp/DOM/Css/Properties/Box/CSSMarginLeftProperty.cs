@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-left
     /// </summary>
-    public sealed class CSSMarginLeftProperty : CSSMarginPartProperty
+    sealed class CSSMarginLeftProperty : CSSMarginPartProperty, ICssMarginLeftProperty
     {
         #region ctor
 

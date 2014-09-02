@@ -357,6 +357,7 @@
     <Compile Include="Interfaces\Css\ICssKeyframesRule.cs" />
     <Compile Include="Interfaces\Css\ICssLetterSpacingProperty.cs" />
     <Compile Include="Interfaces\Css\ICssListStyleProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssMarginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssMarginRule.cs" />
     <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />
@@ -364,6 +365,7 @@
     <Compile Include="Interfaces\Css\ICssOrphansProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOutlineProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOverflowProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssPaddingProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageBreakAfterProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageBreakBeforeProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPageBreakInsideProperty.cs" />

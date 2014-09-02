@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin
     /// </summary>
-    public sealed class CSSMarginProperty : CSSProperty
+    sealed class CSSMarginProperty : CSSProperty, ICssMarginProperty
     {
         #region Fields
 
