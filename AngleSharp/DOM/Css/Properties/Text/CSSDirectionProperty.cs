@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/direction
     /// </summary>
-    public sealed class CSSDirectionProperty : CSSProperty
+    sealed class CSSDirectionProperty : CSSProperty, ICssDirectionProperty
     {
         #region Fields
 
@@ -46,9 +46,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("ltr"))
+            if (value.Is(Keywords.Ltr))
                 _mode = DirectionMode.Ltr;
-            else if (value.Is("rtl"))
+            else if (value.Is(Keywords.Rtl))
                 _mode = DirectionMode.Rtl;
             else if (value != CSSValue.Inherit)
                 return false;

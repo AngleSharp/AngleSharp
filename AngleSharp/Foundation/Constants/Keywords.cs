@@ -1036,5 +1036,15 @@
         /// The contain keyword.
         /// </summary>
         public static readonly String Contain = "contain";
+
+        /// <summary>
+        /// The ltr keyword.
+        /// </summary>
+        public static readonly String Ltr = "ltr";
+
+        /// <summary>
+        /// The rtl keyword.
+        /// </summary>
+        public static readonly String Rtl = "rtl";
     }
 }

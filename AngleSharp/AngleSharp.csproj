@@ -344,6 +344,7 @@
     <Compile Include="Interfaces\Css\ICssCounterResetProperty.cs" />
     <Compile Include="Interfaces\Css\ICssCounterStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssCursorProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssDirectionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssDisplayProperty.cs" />
     <Compile Include="Interfaces\Css\ICssDocumentRule.cs" />
     <Compile Include="Interfaces\Css\ICssEmptyCellsProperty.cs" />
