@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
     /// </summary>
-    public sealed class CSSVerticalAlignProperty : CSSProperty
+    sealed class CSSVerticalAlignProperty : CSSProperty, ICssVerticalAlignProperty
     {
         #region Fields
 

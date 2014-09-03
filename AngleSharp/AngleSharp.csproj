@@ -383,6 +383,7 @@
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\ICssTableLayoutProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssTextAlignProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTextDecorationProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformProperty.cs" />
@@ -390,7 +391,9 @@
     <Compile Include="Interfaces\Css\ICssTransitionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssUnicodeBidiProperty.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
+    <Compile Include="Interfaces\Css\ICssVerticalAlignProperty.cs" />
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssWhiteSpaceProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWordSpacingProperty.cs" />
     <Compile Include="Interfaces\Css\ICssZIndexProperty.cs" />
