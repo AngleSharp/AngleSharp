@@ -1657,6 +1657,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCursorProperty.cs">
       <Link>Interfaces\Css\ICssCursorProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssDirectionProperty.cs">
+      <Link>Interfaces\Css\ICssDirectionProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssDisplayProperty.cs">
       <Link>Interfaces\Css\ICssDisplayProperty.cs</Link>
     </Compile>
@@ -1771,8 +1774,20 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTableLayoutProperty.cs">
       <Link>Interfaces\Css\ICssTableLayoutProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextAlignProperty.cs">
+      <Link>Interfaces\Css\ICssTextAlignProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextDecorationProperty.cs">
       <Link>Interfaces\Css\ICssTextDecorationProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextIndentProperty.cs">
+      <Link>Interfaces\Css\ICssTextIndentProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextShadowProperty.cs">
+      <Link>Interfaces\Css\ICssTextShadowProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextTransformProperty.cs">
+      <Link>Interfaces\Css\ICssTextTransformProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformOriginProperty.cs">
       <Link>Interfaces\Css\ICssTransformOriginProperty.cs</Link>
@@ -1792,8 +1807,14 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssValue.cs">
       <Link>Interfaces\Css\ICssValue.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssVerticalAlignProperty.cs">
+      <Link>Interfaces\Css\ICssVerticalAlignProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssVisibilityProperty.cs">
       <Link>Interfaces\Css\ICssVisibilityProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssWhiteSpaceProperty.cs">
+      <Link>Interfaces\Css\ICssWhiteSpaceProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssWidowsProperty.cs">
       <Link>Interfaces\Css\ICssWidowsProperty.cs</Link>
