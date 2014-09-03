@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
     /// </summary>
-    public sealed class CSSTextTransformProperty : CSSProperty
+    sealed class CSSTextTransformProperty : CSSProperty, ICssTextTransformProperty
     {
         #region Fields
 

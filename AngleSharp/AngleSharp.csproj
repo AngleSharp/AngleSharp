@@ -385,6 +385,9 @@
     <Compile Include="Interfaces\Css\ICssTableLayoutProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTextAlignProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTextDecorationProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssTextIndentProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssTextShadowProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssTextTransformProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformStyleProperty.cs" />
