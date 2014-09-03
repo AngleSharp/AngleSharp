@@ -1639,6 +1639,21 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssColorProperty.cs">
       <Link>Interfaces\Css\ICssColorProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssColumnFillProperty.cs">
+      <Link>Interfaces\Css\ICssColumnFillProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssColumnGapProperty.cs">
+      <Link>Interfaces\Css\ICssColumnGapProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssColumnRuleProperty.cs">
+      <Link>Interfaces\Css\ICssColumnRuleProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssColumnSpanProperty.cs">
+      <Link>Interfaces\Css\ICssColumnSpanProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssColumnsProperty.cs">
+      <Link>Interfaces\Css\ICssColumnsProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssConditionRule.cs">
       <Link>Interfaces\Css\ICssConditionRule.cs</Link>
     </Compile>
