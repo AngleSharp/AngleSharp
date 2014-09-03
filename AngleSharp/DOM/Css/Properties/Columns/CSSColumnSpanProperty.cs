@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-span
     /// </summary>
-    public sealed class CSSColumnSpanProperty : CSSProperty
+    sealed class CSSColumnSpanProperty : CSSProperty, ICssColumnSpanProperty
     {
         #region Fields
 

@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-fill
     /// </summary>
-    public sealed class CSSColumnFillProperty : CSSProperty
+    sealed class CSSColumnFillProperty : CSSProperty, ICssColumnFillProperty
     {
         #region Fields
 
@@ -46,10 +46,10 @@
         protected override Boolean IsValid(CSSValue value)
         {
             //Is a keyword indicating that columns are filled sequentially.
-            if (value.Is("auto"))
+            if (value.Is(Keywords.Auto))
                 _balanced = false;
             //Is a keyword indicating that content is equally divided between columns.
-            else if (value.Is("balance"))
+            else if (value.Is(Keywords.Balance))
                 _balanced = true;
             else if (value != CSSValue.Inherit)
                 return false;

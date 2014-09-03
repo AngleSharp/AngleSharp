@@ -338,7 +338,10 @@
     <Compile Include="Interfaces\Css\ICssClearProperty.cs" />
     <Compile Include="Interfaces\Css\ICssClipProperty.cs" />
     <Compile Include="Interfaces\Css\ICssColorProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssColumnFillProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssColumnGapProperty.cs" />
     <Compile Include="Interfaces\Css\ICssColumnRuleProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssColumnSpanProperty.cs" />
     <Compile Include="Interfaces\Css\ICssColumnsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssContentProperty.cs" />

@@ -1051,5 +1051,10 @@
         /// The all keyword.
         /// </summary>
         public static readonly String All = "all";
+
+        /// <summary>
+        /// The balance keyword.
+        /// </summary>
+        public static readonly String Balance = "balance";
     }
 }

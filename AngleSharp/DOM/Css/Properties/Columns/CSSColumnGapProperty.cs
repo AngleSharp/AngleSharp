@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap
     /// </summary>
-    public sealed class CSSColumnGapProperty : CSSProperty
+    sealed class CSSColumnGapProperty : CSSProperty, ICssColumnGapProperty
     {
         #region Fields
 
@@ -55,7 +55,7 @@
 
             if (gap.HasValue)
                 _gap = gap.Value;
-            else if (value.Is("normal"))
+            else if (value.Is(Keywords.Normal))
                 _gap = _normal;
             else if (value != CSSValue.Inherit)
                 return false;
