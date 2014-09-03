@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
     /// </summary>
-    public sealed class CSSFontFamilyProperty : CSSProperty
+    sealed class CSSFontFamilyProperty : CSSProperty, ICssFontFamilyProperty
     {
         #region Fields
 

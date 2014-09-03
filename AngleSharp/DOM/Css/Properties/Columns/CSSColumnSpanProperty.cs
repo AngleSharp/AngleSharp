@@ -51,10 +51,10 @@
         protected override Boolean IsValid(CSSValue value)
         {
             //The element does not span multiple columns.
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
                 _span = false;
             //The element spans across all columns.
-            else if (value.Is("all"))
+            else if (value.Is(Keywords.All))
                 _span = true;
             else if (value != CSSValue.Inherit)
                 return false;

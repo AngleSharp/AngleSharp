@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/columns
     /// </summary>
-    public sealed class CSSColumnsProperty : CSSProperty
+    sealed class CSSColumnsProperty : CSSProperty, ICssColumnsProperty
     {
         #region Fields
 
@@ -59,6 +59,16 @@
         public Int32 Count
         {
             get { return _count.Count; }
+        }
+
+        Boolean ICssColumnCountProperty.IsUsed
+        {
+            get { return _count.IsUsed; }
+        }
+
+        Boolean ICssColumnWidthProperty.IsUsed
+        {
+            get { return _width.IsUsed; }
         }
 
         #endregion

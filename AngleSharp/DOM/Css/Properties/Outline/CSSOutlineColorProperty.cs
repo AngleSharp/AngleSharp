@@ -6,7 +6,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color
     /// </summary>
-    public sealed class CSSOutlineColorProperty : CSSProperty
+    sealed class CSSOutlineColorProperty : CSSProperty, ICssOutlineColorProperty
     {
         #region Fields
 

@@ -1046,5 +1046,10 @@
         /// The rtl keyword.
         /// </summary>
         public static readonly String Rtl = "rtl";
+
+        /// <summary>
+        /// The all keyword.
+        /// </summary>
+        public static readonly String All = "all";
     }
 }
