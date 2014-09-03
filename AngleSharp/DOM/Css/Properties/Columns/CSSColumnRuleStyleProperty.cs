@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
     /// </summary>
-    public sealed class CSSColumnRuleStyleProperty : CSSProperty
+    sealed class CSSColumnRuleStyleProperty : CSSProperty, ICssColumnRuleStyleProperty
     {
         #region Fields
 

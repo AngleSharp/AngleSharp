@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-width
     /// </summary>
-    public sealed class CSSColumnRuleWidthProperty : CSSProperty
+    sealed class CSSColumnRuleWidthProperty : CSSProperty, ICssColumnRuleWidthProperty
     {
         #region Fields
 
