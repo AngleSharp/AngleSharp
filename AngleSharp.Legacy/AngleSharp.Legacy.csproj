@@ -1609,6 +1609,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderRadiusProperty.cs">
       <Link>Interfaces\Css\ICssBorderRadiusProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBottomProperty.cs">
+      <Link>Interfaces\Css\ICssBottomProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBoxDecorationBreak.cs">
       <Link>Interfaces\Css\ICssBoxDecorationBreak.cs</Link>
     </Compile>
@@ -1699,6 +1702,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssGroupingRule.cs">
       <Link>Interfaces\Css\ICssGroupingRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssHeightProperty.cs">
+      <Link>Interfaces\Css\ICssHeightProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssImportRule.cs">
       <Link>Interfaces\Css\ICssImportRule.cs</Link>
     </Compile>
@@ -1707,6 +1713,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssKeyframesRule.cs">
       <Link>Interfaces\Css\ICssKeyframesRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssLeftProperty.cs">
+      <Link>Interfaces\Css\ICssLeftProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssLetterSpacingProperty.cs">
       <Link>Interfaces\Css\ICssLetterSpacingProperty.cs</Link>
@@ -1720,8 +1729,20 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMarginRule.cs">
       <Link>Interfaces\Css\ICssMarginRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMaxHeightProperty.cs">
+      <Link>Interfaces\Css\ICssMaxHeightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMaxWidthProperty.cs">
+      <Link>Interfaces\Css\ICssMaxWidthProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMediaRule.cs">
       <Link>Interfaces\Css\ICssMediaRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMinHeightProperty.cs">
+      <Link>Interfaces\Css\ICssMinHeightProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMinWidthProperty.cs">
+      <Link>Interfaces\Css\ICssMinWidthProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssNamespaceRule.cs">
       <Link>Interfaces\Css\ICssNamespaceRule.cs</Link>
@@ -1768,6 +1789,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssQuotesProperty.cs">
       <Link>Interfaces\Css\ICssQuotesProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssRightProperty.cs">
+      <Link>Interfaces\Css\ICssRightProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
       <Link>Interfaces\Css\ICssRule.cs</Link>
     </Compile>
@@ -1804,6 +1828,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTextTransformProperty.cs">
       <Link>Interfaces\Css\ICssTextTransformProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssTopProperty.cs">
+      <Link>Interfaces\Css\ICssTopProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssTransformOriginProperty.cs">
       <Link>Interfaces\Css\ICssTransformOriginProperty.cs</Link>
     </Compile>
@@ -1833,6 +1860,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssWidowsProperty.cs">
       <Link>Interfaces\Css\ICssWidowsProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssWidthProperty.cs">
+      <Link>Interfaces\Css\ICssWidthProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssWordSpacingProperty.cs">
       <Link>Interfaces\Css\ICssWordSpacingProperty.cs</Link>
