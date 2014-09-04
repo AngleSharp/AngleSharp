@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/right
     /// </summary>
-    public sealed class CSSRightProperty : CSSCoordinateProperty
+    sealed class CSSRightProperty : CSSCoordinateProperty, ICssRightProperty
     {
         #region ctor
 

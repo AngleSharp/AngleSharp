@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-height
     /// </summary>
-    public sealed class CSSMinHeightProperty : CSSProperty
+    sealed class CSSMinHeightProperty : CSSProperty, ICssMinHeightProperty
     {
         #region Fields
 

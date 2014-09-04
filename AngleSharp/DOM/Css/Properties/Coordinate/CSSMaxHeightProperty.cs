@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-height
     /// </summary>
-    public sealed class CSSMaxHeightProperty : CSSProperty
+    sealed class CSSMaxHeightProperty : CSSProperty, ICssMaxHeightProperty
     {
         #region Fields
 
@@ -63,7 +63,7 @@
 
             if (calc != null)
                 _mode = calc;
-            else if (value.Is("none"))
+            else if (value.Is(Keywords.None))
                 _mode = null;
             else if (value != CSSValue.Inherit)
                 return false;

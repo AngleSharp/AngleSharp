@@ -6,7 +6,7 @@
     /// Basis for all properties that have either a length
     /// or percentage value or an auto value - nothing else.
     /// </summary>
-    public class CSSCoordinateProperty : CSSProperty
+    abstract class CSSCoordinateProperty : CSSProperty
     {
         #region Fields
 
@@ -57,7 +57,7 @@
 
             if (calc != null)
                 _value = calc;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _value = null;
             else if (value != CSSValue.Inherit)
                 return false;

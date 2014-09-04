@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/height
     /// </summary>
-    public sealed class CSSHeightProperty : CSSCoordinateProperty
+    sealed class CSSHeightProperty : CSSCoordinateProperty, ICssHeightProperty
     {
         #region ctor
 

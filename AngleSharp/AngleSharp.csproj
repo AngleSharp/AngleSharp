@@ -328,6 +328,7 @@
     <Compile Include="Interfaces\Css\ICssBackgroundProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderImageProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderRadiusProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBottomProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBoxDecorationBreak.cs" />
     <Compile Include="Interfaces\Css\ICssBoxShadowProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBreakAfterProperty.cs" />
@@ -358,14 +359,20 @@
     <Compile Include="Interfaces\Css\ICssFontFeatureValuesRule.cs" />
     <Compile Include="Interfaces\Css\ICssFontProperty.cs" />
     <Compile Include="Interfaces\Css\ICssGroupingRule.cs" />
+    <Compile Include="Interfaces\Css\ICssHeightProperty.cs" />
     <Compile Include="Interfaces\Css\ICssImportRule.cs" />
     <Compile Include="Interfaces\Css\ICssKeyframeRule.cs" />
     <Compile Include="Interfaces\Css\ICssKeyframesRule.cs" />
+    <Compile Include="Interfaces\Css\ICssLeftProperty.cs" />
     <Compile Include="Interfaces\Css\ICssLetterSpacingProperty.cs" />
     <Compile Include="Interfaces\Css\ICssListStyleProperty.cs" />
     <Compile Include="Interfaces\Css\ICssMarginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssMarginRule.cs" />
+    <Compile Include="Interfaces\Css\ICssMaxHeightProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssMaxWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssMediaRule.cs" />
+    <Compile Include="Interfaces\Css\ICssMinHeightProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssMinWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssNamespaceRule.cs" />
     <Compile Include="Interfaces\Css\ICssOpacityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssOrphansProperty.cs" />
@@ -381,6 +388,7 @@
     <Compile Include="Interfaces\Css\ICssPositionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssProperty.cs" />
     <Compile Include="Interfaces\Css\ICssQuotesProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssRightProperty.cs" />
     <Compile Include="Interfaces\Css\ICssRule.cs" />
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
@@ -393,6 +401,7 @@
     <Compile Include="Interfaces\Css\ICssTextIndentProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTextShadowProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTextTransformProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssTopProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformProperty.cs" />
     <Compile Include="Interfaces\Css\ICssTransformStyleProperty.cs" />
@@ -403,6 +412,7 @@
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWhiteSpaceProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWordSpacingProperty.cs" />
     <Compile Include="Interfaces\Css\ICssZIndexProperty.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />

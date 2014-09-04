@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/top
     /// </summary>
-    public sealed class CSSTopProperty : CSSCoordinateProperty
+    sealed class CSSTopProperty : CSSCoordinateProperty, ICssTopProperty
     {
         #region ctor
 

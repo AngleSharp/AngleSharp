@@ -4,7 +4,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/width
     /// </summary>
-    public sealed class CSSWidthProperty : CSSCoordinateProperty
+    sealed class CSSWidthProperty : CSSCoordinateProperty, ICssWidthProperty
     {
         #region ctor
 
