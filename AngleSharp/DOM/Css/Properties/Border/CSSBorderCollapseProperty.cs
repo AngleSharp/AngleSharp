@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
     /// </summary>
-    public sealed class CSSBorderCollapseProperty : CSSProperty
+    sealed class CSSBorderCollapseProperty : CSSProperty, ICssBorderCollapseProperty
     {
         #region Fields
 
@@ -46,9 +46,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("separate"))
+            if (value.Is(Keywords.Separate))
                 _separate = true;
-            else if (value.Is("collapse"))
+            else if (value.Is(Keywords.Collapse))
                 _separate = false;
             else if (value != CSSValue.Inherit)
                 return false;

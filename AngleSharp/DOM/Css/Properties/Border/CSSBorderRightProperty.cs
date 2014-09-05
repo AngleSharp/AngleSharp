@@ -4,7 +4,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right
     /// </summary>
-    public sealed class CSSBorderRightProperty : CSSBorderPartProperty
+    sealed class CSSBorderRightProperty : CSSBorderPartProperty, ICssBorderProperty
     {
         #region ctor
 

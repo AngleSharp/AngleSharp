@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-color
     /// </summary>
-    public sealed class CSSBorderTopColorProperty : CSSBorderPartColorProperty
+    sealed class CSSBorderTopColorProperty : CSSBorderPartColorProperty, ICssBorderColorProperty
     {
         #region ctor
 

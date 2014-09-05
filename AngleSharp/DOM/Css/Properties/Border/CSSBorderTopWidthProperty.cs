@@ -4,7 +4,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-width
     /// </summary>
-    public sealed class CSSBorderTopWidthProperty : CSSBorderPartWidthProperty
+    sealed class CSSBorderTopWidthProperty : CSSBorderPartWidthProperty, ICssBorderWidthProperty
     {
         #region ctor
 

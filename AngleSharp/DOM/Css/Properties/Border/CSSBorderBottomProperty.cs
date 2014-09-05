@@ -4,7 +4,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom
     /// </summary>
-    public sealed class CSSBorderBottomProperty : CSSBorderPartProperty
+    sealed class CSSBorderBottomProperty : CSSBorderPartProperty, ICssBorderProperty
     {
         #region ctor
 

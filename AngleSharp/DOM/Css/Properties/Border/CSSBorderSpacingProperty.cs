@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-spacing
     /// </summary>
-    public sealed class CSSBorderSpacingProperty : CSSProperty
+    sealed class CSSBorderSpacingProperty : CSSProperty, ICssBorderSpacingProperty
     {
         #region Fields
 

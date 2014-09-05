@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-color
     /// </summary>
-    public sealed class CSSBorderBottomColorProperty : CSSBorderPartColorProperty
+    sealed class CSSBorderBottomColorProperty : CSSBorderPartColorProperty, ICssBorderColorProperty
     {
         #region ctor
 

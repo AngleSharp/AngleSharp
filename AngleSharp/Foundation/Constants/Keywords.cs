@@ -1056,5 +1056,10 @@
         /// The balance keyword.
         /// </summary>
         public static readonly String Balance = "balance";
+
+        /// <summary>
+        /// The separate keyword.
+        /// </summary>
+        public static readonly String Separate = "separate";
     }
 }

@@ -5,7 +5,7 @@
     /// <summary>
     /// The abstract base class for border properties.
     /// </summary>
-    public abstract class CSSBorderPartProperty : CSSProperty
+    abstract class CSSBorderPartProperty : CSSProperty
     {
         #region Fields
 

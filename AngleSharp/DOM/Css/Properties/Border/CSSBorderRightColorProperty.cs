@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-color
     /// </summary>
-    public sealed class CSSBorderRightColorProperty : CSSBorderPartColorProperty
+    sealed class CSSBorderRightColorProperty : CSSBorderPartColorProperty, ICssBorderColorProperty
     {
         #region ctor
 
