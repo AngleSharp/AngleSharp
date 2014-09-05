@@ -327,10 +327,13 @@
     <Compile Include="Interfaces\Css\ICssBackfaceVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBackgroundProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderCollapseProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBorderColorsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderImageProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderRadiusProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBorderSpacingProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBorderStylesProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssBorderWidthsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBottomProperty.cs" />
     <Compile Include="Interfaces\Css\ICssBoxDecorationBreak.cs" />
     <Compile Include="Interfaces\Css\ICssBoxShadowProperty.cs" />

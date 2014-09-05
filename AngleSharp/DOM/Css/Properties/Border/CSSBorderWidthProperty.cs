@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-width
     /// </summary>
-    public sealed class CSSBorderWidthProperty : CSSProperty
+    sealed class CSSBorderWidthProperty : CSSProperty, ICssBorderWidthsProperty
     {
         #region Fields
 

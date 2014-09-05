@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
     /// </summary>
-    public sealed class CSSBorderColorProperty : CSSProperty
+    sealed class CSSBorderColorProperty : CSSProperty, ICssBorderColorsProperty
     {
         #region Fields
 
