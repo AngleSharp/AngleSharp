@@ -356,6 +356,51 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void HtmlAnchorToggleProperties()
+        {
+            var doc = new Document();
+            var element = doc.CreateElement<IHtmlAnchorElement>();
+
+            Assert.IsTrue(element.IsTranslated);
+            Assert.IsFalse(element.IsSpellChecked);
+            Assert.IsFalse(element.IsContentEditable);
+            Assert.IsFalse(element.IsDraggable);
+            Assert.IsFalse(element.IsHidden);
+
+            element.IsTranslated = false;
+            element.IsSpellChecked = true;
+            element.IsDraggable = true;
+            element.IsHidden = true;
+
+            Assert.IsFalse(element.IsTranslated);
+            Assert.IsTrue(element.IsSpellChecked);
+            Assert.IsTrue(element.IsDraggable);
+            Assert.IsTrue(element.IsHidden);
+        }
+
+        [TestMethod]
+        public void HtmlButtonToggleProperties()
+        {
+            var doc = new Document();
+            var form = doc.CreateElement<IHtmlFormElement>();
+            var element = doc.CreateElement<IHtmlButtonElement>();
+            doc.AppendChild(form);
+            form.AppendChild(element);
+
+            Assert.IsFalse(element.IsDisabled);
+            Assert.IsFalse(element.IsDraggable);
+            Assert.AreEqual("post", element.FormMethod);
+
+            element.IsDisabled = true;
+            element.IsDraggable = true;
+            element.FormMethod = "get";
+
+            Assert.IsTrue(element.IsDisabled);
+            Assert.IsTrue(element.IsDraggable);
+            Assert.AreEqual("get", element.FormMethod);
+        }
+
+        [TestMethod]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
             var doc = new Document();
