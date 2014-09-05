@@ -1603,11 +1603,29 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBackgroundProperty.cs">
       <Link>Interfaces\Css\ICssBackgroundProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderCollapseProperty.cs">
+      <Link>Interfaces\Css\ICssBorderCollapseProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderColorsProperty.cs">
+      <Link>Interfaces\Css\ICssBorderColorsProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderImageProperty.cs">
       <Link>Interfaces\Css\ICssBorderImageProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderProperty.cs">
+      <Link>Interfaces\Css\ICssBorderProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderRadiusProperty.cs">
       <Link>Interfaces\Css\ICssBorderRadiusProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderSpacingProperty.cs">
+      <Link>Interfaces\Css\ICssBorderSpacingProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderStylesProperty.cs">
+      <Link>Interfaces\Css\ICssBorderStylesProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssBorderWidthsProperty.cs">
+      <Link>Interfaces\Css\ICssBorderWidthsProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssBottomProperty.cs">
       <Link>Interfaces\Css\ICssBottomProperty.cs</Link>
