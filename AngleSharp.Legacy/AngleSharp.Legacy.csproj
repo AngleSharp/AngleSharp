@@ -2152,6 +2152,9 @@
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IBrowsingContext.cs">
+      <Link>Interfaces\IBrowsingContext.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ICharacterData.cs">
       <Link>Interfaces\ICharacterData.cs</Link>
     </Compile>
