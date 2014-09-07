@@ -40,6 +40,7 @@
     <Compile Include="Attributes\Accessors.cs" />
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="DOM\Constants\CacheStatus.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
     <Compile Include="DOM\Events\HashChangedEvent.cs" />
     <Compile Include="DOM\Events\KeyboardEvent.cs" />
