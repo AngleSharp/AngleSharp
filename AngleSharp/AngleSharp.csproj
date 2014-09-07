@@ -41,6 +41,7 @@
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
+    <Compile Include="DOM\Events\HashChangedEvent.cs" />
     <Compile Include="DOM\Events\KeyboardEvent.cs" />
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
@@ -425,6 +426,7 @@
     <Compile Include="Interfaces\Events\ICompositionEvent.cs" />
     <Compile Include="Interfaces\Events\IErrorEvent.cs" />
     <Compile Include="Interfaces\Events\IFocusEvent.cs" />
+    <Compile Include="Interfaces\Events\IHashChangeEvent.cs" />
     <Compile Include="Interfaces\Events\IInputEvent.cs" />
     <Compile Include="Interfaces\Events\IKeyboardEvent.cs" />
     <Compile Include="Interfaces\Events\IMessageEvent.cs" />
