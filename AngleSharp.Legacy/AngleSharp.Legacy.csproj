@@ -145,6 +145,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\Alignment.cs">
       <Link>DOM\Constants\Alignment.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\CacheStatus.cs">
+      <Link>DOM\Constants\CacheStatus.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\ContentEditableMode.cs">
       <Link>DOM\Constants\ContentEditableMode.cs</Link>
     </Compile>
