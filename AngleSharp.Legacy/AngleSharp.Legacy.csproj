@@ -2158,6 +2158,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IValidityState.cs">
       <Link>Interfaces\Html\IValidityState.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IApplicationCache.cs">
+      <Link>Interfaces\IApplicationCache.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
     </Compile>
