@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over all possible cache states.
     /// </summary>
-    public enum CacheStatus : short
+    public enum CacheStatus : ushort
     {
         /// <summary>
         /// The resource is uncached.

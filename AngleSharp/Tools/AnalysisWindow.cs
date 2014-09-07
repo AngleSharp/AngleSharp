@@ -93,6 +93,17 @@
             set;
         }
 
+        public ILocation Location
+        {
+            get { return Document.Location; }
+        }
+
+        public String Status
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods

@@ -29,6 +29,18 @@
         IDocument Document { get; }
 
         /// <summary>
+        /// Gets the location of the current document.
+        /// </summary>
+        [DomName("location")]
+        ILocation Location { get; }
+
+        /// <summary>
+        /// Gets or sets the status of the window.
+        /// </summary>
+        [DomName("status")]
+        String Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the window.
         /// </summary>
         [DomName("name")]
