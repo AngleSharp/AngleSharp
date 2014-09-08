@@ -169,18 +169,18 @@
             _cancelable = cancelable;
         }
 
-        public Boolean Dispatch(Node target)
+        public Boolean Dispatch(EventTarget target)
         {
             _flags |= EventFlags.Dispatch;
             _target = target;
 
             var eventPath = new List<Node>();
-            var parent = target.Parent;
+            var parent = target as Node;
 
-            while (parent != null)
+            if (parent != null)
             {
-                eventPath.Add(parent);
-                parent = parent.Parent;
+                while ((parent = parent.Parent) != null)
+                    eventPath.Add(parent);
             }
 
             _phase = EventPhase.Capturing;
@@ -202,7 +202,7 @@
             return !_flags.HasFlag(EventFlags.Canceled);
         }
 
-        void CallListeners(Node target)
+        void CallListeners(EventTarget target)
         {
             _current = target;
             target.CallEventListener(this);
