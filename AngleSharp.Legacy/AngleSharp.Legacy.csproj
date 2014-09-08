@@ -1936,6 +1936,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Events\ITouch.cs">
       <Link>Interfaces\Events\ITouch.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\ITouchList.cs">
+      <Link>Interfaces\Events\ITouchList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\ITrackEvent.cs">
       <Link>Interfaces\Events\ITrackEvent.cs</Link>
     </Compile>
