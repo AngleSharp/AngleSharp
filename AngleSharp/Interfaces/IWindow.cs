@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Navigator;
     using System;
 
@@ -9,7 +10,7 @@
     /// https://developer.mozilla.org/en-US/docs/Web/API/Window
     /// </summary>
     [DomName("Window")]
-    public interface IWindow : IEventTarget
+    public interface IWindow : IEventTarget, IGlobalEventHandlers, IWindowEventHandlers
     {
         /// <summary>
         /// Gives the values of all the CSS properties of an element after
