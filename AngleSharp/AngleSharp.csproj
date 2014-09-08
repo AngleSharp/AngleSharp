@@ -434,6 +434,7 @@
     <Compile Include="Interfaces\Events\IMessageEvent.cs" />
     <Compile Include="Interfaces\Events\IMouseEvent.cs" />
     <Compile Include="Interfaces\Events\ITouch.cs" />
+    <Compile Include="Interfaces\Events\ITouchList.cs" />
     <Compile Include="Interfaces\Events\IUiEvent.cs" />
     <Compile Include="Interfaces\Events\IWheelEvent.cs" />
     <Compile Include="Interfaces\IApplicationCache.cs" />
