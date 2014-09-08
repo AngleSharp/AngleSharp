@@ -17,6 +17,9 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new event target in the DOM.
+        /// </summary>
         public EventTarget()
         {
             _listeners = new List<RegisteredEventListener>();
