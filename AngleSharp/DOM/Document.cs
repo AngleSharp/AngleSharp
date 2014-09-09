@@ -944,6 +944,24 @@
 
         #region Methods
 
+        public ITouch CreateTouch(IWindowProxy view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY)
+        {
+            return new TouchPoint
+            {
+                Target = target,
+                Id = id,
+                PageX = pageX,
+                PageY = pageY,
+                ScreenX = screenX,
+                ScreenY = screenY
+            };
+        }
+
+        public ITouchList CreateTouchList(params ITouch[] touches)
+        {
+            return new TouchList(touches);
+        }
+
         /// <summary>
         /// Opens a document stream for writing.
         /// </summary>
