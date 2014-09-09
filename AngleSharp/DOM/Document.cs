@@ -447,6 +447,15 @@
         }
 
         /// <summary>
+        /// Gets a list of CSS elements.
+        /// TODO: http://www.whatwg.org/specs/web-apps/current-work/multipage/dom.html#dom-document-csselementmap
+        /// </summary>
+        public IElementMap Styles
+        {
+            get { return new ElementMap(); }
+        }
+
+        /// <summary>
         /// Gets a list of all of the anchors in the document.
         /// </summary>
         public IHtmlCollection Anchors
