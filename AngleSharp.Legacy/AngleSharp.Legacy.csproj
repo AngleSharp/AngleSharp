@@ -94,6 +94,9 @@
     <Compile Include="..\AngleSharp\DOM\CharacterData.cs">
       <Link>DOM\CharacterData.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\ElementMap.cs">
+      <Link>DOM\Collections\ElementMap.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\HtmlAllCollection.cs">
       <Link>DOM\Collections\HtmlAllCollection.cs</Link>
     </Compile>
