@@ -40,6 +40,7 @@
     <Compile Include="Attributes\Accessors.cs" />
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Collections\TouchList.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
