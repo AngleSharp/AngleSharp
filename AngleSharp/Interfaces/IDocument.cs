@@ -382,12 +382,6 @@
         IWindowProxy DefaultView { get; }
 
         /// <summary>
-        /// Gets a list of CSS elements.
-        /// </summary>
-        [DomName("cssElementMap")]
-        IElementMap Styles { get; }
-
-        /// <summary>
         /// Loads the document content from the given URL and replaces the current content.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
