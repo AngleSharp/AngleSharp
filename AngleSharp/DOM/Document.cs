@@ -24,6 +24,7 @@
 
         Task _queue;
         QuirksMode _quirksMode;
+        Boolean _designMode;
         DocumentReadyState _ready;
         IConfiguration _options;
         ITextSource _source;
@@ -429,6 +430,7 @@
             _styleSheets = new StyleSheetList(this);
             _scripts = new List<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
+            _designMode = false;
             _location = new Location("about:blank");
             _options = Configuration.Default;
             _queue = Task.Factory.StartNew(() => { });
@@ -439,20 +441,20 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets if the whole document is editable.
+        /// </summary>
+        public String DesignMode
+        {
+            get { return _designMode ? "on" : "off"; }
+            set { _designMode = value.Equals("on", StringComparison.OrdinalIgnoreCase); }
+        }
+
+        /// <summary>
         /// Gets a list of all elements in the document.
         /// </summary>
         public IHtmlAllCollection All
         {
             get { return new HtmlAllCollection(this); }
-        }
-
-        /// <summary>
-        /// Gets a list of CSS elements.
-        /// TODO: http://www.whatwg.org/specs/web-apps/current-work/multipage/dom.html#dom-document-csselementmap
-        /// </summary>
-        public IElementMap Styles
-        {
-            get { return new ElementMap(); }
         }
 
         /// <summary>

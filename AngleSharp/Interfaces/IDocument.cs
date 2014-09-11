@@ -29,6 +29,12 @@
         IImplementation Implementation { get; }
 
         /// <summary>
+        /// Gets or sets whether the entire document is editable.
+        /// </summary>
+        [DomName("designMode")]
+        String DesignMode { get; set; }
+
+        /// <summary>
         /// Gets or sets the value of the dir attribute.
         /// </summary>
         [DomName("dir")]
@@ -380,12 +386,6 @@
         /// </summary>
         [DomName("defaultView")]
         IWindowProxy DefaultView { get; }
-
-        /// <summary>
-        /// Gets a list of CSS elements.
-        /// </summary>
-        [DomName("cssElementMap")]
-        IElementMap Styles { get; }
 
         /// <summary>
         /// Loads the document content from the given URL and replaces the current content.
