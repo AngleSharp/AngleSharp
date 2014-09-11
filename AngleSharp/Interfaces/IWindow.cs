@@ -86,5 +86,29 @@
         /// </summary>
         [DomName("navigator")]
         INavigator Navigator { get; }
+
+        /// <summary>
+        /// Closes the window.
+        /// </summary>
+        [DomName("close")]
+        void Close();
+
+        /// <summary>
+        /// Stops the current document from being loaded.
+        /// </summary>
+        [DomName("stop")]
+        void Stop();
+
+        /// <summary>
+        /// Focuses the current window.
+        /// </summary>
+        [DomName("focus")]
+        void Focus();
+
+        /// <summary>
+        /// Removes the focus from the current window.
+        /// </summary>
+        [DomName("blur")]
+        void Blur();
     }
 }

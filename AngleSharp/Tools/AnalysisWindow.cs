@@ -594,5 +594,25 @@
         }
 
         #endregion
+
+        #region UI Interaction
+
+        void IWindow.Close()
+        {
+        }
+
+        void IWindow.Stop()
+        {
+        }
+
+        void IWindow.Focus()
+        {
+        }
+
+        void IWindow.Blur()
+        {
+        }
+
+        #endregion
     }
 }
