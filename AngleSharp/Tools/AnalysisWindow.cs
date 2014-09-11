@@ -613,6 +613,19 @@
         {
         }
 
+        void IWindow.Alert(String message)
+        {
+        }
+
+        Boolean IWindow.Confirm(String message)
+        {
+            return false;
+        }
+
+        void IWindow.Print()
+        {
+        }
+
         #endregion
     }
 }

@@ -110,5 +110,26 @@
         /// </summary>
         [DomName("blur")]
         void Blur();
+
+        /// <summary>
+        /// Shows the messagebox with the given message.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        [DomName("alert")]
+        void Alert(String message);
+
+        /// <summary>
+        /// Opens a confirmation box with the provided message.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <returns>True if the message has been confirmed, otherwise false.</returns>
+        [DomName("confirm")]
+        Boolean Confirm(String message);
+
+        /// <summary>
+        /// Opens the print dialog for the current window.
+        /// </summary>
+        [DomName("print")]
+        void Print();
     }
 }
