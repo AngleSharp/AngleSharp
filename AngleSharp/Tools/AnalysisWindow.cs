@@ -597,6 +597,11 @@
 
         #region UI Interaction
 
+        IHistory IWindow.History
+        {
+            get { return null; }
+        }
+
         void IWindow.Close()
         {
         }

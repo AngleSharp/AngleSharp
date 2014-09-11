@@ -131,5 +131,11 @@
         /// </summary>
         [DomName("print")]
         void Print();
+
+        /// <summary>
+        /// Gets the history of the current window.
+        /// </summary>
+        [DomName("history")]
+        IHistory History { get; }
     }
 }
