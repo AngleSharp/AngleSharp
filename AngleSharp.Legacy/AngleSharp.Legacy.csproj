@@ -1600,8 +1600,14 @@
     <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
       <Link>Infrastructure\CssStyleEngine.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\ICookieService.cs">
+      <Link>Infrastructure\ICookieService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IService.cs">
+      <Link>Infrastructure\IService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
       <Link>Infrastructure\IStyleEngine.cs</Link>
