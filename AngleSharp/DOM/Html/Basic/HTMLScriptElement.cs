@@ -3,7 +3,6 @@
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using System;
-    using System.IO;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -18,7 +17,7 @@
         Boolean _wasParserInserted;
         Boolean _forceAsync;
         Boolean _readyToBeExecuted;
-        Task<Stream> _load;
+        Task<IResponse> _load;
 
         #endregion
 
@@ -158,7 +157,7 @@
             if (FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true))
                 return;
 
-            Owner.Options.RunScript(_load.Result, CreateOptions(), ScriptLanguage);
+            Owner.Options.RunScript(_load.Result.Content, CreateOptions(), ScriptLanguage);
             FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
 
             if (Source != null)

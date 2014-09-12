@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
+        /// <returns>The task which will eventually return the response.</returns>
         public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url)
         {
             return configuration.LoadAsync(url, CancellationToken.None);
@@ -55,8 +55,8 @@
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
                 return null;
@@ -66,12 +66,11 @@
             if (requester == null)
                 throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
 
-            var response = await requester.RequestAsync(new DefaultRequest
+            return requester.RequestAsync(new DefaultRequest
             {
                 Address = url,
                 Method = HttpMethod.Get
-            }, cancel).ConfigureAwait(false);
-            return response;
+            }, cancel);
         }
 
         #endregion
@@ -87,7 +86,7 @@
         /// <param name="origin">The origin of the page that requests the loading.</param>
         /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
+        public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
         {
             return configuration.LoadWithCorsAsync(url, cors, origin, defaultBehavior, CancellationToken.None);
         }
@@ -102,10 +101,10 @@
         /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<Stream> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
+        public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
         {
             if (!configuration.AllowRequests)
-                return Stream.Null;
+                return null;
 
             var requester = configuration.GetRequester();
 
@@ -114,12 +113,11 @@
 
             //TODO
             //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
-            var response = await requester.RequestAsync(new DefaultRequest
+            return requester.RequestAsync(new DefaultRequest
             {
                 Address = url,
                 Method = HttpMethod.Get
-            }, cancel).ConfigureAwait(false);
-            return response.Content;
+            }, cancel);
         }
 
         #endregion
@@ -134,8 +132,8 @@
         /// <param name="content">The body that should be used in the request.</param>
         /// <param name="mimeType">The mime-type of the request.</param>
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> SendAsync(this IConfiguration configuration, Url url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
         {
             return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }
@@ -150,11 +148,11 @@
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
-        /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<Stream> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel, Boolean force = false)
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
-                return Stream.Null;
+                return null;
 
             var requester = configuration.GetRequester();
 
@@ -171,8 +169,7 @@
             if (mimeType != null)
                 request.Headers[HeaderNames.ContentType] = mimeType;
 
-            var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-            return response.Content;
+            return requester.RequestAsync(request, cancel);
         }
 
         #endregion

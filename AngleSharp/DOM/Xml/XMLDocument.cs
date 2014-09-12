@@ -33,7 +33,7 @@
             {
                 if (m.IsCompleted && !m.IsFaulted && m.Result != null)
                 {
-                    Load(m.Result.Content);
+                    Load(m.Result);
                     return true;
                 }
 

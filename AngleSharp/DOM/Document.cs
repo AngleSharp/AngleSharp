@@ -5,6 +5,7 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
+    using AngleSharp.Network;
     using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
@@ -1070,7 +1071,7 @@
             {
                 if (m.IsCompleted && !m.IsFaulted && m.Result != null)
                 {
-                    Load(m.Result.Content);
+                    Load(m.Result);
                     return true;
                 }
 
@@ -1479,13 +1480,13 @@
         }
 
         /// <summary>
-        /// Loads the document content from the given stream.
+        /// Loads the document content from the given HTTP response.
         /// </summary>
-        /// <param name="stream">The stream that contains the HTML content.</param>
-        internal void Load(Stream stream)
+        /// <param name="response">The response that contains the HTML content stream and more.</param>
+        internal void Load(IResponse response)
         {
             ReadyState = DocumentReadyState.Loading;
-            _source = new TextSource(stream, Options.DefaultEncoding());
+            _source = new TextSource(response.Content, Options.DefaultEncoding());
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             parser.Parse();
