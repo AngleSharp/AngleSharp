@@ -1487,6 +1487,7 @@
         {
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
+            _cookie = Options.GetCookie(response);
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             parser.Parse();

@@ -212,6 +212,29 @@
 
         #endregion
 
+        #region Cookies
+
+        /// <summary>
+        /// Gets the cookie from the HTTP response.
+        /// </summary>
+        /// <param name="options">The configurations to use.</param>
+        /// <param name="response">The response to the request.</param>
+        /// <returns>The value of the cookie.</returns>
+        public static String GetCookie(this IConfiguration options, IResponse response)
+        {
+            var service = options.GetService<ICookieService>();
+            var cookie = String.Empty;
+
+            if (service != null)
+                cookie = service.GetCookie(response);
+            else if (!response.Headers.TryGetValue(HeaderNames.SetCookie, out cookie))
+                cookie = String.Empty;
+
+            return cookie;
+        }
+
+        #endregion
+
         #region Parsing Styles
 
         /// <summary>
