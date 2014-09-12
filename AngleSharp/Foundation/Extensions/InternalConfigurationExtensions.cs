@@ -4,6 +4,7 @@
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Text;
@@ -172,6 +173,44 @@
 
             var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
             return response.Content;
+        }
+
+        #endregion
+
+        #region Services
+
+        /// <summary>
+        /// Gets a service with a specific type from the configuration, if it has been registered.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service to get.</typeparam>
+        /// <param name="configuration">The configuration instance to use.</param>
+        /// <returns>The service, if any.</returns>
+        public static TService GetService<TService>(this IConfiguration configuration)
+            where TService : IService
+        {
+            foreach (var service in configuration.Services)
+            {
+                if (service is TService)
+                    return (TService)service;
+            }
+
+            return default(TService);
+        }
+
+        /// <summary>
+        /// Gets services with a specific type from the configuration, if it has been registered.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service to get.</typeparam>
+        /// <param name="configuration">The configuration instance to use.</param>
+        /// <returns>An enumerable over all services.</returns>
+        public static IEnumerable<TService> GetServices<TService>(this IConfiguration configuration)
+            where TService : IService
+        {
+            foreach (var service in configuration.Services)
+            {
+                if (service is TService)
+                    yield return (TService)service;
+            }
         }
 
         #endregion
