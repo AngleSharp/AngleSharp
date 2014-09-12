@@ -59,7 +59,7 @@
         public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
-                return null;
+                return Empty<IResponse>();
 
             var requester = configuration.GetRequester();
 
@@ -104,7 +104,7 @@
         public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
         {
             if (!configuration.AllowRequests)
-                return null;
+                return Empty<IResponse>();
 
             var requester = configuration.GetRequester();
 
@@ -152,7 +152,7 @@
         public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
-                return null;
+                return Empty<IResponse>();
 
             var requester = configuration.GetRequester();
 
@@ -332,6 +332,22 @@
                 if (engine != null)
                     engine.Evaluate(source, options);
             }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static Task<TResult> Empty<TResult>()
+            where TResult : class
+        {
+#if LEGACY
+            var task = new TaskCompletionSource<TResult>();
+            task.SetResult(null);
+            return task.Task;
+#else
+            return Task.FromResult<TResult>(null);
+#endif
         }
 
         #endregion

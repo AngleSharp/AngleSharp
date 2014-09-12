@@ -319,7 +319,7 @@
 
             if (action.Href.Contains("%%%%"))
             {
-                result = result.UrlEncode(System.Text.Encoding.GetEncoding("us-ascii"));
+                result = result.UrlEncode(DocumentEncoding.Resolve("us-ascii"));
                 action.Href = action.Href.ReplaceFirst("%%%%", result);
             }
             else if (action.Href.Contains("%%"))
@@ -338,7 +338,7 @@
         void MailWithHeaders(Url action)
         {
             var formDataSet = ConstructDataSet();
-            var result = formDataSet.AsUrlEncoded(System.Text.Encoding.GetEncoding("us-ascii"));
+            var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve("us-ascii"));
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
@@ -356,7 +356,7 @@
         {
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var encoding = System.Text.Encoding.GetEncoding("us-ascii");
+            var encoding = DocumentEncoding.Resolve("us-ascii");
             var body = String.Empty;
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
