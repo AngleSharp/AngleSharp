@@ -22,6 +22,7 @@
 
         readonly List<IScriptEngine> _scripts;
         readonly List<IStyleEngine> _styles;
+        readonly List<IService> _services;
 
         CultureInfo _culture;
         Boolean _scripting;
@@ -57,6 +58,7 @@
             _requests = false;
             _culture = CultureInfo.CurrentUICulture;
             _info = new DefaultInfo();
+            _services = new List<IService>();
             _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
             Register(new CssStyleEngine());
@@ -65,6 +67,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets an enumeration over the registered services.
+        /// </summary>
+        public IEnumerable<IService> Services
+        {
+            get { return _services; }
+        }
 
         /// <summary>
         /// Gets an enumeration over the available script engines.
@@ -225,6 +235,17 @@
         public virtual void ReportError(ParseErrorEventArgs e)
         {
             Debug.WriteLine(e.ToString());
+        }
+
+        /// <summary>
+        /// Adds the provided service.
+        /// </summary>
+        /// <param name="service">The service to register.</param>
+        /// <returns>The current instance for chaining.</returns>
+        public Configuration Register(IService service)
+        {
+            _services.Add(service);
+            return this;
         }
 
         /// <summary>

@@ -71,6 +71,11 @@
         IEnumerable<IStyleEngine> StyleEngines { get; }
 
         /// <summary>
+        /// Gets an enumeration over the available services.
+        /// </summary>
+        IEnumerable<IService> Services { get; }
+
+        /// <summary>
         /// Creates a requester for performing web (e.g. HTTP) requests.
         /// </summary>
         /// <returns>The constructed HTTP requester.</returns>

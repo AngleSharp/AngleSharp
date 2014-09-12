@@ -75,6 +75,11 @@
             set;
         }
 
+        public IEnumerable<IService> Services
+        {
+            get { return _original.Services; }
+        }
+
         public IEnumerable<IScriptEngine> ScriptEngines
         {
             get { return _original.ScriptEngines; }

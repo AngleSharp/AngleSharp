@@ -325,7 +325,9 @@
     <Compile Include="Foundation\Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
+    <Compile Include="Infrastructure\ICookieService.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
+    <Compile Include="Infrastructure\IService.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssAnimationPlayStateProperty.cs" />
