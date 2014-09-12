@@ -31,9 +31,9 @@
 
             var result = task.ContinueWith(m =>
             {
-                if (m.IsCompleted && !m.IsFaulted)
+                if (m.IsCompleted && !m.IsFaulted && m.Result != null)
                 {
-                    Load(m.Result);
+                    Load(m.Result.Content);
                     return true;
                 }
 

@@ -424,6 +424,7 @@
             Owner = this;
             IsAsync = true;
             _source = source;
+            _cookie = String.Empty;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
@@ -1062,14 +1063,14 @@
         public Boolean LoadHtml(String url)
         {
             DocumentUri = url;
-            Cookie = String.Empty;
+            _cookie = String.Empty;
             var task = Options.LoadAsync(new Url(url));
 
             var result = task.ContinueWith(m =>
             {
-                if (m.IsCompleted && !m.IsFaulted)
+                if (m.IsCompleted && !m.IsFaulted && m.Result != null)
                 {
-                    Load(m.Result);
+                    Load(m.Result.Content);
                     return true;
                 }
 

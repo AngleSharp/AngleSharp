@@ -43,7 +43,7 @@
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<Stream> LoadAsync(this IConfiguration configuration, Url url)
+        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url)
         {
             return configuration.LoadAsync(url, CancellationToken.None);
         }
@@ -56,10 +56,10 @@
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static async Task<Stream> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
+        public static async Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
         {
             if (!configuration.AllowRequests && !force)
-                return Stream.Null;
+                return null;
 
             var requester = configuration.GetRequester();
 
@@ -71,7 +71,7 @@
                 Address = url,
                 Method = HttpMethod.Get
             }, cancel).ConfigureAwait(false);
-            return response.Content;
+            return response;
         }
 
         #endregion
