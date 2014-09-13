@@ -388,11 +388,10 @@
         IWindowProxy DefaultView { get; }
 
         /// <summary>
-        /// Loads the document content from the given URL and replaces the current content.
+        /// Loads the document content from the given url.
         /// </summary>
-        /// <param name="url">The URL that hosts the HTML content.</param>
-        /// <returns>True if the URL could be loaded successfully, otherwise false.</returns>
+        /// <param name="url">The url that hosts the HTML content.</param>
         [DomName("load")]
-        Boolean LoadHtml(String url);
+        void LoadHtml(String url);
     }
 }

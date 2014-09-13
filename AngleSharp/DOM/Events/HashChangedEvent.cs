@@ -28,6 +28,7 @@
         public void Init(String type, Boolean bubbles, Boolean cancelable, String previousUrl, String currentUrl)
         {
             Init(type, bubbles, cancelable);
+            Stop();
             PreviousUrl = previousUrl;
             CurrentUrl = currentUrl;
         }

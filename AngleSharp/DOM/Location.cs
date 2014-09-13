@@ -16,9 +16,9 @@
         #region Events
 
         /// <summary>
-        /// Fired when the location is changed.
+        /// Fired when the address is changed.
         /// </summary>
-        public event EventHandler Changed;
+        public event EventHandler<LocationChangedEventArgs> Changed;
 
         #endregion
 
@@ -95,7 +95,16 @@
         public String Hash
         {
             get { return NonEmptyPrefix(_url.Fragment, "#"); }
-            set { _url.Fragment = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Fragment) 
+                { 
+                    _url.Fragment = value; 
+                    RaiseChanged(old, true); 
+                } 
+            }
         }
 
         /// <summary>
@@ -104,7 +113,16 @@
         public String Host
         {
             get { return _url.Host; }
-            set { _url.Host = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.Host = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         /// <summary>
@@ -113,7 +131,16 @@
         public String HostName
         {
             get { return _url.HostName; }
-            set { _url.HostName = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.HostName = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         /// <summary>
@@ -122,7 +149,16 @@
         public String Href
         {
             get { return _url.Href; }
-            set { _url.Href = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.Href = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         /// <summary>
@@ -131,7 +167,16 @@
         public String PathName
         {
             get { return "/" + _url.Path; }
-            set { _url.Path = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.Path = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         /// <summary>
@@ -140,7 +185,16 @@
         public String Port
         {
             get { return _url.Port; }
-            set { _url.Port = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.Port = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         /// <summary>
@@ -149,7 +203,16 @@
         public String Protocol
         {
             get { return NonEmptyPostfix(_url.Scheme, ":"); }
-            set { _url.Scheme = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.Scheme = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         /// <summary>
@@ -158,7 +221,16 @@
         public String Search
         {
             get { return NonEmptyPrefix(_url.Query, "?"); }
-            set { _url.Query = value; RaiseChanged(); }
+            set 
+            {
+                var old = _url.Href;
+
+                if (value != _url.Host)
+                {
+                    _url.Query = value;
+                    RaiseChanged(old, false);
+                }
+            }
         }
 
         #endregion
@@ -197,10 +269,10 @@
 
         #region Helpers
 
-        void RaiseChanged()
+        void RaiseChanged(String oldAddress, Boolean hashChanged)
         {
             if (Changed != null)
-                Changed(this, EventArgs.Empty);
+                Changed(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
         }
 
         static String NonEmptyPrefix(String check, String prefix)
@@ -217,6 +289,41 @@
                 return String.Empty;
 
             return String.Concat(check, postfix);
+        }
+
+        #endregion
+
+        #region Event Arguments
+
+        /// <summary>
+        /// Event Arguments for the location changed event.
+        /// </summary>
+        public sealed class LocationChangedEventArgs : EventArgs
+        {
+            public LocationChangedEventArgs(Boolean hashChanged, String previousLocation, String currentLocation)
+            {
+                IsHashChanged = hashChanged;
+                PreviousLocation = previousLocation;
+                CurrentLocation = currentLocation;
+            }
+
+            public Boolean IsHashChanged
+            {
+                get;
+                private set;
+            }
+
+            public String PreviousLocation
+            {
+                get;
+                private set;
+            }
+
+            public String CurrentLocation
+            {
+                get;
+                private set;
+            }
         }
 
         #endregion

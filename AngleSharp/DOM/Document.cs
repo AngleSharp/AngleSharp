@@ -9,7 +9,6 @@
     using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -434,6 +433,7 @@
             _location = new Location("about:blank");
             _options = Configuration.Default;
             _queue = Task.Factory.StartNew(() => { });
+            _location.Changed += LocationChanged;
         }
 
         #endregion
@@ -620,7 +620,12 @@
         public String DocumentUri
         {
             get { return _location.Href; }
-            internal set { _location.Href = value; BaseUri = value; }
+            internal set
+            {
+                _location.Changed -= LocationChanged;
+                _location.Href = value;
+                _location.Changed += LocationChanged;
+            }
         }
 
         /// <summary>
@@ -1059,24 +1064,9 @@
         /// Loads the document content from the given URL.
         /// </summary>
         /// <param name="url">The URL that hosts the HTML content.</param>
-        public Boolean LoadHtml(String url)
+        public void LoadHtml(String url)
         {
-            DocumentUri = url;
-            var task = Options.LoadAsync(new Url(url));
-
-            var result = task.ContinueWith(m =>
-            {
-                if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                {
-                    Load(m.Result);
-                    return true;
-                }
-
-                return false;
-            });
-
-            result.Wait();
-            return result.Result;
+            _location.Href = url;
         }
 
         /// <summary>
@@ -1372,6 +1362,25 @@
 
         #region Internal methods
 
+        void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
+        {
+            if (e.IsHashChanged)
+            {
+                var ev = new HashChangedEvent();
+                ev.Init(EventNames.HashChange, false, false, e.PreviousLocation, e.CurrentLocation);
+                ev.IsTrusted = true;
+                ev.Dispatch(this);
+            }
+            else
+            {
+                Options.LoadAsync(new Url(e.CurrentLocation)).ContinueWith(m =>
+                {
+                    if (m.IsCompleted && !m.IsFaulted && m.Result != null)
+                        Load(m.Result);
+                });
+            }
+        }
+
         void RunNextScript()
         {
             WaitForReady();
@@ -1482,6 +1491,7 @@
         /// <param name="response">The response that contains the HTML content stream and more.</param>
         internal void Load(IResponse response)
         {
+            DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
             ReplaceAll(null, false);

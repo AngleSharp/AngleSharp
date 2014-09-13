@@ -23,25 +23,9 @@
         {
         }
 
-        Boolean IXmlDocument.LoadXml(String url)
+        public void LoadXml(String url)
         {
             Location.Href = url;
-            Cookie = String.Empty;
-            var task = Options.LoadAsync(new Url(url));
-
-            var result = task.ContinueWith(m =>
-            {
-                if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                {
-                    Load(m.Result);
-                    return true;
-                }
-
-                return false;
-            });
-
-            result.Wait();
-            return result.Result;
         }
     }
 }

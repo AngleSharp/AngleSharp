@@ -189,6 +189,7 @@
             var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
             result.Content = _response.GetResponseStream();
             result.StatusCode = _response.StatusCode;
+            result.Address = new Url(_response.ResponseUri);
 
             foreach (var header in headers)
                 result.Headers.Add(header.Key, header.Value);
