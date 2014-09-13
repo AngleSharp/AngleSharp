@@ -215,22 +215,33 @@
         #region Cookies
 
         /// <summary>
-        /// Gets the cookie from the HTTP response.
+        /// Gets the cookie for the provided address.
         /// </summary>
-        /// <param name="options">The configurations to use.</param>
-        /// <param name="response">The response to the request.</param>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="origin">The origin of the cookie.</param>
         /// <returns>The value of the cookie.</returns>
-        public static String GetCookie(this IConfiguration options, IResponse response)
+        public static String GetCookie(this IConfiguration options, String origin)
         {
             var service = options.GetService<ICookieService>();
-            var cookie = String.Empty;
 
             if (service != null)
-                cookie = service.GetCookie(response);
-            else if (!response.Headers.TryGetValue(HeaderNames.SetCookie, out cookie))
-                cookie = String.Empty;
+                return service[origin];
 
-            return cookie;
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Sets the cookie for the provided address.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="origin">The origin of the cookie.</param>
+        /// <param name="value">The value of the cookie.</param>
+        public static void SetCookie(this IConfiguration options, String origin, String value)
+        {
+            var service = options.GetService<ICookieService>();
+
+            if (service != null)
+                service[origin] = value;
         }
 
         #endregion

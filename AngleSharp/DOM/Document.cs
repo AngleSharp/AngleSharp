@@ -32,9 +32,8 @@
         String _referrer;
         String _lastStyleSheetSet;
         String _currentStyleSheetSet;
-        String _cookie;
         String _contentType;
-        ILocation _location;
+        Location _location;
 
         #endregion
 
@@ -425,7 +424,6 @@
             Owner = this;
             IsAsync = true;
             _source = source;
-            _cookie = String.Empty;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
@@ -826,8 +824,8 @@
         /// </summary>
         public String Cookie
         {
-            get { return _cookie; }
-            set { _cookie = value; }
+            get { return Options.GetCookie(_location.Origin); }
+            set { Options.SetCookie(_location.Origin, value); }
         }
 
         /// <summary>
@@ -1064,7 +1062,6 @@
         public Boolean LoadHtml(String url)
         {
             DocumentUri = url;
-            _cookie = String.Empty;
             var task = Options.LoadAsync(new Url(url));
 
             var result = task.ContinueWith(m =>
@@ -1487,7 +1484,6 @@
         {
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
-            _cookie = Options.GetCookie(response);
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             parser.Parse();

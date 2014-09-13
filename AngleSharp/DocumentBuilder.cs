@@ -251,7 +251,7 @@
 
             var response = await configuration.LoadAsync(new Url(url), cancel, force: true).ConfigureAwait(false);
             var stream = new TextSource(response.Content, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString, Cookie = configuration.GetCookie(response) };
+            var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
             var parser = Construct(doc, configuration);
             await parser.ParseAsync(cancel).ConfigureAwait(false);
             return parser.Result;
