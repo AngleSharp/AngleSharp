@@ -304,6 +304,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\UnicodeMode.cs">
       <Link>DOM\Css\Constants\UnicodeMode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\UnitType.cs">
+      <Link>DOM\Css\Constants\UnitType.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
       <Link>DOM\Css\Constants\Whitespace.cs</Link>
     </Compile>
@@ -1824,6 +1827,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPositionProperty.cs">
       <Link>Interfaces\Css\ICssPositionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPrimitiveValue.cs">
+      <Link>Interfaces\Css\ICssPrimitiveValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperty.cs">
       <Link>Interfaces\Css\ICssProperty.cs</Link>
