@@ -162,23 +162,13 @@
         }
 
         /// <summary>
-        /// Gets or sets the language (code, e.g. en-US, de-DE) to use.
-        /// Default is the system (UI) language.
-        /// </summary>
-        public String Language
-        {
-            get { return _culture.Name; }
-            set { Culture = new CultureInfo(value); }
-        }
-
-        /// <summary>
         /// Gets or sets the culture to use.
         /// Default is the system (UI) culture.
         /// </summary>
         public CultureInfo Culture
         {
-            get { return _culture; }
-            set { _culture = value ?? CultureInfo.CurrentUICulture; }
+            get { return _culture ?? CultureInfo.CurrentUICulture; }
+            set { _culture = value; }
         }
 
         /// <summary>

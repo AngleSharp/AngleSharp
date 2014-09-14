@@ -22,7 +22,6 @@
             IsStyling = original.IsStyling;
             IsEmbedded = original.IsEmbedded;
             UseQuirksMode = original.UseQuirksMode;
-            Language = original.Language;
             Culture = original.Culture;
             UserAgentInfo = original.UserAgentInfo;
         }
@@ -52,12 +51,6 @@
         }
 
         public Boolean UseQuirksMode
-        {
-            get;
-            set;
-        }
-
-        public String Language
         {
             get;
             set;

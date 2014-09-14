@@ -44,11 +44,6 @@
         Boolean UseQuirksMode { get; set; }
 
         /// <summary>
-        /// Gets or sets the language (code, e.g. en-US, de-DE) to use.
-        /// </summary>
-        String Language { get; set; }
-
-        /// <summary>
         /// Gets or sets the culture to use.
         /// </summary>
         CultureInfo Culture { get; set; }

@@ -103,7 +103,7 @@
         /// </summary>
         public String Language
         {
-            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Language : Owner.Options.Language); }
+            get { return GetAttribute(AttributeNames.Lang) ?? (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Language : Owner.Options.GetLanguage()); }
             set { SetAttribute(AttributeNames.Lang, value); }
         }
 

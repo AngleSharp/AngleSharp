@@ -30,7 +30,17 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            return DocumentEncoding.Suggest(configuration.Language);
+            return DocumentEncoding.Suggest(configuration.GetLanguage());
+        }
+
+        /// <summary>
+        /// Gets the provided current language.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <returns>The language string, e.g. en-US.</returns>
+        public static String GetLanguage(this IConfiguration configuration)
+        {
+            return (configuration.Culture ?? System.Globalization.CultureInfo.CurrentUICulture).Name;
         }
 
         #endregion
