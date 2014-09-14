@@ -1897,6 +1897,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssValue.cs">
       <Link>Interfaces\Css\ICssValue.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssValueList.cs">
+      <Link>Interfaces\Css\ICssValueList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssVerticalAlignProperty.cs">
       <Link>Interfaces\Css\ICssVerticalAlignProperty.cs</Link>
     </Compile>
