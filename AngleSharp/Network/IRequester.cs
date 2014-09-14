@@ -4,19 +4,19 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Defines the required methods any (http) requester object must have.
+    /// Defines the required methods any requester object must have.
     /// </summary>
     public interface IRequester
     {
         /// <summary>
-        /// Performs a blocking (http) request with the given options.
+        /// Performs a blocking request with the given options.
         /// </summary>
         /// <param name="request">The options to consider.</param>
         /// <returns>The response data.</returns>
         IResponse Request(IRequest request);
 
         /// <summary>
-        /// Performs an asynchronous (http) request that can be cancelled.
+        /// Performs an asynchronous request that can be cancelled.
         /// </summary>
         /// <param name="request">The options to consider.</param>
         /// <param name="cancellationToken">The token for cancelling the task.</param>
