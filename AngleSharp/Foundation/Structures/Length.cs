@@ -4,7 +4,7 @@
     using System.Globalization;
 
     /// <summary>
-    /// Represents a length value.
+    /// Represents an absolute length value.
     /// </summary>
     public struct Length : IEquatable<Length>, ICssObject
     {
@@ -79,6 +79,24 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the length is given in absolute units.
+        /// Such a length may be converted to pixels.
+        /// </summary>
+        public Boolean IsAbsolute
+        {
+            get { return _unit == Unit.In || _unit == Unit.Mm || _unit == Unit.Pc || _unit == Unit.Px || _unit == Unit.Pt || _unit == Unit.Cm; }
+        }
+
+        /// <summary>
+        /// Gets if the length is given in relative units.
+        /// Such a length cannot be converted to pixels.
+        /// </summary>
+        public Boolean IsRelative
+        {
+            get { return !IsAbsolute; }
+        }
+
+        /// <summary>
         /// Gets the representation of the unit as a string.
         /// </summary>
         public String UnitString
@@ -140,7 +158,8 @@
         #region Methods
 
         /// <summary>
-        /// Converts the length to a number of pixels, if possible.
+        /// Converts the length to a number of pixels, if possible. If the
+        /// given unit is relative, then an exception will be thrown.
         /// </summary>
         /// <returns>The number of pixels represented by the current length.</returns>
         public Single ToPixel()
@@ -158,8 +177,9 @@
                 case Unit.Cm: // 1 cm = 50/127 in
                     return _value * 50f * 96f / 127f;
                 case Unit.Px: // 1 px = 1/96 in
-                default:
                     return _value;
+                default:
+                    throw new InvalidOperationException("A relative unit cannot be converted to an absolute one.");
             }
         }
 
