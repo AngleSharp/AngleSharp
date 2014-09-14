@@ -19,7 +19,7 @@
         public CSSIdentifierValue(String token)
         {
             _token = token;
-            _type = CssValueType.PrimitiveValue;
+            _type = CssValueType.Primitive;
         }
 
         #endregion

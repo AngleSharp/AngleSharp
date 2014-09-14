@@ -24,7 +24,7 @@
         internal CSSValueList()
         {
             _items = new List<CSSValue>();
-            _type = CssValueType.ValueList;
+            _type = CssValueType.List;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
         internal CSSValueList(List<CSSValue> items)
         {
             _items = items;
-            _type = CssValueType.ValueList;
+            _type = CssValueType.List;
         }
 
 		#endregion

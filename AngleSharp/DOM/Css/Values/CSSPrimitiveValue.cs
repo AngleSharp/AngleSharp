@@ -18,7 +18,7 @@
 
         public CSSPrimitiveValue(T value)
         {
-            _type = CssValueType.PrimitiveValue;
+            _type = CssValueType.Primitive;
             _value = value;
         }
 
