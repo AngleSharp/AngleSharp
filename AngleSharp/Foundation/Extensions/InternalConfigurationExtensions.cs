@@ -64,18 +64,31 @@
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel, Boolean force = false)
+        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel)
         {
-            if (!configuration.AllowRequests && !force)
-                return Empty<IResponse>();
-
-            var requester = configuration.GetRequester();
+            var requester = configuration.GetRequester(url.Scheme);
 
             if (requester == null)
-                throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
+                return Empty<IResponse>();
 
+            return requester.RequestAsync(new DefaultRequest
+            {
+                Address = url,
+                Method = HttpMethod.Get
+            }, cancel);
+        }
+
+        /// <summary>
+        /// Loads the given URI by using an asynchronous GET request with possibly considering the default requester.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="cancel">The token which can be used to cancel the request.</param>
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> LoadForcedAsync(this IConfiguration configuration, Url url, CancellationToken cancel)
+        {
+            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
             return requester.RequestAsync(new DefaultRequest
             {
                 Address = url,
@@ -113,13 +126,10 @@
         /// <returns>The task which will eventually return the stream.</returns>
         public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
         {
-            if (!configuration.AllowRequests)
-                return Empty<IResponse>();
-
-            var requester = configuration.GetRequester();
+            var requester = configuration.GetRequester(url.Scheme);
 
             if (requester == null)
-                throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
+                return Empty<IResponse>();
 
             //TODO
             //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
@@ -157,17 +167,13 @@
         /// <param name="mimeType">The mime-type of the request.</param>
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <param name="force">[Optional] True if the request will be considered despite no allowed external request.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel, Boolean force = false)
+        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel)
         {
-            if (!configuration.AllowRequests && !force)
-                return Empty<IResponse>();
-
-            var requester = configuration.GetRequester();
+            var requester = configuration.GetRequester(url.Scheme);
 
             if (requester == null)
-                throw new NullReferenceException("No HTTP requester has been set up in the configuration.");
+                return Empty<IResponse>();
 
             var request = new DefaultRequest
             {
@@ -381,6 +387,17 @@
         #endregion
 
         #region Helpers
+
+        static IRequester GetRequester(this IConfiguration configuration, String protocol)
+        {
+            foreach (var requester in configuration.Requesters)
+            {
+                if (requester.SupportsProtocol(protocol))
+                    return requester;
+            }
+
+            return null;
+        }
 
         static Task<TResult> Empty<TResult>()
             where TResult : class

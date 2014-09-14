@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Infrastructure;
+    using AngleSharp.Network;
     using System.Linq;
 
     /// <summary>
@@ -52,15 +53,16 @@
         }
 
         /// <summary>
-        /// Allows request for external resources and returns the same instance.
+        /// Include the default http/https requester for external resources. Returns the same instance.
         /// </summary>
-        /// <typeparam name="TConfiguration">Implementation of IConfiguration.</typeparam>
+        /// <typeparam name="TConfiguration">Configuration or derived.</typeparam>
         /// <param name="configuration">The configuration to modify.</param>
+        /// <param name="agent">User-Agent information if any.</param>
         /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithRequests<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : IConfiguration
+        public static TConfiguration WithDefaultRequester<TConfiguration>(this TConfiguration configuration, IInfo agent = null)
+            where TConfiguration : Configuration
         {
-            configuration.AllowRequests = true;
+            configuration.Register(new DefaultRequester(agent ?? new DefaultInfo()));
             return configuration;
         }
     }

@@ -24,11 +24,6 @@
         #region Fields
 
         TimeSpan _timeOut;
-        HttpWebRequest _http;
-        HttpWebResponse _response;
-        TaskCompletionSource<Boolean> _completed;
-
-        readonly Byte[] _buffer;
         readonly Dictionary<String, String> _headers;
 
         #endregion
@@ -47,7 +42,6 @@
         /// <param name="info">The information to use.</param>
         public DefaultRequester(IInfo info)
         {
-            _buffer = new Byte[BufferSize];
             _timeOut = new TimeSpan(0, 0, 0, 45);
             _headers = new Dictionary<String, String>();
             _headers.Add("User-Agent", info.Agent);
@@ -85,7 +79,7 @@
         /// <returns>True if the protocol is supported, otherwise false.</returns>
         public Boolean SupportsProtocol(String protocol)
         {
-            return KnownProtocols.Http == protocol;
+            return KnownProtocols.Http == protocol || KnownProtocols.Https == protocol;
         }
 
         /// <summary>
@@ -95,16 +89,18 @@
         /// <returns>The response data.</returns>
         public IResponse Request(IRequest request)
         {
-            if (CreateRequest(request))
-            {
-                _http.BeginGetRequestStream(SendRequest, request);
-                _completed.Task.Wait();
-                _completed = new TaskCompletionSource<Boolean>();
-            }
+            var cache = new RequestState(request, _headers);
+            return cache.Request();
+        }
 
-            _http.BeginGetResponse(ReceiveResponse, null);
-            _completed.Task.Wait();
-            return GetResponse();
+        /// <summary>
+        /// Performs an asynchronous http request with the given options.
+        /// </summary>
+        /// <param name="request">The options to consider.</param>
+        /// <returns>The task that will eventually give the response data.</returns>
+        public Task<IResponse> RequestAsync(IRequest request)
+        {
+            return RequestAsync(request, CancellationToken.None);
         }
 
         /// <summary>
@@ -113,147 +109,170 @@
         /// <param name="request">The options to consider.</param>
         /// <param name="cancellationToken">The token for cancelling the task.</param>
         /// <returns>The task that will eventually give the response data.</returns>
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
+        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
-            if (CreateRequest(request))
-            {
-                _http.BeginGetRequestStream(SendRequest, request);
-
-                if (cancellationToken.IsCancellationRequested)
-                    return null;
-
-                await _completed.Task.ConfigureAwait(false);
-                _completed = new TaskCompletionSource<Boolean>();
-            }
-
-            if (cancellationToken.IsCancellationRequested)
-                return null;
-
-            _http.BeginGetResponse(ReceiveResponse, null);
-            await _completed.Task.ConfigureAwait(false);
-
-            if (cancellationToken.IsCancellationRequested)
-                return null;
-
-            return GetResponse();
+            var cache = new RequestState(request, _headers);
+            return cache.RequestAsync(cancellationToken);
         }
 
         #endregion
 
-        #region Helpers
+        #region Transport
 
-        Boolean CreateRequest(IRequest request)
+        sealed class RequestState
         {
-            _completed = new TaskCompletionSource<Boolean>();
-            _http = WebRequest.CreateHttp(request.Address);
-            _http.Method = request.Method.ToString();
+            TaskCompletionSource<Boolean> _completed;
+            HttpWebResponse _response;
 
-            foreach (var header in _headers)
-                AddHeader(header.Key, header.Value);
+            readonly HttpWebRequest _http;
+            readonly IRequest _request;
+            readonly Byte[] _buffer;
 
-            foreach (var header in request.Headers)
-                AddHeader(header.Key, header.Value);
-
-            return request.Method == HttpMethod.Post || request.Method == HttpMethod.Put;
-        }
-
-        void SendRequest(IAsyncResult ar)
-        {
-            var carrier = (IRequest)ar.AsyncState;
-            var source = carrier.Content;
-            var target = _http.EndGetRequestStream(ar);
-
-            if (source != null)
+            public RequestState(IRequest request, IDictionary<String, String> headers)
             {
-                while (source != null)
+                _request = request;
+                _http = WebRequest.Create(request.Address) as HttpWebRequest;
+                _http.Method = request.Method.ToString();
+                _buffer = new Byte[BufferSize];
+                _completed = new TaskCompletionSource<Boolean>();
+
+                foreach (var header in headers)
+                    AddHeader(header.Key, header.Value);
+
+                foreach (var header in request.Headers)
+                    AddHeader(header.Key, header.Value);
+            }
+
+            public IResponse Request()
+            {
+                if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
                 {
-                    var length = source.Read(_buffer, 0, BufferSize);
-
-                    if (length == 0)
-                        break;
-
-                    target.Write(_buffer, 0, length);
+                    _http.BeginGetRequestStream(SendRequest, _request);
+                    _completed.Task.Wait();
+                    _completed = new TaskCompletionSource<Boolean>();
                 }
+
+                _http.BeginGetResponse(ReceiveResponse, null);
+                _completed.Task.Wait();
+                return GetResponse();
             }
 
-            _completed.SetResult(true);
-        }
-
-        void ReceiveResponse(IAsyncResult ar)
-        {
-            try
+            public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
-                _response = (HttpWebResponse)_http.EndGetResponse(ar);
+                if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
+                {
+                    _http.BeginGetRequestStream(SendRequest, _request);
+
+                    if (cancellationToken.IsCancellationRequested)
+                        return null;
+
+                    await _completed.Task;
+                    _completed = new TaskCompletionSource<Boolean>();
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                    return null;
+
+                _http.BeginGetResponse(ReceiveResponse, null);
+                await _completed.Task;
+
+                if (cancellationToken.IsCancellationRequested)
+                    return null;
+
+                return GetResponse();
             }
-            catch (WebException ex)
+
+            void SendRequest(IAsyncResult ar)
             {
-                _response = (HttpWebResponse)ex.Response;
+                var carrier = (IRequest)ar.AsyncState;
+                var source = carrier.Content;
+                var target = _http.EndGetRequestStream(ar);
+
+                if (source != null)
+                {
+                    while (source != null)
+                    {
+                        var length = source.Read(_buffer, 0, BufferSize);
+
+                        if (length == 0)
+                            break;
+
+                        target.Write(_buffer, 0, length);
+                    }
+                }
+
+                _completed.SetResult(true);
             }
 
-            _completed.SetResult(true);
-        }
+            void ReceiveResponse(IAsyncResult ar)
+            {
+                try { _response = (HttpWebResponse)_http.EndGetResponse(ar); }
+                catch (WebException ex) { _response = (HttpWebResponse)ex.Response; }
+                _completed.SetResult(true);
+            }
 
-        DefaultResponse GetResponse()
-        {
-            var result = new DefaultResponse();
-            var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
-            result.Content = _response.GetResponseStream();
-            result.StatusCode = _response.StatusCode;
-            result.Address = new Url(_response.ResponseUri);
+            DefaultResponse GetResponse()
+            {
+                var result = new DefaultResponse();
+                var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
+                result.Content = _response.GetResponseStream();
+                result.StatusCode = _response.StatusCode;
+                result.Address = new Url(_response.ResponseUri);
 
-            foreach (var header in headers)
-                result.Headers.Add(header.Key, header.Value);
+                foreach (var header in headers)
+                    result.Headers.Add(header.Key, header.Value);
 
-            return result;
-        }
+                return result;
+            }
 
-        /// <summary>
-        /// Dirty dirty workaround since the webrequester itself is
-        /// already quite stupid, but the one here (for the PCL) is
-        /// really not the way things should be programmed ...
-        /// </summary>
-        /// <param name="key">The key to add or change.</param>
-        /// <param name="value">The value to be set.</param>
-        void AddHeader(String key, String value)
-        {
-            if (key == HeaderNames.Accept)
-                _http.Accept = value;
-            else if (key == HeaderNames.ContentType)
-                _http.ContentType = value;
-            else if (key == HeaderNames.Expect)
-                SetProperty(HeaderNames.Expect, value);
-            else if (key == HeaderNames.Date)
-                SetProperty(HeaderNames.Date, DateTime.Parse(value));
-            else if (key == HeaderNames.Host)
-                SetProperty(HeaderNames.Host, value);
-            else if (key == HeaderNames.IfModifiedSince)
-                SetProperty("IfModifiedSince", DateTime.Parse(value));
-            else if (key == HeaderNames.Referer)
-                SetProperty(HeaderNames.Referer, value);
-            else if (key == HeaderNames.UserAgent)
-                SetProperty("UserAgent", value);
-            else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.ContentLength && key != HeaderNames.TransferEncoding)
-                _http.Headers[key] = value;
-        }
+            /// <summary>
+            /// Dirty dirty workaround since the webrequester itself is
+            /// already quite stupid, but the one here (for the PCL) is
+            /// really not the way things should be programmed ...
+            /// </summary>
+            /// <param name="key">The key to add or change.</param>
+            /// <param name="value">The value to be set.</param>
+            void AddHeader(String key, String value)
+            {
+                if (key == HeaderNames.Accept)
+                    _http.Accept = value;
+                else if (key == HeaderNames.ContentType)
+                    _http.ContentType = value;
+                else if (key == HeaderNames.Expect)
+                    SetProperty(HeaderNames.Expect, value);
+                else if (key == HeaderNames.Date)
+                    SetProperty(HeaderNames.Date, DateTime.Parse(value));
+                else if (key == HeaderNames.Host)
+                    SetProperty(HeaderNames.Host, value);
+                else if (key == HeaderNames.IfModifiedSince)
+                    SetProperty("IfModifiedSince", DateTime.Parse(value));
+                else if (key == HeaderNames.Referer)
+                    SetProperty(HeaderNames.Referer, value);
+                else if (key == HeaderNames.UserAgent)
+                    SetProperty("UserAgent", value);
+                else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.ContentLength && key != HeaderNames.TransferEncoding)
+                    _http.Headers[key] = value;
+            }
 
-        /// <summary>
-        /// Sets properties of the special headers (desc. here
-        /// http://msdn.microsoft.com/en-us/library/system.net.httpwebrequest.headers.aspx)
-        /// which are not accessible (in general) in this profile (profile78).
-        /// However, usually they are here and can be modified with reflection.
-        /// If not they are not set.
-        /// </summary>
-        /// <param name="name">The name of the property.</param>
-        /// <param name="value">The value of the property, which will be set.</param>
-        void SetProperty(String name, Object value)
-        {
-            if (!_propCache.ContainsKey(name))
-                _propCache.Add(name, _http.GetType().GetTypeInfo().GetDeclaredProperty(name));
+            /// <summary>
+            /// Sets properties of the special headers (desc. here
+            /// http://msdn.microsoft.com/en-us/library/system.net.httpwebrequest.headers.aspx)
+            /// which are not accessible (in general) in this profile (profile78).
+            /// However, usually they are here and can be modified with reflection.
+            /// If not they are not set.
+            /// </summary>
+            /// <param name="name">The name of the property.</param>
+            /// <param name="value">The value of the property, which will be set.</param>
+            void SetProperty(String name, Object value)
+            {
+                if (!_propCache.ContainsKey(name))
+                    _propCache.Add(name, _http.GetType().GetTypeInfo().GetDeclaredProperty(name));
 
-            var property = _propCache[name];
+                var property = _propCache[name];
 
-            if (property != null)
-                property.SetValue(_http, value);
+                if (property != null)
+                    property.SetValue(_http, value);
+            }
         }
 
         #endregion

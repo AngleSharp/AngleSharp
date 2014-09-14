@@ -14,13 +14,6 @@
     public interface IConfiguration
     {
         /// <summary>
-        /// Gets or sets if (external) requests are allowed. Setting this
-        /// to false will disable the usage of any external resource, e.g.
-        /// style-sheets, scripts, images, ...
-        /// </summary>
-        Boolean AllowRequests { get; set; }
-
-        /// <summary>
         /// Gets or sets the current scripting mode. If this is set to true,
         /// then the content of noscript tags will be skipped.
         /// </summary>
@@ -49,11 +42,6 @@
         CultureInfo Culture { get; set; }
 
         /// <summary>
-        /// Gets or sets the user-agent information.
-        /// </summary>
-        IInfo UserAgentInfo { get; set; }
-
-        /// <summary>
         /// Gets an enumeration over the available script engines.
         /// By default no script engine is integrated.
         /// </summary>
@@ -71,10 +59,9 @@
         IEnumerable<IService> Services { get; }
 
         /// <summary>
-        /// Creates a requester for performing web (e.g. HTTP) requests.
+        /// Gets an enumeration over all available (e.g. http) requesters.
         /// </summary>
-        /// <returns>The constructed HTTP requester.</returns>
-        IRequester GetRequester();
+        IEnumerable<IRequester> Requesters { get; }
 
         /// <summary>
         /// Method that is called once parse errors are encountered.

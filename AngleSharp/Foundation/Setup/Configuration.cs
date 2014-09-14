@@ -22,6 +22,7 @@
 
         readonly List<IScriptEngine> _scripts;
         readonly List<IStyleEngine> _styles;
+        readonly List<IRequester> _requesters;
         readonly List<IService> _services;
 
         CultureInfo _culture;
@@ -29,8 +30,6 @@
         Boolean _styling;
         Boolean _embedded;
         Boolean _quirks;
-        Boolean _requests;
-        IInfo _info;
 
         /// <summary>
         /// A fixed configuration that cannot be changed.
@@ -55,9 +54,8 @@
             _scripting = false;
             _styling = true;
             _embedded = false;
-            _requests = false;
             _culture = CultureInfo.CurrentUICulture;
-            _info = new DefaultInfo();
+            _requesters = new List<IRequester>();
             _services = new List<IService>();
             _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
@@ -95,13 +93,11 @@
         }
 
         /// <summary>
-        /// Gets or sets if external requests should be allowed.
-        /// Default is false.
+        /// Gets an enumeration over all available (e.g. http) requesters.
         /// </summary>
-        public Boolean AllowRequests
+        public IEnumerable<IRequester> Requesters
         {
-            get { return _requests; }
-            set { _requests = value; }
+            get { return _requesters; }
         }
 
         /// <summary>
@@ -112,21 +108,6 @@
         internal static IConfiguration Default
         {
             get { return customConfiguration ?? defaultConfiguration; }
-        }
-
-        /// <summary>
-        /// Gets or sets the user-agent information.
-        /// </summary>
-        public IInfo UserAgentInfo
-        {
-            get { return _info; }
-            set 
-            {
-                if (_info == null)
-                    throw new ArgumentException("The user-agent information cannot be omitted by passing a null reference.");
-                    
-                _info = value; 
-            }
         }
 
         /// <summary>
@@ -186,16 +167,6 @@
         #region Methods
 
         /// <summary>
-        /// Sets the default configuration to use, when the configuration
-        /// is omitted.
-        /// </summary>
-        /// <param name="configuration">The configuration to set.</param>
-        public static void SetDefault(IConfiguration configuration)
-        {
-            customConfiguration = configuration;
-        }
-
-        /// <summary>
         /// Creates a clone of the given configuration. The clone may be used to
         /// change settings without affecting the originally provided configuration.
         /// </summary>
@@ -207,24 +178,22 @@
         }
 
         /// <summary>
-        /// Creates a requester for performing HTTP / web requests.
-        /// This method is using the default requester set over the
-        /// dependency resolver. If nothing is found the default
-        /// requester is constructed.
-        /// </summary>
-        /// <returns>The constructed requester.</returns>
-        public virtual IRequester GetRequester()
-        {
-            return new DefaultRequester(_info);
-        }
-
-        /// <summary>
         /// Reports an error by writing to the debug console.
         /// </summary>
         /// <param name="e">The parse error event arguments.</param>
         public virtual void ReportError(ParseErrorEventArgs e)
         {
             Debug.WriteLine(e.ToString());
+        }
+
+        /// <summary>
+        /// Sets the default configuration to use, when the configuration
+        /// is omitted.
+        /// </summary>
+        /// <param name="configuration">The configuration to set.</param>
+        public static void SetDefault(IConfiguration configuration)
+        {
+            customConfiguration = configuration;
         }
 
         /// <summary>
@@ -246,6 +215,17 @@
         public Configuration Register(IScriptEngine scriptEngine)
         {
             _scripts.Add(scriptEngine);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the given requester.
+        /// </summary>
+        /// <param name="requester">The requester to register.</param>
+        /// <returns>The current instance for chaining.</returns>
+        public Configuration Register(IRequester requester)
+        {
+            _requesters.Add(requester);
             return this;
         }
 
@@ -279,6 +259,28 @@
         public Configuration Unregister(IStyleEngine styleEngine)
         {
             _styles.Remove(styleEngine);
+            return this;
+        }
+
+        /// <summary>
+        /// Removes the given service.
+        /// </summary>
+        /// <param name="service">The service to unregister.</param>
+        /// <returns>The current instance for chaining.</returns>
+        public Configuration Unregister(IService service)
+        {
+            _services.Remove(service);
+            return this;
+        }
+
+        /// <summary>
+        /// Removes the given requester.
+        /// </summary>
+        /// <param name="requester">The requester to unregister.</param>
+        /// <returns>The current instance for chaining.</returns>
+        public Configuration Unregister(IRequester requester)
+        {
+            _requesters.Remove(requester);
             return this;
         }
 

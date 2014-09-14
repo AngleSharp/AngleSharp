@@ -227,7 +227,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the protocol, e.g. "http:".
+        /// Gets or sets the protocol, e.g. "http".
         /// </summary>
         public String Scheme
         {

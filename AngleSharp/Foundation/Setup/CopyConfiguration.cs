@@ -17,19 +17,11 @@
         public CopyConfiguration(IConfiguration original)
         {
             _original = original;
-            AllowRequests = original.AllowRequests;
             IsScripting = original.IsScripting;
             IsStyling = original.IsStyling;
             IsEmbedded = original.IsEmbedded;
             UseQuirksMode = original.UseQuirksMode;
             Culture = original.Culture;
-            UserAgentInfo = original.UserAgentInfo;
-        }
-
-        public Boolean AllowRequests
-        {
-            get;
-            set;
         }
 
         public Boolean IsScripting
@@ -62,12 +54,6 @@
             set;
         }
 
-        public IInfo UserAgentInfo
-        {
-            get;
-            set;
-        }
-
         public IEnumerable<IService> Services
         {
             get { return _original.Services; }
@@ -83,9 +69,9 @@
             get { return _original.StyleEngines; }
         }
 
-        public IRequester GetRequester()
+        public IEnumerable<IRequester> Requesters
         {
-            return _original.GetRequester();
+            get { return _original.Requesters; }
         }
 
         public void ReportError(ParseErrorEventArgs e)
