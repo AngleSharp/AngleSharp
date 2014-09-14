@@ -43,6 +43,7 @@
     <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Collections\TouchList.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />
+    <Compile Include="DOM\Css\Constants\UnitType.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
     <Compile Include="DOM\Events\HashChangedEvent.cs" />
     <Compile Include="DOM\Events\KeyboardEvent.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Interfaces\Css\ICssPerspectiveOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPerspectiveProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPositionProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssPrimitiveValue.cs" />
     <Compile Include="Interfaces\Css\ICssProperty.cs" />
     <Compile Include="Interfaces\Css\ICssQuotesProperty.cs" />
     <Compile Include="Interfaces\Css\ICssRightProperty.cs" />

@@ -59,12 +59,6 @@
         [DomName("setProperty")]
         void SetProperty(String propertyName, String propertyValue, String priority = null);
 
-        [DomName("setPropertyValue")]
-        void SetPropertyValue(String property, String value);
-        
-        [DomName("setPropertyPriority")]
-        void SetPropertyPriority(String property, String priority);
-
         /// <summary>
         /// Removes the property with the given name and returns its value.
         /// </summary>
