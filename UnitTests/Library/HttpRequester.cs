@@ -3,6 +3,7 @@ using AngleSharp.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace UnitTests.Library
 {
@@ -12,8 +13,7 @@ namespace UnitTests.Library
         [TestMethod]
         public void DefaultGetHttpRequester()
         {
-            Assert.IsFalse(Configuration.Default.AllowRequests);
-            Assert.IsInstanceOfType(Configuration.Default.GetRequester(), typeof(DefaultRequester));
+            Assert.IsFalse(Configuration.Default.Requesters.Any());
         }
 
         [TestMethod]

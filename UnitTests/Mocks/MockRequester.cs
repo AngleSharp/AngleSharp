@@ -34,5 +34,10 @@ namespace UnitTests.Mocks
             get;
             set;
         }
+
+        public Boolean SupportsProtocol(String protocol)
+        {
+            return true;
+        }
     }
 }
