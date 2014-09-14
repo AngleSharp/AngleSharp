@@ -18,7 +18,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginLeftProperty));
             var concrete = (CSSMarginLeftProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("15px", concrete.Value.CssText);
@@ -33,7 +33,7 @@ namespace UnitTests.Css
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginRightProperty));
             var concrete = (CSSMarginRightProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("3em", concrete.Value.CssText);
@@ -48,7 +48,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginRightProperty));
             var concrete = (CSSMarginRightProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10%", concrete.Value.CssText);
@@ -63,7 +63,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginTopProperty));
             var concrete = (CSSMarginTopProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("4%", concrete.Value.CssText);
@@ -78,7 +78,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginBottomProperty));
             var concrete = (CSSMarginBottomProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -93,7 +93,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginBottomProperty));
             var concrete = (CSSMarginBottomProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("-3px", concrete.Value.CssText);
@@ -108,7 +108,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginBottomProperty));
             var concrete = (CSSMarginBottomProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("auto", concrete.Value.CssText);
@@ -123,7 +123,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -138,7 +138,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("25%", concrete.Value.CssText);
@@ -153,7 +153,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 3em", concrete.Value.CssText);
@@ -168,7 +168,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px auto", concrete.Value.CssText);
@@ -183,7 +183,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("auto", concrete.Value.CssText);
@@ -198,7 +198,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 3em 5px", concrete.Value.CssText);
@@ -213,7 +213,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 5% auto 2%", concrete.Value.CssText);

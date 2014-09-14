@@ -18,7 +18,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("none", concrete.Value.CssText);
@@ -33,7 +33,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("ALL", concrete.Value.CssText);
@@ -48,7 +48,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("width, height", concrete.Value.CssText);
@@ -63,7 +63,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("-specific", concrete.Value.CssText);
@@ -78,7 +78,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("sliding-vertically", concrete.Value.CssText);
@@ -93,7 +93,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("test_05", concrete.Value.CssText);
@@ -108,7 +108,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
             var concrete = (CSSTransitionTimingFunctionProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("ease", concrete.Value.CssText);
@@ -123,7 +123,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
             var concrete = (CSSTransitionTimingFunctionProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("ease-IN", concrete.Value.CssText);
@@ -138,7 +138,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
             var concrete = (CSSTransitionTimingFunctionProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("step-start", concrete.Value.CssText);
@@ -153,7 +153,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
             var concrete = (CSSTransitionTimingFunctionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("step-start, step-end", concrete.Value.CssText);
@@ -168,7 +168,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
             var concrete = (CSSTransitionTimingFunctionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("step-start, step-end, linear, ease-IN-OUT", concrete.Value.CssText);
@@ -228,7 +228,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionTimingFunctionProperty));
             var concrete = (CSSTransitionTimingFunctionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("steps(25, end), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
@@ -243,7 +243,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionDurationProperty));
             var concrete = (CSSTransitionDurationProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("6s", concrete.Value.CssText);
@@ -258,7 +258,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionDurationProperty));
             var concrete = (CSSTransitionDurationProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms", concrete.Value.CssText);
@@ -273,7 +273,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionDurationProperty));
             var concrete = (CSSTransitionDurationProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
@@ -288,7 +288,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionDelayProperty));
             var concrete = (CSSTransitionDelayProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms", concrete.Value.CssText);
@@ -303,7 +303,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionDelayProperty));
             var concrete = (CSSTransitionDelayProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
@@ -318,7 +318,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
@@ -333,7 +333,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("steps(25, end), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
@@ -348,7 +348,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("width, height", concrete.Value.CssText);
@@ -363,7 +363,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("ease", concrete.Value.CssText);
@@ -378,7 +378,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("all 1s ease", concrete.Value.CssText);
@@ -393,7 +393,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("all 1s ease, height steps(5, end) 50ms", concrete.Value.CssText);
@@ -408,7 +408,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionProperty));
             var concrete = (CSSTransitionProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("all 1s ease, height step-start 50ms, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value.CssText);

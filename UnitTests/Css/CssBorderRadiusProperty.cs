@@ -18,7 +18,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("40px 40px", concrete.Value.CssText);
@@ -33,7 +33,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("40px 20em", concrete.Value.CssText);
@@ -48,7 +48,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 5%", concrete.Value.CssText);
@@ -63,7 +63,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10%", concrete.Value.CssText);
@@ -78,7 +78,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderBottomRightRadiusProperty));
             var concrete = (CSSBorderBottomRightRadiusProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -93,7 +93,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderBottomRightRadiusProperty));
             var concrete = (CSSBorderBottomRightRadiusProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("20px", concrete.Value.CssText);
@@ -108,7 +108,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderTopLeftRadiusProperty));
             var concrete = (CSSBorderTopLeftRadiusProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("3.5cm", concrete.Value.CssText);
@@ -123,7 +123,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderTopRightRadiusProperty));
             var concrete = (CSSBorderTopRightRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("15% 3.5%", concrete.Value.CssText);
@@ -138,7 +138,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("15% 3.5%", concrete.Value.CssText);
@@ -153,7 +153,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.PrimitiveValue, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual(CSSCalcValue.Zero, concrete.HorizontalBottomLeft);
@@ -176,7 +176,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.HorizontalTopLeft);
@@ -199,7 +199,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual(CSSCalcValue.FromLength(new Length(2f, Length.Unit.Px)), concrete.HorizontalTopLeft);
@@ -236,7 +236,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual(CSSCalcValue.FromLength(new Length(1f, Length.Unit.Em)), concrete.HorizontalTopLeft);
@@ -259,7 +259,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual(CSSCalcValue.FromLength(new Length(4f, Length.Unit.Px)), concrete.HorizontalTopLeft);
@@ -282,7 +282,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.ValueList, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("4px 3px 6px 1em / 2px 4px 0 20%", concrete.Value.CssText);

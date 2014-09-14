@@ -333,8 +333,8 @@ h1 { color: blue }");
             Assert.AreEqual(2, list.Count);
             Assert.AreEqual("Arial 10pt bold", list[0].CssText);
             Assert.AreEqual("Verdana 12pt italic", list[1].CssText);
-            Assert.AreEqual(CssValueType.ValueList, list[0].Type);
-            Assert.AreEqual(CssValueType.ValueList, list[1].Type);
+            Assert.AreEqual(CssValueType.List, list[0].Type);
+            Assert.AreEqual(CssValueType.List, list[1].Type);
             Assert.AreEqual(3, ((CSSValueList)list[0]).Length);
             Assert.AreEqual(3, ((CSSValueList)list[1]).Length);
         }
@@ -381,7 +381,7 @@ h1 { color: blue }");
             var valueString = "#000000";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValueType.PrimitiveValue, value.Type);
+            Assert.AreEqual(CssValueType.Primitive, value.Type);
             var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(0, 0, 0), color);
         }
@@ -392,7 +392,7 @@ h1 { color: blue }");
             var valueString = "#FF0000";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValueType.PrimitiveValue, value.Type);
+            Assert.AreEqual(CssValueType.Primitive, value.Type);
             var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
@@ -403,7 +403,7 @@ h1 { color: blue }");
             var valueString = "#07C";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValueType.PrimitiveValue, value.Type);
+            Assert.AreEqual(CssValueType.Primitive, value.Type);
             var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(0, 119, 204), color);
         }
@@ -414,7 +414,7 @@ h1 { color: blue }");
             var valueString = "#00F";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValueType.PrimitiveValue, value.Type);
+            Assert.AreEqual(CssValueType.Primitive, value.Type);
             var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(0, 0, 255), color);
         }
@@ -425,7 +425,7 @@ h1 { color: blue }");
             var valueString = "#F00";
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
-            Assert.AreEqual(CssValueType.PrimitiveValue, value.Type);
+            Assert.AreEqual(CssValueType.Primitive, value.Type);
             var color = ((CSSPrimitiveValue<Color>)value).Value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
@@ -440,7 +440,7 @@ h1 { color: blue }");
             var prop = decl.Get(0);
             Assert.AreEqual("border-color", prop.Name);
             Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, prop.Value.Type);
 
             var color = ((CSSPrimitiveValue<Color>)prop.Value).Value;
             Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
@@ -456,7 +456,7 @@ h1 { color: blue }");
             var prop = decl.Get(0);
             Assert.AreEqual("margin", prop.Name);
             Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual(CssValueType.PrimitiveValue, prop.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, prop.Value.Type);
             Assert.AreEqual("20px", prop.Value.ToCss());
         }
 
@@ -470,7 +470,7 @@ h1 { color: blue }");
             var prop = decl.Get(0);
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, prop.Value.Type);
+            Assert.AreEqual(CssValueType.List, prop.Value.Type);
 
             var value = prop.Value as CSSValueList;
             Assert.AreEqual(7, value.Length);
@@ -487,13 +487,13 @@ h1 { color: blue }");
             var font = decl.Get(0);
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, font.Value.Type);
+            Assert.AreEqual(CssValueType.List, font.Value.Type);
             Assert.AreEqual("bold 1em / 2em monospace", font.Value.ToCss());
 
             var content = decl.Get(1);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, content.Value.Type);
+            Assert.AreEqual(CssValueType.List, content.Value.Type);
             Assert.AreEqual("' (' attr(href) ')'", content.Value.ToCss());
         }
 
@@ -518,7 +518,7 @@ h1 { color: blue }");
             var background = decl.Get(0);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.IsImportant);
-            Assert.AreEqual(CssValueType.PrimitiveValue, background.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, background.Value.Type);
             Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value.ToCss());
         }
 
@@ -532,7 +532,7 @@ h1 { color: blue }");
             var font = decl.Get(0);
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, font.Value.Type);
+            Assert.AreEqual(CssValueType.List, font.Value.Type);
         }
 
         [TestMethod]
@@ -545,7 +545,7 @@ h1 { color: blue }");
             var textShadow = decl.Get(0);
             Assert.AreEqual("text-shadow", textShadow.Name);
             Assert.IsFalse(textShadow.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, textShadow.Value.Type);
+            Assert.AreEqual(CssValueType.List, textShadow.Value.Type);
         }
 
         [TestMethod]
@@ -558,7 +558,7 @@ h1 { color: blue }");
             var background = decl.Get(0);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, background.Value.Type);
+            Assert.AreEqual(CssValueType.List, background.Value.Type);
         }
 
         [TestMethod]
@@ -584,7 +584,7 @@ h1 { color: blue }");
             var backgroundColor = decl.Get(0);
             Assert.AreEqual("background-color", backgroundColor.Name);
             Assert.IsFalse(backgroundColor.IsImportant);
-            Assert.AreEqual(CssValueType.PrimitiveValue, backgroundColor.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, backgroundColor.Value.Type);
         }
 
         [TestMethod]
@@ -608,7 +608,7 @@ h1 { color: blue }");
             var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
-            Assert.AreEqual(CssValueType.PrimitiveValue, content.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, content.Value.Type);
         }
 
         [TestMethod]
@@ -621,7 +621,7 @@ h1 { color: blue }");
             var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, content.Value.Type);
+            Assert.AreEqual(CssValueType.List, content.Value.Type);
         }
 
         [TestMethod]
@@ -650,7 +650,7 @@ h1 { color: blue }");
             var boxShadow = decl.Get(0);
             Assert.AreEqual("box-shadow", boxShadow.Name);
             Assert.IsFalse(boxShadow.IsImportant);
-            Assert.AreEqual(CssValueType.ValueList, boxShadow.Value.Type);
+            Assert.AreEqual(CssValueType.List, boxShadow.Value.Type);
         }
 
         [TestMethod]
@@ -663,7 +663,7 @@ h1 { color: blue }");
             var display = decl.Get(0);
             Assert.AreEqual("display", display.Name);
             Assert.IsFalse(display.IsImportant);
-            Assert.AreEqual(CssValueType.PrimitiveValue, display.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, display.Value.Type);
             Assert.AreEqual("block", display.Value.CssText);
         }
     }
