@@ -6,7 +6,7 @@
 
     class AngleSharpParser : IHtmlParser
     {
-        static readonly IConfiguration configuration = new Configuration { AllowRequests = false, IsStyling = false, IsScripting = false };
+        static readonly IConfiguration configuration = new Configuration { IsStyling = false, IsScripting = false };
 
         public String Name
         {
