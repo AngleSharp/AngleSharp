@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Network
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -8,6 +9,13 @@
     /// </summary>
     public interface IRequester
     {
+        /// <summary>
+        /// Checks if the given protocol is supported.
+        /// </summary>
+        /// <param name="protocol">The protocol to check for, e.g. http.</param>
+        /// <returns>True if the protocol is supported, otherwise false.</returns>
+        Boolean SupportsProtocol(String protocol);
+
         /// <summary>
         /// Performs a blocking request with the given options.
         /// </summary>

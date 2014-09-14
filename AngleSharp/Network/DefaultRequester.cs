@@ -79,6 +79,16 @@
         #region Methods
 
         /// <summary>
+        /// Checks if the given protocol is supported.
+        /// </summary>
+        /// <param name="protocol">The protocol to check for, e.g. http.</param>
+        /// <returns>True if the protocol is supported, otherwise false.</returns>
+        public Boolean SupportsProtocol(String protocol)
+        {
+            return KnownProtocols.Http == protocol;
+        }
+
+        /// <summary>
         /// Performs a blocking http request with the given options.
         /// </summary>
         /// <param name="request">The options to consider.</param>
