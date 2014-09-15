@@ -11,14 +11,14 @@
     {
         public static Delegate ToDelegate(this Type type, FunctionInstance function)
         {
-            if (type == typeof(EventListener))
+            if (type == typeof(DomEventHandler))
                 return ToListener(function);
 
             var method = typeof(DomDelegates).GetMethod("ToCallback").MakeGenericMethod(type);
             return method.Invoke(null, new Object[] { function }) as Delegate;
         }
 
-        public static EventListener ToListener(this FunctionInstance function)
+        public static DomEventHandler ToListener(this FunctionInstance function)
         {
             return (obj, ev) =>
             {

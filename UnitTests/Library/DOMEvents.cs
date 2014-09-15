@@ -34,7 +34,7 @@ namespace UnitTests.Library
             var args = doc.CreateEvent("event");
             args.Init(evName, true, true);
             var count = 0;
-            EventListener listener1 = (s, ev) => count++;
+            DomEventHandler listener1 = (s, ev) => count++;
             element.AddEventListener(evName, listener1);
             element.Dispatch(args);
             Assert.AreEqual(1, count);
@@ -50,7 +50,7 @@ namespace UnitTests.Library
             var args = doc.CreateEvent("event");
             args.Init(evName, true, true);
             var count = 0;
-            EventListener listener1 = (s, ev) => count++;
+            DomEventHandler listener1 = (s, ev) => count++;
             element.AddEventListener(evName, listener1);
             element.RemoveEventListener(evName, listener1);
             element.Dispatch(args);
@@ -67,7 +67,7 @@ namespace UnitTests.Library
             var args = doc.CreateEvent("event");
             var beforeOther = true;
             args.Init(evName, true, true);
-            EventListener listener1 = (s, ev) =>
+            DomEventHandler listener1 = (s, ev) =>
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
@@ -75,7 +75,7 @@ namespace UnitTests.Library
                 Assert.AreEqual(element, ev.OriginalTarget);
                 Assert.IsFalse(beforeOther);
             };
-            EventListener listener2 = (s, ev) =>
+            DomEventHandler listener2 = (s, ev) =>
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.Capturing, ev.Phase);
@@ -96,7 +96,7 @@ namespace UnitTests.Library
             var args = doc.CreateEvent("event");
             var beforeOther = true;
             args.Init(evName, true, true);
-            EventListener listener1 = (s, ev) =>
+            DomEventHandler listener1 = (s, ev) =>
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
@@ -104,7 +104,7 @@ namespace UnitTests.Library
                 Assert.AreEqual(element, ev.OriginalTarget);
                 Assert.IsTrue(beforeOther);
             };
-            EventListener listener2 = (s, ev) =>
+            DomEventHandler listener2 = (s, ev) =>
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.Bubbling, ev.Phase);
