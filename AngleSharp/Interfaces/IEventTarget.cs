@@ -20,7 +20,7 @@
         /// dispatched to any EventTarget beneath it in the DOM tree. Events which are bubbling upward through
         /// the tree will not trigger a listener designated to use capture.</param>
         [DomName("addEventListener")]
-        void AddEventListener(String type, EventListener callback = null, Boolean capture = false);
+        void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false);
 
         /// <summary>
         /// Removes an event listener from the EventTarget.
@@ -29,7 +29,7 @@
         /// <param name="callback">The listener parameter indicates the EventListener function to be removed.</param>
         /// <param name="capture">Specifies whether the EventListener being removed was registered as a capturing listener or not.</param>
         [DomName("removeEventListener")]
-        void RemoveEventListener(String type, EventListener callback = null, Boolean capture = false);
+        void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false);
 
         /// <summary>
         /// Dispatch an event to this EventTarget.

@@ -99,12 +99,12 @@
         /// Event triggered after entering.
         /// </summary>
         [DomName("onenter")]
-        EventListener Entered { get; set; }
+        DomEventHandler Entered { get; set; }
 
         /// <summary>
         /// Event triggered after exiting.
         /// </summary>
         [DomName("onexit")]
-        EventListener Exited { get; set; }
+        DomEventHandler Exited { get; set; }
     }
 }

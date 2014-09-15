@@ -9,5 +9,5 @@
     /// <param name="sender">The callback this argument.</param>
     /// <param name="ev">The event arguments.</param>
     [DomName("EventHandler")]
-    public delegate void EventListener(Object sender, IEvent ev);
+    public delegate void DomEventHandler(Object sender, IEvent ev);
 }

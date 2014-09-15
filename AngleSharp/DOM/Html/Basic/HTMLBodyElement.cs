@@ -79,73 +79,73 @@
 
         #region Events from IDL
 
-        public event EventListener Printed
+        public event DomEventHandler Printed
         {
             add { AddEventListener(EventNames.AfterPrint, value); }
             remove { RemoveEventListener(EventNames.AfterPrint, value); }
         }
 
-        public event EventListener Printing
+        public event DomEventHandler Printing
         {
             add { AddEventListener(EventNames.BeforePrint, value); }
             remove { RemoveEventListener(EventNames.BeforePrint, value); }
         }
 
-        public event EventListener Unloading
+        public event DomEventHandler Unloading
         {
             add { AddEventListener(EventNames.Unloading, value); }
             remove { RemoveEventListener(EventNames.Unloading, value); }
         }
 
-        public event EventListener HashChanged
+        public event DomEventHandler HashChanged
         {
             add { AddEventListener(EventNames.HashChange, value); }
             remove { RemoveEventListener(EventNames.HashChange, value); }
         }
 
-        public event EventListener MessageReceived
+        public event DomEventHandler MessageReceived
         {
             add { AddEventListener(EventNames.Message, value); }
             remove { RemoveEventListener(EventNames.Message, value); }
         }
 
-        public event EventListener WentOffline
+        public event DomEventHandler WentOffline
         {
             add { AddEventListener(EventNames.Offline, value); }
             remove { RemoveEventListener(EventNames.Offline, value); }
         }
 
-        public event EventListener WentOnline
+        public event DomEventHandler WentOnline
         {
             add { AddEventListener(EventNames.Online, value); }
             remove { RemoveEventListener(EventNames.Online, value); }
         }
 
-        public event EventListener PageHidden
+        public event DomEventHandler PageHidden
         {
             add { AddEventListener(EventNames.PageHide, value); }
             remove { RemoveEventListener(EventNames.PageHide, value); }
         }
 
-        public event EventListener PageShown
+        public event DomEventHandler PageShown
         {
             add { AddEventListener(EventNames.PageShow, value); }
             remove { RemoveEventListener(EventNames.PageShow, value); }
         }
 
-        public event EventListener PopState
+        public event DomEventHandler PopState
         {
             add { AddEventListener(EventNames.PopState, value); }
             remove { RemoveEventListener(EventNames.PopState, value); }
         }
 
-        public event EventListener Storage
+        public event DomEventHandler Storage
         {
             add { AddEventListener(EventNames.Storage, value); }
             remove { RemoveEventListener(EventNames.Storage, value); }
         }
 
-        public event EventListener Unloaded
+        public event DomEventHandler Unloaded
         {
             add { AddEventListener(EventNames.Unload, value); }
             remove { RemoveEventListener(EventNames.Unload, value); }

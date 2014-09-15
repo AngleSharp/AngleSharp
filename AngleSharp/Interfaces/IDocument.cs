@@ -372,7 +372,7 @@
         /// Event triggered after the ready state changed.
         /// </summary>
         [DomName("onreadystatechange")]
-        event EventListener ReadyStateChanged;
+        event DomEventHandler ReadyStateChanged;
 
         /// <summary>
         /// Gets the currently focused element, that is, the element that will get

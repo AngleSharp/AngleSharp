@@ -62,6 +62,6 @@
         /// Event triggered after a cue has changed.
         /// </summary>
         [DomName("oncuechange")]
-        event EventListener CueChanged;
+        event DomEventHandler CueChanged;
     }
 }

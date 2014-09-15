@@ -27,12 +27,12 @@
         /// Event triggered after adding a track.
         /// </summary>
         [DomName("onaddtrack")]
-        event EventListener TrackAdded;
+        event DomEventHandler TrackAdded;
 
         /// <summary>
         /// Event triggered after removing a track.
         /// </summary>
         [DomName("onremovetrack")]
-        event EventListener TrackRemoved;
+        event DomEventHandler TrackRemoved;
     }
 }

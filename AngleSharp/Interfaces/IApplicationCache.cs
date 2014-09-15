@@ -38,48 +38,48 @@
         /// Event triggered when the cache is being checked.
         /// </summary>
         [DomName("onchecking")]
-        event EventListener Checking;
+        event DomEventHandler Checking;
 
         /// <summary>
         /// Event triggered after an error occurred.
         /// </summary>
         [DomName("onerror")]
-        event EventListener Error;
+        event DomEventHandler Error;
 
         /// <summary>
         /// Event triggered after no update is available.
         /// </summary>
         [DomName("onnoupdate")]
-        event EventListener NoUpdate;
+        event DomEventHandler NoUpdate;
 
         /// <summary>
         /// Event triggered when the download started.
         /// </summary>
         [DomName("ondownloading")]
-        event EventListener Downloading;
+        event DomEventHandler Downloading;
 
         /// <summary>
         /// Event triggered after progress.
         /// </summary>
         [DomName("onprogress")]
-        event EventListener Progress;
+        event DomEventHandler Progress;
 
         /// <summary>
         /// Event triggered after an update is ready to be applied.
         /// </summary>
         [DomName("onupdateready")]
-        event EventListener UpdateReady;
+        event DomEventHandler UpdateReady;
 
         /// <summary>
         /// Event triggered after the cache has been updated.
         /// </summary>
         [DomName("oncached")]
-        event EventListener Cached;
+        event DomEventHandler Cached;
 
         /// <summary>
         /// Event triggered after the cache has been marked obsolete.
         /// </summary>
         [DomName("onobsolete")]
-        event EventListener Obsolete;
+        event DomEventHandler Obsolete;
     }
 }

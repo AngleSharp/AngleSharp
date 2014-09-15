@@ -96,84 +96,84 @@
         /// Event triggered after being emptied.
         /// </summary>
         [DomName("onemptied")]
-        event EventListener Emptied;
+        event DomEventHandler Emptied;
 
         /// <summary>
         /// Event triggered after the meta data has been received.
         /// </summary>
         [DomName("onloadedmetadata")]
-        event EventListener LoadedMetadata;
+        event DomEventHandler LoadedMetadata;
 
         /// <summary>
         /// Event triggered after the data has been loaded.
         /// </summary>
         [DomName("onloadeddata")]
-        event EventListener LoadedData;
+        event DomEventHandler LoadedData;
 
         /// <summary>
         /// Event triggered when the media can be played.
         /// </summary>
         [DomName("oncanplay")]
-        event EventListener CanPlay;
+        event DomEventHandler CanPlay;
 
         /// <summary>
         /// Event triggered when the media can be fully played.
         /// </summary>
         [DomName("oncanplaythrough")]
-        event EventListener CanPlayThrough;
+        event DomEventHandler CanPlayThrough;
 
         /// <summary>
         /// Event triggered after the media ended.
         /// </summary>
         [DomName("onended")]
-        event EventListener Ended;
+        event DomEventHandler Ended;
 
         /// <summary>
         /// Event triggered when waiting for input.
         /// </summary>
         [DomName("onwaiting")]
-        event EventListener Waiting;
+        event DomEventHandler Waiting;
 
         /// <summary>
         /// Event triggered when the media cursor changed.
         /// </summary>
         [DomName("ondurationchange")]
-        event EventListener DurationChanged;
+        event DomEventHandler DurationChanged;
 
         /// <summary>
         /// Event triggered after the time updated.
         /// </summary>
         [DomName("ontimeupdate")]
-        event EventListener TimeUpdated;
+        event DomEventHandler TimeUpdated;
 
         /// <summary>
         /// Event triggered after the media paused.
         /// </summary>
         [DomName("onpause")]
-        event EventListener Paused;
+        event DomEventHandler Paused;
 
         /// <summary>
         /// Event triggered after the media started.
         /// </summary>
         [DomName("onplay")]
-        event EventListener Played;
+        event DomEventHandler Played;
 
         /// <summary>
         /// Event triggered before the media started.
         /// </summary>
         [DomName("onplaying")]
-        event EventListener Playing;
+        event DomEventHandler Playing;
 
         /// <summary>
         /// Event triggered after the rate changed.
         /// </summary>
         [DomName("onratechange")]
-        event EventListener RateChanged;
+        event DomEventHandler RateChanged;
 
         /// <summary>
         /// Event triggered after the volume changed.
         /// </summary>
         [DomName("onvolumechange")]
-        event EventListener VolumeChanged;
+        event DomEventHandler VolumeChanged;
     }
 }

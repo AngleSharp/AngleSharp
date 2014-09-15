@@ -44,6 +44,7 @@
     <Compile Include="DOM\Collections\TouchList.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />
     <Compile Include="DOM\Css\Constants\UnitType.cs" />
+    <Compile Include="DOM\Events\ErrorEvent.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
     <Compile Include="DOM\Events\HashChangedEvent.cs" />
     <Compile Include="DOM\Events\KeyboardEvent.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
-    <Compile Include="Delegates\ErrorEventListener.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
@@ -558,7 +558,7 @@
     <Compile Include="Interfaces\IImplementation.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\Events\IEvent.cs" />
-    <Compile Include="Delegates\EventListener.cs" />
+    <Compile Include="Delegates\DomEventHandler.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
     <Compile Include="Interfaces\IHtmlCollection.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />

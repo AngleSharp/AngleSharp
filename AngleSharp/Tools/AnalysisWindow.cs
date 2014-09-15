@@ -173,421 +173,421 @@
 
         #region Events
 
-        public event EventListener Aborted
+        public event DomEventHandler Aborted
         {
             add { AddEventListener(EventNames.Abort, value); }
             remove { RemoveEventListener(EventNames.Abort, value); }
         }
 
-        public event EventListener Blurred
+        public event DomEventHandler Blurred
         {
             add { AddEventListener(EventNames.Blur, value); }
             remove { RemoveEventListener(EventNames.Blur, value); }
         }
 
-        public event EventListener Cancelled
+        public event DomEventHandler Cancelled
         {
             add { AddEventListener(EventNames.Cancel, value); }
             remove { RemoveEventListener(EventNames.Cancel, value); }
         }
 
-        public event EventListener CanPlay
+        public event DomEventHandler CanPlay
         {
             add { AddEventListener(EventNames.CanPlay, value); }
             remove { RemoveEventListener(EventNames.CanPlay, value); }
         }
 
-        public event EventListener CanPlayThrough
+        public event DomEventHandler CanPlayThrough
         {
             add { AddEventListener(EventNames.CanPlayThrough, value); }
             remove { RemoveEventListener(EventNames.CanPlayThrough, value); }
         }
 
-        public event EventListener Changed
+        public event DomEventHandler Changed
         {
             add { AddEventListener(EventNames.Change, value); }
             remove { RemoveEventListener(EventNames.Change, value); }
         }
 
-        public event EventListener Clicked
+        public event DomEventHandler Clicked
         {
             add { AddEventListener(EventNames.Click, value); }
             remove { RemoveEventListener(EventNames.Click, value); }
         }
 
-        public event EventListener CueChanged
+        public event DomEventHandler CueChanged
         {
             add { AddEventListener(EventNames.CueChange, value); }
             remove { RemoveEventListener(EventNames.CueChange, value); }
         }
 
-        public event EventListener DoubleClick
+        public event DomEventHandler DoubleClick
         {
             add { AddEventListener(EventNames.DblClick, value); }
             remove { RemoveEventListener(EventNames.DblClick, value); }
         }
 
-        public event EventListener Drag
+        public event DomEventHandler Drag
         {
             add { AddEventListener(EventNames.Drag, value); }
             remove { RemoveEventListener(EventNames.Drag, value); }
         }
 
-        public event EventListener DragEnd
+        public event DomEventHandler DragEnd
         {
             add { AddEventListener(EventNames.DragEnd, value); }
             remove { RemoveEventListener(EventNames.DragEnd, value); }
         }
 
-        public event EventListener DragEnter
+        public event DomEventHandler DragEnter
         {
             add { AddEventListener(EventNames.DragEnter, value); }
             remove { RemoveEventListener(EventNames.DragEnter, value); }
         }
 
-        public event EventListener DragExit
+        public event DomEventHandler DragExit
         {
             add { AddEventListener(EventNames.DragExit, value); }
             remove { RemoveEventListener(EventNames.DragExit, value); }
         }
 
-        public event EventListener DragLeave
+        public event DomEventHandler DragLeave
         {
             add { AddEventListener(EventNames.DragLeave, value); }
             remove { RemoveEventListener(EventNames.DragLeave, value); }
         }
 
-        public event EventListener DragOver
+        public event DomEventHandler DragOver
         {
             add { AddEventListener(EventNames.DragOver, value); }
             remove { RemoveEventListener(EventNames.DragOver, value); }
         }
 
-        public event EventListener DragStart
+        public event DomEventHandler DragStart
         {
             add { AddEventListener(EventNames.DragStart, value); }
             remove { RemoveEventListener(EventNames.DragStart, value); }
         }
 
-        public event EventListener Dropped
+        public event DomEventHandler Dropped
         {
             add { AddEventListener(EventNames.Drop, value); }
             remove { RemoveEventListener(EventNames.Drop, value); }
         }
 
-        public event EventListener DurationChanged
+        public event DomEventHandler DurationChanged
         {
             add { AddEventListener(EventNames.DurationChange, value); }
             remove { RemoveEventListener(EventNames.DurationChange, value); }
         }
 
-        public event EventListener Emptied
+        public event DomEventHandler Emptied
         {
             add { AddEventListener(EventNames.Emptied, value); }
             remove { RemoveEventListener(EventNames.Emptied, value); }
         }
 
-        public event EventListener Ended
+        public event DomEventHandler Ended
         {
             add { AddEventListener(EventNames.Ended, value); }
             remove { RemoveEventListener(EventNames.Ended, value); }
         }
 
-        public event EventListener Error
+        public event DomEventHandler Error
         {
             add { AddEventListener(EventNames.Error, value); }
             remove { RemoveEventListener(EventNames.Error, value); }
         }
 
-        public event EventListener Focused
+        public event DomEventHandler Focused
         {
             add { AddEventListener(EventNames.Focus, value); }
             remove { RemoveEventListener(EventNames.Focus, value); }
         }
 
-        public event EventListener Input
+        public event DomEventHandler Input
         {
             add { AddEventListener(EventNames.Input, value); }
             remove { RemoveEventListener(EventNames.Input, value); }
         }
 
-        public event EventListener Invalid
+        public event DomEventHandler Invalid
         {
             add { AddEventListener(EventNames.Invalid, value); }
             remove { RemoveEventListener(EventNames.Invalid, value); }
         }
 
-        public event EventListener KeyDown
+        public event DomEventHandler KeyDown
         {
             add { AddEventListener(EventNames.Keydown, value); }
             remove { RemoveEventListener(EventNames.Keydown, value); }
         }
 
-        public event EventListener KeyPress
+        public event DomEventHandler KeyPress
         {
             add { AddEventListener(EventNames.Keypress, value); }
             remove { RemoveEventListener(EventNames.Keypress, value); }
         }
 
-        public event EventListener KeyUp
+        public event DomEventHandler KeyUp
         {
             add { AddEventListener(EventNames.Keyup, value); }
             remove { RemoveEventListener(EventNames.Keyup, value); }
         }
 
-        public event EventListener Loaded
+        public event DomEventHandler Loaded
         {
             add { AddEventListener(EventNames.Load, value); }
             remove { RemoveEventListener(EventNames.Load, value); }
         }
 
-        public event EventListener LoadedData
+        public event DomEventHandler LoadedData
         {
             add { AddEventListener(EventNames.LoadedData, value); }
             remove { RemoveEventListener(EventNames.LoadedData, value); }
         }
 
-        public event EventListener LoadedMetadata
+        public event DomEventHandler LoadedMetadata
         {
             add { AddEventListener(EventNames.LoadedMetaData, value); }
             remove { RemoveEventListener(EventNames.LoadedMetaData, value); }
         }
 
-        public event EventListener Loading
+        public event DomEventHandler Loading
         {
             add { AddEventListener(EventNames.LoadStart, value); }
             remove { RemoveEventListener(EventNames.LoadStart, value); }
         }
 
-        public event EventListener MouseDown
+        public event DomEventHandler MouseDown
         {
             add { AddEventListener(EventNames.Mousedown, value); }
             remove { RemoveEventListener(EventNames.Mousedown, value); }
         }
 
-        public event EventListener MouseEnter
+        public event DomEventHandler MouseEnter
         {
             add { AddEventListener(EventNames.Mouseenter, value); }
             remove { RemoveEventListener(EventNames.Mouseenter, value); }
         }
 
-        public event EventListener MouseLeave
+        public event DomEventHandler MouseLeave
         {
             add { AddEventListener(EventNames.Mouseleave, value); }
             remove { RemoveEventListener(EventNames.Mouseleave, value); }
         }
 
-        public event EventListener MouseMove
+        public event DomEventHandler MouseMove
         {
             add { AddEventListener(EventNames.Mousemove, value); }
             remove { RemoveEventListener(EventNames.Mousemove, value); }
         }
 
-        public event EventListener MouseOut
+        public event DomEventHandler MouseOut
         {
             add { AddEventListener(EventNames.Mouseout, value); }
             remove { RemoveEventListener(EventNames.Mouseout, value); }
         }
 
-        public event EventListener MouseOver
+        public event DomEventHandler MouseOver
         {
             add { AddEventListener(EventNames.Mouseover, value); }
             remove { RemoveEventListener(EventNames.Mouseover, value); }
         }
 
-        public event EventListener MouseUp
+        public event DomEventHandler MouseUp
         {
             add { AddEventListener(EventNames.Mouseup, value); }
             remove { RemoveEventListener(EventNames.Mouseup, value); }
         }
 
-        public event EventListener MouseWheel
+        public event DomEventHandler MouseWheel
         {
             add { AddEventListener(EventNames.Wheel, value); }
             remove { RemoveEventListener(EventNames.Wheel, value); }
         }
 
-        public event EventListener Paused
+        public event DomEventHandler Paused
         {
             add { AddEventListener(EventNames.Pause, value); }
             remove { RemoveEventListener(EventNames.Pause, value); }
         }
 
-        public event EventListener Played
+        public event DomEventHandler Played
         {
             add { AddEventListener(EventNames.Play, value); }
             remove { RemoveEventListener(EventNames.Play, value); }
         }
 
-        public event EventListener Playing
+        public event DomEventHandler Playing
         {
             add { AddEventListener(EventNames.Playing, value); }
             remove { RemoveEventListener(EventNames.Playing, value); }
         }
 
-        public event EventListener Progress
+        public event DomEventHandler Progress
         {
             add { AddEventListener(EventNames.Progress, value); }
             remove { RemoveEventListener(EventNames.Progress, value); }
         }
 
-        public event EventListener RateChanged
+        public event DomEventHandler RateChanged
         {
             add { AddEventListener(EventNames.RateChange, value); }
             remove { RemoveEventListener(EventNames.RateChange, value); }
         }
 
-        public event EventListener Resetted
+        public event DomEventHandler Resetted
         {
             add { AddEventListener(EventNames.Reset, value); }
             remove { RemoveEventListener(EventNames.Reset, value); }
         }
 
-        public event EventListener Resized
+        public event DomEventHandler Resized
         {
             add { AddEventListener(EventNames.Resize, value); }
             remove { RemoveEventListener(EventNames.Resize, value); }
         }
 
-        public event EventListener Scrolled
+        public event DomEventHandler Scrolled
         {
             add { AddEventListener(EventNames.Scroll, value); }
             remove { RemoveEventListener(EventNames.Scroll, value); }
         }
 
-        public event EventListener Seeked
+        public event DomEventHandler Seeked
         {
             add { AddEventListener(EventNames.Seeked, value); }
             remove { RemoveEventListener(EventNames.Seeked, value); }
         }
 
-        public event EventListener Seeking
+        public event DomEventHandler Seeking
         {
             add { AddEventListener(EventNames.Seeking, value); }
             remove { RemoveEventListener(EventNames.Seeking, value); }
         }
 
-        public event EventListener Selected
+        public event DomEventHandler Selected
         {
             add { AddEventListener(EventNames.Select, value); }
             remove { RemoveEventListener(EventNames.Select, value); }
         }
 
-        public event EventListener Shown
+        public event DomEventHandler Shown
         {
             add { AddEventListener(EventNames.Show, value); }
             remove { RemoveEventListener(EventNames.Show, value); }
         }
 
-        public event EventListener Stalled
+        public event DomEventHandler Stalled
         {
             add { AddEventListener(EventNames.Stalled, value); }
             remove { RemoveEventListener(EventNames.Stalled, value); }
         }
 
-        public event EventListener Submitted
+        public event DomEventHandler Submitted
         {
             add { AddEventListener(EventNames.Submit, value); }
             remove { RemoveEventListener(EventNames.Submit, value); }
         }
 
-        public event EventListener Suspended
+        public event DomEventHandler Suspended
         {
             add { AddEventListener(EventNames.Suspend, value); }
             remove { RemoveEventListener(EventNames.Suspend, value); }
         }
 
-        public event EventListener TimeUpdated
+        public event DomEventHandler TimeUpdated
         {
             add { AddEventListener(EventNames.TimeUpdate, value); }
             remove { RemoveEventListener(EventNames.TimeUpdate, value); }
         }
 
-        public event EventListener Toggled
+        public event DomEventHandler Toggled
         {
             add { AddEventListener(EventNames.Toggle, value); }
             remove { RemoveEventListener(EventNames.Toggle, value); }
         }
 
-        public event EventListener VolumeChanged
+        public event DomEventHandler VolumeChanged
         {
             add { AddEventListener(EventNames.VolumeChange, value); }
             remove { RemoveEventListener(EventNames.VolumeChange, value); }
         }
 
-        public event EventListener Waiting
+        public event DomEventHandler Waiting
         {
             add { AddEventListener(EventNames.Waiting, value); }
             remove { RemoveEventListener(EventNames.Waiting, value); }
         }
 
-        public event EventListener Printed
+        public event DomEventHandler Printed
         {
             add { AddEventListener(EventNames.AfterPrint, value); }
             remove { RemoveEventListener(EventNames.AfterPrint, value); }
         }
 
-        public event EventListener Printing
+        public event DomEventHandler Printing
         {
             add { AddEventListener(EventNames.BeforePrint, value); }
             remove { RemoveEventListener(EventNames.BeforePrint, value); }
         }
 
-        public event EventListener Unloading
+        public event DomEventHandler Unloading
         {
             add { AddEventListener(EventNames.Unloading, value); }
             remove { RemoveEventListener(EventNames.Unloading, value); }
         }
 
-        public event EventListener HashChanged
+        public event DomEventHandler HashChanged
         {
             add { AddEventListener(EventNames.HashChange, value); }
             remove { RemoveEventListener(EventNames.HashChange, value); }
         }
 
-        public event EventListener MessageReceived
+        public event DomEventHandler MessageReceived
         {
             add { AddEventListener(EventNames.Message, value); }
             remove { RemoveEventListener(EventNames.Message, value); }
         }
 
-        public event EventListener WentOffline
+        public event DomEventHandler WentOffline
         {
             add { AddEventListener(EventNames.Offline, value); }
             remove { RemoveEventListener(EventNames.Offline, value); }
         }
 
-        public event EventListener WentOnline
+        public event DomEventHandler WentOnline
         {
             add { AddEventListener(EventNames.Online, value); }
             remove { RemoveEventListener(EventNames.Online, value); }
         }
 
-        public event EventListener PageHidden
+        public event DomEventHandler PageHidden
         {
             add { AddEventListener(EventNames.PageHide, value); }
             remove { RemoveEventListener(EventNames.PageHide, value); }
         }
 
-        public event EventListener PageShown
+        public event DomEventHandler PageShown
         {
             add { AddEventListener(EventNames.PageShow, value); }
             remove { RemoveEventListener(EventNames.PageShow, value); }
         }
 
-        public event EventListener PopState
+        public event DomEventHandler PopState
         {
             add { AddEventListener(EventNames.PopState, value); }
             remove { RemoveEventListener(EventNames.PopState, value); }
         }
 
-        public event EventListener Storage
+        public event DomEventHandler Storage
         {
             add { AddEventListener(EventNames.Storage, value); }
             remove { RemoveEventListener(EventNames.Storage, value); }
         }
 
-        public event EventListener Unloaded
+        public event DomEventHandler Unloaded
         {
             add { AddEventListener(EventNames.Unload, value); }
             remove { RemoveEventListener(EventNames.Unload, value); }

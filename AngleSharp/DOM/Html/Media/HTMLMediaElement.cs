@@ -52,85 +52,85 @@
 
         #region Events
 
-        public event EventListener Emptied
+        public event DomEventHandler Emptied
         {
             add { AddEventListener(EventNames.Emptied, value); }
             remove { RemoveEventListener(EventNames.Emptied, value); }
         }
 
-        public event EventListener LoadedMetadata
+        public event DomEventHandler LoadedMetadata
         {
             add { AddEventListener(EventNames.LoadedMetaData, value); }
             remove { RemoveEventListener(EventNames.LoadedMetaData, value); }
         }
 
-        public event EventListener LoadedData
+        public event DomEventHandler LoadedData
         {
             add { AddEventListener(EventNames.LoadedData, value); }
             remove { RemoveEventListener(EventNames.LoadedData, value); }
         }
 
-        public event EventListener CanPlay
+        public event DomEventHandler CanPlay
         {
             add { AddEventListener(EventNames.CanPlay, value); }
             remove { RemoveEventListener(EventNames.CanPlay, value); }
         }
 
-        public event EventListener CanPlayThrough
+        public event DomEventHandler CanPlayThrough
         {
             add { AddEventListener(EventNames.CanPlayThrough, value); }
             remove { RemoveEventListener(EventNames.CanPlayThrough, value); }
         }
 
-        public event EventListener Ended
+        public event DomEventHandler Ended
         {
             add { AddEventListener(EventNames.Ended, value); }
             remove { RemoveEventListener(EventNames.Ended, value); }
         }
 
-        public event EventListener Waiting
+        public event DomEventHandler Waiting
         {
             add { AddEventListener(EventNames.Waiting, value); }
             remove { RemoveEventListener(EventNames.Waiting, value); }
         }
 
-        public event EventListener DurationChanged
+        public event DomEventHandler DurationChanged
         {
             add { AddEventListener(EventNames.DurationChange, value); }
             remove { RemoveEventListener(EventNames.DurationChange, value); }
         }
 
-        public event EventListener TimeUpdated
+        public event DomEventHandler TimeUpdated
         {
             add { AddEventListener(EventNames.TimeUpdate, value); }
             remove { RemoveEventListener(EventNames.TimeUpdate, value); }
         }
 
-        public event EventListener Paused
+        public event DomEventHandler Paused
         {
             add { AddEventListener(EventNames.Pause, value); }
             remove { RemoveEventListener(EventNames.Pause, value); }
         }
 
-        public event EventListener Played
+        public event DomEventHandler Played
         {
             add { AddEventListener(EventNames.Play, value); }
             remove { RemoveEventListener(EventNames.Play, value); }
         }
 
-        public event EventListener Playing
+        public event DomEventHandler Playing
         {
             add { AddEventListener(EventNames.Playing, value); }
             remove { RemoveEventListener(EventNames.Playing, value); }
         }
 
-        public event EventListener RateChanged
+        public event DomEventHandler RateChanged
         {
             add { AddEventListener(EventNames.RateChange, value); }
             remove { RemoveEventListener(EventNames.RateChange, value); }
         }
 
-        public event EventListener VolumeChanged
+        public event DomEventHandler VolumeChanged
         {
             add { AddEventListener(EventNames.VolumeChange, value); }
             remove { RemoveEventListener(EventNames.VolumeChange, value); }

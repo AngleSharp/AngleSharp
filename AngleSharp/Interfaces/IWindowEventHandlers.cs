@@ -10,72 +10,72 @@
         /// Event triggered after printing.
         /// </summary>
         [DomName("onafterprint")]
-        event EventListener Printed;
+        event DomEventHandler Printed;
 
         /// <summary>
         /// Event triggered before printing.
         /// </summary>
         [DomName("onbeforeprint")]
-        event EventListener Printing;
+        event DomEventHandler Printing;
 
         /// <summary>
         /// Event triggered before closing the document.
         /// </summary>
         [DomName("onbeforeunload")]
-        event EventListener Unloading;
+        event DomEventHandler Unloading;
 
         /// <summary>
         /// Event triggered when the hash has been changed.
         /// </summary>
         [DomName("onhashchange")]
-        event EventListener HashChanged;
+        event DomEventHandler HashChanged;
 
         /// <summary>
         /// Event triggered after receiving a message.
         /// </summary>
         [DomName("onmessage")]
-        event EventListener MessageReceived;
+        event DomEventHandler MessageReceived;
 
         /// <summary>
         /// Event triggered after losing connection.
         /// </summary>
         [DomName("onoffline")]
-        event EventListener WentOffline;
+        event DomEventHandler WentOffline;
 
         /// <summary>
         /// Event triggered after being connected.
         /// </summary>
         [DomName("ononline")]
-        event EventListener WentOnline;
+        event DomEventHandler WentOnline;
 
         /// <summary>
         /// Event triggered after the page has been hidden.
         /// </summary>
         [DomName("onpagehide")]
-        event EventListener PageHidden;
+        event DomEventHandler PageHidden;
 
         /// <summary>
         /// Event triggered after showing the page.
         /// </summary>
         [DomName("onpageshow")]
-        event EventListener PageShown;
+        event DomEventHandler PageShown;
 
         /// <summary>
         /// Event triggered after popping the state from the history.
         /// </summary>
         [DomName("onpopstate")]
-        event EventListener PopState;
+        event DomEventHandler PopState;
 
         /// <summary>
         /// Event triggered after using the provided storage.
         /// </summary>
         [DomName("onstorage")]
-        event EventListener Storage;
+        event DomEventHandler Storage;
 
         /// <summary>
         /// Event triggered after after closing the document.
         /// </summary>
         [DomName("onunload")]
-        event EventListener Unloaded;
+        event DomEventHandler Unloaded;
     }
 }
