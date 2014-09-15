@@ -73,11 +73,8 @@
     <Compile Include="..\AngleSharp\Attributes\DomNameAttribute.cs">
       <Link>Attributes\DomNameAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Delegates\ErrorEventListener.cs">
-      <Link>Delegates\ErrorEventListener.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Delegates\EventListener.cs">
-      <Link>Delegates\EventListener.cs</Link>
+    <Compile Include="..\AngleSharp\Delegates\DomEventHandler.cs">
+      <Link>Delegates\DomEventHandler.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Delegates\MutationCallback.cs">
       <Link>Delegates\MutationCallback.cs</Link>
@@ -981,6 +978,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Events\CustomEvent.cs">
       <Link>DOM\Events\CustomEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\ErrorEvent.cs">
+      <Link>DOM\Events\ErrorEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Events\Event.cs">
       <Link>DOM\Events\Event.cs</Link>
