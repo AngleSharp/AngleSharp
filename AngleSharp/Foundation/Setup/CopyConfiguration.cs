@@ -20,7 +20,6 @@
             IsScripting = original.IsScripting;
             IsStyling = original.IsStyling;
             IsEmbedded = original.IsEmbedded;
-            UseQuirksMode = original.UseQuirksMode;
             Culture = original.Culture;
         }
 
@@ -37,12 +36,6 @@
         }
 
         public Boolean IsEmbedded
-        {
-            get;
-            set;
-        }
-
-        public Boolean UseQuirksMode
         {
             get;
             set;

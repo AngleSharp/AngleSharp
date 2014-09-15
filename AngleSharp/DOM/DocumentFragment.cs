@@ -33,7 +33,6 @@
 
             var configuration = Configuration.Clone(owner != null ? owner.Options : Configuration.Default);
             configuration.IsScripting = false;
-            configuration.UseQuirksMode = owner != null && owner.QuirksMode != QuirksMode.Off;
 
             var parser = new HtmlParser(html, configuration);
             parser.SwitchToFragment(context);

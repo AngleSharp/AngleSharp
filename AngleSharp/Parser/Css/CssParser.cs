@@ -115,20 +115,23 @@
         /// <param name="source">The source to use.</param>
         internal CssParser(CSSStyleSheet stylesheet, TextSource source)
         {
+            var owner = stylesheet.OwnerNode as Element;
             selector = new CssSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
-            tokenizer = new CssTokenizer(source);
-            tokenizer.IgnoreComments = true;
-            tokenizer.IgnoreWhitespace = true;
+            tokenizer = new CssTokenizer(source)
+            {
+                IgnoreComments = true,
+                IgnoreWhitespace = true
+            };
             tokenizer.ErrorOccurred += (s, ev) =>
             {
                 if (ParseError != null)
                     ParseError(this, ev);
             };
-            quirks = stylesheet.Options.UseQuirksMode;
             started = false;
             sheet = stylesheet;
+            quirks = owner != null && owner.Owner.QuirksMode == QuirksMode.On;
         }
 
         #endregion

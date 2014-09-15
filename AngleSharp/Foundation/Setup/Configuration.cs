@@ -29,7 +29,6 @@
         Boolean _scripting;
         Boolean _styling;
         Boolean _embedded;
-        Boolean _quirks;
 
         /// <summary>
         /// A fixed configuration that cannot be changed.
@@ -50,7 +49,6 @@
         /// </summary>
         public Configuration()
         {
-            _quirks = false;
             _scripting = false;
             _styling = true;
             _embedded = false;
@@ -150,16 +148,6 @@
         {
             get { return _culture ?? CultureInfo.CurrentUICulture; }
             set { _culture = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets if the quirks mode should be used for HTML / CSS parsing.
-        /// Default is false.
-        /// </summary>
-        public Boolean UseQuirksMode
-        {
-            get { return _quirks; }
-            set { _quirks = value; }
         }
 
         #endregion

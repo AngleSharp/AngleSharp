@@ -32,11 +32,6 @@
         Boolean IsEmbedded { get; set; }
 
         /// <summary>
-        /// Gets or sets if the quirks mode should be used for parsing.
-        /// </summary>
-        Boolean UseQuirksMode { get; set; }
-
-        /// <summary>
         /// Gets or sets the culture to use.
         /// </summary>
         CultureInfo Culture { get; set; }
