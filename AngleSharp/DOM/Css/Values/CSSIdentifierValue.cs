@@ -17,9 +17,9 @@
         #region ctor
 
         public CSSIdentifierValue(String token)
+            : base(CssValueType.Primitive)
         {
             _token = token;
-            _type = CssValueType.Primitive;
         }
 
         #endregion

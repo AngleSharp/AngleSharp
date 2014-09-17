@@ -22,9 +22,9 @@
         /// Creates a new CSS value list.
         /// </summary>
         internal CSSValueList()
+            : base(CssValueType.List)
         {
             _items = new List<CSSValue>();
-            _type = CssValueType.List;
         }
 
         /// <summary>
@@ -42,9 +42,9 @@
         /// </summary>
         /// <param name="items">The items to use.</param>
         internal CSSValueList(List<CSSValue> items)
+            : base(CssValueType.List)
         {
             _items = items;
-            _type = CssValueType.List;
         }
 
 		#endregion

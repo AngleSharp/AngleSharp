@@ -17,8 +17,8 @@
         #region ctor
 
         public CSSStringValue(String value)
+            : base(CssValueType.Primitive)
         {
-            _type = CssValueType.Primitive;
             _value = value;
 
         }

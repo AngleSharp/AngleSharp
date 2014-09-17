@@ -12,22 +12,22 @@
         /// <summary>
         /// The type of value.
         /// </summary>
-        protected CssValueType _type;
+        readonly CssValueType _type;
 
         /// <summary>
         /// Gets the instance for a slash delimiter value.
         /// </summary>
-        internal static readonly CSSValue Delimiter = new CSSValue { _type = CssValueType.Custom };
+        internal static readonly CSSValue Delimiter = new CSSValue();
 
         /// <summary>
         /// Gets the instance for a comma separator value.
         /// </summary>
-        internal static readonly CSSValue Separator = new CSSValue { _type = CssValueType.Custom };
+        internal static readonly CSSValue Separator = new CSSValue();
 
         /// <summary>
         /// Gets the instance for an inherited value.
         /// </summary>
-        public static readonly CSSValue Inherit = new CSSValue { _type = CssValueType.Inherit };
+        public static readonly CSSValue Inherit = new CSSValue(CssValueType.Inherit);
 
         #endregion
 
@@ -36,9 +36,10 @@
         /// <summary>
         /// Creates a new CSS value.
         /// </summary>
-        internal CSSValue()
+        /// <param name="type">The type of of the value.</param>
+        internal CSSValue(CssValueType type = CssValueType.Custom)
         {
-            _type = CssValueType.Custom;
+            _type = type;
         }
 
         #endregion

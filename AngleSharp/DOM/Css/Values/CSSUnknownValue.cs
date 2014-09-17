@@ -23,8 +23,8 @@
         /// </summary>
         /// <param name="text">The text representation of the new value.</param>
         public CSSUnknownValue(String text)
+            : base(CssValueType.Custom)
         {
-            _type = Css.CssValueType.Custom;
             _text = text;
         }
 
