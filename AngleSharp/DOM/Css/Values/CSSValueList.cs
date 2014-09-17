@@ -3,12 +3,11 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    sealed class CSSValueList : CSSValue, ICollection<CSSValue>
+    sealed class CSSValueList : CSSValue, ICollection<CSSValue>, ICssValueList
     {
         #region Fields
 
@@ -64,25 +63,19 @@
         /// </summary>
         /// <param name="index">If index is greater than or equal to the number of values in the list, this returns null.</param>
         /// <returns>The value at the given index or null.</returns>
-        [IndexerName("ListItems")]
         public CSSValue this[Int32 index]
         {
             get { return index >= 0 && index < _items.Count ? _items[index] : null; }
         }
 
+        ICssValue ICssValueList.this[Int32 index]
+        {
+            get { return this[index]; }
+        }
+
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Used to retrieve a CSSValue by ordinal index. The order in this collection represents the order of the values in the CSS style property.
-        /// </summary>
-        /// <param name="index">If index is greater than or equal to the number of values in the list, this returns null.</param>
-        /// <returns>The value at the given index or null.</returns>
-        public CSSValue Item(Int32 index)
-        {
-            return this[index];
-        }
 
         /// <summary>
         /// Returns a CSS code representation of the stylesheet.
