@@ -14,20 +14,24 @@
         /// </summary>
         readonly CssValueType _type;
 
-        /// <summary>
-        /// Gets the instance for a slash delimiter value.
-        /// </summary>
-        internal static readonly CSSValue Delimiter = new CSSValue();
+        #endregion
 
-        /// <summary>
-        /// Gets the instance for a comma separator value.
-        /// </summary>
-        internal static readonly CSSValue Separator = new CSSValue();
+        #region Special Values
 
         /// <summary>
         /// Gets the instance for an inherited value.
         /// </summary>
-        public static readonly CSSValue Inherit = new CSSValue(CssValueType.Inherit);
+        public static readonly CSSValue Inherit = new CSSInheritValue();
+
+        /// <summary>
+        /// Gets the instance for a slash delimiter value.
+        /// </summary>
+        internal static readonly CSSValue Delimiter = new CSSDelimiterValue();
+
+        /// <summary>
+        /// Gets the instance for a comma separator value.
+        /// </summary>
+        internal static readonly CSSValue Separator = new CSSSeparatorValue();
 
         #endregion
 
@@ -72,7 +76,86 @@
         /// <returns>A string that contains the code.</returns>
         public virtual String ToCss()
         {
-            return this == Inherit ? Keywords.Inherit : (this == Separator ? "," : (this == Delimiter ? "/" : String.Empty));
+            return String.Empty;
+        }
+
+        #endregion
+
+        #region Nested
+
+        sealed class CSSInheritValue : CSSValue
+        {
+            #region Singleton
+
+            public CSSInheritValue()
+                : base(CssValueType.Inherit)
+            {
+            }
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// Returns a CSS code representation of the stylesheet.
+            /// </summary>
+            /// <returns>A string that contains the code.</returns>
+            public override String ToCss()
+            {
+                return Keywords.Inherit;
+            }
+
+            #endregion
+        }
+
+        sealed class CSSDelimiterValue : CSSValue
+        {
+            #region Singleton
+
+            public CSSDelimiterValue()
+                : base(CssValueType.Custom)
+            {
+            }
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// Returns a CSS code representation of the stylesheet.
+            /// </summary>
+            /// <returns>A string that contains the code.</returns>
+            public override String ToCss()
+            {
+                return "/";
+            }
+
+            #endregion
+        }
+
+        sealed class CSSSeparatorValue : CSSValue
+        {
+            #region Singleton
+
+            public CSSSeparatorValue()
+                : base(CssValueType.Custom)
+            {
+            }
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// Returns a CSS code representation of the stylesheet.
+            /// </summary>
+            /// <returns>A string that contains the code.</returns>
+            public override String ToCss()
+            {
+                return ",";
+            }
+
+            #endregion
         }
 
         #endregion
