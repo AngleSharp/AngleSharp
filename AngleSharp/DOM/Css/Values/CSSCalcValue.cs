@@ -49,6 +49,11 @@
 
         #region Constructors
 
+        private CSSCalcValue()
+            : base(CssValueType.Primitive)
+        {
+        }
+
         /// <summary>
         /// Creates a new calculated value from the given length.
         /// </summary>

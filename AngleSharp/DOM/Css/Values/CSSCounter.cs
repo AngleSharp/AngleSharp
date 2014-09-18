@@ -18,6 +18,7 @@
         #region ctor
 
         public CSSCounter(String identifier, String listStyle, String separator)
+            : base(CssValueType.Primitive)
         {
             _identifier = identifier;
             _listStyle = listStyle;

@@ -19,6 +19,15 @@
 
         #endregion
 
+        #region ctor
+
+        private CSSTransformValue()
+            : base(CssValueType.Primitive)
+	    {
+	    }
+
+        #endregion
+
         #region Classes
 
         /// <summary>

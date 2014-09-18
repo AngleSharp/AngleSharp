@@ -42,6 +42,15 @@
 
         #endregion
 
+        #region ctor
+
+        private CSSTimingValue()
+            : base(CssValueType.Primitive)
+	    {
+	    }
+
+        #endregion
+
         #region Classes
 
         /// <summary>

@@ -27,6 +27,7 @@
         /// <param name="bottom">The bottom position.</param>
         /// <param name="left">The left position.</param>
         public CSSShapeValue(Length top, Length right, Length bottom, Length left)
+            : base(CssValueType.Primitive)
         {
             _top = top;
             _right = right;

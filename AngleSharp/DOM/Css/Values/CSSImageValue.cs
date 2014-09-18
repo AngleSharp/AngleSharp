@@ -21,6 +21,11 @@
 
         #region Constructors
 
+        private CSSImageValue()
+            : base(CssValueType.Primitive)
+        {
+        }
+
         /// <summary>
         /// Creates a new image value from the given url.
         /// </summary>

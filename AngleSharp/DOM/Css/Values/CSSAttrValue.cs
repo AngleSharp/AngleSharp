@@ -17,6 +17,7 @@
         #region ctor
 
         public CSSAttrValue(String name)
+            : base(CssValueType.Primitive)
         {
             _name = name;
         }
