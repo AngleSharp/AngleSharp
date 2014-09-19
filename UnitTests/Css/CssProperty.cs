@@ -1062,5 +1062,25 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssPropertyFactoryCalls()
+        {
+            var decl = new CSSStyleDeclaration();
+            var invalid = CssPropertyFactory.Create("invalid", null);
+            var border = CssPropertyFactory.Create("border", null);
+            var color = CssPropertyFactory.Create("color", decl);
+            decl.Set(color);
+            var colorAgain = CssPropertyFactory.Create("color", decl);
+
+            Assert.IsNull(invalid);
+            Assert.IsNotNull(border);
+            Assert.IsNotNull(color);
+            Assert.IsNotNull(colorAgain);
+
+            Assert.IsInstanceOfType(border, typeof(CSSBorderProperty));
+            Assert.IsInstanceOfType(color, typeof(CSSColorProperty));
+            Assert.AreEqual(color, colorAgain);
+        }
     }
 }
