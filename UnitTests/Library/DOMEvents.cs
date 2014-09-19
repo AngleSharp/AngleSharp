@@ -116,5 +116,27 @@ namespace UnitTests.Library
             element.Parent.AddEventListener(evName, listener2);
             element.Dispatch(args);
         }
+
+        [TestMethod]
+        public void EventsCustomHandler()
+        {
+            var evName = "myevent";
+            var element = doc.QuerySelector("img");
+            var args = doc.CreateEvent("customevent") as ICustomEvent;
+            Assert.IsNotNull(args);
+            var mydetails = new object();
+            args.Init(evName, true, true, mydetails);
+            DomEventHandler listener = (s, ev) =>
+            {
+                Assert.AreEqual(args, ev);
+                Assert.AreEqual(evName, ev.Type);
+                Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
+                Assert.AreEqual(element, ev.CurrentTarget);
+                Assert.AreEqual(element, ev.OriginalTarget);
+                Assert.AreEqual(mydetails, args.Details);
+            };
+            element.AddEventListener(evName, listener);
+            element.Dispatch(args);
+        }
     }
 }
