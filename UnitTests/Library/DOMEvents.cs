@@ -138,5 +138,23 @@ namespace UnitTests.Library
             element.AddEventListener(evName, listener);
             element.Dispatch(args);
         }
+
+        [TestMethod]
+        public void EventsFactory()
+        {
+            var invalid = EventFactory.Create("invalid");
+            var @event = EventFactory.Create("event");
+            var events = EventFactory.Create("events");
+            var wheelevent = EventFactory.Create("wheelevent");
+
+            Assert.IsNull(invalid);
+            Assert.IsNotNull(@event);
+            Assert.IsNotNull(events);
+            Assert.IsNotNull(wheelevent);
+
+            Assert.IsInstanceOfType(@event, typeof(Event));
+            Assert.IsInstanceOfType(events, typeof(Event));
+            Assert.IsInstanceOfType(wheelevent, typeof(WheelEvent));
+        }
     }
 }
