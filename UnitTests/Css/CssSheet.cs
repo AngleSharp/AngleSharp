@@ -571,7 +571,7 @@ h1 { color: blue }");
             var content = decl.Get(0);
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
-            Assert.AreEqual(CssValueType.Custom, content.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, content.Value.Type);
         }
 
         [TestMethod]
@@ -634,7 +634,7 @@ h1 { color: blue }");
             var transform = decl.Get(0);
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.IsImportant);
-            Assert.AreEqual(CssValueType.Custom, transform.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, transform.Value.Type);
         }
 
         [TestMethod]

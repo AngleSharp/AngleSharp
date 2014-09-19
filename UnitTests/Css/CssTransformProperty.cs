@@ -450,7 +450,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("matrix(1, 2, 3, 4, 5, 6)", concrete.Value.CssText);
         }
@@ -465,7 +465,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("translate(12px, 50%)", concrete.Value.CssText);
         }
@@ -480,7 +480,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("translateX(2em)", concrete.Value.CssText);
         }
@@ -495,7 +495,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("translateY(3in)", concrete.Value.CssText);
         }
@@ -510,7 +510,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("scale(2, 0.5)", concrete.Value.CssText);
         }
@@ -525,7 +525,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("scaleX(0.1)", concrete.Value.CssText);
         }
@@ -540,7 +540,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("scaleY(1.5)", concrete.Value.CssText);
         }
@@ -555,7 +555,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rotate(0.5turn)", concrete.Value.CssText);
         }
@@ -570,7 +570,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("skewX(30deg)", concrete.Value.CssText);
         }
@@ -585,7 +585,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Custom, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("skewY(1.07rad)", concrete.Value.CssText);
         }
