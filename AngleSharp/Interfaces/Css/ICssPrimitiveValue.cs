@@ -22,7 +22,7 @@
         /// <param name="unit">The unit can only be a number unit type.</param>
         /// <param name="value">The number's value.</param>
         [DomName("setFloatValue")]
-        void SetNumber(UnitType unit, Double value);
+        void SetNumber(UnitType unit, Single value);
         
         /// <summary>
         /// Gets the value in a specified unit. If this CSS value doesn't
@@ -32,7 +32,7 @@
         /// <param name="unit">A unit code to get the number value.</param>
         /// <returns>The value of the number.</returns>
         [DomName("getFloatValue")]
-        Double GetNumber(UnitType unit);
+        Single GetNumber(UnitType unit);
 
         /// <summary>
         /// Sets the string value with the specified unit. If the property attached to

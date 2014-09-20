@@ -96,7 +96,7 @@
         [DomName("CSS_KHZ")]
         Khz = 17,
         /// <summary>
-        /// A dimension value.
+        /// An unknown dimension value.
         /// </summary>
         [DomName("CSS_DIMENSION")]
         Dimension = 18,
