@@ -124,7 +124,7 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("3em", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Length>));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("0", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Number>));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]
@@ -158,7 +158,7 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("10%", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue<Percent>));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]

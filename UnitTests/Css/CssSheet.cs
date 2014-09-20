@@ -382,7 +382,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue<Color>)value).Value;
+            var color = ((CSSPrimitiveValue)value).Value;
             Assert.AreEqual(new Color(0, 0, 0), color);
         }
 
@@ -393,7 +393,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue<Color>)value).Value;
+            var color = ((CSSPrimitiveValue)value).Value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
@@ -404,7 +404,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue<Color>)value).Value;
+            var color = ((CSSPrimitiveValue)value).Value;
             Assert.AreEqual(new Color(0, 119, 204), color);
         }
 
@@ -415,7 +415,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue<Color>)value).Value;
+            var color = ((CSSPrimitiveValue)value).Value;
             Assert.AreEqual(new Color(0, 0, 255), color);
         }
 
@@ -426,7 +426,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue<Color>)value).Value;
+            var color = ((CSSPrimitiveValue)value).Value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
@@ -442,7 +442,7 @@ h1 { color: blue }");
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, prop.Value.Type);
 
-            var color = ((CSSPrimitiveValue<Color>)prop.Value).Value;
+            var color = ((CSSPrimitiveValue)prop.Value).Value;
             Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
         }
 
