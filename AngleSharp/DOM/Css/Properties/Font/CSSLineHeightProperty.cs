@@ -40,8 +40,8 @@
                 _mode = new CalcLineHeightMode(calc);
             else if (value.Is(Keywords.Normal))
                 _mode = _normal;
-            else if (value.ToNumber().HasValue)
-                _mode = new MultipleLineHeightMode(value.ToNumber().Value);
+            else if (value.ToSingle().HasValue)
+                _mode = new MultipleLineHeightMode(value.ToSingle().Value);
             else if (value != CSSValue.Inherit)
                 return false;
 

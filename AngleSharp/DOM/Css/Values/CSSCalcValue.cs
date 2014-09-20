@@ -140,7 +140,7 @@
             public override Single ToPixel()
             {
                 //TODO require some length to set the scale
-                return _scale.Value;
+                return _scale.NormalizedValue;
             }
 
             public override String ToCss()

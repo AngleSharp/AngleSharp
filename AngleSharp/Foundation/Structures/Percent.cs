@@ -47,7 +47,7 @@
         /// <summary>
         /// Gets the value (0 to 1).
         /// </summary>
-        public Single Value
+        public Single NormalizedValue
         {
             get { return _value * 0.01f; }
         }
@@ -63,7 +63,7 @@
         /// <returns>The number between 0 and 1.</returns>
         public static explicit operator Single(Percent number)
         {
-            return number.Value;
+            return number.NormalizedValue;
         }
 
         /// <summary>
@@ -152,7 +152,7 @@
         /// <returns>The string.</returns>
         public override String ToString()
         {
-            return Value.ToString();
+            return NormalizedValue.ToString();
         }
 
         /// <summary>

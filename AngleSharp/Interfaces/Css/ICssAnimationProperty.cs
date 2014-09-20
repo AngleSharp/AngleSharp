@@ -66,7 +66,7 @@
         /// <summary>
         /// Gets the iteration count of the covered animations.
         /// </summary>
-        IEnumerable<Single> Iterations { get; }
+        IEnumerable<Int32> Iterations { get; }
     }
 
     /// <summary>

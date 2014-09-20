@@ -62,6 +62,14 @@
         }
 
         /// <summary>
+        /// Gets the type of the length.
+        /// </summary>
+        public Unit Type
+        {
+            get { return _unit; }
+        }
+
+        /// <summary>
         /// Gets the representation of the unit as a string.
         /// </summary>
         public String UnitString

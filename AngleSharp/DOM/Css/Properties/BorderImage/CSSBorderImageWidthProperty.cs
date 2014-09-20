@@ -63,7 +63,7 @@
             if (value.Is(Keywords.Auto))
                 return _auto;
 
-            var multiple = value.ToNumber();
+            var multiple = value.ToSingle();
 
             if (multiple.HasValue)
                 return new MultipleImageWidthMode(multiple.Value);

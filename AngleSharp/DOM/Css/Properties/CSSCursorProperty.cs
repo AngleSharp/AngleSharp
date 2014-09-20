@@ -136,8 +136,8 @@
                 else if(entry.Length == 3)
                 {
                     var location = entry[0].ToUri();
-                    var x = entry[1].ToNumber();
-                    var y = entry[2].ToNumber();
+                    var x = entry[1].ToSingle();
+                    var y = entry[2].ToSingle();
 
                     if (location == null || !x.HasValue || !y.HasValue)
                         return false;

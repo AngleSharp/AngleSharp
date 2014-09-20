@@ -86,7 +86,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("none"))
+            if (value.Is(Keywords.None))
             {
                 _transitions.Clear();
                 return true;
@@ -124,10 +124,9 @@
 
         Transition? ParseValue(CSSValue value)
         {
-            var delay = Time.Zero;
-            var duration = Time.Zero;
+            Time? duration = null;
             var function = value.ToTimingFunction();
-            var property = "all";
+            var property = Keywords.All;
 
             if (function == null)
             {
@@ -135,16 +134,14 @@
 
                 if (value is CSSIdentifierValue)
                     property = ((CSSIdentifierValue)value).Value;
-                else if (value is CSSPrimitiveValue<Time>)
-                    duration = value.ToTime().Value;
-                else
+                else if (!(duration = value.ToTime()).HasValue)
                     return null;
             }
 
             return new Transition
             {
-                Delay = delay,
-                Duration = duration,
+                Delay = Time.Zero,
+                Duration = duration ?? Time.Zero,
                 Timing = function,
                 Property = property
             };
@@ -152,8 +149,8 @@
 
         Transition? ParseValue(CSSValueList values)
         {
-            CSSPrimitiveValue<Time> delay = null;
-            CSSPrimitiveValue<Time> duration = null;
+            Time? delay = null;
+            Time? duration = null;
             CSSTimingValue function = null;
             String property = null;
 
@@ -168,10 +165,10 @@
                     continue;
                 }
 
-                if (values[i] is CSSPrimitiveValue<Time>)
-                {
-                    var time = (CSSPrimitiveValue<Time>)values[i];
+                var time = values[i].ToTime();
 
+                if (time.HasValue)
+                {
                     if (duration == null)
                     {
                         duration = time;
@@ -189,10 +186,10 @@
 
             return new Transition
             {
-                Delay = delay != null ? delay.Value : Time.Zero,
-                Duration = duration != null ? duration.Value : Time.Zero,
+                Delay = delay ?? Time.Zero,
+                Duration = duration ?? Time.Zero,
                 Timing = function ?? CSSTimingValue.Ease,
-                Property = property ?? "all"
+                Property = property ?? Keywords.All
             };
         }
 

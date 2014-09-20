@@ -77,8 +77,13 @@
                 mode = new TextContentMode(((CSSStringValue)value).Value);
             else if (value is CSSCounter)
                 mode = new CounterContentMode((CSSCounter)value);
-            else if (value is CSSPrimitiveValue<Url>)
-                mode = new UrlContentMode(((CSSPrimitiveValue<Url>)value).Value);
+            else if (value is CSSPrimitiveValue)
+            {
+                var uri = value.ToUri();
+
+                if (uri != null)
+                    mode = new UrlContentMode(uri);
+            }
 
             return mode;
         }

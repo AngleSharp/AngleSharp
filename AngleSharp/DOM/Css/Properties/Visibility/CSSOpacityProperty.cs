@@ -45,7 +45,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var num = value.ToNumber();
+            var num = value.ToSingle();
 
             if (num.HasValue)
                 _value = num.Value;

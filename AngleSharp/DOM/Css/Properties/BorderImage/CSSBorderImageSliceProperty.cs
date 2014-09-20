@@ -107,7 +107,7 @@
             if (percent.HasValue)
                 return CSSCalcValue.FromPercent(percent.Value);
 
-            var number = value.ToNumber();
+            var number = value.ToSingle();
 
             if (number.HasValue)
                 return CSSCalcValue.FromLength(new Length(number.Value, Length.Unit.Px));

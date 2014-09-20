@@ -47,14 +47,19 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList<CSSPrimitiveValue<Time>>();
+            var values = value.AsList<CSSPrimitiveValue>();
 
             if (values != null)
             {
                 _times.Clear();
 
                 foreach (var v in values)
-                    _times.Add(v.Value);
+                {
+                    var time = v.ToTime();
+
+                    if (time != null)
+                        _times.Add(time.Value);
+                }
             }
             else if (value != CSSValue.Inherit)
                 return false;

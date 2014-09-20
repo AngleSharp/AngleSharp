@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Single> _iterations;
+        List<Int32> _iterations;
 
         #endregion
 
@@ -20,8 +20,8 @@
         internal CSSAnimationIterationCountProperty()
             : base(PropertyNames.AnimationIterationCount)
         {
-            _iterations = new List<Single>();
-            _iterations.Add(1f);
+            _iterations = new List<Int32>();
+            _iterations.Add(1);
         }
 
         #endregion
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the iteration count of the covered animations.
         /// </summary>
-        public IEnumerable<Single> Iterations
+        public IEnumerable<Int32> Iterations
         {
             get { return _iterations; }
         }
@@ -54,7 +54,12 @@
                 _iterations.Clear();
 
                 foreach (var v in values)
-                    _iterations.Add(v.Value.Value);
+                {
+                    var n = v.ToInteger();
+
+                    if (n.HasValue)
+                        _iterations.Add(n.Value);
+                }
             }
             else if (value != CSSValue.Inherit)
                 return false;
@@ -62,17 +67,19 @@
             return true;
         }
 
-        static CSSPrimitiveValue<Number> ToNumber(CSSValue value)
+        static CSSPrimitiveValue ToNumber(CSSValue value)
         {
-            if (value is CSSPrimitiveValue<Number>)
-            {
-                var n = (CSSPrimitiveValue<Number>)value;
+            var number = value.ToInteger();
 
-                if (n.Value >= Number.Zero)
-                    return n;
+            if (number != null)
+            {
+                var n = number.Value;
+
+                if (n >= 0)
+                    return (CSSPrimitiveValue)value;
             }
             else if (value.Is(Keywords.Infinite))
-                return new CSSPrimitiveValue<Number>(Number.Infinite);
+                return new CSSPrimitiveValue(Number.Infinite);
 
             return null;
         }

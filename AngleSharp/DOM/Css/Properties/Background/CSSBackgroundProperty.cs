@@ -134,7 +134,7 @@
                 var attachment = new CSSValueList();
                 var origin = new CSSValueList();
                 var clip = new CSSValueList();
-                var color = new CSSPrimitiveValue<Color>(Color.Transparent);
+                Color? color = null;
                 var list = values.ToList();
 
                 for (int i = 0; i < list.Count; i++)
@@ -211,7 +211,7 @@
                                 return false;
 
                             hasColor = true;
-                            color = entry[j].AsColor();
+                            color = entry[j].ToColor();
 
                             if (color == null)
                                 return false;
@@ -258,7 +258,7 @@
                 _origin.Value = origin;
                 _size.Value = size;
                 _clip.Value = clip;
-                _color.Value = color;
+                _color.Value = new CSSPrimitiveValue(color ?? Color.Transparent);
             }
 
             return true;

@@ -97,6 +97,22 @@
         }
 
         /// <summary>
+        /// Gets the type of the length.
+        /// </summary>
+        public Unit Type
+        {
+            get { return _unit; }
+        }
+
+        /// <summary>
+        /// Gets the value of the length.
+        /// </summary>
+        public Single Value
+        {
+            get { return _value; }
+        }
+
+        /// <summary>
         /// Gets the representation of the unit as a string.
         /// </summary>
         public String UnitString

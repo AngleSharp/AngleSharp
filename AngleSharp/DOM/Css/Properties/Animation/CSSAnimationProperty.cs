@@ -27,7 +27,7 @@
                 Timing = CSSTimingValue.Ease,
                 Duration = Time.Zero,
                 FillMode = AnimationFillStyle.None,
-                IterationCount = 1f,
+                IterationCount = 1,
                 Direction = AnimationDirection.Normal,
                 Name = Keywords.None
             });
@@ -112,7 +112,7 @@
         /// <summary>
         /// Gets the iteraction counts of the animations.
         /// </summary>
-        public IEnumerable<Single> Iterations
+        public IEnumerable<Int32> Iterations
         {
             get
             {
@@ -164,11 +164,10 @@
 
         Animation? ParseValue(CSSValue value)
         {
-            var delay = Time.Zero;
-            var duration = Time.Zero;
+            Time? duration = null;
+            Int32? iterationCount = null;
             var function = value.ToTimingFunction();
             var name = Keywords.None;
-            var iterationCount = 1f;
 
             if (function == null)
             {
@@ -176,21 +175,17 @@
 
                 if (value is CSSIdentifierValue)
                     name = ((CSSIdentifierValue)value).Value;
-                else if (value is CSSPrimitiveValue<Time>)
-                    duration = value.ToTime().Value;
-                else if (value is CSSPrimitiveValue<Number>)
-                    iterationCount = value.ToNumber().Value;
-                else
+                else if (!(duration = value.ToTime()).HasValue && !(iterationCount = value.ToInteger()).HasValue)
                     return null;
             }
 
             return new Animation
             {
-                Delay = delay,
-                Duration = duration,
+                Delay = Time.Zero,
+                Duration = duration ?? Time.Zero,
                 Timing = function,
                 Name = name,
-                IterationCount = iterationCount,
+                IterationCount = iterationCount ?? 1,
                 FillMode = AnimationFillStyle.None,
                 Direction = AnimationDirection.Normal
             };
@@ -198,9 +193,9 @@
 
         Animation? ParseValue(CSSValueList values)
         {
-            CSSPrimitiveValue<Time> delay = null;
-            CSSPrimitiveValue<Time> duration = null;
-            CSSPrimitiveValue<Number> iterationCount = null;
+            Time? delay = null;
+            Time? duration = null;
+            Int32? iterationCount = null;
             CSSTimingValue function = null;
             AnimationFillStyle? fillMode = null;
             AnimationDirection? direction = null;
@@ -226,10 +221,10 @@
                         continue;
                 }
 
-                if (values[i] is CSSPrimitiveValue<Time>)
-                {
-                    var time = (CSSPrimitiveValue<Time>)values[i];
+                var time = values[i].ToTime();
 
+                if (time.HasValue)
+                {
                     if (duration == null)
                     {
                         duration = time;
@@ -241,23 +236,19 @@
                         continue;
                     }
                 }
-
-                if (iterationCount == null && values[i] is CSSPrimitiveValue<Number>)
-                {
-                    iterationCount = (CSSPrimitiveValue<Number>)values[i];
+                else if (!iterationCount.HasValue && (iterationCount = values[i].ToInteger()).HasValue)
                     continue;
-                }
 
                 return null;
             }
 
             return new Animation
             {
-                Delay = delay != null ? delay.Value : Time.Zero,
-                Duration = duration != null ? duration.Value : Time.Zero,
+                Delay = delay ?? Time.Zero,
+                Duration = duration ?? Time.Zero,
                 Timing = function ?? CSSTimingValue.Ease,
                 Name = name ?? Keywords.None,
-                IterationCount = iterationCount != null ? iterationCount.Value.Value : 1f,
+                IterationCount = iterationCount ?? 1,
                 FillMode = fillMode.HasValue ? fillMode.Value : AnimationFillStyle.None,
                 Direction = direction.HasValue ? direction.Value : AnimationDirection.Normal
             };
@@ -272,7 +263,7 @@
             public Time Delay;
             public Time Duration;
             public CSSTimingValue Timing;
-            public Single IterationCount;
+            public Int32 IterationCount;
             public AnimationDirection Direction;
             public AnimationFillStyle FillMode;
             public String Name;

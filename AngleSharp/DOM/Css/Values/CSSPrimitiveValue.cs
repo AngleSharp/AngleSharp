@@ -5,8 +5,7 @@
     /// <summary>
     /// Represents a CSS primitive value.
     /// </summary>
-    sealed class CSSPrimitiveValue<T> : CSSValue, ICssPrimitiveValue
-        where T : ICssObject
+    sealed class CSSPrimitiveValue : CSSValue, ICssPrimitiveValue
     {
         #region Fields
 
@@ -17,10 +16,56 @@
 
         #region ctor
 
-        public CSSPrimitiveValue(T value)
+        public CSSPrimitiveValue(UnitType unit, ICssObject value)
             : base(CssValueType.Primitive)
         {
+            _unit = unit;
             _value = value;
+        }
+
+        public CSSPrimitiveValue(Url url)
+            : this(UnitType.Uri, url)
+        {
+        }
+
+        public CSSPrimitiveValue(Color color)
+            : this(UnitType.RgbColor, color)
+        {
+        }
+
+        public CSSPrimitiveValue(Length length)
+            : this(length.Type.Generalize(), length)
+        {
+        }
+
+        public CSSPrimitiveValue(Frequency frequency)
+            : this(frequency.Type.Generalize(), frequency)
+        {
+        }
+
+        public CSSPrimitiveValue(Time time)
+            : this(time.Type.Generalize(), time)
+        {
+        }
+
+        public CSSPrimitiveValue(Angle angle)
+            : this(angle.Type.Generalize(), angle)
+        {
+        }
+
+        public CSSPrimitiveValue(Resolution resolution)
+            : this(resolution.Type.Generalize(), resolution)
+        {
+        }
+
+        public CSSPrimitiveValue(Percent percent)
+            : this(UnitType.Percent, percent)
+        {
+        }
+
+        public CSSPrimitiveValue(Number number)
+            : this(UnitType.Number, number)
+        {
         }
 
         #endregion
@@ -30,9 +75,9 @@
         /// <summary>
         /// Gets the value of the primitive container.
         /// </summary>
-        public T Value
+        public ICssObject Value
         {
-            get { return (T)_value; }
+            get { return _value; }
         }
 
         public UnitType Unit
@@ -117,6 +162,9 @@
 
         public Single GetNumber(UnitType unit)
         {
+            if (unit == UnitType.Number && _unit == UnitType.Number)
+                return ((Number)_value).Value;
+
             throw new NotImplementedException();
         }
 

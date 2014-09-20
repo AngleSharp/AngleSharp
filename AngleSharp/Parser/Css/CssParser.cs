@@ -882,7 +882,7 @@
                     value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CSSPrimitiveValue<Url>(new Url(((CssStringToken)token).Data)));
+                    value.AddValue(new CSSPrimitiveValue(new Url(((CssStringToken)token).Data)));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
                     value.AddValue(ToNumber((CssNumberToken)token));
@@ -995,12 +995,12 @@
         /// </summary>
         /// <param name="hexColor">The value of the token.</param>
         /// <returns>The generated value.</returns>
-        static CSSPrimitiveValue<Color> GetColorFromHexValue(String hexColor)
+        static CSSPrimitiveValue GetColorFromHexValue(String hexColor)
         {
             Color colorValue;
 
             if (Color.TryFromHex(hexColor, out colorValue))
-                return new CSSPrimitiveValue<Color>(colorValue);
+                return new CSSPrimitiveValue(colorValue);
 
             return null;
         }
@@ -1280,7 +1280,7 @@
         static CSSValue ToUnit(CssUnitToken token)
         {
             if (token.Type == CssTokenType.Percentage)
-                return new CSSPrimitiveValue<Percent>(new Percent(token.Data));
+                return new CSSPrimitiveValue(new Percent(token.Data));
 
             return CssUnitFactory.Create(token.Unit.ToLower(), token.Data);
         }
@@ -1306,9 +1306,9 @@
         static CSSValue ToNumber(CssNumberToken token)
         {
             if (token.Data == 0f)
-                return new CSSPrimitiveValue<Number>(Number.Zero);
+                return new CSSPrimitiveValue(Number.Zero);
 
-            return new CSSPrimitiveValue<Number>(new Number(token.Data));
+            return new CSSPrimitiveValue(new Number(token.Data));
         }
 
         #endregion
