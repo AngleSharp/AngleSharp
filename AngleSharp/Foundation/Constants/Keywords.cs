@@ -1061,5 +1061,15 @@
         /// The separate keyword.
         /// </summary>
         public static readonly String Separate = "separate";
+
+        /// <summary>
+        /// The start keyword.
+        /// </summary>
+        public static readonly String Start = "start";
+
+        /// <summary>
+        /// The end keyword.
+        /// </summary>
+        public static readonly String End = "end";
     }
 }

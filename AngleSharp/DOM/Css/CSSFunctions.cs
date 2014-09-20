@@ -255,9 +255,9 @@
                 {
                     if (arguments.Count > 1)
                     {
-                        if (arguments[1].Is("start"))
+                        if (arguments[1].Is(Keywords.Start))
                             return new CSSTimingValue.Steps(intervals.Value, true);
-                        else if (arguments[1].Is("end"))
+                        else if (arguments[1].Is(Keywords.End))
                             return new CSSTimingValue.Steps(intervals.Value, false);
                     }
                     else
@@ -606,7 +606,7 @@
             if (arguments.Count > 0 && arguments.Count < 3 && arguments[0] is CSSIdentifierValue)
             {
                 var identifier = ((CSSIdentifierValue)arguments[0]).Value;
-                var listStyle = "decimal";
+                var listStyle = Keywords.Decimal;
 
                 if (arguments.Count > 1)
                 {
@@ -628,7 +628,7 @@
             {
                 var identifier = ((CSSIdentifierValue)arguments[0]).Value;
                 var separator = arguments[1].ToCssString();
-                var listStyle = "decimal";
+                var listStyle = Keywords.Decimal;
 
                 if (separator == null)
                     return null;
