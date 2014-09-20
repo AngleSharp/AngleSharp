@@ -1525,6 +1525,9 @@
     <Compile Include="..\AngleSharp\Foundation\Extensions\StyleExtensions.cs">
       <Link>Foundation\Extensions\StyleExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Extensions\UnitExtensions.cs">
+      <Link>Foundation\Extensions\UnitExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Extensions\ValueExtensions.cs">
       <Link>Foundation\Extensions\ValueExtensions.cs</Link>
     </Compile>
