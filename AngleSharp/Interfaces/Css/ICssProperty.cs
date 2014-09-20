@@ -25,5 +25,10 @@
         /// </summary>
         [DomName("important")]
         Boolean IsImportant { get; }
+
+        /// <summary>
+        /// Gets if the property can be inherited.
+        /// </summary>
+        Boolean IsInherited { get; }
     }
 }

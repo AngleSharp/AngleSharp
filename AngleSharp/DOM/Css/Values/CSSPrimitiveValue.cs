@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a CSS primitive value.
     /// </summary>
-    sealed class CSSPrimitiveValue<T> : CSSValue
+    sealed class CSSPrimitiveValue<T> : CSSValue, ICssPrimitiveValue
         where T : ICssObject
     {
         #region Fields
@@ -48,5 +48,35 @@
         }
 
         #endregion
+
+        public UnitType Unit
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void SetNumber(UnitType unit, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Double GetNumber(UnitType unit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetString(UnitType unit, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public String GetString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Color GetColor()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

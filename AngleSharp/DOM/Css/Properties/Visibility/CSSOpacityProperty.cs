@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/opacity
     /// </summary>
-    public sealed class CSSOpacityProperty : CSSProperty, ICssOpacityProperty
+    sealed class CSSOpacityProperty : CSSProperty, ICssOpacityProperty
     {
         #region Fields
 

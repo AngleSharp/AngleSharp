@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly Dictionary<String, CSSProperty> _rules;
+        readonly Dictionary<String, ICssProperty> _rules;
         readonly Boolean _readonly;
         ICssRule _parent;
         String _text;
@@ -34,7 +34,7 @@
         internal CSSStyleDeclaration()
         {
             _readonly = false;
-            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
+            _rules = new Dictionary<String, ICssProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
         internal CSSStyleDeclaration(CssPropertyBag bag)
         {
             _readonly = true;
-            _rules = new Dictionary<String, CSSProperty>(StringComparer.OrdinalIgnoreCase);
+            _rules = new Dictionary<String, ICssProperty>(StringComparer.OrdinalIgnoreCase);
 
             foreach (var property in bag)
                 _rules.Add(property.Name, property);
@@ -2261,7 +2261,7 @@
             if (_readonly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            CSSProperty property;
+            ICssProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
             {
@@ -2280,7 +2280,7 @@
         /// <returns>A priority or the empty string.</returns>
         public String GetPropertyPriority(String propertyName)
         {
-            CSSProperty property;
+            ICssProperty property;
 
             if (_rules.TryGetValue(propertyName, out property) && property.IsImportant)
                 return Keywords.Important;
@@ -2295,7 +2295,7 @@
         /// <returns>A value or the empty string if nothing has been set.</returns>
         public String GetPropertyValue(String propertyName)
         {
-            CSSProperty property;
+            ICssProperty property;
 
             if (_rules.TryGetValue(propertyName, out property))
                 return property.Value.CssText;
@@ -2362,7 +2362,7 @@
             foreach (var rule in _rules)
             {
                 if (i++ == index)
-                    return rule.Value;
+                    return rule.Value as CSSProperty;
             }
 
             return null;
@@ -2375,10 +2375,10 @@
         /// <returns>The property with the specified name or null.</returns>
         internal CSSProperty Get(String name)
         {
-            CSSProperty prop;
+            ICssProperty prop;
 
             if (_rules.TryGetValue(name, out prop))
-                return prop;
+                return prop as CSSProperty;
 
             return null;
         }
@@ -2434,7 +2434,7 @@
         /// Returns an ienumerator that enumerates over all entries.
         /// </summary>
         /// <returns>The iterator.</returns>
-        public IEnumerator<CSSProperty> GetEnumerator()
+        public IEnumerator<ICssProperty> GetEnumerator()
         {
             return _rules.Values.GetEnumerator();
         }

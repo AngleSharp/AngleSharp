@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a CSS value.
 	/// </summary>
-    public class CSSValue : ICssValue, ICssObject
+    class CSSValue : ICssValue, ICssObject
     {
         #region Fields
 

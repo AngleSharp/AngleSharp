@@ -37,10 +37,10 @@
         /// <summary>
         /// Gets the value of the feature.
         /// </summary>
-        public CSSValue Value
+        internal CSSValue Value
         {
             get { return _value; }
-            protected set { _value = value; }
+            set { _value = value; }
         }
 
         #endregion

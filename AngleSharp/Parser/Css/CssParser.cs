@@ -1386,7 +1386,7 @@
         /// <param name="declaration">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSProperty object.</returns>
-        public static CSSProperty ParseDeclaration(String declaration, IConfiguration configuration = null)
+        internal static CSSProperty ParseDeclaration(String declaration, IConfiguration configuration = null)
         {
             var parser = new CssParser(declaration, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
@@ -1403,7 +1403,7 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValue object.</returns>
-        public static CSSValue ParseValue(String source, IConfiguration configuration = null)
+        internal static CSSValue ParseValue(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();

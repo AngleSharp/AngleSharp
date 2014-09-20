@@ -6,7 +6,7 @@
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    public class CSSProperty : ICssProperty, ICssObject
+    class CSSProperty : ICssProperty, ICssObject
     {
         #region Fields
 
@@ -54,14 +54,6 @@
         }
 
         /// <summary>
-        /// Gets if the property can be inherited.
-        /// </summary>
-        internal Boolean IsInherited
-        {
-            get { return _flags.HasFlag(PropertyFlags.Inherited); }
-        }
-
-        /// <summary>
         /// Gets if the property supports hashless colors in quirksmode.
         /// </summary>
         internal Boolean IsHashless
@@ -93,6 +85,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets if the property can be inherited.
+        /// </summary>
+        public Boolean IsInherited
+        {
+            get { return _flags.HasFlag(PropertyFlags.Inherited); }
+        }
 
         /// <summary>
         /// Gets the name of the property.

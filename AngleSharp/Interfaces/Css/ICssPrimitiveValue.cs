@@ -12,7 +12,7 @@
         /// Gets the type of the value.
         /// </summary>
         [DomName("primitiveType")]
-        UnitType Type { get; }
+        UnitType Unit { get; }
         
         /// <summary>
         /// Sets the number with a specified unit. If the property attached with
