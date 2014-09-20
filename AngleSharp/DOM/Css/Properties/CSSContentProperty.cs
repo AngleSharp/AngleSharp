@@ -72,17 +72,20 @@
             if (value is CSSIdentifierValue)
                 modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode);
             else if (value is CSSAttrValue)
-                mode = new AttributeContentMode(((CSSAttrValue)value).Name);
-            else if (value is CSSStringValue)
-                mode = new TextContentMode(((CSSStringValue)value).Value);
+                return new AttributeContentMode(((CSSAttrValue)value).Name);
             else if (value is CSSCounter)
-                mode = new CounterContentMode((CSSCounter)value);
+                return new CounterContentMode((CSSCounter)value);
             else if (value is CSSPrimitiveValue)
             {
                 var uri = value.ToUri();
 
                 if (uri != null)
-                    mode = new UrlContentMode(uri);
+                    return new UrlContentMode(uri);
+
+                var str = value.ToCssString();
+
+                if (str != null)
+                    return new TextContentMode(str);
             }
 
             return mode;

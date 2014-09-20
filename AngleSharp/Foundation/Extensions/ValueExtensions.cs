@@ -224,14 +224,6 @@
             return null;
         }
 
-        public static String ToContent(this CSSValue value)
-        {
-            if (value is CSSStringValue)
-                return ((CSSStringValue)value).Value;
-
-            return null;
-        }
-
         public static CSSCalcValue AsCalc(this CSSValue value)
         {
             if (value is CSSCalcValue)
@@ -311,6 +303,16 @@
 
             if (primitive != null)
                 return primitive.Value as Percent?;
+
+            return null;
+        }
+
+        public static String ToCssString(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null && primitive.Unit == UnitType.String)
+                return primitive.GetString();
 
             return null;
         }

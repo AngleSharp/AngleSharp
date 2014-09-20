@@ -84,7 +84,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue || value is CSSStringValue)
+            if (value is CSSIdentifierValue || value is CSSPrimitiveValue)
             {
                 _families.Clear();
                 _families.Add(GetFamily(value));
@@ -145,8 +145,13 @@
 
                 return new CustomFontFamily(String.Join(" ", names));
             }
-            else if (value is CSSStringValue)
-                return new CustomFontFamily(((CSSStringValue)value).Value);
+            else if (value is CSSPrimitiveValue)
+            {
+                var s = value.ToCssString();
+
+                if (s != null)
+                    return new CustomFontFamily(s);
+            }
 
             return null;
         }

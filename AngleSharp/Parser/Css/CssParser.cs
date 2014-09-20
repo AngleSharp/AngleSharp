@@ -879,7 +879,7 @@
                     value.AddValue(ToIdentifier(((CssKeywordToken)token).Data));
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
-                    value.AddValue(new CSSStringValue(((CssStringToken)token).Data));
+                    value.AddValue(new CSSPrimitiveValue((CssString)((CssStringToken)token).Data));
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
                     value.AddValue(new CSSPrimitiveValue(new Url(((CssStringToken)token).Data)));

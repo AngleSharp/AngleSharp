@@ -64,13 +64,13 @@
 
                 for (int i = 0; i < values.Length; i += 2)
                 {
-                    var open = values[i] as CSSStringValue;
-                    var close = values[i + 1] as CSSStringValue;
+                    var open = values[i].ToCssString();
+                    var close = values[i + 1].ToCssString();
 
                     if (open == null || close == null)
                         return false;
 
-                    quotes.Add(Tuple.Create(open.Value, close.Value));
+                    quotes.Add(Tuple.Create(open, close));
                 }
 
                 _quotes = quotes;

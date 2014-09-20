@@ -227,8 +227,10 @@
 
                 if (uri == null)
                 {
-                    if (argument is CSSStringValue)
-                        uri = new Url(((CSSStringValue)argument).Value);
+                    var s = argument.ToCssString();
+
+                    if (s != null)
+                        uri = new Url(s);
                     else
                         return null;
                 }
@@ -310,8 +312,10 @@
         {
             if (arguments.Count == 1)
             {
-                if (arguments[0] is CSSStringValue)
-                    return new CSSAttrValue(((CSSStringValue)arguments[0]).Value);
+                var s = arguments[0].ToCssString();
+
+                if (s != null)
+                    return new CSSAttrValue(s);
                 else if (arguments[0] is CSSIdentifierValue)
                     return new CSSAttrValue(((CSSIdentifierValue)arguments[0]).Value);
             }
@@ -620,11 +624,14 @@
 
         static CSSCounter Counters(List<CSSValue> arguments)
         {
-            if (arguments.Count > 1 && arguments.Count < 4 && arguments[0] is CSSIdentifierValue && arguments[1] is CSSStringValue)
+            if (arguments.Count > 1 && arguments.Count < 4 && arguments[0] is CSSIdentifierValue)
             {
                 var identifier = ((CSSIdentifierValue)arguments[0]).Value;
-                var separator = ((CSSStringValue)arguments[1]).Value;
+                var separator = arguments[1].ToCssString();
                 var listStyle = "decimal";
+
+                if (separator == null)
+                    return null;
 
                 if (arguments.Count > 2)
                 {

@@ -23,6 +23,11 @@
             _value = value;
         }
 
+        public CSSPrimitiveValue(CssString value)
+            : this(UnitType.String, value)
+        {
+        }
+
         public CSSPrimitiveValue(Url url)
             : this(UnitType.Uri, url)
         {
@@ -170,11 +175,17 @@
 
         public void SetString(UnitType unit, String value)
         {
-            throw new NotImplementedException();
+            _unit = unit;
+            _value = new CssString(value);
         }
 
         public String GetString()
         {
+            var str = _value as CssString;
+
+            if (str != null)
+                return str;
+
             throw new NotImplementedException();
         }
 
