@@ -11,20 +11,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, TextDecorationLine> modes = new Dictionary<String, TextDecorationLine>();
         List<TextDecorationLine> _line;
 
         #endregion
 
         #region ctor
-
-        static CSSTextDecorationLineProperty()
-        {
-            modes.Add(Keywords.Underline, TextDecorationLine.Underline);
-            modes.Add(Keywords.Overline, TextDecorationLine.Overline);
-            modes.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
-            modes.Add(Keywords.Blink, TextDecorationLine.Blink);
-        }
 
         internal CSSTextDecorationLineProperty()
             : base(PropertyNames.TextDecorationLine)
@@ -56,14 +47,16 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            TextDecorationLine mode;
+            var mode = value.ToDecorationLine();
 
-            if (value.Is(Keywords.None))
-                _line.Clear();
-            else if (modes.TryGetValue(value, out mode))
+            if (mode.HasValue)
             {
                 _line.Clear();
-                _line.Add(mode);
+                _line.Add(mode.Value);
+            }
+            else if (value.Is(Keywords.None))
+            {
+                _line.Clear();
             }
             else if (value is CSSValueList)
             {
@@ -72,10 +65,12 @@
 
                 foreach (var item in values)
                 {
-                    if (modes.TryGetValue(item, out mode))
-                        list.Add(mode);
-                    else
+                    mode = item.ToDecorationLine();
+
+                    if (mode == null)
                         return false;
+
+                    list.Add(mode.Value);
                 }
 
                 _line = list;

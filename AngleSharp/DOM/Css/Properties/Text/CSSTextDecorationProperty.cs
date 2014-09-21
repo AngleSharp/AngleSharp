@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        CSSTextDecorationStyleProperty _style;
-        CSSTextDecorationLineProperty _line;
-        CSSTextDecorationColorProperty _color;
+        TextDecorationStyle _style;
+        List<TextDecorationLine> _line;
+        Color _color;
 
         #endregion
 
@@ -22,9 +22,9 @@
         internal CSSTextDecorationProperty()
             : base(PropertyNames.TextDecoration)
         {
-            _style = new CSSTextDecorationStyleProperty();
-            _line = new CSSTextDecorationLineProperty();
-            _color = new CSSTextDecorationColorProperty();
+            _style = TextDecorationStyle.Solid;
+            _line = new List<TextDecorationLine>();
+            _color = Color.Black;
         }
 
         #endregion
@@ -36,7 +36,7 @@
         /// </summary>
         public TextDecorationStyle DecorationStyle
         {
-            get { return _style.DecorationStyle; }
+            get { return _style; }
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
         /// </summary>
         public IEnumerable<TextDecorationLine> Line
         {
-            get { return _line.Line; }
+            get { return _line; }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _color.Color; }
+            get { return _color; }
         }
 
         #endregion
@@ -74,42 +74,29 @@
             if (list == null)
                 list = new CSSValueList(value);
 
-            var index = 0;
-            var startGroup = new List<CSSProperty>(3);
-            var style = new CSSTextDecorationStyleProperty();
-            var line = new CSSTextDecorationLineProperty();
-            var color = new CSSTextDecorationColorProperty();
-            startGroup.Add(style);
-            startGroup.Add(line);
-            startGroup.Add(color);
+            TextDecorationStyle? style = null;
+            Color? color = null;
+            var line = new List<TextDecorationLine>();
 
-            while (true)
+            foreach (var item in list)
             {
-                var length = startGroup.Count;
+                if (color == null && (color = item.ToColor()).HasValue)
+                    continue;
+                else if (style == null && (style = item.ToDecorationStyle()).HasValue)
+                    continue;
 
-                for (int i = 0; i < length; i++)
-                {
-                    if (CheckSingleProperty(startGroup[i], index, list))
-                    {
-                        startGroup.RemoveAt(i);
-                        index++;
-                        break;
-                    }
-                }
+                var element = item.ToDecorationLine();
 
-                if (length == startGroup.Count)
-                    break;
+                if (!element.HasValue)
+                    return false;
+
+                line.Add(element.Value);
             }
 
-            if (index == list.Length)
-            {
-                _style = style;
-                _line = line;
-                _color = color;
-                return true;
-            }
-
-            return false;
+            _style = style ?? TextDecorationStyle.Solid;
+            _line = line;
+            _color = color ?? Color.Black;
+            return true;
         }
 
         /// <summary>

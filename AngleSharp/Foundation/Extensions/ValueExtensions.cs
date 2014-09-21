@@ -19,6 +19,8 @@
         static readonly Dictionary<String, ListStyle> listStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, ListPosition> listPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, FontSize> fontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, TextDecorationStyle> decorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, TextDecorationLine> decorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -91,6 +93,17 @@
             fontSizes.Add(Keywords.XxLarge, FontSize.Huge);
             fontSizes.Add(Keywords.Larger, FontSize.Smaller);
             fontSizes.Add(Keywords.Smaller, FontSize.Larger);
+
+            decorationStyles.Add(Keywords.Solid, TextDecorationStyle.Solid);
+            decorationStyles.Add(Keywords.Double, TextDecorationStyle.Double);
+            decorationStyles.Add(Keywords.Dotted, TextDecorationStyle.Dotted);
+            decorationStyles.Add(Keywords.Dashed, TextDecorationStyle.Dashed);
+            decorationStyles.Add(Keywords.Wavy, TextDecorationStyle.Wavy);
+
+            decorationLines.Add(Keywords.Underline, TextDecorationLine.Underline);
+            decorationLines.Add(Keywords.Overline, TextDecorationLine.Overline);
+            decorationLines.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
+            decorationLines.Add(Keywords.Blink, TextDecorationLine.Blink);
         }
 
         #endregion
@@ -99,21 +112,39 @@
 
         public static AnimationDirection? ToDirection(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             AnimationDirection direction;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && directions.TryGetValue(primitive.GetString(), out direction))
+            if (directions.TryGetValue(value, out direction))
                 return direction;
+
+            return null;
+        }
+
+        public static TextDecorationStyle? ToDecorationStyle(this CSSValue value)
+        {
+            TextDecorationStyle style;
+
+            if (decorationStyles.TryGetValue(value, out style))
+                return style;
+
+            return null;
+        }
+
+        public static TextDecorationLine? ToDecorationLine(this CSSValue value)
+        {
+            TextDecorationLine line;
+
+            if (decorationLines.TryGetValue(value, out line))
+                return line;
 
             return null;
         }
 
         public static AnimationFillStyle? ToFillMode(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             AnimationFillStyle fillMode;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && fillModes.TryGetValue(primitive.GetString(), out fillMode))
+            if (fillModes.TryGetValue(value, out fillMode))
                 return fillMode;
 
             return null;
@@ -121,10 +152,9 @@
 
         public static LineStyle? ToLineStyle(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             LineStyle style;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && lineStyles.TryGetValue(primitive.GetString(), out style))
+            if (lineStyles.TryGetValue(value, out style))
                 return style;
 
             return null;
@@ -132,10 +162,9 @@
 
         public static Visibility? ToVisibility(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             Visibility visibility;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && visibilities.TryGetValue(primitive.GetString(), out visibility))
+            if (visibilities.TryGetValue(value, out visibility))
                 return visibility;
 
             return null;
@@ -158,10 +187,9 @@
 
         public static BoxModel? ToBoxModel(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             BoxModel model;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && boxModels.TryGetValue(primitive.GetString(), out model))
+            if (boxModels.TryGetValue(value, out model))
                 return model;
 
             return null;
@@ -169,10 +197,9 @@
 
         public static ListStyle? ToListStyle(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             ListStyle style;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && listStyles.TryGetValue(primitive.GetString(), out style))
+            if (listStyles.TryGetValue(value, out style))
                 return style;
 
             return null;
@@ -180,10 +207,9 @@
 
         public static ListPosition? ToListPosition(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             ListPosition position;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && listPositions.TryGetValue(primitive.GetString(), out position))
+            if (listPositions.TryGetValue(value, out position))
                 return position;
 
             return null;
@@ -191,10 +217,9 @@
 
         public static FontSize? ToFontSize(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
             FontSize size;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && fontSizes.TryGetValue(primitive.GetString(), out size))
+            if (fontSizes.TryGetValue(value, out size))
                 return size;
 
             return null;

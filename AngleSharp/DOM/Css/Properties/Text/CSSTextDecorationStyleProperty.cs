@@ -11,21 +11,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, TextDecorationStyle> _styles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
         TextDecorationStyle _style;
 
         #endregion
 
         #region ctor
-
-        static CSSTextDecorationStyleProperty()
-        {
-            _styles.Add(Keywords.Solid, TextDecorationStyle.Solid);
-            _styles.Add(Keywords.Double, TextDecorationStyle.Double);
-            _styles.Add(Keywords.Dotted, TextDecorationStyle.Dotted);
-            _styles.Add(Keywords.Dashed, TextDecorationStyle.Dashed);
-            _styles.Add(Keywords.Wavy, TextDecorationStyle.Wavy);
-        }
 
         internal CSSTextDecorationStyleProperty()
             : base(PropertyNames.TextDecorationStyle)
@@ -56,10 +46,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            TextDecorationStyle style;
+            var style = value.ToDecorationStyle();
 
-            if (_styles.TryGetValue(value, out style))
-                _style = style;
+            if (style.HasValue)
+                _style = style.Value;
             else if (value != CSSValue.Inherit)
                 return false;
 
