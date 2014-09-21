@@ -913,9 +913,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCalcValue.cs">
       <Link>DOM\Css\Values\CSSCalcValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCounter.cs">
-      <Link>DOM\Css\Values\CSSCounter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSImageValue.cs">
       <Link>DOM\Css\Values\CSSImageValue.cs</Link>
     </Compile>
@@ -1551,6 +1548,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Color.cs">
       <Link>Foundation\Structures\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Counter.cs">
+      <Link>Foundation\Structures\Counter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Frequency.cs">
       <Link>Foundation\Structures\Frequency.cs</Link>
