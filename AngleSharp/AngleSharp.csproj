@@ -302,7 +302,6 @@
     <Compile Include="DOM\Css\Properties\Flow\CSSZIndexProperty.cs" />
     <Compile Include="DOM\Css\Values\CSSCalcValue.cs" />
     <Compile Include="DOM\Css\Values\CSSImageValue.cs" />
-    <Compile Include="DOM\Css\Values\CSSAttrValue.cs" />
     <Compile Include="DOM\Css\Values\CSSIdentifierValue.cs" />
     <Compile Include="DOM\Factories\ElementFactory.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
@@ -325,6 +324,7 @@
     <Compile Include="Foundation\Structures\Url.cs" />
     <Compile Include="Foundation\Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
+    <Compile Include="Foundation\Wrappers\CssAttr.cs" />
     <Compile Include="Foundation\Wrappers\CssString.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\ICookieService.cs" />

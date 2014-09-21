@@ -11,12 +11,12 @@
             _value = value;
         }
 
-        public static explicit operator CssString(string str)
+        public static explicit operator CssString(String str)
         {
             return new CssString(str);
         }
 
-        public static implicit operator string(CssString str)
+        public static implicit operator String(CssString str)
         {
             return str._value;
         }

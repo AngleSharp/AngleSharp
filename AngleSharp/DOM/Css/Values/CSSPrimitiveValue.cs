@@ -28,6 +28,11 @@
         {
         }
 
+        public CSSPrimitiveValue(CssAttr value)
+            : this(UnitType.Attr, value)
+        {
+        }
+
         public CSSPrimitiveValue(Url url)
             : this(UnitType.Uri, url)
         {
@@ -175,18 +180,37 @@
 
         public void SetString(UnitType unit, String value)
         {
+            switch (unit)
+            {
+                case UnitType.String:
+                    _value = new CssString(value);
+                    break;
+                case UnitType.Attr:
+                    _value = new CssAttr(value);
+                    break;
+                case UnitType.Uri:
+                    _value = new Url(value);
+                    break;
+                default:
+                    throw new DomException(ErrorCode.NotSupported);
+            }
+
             _unit = unit;
-            _value = new CssString(value);
         }
 
         public String GetString()
         {
-            var str = _value as CssString;
-
-            if (str != null)
-                return str;
-
-            throw new NotImplementedException();
+            switch (_unit)
+            {
+                case UnitType.Attr:
+                    return (CssAttr)_value;
+                case UnitType.String:
+                    return (CssString)_value;
+                case UnitType.Uri:
+                    return ((Url)_value).Href;
+                default:
+                    return null;
+            }
         }
 
         public Color GetColor()

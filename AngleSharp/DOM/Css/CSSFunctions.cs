@@ -308,16 +308,16 @@
             return null;
         }
 
-        static CSSAttrValue Attr(List<CSSValue> arguments)
+        static CSSPrimitiveValue Attr(List<CSSValue> arguments)
         {
             if (arguments.Count == 1)
             {
                 var s = arguments[0].ToCssString();
 
                 if (s != null)
-                    return new CSSAttrValue(s);
+                    return new CSSPrimitiveValue(new CssAttr(s));
                 else if (arguments[0] is CSSIdentifierValue)
-                    return new CSSAttrValue(((CSSIdentifierValue)arguments[0]).Value);
+                    return new CSSPrimitiveValue(new CssAttr(((CSSIdentifierValue)arguments[0]).Value));
             }
 
             return null;
