@@ -10,12 +10,12 @@
     {
         #region Fields
 
-        Boolean _inset;
-        Length _offsetX;
-        Length _offsetY;
-        Length _blurRadius;
-        Length _spreadRadius;
-        Color _color;
+        readonly Boolean _inset;
+        readonly Length _offsetX;
+        readonly Length _offsetY;
+        readonly Length _blurRadius;
+        readonly Length _spreadRadius;
+        readonly Color _color;
 
         #endregion
 
@@ -43,6 +43,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the color of the shadow.
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
+        }
 
         /// <summary>
         /// Gets the horizontal offset.

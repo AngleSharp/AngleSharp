@@ -307,7 +307,6 @@
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
     <Compile Include="DOM\Css\Values\Point2d.cs" />
-    <Compile Include="DOM\Css\Values\CSSTimingValue.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
@@ -320,6 +319,9 @@
     <Compile Include="Foundation\Extensions\IdlExtensions.cs" />
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
+    <Compile Include="Foundation\Structures\TransformCubicBezier.cs" />
+    <Compile Include="Foundation\Structures\TransformFunction.cs" />
+    <Compile Include="Foundation\Structures\TransformSteps.cs" />
     <Compile Include="Foundation\Structures\Url.cs" />
     <Compile Include="Foundation\Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />

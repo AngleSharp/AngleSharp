@@ -256,12 +256,12 @@
                     if (arguments.Count > 1)
                     {
                         if (arguments[1].Is(Keywords.Start))
-                            return new CSSTimingValue.Steps(intervals.Value, true);
+                            return new CSSPrimitiveValue(UnitType.Timing, new TransformSteps(intervals.Value, true));
                         else if (arguments[1].Is(Keywords.End))
-                            return new CSSTimingValue.Steps(intervals.Value, false);
+                            return new CSSPrimitiveValue(UnitType.Timing, new TransformSteps(intervals.Value, false));
                     }
                     else
-                        return new CSSTimingValue.Steps(intervals.Value);
+                        return new CSSPrimitiveValue(UnitType.Timing, new TransformSteps(intervals.Value));
                 }
             }
 
@@ -284,7 +284,7 @@
                     args[i] = arg.Value;
                 }
 
-                return new CSSTimingValue.CubicBezier(args[0], args[1], args[2], args[3]);
+                return new CSSPrimitiveValue(UnitType.Timing, new TransformCubicBezier(args[0], args[1], args[2], args[3]));
             }
 
             return null;

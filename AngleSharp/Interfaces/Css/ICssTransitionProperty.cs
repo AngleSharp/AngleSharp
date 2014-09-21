@@ -41,6 +41,10 @@
     /// </summary>
     public interface ICssTransitionTimingFunctionProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the enumeration over all timing functions.
+        /// </summary>
+        IEnumerable<TransformFunction> TimingFunctions { get; }
     }
 
     /// <summary>

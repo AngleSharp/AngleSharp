@@ -74,6 +74,10 @@
     /// </summary>
     public interface ICssAnimationTimingFunctionProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the enumeration over all timing functions.
+        /// </summary>
+        IEnumerable<TransformFunction> TimingFunctions { get; }
     }
 
     /// <summary>

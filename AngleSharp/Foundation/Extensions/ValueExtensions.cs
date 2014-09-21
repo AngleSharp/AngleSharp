@@ -12,7 +12,7 @@
 
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, CSSTimingValue> timingFunctions = new Dictionary<String, CSSTimingValue>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, TransformFunction> timingFunctions = new Dictionary<String, TransformFunction>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
@@ -41,13 +41,13 @@
             boxModels.Add(Keywords.PaddingBox, BoxModel.PaddingBox);
             boxModels.Add(Keywords.ContentBox, BoxModel.ContentBox);
 
-            timingFunctions.Add(Keywords.Ease, CSSTimingValue.Ease);
-            timingFunctions.Add(Keywords.EaseIn, CSSTimingValue.EaseIn);
-            timingFunctions.Add(Keywords.EaseOut, CSSTimingValue.EaseOut);
-            timingFunctions.Add(Keywords.EaseInOut, CSSTimingValue.EaseInOut);
-            timingFunctions.Add(Keywords.Linear, CSSTimingValue.Linear);
-            timingFunctions.Add(Keywords.StepStart, CSSTimingValue.StepStart);
-            timingFunctions.Add(Keywords.StepEnd, CSSTimingValue.StepEnd);
+            timingFunctions.Add(Keywords.Ease, TransformFunction.Ease);
+            timingFunctions.Add(Keywords.EaseIn, TransformFunction.EaseIn);
+            timingFunctions.Add(Keywords.EaseOut, TransformFunction.EaseOut);
+            timingFunctions.Add(Keywords.EaseInOut, TransformFunction.EaseInOut);
+            timingFunctions.Add(Keywords.Linear, TransformFunction.Linear);
+            timingFunctions.Add(Keywords.StepStart, TransformFunction.StepStart);
+            timingFunctions.Add(Keywords.StepEnd, TransformFunction.StepEnd);
 
             fillModes.Add(Keywords.None, AnimationFillStyle.None);
             fillModes.Add(Keywords.Forwards, AnimationFillStyle.Forwards);
@@ -141,17 +141,17 @@
             return null;
         }
 
-        public static CSSTimingValue ToTimingFunction(this CSSValue value)
+        public static TransformFunction ToTimingFunction(this CSSValue value)
         {
-            CSSTimingValue function;
+            TransformFunction function;
 
-            if (value is CSSTimingValue)
-                return (CSSTimingValue)value;
+            if (timingFunctions.TryGetValue(value, out function))
+                return function;
 
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident && timingFunctions.TryGetValue(primitive.GetString(), out function))
-                return function;
+            if (primitive != null && primitive.Unit == UnitType.Timing)
+                return primitive.Value as TransformFunction;
 
             return null;
         }
@@ -264,7 +264,7 @@
         }
 
         public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
-            where T : CSSValue
+            where T : class, ICssObject
         {
             transformer = transformer ?? (v => v as T);
 

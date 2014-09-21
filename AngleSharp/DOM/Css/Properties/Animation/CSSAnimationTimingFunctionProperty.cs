@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<CSSTimingValue> _functions;
+        List<TransformFunction> _functions;
 
         #endregion
 
@@ -20,8 +20,8 @@
         internal CSSAnimationTimingFunctionProperty()
             : base(PropertyNames.AnimationTimingFunction)
         {
-            _functions = new List<CSSTimingValue>();
-            _functions.Add(CSSTimingValue.Ease);
+            _functions = new List<TransformFunction>();
+            _functions.Add(TransformFunction.Ease);
         }
 
         #endregion
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the enumeration over all timing functions.
         /// </summary>
-        internal IEnumerable<CSSTimingValue> TimingFunctions
+        public IEnumerable<TransformFunction> TimingFunctions
         {
             get { return _functions; }
         }

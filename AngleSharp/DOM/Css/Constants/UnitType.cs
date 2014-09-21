@@ -134,6 +134,10 @@
         /// A RGB color definition.
         /// </summary>
         [DomName("CSS_RGBCOLOR")]
-        RgbColor = 25
+        RgbColor = 25,
+        /// <summary>
+        /// A timing function.
+        /// </summary>
+        Timing
     }
 }

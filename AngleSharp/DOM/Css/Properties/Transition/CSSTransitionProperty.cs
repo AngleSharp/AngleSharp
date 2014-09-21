@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets the timing-functions for the transitions.
         /// </summary>
-        internal IEnumerable<CSSTimingValue> TimingFunctions
+        public IEnumerable<TransformFunction> TimingFunctions
         {
             get
             {
@@ -135,7 +135,7 @@
             {
                 Delay = Time.Zero,
                 Duration = duration ?? Time.Zero,
-                Timing = function ?? CSSTimingValue.Ease,
+                Timing = function ?? TransformFunction.Ease,
                 Property = property ?? Keywords.All
             };
         }
@@ -144,7 +144,7 @@
         {
             Time? delay = null;
             Time? duration = null;
-            CSSTimingValue function = null;
+            TransformFunction function = null;
             String property = null;
 
             for (var i = 0; i < values.Length; i++)
@@ -178,7 +178,7 @@
             {
                 Delay = delay ?? Time.Zero,
                 Duration = duration ?? Time.Zero,
-                Timing = function ?? CSSTimingValue.Ease,
+                Timing = function ?? TransformFunction.Ease,
                 Property = property ?? Keywords.All
             };
         }
@@ -191,7 +191,7 @@
         {
             public Time Delay;
             public Time Duration;
-            public CSSTimingValue Timing;
+            public TransformFunction Timing;
             public String Property;
         }
 
