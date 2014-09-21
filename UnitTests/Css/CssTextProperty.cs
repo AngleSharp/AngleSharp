@@ -173,5 +173,152 @@ namespace UnitTests.Css
             var concrete = (CSSTextIndentProperty)property;
             Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
         }
+
+        [TestMethod]
+        public void CssTextDecorationIllegal()
+        {
+            var snippet = "text-decoration: line-pass";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration", property.Name);
+            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationProperty));
+            var concrete = (CSSTextDecorationProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationLegalLineThrough()
+        {
+            var snippet = "text-decoration: line-Through";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationProperty));
+            var concrete = (CSSTextDecorationProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual("line-Through", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationLegalUnderlineOverline()
+        {
+            var snippet = "text-decoration:  underline  overline";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationProperty));
+            var concrete = (CSSTextDecorationProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.AreEqual("underline overline", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationColorLegalHex()
+        {
+            var snippet = "text-decoration-color: #F00";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-color", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationColorProperty));
+            var concrete = (CSSTextDecorationColorProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationColorLegalRed()
+        {
+            var snippet = "text-decoration-color: red";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-color", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationColorProperty));
+            var concrete = (CSSTextDecorationColorProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual("red", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationLineIllegalInteger()
+        {
+            var snippet = "text-decoration-line: 5";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-line", property.Name);
+            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationLineProperty));
+            var concrete = (CSSTextDecorationLineProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationLineLegalNone()
+        {
+            var snippet = "text-decoration-line: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-line", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationLineProperty));
+            var concrete = (CSSTextDecorationLineProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationLineLegalOverlineUnderlineLineThrough()
+        {
+            var snippet = "text-decoration-line: overline    underline line-through  ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-line", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationLineProperty));
+            var concrete = (CSSTextDecorationLineProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.AreEqual("overline underline line-through", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationStyleLegalWavyUppercase()
+        {
+            var snippet = "text-decoration-style: WAVY ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-style", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationStyleProperty));
+            var concrete = (CSSTextDecorationStyleProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual("WAVY", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssTextDecorationStyleIllegalMultiple()
+        {
+            var snippet = "text-decoration-style: wavy dotted";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-decoration-style", property.Name);
+            Assert.IsFalse(property.HasValue);
+            Assert.IsFalse(property.IsInherited);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationStyleProperty));
+            var concrete = (CSSTextDecorationStyleProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+        }
     }
 }
