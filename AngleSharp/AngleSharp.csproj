@@ -310,6 +310,7 @@
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="Foundation\Structures\Counter.cs" />
     <Compile Include="Foundation\Structures\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="DOM\Xml\XmlDocument.cs" />
@@ -666,7 +667,6 @@
     <Compile Include="DOM\Css\Rules\CSSStyleRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSSupportsRule.cs" />
     <Compile Include="DOM\Css\Selector\Selectors.cs" />
-    <Compile Include="DOM\Css\Values\CSSCounter.cs" />
     <Compile Include="DOM\Css\CSSFunctions.cs" />
     <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValue.cs" />

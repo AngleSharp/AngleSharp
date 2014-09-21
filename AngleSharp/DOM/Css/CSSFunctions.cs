@@ -599,7 +599,7 @@
             return null;
         }
 
-        static CSSCounter Counter(List<CSSValue> arguments)
+        static CSSPrimitiveValue Counter(List<CSSValue> arguments)
         {
             if (arguments.Count > 0 && arguments.Count < 3)
             {
@@ -620,14 +620,14 @@
                             return null;
                     }
 
-                    return new CSSCounter(identifier, listStyle, null);
+                    return new CSSPrimitiveValue(UnitType.Counter, new Counter(identifier, listStyle, null));
                 }
             }
 
             return null;
         }
 
-        static CSSCounter Counters(List<CSSValue> arguments)
+        static CSSPrimitiveValue Counters(List<CSSValue> arguments)
         {
             if (arguments.Count > 1 && arguments.Count < 4)
             {
@@ -652,7 +652,7 @@
                             return null;
                     }
 
-                    return new CSSCounter(identifier, listStyle, separator);
+                    return new CSSPrimitiveValue(UnitType.Counter, new Counter(identifier, listStyle, separator));
                 }
             }
 

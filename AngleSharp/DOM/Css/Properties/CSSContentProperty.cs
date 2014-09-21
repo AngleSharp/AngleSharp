@@ -71,8 +71,6 @@
 
             if (modes.TryGetValue(value, out mode))
                 return mode;
-            else if (value is CSSCounter)
-                return new CounterContentMode((CSSCounter)value);
 
             var primitive = value as CSSPrimitiveValue;
 
@@ -86,6 +84,8 @@
                         return new TextContentMode(primitive.GetString());
                     case UnitType.Attr:
                         return new AttributeContentMode(primitive.GetString());
+                    case UnitType.Counter:
+                        return new CounterContentMode((Counter)primitive.Value);
                 }
             }
 
@@ -180,9 +180,9 @@
         /// </summary>
         sealed class CounterContentMode : ContentMode
         {
-            CSSCounter _counter;
+            Counter _counter;
 
-            public CounterContentMode(CSSCounter counter)
+            public CounterContentMode(Counter counter)
             {
                 _counter = counter;
             }
