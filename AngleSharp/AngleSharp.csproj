@@ -320,6 +320,7 @@
     <Compile Include="Foundation\Extensions\IdlExtensions.cs" />
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
+    <Compile Include="Foundation\Structures\Shape.cs" />
     <Compile Include="Foundation\Structures\TransformCubicBezier.cs" />
     <Compile Include="Foundation\Structures\TransformFunction.cs" />
     <Compile Include="Foundation\Structures\TransformSteps.cs" />
@@ -671,7 +672,6 @@
     <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
-    <Compile Include="DOM\Css\Values\CSSShapeValue.cs" />
     <Compile Include="DOM\Constants\DirectionMode.cs" />
     <Compile Include="DOM\Constants\Alignment.cs" />
     <Compile Include="DOM\Constants\HorizontalAlignment.cs" />

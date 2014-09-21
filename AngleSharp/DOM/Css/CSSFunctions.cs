@@ -294,7 +294,7 @@
 
         #region Misc
 
-        static CSSShapeValue Rect(List<CSSValue> arguments)
+        static CSSPrimitiveValue Rect(List<CSSValue> arguments)
         {
             Length? top, right, bottom, left;
 
@@ -303,7 +303,7 @@
                 arguments = new List<CSSValue>((CSSValueList)arguments[0]);
 
             if (arguments.Count == 4 && (top = arguments[0].ToLength()).HasValue && (right = arguments[1].ToLength()).HasValue && (bottom = arguments[2].ToLength()).HasValue && (left = arguments[3].ToLength()).HasValue)
-                return new CSSShapeValue(top.Value, right.Value, bottom.Value, left.Value);
+                return new CSSPrimitiveValue(UnitType.Rect, new Shape(top.Value, right.Value, bottom.Value, left.Value));
 
             return null;
         }

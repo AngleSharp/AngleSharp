@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp
 {
     using System;
 
@@ -6,7 +6,7 @@
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    sealed class CSSShapeValue : CSSValue
+    public sealed class Shape : ICssObject
     {
         #region Fields
 
@@ -26,8 +26,7 @@
         /// <param name="right">The right position.</param>
         /// <param name="bottom">The bottom position.</param>
         /// <param name="left">The left position.</param>
-        public CSSShapeValue(Length top, Length right, Length bottom, Length left)
-            : base(CssValueType.Primitive)
+        public Shape(Length top, Length right, Length bottom, Length left)
         {
             _top = top;
             _right = right;
@@ -79,7 +78,7 @@
         /// Returns the string representation of the function in CSS code.
         /// </summary>
         /// <returns>The CSS code to construct this value.</returns>
-        public override String ToCss()
+        public String ToCss()
         {
             return FunctionNames.Build(FunctionNames.Rect, _top.ToCss(), _right.ToCss(), _bottom.ToCss(), _left.ToCss());
         }

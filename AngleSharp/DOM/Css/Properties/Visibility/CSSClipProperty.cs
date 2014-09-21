@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSShapeValue _shape;
+        Shape _shape;
 
         #endregion
 
@@ -31,7 +31,7 @@
         /// If this value is null, then the clipping is
         /// determined automatically.
         /// </summary>
-        internal CSSShapeValue Clip
+        public Shape Clip
         {
             get { return _shape; }
         }
@@ -47,7 +47,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var shape = value as CSSShapeValue;
+            var shape = value.ToShape();
 
             if (shape != null)
                 _shape = shape;
