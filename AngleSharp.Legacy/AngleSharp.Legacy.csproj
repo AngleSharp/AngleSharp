@@ -916,9 +916,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSCounter.cs">
       <Link>DOM\Css\Values\CSSCounter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSIdentifierValue.cs">
-      <Link>DOM\Css\Values\CSSIdentifierValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSImageValue.cs">
       <Link>DOM\Css\Values\CSSImageValue.cs</Link>
     </Compile>
@@ -1593,6 +1590,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Wrappers\CssAttr.cs">
       <Link>Foundation\Wrappers\CssAttr.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssIdentifier.cs">
+      <Link>Foundation\Wrappers\CssIdentifier.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Wrappers\CssString.cs">
       <Link>Foundation\Wrappers\CssString.cs</Link>
