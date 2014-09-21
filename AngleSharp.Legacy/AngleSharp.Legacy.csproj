@@ -919,9 +919,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSShapeValue.cs">
-      <Link>DOM\Css\Values\CSSShapeValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTransformValue.cs">
       <Link>DOM\Css\Values\CSSTransformValue.cs</Link>
     </Compile>
@@ -1572,6 +1569,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Shadow.cs">
       <Link>Foundation\Structures\Shadow.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Shape.cs">
+      <Link>Foundation\Structures\Shape.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Time.cs">
       <Link>Foundation\Structures\Time.cs</Link>
