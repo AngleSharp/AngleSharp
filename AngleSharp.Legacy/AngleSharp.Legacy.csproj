@@ -925,9 +925,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSShapeValue.cs">
       <Link>DOM\Css\Values\CSSShapeValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTimingValue.cs">
-      <Link>DOM\Css\Values\CSSTimingValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTransformValue.cs">
       <Link>DOM\Css\Values\CSSTransformValue.cs</Link>
     </Compile>
@@ -1579,8 +1576,17 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Time.cs">
       <Link>Foundation\Structures\Time.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\TransformCubicBezier.cs">
+      <Link>Foundation\Structures\TransformCubicBezier.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\TransformFunction.cs">
+      <Link>Foundation\Structures\TransformFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\TransformMatrix.cs">
       <Link>Foundation\Structures\TransformMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\TransformSteps.cs">
+      <Link>Foundation\Structures\TransformSteps.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Url.cs">
       <Link>Foundation\Structures\Url.cs</Link>
