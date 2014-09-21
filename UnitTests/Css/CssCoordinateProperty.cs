@@ -74,7 +74,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             var value = concrete.Value;
             Assert.AreEqual("AUTO", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSIdentifierValue));
+            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]
