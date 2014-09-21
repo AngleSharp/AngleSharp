@@ -47,7 +47,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList<CSSIdentifierValue>();
+            var values = value.AsList<CSSPrimitiveValue>();
 
             if (values != null)
             {

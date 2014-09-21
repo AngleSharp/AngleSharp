@@ -48,14 +48,19 @@
         {
             if (value.Is(Keywords.None))
                 _properties.Clear();
-            else if (value is CSSIdentifierValue)
+            else if (value is CSSPrimitiveValue)
             {
+                var primitive = (CSSPrimitiveValue)value;
+
+                if (primitive.Unit != UnitType.Ident)
+                    return false;
+
                 _properties.Clear();
-                _properties.Add(((CSSIdentifierValue)value).Value);
+                _properties.Add(primitive.GetString());
             }
             else if (value is CSSValueList)
             {
-                var values = value.AsList<CSSIdentifierValue>();
+                var values = value.AsList<CSSPrimitiveValue>();
 
                 if (values == null)
                     return false;
@@ -63,7 +68,7 @@
                 _properties.Clear();
 
                 foreach (var ident in values)
-                    _properties.Add(ident.Value);
+                    _properties.Add(ident.GetString());
             }
             else if (value != CSSValue.Inherit)
                 return false;

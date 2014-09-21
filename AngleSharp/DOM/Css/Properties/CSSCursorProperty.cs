@@ -159,15 +159,10 @@
 
         static CursorMode Evaluate(CSSValue value)
         {
-            var ident = value as CSSIdentifierValue;
+            CursorMode mode;
 
-            if (ident != null)
-            {
-                CursorMode mode;
-
-                if (modes.TryGetValue(ident.Value, out mode))
-                    return mode;
-            }
+            if (modes.TryGetValue(value, out mode))
+                return mode;
 
             var location = value.ToUri();
 

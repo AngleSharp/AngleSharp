@@ -60,19 +60,21 @@
                 return true;
             else if (value is CSSValueList)
                 return CheckList((CSSValueList)value);
-            else if (value is CSSIdentifierValue)
-                return CheckIdentifier((CSSIdentifierValue)value);
+
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null && primitive.Unit == UnitType.Ident)
+                return CheckIdentifier(primitive);
 
             return false;
         }
 
-        Boolean CheckIdentifier(CSSIdentifierValue ident)
+        Boolean CheckIdentifier(CSSPrimitiveValue ident)
         {
-            var value = ident.Value;
             _resets.Clear();
 
-            if (!value.Equals(Keywords.None, StringComparison.OrdinalIgnoreCase))
-                _resets.Add(value, 0);
+            if (!ident.Is(Keywords.None))
+                _resets.Add(ident.GetString(), 0);
 
             return true;                
         }
@@ -83,10 +85,12 @@
 
             for (int i = 0; i < list.Length; i++)
             {
-                if (list[i] is CSSIdentifierValue == false)
+                var primitive = list[i] as CSSPrimitiveValue;
+
+                if (primitive == null || primitive.Unit != UnitType.Ident)
                     return false;
 
-                var ident = ((CSSIdentifierValue)list[i]).Value;
+                var ident = primitive.GetString();
                 var num = 0;
 
                 if (i + 1 < list.Length)

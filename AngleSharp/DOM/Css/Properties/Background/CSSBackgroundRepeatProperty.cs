@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at:
@@ -73,10 +73,12 @@
 
             for (int i = 0; i < values.Length; i++)
             {
-                if (values[i] is CSSIdentifierValue == false)
+                var primitive = values[i] as CSSPrimitiveValue;
+
+                if (primitive == null || primitive.Unit != UnitType.Ident)
                     return false;
 
-                var ident = ((CSSIdentifierValue)values[i]).Value;
+                var ident = primitive.GetString();
                 var repeat = new Repeat();
 
                 if (ident.Equals(Keywords.RepeatX, StringComparison.OrdinalIgnoreCase))
@@ -91,7 +93,7 @@
                 }
                 else if (_modes.TryGetValue(ident, out repeat.Horizontal))
                 {
-                    if (i + 1 < values.Length && values[i + 1] is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)values[i + 1]).Value, out repeat.Vertical))
+                    if (i + 1 < values.Length && _modes.TryGetValue(values[i + 1], out repeat.Vertical))
                         i++;
                     else
                         repeat.Vertical = repeat.Horizontal;

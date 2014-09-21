@@ -166,25 +166,18 @@
         {
             Time? duration = null;
             Int32? iterationCount = null;
+            String name = null;
             var function = value.ToTimingFunction();
-            var name = Keywords.None;
 
-            if (function == null)
-            {
-                function = CSSTimingValue.Ease;
-
-                if (value is CSSIdentifierValue)
-                    name = ((CSSIdentifierValue)value).Value;
-                else if (!(duration = value.ToTime()).HasValue && !(iterationCount = value.ToInteger()).HasValue)
-                    return null;
-            }
+            if (function == null && (name = value.ToIdentifier()) == null && !(duration = value.ToTime()).HasValue && !(iterationCount = value.ToInteger()).HasValue)
+                return null;
 
             return new Animation
             {
                 Delay = Time.Zero,
                 Duration = duration ?? Time.Zero,
-                Timing = function,
-                Name = name,
+                Timing = function ?? CSSTimingValue.Ease,
+                Name = name ?? Keywords.None,
                 IterationCount = iterationCount ?? 1,
                 FillMode = AnimationFillStyle.None,
                 Direction = AnimationDirection.Normal
@@ -206,20 +199,14 @@
                 if (function == null && (function = values[i].ToTimingFunction()) != null)
                     continue;
 
-                if (values[i] is CSSIdentifierValue)
-                {
-                    if (name == null)
-                    {
-                        name = ((CSSIdentifierValue)values[i]).Value;
-                        continue;
-                    }
+                if (name == null && (name = values[i].ToIdentifier()) != null)
+                    continue;
 
-                    if (!fillMode.HasValue && (fillMode = values[i].ToFillMode()).HasValue)
-                        continue;
+                if (!fillMode.HasValue && (fillMode = values[i].ToFillMode()).HasValue)
+                    continue;
 
-                    if (!direction.HasValue && (direction = values[i].ToDirection()).HasValue)
-                        continue;
-                }
+                if (!direction.HasValue && (direction = values[i].ToDirection()).HasValue)
+                    continue;
 
                 var time = values[i].ToTime();
 

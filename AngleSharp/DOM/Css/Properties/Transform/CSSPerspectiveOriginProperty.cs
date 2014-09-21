@@ -73,36 +73,42 @@
                 _y = calc;
                 return true;
             }
-            else if (value is CSSIdentifierValue)
+
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null && primitive.Unit == UnitType.Ident)
             {
-                var ident = ((CSSIdentifierValue)value).Value;
+                var ident = primitive.GetString();
 
-                switch (ident.ToLower())
+                if (ident.Equals(Keywords.Left, StringComparison.OrdinalIgnoreCase))
                 {
-                    case "left":
-                        _x = CSSCalcValue.Zero;
-                        _y = CSSCalcValue.Center;
-                        return true;
-
-                    case "center":
-                        _x = CSSCalcValue.Center;
-                        _y = CSSCalcValue.Center;
-                        return true;
-
-                    case "right":
-                        _x = CSSCalcValue.Full;
-                        _y = CSSCalcValue.Center;
-                        return true;
-
-                    case "top":
-                        _x = CSSCalcValue.Center;
-                        _y = CSSCalcValue.Zero;
-                        return true;
-
-                    case "bottom":
-                        _x = CSSCalcValue.Center;
-                        _y = CSSCalcValue.Full;
-                        return true;
+                    _x = CSSCalcValue.Zero;
+                    _y = CSSCalcValue.Center;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Right, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Full;
+                    _y = CSSCalcValue.Center;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Center;
+                    _y = CSSCalcValue.Center;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Top, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Center;
+                    _y = CSSCalcValue.Zero;
+                    return true;
+                }
+                else if (ident.Equals(Keywords.Bottom, StringComparison.OrdinalIgnoreCase))
+                {
+                    _x = CSSCalcValue.Center;
+                    _y = CSSCalcValue.Full;
+                    return true;
                 }
             }
 
@@ -113,13 +119,13 @@
         {
             if (list.Length == 2)
             {
-                var x = GetMode(list[0], "left", "right");
-                var y = GetMode(list[1], "top", "bottom");
+                var x = GetMode(list[0], Keywords.Left, Keywords.Right);
+                var y = GetMode(list[1], Keywords.Top, Keywords.Bottom);
 
                 if (y == null || x == null)
                 {
-                    x = GetMode(list[1], "left", "right");
-                    y = GetMode(list[0], "top", "bottom");
+                    x = GetMode(list[1], Keywords.Left, Keywords.Right);
+                    y = GetMode(list[0], Keywords.Top, Keywords.Bottom);
                 }
 
                 if (x != null && y != null)
@@ -137,16 +143,21 @@
         {
             var calc = value.AsCalc();
 
-            if (calc == null && value is CSSIdentifierValue)
+            if (calc == null && value is CSSPrimitiveValue)
             {
-                var ident = ((CSSIdentifierValue)value).Value;
+                var primitive = (CSSPrimitiveValue)value;
 
-                if (minIdentifier.Equals(ident, StringComparison.OrdinalIgnoreCase))
-                    calc = CSSCalcValue.Zero;
-                else if (maxIdentifier.Equals(ident, StringComparison.OrdinalIgnoreCase))
-                    calc = CSSCalcValue.Full;
-                else if ("center".Equals(ident, StringComparison.OrdinalIgnoreCase))
-                    calc = CSSCalcValue.Center;
+                if (primitive.Unit == UnitType.Ident)
+                {
+                    var ident = primitive.GetString();
+
+                    if (ident.Equals(minIdentifier, StringComparison.OrdinalIgnoreCase))
+                        calc = CSSCalcValue.Zero;
+                    else if (ident.Equals(maxIdentifier, StringComparison.OrdinalIgnoreCase))
+                        calc = CSSCalcValue.Full;
+                    else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
+                        calc = CSSCalcValue.Center;
+                }
             }
 
             return calc;

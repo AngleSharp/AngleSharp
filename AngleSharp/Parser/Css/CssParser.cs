@@ -1295,7 +1295,7 @@
             if (identifier == Keywords.Inherit)
                 return CSSValue.Inherit;
 
-            return new CSSIdentifierValue(identifier);
+            return new CSSPrimitiveValue(new CssIdentifier(identifier));
         }
 
         /// <summary>

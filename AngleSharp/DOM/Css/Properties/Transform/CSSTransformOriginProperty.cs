@@ -118,10 +118,11 @@
                 _y = calc;
                 return true;
             }
-            else if (value is CSSIdentifierValue)
-            {
-                var ident = ((CSSIdentifierValue)value).Value;
 
+            var ident = value.ToIdentifier();
+
+            if (ident != null)
+            {
                 if (ident.Equals(Keywords.Left, StringComparison.OrdinalIgnoreCase))
                 {
                     _x = CSSCalcValue.Zero;
@@ -166,16 +167,19 @@
         {
             var calc = value.AsCalc();
 
-            if (calc == null && value is CSSIdentifierValue)
+            if (calc == null)
             {
-                var ident = ((CSSIdentifierValue)value).Value;
+                var ident = value.ToIdentifier();
 
-                if (ident.Equals(minIdentifier, StringComparison.OrdinalIgnoreCase))
-                    calc = CSSCalcValue.Zero;
-                else if (ident.Equals(maxIdentifier, StringComparison.OrdinalIgnoreCase))
-                    calc = CSSCalcValue.Full;
-                else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
-                    calc = CSSCalcValue.Center;
+                if (ident != null)
+                {
+                    if (ident.Equals(minIdentifier, StringComparison.OrdinalIgnoreCase))
+                        calc = CSSCalcValue.Zero;
+                    else if (ident.Equals(maxIdentifier, StringComparison.OrdinalIgnoreCase))
+                        calc = CSSCalcValue.Full;
+                    else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
+                        calc = CSSCalcValue.Center;
+                }
             }
 
             return calc;

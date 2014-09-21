@@ -66,7 +66,7 @@
         {
             BorderRepeat mode;
 
-            if (value is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+            if (_modes.TryGetValue(value, out mode))
                 _horizontal = _vertical = mode;
             else if (value is CSSValueList)
             {
@@ -78,7 +78,7 @@
 
                 for (int i = 0; i < 2; i++)
 			    {
-                    if (list[i] is CSSIdentifierValue == false || !_modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out modes[i]))
+                    if (!_modes.TryGetValue(list[i], out modes[i]))
                         return false;
 			    }
 

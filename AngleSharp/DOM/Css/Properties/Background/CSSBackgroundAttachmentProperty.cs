@@ -65,7 +65,7 @@
             {
                 BackgroundAttachment attachment;
 
-                if (list[i] is CSSIdentifierValue && _modes.TryGetValue(((CSSIdentifierValue)list[i]).Value, out attachment))
+                if (_modes.TryGetValue(list[i], out attachment))
                     attachments.Add(attachment);
                 else
                     return false;

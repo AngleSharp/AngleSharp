@@ -172,7 +172,7 @@
                                     return false;
                             }
                             else
-                                size.Add(new CSSIdentifierValue(Keywords.Auto));
+                                size.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.Auto)));
 
                             continue;
                         }
@@ -203,7 +203,7 @@
                             if (j + 1 < entry.Length && entry[j + 1].ToBoxModel().HasValue)
                                 clip.Add(entry[++j]);
                             else
-                                clip.Add(new CSSIdentifierValue(Keywords.BorderBox));
+                                clip.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.BorderBox)));
                         }
                         else
                         {
@@ -219,24 +219,24 @@
                     }
 
                     if (!hasImage)
-                        image.Add(new CSSIdentifierValue(Keywords.None));
+                        image.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.None)));
 
                     if (!hasPosition)
                     {
-                        position.Add(new CSSIdentifierValue(Keywords.Center));
-                        size.Add(new CSSIdentifierValue(Keywords.Auto));
+                        position.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.Center)));
+                        size.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.Auto)));
                     }
 
                     if (!hasRepeat)
-                        repeat.Add(new CSSIdentifierValue(Keywords.Repeat));
+                        repeat.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.Repeat)));
 
                     if (!hasAttachment)
-                        attachment.Add(new CSSIdentifierValue(Keywords.Scroll));
+                        attachment.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.Scroll)));
 
                     if (!hasBox)
                     {
-                        origin.Add(new CSSIdentifierValue(Keywords.BorderBox));
-                        clip.Add(new CSSIdentifierValue(Keywords.BorderBox));
+                        origin.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.BorderBox)));
+                        clip.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.BorderBox)));
                     }
 
                     if (i + 1 < list.Count)

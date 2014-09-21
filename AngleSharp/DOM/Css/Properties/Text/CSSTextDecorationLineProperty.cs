@@ -60,7 +60,7 @@
 
             if (value.Is(Keywords.None))
                 _line.Clear();
-            else if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+            else if (modes.TryGetValue(value, out mode))
             {
                 _line.Clear();
                 _line.Add(mode);
@@ -72,7 +72,7 @@
 
                 foreach (var item in values)
                 {
-                    if (item is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+                    if (modes.TryGetValue(item, out mode))
                         list.Add(mode);
                     else
                         return false;

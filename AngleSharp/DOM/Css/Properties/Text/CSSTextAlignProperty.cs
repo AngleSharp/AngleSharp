@@ -57,7 +57,7 @@
         {
             HorizontalAlignment mode;
 
-            if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+            if (modes.TryGetValue(value, out mode))
                 _mode = mode;
             else if (value != CSSValue.Inherit)
                 return false;

@@ -55,21 +55,14 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
-            {
-                var ident = (CSSIdentifierValue)value;
-                BreakMode mode;
+            BreakMode mode;
 
-                if (modes.TryGetValue(ident.Value, out mode))
-                {
-                    _mode = mode;
-                    return true;
-                }
-            }
-            else if (value == CSSValue.Inherit)
-                return true;
+            if (modes.TryGetValue(value, out mode))
+                _mode = mode;
+            else if (value != CSSValue.Inherit)
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

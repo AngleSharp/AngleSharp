@@ -312,12 +312,10 @@
         {
             if (arguments.Count == 1)
             {
-                var s = arguments[0].ToCssString();
+                var primitive = arguments[0] as CSSPrimitiveValue;
 
-                if (s != null)
-                    return new CSSPrimitiveValue(new CssAttr(s));
-                else if (arguments[0] is CSSIdentifierValue)
-                    return new CSSPrimitiveValue(new CssAttr(((CSSIdentifierValue)arguments[0]).Value));
+                if (primitive != null && (primitive.Unit == UnitType.String || primitive.Unit == UnitType.Ident))
+                    return new CSSPrimitiveValue(new CssAttr(primitive.GetString()));
             }
 
             return null;
@@ -603,20 +601,27 @@
 
         static CSSCounter Counter(List<CSSValue> arguments)
         {
-            if (arguments.Count > 0 && arguments.Count < 3 && arguments[0] is CSSIdentifierValue)
+            if (arguments.Count > 0 && arguments.Count < 3)
             {
-                var identifier = ((CSSIdentifierValue)arguments[0]).Value;
-                var listStyle = Keywords.Decimal;
+                var primitive = arguments[0] as CSSPrimitiveValue;
 
-                if (arguments.Count > 1)
+                if (primitive != null && primitive.Unit == UnitType.Ident)
                 {
-                    if (arguments[1] is CSSIdentifierValue)
-                        listStyle = ((CSSIdentifierValue)arguments[1]).Value;
-                    else
-                        return null;
-                }
+                    var identifier = primitive.GetString();
+                    var listStyle = Keywords.Decimal;
 
-                return new CSSCounter(identifier, listStyle, null);
+                    if (arguments.Count > 1)
+                    {
+                        primitive = arguments[1] as CSSPrimitiveValue;
+
+                        if (primitive != null && primitive.Unit == UnitType.Ident)
+                            listStyle = primitive.GetString();
+                        else
+                            return null;
+                    }
+
+                    return new CSSCounter(identifier, listStyle, null);
+                }
             }
 
             return null;
@@ -624,24 +629,31 @@
 
         static CSSCounter Counters(List<CSSValue> arguments)
         {
-            if (arguments.Count > 1 && arguments.Count < 4 && arguments[0] is CSSIdentifierValue)
+            if (arguments.Count > 1 && arguments.Count < 4)
             {
-                var identifier = ((CSSIdentifierValue)arguments[0]).Value;
-                var separator = arguments[1].ToCssString();
-                var listStyle = Keywords.Decimal;
+                var primitive = arguments[0] as CSSPrimitiveValue;
 
-                if (separator == null)
-                    return null;
-
-                if (arguments.Count > 2)
+                if (primitive != null && primitive.Unit == UnitType.Ident)
                 {
-                    if (arguments[2] is CSSIdentifierValue)
-                        listStyle = ((CSSIdentifierValue)arguments[2]).Value;
-                    else
-                        return null;
-                }
+                    var identifier = primitive.GetString();
+                    var separator = arguments[1].ToCssString();
+                    var listStyle = Keywords.Decimal;
 
-                return new CSSCounter(identifier, listStyle, separator);
+                    if (separator == null)
+                        return null;
+
+                    if (arguments.Count > 2)
+                    {
+                        primitive = arguments[2] as CSSPrimitiveValue;
+
+                        if (primitive != null && primitive.Unit == UnitType.Ident)
+                            listStyle = primitive.GetString();
+                        else
+                            return null;
+                    }
+
+                    return new CSSCounter(identifier, listStyle, separator);
+                }
             }
 
             return null;

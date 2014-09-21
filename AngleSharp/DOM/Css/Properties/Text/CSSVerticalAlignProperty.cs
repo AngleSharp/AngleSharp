@@ -79,7 +79,7 @@
                 _shift = calc;
                 _mode = VerticalAlignment.Baseline;
             }
-            else if (value is CSSIdentifierValue && modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode))
+            else if (modes.TryGetValue(value, out mode))
             {
                 _shift = CSSCalcValue.Zero;
                 _mode = mode;

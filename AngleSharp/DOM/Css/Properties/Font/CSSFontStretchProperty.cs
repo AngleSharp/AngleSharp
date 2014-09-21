@@ -62,7 +62,7 @@
         {
             FontStretch style;
 
-            if (value is CSSIdentifierValue && _styles.TryGetValue(((CSSIdentifierValue)value).Value, out style))
+            if (_styles.TryGetValue(value, out style))
                 _stretch = style;
             else if (value != CSSValue.Inherit)
                 return false;

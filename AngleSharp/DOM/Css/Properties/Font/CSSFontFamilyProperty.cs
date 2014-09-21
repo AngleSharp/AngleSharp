@@ -54,29 +54,6 @@
 
         #region Methods
 
-        static CustomFontFamily FromIdentifiers(CSSValue value)
-        {
-            if (value is CSSIdentifierValue)
-                return new CustomFontFamily(((CSSIdentifierValue)value).Value);
-            else if (value is CSSValueList)
-            {
-                var list = (CSSValueList)value;
-                var content = new String[list.Length];
-
-                for (var i = 0; i < list.Length; i++)
-                {
-                    if (list[i] is CSSIdentifierValue)
-                        content[i] = ((CSSIdentifierValue)list[i]).Value;
-                    else
-                        return null;
-                }
-
-                return new CustomFontFamily(String.Join(" ", content));
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -84,7 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSIdentifierValue || value is CSSPrimitiveValue)
+            if (value is CSSPrimitiveValue)
             {
                 _families.Clear();
                 _families.Add(GetFamily(value));
@@ -118,15 +95,24 @@
 
         static BaseFontFamily GetFamily(CSSValue value)
         {
-            if (value is CSSIdentifierValue)
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
             {
-                SystemFontFamily family;
-                var name = ((CSSIdentifierValue)value).Value;
+                if (primitive.Unit == UnitType.Ident)
+                {
+                    SystemFontFamily family;
+                    var name = primitive.GetString();
 
-                if (defaultfamilies.TryGetValue(name, out family))
-                    return family;
+                    if (defaultfamilies.TryGetValue(name, out family))
+                        return family;
 
-                return new CustomFontFamily(name);
+                    return new CustomFontFamily(name);
+                }
+                else if (primitive.Unit == UnitType.String)
+                {
+                    return new CustomFontFamily(primitive.GetString());
+                }
             }
             else if (value is CSSValueList)
             {
@@ -135,22 +121,15 @@
 
                 for (var i = 0; i < names.Length; i++)
                 {
-                    var ident = values[i] as CSSIdentifierValue;
+                    var ident = values[i] as CSSPrimitiveValue;
 
-                    if (ident == null)
+                    if (ident == null || ident.Unit != UnitType.Ident)
                         return null;
 
-                    names[i] = ident.Value;
+                    names[i] = ident.GetString();
                 }
 
                 return new CustomFontFamily(String.Join(" ", names));
-            }
-            else if (value is CSSPrimitiveValue)
-            {
-                var s = value.ToCssString();
-
-                if (s != null)
-                    return new CustomFontFamily(s);
             }
 
             return null;

@@ -127,7 +127,7 @@
         {
             SystemFont setting;
 
-            if (value is CSSIdentifierValue && _parts.TryGetValue(((CSSIdentifierValue)value).Value, out setting))
+            if (_parts.TryGetValue(value, out setting))
                 SetTo(setting);
             else if (value is CSSValueList)
             {

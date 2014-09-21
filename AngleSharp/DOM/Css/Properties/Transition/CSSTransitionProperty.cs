@@ -125,25 +125,18 @@
         Transition? ParseValue(CSSValue value)
         {
             Time? duration = null;
+            String property = null;
             var function = value.ToTimingFunction();
-            var property = Keywords.All;
 
-            if (function == null)
-            {
-                function = CSSTimingValue.Ease;
-
-                if (value is CSSIdentifierValue)
-                    property = ((CSSIdentifierValue)value).Value;
-                else if (!(duration = value.ToTime()).HasValue)
-                    return null;
-            }
+            if (function == null && (property = value.ToIdentifier()) == null && !(duration = value.ToTime()).HasValue)
+                return null;
 
             return new Transition
             {
                 Delay = Time.Zero,
                 Duration = duration ?? Time.Zero,
-                Timing = function,
-                Property = property
+                Timing = function ?? CSSTimingValue.Ease,
+                Property = property ?? Keywords.All
             };
         }
 
@@ -159,11 +152,8 @@
                 if (function == null && (function = values[i].ToTimingFunction()) != null)
                     continue;
 
-                if (property == null && values[i] is CSSIdentifierValue)
-                {
-                    property = ((CSSIdentifierValue)values[i]).Value;
+                if (property == null && (property = values[i].ToIdentifier()) != null)
                     continue;
-                }
 
                 var time = values[i].ToTime();
 

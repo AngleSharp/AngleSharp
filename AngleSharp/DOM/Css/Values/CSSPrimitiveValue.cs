@@ -33,6 +33,11 @@
         {
         }
 
+        public CSSPrimitiveValue(CssIdentifier value)
+            : this(UnitType.Ident, value)
+        {
+        }
+
         public CSSPrimitiveValue(Url url)
             : this(UnitType.Uri, url)
         {
@@ -191,6 +196,9 @@
                 case UnitType.Uri:
                     _value = new Url(value);
                     break;
+                case UnitType.Ident:
+                    _value = new CssIdentifier(value);
+                    break;
                 default:
                     throw new DomException(ErrorCode.NotSupported);
             }
@@ -208,6 +216,8 @@
                     return (CssString)_value;
                 case UnitType.Uri:
                     return ((Url)_value).Href;
+                case UnitType.Ident:
+                    return (CssIdentifier)_value;
                 default:
                     return null;
             }
@@ -215,7 +225,10 @@
 
         public Color GetColor()
         {
-            throw new NotImplementedException();
+            if (_unit != UnitType.RgbColor)
+                throw new DomException(ErrorCode.NotSupported);
+
+            return (Color)_value;
         }
 
         #endregion

@@ -45,7 +45,7 @@
         {
             FontWeightMode weight;
 
-            if (value is CSSIdentifierValue && _weights.TryGetValue(((CSSIdentifierValue)value).Value, out weight))
+            if (_weights.TryGetValue(value, out weight))
                 _weight = weight;
             else if (value.ToInteger().HasValue)
                 _weight = new NumberWeightMode(value.ToInteger().Value);

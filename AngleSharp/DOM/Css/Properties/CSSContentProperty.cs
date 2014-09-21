@@ -69,14 +69,15 @@
         {
             ContentMode mode = null;
 
-            if (value is CSSIdentifierValue)
-                modes.TryGetValue(((CSSIdentifierValue)value).Value, out mode);
+            if (modes.TryGetValue(value, out mode))
+                return mode;
             else if (value is CSSCounter)
                 return new CounterContentMode((CSSCounter)value);
-            else if (value is CSSPrimitiveValue)
-            {
-                var primitive = (CSSPrimitiveValue)value;
 
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+            {
                 switch (primitive.Unit)
                 {
                     case UnitType.Uri:
@@ -88,7 +89,7 @@
                 }
             }
 
-            return mode;
+            return null;
         }
 
         Boolean Evaluate(CSSValueList values)
