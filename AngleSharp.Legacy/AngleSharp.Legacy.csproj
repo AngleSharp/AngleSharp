@@ -1552,6 +1552,9 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Frequency.cs">
       <Link>Foundation\Structures\Frequency.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\GradientStop.cs">
+      <Link>Foundation\Structures\GradientStop.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Length.cs">
       <Link>Foundation\Structures\Length.cs</Link>
     </Compile>
