@@ -1558,6 +1558,9 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Length.cs">
       <Link>Foundation\Structures\Length.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\LinearGradient.cs">
+      <Link>Foundation\Structures\LinearGradient.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Number.cs">
       <Link>Foundation\Structures\Number.cs</Link>
     </Compile>
@@ -1566,6 +1569,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Priority.cs">
       <Link>Foundation\Structures\Priority.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\RadialGradient.cs">
+      <Link>Foundation\Structures\RadialGradient.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Resolution.cs">
       <Link>Foundation\Structures\Resolution.cs</Link>
