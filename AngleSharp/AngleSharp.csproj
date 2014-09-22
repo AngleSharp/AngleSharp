@@ -311,6 +311,7 @@
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Foundation\Structures\Counter.cs" />
+    <Compile Include="Foundation\Structures\GradientStop.cs" />
     <Compile Include="Foundation\Structures\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="DOM\Xml\XmlDocument.cs" />

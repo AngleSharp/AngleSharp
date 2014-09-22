@@ -156,7 +156,7 @@
                     offset++;
                 }
 
-                var stops = new CSSImageValue.GradientStop[arguments.Count - offset];
+                var stops = new GradientStop[arguments.Count - offset];
 
                 if (stops.Length > 1)
                 {
@@ -165,7 +165,7 @@
                     for (int i = offset, k = 0; i < arguments.Count; i++, k++)
                     {
                         Color? color = null;
-                        var location = CSSCalcValue.FromPercent(new Percent(perStop * k));
+                        Percent? location = new Percent(perStop * k);//TODO allow Length
 
                         if (arguments[i] is CSSValueList)
                         {
@@ -175,7 +175,7 @@
                                 return null;
 
                             color = list[0].ToColor();
-                            location = list[1].AsCalc();
+                            location = list[1].ToPercent();
                         }
                         else
                             color = arguments[i].ToColor();
@@ -183,7 +183,7 @@
                         if (color == null || location == null)
                             return null;
 
-                        stops[k] = new CSSImageValue.GradientStop(color.Value, location);
+                        stops[k] = new GradientStop(color.Value, location.Value);
                     }
 
                     return CSSImageValue.FromLinearGradient(direction, repeating, stops);
