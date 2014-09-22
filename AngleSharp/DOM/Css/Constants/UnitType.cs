@@ -139,6 +139,13 @@
         /// A timing function.
         /// </summary>
         Timing,
-        Gradient
+        /// <summary>
+        /// A gradient function.
+        /// </summary>
+        Gradient,
+        /// <summary>
+        /// A list of image urls.
+        /// </summary>
+        ImageList,
     }
 }

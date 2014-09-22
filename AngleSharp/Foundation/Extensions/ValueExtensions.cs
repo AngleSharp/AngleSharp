@@ -340,9 +340,7 @@
 
         public static ICssObject ToImage(this CSSValue value)
         {
-            if (value is CSSImageValue)
-                return (CSSImageValue)value;
-            else if (value.Is(Keywords.None))
+            if (value.Is(Keywords.None))
                 return Color.Transparent;
 
             var primitive = value as CSSPrimitiveValue;
@@ -351,6 +349,7 @@
             {
                 switch (primitive.Unit)
                 {
+                    case UnitType.ImageList:
                     case UnitType.RgbColor:
                     case UnitType.Uri:
                     case UnitType.Gradient:

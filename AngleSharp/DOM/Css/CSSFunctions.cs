@@ -214,7 +214,7 @@
             return null;
         }
 
-        static CSSImageValue Image(List<CSSValue> arguments)
+        static CSSPrimitiveValue Image(List<CSSValue> arguments)
         {
             if (arguments.Count == 0)
                 return null;
@@ -238,7 +238,7 @@
                 imageList.Add(uri);
             }
 
-            return CSSImageValue.FromUrls(imageList);
+            return new CSSPrimitiveValue(UnitType.ImageList, new CssImages(imageList));
         }
 
         #endregion
