@@ -343,7 +343,7 @@
             if (value is CSSImageValue)
                 return (CSSImageValue)value;
             else if (value.Is(Keywords.None))
-                return CSSImageValue.None;
+                return Color.Transparent;
 
             var primitive = value as CSSPrimitiveValue;
 

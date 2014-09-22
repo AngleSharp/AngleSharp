@@ -10,15 +10,6 @@
     /// </summary>
     abstract class CSSImageValue : CSSValue
     {
-        #region Fields
-
-        /// <summary>
-        /// Gets an image that is only a colored with a transparent color.
-        /// </summary>
-        public static readonly CSSImageValue None = new ColorImage(Color.Transparent);
-
-        #endregion
-
         #region Constructors
 
         private CSSImageValue()
@@ -39,36 +30,6 @@
         #endregion
 
         #region Specific types
-
-        /// <summary>
-        /// Represents an image with a specific color.
-        /// </summary>
-        sealed class ColorImage : CSSImageValue
-        {
-            #region Fields
-
-            Color _color;
-
-            #endregion
-
-            #region ctor
-
-            public ColorImage(Color color)
-            {
-                _color = color;
-            }
-
-            #endregion
-
-            #region String Representation
-
-            public override String ToCss()
-            {
-                return FunctionNames.Build(FunctionNames.Image, _color.ToCss());
-            }
-
-            #endregion
-        }
 
         /// <summary>
         /// http://dev.w3.org/csswg/css-images-3/#image-notation
