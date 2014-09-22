@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at
@@ -12,7 +11,7 @@
         #region Fields
 
         ListStyle _type;
-        CSSImageValue _image;
+        ICssObject _image;
         ListPosition _position;
 
         #endregion
@@ -42,7 +41,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        internal CSSImageValue Image
+        internal ICssObject Image
         {
             get { return _image; }
         }
@@ -71,7 +70,7 @@
 
             var list = value as CSSValueList ?? new CSSValueList(value);
             ListStyle? type = null;
-            CSSImageValue image = null;
+            ICssObject image = null;
             ListPosition? position = null;
 
             if (list.Length > 3)
@@ -81,7 +80,7 @@
             {
                 if (!type.HasValue && (type = list[i].ToListStyle()).HasValue)
                     continue;
-                else if (image == null && (image = list[i].AsImage()) != null)
+                else if (image == null && (image = list[i].ToImage()) != null)
                     continue;
                 else if (!position.HasValue && (position = list[i].ToListPosition()).HasValue)
                     continue;

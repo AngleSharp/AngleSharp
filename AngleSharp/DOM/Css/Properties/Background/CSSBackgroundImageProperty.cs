@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<CSSImageValue> _images;
+        List<ICssObject> _images;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal CSSBackgroundImageProperty()
             : base(PropertyNames.BackgroundImage)
         {
-            _images = new List<CSSImageValue>();
+            _images = new List<ICssObject>();
         }
 
         #endregion
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        internal IEnumerable<CSSImageValue> Images
+        internal IEnumerable<ICssObject> Images
         {
             get { return _images; }
         }
@@ -49,11 +49,11 @@
             if (value is CSSValueList)
             {
                 var values = (CSSValueList)value;
-                var images = new List<CSSImageValue>();
+                var images = new List<ICssObject>();
 
                 for (int i = 0; i < values.Length; i++)
                 {
-                    var image = values[i].AsImage();
+                    var image = values[i].ToImage();
 
                     if (image == null || (++i < values.Length && values[i] != CSSValue.Separator))
                         return false;
@@ -65,7 +65,7 @@
             }
             else if (value != CSSValue.Inherit)
             {
-                var image = value.AsImage();
+                var image = value.ToImage();
 
                 if (image == null)
                     return false;

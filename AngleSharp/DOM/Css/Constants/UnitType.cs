@@ -138,6 +138,7 @@
         /// <summary>
         /// A timing function.
         /// </summary>
-        Timing
+        Timing,
+        Gradient
     }
 }

@@ -125,7 +125,7 @@
         /// <summary>
         /// Gets the image source of the border-image.
         /// </summary>
-        internal CSSImageValue Source
+        internal ICssObject Source
         {
             get { return _source.Image; }
         }

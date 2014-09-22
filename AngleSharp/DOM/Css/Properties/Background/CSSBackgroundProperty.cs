@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the value of the background image property.
         /// </summary>
-        internal IEnumerable<CSSImageValue> Images
+        internal IEnumerable<ICssObject> Images
         {
             get { return _image.Images; }
         }
@@ -177,7 +177,7 @@
                             continue;
                         }
 
-                        if (!hasImage && entry[j].AsImage() != null)
+                        if (!hasImage && entry[j].ToImage() != null)
                         {
                             hasImage = true;
                             image.Add(entry[j]);

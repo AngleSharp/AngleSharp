@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSImageValue _image;
+        ICssObject _image;
 
         #endregion
 
@@ -19,7 +19,7 @@
         internal CSSBorderImageSourceProperty()
             : base(PropertyNames.BorderImageSource)
         {
-            _image = CSSImageValue.None;
+            _image = Color.Transparent;
         }
 
         #endregion
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        internal CSSImageValue Image
+        internal ICssObject Image
         {
             get { return _image; }
         }
@@ -45,7 +45,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var image = value.AsImage();
+            var image = value.ToImage();
 
             if (image != null)
                 _image = image;

@@ -338,17 +338,25 @@
             return null;
         }
 
-        public static CSSImageValue AsImage(this CSSValue value)
+        public static ICssObject ToImage(this CSSValue value)
         {
             if (value is CSSImageValue)
                 return (CSSImageValue)value;
             else if (value.Is(Keywords.None))
                 return CSSImageValue.None;
 
-            var url = value.ToUri();
+            var primitive = value as CSSPrimitiveValue;
 
-            if (url != null)
-                return CSSImageValue.FromUrl(url);
+            if (primitive != null)
+            {
+                switch (primitive.Unit)
+                {
+                    case UnitType.RgbColor:
+                    case UnitType.Uri:
+                    case UnitType.Gradient:
+                        return primitive.Value;
+                }
+            }
 
             return null;
         }

@@ -132,17 +132,17 @@
 
         #region Images
 
-        static CSSImageValue LinearGradient(List<CSSValue> arguments)
+        static CSSPrimitiveValue LinearGradient(List<CSSValue> arguments)
         {
             return GeneralLinearGradient(arguments, false);
         }
 
-        static CSSImageValue RepeatingLinearGradient(List<CSSValue> arguments)
+        static CSSPrimitiveValue RepeatingLinearGradient(List<CSSValue> arguments)
         {
             return GeneralLinearGradient(arguments, true);
         }
 
-        static CSSImageValue GeneralLinearGradient(List<CSSValue> arguments, Boolean repeating)
+        static CSSPrimitiveValue GeneralLinearGradient(List<CSSValue> arguments, Boolean repeating)
         {
             if (arguments.Count > 1)
             {
@@ -186,24 +186,24 @@
                         stops[k] = new GradientStop(color.Value, location.Value);
                     }
 
-                    return CSSImageValue.FromLinearGradient(direction, repeating, stops);
+                    return new CSSPrimitiveValue(UnitType.Gradient, new LinearGradient(direction, stops, repeating));
                 }
             }
 
             return null;
         }
 
-        static CSSImageValue RadialGradient(List<CSSValue> arguments)
+        static CSSPrimitiveValue RadialGradient(List<CSSValue> arguments)
         {
             return GeneralRadialGradient(arguments, false);
         }
 
-        static CSSImageValue RepeatingRadialGradient(List<CSSValue> arguments)
+        static CSSPrimitiveValue RepeatingRadialGradient(List<CSSValue> arguments)
         {
             return GeneralRadialGradient(arguments, true);
         }
 
-        static CSSImageValue GeneralRadialGradient(List<CSSValue> arguments, Boolean repeating)
+        static CSSPrimitiveValue GeneralRadialGradient(List<CSSValue> arguments, Boolean repeating)
         {
             if (arguments.Count > 1)
             {
