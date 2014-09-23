@@ -12,7 +12,7 @@
 
         static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, TransformFunction> timingFunctions = new Dictionary<String, TransformFunction>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, TransitionFunction> timingFunctions = new Dictionary<String, TransitionFunction>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
@@ -43,13 +43,13 @@
             boxModels.Add(Keywords.PaddingBox, BoxModel.PaddingBox);
             boxModels.Add(Keywords.ContentBox, BoxModel.ContentBox);
 
-            timingFunctions.Add(Keywords.Ease, TransformFunction.Ease);
-            timingFunctions.Add(Keywords.EaseIn, TransformFunction.EaseIn);
-            timingFunctions.Add(Keywords.EaseOut, TransformFunction.EaseOut);
-            timingFunctions.Add(Keywords.EaseInOut, TransformFunction.EaseInOut);
-            timingFunctions.Add(Keywords.Linear, TransformFunction.Linear);
-            timingFunctions.Add(Keywords.StepStart, TransformFunction.StepStart);
-            timingFunctions.Add(Keywords.StepEnd, TransformFunction.StepEnd);
+            timingFunctions.Add(Keywords.Ease, TransitionFunction.Ease);
+            timingFunctions.Add(Keywords.EaseIn, TransitionFunction.EaseIn);
+            timingFunctions.Add(Keywords.EaseOut, TransitionFunction.EaseOut);
+            timingFunctions.Add(Keywords.EaseInOut, TransitionFunction.EaseInOut);
+            timingFunctions.Add(Keywords.Linear, TransitionFunction.Linear);
+            timingFunctions.Add(Keywords.StepStart, TransitionFunction.StepStart);
+            timingFunctions.Add(Keywords.StepEnd, TransitionFunction.StepEnd);
 
             fillModes.Add(Keywords.None, AnimationFillStyle.None);
             fillModes.Add(Keywords.Forwards, AnimationFillStyle.Forwards);
@@ -170,9 +170,9 @@
             return null;
         }
 
-        public static TransformFunction ToTimingFunction(this CSSValue value)
+        public static TransitionFunction ToTimingFunction(this CSSValue value)
         {
-            TransformFunction function;
+            TransitionFunction function;
 
             if (timingFunctions.TryGetValue(value, out function))
                 return function;
@@ -180,7 +180,7 @@
             var primitive = value as CSSPrimitiveValue;
 
             if (primitive != null && primitive.Unit == UnitType.Timing)
-                return primitive.Value as TransformFunction;
+                return primitive.Value as TransitionFunction;
 
             return null;
         }

@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the enumeration over all timing functions.
         /// </summary>
-        IEnumerable<TransformFunction> TimingFunctions { get; }
+        IEnumerable<TransitionFunction> TimingFunctions { get; }
     }
 
     /// <summary>

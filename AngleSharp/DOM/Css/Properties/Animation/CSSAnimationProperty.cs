@@ -24,7 +24,7 @@
             _animations.Add(new Animation
             {
                 Delay = Time.Zero,
-                Timing = TransformFunction.Ease,
+                Timing = TransitionFunction.Ease,
                 Duration = Time.Zero,
                 FillMode = AnimationFillStyle.None,
                 IterationCount = 1,
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets the timing-functions for the animations.
         /// </summary>
-        public IEnumerable<TransformFunction> TimingFunctions
+        public IEnumerable<TransitionFunction> TimingFunctions
         {
             get
             {
@@ -176,7 +176,7 @@
             {
                 Delay = Time.Zero,
                 Duration = duration ?? Time.Zero,
-                Timing = function ?? TransformFunction.Ease,
+                Timing = function ?? TransitionFunction.Ease,
                 Name = name ?? Keywords.None,
                 IterationCount = iterationCount ?? 1,
                 FillMode = AnimationFillStyle.None,
@@ -189,7 +189,7 @@
             Time? delay = null;
             Time? duration = null;
             Int32? iterationCount = null;
-            TransformFunction function = null;
+            TransitionFunction function = null;
             AnimationFillStyle? fillMode = null;
             AnimationDirection? direction = null;
             String name = null;
@@ -233,7 +233,7 @@
             {
                 Delay = delay ?? Time.Zero,
                 Duration = duration ?? Time.Zero,
-                Timing = function ?? TransformFunction.Ease,
+                Timing = function ?? TransitionFunction.Ease,
                 Name = name ?? Keywords.None,
                 IterationCount = iterationCount ?? 1,
                 FillMode = fillMode.HasValue ? fillMode.Value : AnimationFillStyle.None,
@@ -249,7 +249,7 @@
         {
             public Time Delay;
             public Time Duration;
-            public TransformFunction Timing;
+            public TransitionFunction Timing;
             public Int32 IterationCount;
             public AnimationDirection Direction;
             public AnimationFillStyle FillMode;

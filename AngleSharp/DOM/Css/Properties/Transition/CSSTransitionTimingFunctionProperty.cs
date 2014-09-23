@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<TransformFunction> _functions;
+        List<TransitionFunction> _functions;
 
         #endregion
 
@@ -20,8 +20,8 @@
         internal CSSTransitionTimingFunctionProperty()
             : base(PropertyNames.TransitionTimingFunction)
         {
-            _functions = new List<TransformFunction>();
-            _functions.Add(TransformFunction.Ease);
+            _functions = new List<TransitionFunction>();
+            _functions.Add(TransitionFunction.Ease);
         }
 
         #endregion
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the enumeration over all timing functions.
         /// </summary>
-        public IEnumerable<TransformFunction> TimingFunctions
+        public IEnumerable<TransitionFunction> TimingFunctions
         {
             get { return _functions; }
         }

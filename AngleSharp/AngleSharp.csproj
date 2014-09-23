@@ -323,9 +323,10 @@
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
     <Compile Include="Foundation\Structures\Shape.cs" />
-    <Compile Include="Foundation\Structures\TransformCubicBezier.cs" />
-    <Compile Include="Foundation\Structures\TransformFunction.cs" />
-    <Compile Include="Foundation\Structures\TransformSteps.cs" />
+    <Compile Include="Foundation\Structures\CubicBezierTransitionFunction.cs" />
+    <Compile Include="Foundation\Structures\TransitionFunction.cs" />
+    <Compile Include="Foundation\Structures\TransformMatrix.cs" />
+    <Compile Include="Foundation\Structures\StepsTransitionFunction.cs" />
     <Compile Include="Foundation\Structures\Url.cs" />
     <Compile Include="Foundation\Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
@@ -618,7 +619,6 @@
     <Compile Include="Foundation\Structures\Resolution.cs" />
     <Compile Include="Foundation\Structures\Length.cs" />
     <Compile Include="Foundation\Extensions\NodeExtensions.cs" />
-    <Compile Include="Foundation\Structures\TransformMatrix.cs" />
     <Compile Include="Foundation\Extensions\ValueExtensions.cs" />
     <Compile Include="Network\Constants\OriginBehavior.cs" />
     <Compile Include="Network\RequesterExtensions.cs" />
