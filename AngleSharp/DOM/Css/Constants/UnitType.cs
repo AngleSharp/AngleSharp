@@ -136,9 +136,9 @@
         [DomName("CSS_RGBCOLOR")]
         RgbColor = 25,
         /// <summary>
-        /// A timing function.
+        /// A transition function.
         /// </summary>
-        Timing,
+        Transition,
         /// <summary>
         /// A gradient function.
         /// </summary>
@@ -147,5 +147,9 @@
         /// A list of image urls.
         /// </summary>
         ImageList,
+        /// <summary>
+        /// A transformation rule.
+        /// </summary>
+        Transform
     }
 }

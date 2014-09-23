@@ -179,7 +179,7 @@
 
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.Timing)
+            if (primitive != null && primitive.Unit == UnitType.Transition)
                 return primitive.Value as TransitionFunction;
 
             return null;
