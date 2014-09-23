@@ -301,7 +301,6 @@
     <Compile Include="DOM\Css\Properties\Flow\CSSPositionProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CSSDisplayProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CSSZIndexProperty.cs" />
-    <Compile Include="DOM\Css\Values\CSSCalcValue.cs" />
     <Compile Include="DOM\Factories\ElementFactory.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
