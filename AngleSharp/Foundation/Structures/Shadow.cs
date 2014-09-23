@@ -6,7 +6,7 @@
     /// The shadow class for holding information about
     /// a box or text-shadow.
     /// </summary>
-    public sealed class Shadow
+    public sealed class Shadow : ICssObject
     {
         #region Fields
 
@@ -90,6 +90,25 @@
         public Boolean IsInset
         {
             get { return _inset; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns the string representation of the function in CSS code.
+        /// </summary>
+        /// <returns>The CSS code to construct this value.</returns>
+        public String ToCss()
+        {
+            var inset = _inset ? "inset " : String.Empty;
+            return inset + String.Format("{0} {1} {2} {3} {4}",
+                _offsetX.ToCss(),
+                _offsetY.ToCss(),
+                _blurRadius.ToCss(),
+                _spreadRadius.ToCss(),
+                _color.ToCss());
         }
 
         #endregion
