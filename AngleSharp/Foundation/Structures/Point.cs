@@ -1,9 +1,12 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp
 {
+    using AngleSharp.DOM.Css;
+    using System;
+
     /// <summary>
-    /// Represents a point value consisting of two lengths.
+    /// Represents a point value consisting of two distances.
     /// </summary>
-    sealed class Point2d 
+    sealed class Point : ICssObject
     {
         #region Fields
 
@@ -13,13 +16,18 @@
         /// <summary>
         /// Gets the center, center point.
         /// </summary>
-        public static readonly Point2d Centered = new Point2d();
+        public static readonly Point Centered = new Point();
 
         #endregion
 
         #region ctor
 
-        internal Point2d(CSSCalcValue x = null, CSSCalcValue y = null)
+        /// <summary>
+        /// Creates a new Point.
+        /// </summary>
+        /// <param name="x">The x-coordinate.</param>
+        /// <param name="y">The y-coordinate.</param>
+        public Point(CSSCalcValue x = null, CSSCalcValue y = null)
         {
             _x = x ?? CSSCalcValue.Center;
             _y = y ?? CSSCalcValue.Center;
@@ -43,6 +51,19 @@
         public CSSCalcValue Y
         {
             get { return _y; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a CSS representation of the Point.
+        /// </summary>
+        /// <returns>The CSS value string.</returns>
+        public String ToCss()
+        {
+            return String.Format("{0} {1}", _x.ToCss(), _y.ToCss());
         }
 
         #endregion

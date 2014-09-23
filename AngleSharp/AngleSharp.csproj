@@ -305,7 +305,7 @@
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
-    <Compile Include="DOM\Css\Values\Point2d.cs" />
+    <Compile Include="Foundation\Structures\Point.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />

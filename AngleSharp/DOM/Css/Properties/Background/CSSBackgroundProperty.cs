@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the value of the background position property.
         /// </summary>
-        internal IEnumerable<Point2d> Position
+        internal IEnumerable<Point> Position
         {
             get { return _position.Positions; }
         }
