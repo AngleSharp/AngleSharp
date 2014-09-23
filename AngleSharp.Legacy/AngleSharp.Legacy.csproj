@@ -913,9 +913,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSTransformValue.cs">
-      <Link>DOM\Css\Values\CSSTransformValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUnknownValue.cs">
       <Link>DOM\Css\Values\CSSUnknownValue.cs</Link>
     </Compile>
@@ -1515,6 +1512,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\ITextSource.cs">
       <Link>Foundation\ITextSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\ITransform.cs">
+      <Link>Foundation\ITransform.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
       <Link>Foundation\Mutations\MutationObserver.cs</Link>
