@@ -928,9 +928,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValueList.cs">
       <Link>DOM\Css\Values\CSSValueList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Point2d.cs">
-      <Link>DOM\Css\Values\Point2d.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
     </Compile>
@@ -1566,6 +1563,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Percent.cs">
       <Link>Foundation\Structures\Percent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\Point.cs">
+      <Link>Foundation\Structures\Point.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Priority.cs">
       <Link>Foundation\Structures\Priority.cs</Link>
