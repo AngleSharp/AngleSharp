@@ -377,8 +377,8 @@
 
             if (arguments.Count == 2)
             {
-                var dx = arguments[0].AsCalc();
-                var dy = arguments[1].AsCalc();
+                var dx = arguments[0].ToDistance();
+                var dy = arguments[1].ToDistance();
 
                 if (dx != null && dy != null)
                     return new CSSTransformValue.Translate(dx, dy);
@@ -397,9 +397,9 @@
 
             if (arguments.Count == 3)
             {
-                var dx = arguments[0].AsCalc();
-                var dy = arguments[1].AsCalc();
-                var dz = arguments[2].AsCalc();
+                var dx = arguments[0].ToDistance();
+                var dy = arguments[1].ToDistance();
+                var dz = arguments[2].ToDistance();
 
                 if (dx != null && dy != null && dz != null)
                     return new CSSTransformValue.Translate3D(dx, dy, dz);
@@ -412,7 +412,7 @@
         {
             if (arguments.Count == 1)
             {
-                var dx = arguments[0].AsCalc();
+                var dx = arguments[0].ToDistance();
 
                 if (dx != null)
                     return new CSSTransformValue.TranslateX(dx);
@@ -425,7 +425,7 @@
         {
             if (arguments.Count == 1)
             {
-                var dy = arguments[0].AsCalc();
+                var dy = arguments[0].ToDistance();
 
                 if (dy != null)
                     return new CSSTransformValue.TranslateY(dy);
@@ -438,7 +438,7 @@
         {
             if (arguments.Count == 1)
             {
-                var dz = arguments[0].AsCalc();
+                var dz = arguments[0].ToDistance();
 
                 if (dz != null)
                     return new CSSTransformValue.TranslateZ(dz);

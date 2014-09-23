@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    public struct Percent : IEquatable<Percent>, ICssObject
+    public struct Percent : IEquatable<Percent>, IDistance, ICssObject
     {
         #region Fields
 
@@ -105,6 +105,16 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Converts the length to a number of pixels, if possible. If the
+        /// current unit is relative, then an exception will be thrown.
+        /// </summary>
+        /// <returns>The number of pixels represented by the current length.</returns>
+        public Single ToPixel()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Checks if the given percent value is equal to the current one.

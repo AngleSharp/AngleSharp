@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSCalcValue _mode;
+        IDistance _mode;
 
         #endregion
 
@@ -19,7 +19,7 @@
         internal CSSMinHeightProperty()
             : base(PropertyNames.MinHeight)
         {
-            _mode = CSSCalcValue.Zero;
+            _mode = Percent.Zero;
         }
 
         #endregion
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the minimum height of the element.
         /// </summary>
-        internal CSSCalcValue Limit
+        public IDistance Limit
         {
             get { return _mode; }
         }
@@ -45,10 +45,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                _mode = calc;
+            if (distance != null)
+                _mode = distance;
             else if (value != CSSValue.Inherit)
                 return false;
 

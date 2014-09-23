@@ -270,24 +270,6 @@
             return null;
         }
 
-        public static CSSCalcValue AsCalc(this CSSValue value)
-        {
-            if (value is CSSCalcValue)
-                return (CSSCalcValue)value;
-
-            var percent = value.ToPercent();
-
-            if (percent != null)
-                return CSSCalcValue.FromPercent(percent.Value);
-
-            var length = value.ToLength();
-
-            if (length != null)
-                return CSSCalcValue.FromLength(length.Value);
-
-            return null;
-        }
-
         public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
             where T : class, ICssObject
         {
@@ -323,6 +305,21 @@
                     list.Add(item);
                     return list;
                 }
+            }
+
+            return null;
+        }
+
+        public static IDistance ToDistance(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+            {
+                if (primitive.Unit == UnitType.Number && primitive.ToSingle() == 0f)
+                    return Length.Zero;
+
+                return primitive.Value as IDistance;
             }
 
             return null;
@@ -553,18 +550,18 @@
             if (values.Length == 1)
             {
                 var value = values[0];
-                var calc = value.AsCalc();
+                var calc = value.ToDistance();
 
                 if (calc != null)
                     return new Point(calc);
                 else if (value.Is(Keywords.Left))
-                    return new Point(x: CSSCalcValue.Zero);
+                    return new Point(x: Percent.Zero);
                 else if (value.Is(Keywords.Right))
-                    return new Point(x: CSSCalcValue.Full);
+                    return new Point(x: Percent.Hundred);
                 else if (value.Is(Keywords.Top))
-                    return new Point(y: CSSCalcValue.Zero);
+                    return new Point(y: Percent.Zero);
                 else if (value.Is(Keywords.Bottom))
-                    return new Point(y: CSSCalcValue.Full);
+                    return new Point(y: Percent.Hundred);
                 else if (value.Is(Keywords.Center))
                     return Point.Centered;
             }
@@ -572,46 +569,46 @@
             {
                 var left = values[0];
                 var right = values[1];
-                var horizontal = left.AsCalc();
-                var vertical = right.AsCalc();
+                var horizontal = left.ToDistance();
+                var vertical = right.ToDistance();
 
                 if (horizontal == null)
                 {
                     if (left.Is(Keywords.Left))
-                        horizontal = CSSCalcValue.Zero;
+                        horizontal = Percent.Zero;
                     else if (left.Is(Keywords.Right))
-                        horizontal = CSSCalcValue.Full;
+                        horizontal = Percent.Hundred;
                     else if (left.Is(Keywords.Center))
-                        horizontal = CSSCalcValue.Center;
+                        horizontal = Percent.Fifty;
                     else if (left.Is(Keywords.Top))
                     {
                         horizontal = vertical;
-                        vertical = CSSCalcValue.Zero;
+                        vertical = Percent.Zero;
                     }
                     else if (left.Is(Keywords.Bottom))
                     {
                         horizontal = vertical;
-                        vertical = CSSCalcValue.Full;
+                        vertical = Percent.Hundred;
                     }
                 }
 
                 if (vertical == null)
                 {
                     if (right.Is(Keywords.Top))
-                        vertical = CSSCalcValue.Zero;
+                        vertical = Percent.Zero;
                     else if (right.Is(Keywords.Bottom))
-                        vertical = CSSCalcValue.Full;
+                        vertical = Percent.Hundred;
                     else if (right.Is(Keywords.Center))
-                        vertical = CSSCalcValue.Center;
+                        vertical = Percent.Fifty;
                     else if (right.Is(Keywords.Left))
                     {
                         vertical = horizontal;
-                        horizontal = CSSCalcValue.Zero;
+                        horizontal = Percent.Zero;
                     }
                     else if (right.Is(Keywords.Right))
                     {
                         vertical = horizontal;
-                        horizontal = CSSCalcValue.Full;
+                        horizontal = Percent.Hundred;
                     }
                 }
 
@@ -620,56 +617,54 @@
             }
             else if (values.Length > 2)
             {
+                IDistance shift = null;
+                IDistance horizontal = Percent.Fifty;
+                IDistance vertical = Percent.Fifty;
                 var index = 0;
-                var shift = CSSCalcValue.Zero;
-                var horizontal = CSSCalcValue.Center;
-                var vertical = CSSCalcValue.Center;
                 var value = values[index];
 
                 if (value.Is(Keywords.Left))
                 {
-                    horizontal = CSSCalcValue.Zero;
-                    shift = values[index + 1].AsCalc();
+                    horizontal = Percent.Zero;
+                    shift = values[index + 1].ToDistance();
                 }
                 else if (value.Is(Keywords.Right))
                 {
-                    horizontal = CSSCalcValue.Full;
-                    shift = values[index + 1].AsCalc();
-                }
-                else if (!value.Is(Keywords.Center))
-                    return null;
-
-                if (shift != null && shift != CSSCalcValue.Zero)
-                {
-                    index++;
-                    horizontal = horizontal.Add(shift);
-                    shift = CSSCalcValue.Zero;
-                }
-
-                value = values[++index];
-
-                if (value.Is(Keywords.Top))
-                {
-                    vertical = CSSCalcValue.Zero;
-
-                    if (index + 1 < values.Length)
-                        shift = values[index + 1].AsCalc();
-                }
-                else if (value.Is(Keywords.Bottom))
-                {
-                    vertical = CSSCalcValue.Full;
-
-                    if (index + 1 < values.Length)
-                        shift = values[index + 1].AsCalc();
+                    horizontal = Percent.Hundred;
+                    shift = values[index + 1].ToDistance();
                 }
                 else if (!value.Is(Keywords.Center))
                     return null;
 
                 if (shift != null)
                 {
-                    if (shift != CSSCalcValue.Zero)
-                        vertical = vertical.Add(shift);
+                    index++;
+                    horizontal = horizontal.Add(shift);
+                    shift = Percent.Zero;
+                }
 
+                value = values[++index];
+
+                if (value.Is(Keywords.Top))
+                {
+                    vertical = Percent.Zero;
+
+                    if (index + 1 < values.Length)
+                        shift = values[index + 1].ToDistance();
+                }
+                else if (value.Is(Keywords.Bottom))
+                {
+                    vertical = Percent.Hundred;
+
+                    if (index + 1 < values.Length)
+                        shift = values[index + 1].ToDistance();
+                }
+                else if (!value.Is(Keywords.Center))
+                    return null;
+
+                if (shift != null)
+                {
+                    vertical = vertical.Add(shift);
                     return new Point(horizontal, vertical);
                 }
             }
@@ -735,6 +730,15 @@
                 return null;
 
             return new Shadow(inset, offsetX.Value, offsetY.Value, blurRadius, spreadRadius, color);
+        }
+
+        #endregion
+
+        #region Value Calculation
+
+        public static IDistance Add(this IDistance a, IDistance b)
+        {
+            return a;//TODO
         }
 
         #endregion

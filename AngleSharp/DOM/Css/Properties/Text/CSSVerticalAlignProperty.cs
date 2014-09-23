@@ -13,7 +13,7 @@
 
         static readonly Dictionary<String, VerticalAlignment> modes = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase);
         VerticalAlignment _mode;
-        CSSCalcValue _shift;
+        IDistance _shift;
 
         #endregion
 
@@ -35,7 +35,7 @@
             : base(PropertyNames.VerticalAlign)
         {
             _mode = VerticalAlignment.Baseline;
-            _shift = CSSCalcValue.Zero;
+            _shift = Percent.Zero;
         }
 
         #endregion
@@ -47,7 +47,7 @@
         /// the baseline of its parent or like absolute values, with the percentage
         /// being a percent of the line-height property.
         /// </summary>
-        internal CSSCalcValue Shift
+        public IDistance Shift
         {
             get { return _shift; }
         }
@@ -72,16 +72,16 @@
         protected override Boolean IsValid(CSSValue value)
         {
             VerticalAlignment mode;
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
+            if (distance != null)
             {
-                _shift = calc;
+                _shift = distance;
                 _mode = VerticalAlignment.Baseline;
             }
             else if (modes.TryGetValue(value, out mode))
             {
-                _shift = CSSCalcValue.Zero;
+                _shift = Percent.Zero;
                 _mode = mode;
             }
             else if (value != CSSValue.Inherit)

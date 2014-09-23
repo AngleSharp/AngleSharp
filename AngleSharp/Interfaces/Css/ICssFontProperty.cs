@@ -56,6 +56,11 @@
         /// Gets the font-size mode.
         /// </summary>
         FontSize Mode { get; }
+
+        /// <summary>
+        /// Gets the custom set font-size, if any.
+        /// </summary>
+        IDistance Size { get; }
     }
 
     /// <summary>

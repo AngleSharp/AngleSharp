@@ -9,8 +9,8 @@
     {
         #region Fields
 
-        CSSCalcValue _h;
-        CSSCalcValue _v;
+        IDistance _h;
+        IDistance _v;
 
         #endregion
 
@@ -19,8 +19,8 @@
         internal CSSBorderRadiusPartProperty(String name)
             : base(name)
         {
-            _h = CSSCalcValue.Zero;
-            _v = CSSCalcValue.Zero;
+            _h = Percent.Zero;
+            _v = Percent.Zero;
         }
 
         #endregion
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the horizontal radius of the ellipse.
         /// </summary>
-        internal CSSCalcValue HorizontalRadius
+        public IDistance HorizontalRadius
         {
             get { return _h; }
         }
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the vertical radius of the ellipse.
         /// </summary>
-        internal CSSCalcValue VerticalRadius
+        public IDistance VerticalRadius
         {
             get { return _v; }
         }
@@ -67,8 +67,8 @@
                 v2 = list[1];
             }
 
-            var c1 = v1.AsCalc();
-            var c2 = v2.AsCalc();
+            var c1 = v1.ToDistance();
+            var c2 = v2.ToDistance();
 
             if (c1 != null && c2 != null)
             {

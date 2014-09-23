@@ -14,5 +14,14 @@
         }
 
         #endregion
+
+        #region Properties
+
+        public IDistance Bottom
+        {
+            get { return Margin; }
+        }
+
+        #endregion
     }
 }

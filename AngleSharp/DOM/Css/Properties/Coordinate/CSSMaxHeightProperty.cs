@@ -13,7 +13,7 @@
         /// <summary>
         /// No limit on the height of the box if _mode == null.
         /// </summary>
-        CSSCalcValue _mode;
+        IDistance _mode;
 
         #endregion
 
@@ -43,7 +43,7 @@
         /// containing block is not specified explicitly, the percentage value is
         /// treated as none.
         /// </summary>
-        internal CSSCalcValue Limit
+        public IDistance Limit
         {
             get { return _mode; }
         }
@@ -59,10 +59,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                _mode = calc;
+            if (distance != null)
+                _mode = distance;
             else if (value.Is(Keywords.None))
                 _mode = null;
             else if (value != CSSValue.Inherit)

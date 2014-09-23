@@ -22,6 +22,26 @@
     public interface ICssBorderImageSliceProperty : ICssProperty
     {
         /// <summary>
+        /// Gets the position of the top slicing line.
+        /// </summary>
+        IDistance SliceTop { get; }
+
+        /// <summary>
+        /// Gets the position of the right slicing line.
+        /// </summary>
+        IDistance SliceRight { get; }
+
+        /// <summary>
+        /// Gets the position of the bottom slicing line.
+        /// </summary>
+        IDistance SliceBottom { get; }
+
+        /// <summary>
+        /// Gets the position of the left slicing line.
+        /// </summary>
+        IDistance SliceLeft { get; }
+
+        /// <summary>
         /// Gets if the center patch should be filled.
         /// </summary>
         Boolean IsFilled { get; }
@@ -48,6 +68,25 @@
     /// </summary>
     public interface ICssBorderImageOutsetProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the length or percentage for the outset of the top border.
+        /// </summary>
+        IDistance OutsetTop { get; }
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the right border.
+        /// </summary>
+        IDistance OutsetRight { get; }
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the bottom border.
+        /// </summary>
+        IDistance OutsetBottom { get; }
+
+        /// <summary>
+        /// Gets the length or percentage for the outset of the left border.
+        /// </summary>
+        IDistance OutsetLeft { get; }
     }
 
     /// <summary>

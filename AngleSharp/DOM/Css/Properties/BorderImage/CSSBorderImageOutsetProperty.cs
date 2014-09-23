@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        CSSCalcValue _top;
-        CSSCalcValue _right;
-        CSSCalcValue _bottom;
-        CSSCalcValue _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
 
         #endregion
 
@@ -22,10 +22,10 @@
         internal CSSBorderImageOutsetProperty()
             : base(PropertyNames.BorderImageOutset)
         {
-            _top = CSSCalcValue.Zero;
-            _right = CSSCalcValue.Zero;
-            _bottom = CSSCalcValue.Zero;
-            _left = CSSCalcValue.Zero;
+            _top = Percent.Zero;
+            _right = Percent.Zero;
+            _bottom = Percent.Zero;
+            _left = Percent.Zero;
         }
 
         #endregion
@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the top border.
         /// </summary>
-        internal CSSCalcValue Top
+        public IDistance OutsetTop
         {
             get { return _top; }
         }
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the right border.
         /// </summary>
-        internal CSSCalcValue Right
+        public IDistance OutsetRight
         {
             get { return _right; }
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the bottom border.
         /// </summary>
-        internal CSSCalcValue Bottom
+        public IDistance OutsetBottom
         {
             get { return _bottom; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the left border.
         /// </summary>
-        internal CSSCalcValue Left
+        public IDistance OutsetLeft
         {
             get { return _left; }
         }
@@ -75,7 +75,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var calc = value.ToDistance();
 
             if (calc != null)
                 _top = _bottom = _right = _left = calc;
@@ -92,8 +92,8 @@
             if (values.Length > 4)
                 return false;
 
-            var top = values[0].AsCalc();
-            var right = values[1].AsCalc();
+            var top = values[0].ToDistance();
+            var right = values[1].ToDistance();
             var bottom = top;
             var left = right;
 
@@ -102,14 +102,14 @@
 
             if (values.Length > 2)
             {
-                bottom = values[2].AsCalc();
+                bottom = values[2].ToDistance();
 
                 if (bottom == null)
                     return false;
 
                 if (values.Length > 3)
                 {
-                    left = values[3].AsCalc();
+                    left = values[3].ToDistance();
 
                     if (left == null)
                         return false;

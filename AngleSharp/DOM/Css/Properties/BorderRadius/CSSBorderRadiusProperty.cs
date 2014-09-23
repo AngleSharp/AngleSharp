@@ -10,14 +10,14 @@
     {
         #region Fields
 
-        CSSCalcValue _bottomLeftHorizontal;
-        CSSCalcValue _bottomRightHorizontal;
-        CSSCalcValue _topLeftHorizontal;
-        CSSCalcValue _topRightHorizontal;
-        CSSCalcValue _bottomLeftVertical;
-        CSSCalcValue _bottomRightVertical;
-        CSSCalcValue _topLeftVertical;
-        CSSCalcValue _topRightVertical;
+        IDistance _bottomLeftHorizontal;
+        IDistance _bottomRightHorizontal;
+        IDistance _topLeftHorizontal;
+        IDistance _topRightHorizontal;
+        IDistance _bottomLeftVertical;
+        IDistance _bottomRightVertical;
+        IDistance _topLeftVertical;
+        IDistance _topRightVertical;
 
         #endregion
 
@@ -26,14 +26,14 @@
         internal CSSBorderRadiusProperty()
             : base(PropertyNames.BorderRadius)
         {
-            _topRightHorizontal = CSSCalcValue.Zero;
-            _bottomRightHorizontal = CSSCalcValue.Zero;
-            _bottomLeftHorizontal = CSSCalcValue.Zero;
-            _topLeftHorizontal = CSSCalcValue.Zero;
-            _topRightVertical = CSSCalcValue.Zero;
-            _bottomRightVertical = CSSCalcValue.Zero;
-            _bottomLeftVertical = CSSCalcValue.Zero;
-            _topLeftVertical = CSSCalcValue.Zero;
+            _topRightHorizontal = Percent.Zero;
+            _bottomRightHorizontal = Percent.Zero;
+            _bottomLeftHorizontal = Percent.Zero;
+            _topLeftHorizontal = Percent.Zero;
+            _topRightVertical = Percent.Zero;
+            _bottomRightVertical = Percent.Zero;
+            _bottomLeftVertical = Percent.Zero;
+            _topLeftVertical = Percent.Zero;
         }
 
         #endregion
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-left radius.
         /// </summary>
-        internal CSSCalcValue HorizontalBottomLeft
+        public IDistance HorizontalBottomLeft
         {
             get { return _bottomLeftHorizontal; }
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the value of the vertical bottom-left radius.
         /// </summary>
-        internal CSSCalcValue VerticalBottomLeft
+        public IDistance VerticalBottomLeft
         {
             get { return _bottomLeftVertical; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-right radius.
         /// </summary>
-        internal CSSCalcValue HorizontalBottomRight
+        public IDistance HorizontalBottomRight
         {
             get { return _bottomRightHorizontal; }
         }
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets the value of the vertical bottom-right radius.
         /// </summary>
-        internal CSSCalcValue VerticalBottomRight
+        public IDistance VerticalBottomRight
         {
             get { return _bottomRightVertical; }
         }
@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets the value of the horizontal top-left radius.
         /// </summary>
-        internal CSSCalcValue HorizontalTopLeft
+        public IDistance HorizontalTopLeft
         {
             get { return _topLeftHorizontal; }
         }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets the value of the vertical top-left radius.
         /// </summary>
-        internal CSSCalcValue VerticalTopLeft
+        public IDistance VerticalTopLeft
         {
             get { return _topLeftVertical; }
         }
@@ -91,7 +91,7 @@
         /// <summary>
         /// Gets the value of the horizontal top-right radius.
         /// </summary>
-        internal CSSCalcValue HorizontalTopRight
+        public IDistance HorizontalTopRight
         {
             get { return _topRightHorizontal; }
         }
@@ -99,7 +99,7 @@
         /// <summary>
         /// Gets the value of the vertical top-right radius.
         /// </summary>
-        internal CSSCalcValue VerticalTopRight
+        public IDistance VerticalTopRight
         {
             get { return _topRightVertical; }
         }
@@ -120,12 +120,12 @@
             else if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc == null)
+            if (distance == null)
                 return false;
 
-            _bottomLeftHorizontal = _bottomLeftVertical = _bottomRightHorizontal = _bottomRightVertical = _topLeftHorizontal = _topLeftVertical = _topRightHorizontal = _topRightVertical = calc;
+            _bottomLeftHorizontal = _bottomLeftVertical = _bottomRightHorizontal = _bottomRightVertical = _topLeftHorizontal = _topLeftVertical = _topRightHorizontal = _topRightVertical = distance;
             return true;
         }
 
@@ -141,11 +141,11 @@
             if (count - 1 > splitIndex + 4 || splitIndex > 4 || splitIndex == count - 1 || splitIndex == 0)
                 return false;
 
-            var values = new CSSCalcValue[4];
+            var values = new IDistance[4];
 
             for (int i = 0; i < splitIndex; i++)
             {
-                values[i] = arguments[i].AsCalc();
+                values[i] = arguments[i].ToDistance();
 
                 for (int j = 2 * i + 1; j < 4; j += i + 1)
                     values[j] = values[i];
@@ -166,7 +166,7 @@
 
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = arguments[i + splitIndex].AsCalc();
+                    values[i] = arguments[i + splitIndex].ToDistance();
 
                     for (int j = 2 * i + 1; j < 4; j += i + 1)
                         values[j] = values[i];

@@ -14,5 +14,14 @@
         }
 
         #endregion
+
+        #region Properties
+
+        public IDistance Right
+        {
+            get { return Margin; }
+        }
+
+        #endregion
     }
 }

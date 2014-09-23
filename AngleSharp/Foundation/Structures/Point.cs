@@ -1,17 +1,16 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.DOM.Css;
     using System;
 
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    sealed class Point : ICssObject
+    public sealed class Point : ICssObject
     {
         #region Fields
 
-        readonly CSSCalcValue _x;
-        readonly CSSCalcValue _y;
+        readonly IDistance _x;
+        readonly IDistance _y;
 
         /// <summary>
         /// Gets the center, center point.
@@ -27,10 +26,10 @@
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
         /// <param name="y">The y-coordinate.</param>
-        public Point(CSSCalcValue x = null, CSSCalcValue y = null)
+        public Point(IDistance x = null, IDistance y = null)
         {
-            _x = x ?? CSSCalcValue.Center;
-            _y = y ?? CSSCalcValue.Center;
+            _x = x ?? Percent.Fifty;
+            _y = y ?? Percent.Fifty;
         }
 
         #endregion
@@ -40,7 +39,7 @@
         /// <summary>
         /// Gets the value for the x-coordinate.
         /// </summary>
-        public CSSCalcValue X
+        public IDistance X
         {
             get { return _x; }
         }
@@ -48,7 +47,7 @@
         /// <summary>
         /// Gets the value for the y-coordinate.
         /// </summary>
-        public CSSCalcValue Y
+        public IDistance Y
         {
             get { return _y; }
         }

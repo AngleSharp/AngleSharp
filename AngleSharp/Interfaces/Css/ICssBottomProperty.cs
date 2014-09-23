@@ -5,5 +5,9 @@
     /// </summary>
     public interface ICssBottomProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the position if a fixed position has been set.
+        /// </summary>
+        IDistance Bottom { get; }
     }
 }

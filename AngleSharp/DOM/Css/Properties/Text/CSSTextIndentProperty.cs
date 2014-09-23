@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSCalcValue _indent;
+        IDistance _indent;
 
         #endregion
 
@@ -19,7 +19,7 @@
         internal CSSTextIndentProperty()
             : base(PropertyNames.TextIndent, PropertyFlags.Inherited)
         {
-            _indent = CSSCalcValue.Zero;
+            _indent = Percent.Zero;
         }
 
         #endregion
@@ -30,7 +30,7 @@
         /// Gets the indentation, which is either a percentage of the containing block width
         /// or specified as fixed length. Negative values are allowed.
         /// </summary>
-        internal CSSCalcValue Indent
+        public IDistance Indent
         {
             get { return _indent; }
         }
@@ -46,7 +46,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var indent = value.AsCalc();
+            var indent = value.ToDistance();
 
             if (indent != null)
                 _indent = indent;

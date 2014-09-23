@@ -8,25 +8,6 @@
     /// </summary>
     abstract class CSSCalcValue : CSSValue
     {
-        #region Fields
-
-        /// <summary>
-        /// Gets a value that computes to 50% of the original dimension.
-        /// </summary>
-        public static readonly CSSCalcValue Center = new Relative(Percent.Fifty);
-
-        /// <summary>
-        /// Gets a value that computes to 0.
-        /// </summary>
-        public static readonly CSSCalcValue Zero = new Absolute(Length.Zero);
-
-        /// <summary>
-        /// Gets a value that computes to 100% of the original dimension.
-        /// </summary>
-        public static readonly CSSCalcValue Full = new Relative(Percent.Hundred);
-
-        #endregion
-
         #region Methods
 
         /// <summary>

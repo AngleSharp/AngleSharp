@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSCalcValue _value;
+        IDistance _value;
 
         #endregion
 
@@ -37,7 +37,7 @@
         /// <summary>
         /// Gets the position if a fixed position has been set.
         /// </summary>
-        internal CSSCalcValue Position
+        public IDistance Position
         {
             get { return _value; }
         }
@@ -53,10 +53,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                _value = calc;
+            if (distance != null)
+                _value = distance;
             else if (value.Is(Keywords.Auto))
                 _value = null;
             else if (value != CSSValue.Inherit)

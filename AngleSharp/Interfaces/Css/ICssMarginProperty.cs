@@ -5,6 +5,11 @@
     /// </summary>
     public interface ICssMarginTopProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the margin relative to the width of the containing block or
+        /// a fixed width, if any.
+        /// </summary>
+        IDistance Top { get; }
     }
 
     /// <summary>
@@ -12,6 +17,11 @@
     /// </summary>
     public interface ICssMarginRightProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the margin relative to the width of the containing block or
+        /// a fixed width, if any.
+        /// </summary>
+        IDistance Right { get; }
     }
 
     /// <summary>
@@ -19,6 +29,11 @@
     /// </summary>
     public interface ICssMarginLeftProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the margin relative to the width of the containing block or
+        /// a fixed width, if any.
+        /// </summary>
+        IDistance Left { get; }
     }
 
     /// <summary>
@@ -26,6 +41,11 @@
     /// </summary>
     public interface ICssMarginBottomProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the margin relative to the width of the containing block or
+        /// a fixed width, if any.
+        /// </summary>
+        IDistance Bottom { get; }
     }
 
     /// <summary>

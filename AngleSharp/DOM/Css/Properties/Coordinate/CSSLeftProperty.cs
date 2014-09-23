@@ -14,5 +14,14 @@
         }
 
         #endregion
+
+        #region Property
+
+        public IDistance Left
+        {
+            get { return Position; }
+        }
+
+        #endregion
     }
 }

@@ -34,10 +34,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            CSSCalcValue calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                _mode = new CalcLineHeightMode(calc);
+            if (distance != null)
+                _mode = new CalcLineHeightMode(distance);
             else if (value.Is(Keywords.Normal))
                 _mode = _normal;
             else if (value.ToSingle().HasValue)
@@ -71,9 +71,9 @@
         /// </summary>
         sealed class CalcLineHeightMode : LineHeightMode
         {
-            CSSCalcValue _calc;
+            readonly IDistance _calc;
 
-            public CalcLineHeightMode(CSSCalcValue calc)
+            public CalcLineHeightMode(IDistance calc)
             {
                 _calc = calc;
             }
@@ -87,7 +87,7 @@
         /// </summary>
         sealed class MultipleLineHeightMode : LineHeightMode
         {
-            Single _factor;
+            readonly Single _factor;
 
             public MultipleLineHeightMode(Single factor)
             {

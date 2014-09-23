@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        CSSCalcValue _x;
-        CSSCalcValue _y;
+        IDistance _x;
+        IDistance _y;
 
         #endregion
 
@@ -20,8 +20,8 @@
         internal CSSPerspectiveOriginProperty()
             : base(PropertyNames.PerspectiveOrigin)
         {
-            _x = CSSCalcValue.Center;
-            _y = CSSCalcValue.Center;
+            _x = Percent.Fifty;
+            _y = Percent.Fifty;
         }
 
         #endregion
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the position of the abscissa of the vanishing point.
         /// </summary>
-        internal CSSCalcValue X
+        public IDistance X
         {
             get { return _x; }
         }
@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets the position of the ordinate of the vanishing point.
         /// </summary>
-        internal CSSCalcValue Y
+        public IDistance Y
         {
             get { return _y; }
         }
@@ -65,12 +65,12 @@
 
         Boolean SetSingle(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
+            if (distance != null)
             {
-                _x = calc;
-                _y = calc;
+                _x = distance;
+                _y = distance;
                 return true;
             }
 
@@ -82,32 +82,32 @@
 
                 if (ident.Equals(Keywords.Left, StringComparison.OrdinalIgnoreCase))
                 {
-                    _x = CSSCalcValue.Zero;
-                    _y = CSSCalcValue.Center;
+                    _x = Percent.Zero;
+                    _y = Percent.Fifty;
                     return true;
                 }
                 else if (ident.Equals(Keywords.Right, StringComparison.OrdinalIgnoreCase))
                 {
-                    _x = CSSCalcValue.Full;
-                    _y = CSSCalcValue.Center;
+                    _x = Percent.Hundred;
+                    _y = Percent.Fifty;
                     return true;
                 }
                 else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
                 {
-                    _x = CSSCalcValue.Center;
-                    _y = CSSCalcValue.Center;
+                    _x = Percent.Fifty;
+                    _y = Percent.Fifty;
                     return true;
                 }
                 else if (ident.Equals(Keywords.Top, StringComparison.OrdinalIgnoreCase))
                 {
-                    _x = CSSCalcValue.Center;
-                    _y = CSSCalcValue.Zero;
+                    _x = Percent.Fifty;
+                    _y = Percent.Zero;
                     return true;
                 }
                 else if (ident.Equals(Keywords.Bottom, StringComparison.OrdinalIgnoreCase))
                 {
-                    _x = CSSCalcValue.Center;
-                    _y = CSSCalcValue.Full;
+                    _x = Percent.Fifty;
+                    _y = Percent.Hundred;
                     return true;
                 }
             }
@@ -139,9 +139,9 @@
             return false;
         }
 
-        static CSSCalcValue GetMode(CSSValue value, String minIdentifier, String maxIdentifier)
+        static IDistance GetMode(CSSValue value, String minIdentifier, String maxIdentifier)
         {
-            var calc = value.AsCalc();
+            var calc = value.ToDistance();
 
             if (calc == null && value is CSSPrimitiveValue)
             {
@@ -152,11 +152,11 @@
                     var ident = primitive.GetString();
 
                     if (ident.Equals(minIdentifier, StringComparison.OrdinalIgnoreCase))
-                        calc = CSSCalcValue.Zero;
+                        calc = Percent.Zero;
                     else if (ident.Equals(maxIdentifier, StringComparison.OrdinalIgnoreCase))
-                        calc = CSSCalcValue.Full;
+                        calc = Percent.Hundred;
                     else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
-                        calc = CSSCalcValue.Center;
+                        calc = Percent.Fifty;
                 }
             }
 

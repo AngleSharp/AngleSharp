@@ -93,7 +93,7 @@
         /// <summary>
         /// Gets the custom set size of the font, if any.
         /// </summary>
-        internal CSSCalcValue Size
+        public IDistance Size
         {
             get { return _size.Size; }
         }

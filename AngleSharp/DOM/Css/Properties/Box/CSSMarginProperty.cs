@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the value for the top margin.
         /// </summary>
-        internal CSSCalcValue Top
+        public IDistance Top
         {
             get { return _top.Margin; }
         }
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the value for the right margin.
         /// </summary>
-        internal CSSCalcValue Right
+        public IDistance Right
         {
             get { return _right.Margin; }
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the value for the bottom margin.
         /// </summary>
-        internal CSSCalcValue Bottom
+        public IDistance Bottom
         {
             get { return _bottom.Margin; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the value for the left margin.
         /// </summary>
-        internal CSSCalcValue Left
+        public IDistance Left
         {
             get { return _left.Margin; }
         }

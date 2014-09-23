@@ -5,5 +5,9 @@
     /// </summary>
     public interface ICssHeightProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the height.
+        /// </summary>
+        IDistance Height { get; }
     }
 }

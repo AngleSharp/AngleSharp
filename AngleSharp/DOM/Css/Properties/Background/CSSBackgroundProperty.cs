@@ -149,23 +149,23 @@
 
                     for (int j = 0; j < entry.Length; j++)
                     {
-                        if (!hasPosition && (entry[j].IsOneOf(Keywords.Top, Keywords.Left, Keywords.Center, Keywords.Bottom, Keywords.Right) || entry[j].AsCalc() != null))
+                        if (!hasPosition && (entry[j].IsOneOf(Keywords.Top, Keywords.Left, Keywords.Center, Keywords.Bottom, Keywords.Right) || entry[j].ToDistance() != null))
                         {
                             hasPosition = true;
                             position.Add(entry[j]);
 
-                            while (j + 1 < entry.Length && (entry[j + 1].IsOneOf(Keywords.Top, Keywords.Left, Keywords.Center, Keywords.Bottom, Keywords.Right) || entry[j + 1].AsCalc() != null))
+                            while (j + 1 < entry.Length && (entry[j + 1].IsOneOf(Keywords.Top, Keywords.Left, Keywords.Center, Keywords.Bottom, Keywords.Right) || entry[j + 1].ToDistance() != null))
                                 position.Add(entry[++j]);
 
                             if (j + 1 < entry.Length && entry[j + 1] == CSSValue.Delimiter)
                             {
                                 j += 2;
 
-                                if (j < entry.Length && (entry[j].IsOneOf(Keywords.Auto, Keywords.Contain, Keywords.Cover) || entry[j].AsCalc() != null))
+                                if (j < entry.Length && (entry[j].IsOneOf(Keywords.Auto, Keywords.Contain, Keywords.Cover) || entry[j].ToDistance() != null))
                                 {
                                     size.Add(entry[j]);
 
-                                    if (j + 1 < entry.Length && (entry[j + 1].Is(Keywords.Auto) || entry[j + 1].AsCalc() != null))
+                                    if (j + 1 < entry.Length && (entry[j + 1].Is(Keywords.Auto) || entry[j + 1].ToDistance() != null))
                                         size.Add(entry[++j]);
                                 }
                                 else

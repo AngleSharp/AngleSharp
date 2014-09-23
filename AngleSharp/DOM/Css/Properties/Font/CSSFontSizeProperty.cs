@@ -11,7 +11,7 @@
         #region Fields
 
         FontSize _mode;
-        CSSCalcValue _size;
+        IDistance _size;
 
         #endregion
 
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the custom set font-size, if any.
         /// </summary>
-        internal CSSCalcValue Size
+        public IDistance Size
         {
             get { return _size; }
         }
@@ -56,11 +56,11 @@
         protected override Boolean IsValid(CSSValue value)
         {
             FontSize? size;
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
+            if (distance != null)
             {
-                _size = calc;
+                _size = distance;
                 _mode = FontSize.Custom;
             }
             else if ((size = value.ToFontSize()).HasValue)

@@ -5,5 +5,9 @@
     /// </summary>
     public interface ICssMinWidthProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the minimum height of the element.
+        /// </summary>
+        IDistance Limit { get; }
     }
 }

@@ -14,5 +14,14 @@
         }
 
         #endregion
+
+        #region Property
+
+        public IDistance Top
+        {
+            get { return Padding; }
+        }
+
+        #endregion
     }
 }

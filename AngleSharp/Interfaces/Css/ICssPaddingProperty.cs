@@ -5,6 +5,11 @@
     /// </summary>
     public interface ICssPaddingRightProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the padding relative to the width of the containing block or
+        /// a fixed width.
+        /// </summary>
+        IDistance Right { get; }
     }
 
     /// <summary>
@@ -12,6 +17,11 @@
     /// </summary>
     public interface ICssPaddingTopProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the padding relative to the width of the containing block or
+        /// a fixed width.
+        /// </summary>
+        IDistance Top { get; }
     }
 
     /// <summary>
@@ -19,6 +29,11 @@
     /// </summary>
     public interface ICssPaddingBottomProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the padding relative to the width of the containing block or
+        /// a fixed width.
+        /// </summary>
+        IDistance Bottom { get; }
     }
 
     /// <summary>
@@ -26,6 +41,11 @@
     /// </summary>
     public interface ICssPaddingLeftProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the padding relative to the width of the containing block or
+        /// a fixed width.
+        /// </summary>
+        IDistance Left { get; }
     }
 
     /// <summary>

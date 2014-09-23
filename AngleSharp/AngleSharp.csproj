@@ -84,6 +84,7 @@
     <Compile Include="Foundation\Constants\EventFlags.cs" />
     <Compile Include="Foundation\Constants\NodeFlags.cs" />
     <Compile Include="Foundation\Extensions\UnitExtensions.cs" />
+    <Compile Include="Foundation\IBitmap.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
+    <Compile Include="Foundation\IDistance.cs" />
     <Compile Include="Foundation\Structures\Point.cs" />
     <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />

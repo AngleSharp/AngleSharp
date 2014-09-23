@@ -14,5 +14,14 @@
         }
 
         #endregion
+
+        #region Property
+
+        public IDistance Height
+        {
+            get { return Position; }
+        }
+
+        #endregion
     }
 }

@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        CSSCalcValue _padding;
+        IDistance _padding;
 
         #endregion
 
@@ -18,7 +18,7 @@
         internal CSSPaddingPartProperty(String name)
             : base(name, PropertyFlags.Unitless)
         {
-            _padding = CSSCalcValue.Zero;
+            _padding = Percent.Zero;
         }
 
         #endregion
@@ -29,7 +29,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        internal CSSCalcValue Padding
+        internal IDistance Padding
         {
             get { return _padding; }
         }
@@ -45,10 +45,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                _padding = calc;
+            if (distance != null)
+                _padding = distance;
             else if (value != CSSValue.Inherit)
                 return false;
 

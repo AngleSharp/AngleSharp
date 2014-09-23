@@ -68,10 +68,10 @@
             if (multiple.HasValue)
                 return new MultipleImageWidthMode(multiple.Value);
 
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                return new CalcImageWidthMode(calc);
+            if (distance != null)
+                return new CalcImageWidthMode(distance);
 
             return null;
         }
@@ -135,9 +135,9 @@
         /// </summary>
         sealed class CalcImageWidthMode : ImageWidthMode
         {
-            CSSCalcValue _calc;
+            readonly IDistance _calc;
 
-            public CalcImageWidthMode(CSSCalcValue calc)
+            public CalcImageWidthMode(IDistance calc)
             {
                 _calc = calc;
             }

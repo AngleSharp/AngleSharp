@@ -97,10 +97,10 @@
         /// </summary>
         public sealed class Translate : CSSTransformValue
         {
-            CSSCalcValue _x;
-            CSSCalcValue _y;
+            readonly IDistance _y;
+            readonly IDistance _x;
 
-            internal Translate(CSSCalcValue x, CSSCalcValue y)
+            internal Translate(IDistance x, IDistance y)
             {
                 _x = x;
                 _y = y;
@@ -123,7 +123,7 @@
             /// <returns>The CSS value string.</returns>
             public override String ToCss()
             {
-                return FunctionNames.Build(FunctionNames.Translate, _x.CssText, _y.CssText);
+                return FunctionNames.Build(FunctionNames.Translate, _x.ToCss(), _y.ToCss());
             }
         }
 
@@ -132,9 +132,9 @@
         /// </summary>
         public sealed class TranslateX : CSSTransformValue
         {
-            CSSCalcValue _x;
+            IDistance _x;
 
-            internal TranslateX(CSSCalcValue x)
+            internal TranslateX(IDistance x)
             {
                 _x = x;
             }
@@ -155,7 +155,7 @@
             /// <returns>The CSS value string.</returns>
             public override String ToCss()
             {
-                return FunctionNames.Build(FunctionNames.TranslateX, _x.CssText);
+                return FunctionNames.Build(FunctionNames.TranslateX, _x.ToCss());
             }
         }
 
@@ -164,9 +164,9 @@
         /// </summary>
         public sealed class TranslateY : CSSTransformValue
         {
-            CSSCalcValue _y;
+            IDistance _y;
 
-            internal TranslateY(CSSCalcValue y)
+            internal TranslateY(IDistance y)
             {
                 _y = y;
             }
@@ -187,7 +187,7 @@
             /// <returns>The CSS value string.</returns>
             public override String ToCss()
             {
-                return FunctionNames.Build(FunctionNames.TranslateY, _y.CssText);
+                return FunctionNames.Build(FunctionNames.TranslateY, _y.ToCss());
             }
         }
 
@@ -196,9 +196,9 @@
         /// </summary>
         public sealed class TranslateZ : CSSTransformValue
         {
-            CSSCalcValue _z;
+            IDistance _z;
 
-            internal TranslateZ(CSSCalcValue z)
+            internal TranslateZ(IDistance z)
             {
                 _z = z;
             }
@@ -219,7 +219,7 @@
             /// <returns>The CSS value string.</returns>
             public override String ToCss()
             {
-                return FunctionNames.Build(FunctionNames.TranslateZ, _z.CssText);
+                return FunctionNames.Build(FunctionNames.TranslateZ, _z.ToCss());
             }
         }
 
@@ -228,11 +228,11 @@
         /// </summary>
         public sealed class Translate3D : CSSTransformValue
         {
-            CSSCalcValue _x;
-            CSSCalcValue _y;
-            CSSCalcValue _z;
+            IDistance _x;
+            IDistance _y;
+            IDistance _z;
 
-            internal Translate3D(CSSCalcValue x, CSSCalcValue y, CSSCalcValue z)
+            internal Translate3D(IDistance x, IDistance y, IDistance z)
             {
                 _x = x;
                 _y = y;
@@ -257,7 +257,7 @@
             /// <returns>The CSS value string.</returns>
             public override String ToCss()
             {
-                return FunctionNames.Build(FunctionNames.Translate3d, _x.CssText, _y.CssText, _z.CssText);
+                return FunctionNames.Build(FunctionNames.Translate3d, _x.ToCss(), _y.ToCss(), _z.ToCss());
             }
         }
 

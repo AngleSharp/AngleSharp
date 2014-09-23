@@ -5,5 +5,9 @@
     /// </summary>
     public interface ICssWidthProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the width.
+        /// </summary>
+        IDistance Width { get; }
     }
 }

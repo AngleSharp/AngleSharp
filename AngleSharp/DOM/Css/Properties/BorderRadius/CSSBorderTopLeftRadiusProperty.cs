@@ -14,5 +14,19 @@
         }
 
         #endregion
+
+        #region Properties
+
+        public IDistance HorizontalTopLeft
+        {
+            get { return HorizontalRadius; }
+        }
+
+        public IDistance VerticalTopLeft
+        {
+            get { return VerticalRadius; }
+        }
+
+        #endregion
     }
 }

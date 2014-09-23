@@ -37,33 +37,33 @@
         /// <summary>
         /// Gets the outset bottom width of the border-image.
         /// </summary>
-        internal CSSCalcValue OutsetBottom
+        public IDistance OutsetBottom
         {
-            get { return _outset.Bottom; }
+            get { return _outset.OutsetBottom; }
         }
 
         /// <summary>
         /// Gets the outset left width of the border-image.
         /// </summary>
-        internal CSSCalcValue OutsetLeft
+        public IDistance OutsetLeft
         {
-            get { return _outset.Left; }
+            get { return _outset.OutsetLeft; }
         }
 
         /// <summary>
         /// Gets the outset right width of the border-image.
         /// </summary>
-        internal CSSCalcValue OutsetRight
+        public IDistance OutsetRight
         {
-            get { return _outset.Right; }
+            get { return _outset.OutsetRight; }
         }
 
         /// <summary>
         /// Gets the outset top width of the border-image.
         /// </summary>
-        internal CSSCalcValue OutsetTop
+        public IDistance OutsetTop
         {
-            get { return _outset.Top; }
+            get { return _outset.OutsetTop; }
         }
 
         /// <summary>
@@ -93,33 +93,33 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        internal CSSCalcValue SliceBottom
+        public IDistance SliceBottom
         {
-            get { return _slice.Bottom; }
+            get { return _slice.SliceBottom; }
         }
 
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        internal CSSCalcValue SliceRight
+        public IDistance SliceRight
         {
-            get { return _slice.Right; }
+            get { return _slice.SliceRight; }
         }
 
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        internal CSSCalcValue SliceTop
+        public IDistance SliceTop
         {
-            get { return _slice.Top; }
+            get { return _slice.SliceTop; }
         }
 
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        internal CSSCalcValue SliceLeft
+        public IDistance SliceLeft
         {
-            get { return _slice.Left; }
+            get { return _slice.SliceLeft; }
         }
 
         /// <summary>

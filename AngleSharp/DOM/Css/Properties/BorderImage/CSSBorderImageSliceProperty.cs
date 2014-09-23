@@ -13,10 +13,10 @@
     {
         #region Fields
 
-        CSSCalcValue _top;
-        CSSCalcValue _right;
-        CSSCalcValue _bottom;
-        CSSCalcValue _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
         Boolean _fill;
 
         #endregion
@@ -26,10 +26,10 @@
         internal CSSBorderImageSliceProperty()
             : base(PropertyNames.BorderImageSlice)
         {
-            _top = CSSCalcValue.Full;
-            _right = CSSCalcValue.Full;
-            _bottom = CSSCalcValue.Full;
-            _left = CSSCalcValue.Full;
+            _top = Percent.Hundred;
+            _right = Percent.Hundred;
+            _bottom = Percent.Hundred;
+            _left = Percent.Hundred;
             _fill = false;
         }
 
@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        internal CSSCalcValue Top
+        public IDistance SliceTop
         {
             get { return _top; }
         }
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        internal CSSCalcValue Right
+        public IDistance SliceRight
         {
             get { return _right; }
         }
@@ -56,7 +56,7 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        internal CSSCalcValue Bottom
+        public IDistance SliceBottom
         {
             get { return _bottom; }
         }
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        internal CSSCalcValue Left
+        public IDistance SliceLeft
         {
             get { return _left; }
         }
@@ -100,17 +100,17 @@
             return true;
         }
 
-        static CSSCalcValue ToMode(CSSValue value)
+        static IDistance ToMode(CSSValue value)
         {
             var percent = value.ToPercent();
 
             if (percent.HasValue)
-                return CSSCalcValue.FromPercent(percent.Value);
+                return percent.Value;
 
             var number = value.ToSingle();
 
             if (number.HasValue)
-                return CSSCalcValue.FromLength(new Length(number.Value, Length.Unit.Px));
+                return new Length(number.Value, Length.Unit.Px);
 
             return null;
         }
@@ -121,7 +121,7 @@
                 return false;
 
             var fill = false;
-            var modes = new List<CSSCalcValue>(values.Length);
+            var modes = new List<IDistance>(values.Length);
 
             foreach (var value in values)
             {

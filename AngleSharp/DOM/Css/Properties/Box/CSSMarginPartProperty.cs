@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        CSSCalcValue _margin;
+        IDistance _margin;
 
         #endregion
 
@@ -18,7 +18,7 @@
         internal CSSMarginPartProperty(String name)
             : base(name, PropertyFlags.Unitless)
         {
-            _margin = CSSCalcValue.Zero;
+            _margin = Percent.Zero;
         }
 
         #endregion
@@ -37,7 +37,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        internal CSSCalcValue Margin
+        internal IDistance Margin
         {
             get { return _margin; }
         }
@@ -53,10 +53,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                _margin = calc;
+            if (distance != null)
+                _margin = distance;
             else if (value.Is(Keywords.Auto))
                 _margin = null;
             else if (value != CSSValue.Inherit)

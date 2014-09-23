@@ -48,10 +48,10 @@
 
         static SizeMode Check(CSSValue value)
         {
-            var calc = value.AsCalc();
+            var distance = value.ToDistance();
 
-            if (calc != null)
-                return new CalcSizeMode(calc);
+            if (distance != null)
+                return new CalcSizeMode(distance);
             else if (value.Is(Keywords.Auto))
                 return _default;
             else if (value.Is(Keywords.Cover))
@@ -64,8 +64,8 @@
 
         static SizeMode Check(CSSValue horizontal, CSSValue vertical)
         {
-            var width = horizontal.AsCalc();
-            var height = vertical.AsCalc();
+            var width = horizontal.ToDistance();
+            var height = vertical.ToDistance();
 
             if (width == null && !horizontal.Is(Keywords.Auto))
                 return null;
@@ -124,14 +124,14 @@
         /// </summary>
         sealed class CalcSizeMode : SizeMode
         {
-            CSSCalcValue _width;
-            CSSCalcValue _height;
+            readonly IDistance _width;
+            readonly IDistance _height;
 
             /// <summary>
             /// The auto keyword that scales the background image in the corresponding
             /// direction such that its intrinsic proportion is maintained.
             /// </summary>
-            public CalcSizeMode(CSSCalcValue width = null, CSSCalcValue height = null)
+            public CalcSizeMode(IDistance width = null, IDistance height = null)
             {
                 _width = width;
                 _height = height;
