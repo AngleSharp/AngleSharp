@@ -87,6 +87,7 @@
     <Compile Include="Foundation\IBitmap.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
+    <Compile Include="Foundation\ITransform.cs" />
     <Compile Include="Foundation\Setup\Configuration.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
@@ -307,7 +308,6 @@
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
     <Compile Include="Foundation\IDistance.cs" />
     <Compile Include="Foundation\Structures\Point.cs" />
-    <Compile Include="DOM\Css\Values\CSSTransformValue.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
     <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Foundation\Structures\Counter.cs" />

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<CSSTransformValue> _transforms;
+        List<ITransform> _transforms;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal CSSTransformProperty()
             : base(PropertyNames.Transform)
         {
-            _transforms = new List<CSSTransformValue>();
+            _transforms = new List<ITransform>();
         }
 
         #endregion
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the enumeration over all transformations.
         /// </summary>
-        internal IEnumerable<CSSTransformValue> Transforms
+        public IEnumerable<ITransform> Transforms
         {
             get { return _transforms; }
         }
@@ -47,20 +47,29 @@
         protected override Boolean IsValid(CSSValue value)
         {
             if (value.Is(Keywords.None))
-                _transforms.Clear();
-            else if (value is CSSTransformValue)
             {
                 _transforms.Clear();
-                _transforms.Add((CSSTransformValue)value);
+                return true;
             }
-            else if (value is CSSValueList)
+
+            var transform = value.ToTransform();
+
+            if (transform != null)
             {
-                var list = (CSSValueList)value;
-                var transforms = new CSSTransformValue[list.Length];
+                _transforms.Clear();
+                _transforms.Add(transform);
+                return true;
+            }
+
+            var list = value as CSSValueList;
+
+            if (list != null)
+            {
+                var transforms = new ITransform[list.Length];
 
                 for (int i = 0; i < transforms.Length; i++)
                 {
-                    transforms[i] = list[i] as CSSTransformValue;
+                    transforms[i] = list[i].ToTransform();
 
                     if (transforms[i] == null)
                         return false;

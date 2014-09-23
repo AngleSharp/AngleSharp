@@ -459,6 +459,16 @@
             return null;
         }
 
+        public static ITransform ToTransform(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null && primitive.Unit == UnitType.Transform)
+                return (ITransform)primitive.Value;
+
+            return null;
+        }
+
         public static Time? ToTime(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;

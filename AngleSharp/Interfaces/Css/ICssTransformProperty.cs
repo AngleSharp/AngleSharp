@@ -8,5 +8,9 @@
     /// </summary>
     public interface ICssTransformProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the enumeration over all transformations.
+        /// </summary>
+        IEnumerable<ITransform> Transforms { get; }
     }
 }
