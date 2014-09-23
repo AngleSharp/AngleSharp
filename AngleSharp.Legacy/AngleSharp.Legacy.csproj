@@ -1546,6 +1546,9 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Counter.cs">
       <Link>Foundation\Structures\Counter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\CubicBezierTransitionFunction.cs">
+      <Link>Foundation\Structures\CubicBezierTransitionFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Frequency.cs">
       <Link>Foundation\Structures\Frequency.cs</Link>
     </Compile>
@@ -1579,20 +1582,17 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Shape.cs">
       <Link>Foundation\Structures\Shape.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Structures\StepsTransitionFunction.cs">
+      <Link>Foundation\Structures\StepsTransitionFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Time.cs">
       <Link>Foundation\Structures\Time.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\TransformCubicBezier.cs">
-      <Link>Foundation\Structures\TransformCubicBezier.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\TransformFunction.cs">
-      <Link>Foundation\Structures\TransformFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\TransformMatrix.cs">
       <Link>Foundation\Structures\TransformMatrix.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\TransformSteps.cs">
-      <Link>Foundation\Structures\TransformSteps.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\Structures\TransitionFunction.cs">
+      <Link>Foundation\Structures\TransitionFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Url.cs">
       <Link>Foundation\Structures\Url.cs</Link>
