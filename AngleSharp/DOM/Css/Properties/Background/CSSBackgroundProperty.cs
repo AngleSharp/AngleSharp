@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the value of the background image property.
         /// </summary>
-        internal IEnumerable<ICssObject> Images
+        public IEnumerable<IBitmap> Images
         {
             get { return _image.Images; }
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the value of the background position property.
         /// </summary>
-        internal IEnumerable<Point> Position
+        public IEnumerable<Point> Positions
         {
             get { return _position.Positions; }
         }

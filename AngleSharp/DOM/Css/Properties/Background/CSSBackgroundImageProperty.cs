@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<ICssObject> _images;
+        List<IBitmap> _images;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal CSSBackgroundImageProperty()
             : base(PropertyNames.BackgroundImage)
         {
-            _images = new List<ICssObject>();
+            _images = new List<IBitmap>();
         }
 
         #endregion
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        internal IEnumerable<ICssObject> Images
+        public IEnumerable<IBitmap> Images
         {
             get { return _images; }
         }
@@ -49,7 +49,7 @@
             if (value is CSSValueList)
             {
                 var values = (CSSValueList)value;
-                var images = new List<ICssObject>();
+                var images = new List<IBitmap>();
 
                 for (int i = 0; i < values.Length; i++)
                 {

@@ -7,6 +7,10 @@
     /// </summary>
     public interface ICssBackgroundPositionProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the value of the background position property.
+        /// </summary>
+        IEnumerable<Point> Positions { get; }
     }
 
     /// <summary>
@@ -25,6 +29,10 @@
     /// </summary>
     public interface ICssBackgroundImageProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the enumeration of all images.
+        /// </summary>
+        IEnumerable<IBitmap> Images { get; }
     }
 
     /// <summary>

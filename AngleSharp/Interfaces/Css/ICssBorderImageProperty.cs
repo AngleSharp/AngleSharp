@@ -14,6 +14,10 @@
     /// </summary>
     public interface ICssBorderImageSourceProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the selected image.
+        /// </summary>
+        IBitmap Image { get; }
     }
 
     /// <summary>

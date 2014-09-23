@@ -335,7 +335,7 @@
             return null;
         }
 
-        public static ICssObject ToImage(this CSSValue value)
+        public static IBitmap ToImage(this CSSValue value)
         {
             if (value.Is(Keywords.None))
                 return Color.Transparent;
@@ -343,16 +343,7 @@
             var primitive = value as CSSPrimitiveValue;
 
             if (primitive != null)
-            {
-                switch (primitive.Unit)
-                {
-                    case UnitType.ImageList:
-                    case UnitType.RgbColor:
-                    case UnitType.Uri:
-                    case UnitType.Gradient:
-                        return primitive.Value;
-                }
-            }
+                return primitive.Value as IBitmap;
 
             return null;
         }

@@ -7,7 +7,7 @@
     /// Represents an Url class according to RFC3986.
     /// This is the base for all internal Url manipulation.
     /// </summary>
-    public class Url : ICssObject
+    public class Url : ICssObject, IBitmap
     {
         #region Fields
 
@@ -266,7 +266,7 @@
         /// Returns the CSS representation of the given URL.
         /// </summary>
         /// <returns>The CSS value string.</returns>
-        string ICssObject.ToCss()
+        public String ToCss()
         {
             return FunctionNames.Build(FunctionNames.Url, String.Concat("'", Serialize(), "'"));
         }

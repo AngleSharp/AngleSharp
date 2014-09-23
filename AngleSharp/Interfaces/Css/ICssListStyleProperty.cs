@@ -27,6 +27,10 @@
     /// </summary>
     public interface ICssListStyleImageProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the selected image for the list.
+        /// </summary>
+        IBitmap Image { get; }
     }
 
     /// <summary>

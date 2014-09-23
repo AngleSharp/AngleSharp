@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        ICssObject _image;
+        IBitmap _image;
 
         #endregion
 
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        internal ICssObject Image
+        public IBitmap Image
         {
             get { return _image; }
         }

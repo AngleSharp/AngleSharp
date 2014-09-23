@@ -11,7 +11,7 @@
         #region Fields
 
         ListStyle _type;
-        ICssObject _image;
+        IBitmap _image;
         ListPosition _position;
 
         #endregion
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        internal ICssObject Image
+        public IBitmap Image
         {
             get { return _image; }
         }
@@ -70,7 +70,7 @@
 
             var list = value as CSSValueList ?? new CSSValueList(value);
             ListStyle? type = null;
-            ICssObject image = null;
+            IBitmap image = null;
             ListPosition? position = null;
 
             if (list.Length > 3)

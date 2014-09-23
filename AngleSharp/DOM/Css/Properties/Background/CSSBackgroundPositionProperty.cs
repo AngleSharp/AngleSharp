@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the list of all given positions.
         /// </summary>
-        internal IEnumerable<Point> Positions
+        public IEnumerable<Point> Positions
         {
             get { return _positions; }
         }

@@ -125,7 +125,7 @@
         /// <summary>
         /// Gets the image source of the border-image.
         /// </summary>
-        internal ICssObject Source
+        public IBitmap Image
         {
             get { return _source.Image; }
         }
