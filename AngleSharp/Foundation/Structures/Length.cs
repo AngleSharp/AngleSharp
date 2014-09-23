@@ -175,7 +175,7 @@
 
         /// <summary>
         /// Converts the length to a number of pixels, if possible. If the
-        /// given unit is relative, then an exception will be thrown.
+        /// current unit is relative, then an exception will be thrown.
         /// </summary>
         /// <returns>The number of pixels represented by the current length.</returns>
         public Single ToPixel()
@@ -195,7 +195,36 @@
                 case Unit.Px: // 1 px = 1/96 in
                     return _value;
                 default:
-                    throw new InvalidOperationException("A relative unit cannot be converted to an absolute one.");
+                    throw new InvalidOperationException("A relative unit cannot be converted.");
+            }
+        }
+
+        /// <summary>
+        /// Converts the length to the given unit, if possible. If the current
+        /// or given unit is relative, then an exception will be thrown.
+        /// </summary>
+        /// <param name="unit">The unit to convert to.</param>
+        /// <returns>The value in the given unit of the current length.</returns>
+        public Single To(Unit unit)
+        {
+            var value = ToPixel();
+
+            switch(unit)
+            {
+                case Unit.In: // 1 in = 2.54 cm
+                    return value / 96f;
+                case Unit.Mm: // 1 mm = 0.1 cm
+                    return value * 127f / (5f * 96f);
+                case Unit.Pc: // 1 pc = 12 pt
+                    return value * 72f / (12f * 96f);
+                case Unit.Pt: // 1 pt = 1/72 in
+                    return value * 72f / 96f;
+                case Unit.Cm: // 1 cm = 50/127 in
+                    return value * 127f / (50f * 96f);
+                case Unit.Px: // 1 px = 1/96 in
+                    return value;
+                default:
+                    throw new InvalidOperationException("An absolute unit cannot be converted to a relative one.");
             }
         }
 
