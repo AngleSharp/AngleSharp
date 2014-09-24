@@ -342,6 +342,7 @@
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IService.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
+    <Compile Include="Infrastructure\IVideoService.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssAnimationPlayStateProperty.cs" />
     <Compile Include="Interfaces\Css\ICssAnimationProperty.cs" />
