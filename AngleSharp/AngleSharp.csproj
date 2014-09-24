@@ -336,6 +336,7 @@
     <Compile Include="Foundation\Wrappers\CssImages.cs" />
     <Compile Include="Foundation\Wrappers\CssString.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
+    <Compile Include="Infrastructure\IAudioService.cs" />
     <Compile Include="Infrastructure\ICookieService.cs" />
     <Compile Include="Infrastructure\IExtensionService.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
