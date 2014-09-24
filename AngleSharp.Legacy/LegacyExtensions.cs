@@ -37,6 +37,11 @@
             return type.GetConstructors().ToArray();
         }
 
+        public static PropertyInfo GetDeclaredProperty(this Type type, String name)
+        {
+            return type.GetProperty(name);
+        }
+
         public static FieldInfo GetDeclaredField(this Type type, String name)
         {
             return type.GetField(name);
@@ -165,6 +170,11 @@
         public static Object[] GetCustomAttributes(this Assembly assembly, Type attributeType)
         {
             return assembly.GetCustomAttributes(attributeType, false);
+        }
+
+        public static void SetValue(this PropertyInfo property, Object obj, Object value)
+        {
+            property.SetValue(obj, value, null);
         }
     }
 }

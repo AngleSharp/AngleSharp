@@ -2461,6 +2461,9 @@
     <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
       <Link>Network\DefaultRequest.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\DefaultRequester.cs">
+      <Link>Network\DefaultRequester.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultResponse.cs">
       <Link>Network\DefaultResponse.cs</Link>
     </Compile>
@@ -2603,7 +2606,6 @@
       <Link>Tools\AnalysisWindow.cs</Link>
     </Compile>
     <Compile Include="LegacyExtensions.cs" />
-    <Compile Include="Network\DefaultRequester.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
