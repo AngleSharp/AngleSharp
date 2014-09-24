@@ -83,17 +83,6 @@
         }
 
         /// <summary>
-        /// Performs a blocking http request with the given options.
-        /// </summary>
-        /// <param name="request">The options to consider.</param>
-        /// <returns>The response data.</returns>
-        public IResponse Request(IRequest request)
-        {
-            var cache = new RequestState(request, _headers);
-            return cache.Request();
-        }
-
-        /// <summary>
         /// Performs an asynchronous http request with the given options.
         /// </summary>
         /// <param name="request">The options to consider.</param>
@@ -141,20 +130,6 @@
 
                 foreach (var header in request.Headers)
                     AddHeader(header.Key, header.Value);
-            }
-
-            public IResponse Request()
-            {
-                if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
-                {
-                    _http.BeginGetRequestStream(SendRequest, _request);
-                    _completed.Task.Wait();
-                    _completed = new TaskCompletionSource<Boolean>();
-                }
-
-                _http.BeginGetResponse(ReceiveResponse, null);
-                _completed.Task.Wait();
-                return GetResponse();
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
