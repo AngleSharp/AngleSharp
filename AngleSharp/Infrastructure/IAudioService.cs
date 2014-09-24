@@ -22,6 +22,6 @@
         /// </summary>
         /// <param name="response">The response that contains the audio stream.</param>
         /// <returns>A task that finishes with a media controller, or nothing.</returns>
-        Task<IMediaController> Create(IResponse response);
+        Task<IMediaController> CreateAsync(IResponse response);
     }
 }
