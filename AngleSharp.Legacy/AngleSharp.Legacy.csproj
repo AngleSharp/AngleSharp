@@ -1624,6 +1624,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
       <Link>Infrastructure\CssStyleEngine.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IAudioService.cs">
+      <Link>Infrastructure\IAudioService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\ICookieService.cs">
       <Link>Infrastructure\ICookieService.cs</Link>
     </Compile>
@@ -1635,6 +1638,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
       <Link>Infrastructure\IStyleEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IVideoService.cs">
+      <Link>Infrastructure\IVideoService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
