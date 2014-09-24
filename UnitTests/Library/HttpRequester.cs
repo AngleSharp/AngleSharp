@@ -26,7 +26,7 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(200, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -47,7 +47,7 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(500, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -65,7 +65,7 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(400, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -83,7 +83,7 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(403, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -101,7 +101,7 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(404, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -120,7 +120,7 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(200, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -146,7 +146,7 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(200, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -172,7 +172,7 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(200, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -191,7 +191,7 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(405, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -210,7 +210,7 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(405, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
@@ -229,7 +229,7 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
 
-                var response = http.Request(request);
+                var response = http.RequestAsync(request).Result;
                 Assert.IsNotNull(response);
                 Assert.AreEqual(200, (int)response.StatusCode);
                 Assert.IsTrue(response.Content.CanRead);
