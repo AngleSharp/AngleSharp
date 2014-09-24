@@ -1630,6 +1630,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\ICookieService.cs">
       <Link>Infrastructure\ICookieService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
+      <Link>Infrastructure\IImageService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
     </Compile>
@@ -2439,6 +2442,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IAudioInfo.cs">
+      <Link>Media\IAudioInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IImageInfo.cs">
+      <Link>Media\IImageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IVideoInfo.cs">
+      <Link>Media\IVideoInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\CorsSetting.cs">
       <Link>Network\Constants\CorsSetting.cs</Link>
