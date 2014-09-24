@@ -6,22 +6,22 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Repesents a service to create a sound player.
+    /// Repesents a service to create / inspect an image.
     /// </summary>
-    public interface IAudioService : IService
+    public interface IImageService : IService
     {
         /// <summary>
         /// Checks if the given type is supported.
         /// </summary>
-        /// <param name="mimeType">The type of the audio source.</param>
+        /// <param name="mimeType">The type of the image source.</param>
         /// <returns>True if the type is supported, otherwise false.</returns>
         Boolean SupportsType(String mimeType);
 
         /// <summary>
-        /// Tries to create an audio inspector.
+        /// Tries to create an image inspector.
         /// </summary>
-        /// <param name="response">The response that contains the audio stream.</param>
-        /// <returns>A task that finishes with an audio inspector.</returns>
-        Task<IAudioInfo> CreateAsync(IResponse response);
+        /// <param name="response">The response that contains the image stream.</param>
+        /// <returns>A task that finishes with infos on the image.</returns>
+        Task<IImageInfo> CreateAsync(IResponse response);
     }
 }

@@ -339,6 +339,7 @@
     <Compile Include="Infrastructure\IAudioService.cs" />
     <Compile Include="Infrastructure\ICookieService.cs" />
     <Compile Include="Infrastructure\IExtensionService.cs" />
+    <Compile Include="Infrastructure\IImageService.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IService.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
@@ -612,6 +613,9 @@
     <Compile Include="Interfaces\Svg\ISvgSvgElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgTitleElement.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
+    <Compile Include="Media\IAudioInfo.cs" />
+    <Compile Include="Media\IImageInfo.cs" />
+    <Compile Include="Media\IVideoInfo.cs" />
     <Compile Include="Network\Constants\CorsSetting.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
