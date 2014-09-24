@@ -11,7 +11,7 @@
     /// <summary>
     /// The default (ready-to-use) HTTP requester.
     /// </summary>
-    public class DefaultRequester : IRequester
+    public sealed class DefaultRequester : IRequester
     {
         #region Constants
 
@@ -141,7 +141,7 @@
                     if (cancellationToken.IsCancellationRequested)
                         return null;
 
-                    await _completed.Task;
+                    await _completed.Task.ConfigureAwait(false);
                     _completed = new TaskCompletionSource<Boolean>();
                 }
 
@@ -149,7 +149,7 @@
                     return null;
 
                 _http.BeginGetResponse(ReceiveResponse, null);
-                await _completed.Task;
+                await _completed.Task.ConfigureAwait(false);
 
                 if (cancellationToken.IsCancellationRequested)
                     return null;
