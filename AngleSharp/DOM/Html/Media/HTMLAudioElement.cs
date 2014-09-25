@@ -1,9 +1,10 @@
-﻿namespace AngleSharp.DOM.Html
+﻿using AngleSharp.Media;
+namespace AngleSharp.DOM.Html
 {
     /// <summary>
     /// Represents the HTML audio element.
     /// </summary>
-    sealed class HTMLAudioElement : HTMLMediaElement, IHtmlAudioElement
+    sealed class HTMLAudioElement : HTMLMediaElement<IAudioInfo>, IHtmlAudioElement
     {
         #region ctor
 

@@ -2,12 +2,15 @@
 {
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Media;
+    using AngleSharp.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement : HTMLElement, IHtmlMediaElement
+    abstract class HTMLMediaElement<TResource> : HTMLElement, IHtmlMediaElement
+        where TResource : IResourceInfo
     {
         #region Fields
 
@@ -43,6 +46,10 @@
         /// The volume.
         /// </summary>
         protected Double _volume;
+        /// <summary>
+        /// The task that loads the resource.
+        /// </summary>
+        protected Task<TResource> _resourceTask;
 
         IAudioTrackList _audios;
         IVideoTrackList _videos;

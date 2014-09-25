@@ -616,6 +616,7 @@
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
     <Compile Include="Media\IAudioInfo.cs" />
     <Compile Include="Media\IImageInfo.cs" />
+    <Compile Include="Media\IMediaInfo.cs" />
     <Compile Include="Media\IResourceInfo.cs" />
     <Compile Include="Media\IVideoInfo.cs" />
     <Compile Include="Network\Constants\CorsSetting.cs" />

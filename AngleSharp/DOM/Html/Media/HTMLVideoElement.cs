@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using System;
+    using AngleSharp.Media;
+using System;
 
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
-    sealed class HTMLVideoElement : HTMLMediaElement, IHtmlVideoElement
+    sealed class HTMLVideoElement : HTMLMediaElement<IVideoInfo>, IHtmlVideoElement
     {
         #region Fields
 
