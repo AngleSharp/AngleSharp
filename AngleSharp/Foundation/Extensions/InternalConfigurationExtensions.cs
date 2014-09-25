@@ -263,17 +263,32 @@ using System.Threading.Tasks;
 
         #endregion
 
-        #region Media Services
+        #region Resource Services
         
-        public static Task<IImageInfo> LoadImage(this IConfiguration options, Url url)
+        /// <summary>
+        /// Tries to load an image if a proper image service can be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="url">The address of the image.</param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url)
+            where TResource : IResourceInfo
         {
-            return options.LoadImage(url, CancellationToken.None);
+            return options.LoadResource<TResource>(url, CancellationToken.None);
         }
 
-        public static async Task<IImageInfo> LoadImage(this IConfiguration options, Url url, CancellationToken cancel)
+        /// <summary>
+        /// Tries to load an image if a proper image service can be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="url">The address of the image.</param>
+        /// <param name="cancel">Token to trigger in case of cancellation.</param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
+            where TResource : IResourceInfo
         {
             var response = await options.LoadAsync(url, cancel).ConfigureAwait(false);
-            var imageServices = options.GetServices<IImageService>();
+            var imageServices = options.GetServices<IResourceService<TResource>>();
 
             foreach (var imageService in imageServices)
             {
@@ -281,7 +296,7 @@ using System.Threading.Tasks;
                     return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
             }
 
-            return null;
+            return default(TResource);
         }
 
         #endregion

@@ -6,7 +6,7 @@
     /// <summary>
     /// Contains information about a video file.
     /// </summary>
-    public interface IVideoInfo
+    public interface IVideoInfo : IResourceInfo
     {
         /// <summary>
         /// Gets the controller responsible for the media.

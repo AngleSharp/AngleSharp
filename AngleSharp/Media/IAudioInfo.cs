@@ -5,7 +5,7 @@
     /// <summary>
     /// Contains information about a sound file.
     /// </summary>
-    public interface IAudioInfo
+    public interface IAudioInfo : IResourceInfo
     {
         /// <summary>
         /// Gets the controller responsible for the media.

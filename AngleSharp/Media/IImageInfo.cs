@@ -5,7 +5,7 @@
     /// <summary>
     /// Contains information about an image file.
     /// </summary>
-    public interface IImageInfo
+    public interface IImageInfo : IResourceInfo
     {
         /// <summary>
         /// Gets the width of the image.
