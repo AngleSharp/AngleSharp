@@ -29,5 +29,10 @@
         /// Gets the content that has been send with the response.
         /// </summary>
         Stream Content { get; }
+
+        /// <summary>
+        /// Gets the content-type of the response.
+        /// </summary>
+        String ContentType { get; }
     }
 }
