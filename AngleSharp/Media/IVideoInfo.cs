@@ -1,18 +1,12 @@
 ﻿namespace AngleSharp.Media
 {
-    using AngleSharp.DOM.Media;
     using System;
 
     /// <summary>
     /// Contains information about a video file.
     /// </summary>
-    public interface IVideoInfo : IResourceInfo
+    public interface IVideoInfo : IMediaInfo
     {
-        /// <summary>
-        /// Gets the controller responsible for the media.
-        /// </summary>
-        IMediaController Controller { get; }
-
         /// <summary>
         /// Gets the width of the video.
         /// </summary>
