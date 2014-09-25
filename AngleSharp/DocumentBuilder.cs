@@ -358,8 +358,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet { Options = configuration };
-            var parser = Construct(stream, sheet, configuration);
+            var sheet = new CSSStyleSheet(stream) { Options = configuration };
+            var parser = Construct(sheet, configuration);
             return parser.Result;
         }
 
@@ -399,8 +399,8 @@
 
             var response = await configuration.LoadForcedAsync(new Url(url), cancel).ConfigureAwait(false);
             var source = new TextSource(response.Content, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet { Href = url.OriginalString, Options = configuration };
-            var parser = Construct(source, sheet, configuration);
+            var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
+            var parser = Construct(sheet, configuration);
             await parser.ParseAsync(cancel).ConfigureAwait(false);
             return parser.Result;
         }
@@ -418,8 +418,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet { Options = configuration };
-            var parser = Construct(source, sheet, configuration);
+            var sheet = new CSSStyleSheet(source) { Options = configuration };
+            var parser = Construct(sheet, configuration);
             return parser.Result;
         }
 
@@ -449,8 +449,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet { Href = url, Options = configuration };
-            var parser = Construct(source, sheet, configuration);
+            var sheet = new CSSStyleSheet(source) { Href = url, Options = configuration };
+            var parser = Construct(sheet, configuration);
             await parser.ParseAsync(cancel).ConfigureAwait(false);
             return parser.Result;
         }
@@ -474,12 +474,11 @@
         /// <summary>
         /// Creates a new parser with the specified source.
         /// </summary>
-        /// <param name="stream">The stream to the source.</param>
         /// <param name="sheet">The document to fill.</param>
         /// <param name="configuration">Options to use for the document generation.</param>
-        static CssParser Construct(TextSource stream, CSSStyleSheet sheet, IConfiguration configuration)
+        static CssParser Construct(CSSStyleSheet sheet, IConfiguration configuration)
         {
-            var parser = new CssParser(sheet, stream);
+            var parser = new CssParser(sheet);
             parser.ParseError += (s, e) => configuration.ReportError(e);
             return parser;
         }

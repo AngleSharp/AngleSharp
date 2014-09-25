@@ -64,7 +64,15 @@
         /// </summary>
         /// <param name="characters">The number of characters to read.</param>
         /// <param name="cancellationToken">The cancellation token</param>
-        /// <returns>The string with the next characters.</returns>
+        /// <returns>The task that returns the string with the next characters.</returns>
         Task<String> ReadCharactersAsync(Int32 characters, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Prefetches the given number of characters, without changing the index.
+        /// </summary>
+        /// <param name="length">The number of bytes to prefetch.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        /// <returns>The running prefetch task.</returns>
+        Task Prefetch(Int32 length, CancellationToken cancellationToken);
     }
 }

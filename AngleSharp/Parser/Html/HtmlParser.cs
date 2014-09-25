@@ -3391,19 +3391,20 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to consider.</param>
         /// <returns>The task to await.</returns>
-        Task KernelAsync(CancellationToken cancelToken)
+        async Task KernelAsync(CancellationToken cancelToken)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                HtmlToken token;
+            var source = doc.Source;
+            HtmlToken token;
 
-                do
-                {
-                    token = tokenizer.Get();
-                    Consume(token);
-                }
-                while (token.Type != HtmlTokenType.EOF);
-            }, cancelToken);
+            do
+            {
+                if (source.Length - source.Index < 1024)
+                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+
+                token = tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != HtmlTokenType.EOF);
         }
 
         /// <summary>

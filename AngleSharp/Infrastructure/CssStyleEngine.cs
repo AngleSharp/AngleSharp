@@ -27,8 +27,8 @@
         /// <returns>The created style sheet.</returns>
         public IStyleSheet CreateStyleSheetFor(String source, IElement owner = null)
         {
-            var style = new CSSStyleSheet { OwnerNode = owner };
-            var parser = new CssParser(style, source);
+            var style = new CSSStyleSheet(source) { OwnerNode = owner };
+            var parser = new CssParser(style);
             parser.Parse();
             return style;
         }
@@ -41,8 +41,8 @@
         /// <returns>The created style sheet.</returns>
         public IStyleSheet CreateStyleSheetFor(Stream source, IElement owner = null)
         {
-            var style = new CSSStyleSheet { OwnerNode = owner };
-            var parser = new CssParser(style, source);
+            var style = new CSSStyleSheet(new TextSource(source)) { OwnerNode = owner };
+            var parser = new CssParser(style);
             parser.Parse();
             return style;
         }
