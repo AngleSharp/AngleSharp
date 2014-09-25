@@ -288,12 +288,16 @@ using System.Threading.Tasks;
             where TResource : IResourceInfo
         {
             var response = await options.LoadAsync(url, cancel).ConfigureAwait(false);
-            var imageServices = options.GetServices<IResourceService<TResource>>();
 
-            foreach (var imageService in imageServices)
+            if (response != null)
             {
-                if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                    return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                var imageServices = options.GetServices<IResourceService<TResource>>();
+
+                foreach (var imageService in imageServices)
+                {
+                    if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                }
             }
 
             return default(TResource);
