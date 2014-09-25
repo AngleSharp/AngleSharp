@@ -60,14 +60,6 @@
             get;
             set;
         }
-        
-        /// <summary>
-        /// Gets the content-type of the response.
-        /// </summary>
-        public String ContentType
-        {
-            get { return Headers[HeaderNames.ContentType]; }
-        }
 
         #endregion
 

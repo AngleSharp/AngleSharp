@@ -1,15 +1,16 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
-    using AngleSharp.Infrastructure;
-    using AngleSharp.Network;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
+using AngleSharp.Infrastructure;
+using AngleSharp.Media;
+using AngleSharp.Network;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a helper to construct objects with externally
@@ -258,6 +259,29 @@
 
             if (service != null)
                 service[origin] = value;
+        }
+
+        #endregion
+
+        #region Media Services
+        
+        public static Task<IImageInfo> LoadImage(this IConfiguration options, Url url)
+        {
+            return options.LoadImage(url, CancellationToken.None);
+        }
+
+        public static async Task<IImageInfo> LoadImage(this IConfiguration options, Url url, CancellationToken cancel)
+        {
+            var response = await options.LoadAsync(url, cancel).ConfigureAwait(false);
+            var imageServices = options.GetServices<IImageService>();
+
+            foreach (var imageService in imageServices)
+            {
+                if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                    return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+            }
+
+            return null;
         }
 
         #endregion
