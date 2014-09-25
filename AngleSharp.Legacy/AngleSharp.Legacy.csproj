@@ -1633,6 +1633,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
       <Link>Infrastructure\IImageService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IResourceService.cs">
+      <Link>Infrastructure\IResourceService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
     </Compile>
@@ -2448,6 +2451,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Media\IImageInfo.cs">
       <Link>Media\IImageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IResourceInfo.cs">
+      <Link>Media\IResourceInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Media\IVideoInfo.cs">
       <Link>Media\IVideoInfo.cs</Link>
