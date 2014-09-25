@@ -2452,6 +2452,9 @@
     <Compile Include="..\AngleSharp\Media\IImageInfo.cs">
       <Link>Media\IImageInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Media\IMediaInfo.cs">
+      <Link>Media\IMediaInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Media\IResourceInfo.cs">
       <Link>Media\IResourceInfo.cs</Link>
     </Compile>
