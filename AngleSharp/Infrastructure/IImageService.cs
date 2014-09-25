@@ -3,6 +3,7 @@
     using AngleSharp.Media;
     using AngleSharp.Network;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -21,7 +22,8 @@
         /// Tries to create an image inspector.
         /// </summary>
         /// <param name="response">The response that contains the image stream.</param>
+        /// <param name="cancel">The token for cancelling the task.</param>
         /// <returns>A task that finishes with infos on the image.</returns>
-        Task<IImageInfo> CreateAsync(IResponse response);
+        Task<IImageInfo> CreateAsync(IResponse response, CancellationToken cancel);
     }
 }

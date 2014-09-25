@@ -3,6 +3,7 @@
     using AngleSharp.Media;
     using AngleSharp.Network;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -21,7 +22,8 @@
         /// Tries to create a video inspector.
         /// </summary>
         /// <param name="response">The response that contains the video stream.</param>
+        /// <param name="cancel">The token for cancelling the task.</param>
         /// <returns>A task that finishes with a video inspector.</returns>
-        Task<IVideoInfo> CreateAsync(IResponse response);
+        Task<IVideoInfo> CreateAsync(IResponse response, CancellationToken cancel);
     }
 }
