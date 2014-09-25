@@ -129,7 +129,7 @@
 
             if (src != null)
             {
-                var url = HyperRef(Source);
+                var url = HyperRef(src);
                 _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
             }        
         }

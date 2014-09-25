@@ -188,6 +188,9 @@
 
             DefaultResponse GetResponse()
             {
+                if (_response == null)
+                    return null;
+
                 var result = new DefaultResponse();
                 var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
                 result.Content = _response.GetResponseStream();
