@@ -27,12 +27,6 @@
         /// <summary>
         /// Parses the given content asynchronously.
         /// </summary>
-        /// <returns>The task that determines if the parsing process has completed.</returns>
-        Task ParseAsync();
-
-        /// <summary>
-        /// Parses the given content asynchronously.
-        /// </summary>
         /// <param name="cancelToken">The cancellation token.</param>
         /// <returns>The task that determines if the parsing process has completed.</returns>
         Task ParseAsync(CancellationToken cancelToken);
