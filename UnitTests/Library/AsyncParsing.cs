@@ -14,15 +14,16 @@ namespace UnitTests
         [TestMethod]
         public void TestAsyncCssParsingFromStream()
         {
-            var source = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
-            var content = Encoding.UTF8.GetBytes(source);
-            var parser = new CssParser(new MemoryStream(content), Configuration.Default);
+            var text = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
+            var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
+            var parser = new CssParser(source, Configuration.Default);
             var task = parser.ParseAsync();
             Assert.IsFalse(task.IsCompleted);
             Assert.IsNotNull(parser.Result);
             task.Wait();
             Assert.IsTrue(task.IsCompleted);
             Assert.IsNotNull(parser.Result);
+
             Assert.AreEqual(4, parser.Result.Rules.Length);
         }
 
@@ -50,9 +51,6 @@ namespace UnitTests
             var source = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
             var parser = new CssParser(source, Configuration.Default);
             var task = parser.ParseAsync();
-            Assert.IsFalse(task.IsCompleted);
-            Assert.IsNotNull(parser.Result);
-            task.Wait();
             Assert.IsTrue(task.IsCompleted);
             Assert.IsNotNull(parser.Result);
 
