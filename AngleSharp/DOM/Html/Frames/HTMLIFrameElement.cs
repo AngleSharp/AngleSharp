@@ -9,7 +9,10 @@
     sealed class HTMLIFrameElement : HTMLFrameElementBase, IHtmlInlineFrameElement
     {
         #region Fields
+
         ISettableTokenList _sandbox;
+        IDocument _doc;
+        
         #endregion
 
         #region ctor
@@ -70,6 +73,28 @@
         public IWindowProxy ContentWindow
         {
             get { return null; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            var src = Source;
+
+            if (src != null)
+            {
+                var url = HyperRef(src);
+                Owner.Options.LoadAsync(url).ContinueWith(task =>
+                {
+                    if (!task.IsFaulted && task.Result != null)
+                    {
+                        //task.Result.Content
+                    }
+                });
+            }
         }
 
         #endregion
