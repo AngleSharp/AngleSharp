@@ -76,12 +76,17 @@
         /// <param name="ev">The event that asks for the listeners.</param>
         internal void CallEventListener(Event ev)
         {
-            foreach (var listener in _listeners)
+            var listeners = _listeners.ToArray();
+
+            foreach (var listener in listeners)
             {
+                if (!_listeners.Contains(listener) || listener.Type != ev.Type)
+                    continue;
+
                 if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
                     break;
 
-                if (listener.Type != ev.Type || listener.IsCaptured && ev.Phase == EventPhase.Bubbling || !listener.IsCaptured && ev.Phase == EventPhase.Capturing)
+                if ((listener.IsCaptured && ev.Phase == EventPhase.Bubbling) || (!listener.IsCaptured && ev.Phase == EventPhase.Capturing))
                     continue;
 
                 listener.Callback(ev.CurrentTarget, ev);
