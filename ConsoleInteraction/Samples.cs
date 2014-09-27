@@ -17,6 +17,7 @@ namespace ConsoleInteraction
             SimpleScriptingSample();
             ExtendedScriptingSample();
             EventScriptingExample();
+            EventLegacyScriptingExample();
         }
 
         static void FirstExample() 
@@ -240,6 +241,39 @@ console.log('After setting the handler!');
             var e = document.CreateEvent("event");
             e.Init("hello", false, false);
             document.Dispatch(e);
+        }
+
+        static void EventLegacyScriptingExample()
+        {
+            //We require a custom configuration
+            var config = new Configuration();
+
+            //Including a script engine
+            config.Register(new JavaScriptEngine());
+
+            //And enabling scripting + styling (should be enabled anyway)
+            config.IsScripting = true;
+            config.IsStyling = true;
+
+            //This is our sample source, we will trigger the load event
+            var source = @"<!doctype html>
+<html>
+<head><title>Event sample</title></head>
+<body>
+<script>
+console.log('Before setting the handler via onload!');
+
+document.onload = function() {
+    console.log('Document loaded (legacy way)!');
+};
+
+console.log('After setting the handler via onload!');
+</script>
+</body>";
+            var document = DocumentBuilder.Html(source, config);
+
+            //HTML should be output in the end
+            Console.WriteLine(document.DocumentElement.OuterHtml);
         }
     }
 }
