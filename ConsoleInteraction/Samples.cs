@@ -204,9 +204,8 @@ div {
             //Including a script engine
             config.Register(new JavaScriptEngine());
 
-            //And enabling scripting + styling (should be enabled anyway)
+            //And enabling scripting
             config.IsScripting = true;
-            config.IsStyling = true;
 
             //This is our sample source, we will trigger the load event
             var source = @"<!doctype html>
@@ -251,9 +250,8 @@ console.log('After setting the handler!');
             //Including a script engine
             config.Register(new JavaScriptEngine());
 
-            //And enabling scripting + styling (should be enabled anyway)
+            //And enabling scripting
             config.IsScripting = true;
-            config.IsStyling = true;
 
             //This is our sample source, we will trigger the load event
             var source = @"<!doctype html>
