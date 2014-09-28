@@ -42,7 +42,9 @@
 
                 foreach (var name in names.Select(m => m.OfficialName))
                 {
-                    //TODO
+                    FastSetProperty(name, new PropertyDescriptor(
+                        new DomFunctionInstance(this, eventInfo.RaiseMethod),
+                        new DomFunctionInstance(this, eventInfo.AddMethod), false, false));
                 }
             }
         }
