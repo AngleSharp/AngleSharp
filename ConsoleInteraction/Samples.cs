@@ -16,8 +16,8 @@ namespace ConsoleInteraction
             Construction();
             SimpleScriptingSample();
             ExtendedScriptingSample();
-            EventScriptingExample();
-            EventLegacyScriptingExample();
+            CustomEventScriptingExample();
+            LegacyEventScriptingExample();
         }
 
         static void FirstExample() 
@@ -196,7 +196,7 @@ div {
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
 
-        static void EventScriptingExample()
+        static void CustomEventScriptingExample()
         {
             //We require a custom configuration
             var config = new Configuration();
@@ -210,10 +210,10 @@ div {
             //This is our sample source, we will trigger the load event
             var source = @"<!doctype html>
 <html>
-<head><title>Event sample</title></head>
+<head><title>Custo Event sample</title></head>
 <body>
 <script>
-console.log('Before setting the handler!');
+console.log('Beforem setting the handler!');
 
 document.addEventListener('load', function() {
     console.log('Document loaded!');
@@ -242,7 +242,7 @@ console.log('After setting the handler!');
             document.Dispatch(e);
         }
 
-        static void EventLegacyScriptingExample()
+        static void LegacyEventScriptingExample()
         {
             //We require a custom configuration
             var config = new Configuration();
@@ -256,7 +256,7 @@ console.log('After setting the handler!');
             //This is our sample source, we will trigger the load event
             var source = @"<!doctype html>
 <html>
-<head><title>Event sample</title></head>
+<head><title>Legacy event sample</title></head>
 <body>
 <script>
 console.log('Before setting the handler via onload!');
