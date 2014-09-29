@@ -156,5 +156,19 @@ namespace UnitTests.Library
             Assert.IsInstanceOfType(events, typeof(Event));
             Assert.IsInstanceOfType(wheelevent, typeof(WheelEvent));
         }
+
+        [TestMethod]
+        public void EventsDocumentFinished()
+        {
+            doc.ReadyStateChanged += (s, ev) =>
+            {
+                Assert.AreEqual(DocumentReadyState.Complete, doc.ReadyState);
+            };
+
+            doc.Loaded += (s, ev) =>
+            {
+                Assert.AreNotEqual(DocumentReadyState.Complete, doc.ReadyState);
+            };
+        }
     }
 }
