@@ -1630,6 +1630,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\ICookieService.cs">
       <Link>Infrastructure\ICookieService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IEventService.cs">
+      <Link>Infrastructure\IEventService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
       <Link>Infrastructure\IImageService.cs</Link>
     </Compile>
