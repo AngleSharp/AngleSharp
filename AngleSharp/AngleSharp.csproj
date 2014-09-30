@@ -338,6 +338,7 @@
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IAudioService.cs" />
     <Compile Include="Infrastructure\ICookieService.cs" />
+    <Compile Include="Infrastructure\IEventService.cs" />
     <Compile Include="Infrastructure\IExtensionService.cs" />
     <Compile Include="Infrastructure\IImageService.cs" />
     <Compile Include="Infrastructure\IResourceService.cs" />
