@@ -33,6 +33,7 @@
         String _currentStyleSheetSet;
         String _contentType;
         Location _location;
+        IBrowsingContext _context;
 
         #endregion
 
@@ -913,8 +914,17 @@
         /// </summary>
         internal IConfiguration Options
         {
-            get { return _options ?? Configuration.Default; }
-            set { _options = value; }
+            get { return _options; }
+            set { _options = value ?? Configuration.Default; }
+        }
+
+        /// <summary>
+        /// Gets or sets the browsing context to use, if any.
+        /// </summary>
+        internal IBrowsingContext Context
+        {
+            get { return _context; }
+            set { _context = value; }
         }
 
         /// <summary>
