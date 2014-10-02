@@ -5,12 +5,12 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
+    using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
@@ -22,7 +22,6 @@
         readonly StyleSheetList _styleSheets;
         readonly List<HTMLScriptElement> _scripts;
 
-        Task _queue;
         QuirksMode _quirksMode;
         Boolean _designMode;
         DocumentReadyState _ready;
@@ -433,7 +432,6 @@
             _designMode = false;
             _location = new Location("about:blank");
             _options = Configuration.Default;
-            _queue = Task.Factory.StartNew(() => { });
             _location.Changed += LocationChanged;
         }
 
@@ -1437,7 +1435,12 @@
 
         internal void QueueTask(Action action)
         {
-            _queue = _queue.ContinueWith(_ => action());
+            var eventLoop = Options.GetService<IEventService>();
+
+            if (eventLoop != null)
+                eventLoop.Enqueue(action);
+            else
+                action.InvokeAsync();
         }
 
         void Print()
