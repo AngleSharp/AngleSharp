@@ -20,7 +20,7 @@
         #region Fields
 
         readonly StyleSheetList _styleSheets;
-        readonly List<HTMLScriptElement> _scripts;
+        readonly Queue<HTMLScriptElement> _scripts;
 
         QuirksMode _quirksMode;
         Boolean _designMode;
@@ -427,7 +427,7 @@
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _styleSheets = new StyleSheetList(this);
-            _scripts = new List<HTMLScriptElement>();
+            _scripts = new Queue<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
             _designMode = false;
             _location = new Location("about:blank");
@@ -936,12 +936,7 @@
 
         internal void AddScript(HTMLScriptElement script)
         {
-            _scripts.Add(script);
-        }
-
-        Int32 ScriptsWaiting
-        {
-            get { return _scripts.Count; }
+            _scripts.Enqueue(script);
         }
 
         Int32 ScriptsAsSoonAsPossible
@@ -1013,8 +1008,11 @@
 
             ReadyState = DocumentReadyState.Interactive;
 
-            while (ScriptsWaiting != 0)
-                RunNextScript();
+            while (_scripts.Count > 0)
+            {
+                WaitForReady();
+                _scripts.Dequeue().Run();
+            }
 
             QueueTask(RaiseDomContentLoaded);
             QueueTask(RaiseLoadedEvent);
@@ -1387,12 +1385,6 @@
                         Load(m.Result);
                 });
             }
-        }
-
-        void RunNextScript()
-        {
-            WaitForReady();
-            //TODO Run first script that should be executed when the document is finished parsing
         }
 
         internal void PerformMicrotaskCheckpoint()
