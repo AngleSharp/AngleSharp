@@ -25,8 +25,6 @@
         /// </summary>
         protected Task<TResource> _resourceTask;
 
-        IAudioTrackList _audios;
-        IVideoTrackList _videos;
         ITextTrackList _texts;
 
         #endregion
@@ -396,19 +394,20 @@
             private set;
         }
 
-        public IAudioTrackList AudioTracks
+        public virtual IAudioTrackList AudioTracks
         {
-            get { return _audios; }
+            get { return null; }
         }
 
-        public IVideoTrackList VideoTracks
+        public virtual IVideoTrackList VideoTracks
         {
-            get { return _videos; }
+            get { return null; }
         }
 
         public ITextTrackList TextTracks
         {
             get { return _texts; }
+            protected set { _texts = value; }
         }
 
         #endregion
