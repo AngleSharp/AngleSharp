@@ -939,22 +939,12 @@
             _scripts.Enqueue(script);
         }
 
-        Int32 ScriptsAsSoonAsPossible
+        internal Boolean IsInBrowsingContext
         {
-            get { return 0; }
+            get { return _context != null; }
         }
 
-        Boolean IsLoadingDelayed
-        {
-            get { return false; }
-        }
-
-        Boolean IsInBrowsingContext
-        {
-            get { return false; }
-        }
-
-        Boolean IsToBePrinted
+        internal Boolean IsToBePrinted
         {
             get { return false; }
         }
@@ -989,12 +979,16 @@
             if (_contentType == MimeTypes.Xml)
                 throw new DomException(ErrorCode.InvalidState);
 
-            //If the Document object is not an active document, then abort these steps.
-            //Follow: http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
+            if (IsInBrowsingContext)
+            {
+                //If the Document object is not an active document, then abort these steps.
+                //Follow: http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
 
-            //TODO
-            // If the replace argument is present and has the value "replace", the
-            // existing entries in the session history for the Document object are removed.
+                //TODO
+                // If the replace argument is present and has the value "replace", the
+                // existing entries in the session history for the Document object are removed.
+            }
+
             return new Document(String.Empty) { ContentType = type, BaseUri = BaseUri };
         }
 
@@ -1034,15 +1028,18 @@
         /// <param name="content">The text to be written on the document.</param>
         public void Write(String content)
         {
-            if (ReadyState != DocumentReadyState.Complete)
+            if (ReadyState == DocumentReadyState.Complete)
             {
-                _source.InsertText(content);
-                return;
-            }
+                var newDoc = OpenNew();
+                newDoc.Write(content);
 
-            var newDoc = OpenNew();
-            newDoc.Write(content);
-            //TODO place newDoc as active document to session manager
+                if (IsInBrowsingContext)
+                {
+                    //TODO place newDoc as active document to session manager
+                }
+            }
+            else
+                _source.InsertText(content);
         }
 
         /// <summary>
@@ -1437,6 +1434,7 @@
 
         void Print()
         {
+            FireSimpleEvent(EventNames.BeforePrint);
             //TODO
             //Run the printing steps.
         }
