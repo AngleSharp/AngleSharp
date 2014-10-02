@@ -922,7 +922,7 @@
         internal IBrowsingContext Context
         {
             get { return _context; }
-            set { _context = value; }
+            set { _context = value; _options = value.Configuration; }
         }
 
         /// <summary>
