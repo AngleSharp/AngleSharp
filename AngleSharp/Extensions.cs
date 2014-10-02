@@ -74,6 +74,21 @@
         }
 
         /// <summary>
+        /// Empties all provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Empty<T>(this T elements)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+                element.InnerHtml = String.Empty;
+
+            return elements;
+        }
+
+        /// <summary>
         /// Extends the CSS of the given elements with the specified declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
