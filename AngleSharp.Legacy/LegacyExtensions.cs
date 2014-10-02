@@ -4,9 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
 
     static class LegacyExtensions
     {
+        public static Task InvokeAsync(this Action action)
+        {
+            return Task.Factory.StartNew(action);
+        }
+
         public static Type GetTypeInfo(this Type type)
         {
             return type;
