@@ -27,19 +27,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the z-index has been set at all.
-        /// </summary>
-        public Boolean HasIndex
-        {
-            get { return _value.HasValue; }
-        }
-
-        /// <summary>
         /// Gets the index in the stacking order, if any.
         /// </summary>
-        public Int32 Index
+        public Int32? Index
         {
-            get { return _value.HasValue ? _value.Value : 0; }
+            get { return _value; }
         }
 
         #endregion
