@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets the selected break mode.
         /// </summary>
-        public BreakMode Mode
+        public BreakMode State
         {
             get { return _mode; }
         }
