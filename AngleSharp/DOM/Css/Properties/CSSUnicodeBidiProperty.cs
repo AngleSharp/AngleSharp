@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets the selected unicode mode.
         /// </summary>
-        public UnicodeMode Mode
+        public UnicodeMode State
         {
             get { return _mode; }
         }
