@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
     /// </summary>
-    sealed class CSSWhiteSpaceProperty : CSSProperty, ICssWhiteSpaceProperty
+    sealed class CSSWhiteSpaceProperty : CSSProperty, ICssWhitespaceProperty
     {
         #region Fields
 
@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the selected whitespace handling mode.
         /// </summary>
-        public Whitespace Mode
+        public Whitespace State
         {
             get { return _mode; }
         }

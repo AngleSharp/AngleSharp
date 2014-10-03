@@ -443,7 +443,7 @@
     <Compile Include="Interfaces\Css\ICssValueList.cs" />
     <Compile Include="Interfaces\Css\ICssVerticalAlignProperty.cs" />
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssWhiteSpaceProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssWhitespaceProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWordSpacingProperty.cs" />
