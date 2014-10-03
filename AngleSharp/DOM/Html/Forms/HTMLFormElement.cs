@@ -440,7 +440,7 @@
                 }
 
                 var response = await Owner.Options.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false);
-                Owner.Load(response);
+                await Owner.LoadAsync(response, _cancel.Token).ConfigureAwait(false);
             }
         }
 

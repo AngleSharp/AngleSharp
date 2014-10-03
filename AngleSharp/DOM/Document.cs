@@ -1,16 +1,18 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Events;
-    using AngleSharp.DOM.Html;
-    using AngleSharp.DOM.Mathml;
-    using AngleSharp.DOM.Svg;
-    using AngleSharp.Infrastructure;
-    using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+using AngleSharp.DOM.Events;
+using AngleSharp.DOM.Html;
+using AngleSharp.DOM.Mathml;
+using AngleSharp.DOM.Svg;
+using AngleSharp.Infrastructure;
+using AngleSharp.Network;
+using AngleSharp.Parser.Html;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
@@ -1379,7 +1381,7 @@
                 Options.LoadAsync(new Url(e.CurrentLocation)).ContinueWith(m =>
                 {
                     if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                        Load(m.Result);
+                        LoadAsync(m.Result, CancellationToken.None);
                 });
             }
         }
@@ -1489,17 +1491,20 @@
         }
 
         /// <summary>
-        /// Loads the document content from the given HTTP response.
+        /// (Re-)loads the document with the given response.
         /// </summary>
-        /// <param name="response">The response that contains the HTML content stream and more.</param>
-        internal void Load(IResponse response)
+        /// <param name="response">The response to consider.</param>
+        /// <param name="cancelToken">Token for cancellation.</param>
+        /// <returns>The task that builds the document.</returns>
+        internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
         {
             DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
+            //TODO Should reset complete doc. incl. event-handlers?
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
-            parser.Parse();
+            return parser.ParseAsync(cancelToken);
         }
 
         /// <summary>

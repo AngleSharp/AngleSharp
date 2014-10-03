@@ -319,16 +319,28 @@
         #region Browsing Context
 
         /// <summary>
-        /// Opens a new document synchronously in the given context.
+        /// Opens a new document asynchronously in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="response">The response to examine.</param>
-        /// <returns>The created document.</returns>
-        public static IDocument Open(this IBrowsingContext context, IResponse response)
+        /// <returns>The task that creates the document.</returns>
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response)
+        {
+            return context.OpenAsync(response, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Opens a new document asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="response">The response to examine.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
         {
             var src = new TextSource(response.Content, context.Configuration.DefaultEncoding());
             var doc = new Document { Context = context };
-            doc.Load(response);
+            await doc.LoadAsync(response, cancel).ConfigureAwait(false);
             return doc;
         }
 
@@ -353,7 +365,7 @@
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
         {
             var response = await context.Configuration.LoadAsync(url, cancel).ConfigureAwait(false);
-            return context.Open(response);
+            return await context.OpenAsync(response, cancel).ConfigureAwait(false);
         }
 
         #endregion
