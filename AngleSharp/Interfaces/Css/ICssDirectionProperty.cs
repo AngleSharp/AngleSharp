@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets the selected text direction.
         /// </summary>
-        DirectionMode Direction { get; }
+        DirectionMode State { get; }
     }
 }

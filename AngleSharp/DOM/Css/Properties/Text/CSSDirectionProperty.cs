@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the selected text direction.
         /// </summary>
-        public DirectionMode Direction
+        public DirectionMode State
         {
             get { return _mode; }
         }
