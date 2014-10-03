@@ -30,19 +30,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the column count should be considered.
-        /// </summary>
-        public Boolean IsUsed
-        {
-            get { return _count.HasValue; }
-        }
-
-        /// <summary>
         /// Gets the number of columns.
         /// </summary>
-        public Int32 Count
+        public Int32? Count
         {
-            get { return _count.HasValue ? _count.Value : 0; }
+            get { return _count; }
         }
 
         #endregion

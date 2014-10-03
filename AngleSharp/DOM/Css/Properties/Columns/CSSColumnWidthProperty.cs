@@ -30,19 +30,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the column width should be considered.
-        /// </summary>
-        public Boolean IsUsed
-        {
-            get { return _width.HasValue; }
-        }
-
-        /// <summary>
         /// Gets the width of a single columns.
         /// </summary>
-        public Length Width
+        public Length? Width
         {
-            get { return _width.HasValue ? _width.Value : Length.Zero; }
+            get { return _width; }
         }
 
         #endregion

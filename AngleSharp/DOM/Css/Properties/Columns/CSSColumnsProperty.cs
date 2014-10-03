@@ -34,7 +34,7 @@
         /// </summary>
         public Boolean UseWidth
         {
-            get { return _width.IsUsed; }
+            get { return _width.HasValue; }
         }
 
         /// <summary>
@@ -42,13 +42,13 @@
         /// </summary>
         public Boolean UseCount
         {
-            get { return _count.IsUsed; }
+            get { return _count.HasValue; }
         }
 
         /// <summary>
         /// Gets the width for the columns, if set.
         /// </summary>
-        public Length Width
+        public Length? Width
         {
             get { return _width.Width; }
         }
@@ -56,19 +56,9 @@
         /// <summary>
         /// Gets the count for the columns, if set.
         /// </summary>
-        public Int32 Count
+        public Int32? Count
         {
             get { return _count.Count; }
-        }
-
-        Boolean ICssColumnCountProperty.IsUsed
-        {
-            get { return _count.IsUsed; }
-        }
-
-        Boolean ICssColumnWidthProperty.IsUsed
-        {
-            get { return _width.IsUsed; }
         }
 
         #endregion
