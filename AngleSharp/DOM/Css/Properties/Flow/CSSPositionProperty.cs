@@ -20,17 +20,29 @@
 
         static CSSPositionProperty()
         {
-            modes.Add(Keywords.Static, new StaticPositionMode());
-            modes.Add(Keywords.Relative, new RelativePositionMode());
-            modes.Add(Keywords.Absolute, new AbsolutePositionMode());
-            modes.Add(Keywords.Sticky, new StickyPositionMode());
-            modes.Add(Keywords.Fixed, new FixedPositionMode());
+            modes.Add(Keywords.Static, PositionMode.Static);
+            modes.Add(Keywords.Relative, PositionMode.Relative);
+            modes.Add(Keywords.Absolute, PositionMode.Absolute);
+            modes.Add(Keywords.Sticky, PositionMode.Sticky);
+            modes.Add(Keywords.Fixed, PositionMode.Fixed);
         }
 
         internal CSSPositionProperty()
             : base(PropertyNames.Position)
         {
             _mode = modes[Keywords.Static];
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the currently selected position mode.
+        /// </summary>
+        public PositionMode State
+        {
+            get { return _mode; }
         }
 
         #endregion
@@ -52,35 +64,6 @@
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Modes
-
-        abstract class PositionMode
-        {
-            //TODO Add members that make sense
-        }
-
-        class StaticPositionMode : PositionMode
-        {
-        }
-
-        class RelativePositionMode : PositionMode
-        {
-        }
-
-        class AbsolutePositionMode : PositionMode
-        {
-        }
-
-        class StickyPositionMode : PositionMode
-        {
-        }
-
-        class FixedPositionMode : PositionMode
-        {
         }
 
         #endregion
