@@ -283,6 +283,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\PlayState.cs">
       <Link>DOM\Css\Constants\PlayState.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\PositionMode.cs">
+      <Link>DOM\Css\Constants\PositionMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
       <Link>DOM\Css\Constants\SystemCursor.cs</Link>
     </Compile>
