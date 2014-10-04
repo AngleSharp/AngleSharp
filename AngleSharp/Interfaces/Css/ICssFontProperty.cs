@@ -89,6 +89,12 @@
     /// </summary>
     public interface ICssLineHeightProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the specified length that is used in the calculation of the line box height.
+        /// Could also be relative to the font size of the element itself. The computed value
+        /// is this percentage multiplied by the element's computed font size.
+        /// </summary>
+        IDistance Height { get; }
     }
 
     /// <summary>

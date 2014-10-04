@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        static readonly NormalLineHeightMode _normal = new NormalLineHeightMode();
-        LineHeightMode _mode;
+        static readonly Percent Normal = new Percent(120f);
+        IDistance _height;
 
         #endregion
 
@@ -20,7 +20,16 @@
         internal CSSLineHeightProperty()
             : base(PropertyNames.LineHeight, PropertyFlags.Inherited)
         {
-            _mode = _normal;
+            _height = Normal;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IDistance Height
+        {
+            get { return _height; }
         }
 
         #endregion
@@ -37,62 +46,20 @@
             var distance = value.ToDistance();
 
             if (distance != null)
-                _mode = new CalcLineHeightMode(distance);
+                _height = distance;
             else if (value.Is(Keywords.Normal))
-                _mode = _normal;
-            else if (value.ToSingle().HasValue)
-                _mode = new MultipleLineHeightMode(value.ToSingle().Value);
-            else if (value != CSSValue.Inherit)
-                return false;
+                _height = Normal;
+            else
+            {
+                var val = value.ToSingle();
+
+                if (val.HasValue)
+                    _height = new Percent(val.Value * 100f);
+                else if (value != CSSValue.Inherit)
+                    return false;
+            }
 
             return true;
-        }
-
-        #endregion
-
-        #region Mode
-
-        abstract class LineHeightMode
-        { }
-
-        /// <summary>
-        /// Depends on the user agent. Desktop browsers use a default value
-        /// of roughly 1.2, depending on the element's font-family.
-        /// </summary>
-        sealed class NormalLineHeightMode : LineHeightMode
-        { }
-
-        /// <summary>
-        /// The specified length is used in the calculation of the line box
-        /// height. See length values for possible units.
-        /// OR
-        /// Relative to the font size of the element itself. The computed
-        /// value is this percentage multiplied by the element's computed font size.
-        /// </summary>
-        sealed class CalcLineHeightMode : LineHeightMode
-        {
-            readonly IDistance _calc;
-
-            public CalcLineHeightMode(IDistance calc)
-            {
-                _calc = calc;
-            }
-        }
-
-        /// <summary>
-        /// The used value is this unitless number multiplied by the element's font size.
-        /// The computed value is the same as the specified number. In most cases this is
-        /// the preferred way to set line-height with no unexpected results in case of
-        /// inheritance.
-        /// </summary>
-        sealed class MultipleLineHeightMode : LineHeightMode
-        {
-            readonly Single _factor;
-
-            public MultipleLineHeightMode(Single factor)
-            {
-                _factor = factor;
-            }
         }
 
         #endregion

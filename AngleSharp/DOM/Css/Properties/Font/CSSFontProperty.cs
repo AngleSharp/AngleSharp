@@ -76,14 +76,6 @@
             get { return _variant.Variant; }
         }
 
-        ///// <summary>
-        ///// Gets the value of the font weight property.
-        ///// </summary>
-        //public CSSFontWeightProperty Weight
-        //{
-        //    get { return _weight; }
-        //}
-
         /// <summary>
         /// Gets the value of the font stretch property.
         /// </summary>
@@ -108,13 +100,13 @@
             get { return _size.Size; }
         }
 
-        ///// <summary>
-        ///// Gets the value of the line height property.
-        ///// </summary>
-        //public CSSLineHeightProperty Height
-        //{
-        //    get { return _height; }
-        //}
+        /// <summary>
+        /// Gets the value of the line height property.
+        /// </summary>
+        public IDistance Height
+        {
+            get { return _height.Height; }
+        }
 
         /// <summary>
         /// Gets the value of the font family property.
