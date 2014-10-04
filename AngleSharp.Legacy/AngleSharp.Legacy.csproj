@@ -280,6 +280,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
       <Link>DOM\Css\Constants\ListStyle.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\OverflowMode.cs">
+      <Link>DOM\Css\Constants\OverflowMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\PlayState.cs">
       <Link>DOM\Css\Constants\PlayState.cs</Link>
     </Compile>
