@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with possible position modes.
     /// </summary>
-    public enum PositionMode
+    public enum PositionMode : ushort
     {
         /// <summary>
         /// The position is determined by the renderer.
