@@ -43,6 +43,7 @@
     <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Collections\TouchList.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />
+    <Compile Include="DOM\Css\Constants\OverflowMode.cs" />
     <Compile Include="DOM\Css\Constants\PositionMode.cs" />
     <Compile Include="DOM\Css\Constants\UnitType.cs" />
     <Compile Include="DOM\Events\ErrorEvent.cs" />
