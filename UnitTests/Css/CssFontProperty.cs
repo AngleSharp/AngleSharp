@@ -625,5 +625,49 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("normal", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssFontSizeAdjustNoneLegal()
+        {
+            var snippet = "font-size-adjust : NONE";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-size-adjust", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontSizeAdjustProperty));
+            var concrete = (CSSFontSizeAdjustProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("NONE", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontSizeAdjustNumberLegal()
+        {
+            var snippet = "font-size-adjust : 0.5";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-size-adjust", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontSizeAdjustProperty));
+            var concrete = (CSSFontSizeAdjustProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("0.5", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontSizeAdjustLengthIllegal()
+        {
+            var snippet = "font-size-adjust : 1.1em ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-size-adjust", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontSizeAdjustProperty));
+            var concrete = (CSSFontSizeAdjustProperty)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
     }
 }
