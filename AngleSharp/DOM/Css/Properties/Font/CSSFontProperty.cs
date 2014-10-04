@@ -95,9 +95,9 @@
         /// <summary>
         /// Gets the mode of the font-size property.
         /// </summary>
-        public FontSize Mode
+        public FontSize SizingMode
         {
-            get { return _size.Mode; }
+            get { return _size.SizingMode; }
         }
 
         /// <summary>

@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets the font-size mode.
         /// </summary>
-        public FontSize Mode
+        public FontSize SizingMode
         {
             get { return _mode; }
         }
@@ -65,8 +65,9 @@
             }
             else if ((size = value.ToFontSize()).HasValue)
             {
-                _size = null;
-                _mode = size.Value;
+                var mode = size.Value;
+                _size = mode.ToDistance();
+                _mode = mode;
             }
             else if (value != CSSValue.Inherit)
                 return false;

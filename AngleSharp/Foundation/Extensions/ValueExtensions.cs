@@ -325,6 +325,31 @@
             return null;
         }
 
+        public static IDistance ToDistance(this FontSize fontSize)
+        {
+            switch (fontSize)
+            {
+                case FontSize.Big://1.5em
+                    return new Length(1.5f, Length.Unit.Em);
+                case FontSize.Huge://2em
+                    return new Length(2f, Length.Unit.Em);
+                case FontSize.Large://1.2em
+                    return new Length(1.2f, Length.Unit.Em);
+                case FontSize.Larger://*120%
+                    return new Percent(120f);
+                case FontSize.Little://0.75em
+                    return new Length(0.75f, Length.Unit.Em);
+                case FontSize.Small://8/9em
+                    return new Length(8f / 9f, Length.Unit.Em);
+                case FontSize.Smaller://*80%
+                    return new Percent(80f);
+                case FontSize.Tiny://0.6em
+                    return new Length(0.6f, Length.Unit.Em);
+                default://1em
+                    return new Length(1f, Length.Unit.Em);
+            }
+        }
+
         public static Shape ToShape(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
