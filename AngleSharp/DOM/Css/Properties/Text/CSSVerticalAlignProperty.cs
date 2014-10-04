@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets the selected vertical alignment mode.
         /// </summary>
-        public VerticalAlignment Align
+        public VerticalAlignment State
         {
             get { return _mode; }
         }

@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets the selected horizontal alignment mode.
         /// </summary>
-        public HorizontalAlignment Align
+        public HorizontalAlignment State
         {
             get { return _mode; }
         }

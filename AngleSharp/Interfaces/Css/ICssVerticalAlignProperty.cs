@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets the selected vertical alignment mode.
         /// </summary>
-        VerticalAlignment Align { get; }
+        VerticalAlignment State { get; }
 
         /// <summary>
         /// Gets the alignment of of the element's baseline at the given length above
