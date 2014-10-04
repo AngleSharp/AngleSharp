@@ -28,14 +28,6 @@
         #endregion
 
         #region Properties
-        
-        /// <summary>
-        /// Gets if a limit has been specified, otherwise the value is none.
-        /// </summary>
-        public Boolean IsLimited
-        {
-            get { return _mode != null; }
-        }
 
         /// <summary>
         /// Gets the specified max-height of the element. A percentage is calculated
