@@ -50,6 +50,16 @@
 
         #region Properties
 
+        public Int32 Weight
+        {
+            get { return _weight.Weight; }
+        }
+
+        public Boolean IsRelative
+        {
+            get { return _weight.IsRelative; }
+        }
+
         /// <summary>
         /// Gets the value of the font style property.
         /// </summary>

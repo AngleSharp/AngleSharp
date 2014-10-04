@@ -68,6 +68,20 @@
     /// </summary>
     public interface ICssFontWeightProperty : ICssProperty
     {
+        /// <summary>
+        /// Numeric font weights for fonts that provide more than just normal and bold. If the exact
+        /// weight given is unavailable, then 600-900 use the closest available darker weight
+        /// (or, if there is none, the closest available lighter weight), and 100-500 use the closest
+        /// available lighter weight (or, if there is none, the closest available darker weight). This
+        /// means that for fonts that provide only normal and bold, 100-500 are normal, and 600-900 are
+        /// bold.
+        /// </summary>
+        Int32 Weight { get; }
+
+        /// <summary>
+        /// Gets if the given value should be considered relative to the current one.
+        /// </summary>
+        Boolean IsRelative { get; }
     }
 
     /// <summary>
