@@ -1275,8 +1275,10 @@
         /// <returns>The created value.</returns>
         static CSSValue ToIdentifier(String identifier)
         {
-            if (identifier == Keywords.Inherit)
+            if (identifier.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
                 return CSSValue.Inherit;
+            else if (identifier.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
+                return CSSValue.Initial;
 
             return new CSSPrimitiveValue(new CssIdentifier(identifier));
         }

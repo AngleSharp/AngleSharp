@@ -24,6 +24,11 @@
         public static readonly CSSValue Inherit = new CSSInheritValue();
 
         /// <summary>
+        /// Gets the instance for an initial value.
+        /// </summary>
+        public static readonly CSSValue Initial = new CSSInitialValue();
+
+        /// <summary>
         /// Gets the instance for a slash delimiter value.
         /// </summary>
         internal static readonly CSSValue Delimiter = new CSSDelimiterValue();
@@ -103,6 +108,31 @@
             public override String ToCss()
             {
                 return Keywords.Inherit;
+            }
+
+            #endregion
+        }
+
+        sealed class CSSInitialValue : CSSValue
+        {
+            #region Singleton
+
+            public CSSInitialValue()
+                : base(CssValueType.Custom)
+            {
+            }
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// Returns a CSS code representation of the stylesheet.
+            /// </summary>
+            /// <returns>A string that contains the code.</returns>
+            public override String ToCss()
+            {
+                return Keywords.Initial;
             }
 
             #endregion

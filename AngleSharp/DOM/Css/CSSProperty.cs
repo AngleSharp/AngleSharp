@@ -6,7 +6,7 @@
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    class CSSProperty : ICssProperty, ICssObject
+    abstract class CSSProperty : ICssProperty, ICssObject
     {
         #region Fields
 
@@ -30,6 +30,8 @@
         {
             _name = name;
             _flags = flags;
+            _value = CSSValue.Initial;
+            Reset();
         }
 
         #endregion
@@ -95,6 +97,22 @@
         }
 
         /// <summary>
+        /// Gets if the property can be animated, in general.
+        /// </summary>
+        public Boolean IsAnimatable
+        {
+            get { return _flags.HasFlag(PropertyFlags.Animatable); }
+        }
+
+        /// <summary>
+        /// Gets if the property is currently in its initial state.
+        /// </summary>
+        public Boolean IsInitial
+        {
+            get { return _value == CSSValue.Initial; }
+        }
+
+        /// <summary>
         /// Gets the name of the property.
         /// </summary>
         public String Name
@@ -127,11 +145,19 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(CSSValue value)
         {
-            if (!IsValid(value))
-                return false;
+            if (value == CSSValue.Inherit || value == CSSValue.Initial)
+            {
+                Reset();
+                _value = value;
+                return true;
+            }
+            else if (IsValid(value))
+            {
+                _value = value;
+                return true;
+            }
 
-            _value = value;
-            return true;
+            return false;
         }
 
         #endregion
@@ -139,14 +165,16 @@
         #region Methods
 
         /// <summary>
+        /// Resets the property to its initial state.
+        /// </summary>
+        protected virtual void Reset() { }
+
+        /// <summary>
         /// Notified once the value changed.
         /// </summary>
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        protected virtual Boolean IsValid(CSSValue value)
-        {
-            return true;
-        }
+        protected abstract Boolean IsValid(CSSValue value);
 
         #endregion
 
