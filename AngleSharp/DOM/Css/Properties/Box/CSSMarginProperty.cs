@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        CSSMarginTopProperty _top;
-        CSSMarginRightProperty _right;
-        CSSMarginBottomProperty _bottom;
-        CSSMarginLeftProperty _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
 
         #endregion
 
@@ -33,7 +33,7 @@
         /// </summary>
         public IDistance Top
         {
-            get { return _top.Margin; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -41,7 +41,7 @@
         /// </summary>
         public IDistance Right
         {
-            get { return _right.Margin; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -49,7 +49,7 @@
         /// </summary>
         public IDistance Bottom
         {
-            get { return _bottom.Margin; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@
         /// </summary>
         public IDistance Left
         {
-            get { return _left.Margin; }
+            get { return _left; }
         }
 
         /// <summary>
@@ -65,7 +65,7 @@
         /// </summary>
         public Boolean IsTopAuto
         {
-            get { return _top.IsAuto; }
+            get { return _top == null; }
         }
 
         /// <summary>
@@ -73,7 +73,7 @@
         /// </summary>
         public Boolean IsRightAuto
         {
-            get { return _right.IsAuto; }
+            get { return _right == null; }
         }
 
         /// <summary>
@@ -81,7 +81,7 @@
         /// </summary>
         public Boolean IsBottomAuto
         {
-            get { return _bottom.IsAuto; }
+            get { return _bottom == null; }
         }
 
         /// <summary>
@@ -89,7 +89,7 @@
         /// </summary>
         public Boolean IsLeftAuto
         {
-            get { return _left.IsAuto; }
+            get { return _left == null; }
         }
 
         #endregion
@@ -98,10 +98,10 @@
 
         protected override void Reset()
         {
-            _left = new CSSMarginLeftProperty();
-            _right = new CSSMarginRightProperty();
-            _top = new CSSMarginTopProperty();
-            _bottom = new CSSMarginBottomProperty();
+            _left = Percent.Zero;
+            _right = Percent.Zero;
+            _top = Percent.Zero;
+            _bottom = Percent.Zero;
         }
 
         /// <summary>
@@ -135,18 +135,24 @@
 
         Boolean Check(CSSValue[] values)
         {
-            var target = new CSSProperty[] { new CSSMarginTopProperty(), new CSSMarginRightProperty(), new CSSMarginBottomProperty(), new CSSMarginLeftProperty() };
+            var target = new IDistance[4];
 
             for (int i = 0; i < 4; i++)
             {
-                if (!target[i].TrySetValue(values[i]))
+                var distance = values[i].ToDistance();
+
+                if (distance != null)
+                    target[i] = distance;
+                else if (values[i].Is(Keywords.Auto))
+                    target[i] = null;
+                else
                     return false;
             }
 
-            _top = (CSSMarginTopProperty)target[0];
-            _right = (CSSMarginRightProperty)target[1];
-            _bottom = (CSSMarginBottomProperty)target[2];
-            _left = (CSSMarginLeftProperty)target[3];
+            _top = target[0];
+            _right = target[1];
+            _bottom = target[2];
+            _left = target[3];
             return true;
         }
 
