@@ -25,6 +25,21 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssBackgroundAttachmentInitialLegal()
+        {
+            var snippet = "background-attachment : initial";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-attachment", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundAttachmentProperty));
+            var concrete = (CSSBackgroundAttachmentProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+            Assert.AreEqual("initial", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssBackgroundAttachmentFixedUppercaseLegal()
         {
             var snippet = "background-attachment : Fixed ";

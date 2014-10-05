@@ -24,6 +24,21 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssFontFamilyInitialLegal()
+        {
+            var snippet = "font-family: initial ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font-family", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
+            var concrete = (CSSFontFamilyProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+            Assert.AreEqual("initial", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssFontFamilyMultipleDiverseLegal()
         {
             var snippet = "font-family: Courier, \"Lucida Console\", monospace ";

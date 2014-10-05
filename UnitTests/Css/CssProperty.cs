@@ -260,7 +260,7 @@ namespace UnitTests.Css
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("clear", property.Name);
             Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsInherited);
+            Assert.IsTrue(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSClearProperty));
             var concrete = (CSSClearProperty)property;
@@ -560,6 +560,21 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("5px 4px 2px rgba(0, 0, 0, 1)", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxShadowInitialUppercaseLegal()
+        {
+            var snippet = "box-shadow:  INITIAL";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-shadow", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxShadowProperty));
+            var concrete = (CSSBoxShadowProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+            Assert.AreEqual("initial", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -899,6 +914,65 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("1.5", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxDecorationBreakNumberIllegal()
+        {
+            var snippet = "box-decoration-break : 1.5 ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-decoration-break", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxDecorationBreak));
+            var concrete = (CSSBoxDecorationBreak)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBoxDecorationBreakSliceLegal()
+        {
+            var snippet = "box-decoration-break : slice ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-decoration-break", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxDecorationBreak));
+            var concrete = (CSSBoxDecorationBreak)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("slice", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxDecorationBreakClonePascalLegal()
+        {
+            var snippet = "box-decoration-break : Clone ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-decoration-break", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxDecorationBreak));
+            var concrete = (CSSBoxDecorationBreak)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("Clone", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBoxDecorationBreakInheritLegal()
+        {
+            var snippet = "box-decoration-break : inherit!important ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("box-decoration-break", property.Name);
+            Assert.IsTrue(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBoxDecorationBreak));
+            var concrete = (CSSBoxDecorationBreak)property;
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("inherit", concrete.Value.CssText);
         }
 
         [TestMethod]
