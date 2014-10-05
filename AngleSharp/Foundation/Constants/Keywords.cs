@@ -18,6 +18,11 @@
         public static readonly String Inherit = "inherit";
 
         /// <summary>
+        /// The initial keyword.
+        /// </summary>
+        public static readonly String Initial = "initial";
+
+        /// <summary>
         /// The none keyword.
         /// </summary>
         public static readonly String None = "none";
