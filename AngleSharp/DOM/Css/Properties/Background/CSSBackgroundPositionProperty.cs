@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSBackgroundPositionProperty()
-            : base(PropertyNames.BackgroundPosition)
+            : base(PropertyNames.BackgroundPosition, PropertyFlags.Animatable)
         {
             _positions = new List<Point>();
             _positions.Add(Point.Centered);

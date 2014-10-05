@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSColumnCountProperty()
-            : base(PropertyNames.ColumnCount)
+            : base(PropertyNames.ColumnCount, PropertyFlags.Animatable)
         {
             _count = null;
         }

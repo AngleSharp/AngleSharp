@@ -16,7 +16,7 @@
         #region ctor
 
         internal CSSBorderPartColorProperty(String name)
-            : base(name, PropertyFlags.Hashless)
+            : base(name, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             _color = Color.Transparent;
         }

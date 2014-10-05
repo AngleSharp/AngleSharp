@@ -25,7 +25,7 @@
         #region ctor
 
         internal CSSBackgroundProperty()
-            : base(PropertyNames.Background)
+            : base(PropertyNames.Background, PropertyFlags.Animatable)
         {
             _image = new CSSBackgroundImageProperty();
             _position = new CSSBackgroundPositionProperty();

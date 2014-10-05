@@ -35,7 +35,7 @@
         }
 
         internal CSSFontProperty()
-            : base(PropertyNames.Font, PropertyFlags.Inherited)
+            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _style = new CSSFontStyleProperty();
             _variant = new CSSFontVariantProperty();

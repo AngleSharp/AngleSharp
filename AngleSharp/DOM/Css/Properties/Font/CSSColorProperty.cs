@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSColorProperty()
-            : base(PropertyNames.Color, PropertyFlags.Inherited | PropertyFlags.Hashless)
+            : base(PropertyNames.Color, PropertyFlags.Inherited | PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             _color = Color.Black;
         }

@@ -24,7 +24,7 @@
         #region ctor
 
         internal CSSBorderRadiusProperty()
-            : base(PropertyNames.BorderRadius)
+            : base(PropertyNames.BorderRadius, PropertyFlags.Animatable)
         {
             _topRightHorizontal = Percent.Zero;
             _bottomRightHorizontal = Percent.Zero;

@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSBorderPartProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Animatable)
         {
             _width = Length.Medium;
             _color = Color.Transparent;

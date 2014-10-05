@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSMinWidthProperty()
-            : base(PropertyNames.MinWidth)
+            : base(PropertyNames.MinWidth, PropertyFlags.Animatable)
         {
             _mode = Percent.Zero;
         }

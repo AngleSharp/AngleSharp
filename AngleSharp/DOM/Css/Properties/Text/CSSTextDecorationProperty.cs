@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSTextDecorationProperty()
-            : base(PropertyNames.TextDecoration)
+            : base(PropertyNames.TextDecoration, PropertyFlags.Animatable)
         {
             _style = TextDecorationStyle.Solid;
             _line = new List<TextDecorationLine>();

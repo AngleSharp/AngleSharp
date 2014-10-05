@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSColumnWidthProperty()
-            : base(PropertyNames.ColumnWidth)
+            : base(PropertyNames.ColumnWidth, PropertyFlags.Animatable)
         {
             _width = null;
         }

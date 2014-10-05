@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSOutlineProperty()
-            : base(PropertyNames.Outline)
+            : base(PropertyNames.Outline, PropertyFlags.Animatable)
         {
             _style = new CSSOutlineStyleProperty();
             _width = new CSSOutlineWidthProperty();

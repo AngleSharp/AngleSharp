@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSColumnRuleColorProperty()
-            : base(PropertyNames.ColumnRuleColor)
+            : base(PropertyNames.ColumnRuleColor, PropertyFlags.Animatable)
         {
             _color = Color.Transparent;
         }

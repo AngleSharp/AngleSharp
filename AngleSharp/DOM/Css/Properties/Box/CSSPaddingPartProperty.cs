@@ -16,7 +16,7 @@
         #region ctor
 
         internal CSSPaddingPartProperty(String name)
-            : base(name, PropertyFlags.Unitless)
+            : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             _padding = Percent.Zero;
         }

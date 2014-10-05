@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSClipProperty()
-            : base(PropertyNames.Clip)
+            : base(PropertyNames.Clip, PropertyFlags.Animatable)
         {
             _shape = null;
         }

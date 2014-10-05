@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSBorderColorProperty()
-            : base(PropertyNames.BorderColor, PropertyFlags.Hashless)
+            : base(PropertyNames.BorderColor, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             _top = Color.Transparent;
             _right = Color.Transparent;

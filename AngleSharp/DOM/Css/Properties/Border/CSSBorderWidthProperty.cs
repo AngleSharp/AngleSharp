@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSBorderWidthProperty()
-            : base(PropertyNames.BorderWidth)
+            : base(PropertyNames.BorderWidth, PropertyFlags.Animatable)
         {
             _top = Length.Medium;
             _right = Length.Medium;

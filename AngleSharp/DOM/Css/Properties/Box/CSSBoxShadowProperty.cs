@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSBoxShadowProperty()
-            : base(PropertyNames.BoxShadow)
+            : base(PropertyNames.BoxShadow, PropertyFlags.Animatable)
         {
             _shadows = new List<Shadow>();
         }

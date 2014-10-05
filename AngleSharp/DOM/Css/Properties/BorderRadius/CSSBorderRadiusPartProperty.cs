@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSBorderRadiusPartProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Animatable)
         {
             _h = Percent.Zero;
             _v = Percent.Zero;

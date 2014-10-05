@@ -32,7 +32,7 @@
         }
 
         internal CSSVerticalAlignProperty()
-            : base(PropertyNames.VerticalAlign)
+            : base(PropertyNames.VerticalAlign, PropertyFlags.Animatable)
         {
             _mode = VerticalAlignment.Baseline;
             _shift = Percent.Zero;

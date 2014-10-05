@@ -16,7 +16,7 @@
         #region ctor
 
         internal CSSMarginPartProperty(String name)
-            : base(name, PropertyFlags.Unitless)
+            : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             _margin = Percent.Zero;
         }

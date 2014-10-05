@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSBackgroundColorProperty()
-            : base(PropertyNames.BackgroundColor, PropertyFlags.Hashless)
+            : base(PropertyNames.BackgroundColor, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             _color = Color.Transparent;
         }

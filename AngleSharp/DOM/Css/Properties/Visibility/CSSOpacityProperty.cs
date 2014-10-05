@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSOpacityProperty()
-            : base(PropertyNames.Opacity)
+            : base(PropertyNames.Opacity, PropertyFlags.Animatable)
         {
             _value = 1f;
         }

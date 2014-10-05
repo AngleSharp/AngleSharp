@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSColumnRuleProperty()
-            : base(PropertyNames.ColumnRule)
+            : base(PropertyNames.ColumnRule, PropertyFlags.Animatable)
         {
             _style = LineStyle.None;
             _width = Length.Medium;

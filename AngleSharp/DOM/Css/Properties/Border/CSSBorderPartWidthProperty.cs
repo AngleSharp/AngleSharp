@@ -16,7 +16,7 @@
         #region ctor
 
         internal CSSBorderPartWidthProperty(String name)
-            : base(name, PropertyFlags.Unitless)
+            : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             _width = Length.Medium;
         }

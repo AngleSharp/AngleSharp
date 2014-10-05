@@ -19,7 +19,7 @@
         #region ctor
 
         internal CSSColumnsProperty()
-            : base(PropertyNames.Columns)
+            : base(PropertyNames.Columns, PropertyFlags.Animatable)
         {
             _count = new CSSColumnCountProperty();
             _width = new CSSColumnWidthProperty();

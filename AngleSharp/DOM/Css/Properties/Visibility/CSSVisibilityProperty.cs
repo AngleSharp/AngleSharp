@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSVisibilityProperty()
-            : base(PropertyNames.Visibility, PropertyFlags.Inherited)
+            : base(PropertyNames.Visibility, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _mode = Visibility.Visible;
         }

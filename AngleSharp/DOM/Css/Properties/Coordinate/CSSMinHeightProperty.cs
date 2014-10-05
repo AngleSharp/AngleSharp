@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSMinHeightProperty()
-            : base(PropertyNames.MinHeight)
+            : base(PropertyNames.MinHeight, PropertyFlags.Animatable)
         {
             _mode = Percent.Zero;
         }

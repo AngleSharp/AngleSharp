@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSLineHeightProperty()
-            : base(PropertyNames.LineHeight, PropertyFlags.Inherited)
+            : base(PropertyNames.LineHeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _height = Normal;
         }

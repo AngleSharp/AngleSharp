@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSPerspectiveProperty()
-            : base(PropertyNames.Perspective)
+            : base(PropertyNames.Perspective, PropertyFlags.Animatable)
         {
             _distance = Length.Zero;
         }

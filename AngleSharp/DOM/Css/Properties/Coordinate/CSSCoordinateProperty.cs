@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSCoordinateProperty(String name)
-            : base(name, PropertyFlags.Unitless)
+            : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             _value = null;
         }

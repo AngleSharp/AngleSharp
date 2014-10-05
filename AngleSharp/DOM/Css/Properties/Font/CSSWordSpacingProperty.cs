@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSWordSpacingProperty()
-            : base(PropertyNames.WordSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless)
+            : base(PropertyNames.WordSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             _spacing = null;
         }

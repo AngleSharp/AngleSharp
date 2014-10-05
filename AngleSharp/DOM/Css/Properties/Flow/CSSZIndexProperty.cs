@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSZIndexProperty()
-            : base(PropertyNames.ZIndex)
+            : base(PropertyNames.ZIndex, PropertyFlags.Animatable)
         {
             _value = null;
         }

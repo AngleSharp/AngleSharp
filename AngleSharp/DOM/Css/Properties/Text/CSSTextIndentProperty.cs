@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSTextIndentProperty()
-            : base(PropertyNames.TextIndent, PropertyFlags.Inherited)
+            : base(PropertyNames.TextIndent, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _indent = Percent.Zero;
         }

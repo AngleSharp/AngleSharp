@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSTransformProperty()
-            : base(PropertyNames.Transform)
+            : base(PropertyNames.Transform, PropertyFlags.Animatable)
         {
             _transforms = new List<ITransform>();
         }

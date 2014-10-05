@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSTextShadowProperty()
-            : base(PropertyNames.TextShadow, PropertyFlags.Inherited)
+            : base(PropertyNames.TextShadow, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _shadows = new List<Shadow>();
         }

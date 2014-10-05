@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSFontSizeProperty()
-            : base(PropertyNames.FontSize, PropertyFlags.Inherited | PropertyFlags.Unitless)
+            : base(PropertyNames.FontSize, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             _mode = FontSize.Medium;
             _size = null;

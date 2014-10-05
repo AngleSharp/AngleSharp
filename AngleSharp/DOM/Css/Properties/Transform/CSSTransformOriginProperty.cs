@@ -19,7 +19,7 @@
         #region ctor
 
         internal CSSTransformOriginProperty()
-            : base(PropertyNames.TransformOrigin)
+            : base(PropertyNames.TransformOrigin, PropertyFlags.Animatable)
         {
             _x = Percent.Fifty;
             _y = Percent.Fifty;

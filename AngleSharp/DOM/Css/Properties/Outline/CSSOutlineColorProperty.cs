@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSOutlineColorProperty()
-            : base(PropertyNames.OutlineColor)
+            : base(PropertyNames.OutlineColor, PropertyFlags.Animatable)
         {
             _mode = _invert;
         }

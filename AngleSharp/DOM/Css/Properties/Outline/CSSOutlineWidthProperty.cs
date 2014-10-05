@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSOutlineWidthProperty()
-            : base(PropertyNames.OutlineWidth)
+            : base(PropertyNames.OutlineWidth, PropertyFlags.Animatable)
         {
             _width = Length.Medium;
         }

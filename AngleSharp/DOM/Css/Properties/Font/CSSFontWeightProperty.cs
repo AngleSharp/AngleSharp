@@ -27,7 +27,7 @@
         }
 
         internal CSSFontWeightProperty()
-            : base(PropertyNames.FontWeight, PropertyFlags.Inherited)
+            : base(PropertyNames.FontWeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _weight = _weights[Keywords.Normal];
         }

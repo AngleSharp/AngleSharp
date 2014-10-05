@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSPerspectiveOriginProperty()
-            : base(PropertyNames.PerspectiveOrigin)
+            : base(PropertyNames.PerspectiveOrigin, PropertyFlags.Animatable)
         {
             _x = Percent.Fifty;
             _y = Percent.Fifty;

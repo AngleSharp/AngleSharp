@@ -17,7 +17,7 @@
         #region ctor
 
         internal CSSTextDecorationColorProperty()
-            : base(PropertyNames.TextDecorationColor)
+            : base(PropertyNames.TextDecorationColor, PropertyFlags.Animatable)
         {
             _color = Color.Black;
         }

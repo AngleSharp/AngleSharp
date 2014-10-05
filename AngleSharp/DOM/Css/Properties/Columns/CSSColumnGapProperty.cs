@@ -23,7 +23,7 @@
         #region ctor
 
         internal CSSColumnGapProperty()
-            : base(PropertyNames.ColumnGap)
+            : base(PropertyNames.ColumnGap, PropertyFlags.Animatable)
         {
             _gap = _normal;
         }

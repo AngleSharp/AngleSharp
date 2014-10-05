@@ -32,7 +32,7 @@
         }
 
         internal CSSFontStretchProperty()
-            : base(PropertyNames.FontStretch, PropertyFlags.Inherited)
+            : base(PropertyNames.FontStretch, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _stretch = FontStretch.Normal;
         }
