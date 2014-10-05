@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -82,45 +83,39 @@
             if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
-            return Check(new CSSValue[] { value, value, value, value });
+            return Check(new CSSValue[1] { value });
         }
 
-        Boolean Check(CSSValueList arguments)
+        Boolean Check(IEnumerable<CSSValue> values)
         {
-            var count = arguments.Length;
+            IDistance top = null;
+            IDistance right = null;
+            IDistance bottom = null;
+            IDistance left = null;
 
-            if (count > 4)
-                return false;
-
-            var values = new CSSValue[4];
-
-            for (int i = 0; i < count; i++)
-                for (int j = i; j < 4; j += i + 1)
-                    values[j] = arguments[i];
-
-            return Check(values);
-        }
-
-        Boolean Check(CSSValue[] values)
-        {
-            var target = new IDistance[4];
-
-            for (int i = 0; i < 4; i++)
+            foreach (var value in values)
             {
-                var distance = values[i].ToDistance();
+                var distance = value.ToDistance();
 
-                if (distance != null)
-                    target[i] = distance;
-                else if (values[i].Is(Keywords.Auto))
-                    target[i] = null;
+                if (distance == null)
+                    return false;
+
+                if (top == null)
+                    top = distance;
+                else if (right == null)
+                    right = distance;
+                else if (bottom == null)
+                    bottom = distance;
+                else if (left == null)
+                    left = distance;
                 else
                     return false;
             }
 
-            _top = target[0];
-            _right = target[1];
-            _bottom = target[2];
-            _left = target[3];
+            _top = top;
+            _right = right ?? _top;
+            _bottom = bottom ?? _top;
+            _left = left ?? _right;
             return true;
         }
 
