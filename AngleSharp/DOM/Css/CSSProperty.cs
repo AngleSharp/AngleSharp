@@ -88,7 +88,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return _flags.HasFlag(PropertyFlags.Inherited) && (_value == CSSValue.Initial || _value == CSSValue.Inherit); }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && _value == CSSValue.Initial) || _value == CSSValue.Inherit; }
         }
 
         /// <summary>
