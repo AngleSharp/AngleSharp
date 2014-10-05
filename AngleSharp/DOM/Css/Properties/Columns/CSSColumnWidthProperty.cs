@@ -22,7 +22,6 @@
         internal CSSColumnWidthProperty()
             : base(PropertyNames.ColumnWidth, PropertyFlags.Animatable)
         {
-            _width = null;
         }
 
         #endregion
@@ -41,6 +40,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _width = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -52,9 +56,9 @@
 
             if (width.HasValue)
                 _width = width.Value;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _width = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

@@ -21,9 +21,6 @@
         internal CSSListStyleProperty()
             : base(PropertyNames.ListStyle, PropertyFlags.Inherited)
         {
-            _type = ListStyle.Disc;
-            _image = null;
-            _position = ListPosition.Outside;
         }
 
         #endregion
@@ -58,6 +55,13 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _type = ListStyle.Disc;
+            _image = null;
+            _position = ListPosition.Outside;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -65,9 +69,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var list = value as CSSValueList ?? new CSSValueList(value);
             ListStyle? type = null;
             IBitmap image = null;

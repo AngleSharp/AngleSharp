@@ -18,7 +18,6 @@
         internal CSSPaddingPartProperty(String name)
             : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            _padding = Percent.Zero;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _padding = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var distance = value.ToDistance();
 
             if (distance != null)
+            {
                 _padding = distance;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

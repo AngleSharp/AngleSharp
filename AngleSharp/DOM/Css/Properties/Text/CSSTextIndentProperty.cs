@@ -19,7 +19,6 @@
         internal CSSTextIndentProperty()
             : base(PropertyNames.TextIndent, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _indent = Percent.Zero;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _indent = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -49,11 +53,12 @@
             var indent = value.ToDistance();
 
             if (indent != null)
+            {
                 _indent = indent;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

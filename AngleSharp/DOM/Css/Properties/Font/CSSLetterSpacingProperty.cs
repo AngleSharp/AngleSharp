@@ -19,7 +19,6 @@
         internal CSSLetterSpacingProperty()
             : base(PropertyNames.LetterSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
-            _spacing = null;
         }
 
         #endregion
@@ -51,6 +50,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _spacing = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -62,7 +66,7 @@
                 _spacing = null;
             else if (value.ToLength().HasValue)
                 _spacing = value.ToLength();
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

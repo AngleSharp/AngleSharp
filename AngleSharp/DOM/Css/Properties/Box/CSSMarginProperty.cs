@@ -22,10 +22,6 @@
         internal CSSMarginProperty()
             : base(PropertyNames.Margin)
         {
-            _left = new CSSMarginLeftProperty();
-            _right = new CSSMarginRightProperty();
-            _top = new CSSMarginTopProperty();
-            _bottom = new CSSMarginBottomProperty();
         }
 
         #endregion
@@ -100,6 +96,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _left = new CSSMarginLeftProperty();
+            _right = new CSSMarginRightProperty();
+            _top = new CSSMarginTopProperty();
+            _bottom = new CSSMarginBottomProperty();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -107,9 +111,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
             return Check(new CSSValue[] { value, value, value, value });
@@ -137,9 +139,7 @@
 
             for (int i = 0; i < 4; i++)
             {
-                target[i].Value = values[i];
-
-                if (target[i].Value != values[i])
+                if (!target[i].TrySetValue(values[i]))
                     return false;
             }
 

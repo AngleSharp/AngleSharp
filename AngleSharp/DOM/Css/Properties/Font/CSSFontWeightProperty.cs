@@ -29,7 +29,6 @@
         internal CSSFontWeightProperty()
             : base(PropertyNames.FontWeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _weight = _weights[Keywords.Normal];
         }
 
         #endregion
@@ -50,6 +49,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _weight = _weights[Keywords.Normal];
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -62,18 +66,20 @@
             if (_weights.TryGetValue(value, out weight))
             {
                 _weight = weight;
+                return true;
             }
             else
             {
                 var val = value.ToInteger();
 
                 if (val.HasValue && val.Value >= 100 && val.Value <= 900)
-                    _weight = new FontWeight { IsRelative = false, Value = val.Value };
-                else if (value != CSSValue.Inherit)
-                    return false;
+                {
+                    _weight = new FontWeight { IsRelative = false, Value = val.Value };   
+                    return true;
+                }
             }
 
-            return true;
+            return false;
         }
 
         #endregion

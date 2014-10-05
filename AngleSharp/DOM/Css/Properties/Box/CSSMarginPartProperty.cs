@@ -18,7 +18,6 @@
         internal CSSMarginPartProperty(String name)
             : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            _margin = Percent.Zero;
         }
 
         #endregion
@@ -46,6 +45,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _margin = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -59,7 +63,7 @@
                 _margin = distance;
             else if (value.Is(Keywords.Auto))
                 _margin = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

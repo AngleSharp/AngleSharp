@@ -29,8 +29,6 @@
         internal CSSBorderImageRepeatProperty()
             : base(PropertyNames.BorderImageRepeat)
         {
-            _horizontal = BorderRepeat.Stretch;
-            _vertical = BorderRepeat.Stretch;
         }
 
         #endregion
@@ -56,6 +54,12 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _horizontal = BorderRepeat.Stretch;
+            _vertical = BorderRepeat.Stretch;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -85,7 +89,7 @@
                 _horizontal = modes[0];
                 _vertical = modes[1];               
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

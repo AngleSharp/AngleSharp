@@ -20,8 +20,6 @@
         internal CSSBackgroundOriginProperty()
             : base(PropertyNames.BackgroundOrigin)
         {
-            _origins = new List<BoxModel>();
-            _origins.Add(BoxModel.PaddingBox);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_origins == null)
+                _origins = new List<BoxModel>();
+            else
+                _origins.Clear();
+
+            _origins.Add(BoxModel.PaddingBox);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -47,9 +55,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var values = value as CSSValueList ?? new CSSValueList(value);
             var origins = new List<BoxModel>();
 

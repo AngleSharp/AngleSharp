@@ -22,10 +22,6 @@
         internal CSSBorderImageOutsetProperty()
             : base(PropertyNames.BorderImageOutset)
         {
-            _top = Percent.Zero;
-            _right = Percent.Zero;
-            _bottom = Percent.Zero;
-            _left = Percent.Zero;
         }
 
         #endregion
@@ -68,6 +64,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = Percent.Zero;
+            _right = Percent.Zero;
+            _bottom = Percent.Zero;
+            _left = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -81,7 +85,7 @@
                 _top = _bottom = _right = _left = calc;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

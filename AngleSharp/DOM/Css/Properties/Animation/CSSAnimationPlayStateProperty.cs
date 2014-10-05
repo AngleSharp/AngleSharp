@@ -20,8 +20,6 @@
         internal CSSAnimationPlayStateProperty()
             : base(PropertyNames.AnimationPlayState)
         {
-            _states = new List<PlayState>();
-            _states.Add(PlayState.Running);
         }
 
         #endregion
@@ -39,6 +37,16 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_states == null)
+                _states = new List<PlayState>();
+            else
+                _states.Clear();
+
+            _states.Add(PlayState.Running);
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -64,11 +72,10 @@
                 }
 
                 _states = states;
+                return true;
             }
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+            
+            return false;
         }
 
         #endregion

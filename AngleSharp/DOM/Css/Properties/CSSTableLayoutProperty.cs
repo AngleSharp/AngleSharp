@@ -19,7 +19,6 @@
         internal CSSTableLayoutProperty()
             : base(PropertyNames.TableLayout)
         {
-            _fixed = false;
         }
 
         #endregion
@@ -43,6 +42,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _fixed = false;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -54,7 +58,7 @@
                 _fixed = true;
             else if (value.Is(Keywords.Auto))
                 _fixed = false;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

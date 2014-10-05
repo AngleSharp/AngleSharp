@@ -61,7 +61,6 @@
         internal CSSCursorProperty()
             : base(PropertyNames.Cursor, PropertyFlags.Inherited)
         {
-            _mode = _auto;
         }
 
         #endregion
@@ -86,6 +85,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = _auto;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -97,8 +101,6 @@
                 _mode = _auto;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value == CSSValue.Inherit)
-                return true;
             else
             {
                 var mode = Evaluate(value);

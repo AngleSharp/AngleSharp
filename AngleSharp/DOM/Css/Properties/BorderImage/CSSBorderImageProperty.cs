@@ -23,11 +23,6 @@
         internal CSSBorderImageProperty()
             : base(PropertyNames.BorderImage)
         {
-            _outset = new CSSBorderImageOutsetProperty();
-            _repeat = new CSSBorderImageRepeatProperty();
-            _slice = new CSSBorderImageSliceProperty();
-            _source = new CSSBorderImageSourceProperty();
-            _width = new CSSBorderImageWidthProperty();
         }
 
         #endregion
@@ -142,6 +137,15 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _outset = new CSSBorderImageOutsetProperty();
+            _repeat = new CSSBorderImageRepeatProperty();
+            _slice = new CSSBorderImageSliceProperty();
+            _source = new CSSBorderImageSourceProperty();
+            _width = new CSSBorderImageWidthProperty();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -149,9 +153,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
 
             return Evaluate(new CSSValueList(value));

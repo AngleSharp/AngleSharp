@@ -28,8 +28,6 @@
         internal CSSBackgroundAttachmentProperty()
             : base(PropertyNames.BackgroundAttachment)
         {
-            _attachments = new List<BackgroundAttachment>();
-            _attachments.Add(BackgroundAttachment.Scroll);
         }
 
         #endregion
@@ -48,6 +46,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_attachments == null)
+                _attachments = new List<BackgroundAttachment>();
+            else
+                _attachments.Clear();
+
+            _attachments.Add(BackgroundAttachment.Scroll);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -55,9 +63,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var list = value as CSSValueList ?? new CSSValueList(value);
             var attachments = new List<BackgroundAttachment>();
 

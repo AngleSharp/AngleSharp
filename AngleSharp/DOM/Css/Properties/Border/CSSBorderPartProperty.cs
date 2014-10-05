@@ -20,9 +20,6 @@
         internal CSSBorderPartProperty(String name)
             : base(name, PropertyFlags.Animatable)
         {
-            _width = Length.Medium;
-            _color = Color.Transparent;
-            _style = LineStyle.None;
         }
 
         #endregion
@@ -57,6 +54,13 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _width = Length.Medium;
+            _color = Color.Transparent;
+            _style = LineStyle.None;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -64,9 +68,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var width = Length.Medium;
             var color = Color.Transparent;
             var style = LineStyle.None;

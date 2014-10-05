@@ -19,7 +19,6 @@
         internal CSSZIndexProperty()
             : base(PropertyNames.ZIndex, PropertyFlags.Animatable)
         {
-            _value = null;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _value = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,7 +55,7 @@
                 _value = number.Value;
             else if (value.Is(Keywords.Auto))
                 _value = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

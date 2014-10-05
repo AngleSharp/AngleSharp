@@ -19,7 +19,6 @@
         internal CSSListStylePositionProperty()
             : base(PropertyNames.ListStylePosition, PropertyFlags.Inherited)
         {
-            _position = ListPosition.Outside;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _position = ListPosition.Outside;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var position = value.ToListPosition();
 
             if (position.HasValue)
+            {
                 _position = position.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

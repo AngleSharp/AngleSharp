@@ -19,7 +19,6 @@
         internal CSSOutlineStyleProperty()
             : base(PropertyNames.OutlineStyle)
         {
-            _style = LineStyle.None;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = LineStyle.None;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var ls = value.ToLineStyle();
 
             if (ls.HasValue)
+            {
                 _style = ls.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

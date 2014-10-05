@@ -118,7 +118,7 @@
             #region Singleton
 
             public CSSInitialValue()
-                : base(CssValueType.Custom)
+                : base(CssValueType.Initial)
             {
             }
 

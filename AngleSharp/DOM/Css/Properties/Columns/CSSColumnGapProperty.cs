@@ -25,7 +25,6 @@
         internal CSSColumnGapProperty()
             : base(PropertyNames.ColumnGap, PropertyFlags.Animatable)
         {
-            _gap = _normal;
         }
 
         #endregion
@@ -44,6 +43,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _gap = _normal;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -57,7 +61,7 @@
                 _gap = gap.Value;
             else if (value.Is(Keywords.Normal))
                 _gap = _normal;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

@@ -20,7 +20,6 @@
         internal CSSPageBreakInsideProperty()
             : base(PropertyNames.PageBreakInside)
         {
-            _mode = BreakMode.Auto;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = BreakMode.Auto;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -50,7 +54,7 @@
                 _mode = BreakMode.Auto;
             else if (value.Is(Keywords.Avoid))
                 _mode = BreakMode.Avoid;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

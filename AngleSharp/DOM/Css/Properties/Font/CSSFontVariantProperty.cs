@@ -19,7 +19,6 @@
         internal CSSFontVariantProperty()
             : base(PropertyNames.FontVariant, PropertyFlags.Inherited)
         {
-            _style = FontVariant.Normal;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = FontVariant.Normal;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -49,7 +53,7 @@
                 _style = FontVariant.Normal;
             else if (value.Is(Keywords.SmallCaps))
                 _style = FontVariant.SmallCaps;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

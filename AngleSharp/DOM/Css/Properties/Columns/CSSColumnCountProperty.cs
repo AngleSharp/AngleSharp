@@ -22,7 +22,6 @@
         internal CSSColumnCountProperty()
             : base(PropertyNames.ColumnCount, PropertyFlags.Animatable)
         {
-            _count = null;
         }
 
         #endregion
@@ -41,6 +40,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _count = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -52,9 +56,9 @@
 
             if (count.HasValue)
                 _count = count.Value;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _count = null;
-            else if (value != CSSValue.Inherit)
+            else 
                 return false;
 
             return true;

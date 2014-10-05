@@ -19,7 +19,6 @@
         internal CSSVisibilityProperty()
             : base(PropertyNames.Visibility, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _mode = Visibility.Visible;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = Visibility.Visible;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var mode = value.ToVisibility();
 
             if (mode.HasValue)
+            {
                 _mode = mode.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

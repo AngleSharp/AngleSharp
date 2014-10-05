@@ -22,10 +22,6 @@
         internal CSSBorderWidthProperty()
             : base(PropertyNames.BorderWidth, PropertyFlags.Animatable)
         {
-            _top = Length.Medium;
-            _right = Length.Medium;
-            _bottom = Length.Medium;
-            _left = Length.Medium;
         }
 
         #endregion
@@ -68,6 +64,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = Length.Medium;
+            _right = Length.Medium;
+            _bottom = Length.Medium;
+            _left = Length.Medium;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -75,9 +79,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var values = value as CSSValueList ?? new CSSValueList(value);
 
             if (values.Length > 4)

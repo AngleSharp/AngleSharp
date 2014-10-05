@@ -20,7 +20,6 @@
         internal CSSOutlineColorProperty()
             : base(PropertyNames.OutlineColor, PropertyFlags.Animatable)
         {
-            _mode = _invert;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = _invert;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -52,7 +56,7 @@
                 _mode = new SolidColorMode(color.Value);
             else if (value.Is(Keywords.Invert))
                 _mode = _invert;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

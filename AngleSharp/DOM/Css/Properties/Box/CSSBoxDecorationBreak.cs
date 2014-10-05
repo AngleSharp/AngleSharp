@@ -20,7 +20,6 @@
         internal CSSBoxDecorationBreak()
             : base(PropertyNames.BoxDecorationBreak)
         {
-            _clone = false;
         }
 
         #endregion
@@ -41,6 +40,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _clone = false;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -52,10 +56,10 @@
                 _clone = false;
             else if (value.Is(Keywords.Clone))
                 _clone = true;
-            else if (value == CSSValue.Inherit)
-                return true;
+            else
+                return false;
 
-            return false;
+            return true;
         }
 
         #endregion

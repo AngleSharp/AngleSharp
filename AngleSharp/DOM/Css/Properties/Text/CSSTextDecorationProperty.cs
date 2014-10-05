@@ -22,9 +22,6 @@
         internal CSSTextDecorationProperty()
             : base(PropertyNames.TextDecoration, PropertyFlags.Animatable)
         {
-            _style = TextDecorationStyle.Solid;
-            _line = new List<TextDecorationLine>();
-            _color = Color.Black;
         }
 
         #endregion
@@ -59,6 +56,17 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = TextDecorationStyle.Solid;
+            _color = Color.Black;
+
+            if (_line == null)
+                _line = new List<TextDecorationLine>();
+            else
+                _line.Clear();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -66,9 +74,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var list = value as CSSValueList;
 
             if (list == null)

@@ -22,7 +22,6 @@
         internal CSSMaxWidthProperty()
             : base(PropertyNames.MaxWidth, PropertyFlags.Animatable)
         {
-            _mode = null;
         }
 
         #endregion
@@ -42,6 +41,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -55,7 +59,7 @@
                 _mode = distance;
             else if (value.Is(Keywords.None))
                 _mode = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

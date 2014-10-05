@@ -19,7 +19,6 @@
         internal CSSListStyleTypeProperty()
             : base(PropertyNames.ListStyleType, PropertyFlags.Inherited)
         {
-            _style = ListStyle.Disc;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = ListStyle.Disc;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var position = value.ToListStyle();
 
             if (position.HasValue)
+            {
                 _style = position.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

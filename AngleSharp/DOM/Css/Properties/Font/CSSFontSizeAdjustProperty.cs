@@ -19,7 +19,6 @@
         internal CSSFontSizeAdjustProperty()
             : base(PropertyNames.FontSizeAdjust, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _aspectValue = null;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _aspectValue = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,7 +55,7 @@
                 _aspectValue = aspectValue;
             else if (value.Is(Keywords.None))
                 _aspectValue = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

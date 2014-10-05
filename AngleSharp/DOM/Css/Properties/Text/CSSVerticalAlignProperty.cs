@@ -34,8 +34,6 @@
         internal CSSVerticalAlignProperty()
             : base(PropertyNames.VerticalAlign, PropertyFlags.Animatable)
         {
-            _mode = VerticalAlignment.Baseline;
-            _shift = Percent.Zero;
         }
 
         #endregion
@@ -64,6 +62,12 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = VerticalAlignment.Baseline;
+            _shift = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -84,7 +88,7 @@
                 _shift = Percent.Zero;
                 _mode = mode;
             }
-            else if (value != CSSValue.Inherit)
+            else 
                 return false;
 
             return true;

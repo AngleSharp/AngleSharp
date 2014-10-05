@@ -26,11 +26,6 @@
         internal CSSBorderImageSliceProperty()
             : base(PropertyNames.BorderImageSlice)
         {
-            _top = Percent.Hundred;
-            _right = Percent.Hundred;
-            _bottom = Percent.Hundred;
-            _left = Percent.Hundred;
-            _fill = false;
         }
 
         #endregion
@@ -81,6 +76,15 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = Percent.Hundred;
+            _right = Percent.Hundred;
+            _bottom = Percent.Hundred;
+            _left = Percent.Hundred;
+            _fill = false;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -94,7 +98,7 @@
                 _top = _left = _bottom = _right = mode;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

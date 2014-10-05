@@ -24,6 +24,10 @@
         /// The value is a custom value.
         /// </summary>
         [DomName("CSS_CUSTOM")]
-        Custom = 3
+        Custom = 3,
+        /// <summary>
+        /// The value is in its initial state and might be inherited, if applicable.
+        /// </summary>
+        Initial = 4
     }
 }

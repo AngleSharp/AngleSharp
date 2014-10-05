@@ -93,6 +93,11 @@
         public static readonly String AvoidColumn = "avoid-column";
 
         /// <summary>
+        /// The avoid-region keyword.
+        /// </summary>
+        public static readonly String AvoidRegion = "avoid-region";
+
+        /// <summary>
         /// The inset keyword.
         /// </summary>
         public static readonly String Inset = "inset";

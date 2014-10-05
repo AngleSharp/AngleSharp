@@ -20,8 +20,6 @@
         internal CSSFontSizeProperty()
             : base(PropertyNames.FontSize, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            _mode = FontSize.Medium;
-            _size = null;
         }
 
         #endregion
@@ -48,6 +46,12 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = FontSize.Medium;
+            _size = _mode.ToDistance();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -69,7 +73,7 @@
                 _size = mode.ToDistance();
                 _mode = mode;
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

@@ -25,10 +25,6 @@
         internal CSSBorderImageWidthProperty()
             : base(PropertyNames.BorderImageWidth)
         {
-            _top = _default;
-            _right = _default;
-            _bottom = _default;
-            _left = _default;
         }
 
         #endregion
@@ -38,6 +34,14 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _top = _default;
+            _right = _default;
+            _bottom = _default;
+            _left = _default;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -52,7 +56,7 @@
                 _top = _right = _left = _bottom = mode;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

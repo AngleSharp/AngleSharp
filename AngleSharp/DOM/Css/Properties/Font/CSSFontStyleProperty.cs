@@ -28,7 +28,6 @@
         internal CSSFontStyleProperty()
             : base(PropertyNames.FontStyle, PropertyFlags.Inherited)
         {
-            _style = FontStyle.Normal;
         }
 
         #endregion
@@ -47,6 +46,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = FontStyle.Normal;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -57,11 +61,12 @@
             FontStyle style;
 
             if (_styles.TryGetValue(value, out style))
+            {
                 _style = style;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

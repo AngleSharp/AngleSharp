@@ -34,7 +34,6 @@
         internal CSSFontStretchProperty()
             : base(PropertyNames.FontStretch, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _stretch = FontStretch.Normal;
         }
 
         #endregion
@@ -53,6 +52,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _stretch = FontStretch.Normal;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -63,11 +67,12 @@
             FontStretch style;
 
             if (_styles.TryGetValue(value, out style))
+            {
                 _stretch = style;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

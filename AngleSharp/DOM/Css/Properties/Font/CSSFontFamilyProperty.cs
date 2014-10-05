@@ -30,8 +30,6 @@
         internal CSSFontFamilyProperty()
             : base(PropertyNames.FontFamily, PropertyFlags.Inherited)
         {
-            _families = new List<BaseFontFamily>();
-            _families.Add(defaultfamilies[Keywords.Serif]);
         }
 
         #endregion
@@ -54,6 +52,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_families == null)
+                _families = new List<BaseFontFamily>();
+            else
+                _families.Clear();
+
+            _families.Add(defaultfamilies[Keywords.Serif]);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -68,7 +76,7 @@
             }
             else if (value is CSSValueList)
                 return SetFamilies((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

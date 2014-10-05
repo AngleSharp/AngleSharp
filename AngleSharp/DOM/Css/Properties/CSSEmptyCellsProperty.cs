@@ -19,7 +19,6 @@
         internal CSSEmptyCellsProperty()
             : base(PropertyNames.EmptyCells, PropertyFlags.Inherited)
         {
-            _visible = true;
         }
 
         #endregion
@@ -40,6 +39,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _visible = true;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,7 +55,7 @@
                 _visible = true;
             else if (value.Is(Keywords.Hide))
                 _visible = false;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

@@ -29,7 +29,6 @@
         internal CSSTextAlignProperty()
             : base(PropertyNames.TextAlign, PropertyFlags.Inherited)
         {
-            _mode = HorizontalAlignment.Left;
         }
 
         #endregion
@@ -48,6 +47,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = HorizontalAlignment.Left;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -58,11 +62,12 @@
             HorizontalAlignment mode;
 
             if (modes.TryGetValue(value, out mode))
+            {
                 _mode = mode;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

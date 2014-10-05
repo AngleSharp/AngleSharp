@@ -20,8 +20,6 @@
         internal CSSAnimationDirectionProperty()
             : base(PropertyNames.AnimationDirection)
         {
-            _directions = new List<AnimationDirection>();
-            _directions.Add(AnimationDirection.Normal);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_directions == null)
+                _directions = new List<AnimationDirection>();
+            else
+                _directions.Clear();
+
+            _directions.Add(AnimationDirection.Normal);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -57,18 +65,17 @@
                 {
                     var direction = item.ToDirection();
 
-                    if (!direction.HasValue)
+                    if (direction == null)
                         return false;
 
                     fillModes.Add(direction.Value);
                 }
 
                 _directions = fillModes;
+                return true;
             }
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+            
+            return false;
         }
 
         #endregion

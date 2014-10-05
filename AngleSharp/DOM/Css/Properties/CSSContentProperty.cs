@@ -30,12 +30,16 @@
         internal CSSContentProperty()
             : base(PropertyNames.Content)
         {
-            _mode = _normal;
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _mode = _normal;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -50,8 +54,6 @@
                 _mode = null;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value == CSSValue.Inherit)
-                return true;
             else
             {
                 var mode = Evaluate(value);

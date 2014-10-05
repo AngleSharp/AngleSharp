@@ -19,7 +19,6 @@
         internal CSSPerspectiveProperty()
             : base(PropertyNames.Perspective, PropertyFlags.Animatable)
         {
-            _distance = Length.Zero;
         }
 
         #endregion
@@ -41,6 +40,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _distance = Length.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -53,9 +57,9 @@
             if (distance.HasValue)
                 _distance = distance.Value;
             //Is a keyword indicating that no perspective transform has to be applied.
-            else if (value.Is("none"))
+            else if (value.Is(Keywords.None))
                 _distance = Length.Zero;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

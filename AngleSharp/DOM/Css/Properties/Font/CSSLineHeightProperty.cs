@@ -20,7 +20,6 @@
         internal CSSLineHeightProperty()
             : base(PropertyNames.LineHeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _height = Normal;
         }
 
         #endregion
@@ -35,6 +34,11 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _height = Normal;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -53,10 +57,10 @@
             {
                 var val = value.ToSingle();
 
-                if (val.HasValue)
-                    _height = new Percent(val.Value * 100f);
-                else if (value != CSSValue.Inherit)
+                if (!val.HasValue)
                     return false;
+
+                _height = new Percent(val.Value * 100f);
             }
 
             return true;

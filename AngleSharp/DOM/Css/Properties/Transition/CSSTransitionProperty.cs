@@ -20,7 +20,6 @@
         internal CSSTransitionProperty()
             : base(PropertyNames.Transition)
         {
-            _transitions = new List<Transition>();
         }
 
         #endregion
@@ -79,6 +78,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_transitions == null)
+                _transitions = new List<Transition>();
+            else
+                _transitions.Clear();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -116,7 +123,7 @@
 
                 _transitions = list;
             }
-            else if (value != CSSValueList.Inherit)
+            else
                 return false;
 
             return true;

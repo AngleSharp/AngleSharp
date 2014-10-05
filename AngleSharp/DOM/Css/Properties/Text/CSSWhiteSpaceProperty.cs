@@ -30,7 +30,6 @@
         internal CSSWhiteSpaceProperty()
             : base(PropertyNames.WhiteSpace, PropertyFlags.Inherited)
         {
-            _mode = Whitespace.Normal;
         }
 
         #endregion
@@ -49,6 +48,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = Whitespace.Normal;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -59,11 +63,12 @@
             Whitespace mode;
 
             if (modes.TryGetValue(value, out mode))
+            {
                 _mode = mode;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

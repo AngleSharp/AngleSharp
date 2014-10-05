@@ -20,8 +20,6 @@
         internal CSSTransitionDurationProperty()
             : base(PropertyNames.TransitionDuration)
         {
-            _times = new List<Time>();
-            _times.Add(Time.Zero);
         }
 
         #endregion
@@ -39,6 +37,16 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_times == null)
+                _times = new List<Time>();
+            else
+                _times.Clear();
+
+            _times.Add(Time.Zero);
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -60,11 +68,11 @@
                     if (time != null)
                         _times.Add(time.Value);
                 }
-            }
-            else if (value != CSSValue.Inherit)
-                return false;
 
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

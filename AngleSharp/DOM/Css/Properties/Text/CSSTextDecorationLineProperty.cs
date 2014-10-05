@@ -20,7 +20,6 @@
         internal CSSTextDecorationLineProperty()
             : base(PropertyNames.TextDecorationLine)
         {
-            _line = new List<TextDecorationLine>();
         }
 
         #endregion
@@ -39,6 +38,14 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_line == null)
+                _line = new List<TextDecorationLine>();
+            else
+                _line.Clear();
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -75,7 +82,7 @@
 
                 _line = list;
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

@@ -22,10 +22,6 @@
         internal CSSBorderColorProperty()
             : base(PropertyNames.BorderColor, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
-            _top = Color.Transparent;
-            _right = Color.Transparent;
-            _bottom = Color.Transparent;
-            _left = Color.Transparent;
         }
 
         #endregion
@@ -68,6 +64,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = Color.Transparent;
+            _right = Color.Transparent;
+            _bottom = Color.Transparent;
+            _left = Color.Transparent;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -75,9 +79,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var values = value as CSSValueList ?? new CSSValueList(value);
             Color? top;
             Color? bottom;

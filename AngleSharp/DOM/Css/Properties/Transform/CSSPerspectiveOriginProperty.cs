@@ -20,8 +20,6 @@
         internal CSSPerspectiveOriginProperty()
             : base(PropertyNames.PerspectiveOrigin, PropertyFlags.Animatable)
         {
-            _x = Percent.Fifty;
-            _y = Percent.Fifty;
         }
 
         #endregion
@@ -48,6 +46,12 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _x = Percent.Fifty;
+            _y = Percent.Fifty;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -55,9 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return SetXY((CSSValueList)value);
             
             return SetSingle(value);

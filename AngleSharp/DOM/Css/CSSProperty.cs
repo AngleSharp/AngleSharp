@@ -52,7 +52,7 @@
         /// </summary>
         internal Boolean HasValue
         {
-            get { return _value != null; }
+            get { return _value != CSSValue.Initial; }
         }
 
         /// <summary>
@@ -76,12 +76,7 @@
         /// </summary>
         internal CSSValue Value
         {
-            get { return _value ?? CSSValue.Inherit; }
-            set
-            {
-                if (IsValid(value))
-                    _value = value;
-            }
+            get { return _value; }
         }
 
         #endregion
@@ -89,11 +84,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the property can be inherited.
+        /// Gets if the property is inherited.
         /// </summary>
         public Boolean IsInherited
         {
-            get { return _flags.HasFlag(PropertyFlags.Inherited); }
+            get { return _flags.HasFlag(PropertyFlags.Inherited) && (_value == CSSValue.Initial || _value == CSSValue.Inherit); }
         }
 
         /// <summary>
@@ -167,7 +162,7 @@
         /// <summary>
         /// Resets the property to its initial state.
         /// </summary>
-        protected virtual void Reset() { }
+        protected abstract void Reset();
 
         /// <summary>
         /// Notified once the value changed.

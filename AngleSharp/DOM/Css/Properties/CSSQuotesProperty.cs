@@ -21,8 +21,6 @@
         internal CSSQuotesProperty()
             : base(PropertyNames.Quotes, PropertyFlags.Inherited)
         {
-            _quotes = new List<Tuple<String, String>>();
-            _quotes.Add(_default);
         }
 
         #endregion
@@ -43,6 +41,16 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_quotes == null)
+                _quotes = new List<Tuple<String, String>>();
+            else
+                _quotes.Clear();
+
+            _quotes.Add(_default);
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -75,7 +83,7 @@
 
                 _quotes = quotes;
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

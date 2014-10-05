@@ -20,7 +20,6 @@
         internal CSSDirectionProperty()
             : base(PropertyNames.Direction, PropertyFlags.Inherited)
         {
-            _mode = DirectionMode.Ltr;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = DirectionMode.Ltr;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -50,7 +54,7 @@
                 _mode = DirectionMode.Ltr;
             else if (value.Is(Keywords.Rtl))
                 _mode = DirectionMode.Rtl;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
             
             return true;

@@ -37,13 +37,6 @@
         internal CSSFontProperty()
             : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _style = new CSSFontStyleProperty();
-            _variant = new CSSFontVariantProperty();
-            _weight = new CSSFontWeightProperty();
-            _stretch = new CSSFontStretchProperty();
-            _size = new CSSFontSizeProperty();
-            _family = new CSSFontFamilyProperty();
-            _height = new CSSLineHeightProperty();
         }
 
         #endregion
@@ -120,6 +113,17 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = new CSSFontStyleProperty();
+            _variant = new CSSFontVariantProperty();
+            _weight = new CSSFontWeightProperty();
+            _stretch = new CSSFontStretchProperty();
+            _size = new CSSFontSizeProperty();
+            _family = new CSSFontFamilyProperty();
+            _height = new CSSLineHeightProperty();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -185,7 +189,7 @@
                 _height = height;
                 _family = family;
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

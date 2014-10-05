@@ -22,10 +22,6 @@
         internal CSSPaddingProperty()
             : base(PropertyNames.Padding)
         {
-            _left = new CSSPaddingLeftProperty();
-            _right = new CSSPaddingRightProperty();
-            _top = new CSSPaddingTopProperty();
-            _bottom = new CSSPaddingBottomProperty();
         }
 
         #endregion
@@ -68,6 +64,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _left = new CSSPaddingLeftProperty();
+            _right = new CSSPaddingRightProperty();
+            _top = new CSSPaddingTopProperty();
+            _bottom = new CSSPaddingBottomProperty();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -75,9 +79,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
             return Check(new CSSValue[] { value, value, value, value });
@@ -105,9 +107,7 @@
 
             for (int i = 0; i < 4; i++)
             {
-                target[i].Value = values[i];
-
-                if (target[i].Value != values[i])
+                if (!target[i].TrySetValue(values[i]))
                     return false;
             }
 
