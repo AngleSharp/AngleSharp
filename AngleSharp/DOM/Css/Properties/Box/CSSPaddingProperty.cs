@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        CSSPaddingTopProperty _top;
-        CSSPaddingRightProperty _right;
-        CSSPaddingBottomProperty _bottom;
-        CSSPaddingLeftProperty _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
 
         #endregion
 
@@ -33,7 +33,7 @@
         /// </summary>
         public IDistance Top
         {
-            get { return _top.Padding; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -41,7 +41,7 @@
         /// </summary>
         public IDistance Right
         {
-            get { return _right.Padding; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -49,7 +49,7 @@
         /// </summary>
         public IDistance Bottom
         {
-            get { return _bottom.Padding; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@
         /// </summary>
         public IDistance Left
         {
-            get { return _left.Padding; }
+            get { return _left; }
         }
 
         #endregion
@@ -66,10 +66,10 @@
 
         protected override void Reset()
         {
-            _left = new CSSPaddingLeftProperty();
-            _right = new CSSPaddingRightProperty();
-            _top = new CSSPaddingTopProperty();
-            _bottom = new CSSPaddingBottomProperty();
+            _left = Percent.Zero;
+            _right = Percent.Zero;
+            _top = Percent.Zero;
+            _bottom = Percent.Zero;
         }
 
         /// <summary>
@@ -103,18 +103,24 @@
 
         Boolean Check(CSSValue[] values)
         {
-            var target = new CSSProperty[] { new CSSPaddingTopProperty(), new CSSPaddingRightProperty(), new CSSPaddingBottomProperty(), new CSSPaddingLeftProperty() };
+            var target = new IDistance[4];
 
             for (int i = 0; i < 4; i++)
             {
-                if (!target[i].TrySetValue(values[i]))
+                var distance = values[i].ToDistance();
+
+                if (distance != null)
+                    target[i] = distance;
+                else if (values[i].Is(Keywords.Auto))
+                    target[i] = null;
+                else
                     return false;
             }
 
-            _top = (CSSPaddingTopProperty)target[0];
-            _right = (CSSPaddingRightProperty)target[1];
-            _bottom = (CSSPaddingBottomProperty)target[2];
-            _left = (CSSPaddingLeftProperty)target[3];
+            _top = target[0];
+            _right = target[1];
+            _bottom = target[2];
+            _left = target[3];
             return true;
         }
 
