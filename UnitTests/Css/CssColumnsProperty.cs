@@ -33,7 +33,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSColumnWidthProperty));
             var concrete = (CSSColumnWidthProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -227,7 +227,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSColumnsProperty));
             var concrete = (CSSColumnsProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -271,7 +271,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSColumnSpanProperty));
             var concrete = (CSSColumnSpanProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -330,7 +330,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSColumnGapProperty));
             var concrete = (CSSColumnGapProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -419,7 +419,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSColumnRuleColorProperty));
             var concrete = (CSSColumnRuleColorProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -463,7 +463,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSColumnRuleStyleProperty));
             var concrete = (CSSColumnRuleStyleProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }

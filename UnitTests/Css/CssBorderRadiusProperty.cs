@@ -222,7 +222,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -297,7 +297,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -311,7 +311,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
             var concrete = (CSSBorderRadiusProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }

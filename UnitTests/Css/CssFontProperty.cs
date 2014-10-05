@@ -18,7 +18,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("Gill Sans Extrabold, sans-serif", concrete.Value.CssText);
         }
@@ -33,7 +33,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("Courier, 'Lucida Console', monospace", concrete.Value.CssText);
         }
@@ -48,7 +48,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("'Goudy Bookletter 1911', sans-serif", concrete.Value.CssText);
         }
@@ -62,7 +62,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -76,7 +76,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -90,7 +90,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -104,7 +104,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -118,7 +118,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -132,7 +132,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -146,7 +146,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontFamilyProperty));
             var concrete = (CSSFontFamilyProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -161,7 +161,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontVariantProperty));
             var concrete = (CSSFontVariantProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("NORMAL", concrete.Value.CssText);
         }
@@ -176,7 +176,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontVariantProperty));
             var concrete = (CSSFontVariantProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("small-caps", concrete.Value.CssText);
         }
@@ -190,7 +190,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontVariantProperty));
             var concrete = (CSSFontVariantProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -205,7 +205,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontStyleProperty));
             var concrete = (CSSFontStyleProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("italic", concrete.Value.CssText);
         }
@@ -220,7 +220,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontStyleProperty));
             var concrete = (CSSFontStyleProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("oblique", concrete.Value.CssText);
         }
@@ -235,7 +235,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontStyleProperty));
             var concrete = (CSSFontStyleProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("normal", concrete.Value.CssText);
         }
@@ -250,7 +250,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("xx-small", concrete.Value.CssText);
         }
@@ -265,7 +265,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("medium", concrete.Value.CssText);
         }
@@ -280,7 +280,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("large", concrete.Value.CssText);
         }
@@ -295,7 +295,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("larger", concrete.Value.CssText);
         }
@@ -309,7 +309,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -324,7 +324,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("120%", concrete.Value.CssText);
         }
@@ -339,7 +339,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
         }
@@ -354,7 +354,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("3.5em", concrete.Value.CssText);
         }
@@ -368,7 +368,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeProperty));
             var concrete = (CSSFontSizeProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -382,7 +382,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontWeightProperty));
             var concrete = (CSSFontWeightProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -397,7 +397,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontWeightProperty));
             var concrete = (CSSFontWeightProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("bolder", concrete.Value.CssText);
         }
@@ -412,7 +412,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontWeightProperty));
             var concrete = (CSSFontWeightProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("bold", concrete.Value.CssText);
         }
@@ -427,7 +427,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontWeightProperty));
             var concrete = (CSSFontWeightProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("400", concrete.Value.CssText);
         }
@@ -442,7 +442,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontStretchProperty));
             var concrete = (CSSFontStretchProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("NORMAL", concrete.Value.CssText);
         }
@@ -457,7 +457,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontStretchProperty));
             var concrete = (CSSFontStretchProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("extra-condensed", concrete.Value.CssText);
         }
@@ -471,7 +471,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontStretchProperty));
             var concrete = (CSSFontStretchProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -486,7 +486,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
             var concrete = (CSSFontProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("12px / 14px sans-serif", concrete.Value.CssText);
         }
@@ -501,7 +501,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
             var concrete = (CSSFontProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("80% sans-serif", concrete.Value.CssText);
         }
@@ -516,7 +516,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
             var concrete = (CSSFontProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("bold italic large serif", concrete.Value.CssText);
         }
@@ -531,7 +531,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
             var concrete = (CSSFontProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("status-bar", concrete.Value.CssText);
         }
@@ -546,7 +546,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
             var concrete = (CSSFontProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("15px arial, sans-serif", concrete.Value.CssText);
         }
@@ -561,7 +561,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
             var concrete = (CSSFontProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value.CssText);
         }
@@ -576,7 +576,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
             var concrete = (CSSLetterSpacingProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("3px", concrete.Value.CssText);
         }
@@ -591,7 +591,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
             var concrete = (CSSLetterSpacingProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.3px", concrete.Value.CssText);
         }
@@ -606,7 +606,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
             var concrete = (CSSLetterSpacingProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.3em", concrete.Value.CssText);
         }
@@ -621,7 +621,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSLetterSpacingProperty));
             var concrete = (CSSLetterSpacingProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("normal", concrete.Value.CssText);
         }
@@ -636,7 +636,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeAdjustProperty));
             var concrete = (CSSFontSizeAdjustProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("NONE", concrete.Value.CssText);
         }
@@ -651,7 +651,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeAdjustProperty));
             var concrete = (CSSFontSizeAdjustProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.5", concrete.Value.CssText);
         }
@@ -665,7 +665,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSFontSizeAdjustProperty));
             var concrete = (CSSFontSizeAdjustProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }

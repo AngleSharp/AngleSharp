@@ -48,7 +48,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSOutlineStyleProperty));
             var concrete = (CSSOutlineStyleProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -122,7 +122,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSOutlineColorProperty));
             var concrete = (CSSOutlineColorProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -151,7 +151,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSOutlineWidthProperty));
             var concrete = (CSSOutlineWidthProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -228,7 +228,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSOutlineProperty));
             var concrete = (CSSOutlineProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }

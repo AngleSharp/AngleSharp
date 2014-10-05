@@ -122,7 +122,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageOutsetProperty));
             var concrete = (CSSBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -226,7 +226,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageWidthProperty));
             var concrete = (CSSBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -300,7 +300,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageRepeatProperty));
             var concrete = (CSSBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -344,7 +344,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -403,7 +403,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -417,7 +417,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
