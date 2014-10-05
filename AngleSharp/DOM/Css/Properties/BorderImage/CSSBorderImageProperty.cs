@@ -23,6 +23,10 @@
         IDistance _leftSlice;
         Boolean _fillSlice;
         IBitmap _image;
+        IDistance _topWidth;
+        IDistance _leftWidth;
+        IDistance _rightWidth;
+        IDistance _bottomWidth;
 
         #endregion
 
@@ -133,6 +137,26 @@
             get { return _image; }
         }
 
+        public IDistance WidthTop
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IDistance WidthBottom
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IDistance WidthLeft
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IDistance WidthRight
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
 
         #region Methods
@@ -151,6 +175,10 @@
             _leftSlice = Percent.Hundred;
             _fillSlice = false;
             _image = Color.Transparent;
+            _topWidth = Percent.Hundred;
+            _rightWidth = Percent.Hundred;
+            _bottomWidth = Percent.Hundred;
+            _leftWidth = Percent.Hundred;
         }
 
         /// <summary>
@@ -180,6 +208,10 @@
             IDistance bottomSlice = null;
             IDistance leftSlice = null;
             IBitmap image = null;
+            IDistance topWidth = null;
+            IDistance rightWidth = null;
+            IDistance bottomWidth = null;
+            IDistance leftWidth = null;
 
             //TODO
             //<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-outset'> ]? || <'border-image-repeat'>
@@ -228,16 +260,25 @@
             }
 
             _fillSlice = fillSlice;
+
             _topOutset = topOutset;
             _rightOutset = rightOutset ?? _topOutset;
             _bottomOutset = bottomOutset ?? _topOutset;
             _leftOutset = leftOutset ?? _rightOutset;
+
             _horizontal = horizontal ?? BorderRepeat.Stretch;
             _vertical = vertical ?? (horizontal ?? BorderRepeat.Stretch);
+
             _topSlice = topSlice;
             _rightSlice = rightSlice ?? _topSlice;
             _bottomSlice = bottomSlice ?? _topSlice;
             _leftSlice = leftSlice ?? _rightSlice;
+
+            _topWidth = topWidth;
+            _rightWidth = rightWidth ?? _topWidth;
+            _bottomWidth = bottomWidth ?? _topWidth;
+            _leftWidth = leftWidth ?? _rightWidth;
+
             _image = image;
             return true;
         }
