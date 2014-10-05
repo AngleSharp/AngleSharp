@@ -92,7 +92,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = ToMode(value);
+            var mode = value.ToBorderSlice();
 
             if (mode != null)
                 _top = _left = _bottom = _right = mode;
@@ -102,21 +102,6 @@
                 return false;
 
             return true;
-        }
-
-        static IDistance ToMode(CSSValue value)
-        {
-            var percent = value.ToPercent();
-
-            if (percent.HasValue)
-                return percent.Value;
-
-            var number = value.ToSingle();
-
-            if (number.HasValue)
-                return new Length(number.Value, Length.Unit.Px);
-
-            return null;
         }
 
         Boolean Evaluate(CSSValueList values)
@@ -129,12 +114,12 @@
 
             foreach (var value in values)
             {
-                if (!fill && value.Is("fill"))
+                if (!fill && value.Is(Keywords.Fill))
                     fill = true;
-                else if (ToMode(value) == null)
+                else if (value.ToBorderSlice() == null)
                     return false;
                 else
-                    modes.Add(ToMode(value));
+                    modes.Add(value.ToBorderSlice());
             }
 
             if (modes.Count == 5 || modes.Count == 0)

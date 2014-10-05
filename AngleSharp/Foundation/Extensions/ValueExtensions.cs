@@ -21,6 +21,7 @@
         static readonly Dictionary<String, FontSize> fontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, TextDecorationStyle> decorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, TextDecorationLine> decorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BorderRepeat> borderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -104,6 +105,10 @@
             decorationLines.Add(Keywords.Overline, TextDecorationLine.Overline);
             decorationLines.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
             decorationLines.Add(Keywords.Blink, TextDecorationLine.Blink);
+
+            borderRepeatModes.Add(Keywords.Stretch, BorderRepeat.Stretch);
+            borderRepeatModes.Add(Keywords.Repeat, BorderRepeat.Repeat);
+            borderRepeatModes.Add(Keywords.Round, BorderRepeat.Round);
         }
 
         #endregion
@@ -136,6 +141,31 @@
 
             if (decorationLines.TryGetValue(value, out line))
                 return line;
+
+            return null;
+        }
+
+        public static BorderRepeat? ToBorderRepeat(this CSSValue value)
+        {
+            BorderRepeat line;
+
+            if (borderRepeatModes.TryGetValue(value, out line))
+                return line;
+
+            return null;
+        }
+
+        public static IDistance ToBorderSlice(this CSSValue value)
+        {
+            var percent = value.ToPercent();
+
+            if (percent.HasValue)
+                return percent.Value;
+
+            var number = value.ToSingle();
+
+            if (number.HasValue)
+                return new Length(number.Value, Length.Unit.Px);
 
             return null;
         }

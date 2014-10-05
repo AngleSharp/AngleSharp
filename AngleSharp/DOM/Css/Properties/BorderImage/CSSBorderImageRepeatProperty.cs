@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -11,20 +10,12 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, BorderRepeat> _modes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
         BorderRepeat _horizontal;
         BorderRepeat _vertical;
 
         #endregion
 
         #region ctor
-
-        static CSSBorderImageRepeatProperty()
-        {
-            _modes.Add(Keywords.Stretch, BorderRepeat.Stretch);
-            _modes.Add(Keywords.Repeat, BorderRepeat.Repeat);
-            _modes.Add(Keywords.Round, BorderRepeat.Round);
-        }
 
         internal CSSBorderImageRepeatProperty()
             : base(PropertyNames.BorderImageRepeat)
@@ -68,26 +59,33 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            BorderRepeat mode;
+            var mode = value.ToBorderRepeat();
 
-            if (_modes.TryGetValue(value, out mode))
-                _horizontal = _vertical = mode;
+            if (mode != null)
+                _horizontal = _vertical = mode.Value;
             else if (value is CSSValueList)
             {
                 var list = (CSSValueList)value;
-                var modes = new BorderRepeat[2];
+                BorderRepeat? horizontal = null;
+                BorderRepeat? vertical = null;
 
                 if (list.Length > 2)
                     return false;
 
-                for (int i = 0; i < 2; i++)
-			    {
-                    if (!_modes.TryGetValue(list[i], out modes[i]))
-                        return false;
-			    }
+                foreach (var entry in list)
+                {
+                    mode = entry.ToBorderRepeat();
 
-                _horizontal = modes[0];
-                _vertical = modes[1];               
+                    if (mode == null)
+                        return false;
+                    else if (horizontal == null)
+                        horizontal = mode;
+                    else
+                        vertical = mode;
+                }
+
+                _horizontal = horizontal.Value;
+                _vertical = vertical.Value;               
             }
             else
                 return false;

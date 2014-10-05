@@ -198,7 +198,13 @@
                 return property.TrySetValue(newList);
             }
 
-            return CheckSingleProperty(property, index, arguments);
+            if (index < arguments.Length)
+            {
+                var argument = arguments[index];
+                return property.TrySetValue(argument);
+            }
+
+            return false;
         }
 
         #endregion

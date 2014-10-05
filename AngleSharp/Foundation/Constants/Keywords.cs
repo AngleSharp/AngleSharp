@@ -1081,5 +1081,10 @@
         /// The end keyword.
         /// </summary>
         public static readonly String End = "end";
+
+        /// <summary>
+        /// The fill keyword.
+        /// </summary>
+        public static readonly String Fill = "fill";
     }
 }
