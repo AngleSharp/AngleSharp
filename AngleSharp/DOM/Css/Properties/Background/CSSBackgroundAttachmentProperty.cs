@@ -11,19 +11,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, BackgroundAttachment> _modes = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
         List<BackgroundAttachment> _attachments;
 
         #endregion
 
         #region ctor
-
-        static CSSBackgroundAttachmentProperty()
-        {
-            _modes.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
-            _modes.Add(Keywords.Local, BackgroundAttachment.Local);
-            _modes.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
-        }
 
         internal CSSBackgroundAttachmentProperty()
             : base(PropertyNames.BackgroundAttachment)
@@ -68,12 +60,12 @@
 
             for (int i = 0; i < list.Length; i++)
             {
-                BackgroundAttachment attachment;
+                var attachment = list[i].ToBackgroundAttachment();
 
-                if (_modes.TryGetValue(list[i], out attachment))
-                    attachments.Add(attachment);
-                else
+                if (attachment == null)
                     return false;
+
+                attachments.Add(attachment.Value);
 
                 if (++i < list.Length && list[i] != CSSValue.Separator)
                     return false;

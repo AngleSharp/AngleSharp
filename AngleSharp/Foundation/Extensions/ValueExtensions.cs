@@ -23,6 +23,7 @@
         static readonly Dictionary<String, TextDecorationLine> decorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BorderRepeat> borderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, String> defaultfamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BackgroundAttachment> backgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -116,6 +117,10 @@
             defaultfamilies.Add(Keywords.Monospace, "Consolas");
             defaultfamilies.Add(Keywords.Cursive, "Cursive");
             defaultfamilies.Add(Keywords.Fantasy, "Comic Sans");
+
+            backgroundAttachments.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
+            backgroundAttachments.Add(Keywords.Local, BackgroundAttachment.Local);
+            backgroundAttachments.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
         }
 
         #endregion
@@ -124,87 +129,37 @@
 
         public static AnimationDirection? ToDirection(this CSSValue value)
         {
-            AnimationDirection direction;
-
-            if (directions.TryGetValue(value, out direction))
-                return direction;
-
-            return null;
+            return directions.GetValueOrDefault(value);
         }
 
         public static TextDecorationStyle? ToDecorationStyle(this CSSValue value)
         {
-            TextDecorationStyle style;
-
-            if (decorationStyles.TryGetValue(value, out style))
-                return style;
-
-            return null;
+            return decorationStyles.GetValueOrDefault(value);
         }
 
         public static TextDecorationLine? ToDecorationLine(this CSSValue value)
         {
-            TextDecorationLine line;
-
-            if (decorationLines.TryGetValue(value, out line))
-                return line;
-
-            return null;
+            return decorationLines.GetValueOrDefault(value);
         }
 
         public static BorderRepeat? ToBorderRepeat(this CSSValue value)
         {
-            BorderRepeat line;
-
-            if (borderRepeatModes.TryGetValue(value, out line))
-                return line;
-
-            return null;
-        }
-
-        public static IDistance ToBorderSlice(this CSSValue value)
-        {
-            var percent = value.ToPercent();
-
-            if (percent.HasValue)
-                return percent.Value;
-
-            var number = value.ToSingle();
-
-            if (number.HasValue)
-                return new Length(number.Value, Length.Unit.Px);
-
-            return null;
+            return borderRepeatModes.GetValueOrDefault(value);
         }
 
         public static AnimationFillStyle? ToFillMode(this CSSValue value)
         {
-            AnimationFillStyle fillMode;
-
-            if (fillModes.TryGetValue(value, out fillMode))
-                return fillMode;
-
-            return null;
+            return fillModes.GetValueOrDefault(value);
         }
 
         public static LineStyle? ToLineStyle(this CSSValue value)
         {
-            LineStyle style;
-
-            if (lineStyles.TryGetValue(value, out style))
-                return style;
-
-            return null;
+            return lineStyles.GetValueOrDefault(value);
         }
 
         public static Visibility? ToVisibility(this CSSValue value)
         {
-            Visibility visibility;
-
-            if (visibilities.TryGetValue(value, out visibility))
-                return visibility;
-
-            return null;
+            return visibilities.GetValueOrDefault(value);
         }
 
         public static TransitionFunction ToTimingFunction(this CSSValue value)
@@ -224,42 +179,27 @@
 
         public static BoxModel? ToBoxModel(this CSSValue value)
         {
-            BoxModel model;
-
-            if (boxModels.TryGetValue(value, out model))
-                return model;
-
-            return null;
+            return boxModels.GetValueOrDefault(value);
         }
 
         public static ListStyle? ToListStyle(this CSSValue value)
         {
-            ListStyle style;
-
-            if (listStyles.TryGetValue(value, out style))
-                return style;
-
-            return null;
+            return listStyles.GetValueOrDefault(value);
         }
 
         public static ListPosition? ToListPosition(this CSSValue value)
         {
-            ListPosition position;
+            return listPositions.GetValueOrDefault(value);
+        }
 
-            if (listPositions.TryGetValue(value, out position))
-                return position;
-
-            return null;
+        public static BackgroundAttachment? ToBackgroundAttachment(this CSSValue value)
+        {
+            return backgroundAttachments.GetValueOrDefault(value);
         }
 
         public static FontSize? ToFontSize(this CSSValue value)
         {
-            FontSize size;
-
-            if (fontSizes.TryGetValue(value, out size))
-                return size;
-
-            return null;
+            return fontSizes.GetValueOrDefault(value);
         }
 
         #endregion
@@ -277,6 +217,17 @@
             var primitive = value as CSSPrimitiveValue;
             mode = default(T);
             return primitive != null && primitive.Unit == UnitType.Ident && obj.TryGetValue(primitive.GetString(), out mode);
+        }
+
+        public static T? GetValueOrDefault<T>(this Dictionary<String, T> obj, CSSValue value)
+            where T : struct
+        {
+            T member;
+
+            if (obj.TryGetValue(value, out member))
+                return member;
+
+            return null;
         }
 
         public static Boolean IsOneOf(this CSSValue value, params String[] identifiers)
@@ -351,6 +302,21 @@
                     return list;
                 }
             }
+
+            return null;
+        }
+
+        public static IDistance ToBorderSlice(this CSSValue value)
+        {
+            var percent = value.ToPercent();
+
+            if (percent.HasValue)
+                return percent.Value;
+
+            var number = value.ToSingle();
+
+            if (number.HasValue)
+                return new Length(number.Value, Length.Unit.Px);
 
             return null;
         }
