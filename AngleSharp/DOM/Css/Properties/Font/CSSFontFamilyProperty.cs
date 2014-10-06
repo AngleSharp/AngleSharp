@@ -11,21 +11,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, SystemFontFamily> defaultfamilies = new Dictionary<String, SystemFontFamily>(StringComparer.OrdinalIgnoreCase);
-        List<BaseFontFamily> _families;
+        List<String> _families;
 
         #endregion
 
         #region ctor
-
-        static CSSFontFamilyProperty()
-        {
-            defaultfamilies.Add(Keywords.Serif, new SystemFontFamily(SystemFonts.Serif));
-            defaultfamilies.Add(Keywords.SansSerif, new SystemFontFamily(SystemFonts.SansSerif));
-            defaultfamilies.Add(Keywords.Monospace, new SystemFontFamily(SystemFonts.Monospace));
-            defaultfamilies.Add(Keywords.Cursive, new SystemFontFamily(SystemFonts.Cursive));
-            defaultfamilies.Add(Keywords.Fantasy, new SystemFontFamily(SystemFonts.Fantasy));
-        }
 
         internal CSSFontFamilyProperty()
             : base(PropertyNames.FontFamily, PropertyFlags.Inherited)
@@ -41,11 +31,7 @@
         /// </summary>
         public IEnumerable<String> Families
         {
-            get 
-            {
-                foreach (var family in _families)
-                    yield return family.FontName;
-            }
+            get { return _families; }
         }
 
         #endregion
@@ -55,11 +41,11 @@
         protected override void Reset()
         {
             if (_families == null)
-                _families = new List<BaseFontFamily>();
+                _families = new List<String>();
             else
                 _families.Clear();
 
-            _families.Add(defaultfamilies[Keywords.Serif]);
+            _families.Add("Times New Roman");
         }
 
         /// <summary>
@@ -72,7 +58,7 @@
             if (value is CSSPrimitiveValue)
             {
                 _families.Clear();
-                _families.Add(GetFamily(value));
+                _families.Add(value.ToFontFamily());
             }
             else if (value is CSSValueList)
                 return SetFamilies((CSSValueList)value);
@@ -84,12 +70,12 @@
 
         Boolean SetFamilies(CSSValueList values)
         {
-            var families = new List<BaseFontFamily>();
+            var families = new List<String>();
             var items = values.ToList();
 
             foreach (var item in items)
             {
-                var family = GetFamily(item.Length == 1 ? item[0] : item);
+                var family = (item.Length == 1 ? item[0] : item).ToFontFamily();
 
                 if (family == null)
                     return false;
@@ -101,78 +87,9 @@
             return true;
         }
 
-        static BaseFontFamily GetFamily(CSSValue value)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-            {
-                if (primitive.Unit == UnitType.Ident)
-                {
-                    SystemFontFamily family;
-                    var name = primitive.GetString();
-
-                    if (defaultfamilies.TryGetValue(name, out family))
-                        return family;
-
-                    return new CustomFontFamily(name);
-                }
-                else if (primitive.Unit == UnitType.String)
-                {
-                    return new CustomFontFamily(primitive.GetString());
-                }
-            }
-            else if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
-                var names = new String[values.Length];
-
-                for (var i = 0; i < names.Length; i++)
-                {
-                    var ident = values[i] as CSSPrimitiveValue;
-
-                    if (ident == null || ident.Unit != UnitType.Ident)
-                        return null;
-
-                    names[i] = ident.GetString();
-                }
-
-                return new CustomFontFamily(String.Join(" ", names));
-            }
-
-            return null;
-        }
-
         #endregion
 
         #region Modes
-
-        abstract class BaseFontFamily
-        {
-            protected String _name;
-
-            public String FontName
-            {
-                get { return _name; }
-            }
-        }
-
-        sealed class CustomFontFamily : BaseFontFamily
-        {
-            public CustomFontFamily(String familyName)
-            {
-                _name = familyName;
-            }
-        }
-
-        sealed class SystemFontFamily : BaseFontFamily
-        {
-            public SystemFontFamily(SystemFonts font)
-            {
-                _name = font.ToString();
-                //TODO select appropriate font
-            }
-        }
 
         enum SystemFonts
         {

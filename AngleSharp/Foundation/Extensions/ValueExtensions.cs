@@ -22,6 +22,7 @@
         static readonly Dictionary<String, TextDecorationStyle> decorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, TextDecorationLine> decorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BorderRepeat> borderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, String> defaultfamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -109,6 +110,12 @@
             borderRepeatModes.Add(Keywords.Stretch, BorderRepeat.Stretch);
             borderRepeatModes.Add(Keywords.Repeat, BorderRepeat.Repeat);
             borderRepeatModes.Add(Keywords.Round, BorderRepeat.Round);
+
+            defaultfamilies.Add(Keywords.Serif, "Times New Roman");
+            defaultfamilies.Add(Keywords.SansSerif, "Arial");
+            defaultfamilies.Add(Keywords.Monospace, "Consolas");
+            defaultfamilies.Add(Keywords.Cursive, "Cursive");
+            defaultfamilies.Add(Keywords.Fantasy, "Comic Sans");
         }
 
         #endregion
@@ -492,6 +499,48 @@
                     else if (values[1].Is(Keywords.Top))
                         return new Angle(0f, Angle.Unit.Deg);
                 }
+            }
+
+            return null;
+        }
+
+        public static String ToFontFamily(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+            {
+                if (primitive.Unit == UnitType.Ident)
+                {
+                    String family;
+                    var name = primitive.GetString();
+
+                    if (defaultfamilies.TryGetValue(name, out family))
+                        return family;
+
+                    return name;
+                }
+                else if (primitive.Unit == UnitType.String)
+                {
+                    return primitive.GetString();
+                }
+            }
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+                var names = new String[values.Length];
+
+                for (var i = 0; i < names.Length; i++)
+                {
+                    var ident = values[i] as CSSPrimitiveValue;
+
+                    if (ident == null || ident.Unit != UnitType.Ident)
+                        return null;
+
+                    names[i] = ident.GetString();
+                }
+
+                return String.Join(" ", names);
             }
 
             return null;
