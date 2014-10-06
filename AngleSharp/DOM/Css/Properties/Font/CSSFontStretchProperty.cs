@@ -11,25 +11,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, FontStretch> _styles = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
         FontStretch _stretch;
 
         #endregion
 
         #region ctor
-
-        static CSSFontStretchProperty()
-        {
-            _styles.Add(Keywords.Normal, FontStretch.Normal);
-            _styles.Add(Keywords.UltraCondensed, FontStretch.UltraCondensed);
-            _styles.Add(Keywords.ExtraCondensed, FontStretch.ExtraCondensed);
-            _styles.Add(Keywords.Condensed, FontStretch.Condensed);
-            _styles.Add(Keywords.SemiCondensed, FontStretch.SemiCondensed);
-            _styles.Add(Keywords.SemiExpanded, FontStretch.SemiExpanded);
-            _styles.Add(Keywords.Expanded, FontStretch.Expanded);
-            _styles.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
-            _styles.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
-        }
 
         internal CSSFontStretchProperty()
             : base(PropertyNames.FontStretch, PropertyFlags.Inherited | PropertyFlags.Animatable)
@@ -64,11 +50,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            FontStretch style;
+            var stretch = value.ToFontStretch();
 
-            if (_styles.TryGetValue(value, out style))
+            if (stretch.HasValue)
             {
-                _stretch = style;
+                _stretch = stretch.Value;
                 return true;
             }
             

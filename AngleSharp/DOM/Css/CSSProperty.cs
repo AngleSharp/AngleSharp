@@ -173,42 +173,6 @@
 
         #endregion
 
-        #region Helpers
-
-        internal static Boolean CheckSingleProperty(CSSProperty property, Int32 index, CSSValueList arguments)
-        {
-            if (index < arguments.Length)
-            {
-                var argument = arguments[index];
-                return property.TrySetValue(argument);
-            }
-
-            return false;
-        }
-
-        internal static Boolean CheckLastProperty(CSSProperty property, Int32 index, CSSValueList arguments)
-        {
-            if (arguments.Length - index > 1)
-            {
-                var newList = new CSSValueList();
-
-                while (index < arguments.Length)
-                    newList.Add(arguments[index++]);
-
-                return property.TrySetValue(newList);
-            }
-
-            if (index < arguments.Length)
-            {
-                var argument = arguments[index];
-                return property.TrySetValue(argument);
-            }
-
-            return false;
-        }
-
-        #endregion
-
         #region String representation
 
         /// <summary>

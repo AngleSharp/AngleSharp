@@ -143,7 +143,89 @@
 
             if (!_parts.TryGetValue(value, out setting))
             {
-                //TODO
+                var entries = value as CSSValueList ?? new CSSValueList(value);
+                var weight = new CSSFontWeightProperty();
+                var families = new List<String>();
+                var allowDelim = false;
+                FontStyle? style = null;
+                FontVariant? variant = null;
+                FontStretch? stretch = null;
+                FontSize? sizeMode = null;
+                IDistance size = null;
+                IDistance height = null;
+
+                for (var i = 0; i < entries.Length; i++)
+                {
+                    var entry = entries[i];
+
+                    if (allowDelim)
+                    {
+                        if (entry == CSSValue.Delimiter)
+                        {
+                            if (++i == entries.Length)
+                                return false;
+
+                            height = entries[i].ToLineHeight();
+
+                            if (height == null)
+                                return false;
+                            else if (++i == entries.Length)
+                                return false;
+                        }
+
+                        var rest = entries.ToList(i);
+
+                        foreach (var item in rest)
+                        {
+                            var family = (item.Length == 1 ? item[0] : item).ToFontFamily();
+
+                            if (family == null)
+                                return false;
+
+                            families.Add(family);
+                        }
+
+                        if (families.Count == 0)
+                            return false;
+
+                        break;
+                    }
+
+                    if (style == null && (style = entry.ToFontStyle()).HasValue)
+                        continue;
+
+                    if (variant == null && (variant = entry.ToFontVariant()).HasValue)
+                        continue;
+
+                    if (weight.IsInitial && weight.TrySetValue(entry))
+                        continue;
+
+                    if (stretch == null && (stretch = entry.ToFontStretch()).HasValue)
+                        continue;
+
+                    if (sizeMode == null && (sizeMode = entry.ToFontSize()).HasValue)
+                    {
+                        size = sizeMode.Value.ToDistance();
+                        allowDelim = true;
+                        continue;
+                    }
+
+                    if (size == null && (size = entry.ToDistance()) != null)
+                    {
+                        sizeMode = FontSize.Custom;
+                        allowDelim = true;
+                        continue;
+                    }
+                }
+
+                _stretch = stretch ?? FontStretch.Normal;
+                _variant = variant ?? FontVariant.Normal;
+                _sizeMode = sizeMode ?? FontSize.Medium;
+                _size = size ?? _sizeMode.ToDistance();
+                _height = height ?? new Percent(120f);
+                _style = style ?? FontStyle.Normal;
+                _weight = weight;
+                _families = families;
             }
             else
                 SetTo(setting);

@@ -10,7 +10,6 @@
     {
         #region Fields
 
-        static readonly Percent Normal = new Percent(120f);
         IDistance _height;
 
         #endregion
@@ -37,7 +36,7 @@
 
         protected override void Reset()
         {
-            _height = Normal;
+            _height = new Percent(120f);
         }
 
         /// <summary>
@@ -47,23 +46,15 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToDistance();
+            var distance = value.ToLineHeight();
 
             if (distance != null)
-                _height = distance;
-            else if (value.Is(Keywords.Normal))
-                _height = Normal;
-            else
             {
-                var val = value.ToSingle();
-
-                if (!val.HasValue)
-                    return false;
-
-                _height = new Percent(val.Value * 100f);
+                _height = distance;
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         #endregion

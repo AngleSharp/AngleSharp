@@ -24,6 +24,8 @@
         static readonly Dictionary<String, BorderRepeat> borderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, String> defaultfamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BackgroundAttachment> backgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, FontStyle> fontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, FontStretch> fontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -121,6 +123,20 @@
             backgroundAttachments.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
             backgroundAttachments.Add(Keywords.Local, BackgroundAttachment.Local);
             backgroundAttachments.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
+
+            fontStyles.Add(Keywords.Normal, FontStyle.Normal);
+            fontStyles.Add(Keywords.Italic, FontStyle.Italic);
+            fontStyles.Add(Keywords.Oblique, FontStyle.Oblique);
+
+            fontStretches.Add(Keywords.Normal, FontStretch.Normal);
+            fontStretches.Add(Keywords.UltraCondensed, FontStretch.UltraCondensed);
+            fontStretches.Add(Keywords.ExtraCondensed, FontStretch.ExtraCondensed);
+            fontStretches.Add(Keywords.Condensed, FontStretch.Condensed);
+            fontStretches.Add(Keywords.SemiCondensed, FontStretch.SemiCondensed);
+            fontStretches.Add(Keywords.SemiExpanded, FontStretch.SemiExpanded);
+            fontStretches.Add(Keywords.Expanded, FontStretch.Expanded);
+            fontStretches.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
+            fontStretches.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
         }
 
         #endregion
@@ -200,6 +216,26 @@
         public static FontSize? ToFontSize(this CSSValue value)
         {
             return fontSizes.GetValueOrDefault(value);
+        }
+
+        public static FontStyle? ToFontStyle(this CSSValue value)
+        {
+            return fontStyles.GetValueOrDefault(value);
+        }
+
+        public static FontStretch? ToFontStretch(this CSSValue value)
+        {
+            return fontStretches.GetValueOrDefault(value);
+        }
+
+        public static FontVariant? ToFontVariant(this CSSValue value)
+        {
+            if (value.Is(Keywords.Normal))
+                return FontVariant.Normal;
+            else if (value.Is(Keywords.SmallCaps))
+                return FontVariant.SmallCaps;
+
+            return null;
         }
 
         #endregion
@@ -317,6 +353,23 @@
 
             if (number.HasValue)
                 return new Length(number.Value, Length.Unit.Px);
+
+            return null;
+        }
+
+        public static IDistance ToLineHeight(this CSSValue value)
+        {
+            var distance = value.ToDistance();
+
+            if (distance != null)
+                return distance;
+            else if (value.Is(Keywords.Normal))
+                return new Percent(120f);
+
+            var val = value.ToSingle();
+
+            if (val.HasValue)
+                return new Percent(val.Value * 100f);
 
             return null;
         }
@@ -614,11 +667,11 @@
             return null;
         }
 
-        public static List<CSSValueList> ToList(this CSSValueList values)
+        public static List<CSSValueList> ToList(this CSSValueList values, Int32 offset = 0)
         {
             var list = new List<CSSValueList>();
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = offset; i < values.Length; i++)
             {
                 var entry = new CSSValueList();
 

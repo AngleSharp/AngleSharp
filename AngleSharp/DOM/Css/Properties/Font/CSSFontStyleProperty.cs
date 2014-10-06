@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -11,19 +10,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, FontStyle> _styles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
         FontStyle _style;
 
         #endregion
 
         #region ctor
-
-        static CSSFontStyleProperty()
-        {
-            _styles.Add(Keywords.Normal, FontStyle.Normal);
-            _styles.Add(Keywords.Italic, FontStyle.Italic);
-            _styles.Add(Keywords.Oblique, FontStyle.Oblique);
-        }
 
         internal CSSFontStyleProperty()
             : base(PropertyNames.FontStyle, PropertyFlags.Inherited)
@@ -58,11 +49,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            FontStyle style;
+            var style = value.ToFontStyle();
 
-            if (_styles.TryGetValue(value, out style))
+            if (style.HasValue)
             {
-                _style = style;
+                _style = style.Value;
                 return true;
             }
             

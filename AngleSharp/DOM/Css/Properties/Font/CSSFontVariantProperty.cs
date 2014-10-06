@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        FontVariant _style;
+        FontVariant _variant;
 
         #endregion
 
@@ -30,7 +30,7 @@
         /// </summary>
         public FontVariant Variant
         {
-            get { return _style; }
+            get { return _variant; }
         }
 
         #endregion
@@ -39,7 +39,7 @@
 
         protected override void Reset()
         {
-            _style = FontVariant.Normal;
+            _variant = FontVariant.Normal;
         }
 
         /// <summary>
@@ -49,14 +49,15 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Normal))
-                _style = FontVariant.Normal;
-            else if (value.Is(Keywords.SmallCaps))
-                _style = FontVariant.SmallCaps;
-            else
-                return false;
+            var variant = value.ToFontVariant();
 
-            return true;
+            if (variant.HasValue)
+            {
+                _variant = variant.Value;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

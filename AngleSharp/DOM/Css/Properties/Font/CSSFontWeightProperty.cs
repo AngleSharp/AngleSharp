@@ -82,10 +82,6 @@
             return false;
         }
 
-        #endregion
-
-        #region FontWeight
-
         struct FontWeight
         {
             public Boolean IsRelative;
