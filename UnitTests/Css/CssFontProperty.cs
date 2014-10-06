@@ -1,7 +1,9 @@
-﻿using AngleSharp.DOM.Css;
+﻿using AngleSharp;
+using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Css.Properties;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace UnitTests.Css
 {
@@ -683,6 +685,132 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssFontSizeHeightFamilyLegal()
+        {
+            var snippet = "font: 12pt/14pt sans-serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("12pt / 14pt sans-serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontSizeFamilyLegal()
+        {
+            var snippet = "font: 80% sans-serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("80% sans-serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontSizeHeightMultipleFamiliesLegal()
+        {
+            var snippet = "font: x-large/110% 'new century schoolbook', serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("x-large / 110% 'new century schoolbook', serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontWeightVariantSizeFamiliesLegal()
+        {
+            var snippet = "font: bold italic large Palatino, serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("bold italic large Palatino, serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontStyleVariantSizeHeightFamilyLegal()
+        {
+            var snippet = "font: normal small-caps 120%/120% fantasy ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("normal small-caps 120% / 120% fantasy", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontStyleVariantSizeFamiliesLegal()
+        {
+            var snippet = "font: condensed oblique 12pt \"Helvetica Neue\", serif ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("condensed oblique 12pt 'Helvetica Neue', serif", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontSystemFamilyLegal()
+        {
+            var snippet = "font: status-bar ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("status-bar", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssFontStyleWeightSizeHeightFamiliesLegal()
+        {
+            var snippet = "font: italic bold 12px / 30px Georgia, serif";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("font", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSFontProperty));
+            var concrete = (CSSFontProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value.CssText);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), concrete.Height);
+            Assert.AreEqual(new Length(12f, Length.Unit.Px), concrete.Size);
+            Assert.AreEqual(FontStyle.Italic, concrete.Style);
+            Assert.AreEqual(2, concrete.Families.Count());
+            Assert.AreEqual("Georgia", concrete.Families.First());
+            Assert.AreEqual("Times New Roman", concrete.Families.Skip(1).First());
         }
     }
 }
