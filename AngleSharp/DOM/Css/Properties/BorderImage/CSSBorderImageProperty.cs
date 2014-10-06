@@ -213,8 +213,6 @@
             IDistance bottomWidth = null;
             IDistance leftWidth = null;
 
-            //TODO
-            //<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-outset'> ]? || <'border-image-repeat'>
             for (var i = 0; i < values.Length; i++)
             {
                 var value = values[i];
@@ -237,20 +235,61 @@
                     continue;
                 else if (value == CSSValue.Delimiter)
                 {
-                    while (++i < values.Length)
+                    if (++i == values.Length)
+                        return false;
+
+                    do
                     {
                         value = values[i];
+                        var width = value.ToImageBorderWidth();
 
-                        if (topOutset == null && (topOutset = value.ToDistance()) != null)
-                            continue;
-                        else if (rightOutset == null && (rightOutset = value.ToDistance()) != null)
-                            continue;
-                        else if (bottomOutset == null && (bottomOutset = value.ToDistance()) != null)
-                            continue;
-                        else if (leftOutset == null && (leftOutset = value.ToDistance()) != null)
-                            continue;
+                        if (width == null)
+                            break;
 
-                        break;
+                        if (topWidth == null)
+                            topWidth = width;
+                        else if (rightWidth == null)
+                            rightWidth = width;
+                        else if (bottomWidth == null)
+                            bottomWidth = width;
+                        else if (leftWidth == null)
+                            leftWidth = width;
+                        else
+                            return false;
+                    }
+                    while (++i < values.Length);
+
+                    if (topWidth == null)
+                        return false;
+
+                    if (value == CSSValue.Delimiter)
+                    {
+                        if (++i == values.Length)
+                            return false;
+
+                        do
+                        {
+                            value = values[i];
+                            var outset = value.ToDistance();
+
+                            if (outset == null)
+                                break;
+
+                            if (topOutset == null)
+                                topOutset = outset;
+                            else if (rightOutset == null)
+                                rightOutset = outset;
+                            else if (bottomOutset == null)
+                                bottomOutset = outset;
+                            else if (leftOutset == null)
+                                leftOutset = outset;
+                            else
+                                return false;
+                        }
+                        while (++i < values.Length);
+
+                        if (topOutset == null)
+                            return false;
                     }
 
                     continue;
