@@ -10,7 +10,6 @@
     {
         #region Fields
 
-        static readonly InvertColor _invert = new InvertColor();
         IBitmap _mode;
 
         #endregion
@@ -40,7 +39,7 @@
 
         protected override void Reset()
         {
-            _mode = _invert;
+            _mode = Colors.Invert;
         }
 
         /// <summary>
@@ -55,28 +54,11 @@
             if (color.HasValue)
                 _mode = color.Value;
             else if (value.Is(Keywords.Invert))
-                _mode = _invert;
+                _mode = Colors.Invert;
             else
                 return false;
 
             return true;
-        }
-
-        #endregion
-
-        #region Color Modes
-
-        /// <summary>
-        /// To ensure the outline is visible, performs a color inversion of the
-        /// background. This makes the focus border more salient, regardless of
-        /// the color in the background.
-        /// </summary>
-        sealed class InvertColor : IBitmap
-        {
-            public String ToCss()
-            {
-                return Keywords.Invert;
-            }
         }
 
         #endregion
