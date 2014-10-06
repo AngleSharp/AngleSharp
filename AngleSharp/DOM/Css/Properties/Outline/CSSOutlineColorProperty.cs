@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        static readonly InvertColorMode _invert = new InvertColorMode();
-        ColorMode _mode;
+        static readonly InvertColor _invert = new InvertColor();
+        IBitmap _mode;
 
         #endregion
 
@@ -31,7 +31,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _mode.ComputeColor(); }
+            get { return _mode is Color ? (Color)_mode : Color.Transparent; }
         }
 
         #endregion
@@ -53,7 +53,7 @@
             var color = value.ToColor();
 
             if (color.HasValue)
-                _mode = new SolidColorMode(color.Value);
+                _mode = color.Value;
             else if (value.Is(Keywords.Invert))
                 _mode = _invert;
             else
@@ -66,40 +66,16 @@
 
         #region Color Modes
 
-        abstract class ColorMode
-        {
-            public abstract Color ComputeColor();
-        }
-
-        /// <summary>
-        /// Draws a solid outline with the given color.
-        /// </summary>
-        sealed class SolidColorMode : ColorMode
-        {
-            Color _color;
-
-            public SolidColorMode(Color color)
-            {
-                _color = color;
-            }
-
-            public override Color ComputeColor()
-            {
-                return _color;
-            }
-        }
-
         /// <summary>
         /// To ensure the outline is visible, performs a color inversion of the
         /// background. This makes the focus border more salient, regardless of
         /// the color in the background.
         /// </summary>
-        sealed class InvertColorMode : ColorMode
+        sealed class InvertColor : IBitmap
         {
-            public override Color ComputeColor()
+            public String ToCss()
             {
-                //TODO
-                return Color.Transparent;
+                return Keywords.Invert;
             }
         }
 
