@@ -558,6 +558,19 @@
             return null;
         }
 
+        public static IDistance ToImageBorderWidth(this CSSValue value)
+        {
+            if (value.Is(Keywords.Auto))
+                return Percent.Hundred;
+
+            var multiple = value.ToSingle();
+
+            if (multiple.HasValue)
+                return new Percent(multiple.Value * 100f);
+
+            return value.ToDistance();
+        }
+
         public static Length? ToBorderWidth(this CSSValue value)
         {
             var length = value.ToLength();

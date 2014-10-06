@@ -91,7 +91,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = ToMode(value);
+            var mode = value.ToImageBorderWidth();
 
             if (mode != null)
                 _top = _right = _left = _bottom = mode;
@@ -103,52 +103,37 @@
             return true;
         }
 
-        static IDistance ToMode(CSSValue value)
-        {
-            if (value.Is(Keywords.Auto))
-                return null;
-
-            var multiple = value.ToSingle();
-
-            if (multiple.HasValue)
-                return new Percent(multiple.Value * 100f);
-
-            return value.ToDistance();
-        }
-
         Boolean Evaluate(CSSValueList values)
         {
             if (values.Length > 4)
                 return false;
 
-            var top = ToMode(values[0]);
-            var right = ToMode(values[1]);
-            var bottom = top;
-            var left = right;
+            IDistance top = null;
+            IDistance right = null;
+            IDistance bottom = null;
+            IDistance left = null;
 
-            if (top == null || right == null)
-                return false;
-
-            if (values.Length > 2)
+            foreach (var value in values)
             {
-                bottom = ToMode(values[2]);
+                var width = value.ToImageBorderWidth();
 
-                if (bottom == null)
+                if (width == null)
                     return false;
 
-                if (values.Length > 3)
-                {
-                    left = ToMode(values[3]);
-
-                    if (left == null)
-                        return false;
-                }
+                if (top == null)
+                    top = width;
+                else if (right == null)
+                    right = width;
+                else if (bottom == null)
+                    bottom = width;
+                else if (left == null)
+                    left = width;
             }
 
-            _left = left;
-            _right = right;
-            _bottom = bottom;
             _top = top;
+            _right = right ?? _top;
+            _bottom = bottom ?? _top;
+            _left = left ?? _right;
             return true;
         }
 
