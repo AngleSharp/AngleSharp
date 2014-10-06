@@ -421,5 +421,65 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [TestMethod]
+        public void CssBorderImageNoneLegal()
+        {
+            var snippet = "border-image: none    ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetLegal()
+        {
+            var snippet = "border-image: url(image.png) 50 50";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 50 50", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetRepeatLegal()
+        {
+            var snippet = "border-image: url(image.png) 30 30 repeat";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 30 30 repeat", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlStretchUppercaseLegal()
+        {
+            var snippet = "border-image: url(image.png) STRETCH";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') STRETCH", concrete.Value.CssText);
+        }
     }
 }
