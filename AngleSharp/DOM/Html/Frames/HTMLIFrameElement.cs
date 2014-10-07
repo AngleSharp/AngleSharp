@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Threading;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -11,7 +12,7 @@
         #region Fields
 
         ISettableTokenList _sandbox;
-        IDocument _doc;
+        Document _doc;
         
         #endregion
 
@@ -20,6 +21,7 @@
         internal HTMLIFrameElement()
             : base(Tags.Iframe, NodeFlags.LiteralText)
         {
+            _doc = new Document();
         }
 
         #endregion
@@ -90,9 +92,7 @@
                 Owner.Options.LoadAsync(url).ContinueWith(task =>
                 {
                     if (!task.IsFaulted && task.Result != null)
-                    {
-                        //task.Result.Content
-                    }
+                        _doc.LoadAsync(task.Result, CancellationToken.None);
                 });
             }
         }
