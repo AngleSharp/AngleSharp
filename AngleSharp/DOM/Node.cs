@@ -522,6 +522,11 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Tries to locate the namespace of the given prefix.
+        /// </summary>
+        /// <param name="prefix">The prefix of the namespace.</param>
+        /// <returns>The namespace for the prefix.</returns>
         protected virtual String LocateNamespace(String prefix)
         {
             if (_parent != null)
@@ -530,6 +535,11 @@
             return null;
         }
 
+        /// <summary>
+        /// Tries to locate the prefix with the namespace.
+        /// </summary>
+        /// <param name="namespaceUri">The namespace assigned to the prefix.</param>
+        /// <returns>The prefix for the namespace.</returns>
         protected virtual String LocatePrefix(String namespaceUri)
         {
             if (_parent != null)
