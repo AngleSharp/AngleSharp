@@ -241,5 +241,22 @@ console.log('After setting the handler!');
             e.Init("hello", false, false);
             document.Dispatch(e);
         }
+
+        public static void Html5Test()
+        {
+            //We require a custom configuration
+            var config = new Configuration();
+
+            //Including a script engine
+            config.Register(new JavaScriptEngine());
+
+            //And enabling scripting + styling (should be enabled anyway)
+            config.IsScripting = true;
+            config.IsStyling = true;
+
+            var document = DocumentBuilder.Html(new Uri("http://html5test.com/"), config);
+            var points = document.QuerySelector("#score > .pointsPanel > h2 > strong").TextContent;
+            Console.WriteLine("AngleSharp received {0} points form HTML5Test.com", points);
+        }
     }
 }
