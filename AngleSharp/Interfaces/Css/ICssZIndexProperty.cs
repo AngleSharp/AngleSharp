@@ -8,13 +8,8 @@
     public interface ICssZIndexProperty : ICssProperty
     {
         /// <summary>
-        /// Gets if the z-index has been set at all.
-        /// </summary>
-        Boolean HasIndex { get; }
-
-        /// <summary>
         /// Gets the index in the stacking order, if any.
         /// </summary>
-        Int32 Index { get; }
+        Int32? Index { get; }
     }
 }

@@ -19,7 +19,6 @@
         internal CSSCaptionSideProperty()
             : base(PropertyNames.CaptionSide)
         {
-            _top = true;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = true;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -50,7 +54,7 @@
                 _top = true;
             else if (value.Is(Keywords.Bottom))
                 _top = false;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

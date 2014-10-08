@@ -82,7 +82,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
             var concrete = (CSSPerspectiveProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.HasValue);
         }
 
@@ -241,7 +241,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTransformStyleProperty));
             var concrete = (CSSTransformStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.HasValue);
         }
 

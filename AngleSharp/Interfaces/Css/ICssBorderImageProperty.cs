@@ -7,6 +7,25 @@
     /// </summary>
     public interface ICssBorderImageWidthProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the top length of the image slice, if any.
+        /// </summary>
+        IDistance WidthTop { get; }
+
+        /// <summary>
+        /// Gets the bottom length of the image slice, if any.
+        /// </summary>
+        IDistance WidthBottom { get; }
+
+        /// <summary>
+        /// Gets the left length of the image slice, if any.
+        /// </summary>
+        IDistance WidthLeft { get; }
+
+        /// <summary>
+        /// Gets the right length of the image slice, if any.
+        /// </summary>
+        IDistance WidthRight { get; }
     }
 
     /// <summary>

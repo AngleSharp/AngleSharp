@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSClipProperty()
-            : base(PropertyNames.Clip)
+            : base(PropertyNames.Clip, PropertyFlags.Animatable)
         {
-            _shape = null;
         }
 
         #endregion
@@ -40,6 +39,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _shape = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -53,7 +57,7 @@
                 _shape = shape;
             else if (value.Is(Keywords.Auto))
                 _shape = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

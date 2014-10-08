@@ -16,7 +16,8 @@ namespace ConsoleInteraction
             Construction();
             SimpleScriptingSample();
             ExtendedScriptingSample();
-            EventScriptingExample();
+            CustomEventScriptingExample();
+            LegacyEventScriptingExample();
         }
 
         static void FirstExample() 
@@ -195,7 +196,7 @@ div {
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
 
-        static void EventScriptingExample()
+        static void CustomEventScriptingExample()
         {
             //We require a custom configuration
             var config = new Configuration();
@@ -203,17 +204,16 @@ div {
             //Including a script engine
             config.Register(new JavaScriptEngine());
 
-            //And enabling scripting + styling (should be enabled anyway)
+            //And enabling scripting
             config.IsScripting = true;
-            config.IsStyling = true;
 
             //This is our sample source, we will trigger the load event
             var source = @"<!doctype html>
 <html>
-<head><title>Event sample</title></head>
+<head><title>Custo Event sample</title></head>
 <body>
 <script>
-console.log('Before setting the handler!');
+console.log('Beforem setting the handler!');
 
 document.addEventListener('load', function() {
     console.log('Document loaded!');
@@ -242,7 +242,7 @@ console.log('After setting the handler!');
             document.Dispatch(e);
         }
 
-        public static void Html5Test()
+        static void Html5Test()
         {
             //We require a custom configuration
             var config = new Configuration();
@@ -257,6 +257,38 @@ console.log('After setting the handler!');
             var document = DocumentBuilder.Html(new Uri("http://html5test.com/"), config);
             var points = document.QuerySelector("#score > .pointsPanel > h2 > strong").TextContent;
             Console.WriteLine("AngleSharp received {0} points form HTML5Test.com", points);
+        }
+
+        static void LegacyEventScriptingExample()
+        {
+            //We require a custom configuration
+            var config = new Configuration();
+
+            //Including a script engine
+            config.Register(new JavaScriptEngine());
+
+            //And enabling scripting
+            config.IsScripting = true;
+
+            //This is our sample source, we will trigger the load event
+            var source = @"<!doctype html>
+<html>
+<head><title>Legacy event sample</title></head>
+<body>
+<script>
+console.log('Before setting the handler via onload!');
+
+document.onload = function() {
+    console.log('Document loaded (legacy way)!');
+};
+
+console.log('After setting the handler via onload!');
+</script>
+</body>";
+            var document = DocumentBuilder.Html(source, config);
+
+            //HTML should be output in the end
+            Console.WriteLine(document.DocumentElement.OuterHtml);
         }
     }
 }

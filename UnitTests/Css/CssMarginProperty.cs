@@ -25,6 +25,21 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssMarginLeftInitialLegal()
+        {
+            var snippet = "margin-left: initial ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("margin-left", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSMarginLeftProperty));
+            var concrete = (CSSMarginLeftProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+            Assert.AreEqual("initial", concrete.Value.CssText);
+        }
+
+        [TestMethod]
         public void CssMarginRightLengthImportantLegal()
         {
             var snippet = "margin-right: 3em!important";
@@ -228,7 +243,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMarginProperty));
             var concrete = (CSSMarginProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }

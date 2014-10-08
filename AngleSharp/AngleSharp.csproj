@@ -43,7 +43,10 @@
     <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Collections\TouchList.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />
+    <Compile Include="DOM\Css\Constants\OverflowMode.cs" />
+    <Compile Include="DOM\Css\Constants\PositionMode.cs" />
     <Compile Include="DOM\Css\Constants\UnitType.cs" />
+    <Compile Include="DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs" />
     <Compile Include="DOM\Events\ErrorEvent.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
     <Compile Include="DOM\Events\HashChangedEvent.cs" />
@@ -338,10 +341,14 @@
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IAudioService.cs" />
     <Compile Include="Infrastructure\ICookieService.cs" />
+    <Compile Include="Infrastructure\IEventService.cs" />
     <Compile Include="Infrastructure\IExtensionService.cs" />
+    <Compile Include="Infrastructure\IImageService.cs" />
+    <Compile Include="Infrastructure\IResourceService.cs" />
     <Compile Include="Infrastructure\IScriptEngine.cs" />
     <Compile Include="Infrastructure\IService.cs" />
     <Compile Include="Infrastructure\IStyleEngine.cs" />
+    <Compile Include="Infrastructure\IVideoService.cs" />
     <Compile Include="Infrastructure\ScriptOptions.cs" />
     <Compile Include="Interfaces\Css\ICssAnimationPlayStateProperty.cs" />
     <Compile Include="Interfaces\Css\ICssAnimationProperty.cs" />
@@ -439,7 +446,7 @@
     <Compile Include="Interfaces\Css\ICssValueList.cs" />
     <Compile Include="Interfaces\Css\ICssVerticalAlignProperty.cs" />
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssWhiteSpaceProperty.cs" />
+    <Compile Include="Interfaces\Css\ICssWhitespaceProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidowsProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWidthProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWordSpacingProperty.cs" />
@@ -611,6 +618,11 @@
     <Compile Include="Interfaces\Svg\ISvgSvgElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgTitleElement.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
+    <Compile Include="Media\IAudioInfo.cs" />
+    <Compile Include="Media\IImageInfo.cs" />
+    <Compile Include="Media\IMediaInfo.cs" />
+    <Compile Include="Media\IResourceInfo.cs" />
+    <Compile Include="Media\IVideoInfo.cs" />
     <Compile Include="Network\Constants\CorsSetting.cs" />
     <Compile Include="Network\Constants\DefaultPorts.cs" />
     <Compile Include="Network\Constants\KnownProtocols.cs" />
@@ -891,6 +903,7 @@
     <Compile Include="Parser\Html\Tokens\HtmlEndOfFileToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlTagToken.cs" />
     <Compile Include="Tools\AnalysisWindow.cs" />
+    <Compile Include="Tools\DefaultEventLoop.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

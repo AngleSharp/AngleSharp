@@ -1,16 +1,17 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.DOM.Media;
+    using AngleSharp.Media;
     using System;
 
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
-    sealed class HTMLVideoElement : HTMLMediaElement, IHtmlVideoElement
+    sealed class HTMLVideoElement : HTMLMediaElement<IVideoInfo>, IHtmlVideoElement
     {
         #region Fields
 
-        Int32 _videoWidth;
-        Int32 _videoHeight;
+        IVideoTrackList _videos;
 
         #endregion
 
@@ -22,21 +23,23 @@
         internal HTMLVideoElement()
             : base(Tags.Video)
         {
-            //TODO
-            _videoHeight = 0;
-            _videoWidth = 0;
         }
 
         #endregion
 
         #region Properties
 
+        public override IVideoTrackList VideoTracks
+        {
+            get { return _videos; }
+        }
+
         /// <summary>
         /// Gets or sets the displayed width of the video element.
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(_videoWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -45,7 +48,7 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(_videoHeight); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
@@ -54,7 +57,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _videoWidth; }
+            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Width : 0) : 0; }
         }
 
         /// <summary>
@@ -62,7 +65,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _videoHeight; }
+            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Height : 0) : 0; }
         }
 
         /// <summary>

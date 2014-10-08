@@ -24,7 +24,6 @@
         internal CSSColumnSpanProperty()
             : base(PropertyNames.ColumnSpan)
         {
-            _span = false;
         }
 
         #endregion
@@ -43,6 +42,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _span = false;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -56,7 +60,7 @@
             //The element spans across all columns.
             else if (value.Is(Keywords.All))
                 _span = true;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

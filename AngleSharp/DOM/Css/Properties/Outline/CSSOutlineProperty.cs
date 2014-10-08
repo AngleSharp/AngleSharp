@@ -11,20 +11,17 @@
     {
         #region Fields
 
-        CSSOutlineStyleProperty _style;
-        CSSOutlineWidthProperty _width;
-        CSSOutlineColorProperty _color;
+        LineStyle _style;
+        Length _width;
+        IBitmap _color;
 
         #endregion
 
         #region ctor
 
         internal CSSOutlineProperty()
-            : base(PropertyNames.Outline)
+            : base(PropertyNames.Outline, PropertyFlags.Animatable)
         {
-            _style = new CSSOutlineStyleProperty();
-            _width = new CSSOutlineWidthProperty();
-            _color = new CSSOutlineColorProperty();
         }
 
         #endregion
@@ -34,7 +31,7 @@
         /// <summary>
         /// Gets the selected outline style property.
         /// </summary>
-        public CSSOutlineStyleProperty Style
+        public LineStyle Style
         {
             get { return _style; }
         }
@@ -42,7 +39,7 @@
         /// <summary>
         /// Gets the selected outline width property.
         /// </summary>
-        public CSSOutlineWidthProperty Width
+        public Length Width
         {
             get { return _width; }
         }
@@ -50,29 +47,21 @@
         /// <summary>
         /// Gets the selected outline color property.
         /// </summary>
-        public CSSOutlineColorProperty Color
+        public Color Color
         {
-            get { return _color; }
-        }
-
-        Color ICssOutlineColorProperty.Color
-        {
-            get { return _color.Color; }
-        }
-
-        LineStyle ICssOutlineStyleProperty.Style
-        {
-            get { return _style.Style; }
-        }
-
-        Length ICssOutlineWidthProperty.Width
-        {
-            get { return _width.Width; }
+            get { return _color is Color ? (Color)_color : Color.Transparent; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _style = LineStyle.None;
+            _width = Length.Medium;
+            _color = Colors.Invert;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -81,50 +70,40 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
+            var entries = value.AsEnumeration();
+            LineStyle? style = null;
+            Length? width = null;
+            IBitmap color = null;
 
-            var list = value as CSSValueList;
-
-            if (list == null)
-                list = new CSSValueList(value);
-
-            var index = 0;
-            var startGroup = new List<CSSProperty>(3);
-            var style = new CSSOutlineStyleProperty();
-            var width = new CSSOutlineWidthProperty();
-            var color = new CSSOutlineColorProperty();
-            startGroup.Add(style);
-            startGroup.Add(width);
-            startGroup.Add(color);
-
-            while (true)
+            foreach (var entry in entries)
             {
-                var length = startGroup.Count;
-
-                for (int i = 0; i < length; i++)
+                if (style == null && (style = entry.ToLineStyle()).HasValue)
+                    continue;
+                else if (width == null && (width = entry.ToBorderWidth()).HasValue)
+                    continue;
+                else if (color == null)
                 {
-                    if (CheckSingleProperty(startGroup[i], index, list))
+                    var c = entry.ToColor();
+
+                    if (c.HasValue)
                     {
-                        startGroup.RemoveAt(i);
-                        index++;
-                        break;
+                        color = c.Value;
+                        continue;
+                    }
+                    else if (entry.Is(Keywords.Invert))
+                    {
+                        color = Colors.Invert;
+                        continue;
                     }
                 }
 
-                if (length == startGroup.Count)
-                    break;
+                return false;
             }
 
-            if (index == list.Length)
-            {
-                _style = style;
-                _width = width;
-                _color = color;
-                return true;
-            }
-
-            return false;
+            _style = style ?? LineStyle.None;
+            _width = width ?? Length.Medium;
+            _color = color ?? Colors.Invert;
+            return true;
         }
 
         #endregion

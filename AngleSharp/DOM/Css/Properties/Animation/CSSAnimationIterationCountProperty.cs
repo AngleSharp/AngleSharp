@@ -20,8 +20,6 @@
         internal CSSAnimationIterationCountProperty()
             : base(PropertyNames.AnimationIterationCount)
         {
-            _iterations = new List<Int32>();
-            _iterations.Add(1);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_iterations == null)
+                _iterations = new List<Int32>();
+            else
+                _iterations.Clear();
+
+            _iterations.Add(1);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,20 +59,23 @@
 
             if (values != null)
             {
-                _iterations.Clear();
+                var iterations = new List<Int32>();
 
                 foreach (var v in values)
                 {
                     var n = v.ToInteger();
 
-                    if (n.HasValue)
-                        _iterations.Add(n.Value);
-                }
-            }
-            else if (value != CSSValue.Inherit)
-                return false;
+                    if (n == null)
+                        return false;
 
-            return true;
+                    iterations.Add(n.Value);
+                }
+
+                _iterations = iterations;
+                return true;
+            }
+            
+            return false;
         }
 
         static CSSPrimitiveValue ToNumber(CSSValue value)

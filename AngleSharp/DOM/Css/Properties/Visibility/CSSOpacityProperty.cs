@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSOpacityProperty()
-            : base(PropertyNames.Opacity)
+            : base(PropertyNames.Opacity, PropertyFlags.Animatable)
         {
-            _value = 1f;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _value = 1f;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var num = value.ToSingle();
 
             if (num.HasValue)
+            {
                 _value = num.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

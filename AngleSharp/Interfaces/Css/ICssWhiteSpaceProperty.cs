@@ -3,11 +3,11 @@
     /// <summary>
     /// Represents the CSS white-space property.
     /// </summary>
-    public interface ICssWhiteSpaceProperty : ICssProperty
+    public interface ICssWhitespaceProperty : ICssProperty
     {
         /// <summary>
         /// Gets the selected whitespace handling mode.
         /// </summary>
-        Whitespace Mode { get; }
+        Whitespace State { get; }
     }
 }

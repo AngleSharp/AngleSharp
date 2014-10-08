@@ -19,7 +19,6 @@
         internal CSSColumnFillProperty()
             : base(PropertyNames.ColumnFill)
         {
-            _balanced = true;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _balanced = true;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,7 +55,7 @@
             //Is a keyword indicating that content is equally divided between columns.
             else if (value.Is(Keywords.Balance))
                 _balanced = true;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

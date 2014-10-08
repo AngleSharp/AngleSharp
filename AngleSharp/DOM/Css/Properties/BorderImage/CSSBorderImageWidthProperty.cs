@@ -10,13 +10,10 @@
     {
         #region Fields
 
-        static readonly MultipleImageWidthMode _default = new MultipleImageWidthMode(1f);
-        static readonly AutoImageWidthMode _auto = new AutoImageWidthMode();
-
-        ImageWidthMode _top;
-        ImageWidthMode _right;
-        ImageWidthMode _bottom;
-        ImageWidthMode _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
 
         #endregion
 
@@ -25,19 +22,67 @@
         internal CSSBorderImageWidthProperty()
             : base(PropertyNames.BorderImageWidth)
         {
-            _top = _default;
-            _right = _default;
-            _bottom = _default;
-            _left = _default;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets the top length of the image slice. It can be an absolute or
+        /// relative length. This length must not be negative. If a percentage of
+        /// the image slice is given it is relative to the height of the border
+        /// image area. The percentage must not be negative.
+        /// </summary>
+        public IDistance WidthTop
+        {
+            get { return _top; }
+        }
+
+        /// <summary>
+        /// Gets the bottom length of the image slice. It can be an absolute or
+        /// relative length. This length must not be negative. If a percentage of
+        /// the image slice is given it is relative to the height of the border
+        /// image area. The percentage must not be negative.
+        /// </summary>
+        public IDistance WidthBottom
+        {
+            get { return _bottom; }
+        }
+
+        /// <summary>
+        /// Gets the left length of the image slice. It can be an absolute or
+        /// relative length. This length must not be negative. If a percentage of
+        /// the image slice is given it is relative to the width of the border
+        /// image area. The percentage must not be negative.
+        /// </summary>
+        public IDistance WidthLeft
+        {
+            get { return _left; }
+        }
+
+        /// <summary>
+        /// Gets the right length of the image slice. It can be an absolute or
+        /// relative length. This length must not be negative. If a percentage of
+        /// the image slice is given it is relative to the width of the border
+        /// image area. The percentage must not be negative.
+        /// </summary>
+        public IDistance WidthRight
+        {
+            get { return _right; }
+        }
+
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _top = Percent.Hundred;
+            _right = Percent.Hundred;
+            _bottom = Percent.Hundred;
+            _left = Percent.Hundred;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -46,34 +91,16 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = ToMode(value);
+            var mode = value.ToImageBorderWidth();
 
             if (mode != null)
                 _top = _right = _left = _bottom = mode;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;
-        }
-
-        static ImageWidthMode ToMode(CSSValue value)
-        {
-            if (value.Is(Keywords.Auto))
-                return _auto;
-
-            var multiple = value.ToSingle();
-
-            if (multiple.HasValue)
-                return new MultipleImageWidthMode(multiple.Value);
-
-            var distance = value.ToDistance();
-
-            if (distance != null)
-                return new CalcImageWidthMode(distance);
-
-            return null;
         }
 
         Boolean Evaluate(CSSValueList values)
@@ -81,80 +108,33 @@
             if (values.Length > 4)
                 return false;
 
-            var top = ToMode(values[0]);
-            var right = ToMode(values[1]);
-            var bottom = top;
-            var left = right;
+            IDistance top = null;
+            IDistance right = null;
+            IDistance bottom = null;
+            IDistance left = null;
 
-            if (top == null || right == null)
-                return false;
-
-            if (values.Length > 2)
+            foreach (var value in values)
             {
-                bottom = ToMode(values[2]);
+                var width = value.ToImageBorderWidth();
 
-                if (bottom == null)
+                if (width == null)
                     return false;
 
-                if (values.Length > 3)
-                {
-                    left = ToMode(values[3]);
-
-                    if (left == null)
-                        return false;
-                }
+                if (top == null)
+                    top = width;
+                else if (right == null)
+                    right = width;
+                else if (bottom == null)
+                    bottom = width;
+                else if (left == null)
+                    left = width;
             }
 
-            _left = left;
-            _right = right;
-            _bottom = bottom;
             _top = top;
+            _right = right ?? _top;
+            _bottom = bottom ?? _top;
+            _left = left ?? _right;
             return true;
-        }
-
-        #endregion
-
-        #region Mode
-
-        abstract class ImageWidthMode
-        { }
-
-        /// <summary>
-        /// Indicates that the width, or height, of the image size must be the
-        /// intrinsic size of that dimension.
-        /// </summary>
-        sealed class AutoImageWidthMode : ImageWidthMode
-        { }
-
-        /// <summary>
-        /// Represents the length of the image slice. It can be an absolute or
-        /// relative length. This length must not be negative.
-        /// OR
-        /// Represents the percentage of the image slice relative to the height,
-        /// or width, of the border image area. The percentage must not be negative.
-        /// </summary>
-        sealed class CalcImageWidthMode : ImageWidthMode
-        {
-            readonly IDistance _calc;
-
-            public CalcImageWidthMode(IDistance calc)
-            {
-                _calc = calc;
-            }
-        }
-
-        /// <summary>
-        /// Represents a multiple of the computed value of the element's border-width
-        /// property to be used as the image slice size. The number must not be negative.
-        /// </summary>
-        sealed class MultipleImageWidthMode : ImageWidthMode
-        {
-            Single _factor;
-
-            public MultipleImageWidthMode(Single factor)
-            {
-                _factor = factor;
-            }
         }
 
         #endregion

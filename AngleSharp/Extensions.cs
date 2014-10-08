@@ -3,7 +3,9 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
+    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -69,6 +71,21 @@
         {
             foreach (var element in elements)
                 element.SetAttribute(attributeName, attributeValue);
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Empties all provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Empty<T>(this T elements)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+                element.InnerHtml = String.Empty;
 
             return elements;
         }
@@ -295,6 +312,60 @@
         public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
         {
             return DocumentBuilder.CssAsync(uri, cancel, configuration);
+        }
+
+        #endregion
+
+        #region Browsing Context
+
+        /// <summary>
+        /// Opens a new document asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="response">The response to examine.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response)
+        {
+            return context.OpenAsync(response, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Opens a new document asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="response">The response to examine.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
+        {
+            var src = new TextSource(response.Content, context.Configuration.DefaultEncoding());
+            var doc = new Document { Context = context };
+            await doc.LoadAsync(response, cancel).ConfigureAwait(false);
+            return doc;
+        }
+
+        /// <summary>
+        /// Opens a new document asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="url">The URL to load.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url)
+        {
+            return context.OpenAsync(url, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Opens a new document asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="url">The URL to load.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
+        {
+            var response = await context.Configuration.LoadAsync(url, cancel).ConfigureAwait(false);
+            return await context.OpenAsync(response, cancel).ConfigureAwait(false);
         }
 
         #endregion

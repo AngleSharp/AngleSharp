@@ -16,9 +16,8 @@
         #region ctor
 
         internal CSSBorderPartWidthProperty(String name)
-            : base(name, PropertyFlags.Unitless)
+            : base(name, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            _width = Length.Medium;
         }
 
         #endregion
@@ -37,6 +36,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _width = Length.Medium;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -47,11 +51,12 @@
             var length = value.ToBorderWidth();
 
             if (length.HasValue)
+            {
                 _width = length.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

@@ -22,10 +22,6 @@
         internal CSSBorderImageOutsetProperty()
             : base(PropertyNames.BorderImageOutset)
         {
-            _top = Percent.Zero;
-            _right = Percent.Zero;
-            _bottom = Percent.Zero;
-            _left = Percent.Zero;
         }
 
         #endregion
@@ -68,6 +64,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = Percent.Zero;
+            _right = Percent.Zero;
+            _bottom = Percent.Zero;
+            _left = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -81,7 +85,7 @@
                 _top = _bottom = _right = _left = calc;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;
@@ -92,34 +96,32 @@
             if (values.Length > 4)
                 return false;
 
-            var top = values[0].ToDistance();
-            var right = values[1].ToDistance();
-            var bottom = top;
-            var left = right;
+            IDistance top = null;
+            IDistance right = null;
+            IDistance bottom = null;
+            IDistance left = null;
 
-            if (top == null || right == null)
-                return false;
-
-            if (values.Length > 2)
+            foreach (var value in values)
             {
-                bottom = values[2].ToDistance();
+                var width = value.ToDistance();
 
-                if (bottom == null)
+                if (width == null)
                     return false;
 
-                if (values.Length > 3)
-                {
-                    left = values[3].ToDistance();
-
-                    if (left == null)
-                        return false;
-                }
+                if (top == null)
+                    top = width;
+                else if (right == null)
+                    right = width;
+                else if (bottom == null)
+                    bottom = width;
+                else if (left == null)
+                    left = width;
             }
 
-            _left = left;
-            _right = right;
-            _bottom = bottom;
             _top = top;
+            _right = right ?? _top;
+            _bottom = bottom ?? _top;
+            _left = left ?? _right;
             return true;
         }
 

@@ -8,7 +8,7 @@
     /// <summary>
     /// Transport object for running scripts.
     /// </summary>
-    public class ScriptOptions
+    public sealed class ScriptOptions
     {
         /// <summary>
         /// Gets or sets the context in which the script should run.

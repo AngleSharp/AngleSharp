@@ -18,9 +18,8 @@
         #region ctor
 
         internal CSSTextShadowProperty()
-            : base(PropertyNames.TextShadow, PropertyFlags.Inherited)
+            : base(PropertyNames.TextShadow, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _shadows = new List<Shadow>();
         }
 
         #endregion
@@ -39,6 +38,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_shadows == null)
+                _shadows = new List<Shadow>();
+            else
+                _shadows.Clear();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -50,7 +57,7 @@
                 _shadows.Clear();
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

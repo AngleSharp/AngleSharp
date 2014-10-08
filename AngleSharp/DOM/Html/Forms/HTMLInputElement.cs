@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Io;
+    using AngleSharp.Media;
     using System;
     using System.Globalization;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -11,8 +13,7 @@
     {
         #region Fields
 
-        Int32 _imageWidth;
-        Int32 _imageHeight;
+        Task<IImageInfo> _imageTask;
         Boolean? _checked;
         FileList _files;
 
@@ -228,17 +229,6 @@
         }
 
         /// <summary>
-        /// Gets or sets the height HTML attribute, which defines the
-        /// height of the image displayed for the button, if the value
-        /// of type is image.
-        /// </summary>
-        public Int32 DisplayHeight
-        {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(_imageHeight); }
-            set { SetAttribute(AttributeNames.Height, value.ToString()); }
-        }
-
-        /// <summary>
         /// Gets the datalist element in the same document.
         /// Only options that are valid values for this input element will
         /// be displayed. This attribute is ignored when the type
@@ -341,8 +331,35 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(_imageWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
+        }
+
+        /// <summary>
+        /// Gets or sets the height HTML attribute, which defines the
+        /// height of the image displayed for the button, if the value
+        /// of type is image.
+        /// </summary>
+        public Int32 DisplayHeight
+        {
+            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { SetAttribute(AttributeNames.Height, value.ToString()); }
+        }
+
+        /// <summary>
+        /// Gets the width of the image.
+        /// </summary>
+        public Int32 OriginalWidth
+        {
+            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Width : 0) : 0; }
+        }
+
+        /// <summary>
+        /// Gets the height of the image.
+        /// </summary>
+        public Int32 OriginalHeight
+        {
+            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Height : 0) : 0; }
         }
 
         #endregion
@@ -396,6 +413,30 @@
         internal Boolean IsMutable 
         {
             get { return !IsDisabled && !IsReadOnly; }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void Close()
+        {
+            var type = Type.ToEnum(InputType.Text);
+
+            if (type == InputType.Image)
+            {
+                var src = Source;
+
+                if (src != null)
+                {
+                    var url = HyperRef(src);
+                    _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
+                    _imageTask.ContinueWith(task =>
+                    {
+                        FireSimpleEvent(EventNames.Load);
+                    });
+                }
+            }      
         }
 
         #endregion

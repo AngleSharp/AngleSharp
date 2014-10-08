@@ -4,9 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
 
     static class LegacyExtensions
     {
+        public static Task InvokeAsync(this Action action)
+        {
+            return Task.Factory.StartNew(action);
+        }
+
         public static Type GetTypeInfo(this Type type)
         {
             return type;
@@ -35,6 +41,11 @@
         public static ConstructorInfo[] GetDeclaredConstructors(this Type type)
         {
             return type.GetConstructors().ToArray();
+        }
+
+        public static PropertyInfo GetDeclaredProperty(this Type type, String name)
+        {
+            return type.GetProperty(name);
         }
 
         public static FieldInfo GetDeclaredField(this Type type, String name)
@@ -165,6 +176,11 @@
         public static Object[] GetCustomAttributes(this Assembly assembly, Type attributeType)
         {
             return assembly.GetCustomAttributes(attributeType, false);
+        }
+
+        public static void SetValue(this PropertyInfo property, Object obj, Object value)
+        {
+            property.SetValue(obj, value, null);
         }
     }
 }

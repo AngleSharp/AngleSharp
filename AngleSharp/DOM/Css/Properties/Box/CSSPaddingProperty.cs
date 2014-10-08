@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -10,10 +11,10 @@
     {
         #region Fields
 
-        CSSPaddingTopProperty _top;
-        CSSPaddingRightProperty _right;
-        CSSPaddingBottomProperty _bottom;
-        CSSPaddingLeftProperty _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
 
         #endregion
 
@@ -22,10 +23,6 @@
         internal CSSPaddingProperty()
             : base(PropertyNames.Padding)
         {
-            _left = new CSSPaddingLeftProperty();
-            _right = new CSSPaddingRightProperty();
-            _top = new CSSPaddingTopProperty();
-            _bottom = new CSSPaddingBottomProperty();
         }
 
         #endregion
@@ -37,7 +34,7 @@
         /// </summary>
         public IDistance Top
         {
-            get { return _top.Padding; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -45,7 +42,7 @@
         /// </summary>
         public IDistance Right
         {
-            get { return _right.Padding; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -53,7 +50,7 @@
         /// </summary>
         public IDistance Bottom
         {
-            get { return _bottom.Padding; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -61,12 +58,20 @@
         /// </summary>
         public IDistance Left
         {
-            get { return _left.Padding; }
+            get { return _left; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _left = Percent.Zero;
+            _right = Percent.Zero;
+            _top = Percent.Zero;
+            _bottom = Percent.Zero;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -75,46 +80,42 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
-            return Check(new CSSValue[] { value, value, value, value });
+            return Check(new CSSValue[1] { value });
         }
 
-        Boolean Check(CSSValueList arguments)
+        Boolean Check(IEnumerable<CSSValue> values)
         {
-            var count = arguments.Length;
+            IDistance top = null;
+            IDistance right = null;
+            IDistance bottom = null;
+            IDistance left = null;
 
-            if (count > 4)
-                return false;
-
-            var values = new CSSValue[4];
-
-            for (int i = 0; i < count; i++)
-                for (int j = i; j < 4; j += i + 1)
-                    values[j] = arguments[i];
-
-            return Check(values);
-        }
-
-        Boolean Check(CSSValue[] values)
-        {
-            var target = new CSSProperty[] { new CSSPaddingTopProperty(), new CSSPaddingRightProperty(), new CSSPaddingBottomProperty(), new CSSPaddingLeftProperty() };
-
-            for (int i = 0; i < 4; i++)
+            foreach (var value in values)
             {
-                target[i].Value = values[i];
+                var distance = value.ToDistance();
 
-                if (target[i].Value != values[i])
+                if (distance == null)
+                    return false;
+
+                if (top == null)
+                    top = distance;
+                else if (right == null)
+                    right = distance;
+                else if (bottom == null)
+                    bottom = distance;
+                else if (left == null)
+                    left = distance;
+                else
                     return false;
             }
 
-            _top = (CSSPaddingTopProperty)target[0];
-            _right = (CSSPaddingRightProperty)target[1];
-            _bottom = (CSSPaddingBottomProperty)target[2];
-            _left = (CSSPaddingLeftProperty)target[3];
+            _top = top;
+            _right = right ?? _top;
+            _bottom = bottom ?? _top;
+            _left = left ?? _right;
             return true;
         }
 

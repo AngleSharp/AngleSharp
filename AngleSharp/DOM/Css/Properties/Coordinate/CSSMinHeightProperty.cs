@@ -17,9 +17,8 @@
         #region ctor
 
         internal CSSMinHeightProperty()
-            : base(PropertyNames.MinHeight)
+            : base(PropertyNames.MinHeight, PropertyFlags.Animatable)
         {
-            _mode = Percent.Zero;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var distance = value.ToDistance();
 
             if (distance != null)
+            {
                 _mode = distance;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

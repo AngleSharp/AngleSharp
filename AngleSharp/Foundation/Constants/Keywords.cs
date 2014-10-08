@@ -18,6 +18,11 @@
         public static readonly String Inherit = "inherit";
 
         /// <summary>
+        /// The initial keyword.
+        /// </summary>
+        public static readonly String Initial = "initial";
+
+        /// <summary>
         /// The none keyword.
         /// </summary>
         public static readonly String None = "none";
@@ -86,6 +91,11 @@
         /// The avoid-column keyword.
         /// </summary>
         public static readonly String AvoidColumn = "avoid-column";
+
+        /// <summary>
+        /// The avoid-region keyword.
+        /// </summary>
+        public static readonly String AvoidRegion = "avoid-region";
 
         /// <summary>
         /// The inset keyword.
@@ -1071,5 +1081,10 @@
         /// The end keyword.
         /// </summary>
         public static readonly String End = "end";
+
+        /// <summary>
+        /// The fill keyword.
+        /// </summary>
+        public static readonly String Fill = "fill";
     }
 }

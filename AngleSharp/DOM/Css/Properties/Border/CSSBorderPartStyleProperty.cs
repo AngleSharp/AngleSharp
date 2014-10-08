@@ -18,7 +18,6 @@
         internal CSSBorderPartStyleProperty(String name)
             : base(name)
         {
-            _style = LineStyle.None;
         }
 
         #endregion
@@ -37,6 +36,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _style = LineStyle.None;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -47,11 +51,12 @@
             var style = value.ToLineStyle();
 
             if (style.HasValue)
+            {
                 _style = style.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

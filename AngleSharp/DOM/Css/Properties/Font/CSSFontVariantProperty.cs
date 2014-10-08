@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        FontVariant _style;
+        FontVariant _variant;
 
         #endregion
 
@@ -19,7 +19,6 @@
         internal CSSFontVariantProperty()
             : base(PropertyNames.FontVariant, PropertyFlags.Inherited)
         {
-            _style = FontVariant.Normal;
         }
 
         #endregion
@@ -31,12 +30,17 @@
         /// </summary>
         public FontVariant Variant
         {
-            get { return _style; }
+            get { return _variant; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _variant = FontVariant.Normal;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -45,14 +49,15 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Normal))
-                _style = FontVariant.Normal;
-            else if (value.Is(Keywords.SmallCaps))
-                _style = FontVariant.SmallCaps;
-            else if (value != CSSValue.Inherit)
-                return false;
+            var variant = value.ToFontVariant();
 
-            return true;
+            if (variant.HasValue)
+            {
+                _variant = variant.Value;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

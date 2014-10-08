@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -9,9 +11,7 @@
     {
         #region Fields
 
-        Int32 _imageWidth;
-        Int32 _imageHeight;
-        Boolean _loaded;
+        Task<IImageInfo> _imageTask;
 
         #endregion
 
@@ -23,11 +23,6 @@
         internal HTMLImageElement()
             : base(Tags.Img, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _loaded = true;
-
-            //TODO
-            _imageHeight = 0;
-            _imageWidth = 0;
         }
 
         #endregion
@@ -75,7 +70,7 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(_imageWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -84,7 +79,7 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(_imageHeight); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
         }
 
@@ -93,7 +88,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _imageWidth; }
+            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Width : 0) : 0; }
         }
 
         /// <summary>
@@ -101,7 +96,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _imageHeight; }
+            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Height : 0) : 0; }
         }
 
         /// <summary>
@@ -109,7 +104,7 @@
         /// </summary>
         public Boolean IsCompleted
         {
-            get { return _loaded; }
+            get { return _imageTask == null || _imageTask.IsCompleted; }
         }
 
         /// <summary>
@@ -121,6 +116,26 @@
         {
             get { return GetAttribute(AttributeNames.IsMap) != null; }
             set { SetAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            var src = Source;
+
+            if (src != null)
+            {
+                var url = HyperRef(src);
+                _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
+                _imageTask.ContinueWith(task =>
+                {
+                    FireSimpleEvent(EventNames.Load);
+                });
+            }        
         }
 
         #endregion

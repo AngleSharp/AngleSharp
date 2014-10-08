@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSColumnCountProperty()
-            : base(PropertyNames.ColumnCount)
+            : base(PropertyNames.ColumnCount, PropertyFlags.Animatable)
         {
-            _count = null;
         }
 
         #endregion
@@ -30,24 +29,21 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the column count should be considered.
-        /// </summary>
-        public Boolean IsUsed
-        {
-            get { return _count.HasValue; }
-        }
-
-        /// <summary>
         /// Gets the number of columns.
         /// </summary>
-        public Int32 Count
+        public Int32? Count
         {
-            get { return _count.HasValue ? _count.Value : 0; }
+            get { return _count; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _count = null;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -60,9 +56,9 @@
 
             if (count.HasValue)
                 _count = count.Value;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _count = null;
-            else if (value != CSSValue.Inherit)
+            else 
                 return false;
 
             return true;

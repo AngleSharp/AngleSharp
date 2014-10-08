@@ -20,22 +20,13 @@
         #region ctor
 
         internal CSSMaxWidthProperty()
-            : base(PropertyNames.MaxWidth)
+            : base(PropertyNames.MaxWidth, PropertyFlags.Animatable)
         {
-            _mode = null;
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets if a limit has been specified, otherwise the value is none.
-        /// </summary>
-        public Boolean IsLimited
-        {
-            get { return _mode != null; }
-        }
 
         /// <summary>
         /// Gets the specified max-width of the element. A percentage is calculated
@@ -50,6 +41,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _mode = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -63,7 +59,7 @@
                 _mode = distance;
             else if (value.Is(Keywords.None))
                 _mode = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

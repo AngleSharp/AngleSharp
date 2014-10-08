@@ -20,8 +20,6 @@
         internal CSSAnimationDelayProperty()
             : base(PropertyNames.AnimationDelay)
         {
-            _times = new List<Time>();
-            _times.Add(Time.Zero);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_times == null)
+                _times = new List<Time>();
+            else
+                _times.Clear();
+
+            _times.Add(Time.Zero);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,7 +59,7 @@
 
             if (values != null)
             {
-                _times.Clear();
+                var times = new List<Time>();
 
                 foreach (var v in values)
                 {
@@ -60,13 +68,14 @@
                     if (time == null)
                         return false;
 
-                    _times.Add(time.Value);
+                    times.Add(time.Value);
                 }
-            }
-            else if (value != CSSValue.Inherit)
-                return false;
 
-            return true;
+                _times = times;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

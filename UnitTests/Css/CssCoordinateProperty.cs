@@ -122,7 +122,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSWidthProperty));
             var concrete = (CSSWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CSSValue.Inherit, concrete.Value);
+            Assert.AreEqual(CSSValue.Initial, concrete.Value);
         }
 
         [TestMethod]
@@ -351,7 +351,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBottomProperty));
             var concrete = (CSSBottomProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -381,7 +381,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSMaxHeightProperty));
             var concrete = (CSSMaxHeightProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }

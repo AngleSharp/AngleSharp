@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSColumnWidthProperty()
-            : base(PropertyNames.ColumnWidth)
+            : base(PropertyNames.ColumnWidth, PropertyFlags.Animatable)
         {
-            _width = null;
         }
 
         #endregion
@@ -30,24 +29,21 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the column width should be considered.
-        /// </summary>
-        public Boolean IsUsed
-        {
-            get { return _width.HasValue; }
-        }
-
-        /// <summary>
         /// Gets the width of a single columns.
         /// </summary>
-        public Length Width
+        public Length? Width
         {
-            get { return _width.HasValue ? _width.Value : Length.Zero; }
+            get { return _width; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _width = null;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -60,9 +56,9 @@
 
             if (width.HasValue)
                 _width = width.Value;
-            else if (value.Is("auto"))
+            else if (value.Is(Keywords.Auto))
                 _width = null;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

@@ -53,12 +53,12 @@
     public interface ICssFontSizeProperty : ICssProperty
     {
         /// <summary>
-        /// Gets the font-size mode.
+        /// Gets the set font-size mode.
         /// </summary>
-        FontSize Mode { get; }
+        FontSize SizingMode { get; }
 
         /// <summary>
-        /// Gets the custom set font-size, if any.
+        /// Gets the font-size.
         /// </summary>
         IDistance Size { get; }
     }
@@ -68,6 +68,20 @@
     /// </summary>
     public interface ICssFontWeightProperty : ICssProperty
     {
+        /// <summary>
+        /// Numeric font weights for fonts that provide more than just normal and bold. If the exact
+        /// weight given is unavailable, then 600-900 use the closest available darker weight
+        /// (or, if there is none, the closest available lighter weight), and 100-500 use the closest
+        /// available lighter weight (or, if there is none, the closest available darker weight). This
+        /// means that for fonts that provide only normal and bold, 100-500 are normal, and 600-900 are
+        /// bold.
+        /// </summary>
+        Int32 Weight { get; }
+
+        /// <summary>
+        /// Gets if the given value should be considered relative to the current one.
+        /// </summary>
+        Boolean IsRelative { get; }
     }
 
     /// <summary>
@@ -75,6 +89,12 @@
     /// </summary>
     public interface ICssLineHeightProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets the specified length that is used in the calculation of the line box height.
+        /// Could also be relative to the font size of the element itself. The computed value
+        /// is this percentage multiplied by the element's computed font size.
+        /// </summary>
+        IDistance Height { get; }
     }
 
     /// <summary>

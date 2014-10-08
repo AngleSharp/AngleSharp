@@ -25,6 +25,10 @@
         /// <summary>
         /// The property supports unitless lengths in quirks mode.
         /// </summary>
-        Unitless = 0x4
+        Unitless = 0x4,
+        /// <summary>
+        /// The property is supported in animations.
+        /// </summary>
+        Animatable = 0x8
     }
 }

@@ -12,6 +12,7 @@
         #region Fields
 
         readonly CSSRuleList _rules;
+        readonly ITextSource _source;
 
         ICssRule _ownerRule;
         IConfiguration _options;
@@ -19,12 +20,31 @@
         #endregion
 
         #region ctor
-
+        
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
         internal CSSStyleSheet()
+            : this(String.Empty)
         {
+        }
+
+        /// <summary>
+        /// Creates a new CSS Stylesheet.
+        /// </summary>
+        /// <param name="source">The CSS source code.</param>
+        internal CSSStyleSheet(String source)
+            : this(new TextSource(source))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new CSS Stylesheet.
+        /// </summary>
+        /// <param name="source">The underlying source.</param>
+        internal CSSStyleSheet(ITextSource source)
+        {
+            _source = source;
             _rules = new CSSRuleList();
         }
 
@@ -47,6 +67,14 @@
         {
             get { return _ownerRule; }
             internal set { _ownerRule = value; }
+        }
+
+        /// <summary>
+        /// Gets the text stream source.
+        /// </summary>
+        internal ITextSource Source
+        {
+            get { return _source; }
         }
 
         #endregion

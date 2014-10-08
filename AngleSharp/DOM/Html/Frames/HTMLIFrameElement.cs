@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Collections;
     using System;
+    using System.Threading;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -9,7 +10,10 @@
     sealed class HTMLIFrameElement : HTMLFrameElementBase, IHtmlInlineFrameElement
     {
         #region Fields
+
         ISettableTokenList _sandbox;
+        Document _doc;
+        
         #endregion
 
         #region ctor
@@ -17,6 +21,7 @@
         internal HTMLIFrameElement()
             : base(Tags.Iframe, NodeFlags.LiteralText)
         {
+            _doc = new Document();
         }
 
         #endregion
@@ -70,6 +75,26 @@
         public IWindowProxy ContentWindow
         {
             get { return null; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            var src = Source;
+
+            if (src != null)
+            {
+                var url = HyperRef(src);
+                Owner.Options.LoadAsync(url).ContinueWith(task =>
+                {
+                    if (!task.IsFaulted && task.Result != null)
+                        _doc.LoadAsync(task.Result, CancellationToken.None);
+                });
+            }
         }
 
         #endregion

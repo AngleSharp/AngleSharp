@@ -19,7 +19,6 @@
         internal CSSListStyleImageProperty()
             : base(PropertyNames.ListStyleImage, PropertyFlags.Inherited)
         {
-            _image = null;
         }
 
         #endregion
@@ -38,6 +37,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _image = null;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -48,11 +52,12 @@
             var image = value.ToImage();
 
             if (image != null)
+            {
                 _image = image;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

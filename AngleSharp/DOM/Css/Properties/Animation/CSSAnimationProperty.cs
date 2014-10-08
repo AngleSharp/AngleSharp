@@ -20,17 +20,6 @@
         internal CSSAnimationProperty()
             : base(PropertyNames.Animation)
         {
-            _animations = new List<Animation>();
-            _animations.Add(new Animation
-            {
-                Delay = Time.Zero,
-                Timing = TransitionFunction.Ease,
-                Duration = Time.Zero,
-                FillMode = AnimationFillStyle.None,
-                IterationCount = 1,
-                Direction = AnimationDirection.Normal,
-                Name = Keywords.None
-            });
         }
 
         #endregion
@@ -125,6 +114,25 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_animations == null)
+                _animations = new List<Animation>();
+            else
+                _animations.Clear();
+
+            _animations.Add(new Animation
+            {
+                Delay = Time.Zero,
+                Timing = TransitionFunction.Ease,
+                Duration = Time.Zero,
+                FillMode = AnimationFillStyle.None,
+                IterationCount = 1,
+                Direction = AnimationDirection.Normal,
+                Name = Keywords.None
+            });
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -156,7 +164,7 @@
 
                 _animations = animations;
             }
-            else if (value != CSSValueList.Inherit)
+            else 
                 return false;
 
             return true;

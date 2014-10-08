@@ -24,16 +24,8 @@
         #region ctor
 
         internal CSSBorderRadiusProperty()
-            : base(PropertyNames.BorderRadius)
+            : base(PropertyNames.BorderRadius, PropertyFlags.Animatable)
         {
-            _topRightHorizontal = Percent.Zero;
-            _bottomRightHorizontal = Percent.Zero;
-            _bottomLeftHorizontal = Percent.Zero;
-            _topLeftHorizontal = Percent.Zero;
-            _topRightVertical = Percent.Zero;
-            _bottomRightVertical = Percent.Zero;
-            _bottomLeftVertical = Percent.Zero;
-            _topLeftVertical = Percent.Zero;
         }
 
         #endregion
@@ -108,6 +100,18 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _topRightHorizontal = Percent.Zero;
+            _bottomRightHorizontal = Percent.Zero;
+            _bottomLeftHorizontal = Percent.Zero;
+            _topLeftHorizontal = Percent.Zero;
+            _topRightVertical = Percent.Zero;
+            _bottomRightVertical = Percent.Zero;
+            _bottomLeftVertical = Percent.Zero;
+            _topLeftVertical = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -115,9 +119,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
             var distance = value.ToDistance();

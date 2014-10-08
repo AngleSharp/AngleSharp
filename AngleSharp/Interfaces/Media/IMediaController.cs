@@ -33,10 +33,10 @@
         Double Duration { get; }
 
         /// <summary>
-        /// Gets the current time of the controlled media.
+        /// Gets or sets the current time of the controlled media.
         /// </summary>
         [DomName("currentTime")]
-        Double CurrentTime { get; }
+        Double CurrentTime { get; set; }
 
         /// <summary>
         /// Gets or sets the default playback rate.

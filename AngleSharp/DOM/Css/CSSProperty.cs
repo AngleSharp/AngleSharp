@@ -6,7 +6,7 @@
     /// Fore more information about CSS properties
     /// see http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    class CSSProperty : ICssProperty, ICssObject
+    abstract class CSSProperty : ICssProperty, ICssObject
     {
         #region Fields
 
@@ -30,6 +30,8 @@
         {
             _name = name;
             _flags = flags;
+            _value = CSSValue.Initial;
+            Reset();
         }
 
         #endregion
@@ -50,7 +52,7 @@
         /// </summary>
         internal Boolean HasValue
         {
-            get { return _value != null; }
+            get { return _value != CSSValue.Initial; }
         }
 
         /// <summary>
@@ -74,12 +76,7 @@
         /// </summary>
         internal CSSValue Value
         {
-            get { return _value ?? CSSValue.Inherit; }
-            set
-            {
-                if (IsValid(value))
-                    _value = value;
-            }
+            get { return _value; }
         }
 
         #endregion
@@ -87,11 +84,27 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the property can be inherited.
+        /// Gets if the property is inherited.
         /// </summary>
         public Boolean IsInherited
         {
-            get { return _flags.HasFlag(PropertyFlags.Inherited); }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && _value == CSSValue.Initial) || _value == CSSValue.Inherit; }
+        }
+
+        /// <summary>
+        /// Gets if the property can be animated, in general.
+        /// </summary>
+        public Boolean IsAnimatable
+        {
+            get { return _flags.HasFlag(PropertyFlags.Animatable); }
+        }
+
+        /// <summary>
+        /// Gets if the property is currently in its initial state.
+        /// </summary>
+        public Boolean IsInitial
+        {
+            get { return _value == CSSValue.Initial; }
         }
 
         /// <summary>
@@ -127,11 +140,19 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(CSSValue value)
         {
-            if (!IsValid(value))
-                return false;
+            if (value == CSSValue.Inherit || value == CSSValue.Initial)
+            {
+                Reset();
+                _value = value;
+                return true;
+            }
+            else if (IsValid(value))
+            {
+                _value = value;
+                return true;
+            }
 
-            _value = value;
-            return true;
+            return false;
         }
 
         #endregion
@@ -139,44 +160,16 @@
         #region Methods
 
         /// <summary>
+        /// Resets the property to its initial state.
+        /// </summary>
+        protected abstract void Reset();
+
+        /// <summary>
         /// Notified once the value changed.
         /// </summary>
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        protected virtual Boolean IsValid(CSSValue value)
-        {
-            return true;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        internal static Boolean CheckSingleProperty(CSSProperty property, Int32 index, CSSValueList arguments)
-        {
-            if (index < arguments.Length)
-            {
-                var argument = arguments[index];
-                return property.TrySetValue(argument);
-            }
-
-            return false;
-        }
-
-        internal static Boolean CheckLastProperty(CSSProperty property, Int32 index, CSSValueList arguments)
-        {
-            if (arguments.Length - index > 1)
-            {
-                var newList = new CSSValueList();
-
-                while (index < arguments.Length)
-                    newList.Add(arguments[index++]);
-
-                return property.TrySetValue(newList);
-            }
-
-            return CheckSingleProperty(property, index, arguments);
-        }
+        protected abstract Boolean IsValid(CSSValue value);
 
         #endregion
 

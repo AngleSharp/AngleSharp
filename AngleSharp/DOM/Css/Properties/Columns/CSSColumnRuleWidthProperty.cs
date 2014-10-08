@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSColumnRuleWidthProperty()
-            : base(PropertyNames.ColumnRuleWidth)
+            : base(PropertyNames.ColumnRuleWidth, PropertyFlags.Animatable)
         {
-            _width = Length.Medium;
         }
 
         #endregion
@@ -41,6 +40,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _width = Length.Medium;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,11 +55,12 @@
             var width = value.ToBorderWidth();
 
             if (width.HasValue)
+            {
                 _width = width.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

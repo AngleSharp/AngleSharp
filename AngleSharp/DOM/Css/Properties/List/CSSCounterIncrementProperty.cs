@@ -20,7 +20,6 @@
         internal CSSCounterIncrementProperty()
             : base(PropertyNames.CounterIncrement)
         {
-            _increments = new Dictionary<String, Int32>();
         }
 
         #endregion
@@ -49,6 +48,14 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_increments == null)
+                _increments = new Dictionary<String, Int32>();
+            else
+                _increments.Clear();
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -56,9 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return CheckList((CSSValueList)value);
 
             var primitive = value as CSSPrimitiveValue;

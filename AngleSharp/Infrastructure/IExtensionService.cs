@@ -1,6 +1,7 @@
-﻿using System;
-namespace AngleSharp.Infrastructure
+﻿namespace AngleSharp.Infrastructure
 {
+    using System;
+
     /// <summary>
     /// Represents an extension offering a special kind of (DOM) interface.
     /// </summary>

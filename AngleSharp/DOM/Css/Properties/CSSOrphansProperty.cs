@@ -19,7 +19,6 @@
         internal CSSOrphansProperty()
             : base(PropertyNames.Orphans, PropertyFlags.Inherited)
         {
-            _value = 2;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _value = 2;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -49,11 +53,12 @@
             var num = value.ToInteger();
 
             if (num.HasValue && num.Value >= 0)
+            {
                 _value = num.Value;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

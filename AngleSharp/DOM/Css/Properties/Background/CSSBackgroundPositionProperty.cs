@@ -18,10 +18,8 @@
         #region ctor
 
         internal CSSBackgroundPositionProperty()
-            : base(PropertyNames.BackgroundPosition)
+            : base(PropertyNames.BackgroundPosition, PropertyFlags.Animatable)
         {
-            _positions = new List<Point>();
-            _positions.Add(Point.Centered);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_positions == null)
+                _positions = new List<Point>();
+            else
+                _positions.Clear();
+
+            _positions.Add(Point.Centered);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -47,9 +55,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var values = value as CSSValueList ?? new CSSValueList(value);
             var list = values.ToList();
             var positions = new List<Point>();

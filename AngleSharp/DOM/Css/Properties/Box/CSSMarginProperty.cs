@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -10,10 +11,10 @@
     {
         #region Fields
 
-        CSSMarginTopProperty _top;
-        CSSMarginRightProperty _right;
-        CSSMarginBottomProperty _bottom;
-        CSSMarginLeftProperty _left;
+        IDistance _top;
+        IDistance _right;
+        IDistance _bottom;
+        IDistance _left;
 
         #endregion
 
@@ -22,10 +23,6 @@
         internal CSSMarginProperty()
             : base(PropertyNames.Margin)
         {
-            _left = new CSSMarginLeftProperty();
-            _right = new CSSMarginRightProperty();
-            _top = new CSSMarginTopProperty();
-            _bottom = new CSSMarginBottomProperty();
         }
 
         #endregion
@@ -37,7 +34,7 @@
         /// </summary>
         public IDistance Top
         {
-            get { return _top.Margin; }
+            get { return _top; }
         }
 
         /// <summary>
@@ -45,7 +42,7 @@
         /// </summary>
         public IDistance Right
         {
-            get { return _right.Margin; }
+            get { return _right; }
         }
 
         /// <summary>
@@ -53,7 +50,7 @@
         /// </summary>
         public IDistance Bottom
         {
-            get { return _bottom.Margin; }
+            get { return _bottom; }
         }
 
         /// <summary>
@@ -61,7 +58,7 @@
         /// </summary>
         public IDistance Left
         {
-            get { return _left.Margin; }
+            get { return _left; }
         }
 
         /// <summary>
@@ -69,7 +66,7 @@
         /// </summary>
         public Boolean IsTopAuto
         {
-            get { return _top.IsAuto; }
+            get { return _top == null; }
         }
 
         /// <summary>
@@ -77,7 +74,7 @@
         /// </summary>
         public Boolean IsRightAuto
         {
-            get { return _right.IsAuto; }
+            get { return _right == null; }
         }
 
         /// <summary>
@@ -85,7 +82,7 @@
         /// </summary>
         public Boolean IsBottomAuto
         {
-            get { return _bottom.IsAuto; }
+            get { return _bottom == null; }
         }
 
         /// <summary>
@@ -93,12 +90,20 @@
         /// </summary>
         public Boolean IsLeftAuto
         {
-            get { return _left.IsAuto; }
+            get { return _left == null; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _left = Percent.Zero;
+            _right = Percent.Zero;
+            _top = Percent.Zero;
+            _bottom = Percent.Zero;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -107,46 +112,45 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-            else if (value is CSSValueList)
+            if (value is CSSValueList)
                 return Check((CSSValueList)value);
 
-            return Check(new CSSValue[] { value, value, value, value });
+            return Check(new CSSValue[1] { value });
         }
 
-        Boolean Check(CSSValueList arguments)
+        Boolean Check(IEnumerable<CSSValue> values)
         {
-            var count = arguments.Length;
+            IDistance top = null;
+            IDistance right = null;
+            IDistance bottom = null;
+            IDistance left = null;
+            var i = 0;
 
-            if (count > 4)
-                return false;
-
-            var values = new CSSValue[4];
-
-            for (int i = 0; i < count; i++)
-                for (int j = i; j < 4; j += i + 1)
-                    values[j] = arguments[i]; 
-
-            return Check(values);
-        }
-
-        Boolean Check(CSSValue[] values)
-        {
-            var target = new CSSProperty[] { new CSSMarginTopProperty(), new CSSMarginRightProperty(), new CSSMarginBottomProperty(), new CSSMarginLeftProperty() };
-
-            for (int i = 0; i < 4; i++)
+            foreach (var value in values)
             {
-                target[i].Value = values[i];
+                var distance = value.ToDistance();
 
-                if (target[i].Value != values[i])
+                if (distance == null && !value.Is(Keywords.Auto))
                     return false;
+
+                if (i == 0)
+                    top = distance;
+                else if (i == 1)
+                    right = distance;
+                else if (i == 2)
+                    bottom = distance;
+                else if (i == 3)
+                    left = distance;
+                else
+                    return false;
+
+                i++;
             }
 
-            _top = (CSSMarginTopProperty)target[0];
-            _right = (CSSMarginRightProperty)target[1];
-            _bottom = (CSSMarginBottomProperty)target[2];
-            _left = (CSSMarginLeftProperty)target[3];
+            _top = top;
+            _right = i > 1 ? right : _top;
+            _bottom = i > 2 ? bottom : _top;
+            _left = i > 3 ? left : _right;
             return true;
         }
 

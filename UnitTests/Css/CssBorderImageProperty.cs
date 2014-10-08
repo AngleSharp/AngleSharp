@@ -122,7 +122,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageOutsetProperty));
             var concrete = (CSSBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -226,7 +226,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageWidthProperty));
             var concrete = (CSSBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -300,7 +300,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageRepeatProperty));
             var concrete = (CSSBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -344,7 +344,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -403,7 +403,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -417,9 +417,114 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssBorderImageNoneLegal()
+        {
+            var snippet = "border-image: none    ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetLegal()
+        {
+            var snippet = "border-image: url(image.png) 50 50";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 50 50", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetRepeatLegal()
+        {
+            var snippet = "border-image: url(image.png) 30 30 repeat";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 30 30 repeat", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlStretchUppercaseLegal()
+        {
+            var snippet = "border-image: url(image.png) STRETCH";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') STRETCH", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetWidthTwoLegal()
+        {
+            var snippet = "border-image: url(image.png) 30 30 / 15px 15px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 30 30 / 15px 15px", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetWidthFourLegal()
+        {
+            var snippet = "border-image: url(image.png) 30 30 0 10 / 15px 0 15px 2em";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 30 30 0 10 / 15px 0 15px 2em", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssBorderImageUrlOffsetWidthOutsetLegal()
+        {
+            var snippet = "border-image: url(image.png) 30 30 / 15px 15px / 5% 2% 0 10%";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBorderImageProperty));
+            var concrete = (CSSBorderImageProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url('image.png') 30 30 / 15px 15px / 5% 2% 0 10%", concrete.Value.CssText);
         }
     }
 }

@@ -19,7 +19,6 @@
         internal CSSBackfaceVisibilityProperty()
             : base(PropertyNames.BackfaceVisibility)
         {
-            _visible = true;
         }
 
         #endregion
@@ -40,6 +39,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _visible = true;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -47,11 +51,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is("visible"))
+            if (value.Is(Keywords.Visible))
                 _visible = true;
-            else if (value.Is("hidden"))
+            else if (value.Is(Keywords.Hidden))
                 _visible = false;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

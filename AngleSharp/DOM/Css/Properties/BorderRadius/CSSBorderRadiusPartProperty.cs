@@ -17,10 +17,8 @@
         #region ctor
 
         internal CSSBorderRadiusPartProperty(String name)
-            : base(name)
+            : base(name, PropertyFlags.Animatable)
         {
-            _h = Percent.Zero;
-            _v = Percent.Zero;
         }
 
         #endregion
@@ -47,6 +45,12 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _h = Percent.Zero;
+            _v = Percent.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -70,14 +74,11 @@
             var c1 = v1.ToDistance();
             var c2 = v2.ToDistance();
 
-            if (c1 != null && c2 != null)
-            {
-                _h = c1;
-                _v = c2;
-            }
-            else if (value != CSSValue.Inherit)
+            if (c1 == null || c2 == null)
                 return false;
 
+            _h = c1;
+            _v = c2;
             return true;
         }
 

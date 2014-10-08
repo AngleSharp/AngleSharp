@@ -18,9 +18,8 @@
         #region ctor
 
         internal CSSTransformProperty()
-            : base(PropertyNames.Transform)
+            : base(PropertyNames.Transform, PropertyFlags.Animatable)
         {
-            _transforms = new List<ITransform>();
         }
 
         #endregion
@@ -38,6 +37,14 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_transforms == null)
+                _transforms = new List<ITransform>();
+            else
+                _transforms.Clear();
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -77,11 +84,10 @@
 
                 _transforms.Clear();
                 _transforms.AddRange(transforms);
+                return true;
             }
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+            
+            return false;
         }
 
         #endregion

@@ -20,8 +20,6 @@
         internal CSSAnimationDurationProperty()
             : base(PropertyNames.AnimationDuration)
         {
-            _times = new List<Time>();
-            _times.Add(Time.Zero);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_times == null)
+                _times = new List<Time>();
+            else
+                _times.Clear();
+
+            _times.Add(Time.Zero);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,20 +59,23 @@
 
             if (values != null)
             {
-                _times.Clear();
+                var times = new List<Time>();
 
                 foreach (var v in values)
                 {
                     var time = v.ToTime();
 
-                    if (time != null)
-                        _times.Add(time.Value);
-                }
-            }
-            else if (value != CSSValue.Inherit)
-                return false;
+                    if (time == null)
+                        return false;
 
-            return true;
+                    times.Add(time.Value);
+                }
+
+                _times = times;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

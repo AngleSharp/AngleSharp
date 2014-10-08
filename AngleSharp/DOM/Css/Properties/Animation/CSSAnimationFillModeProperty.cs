@@ -20,8 +20,6 @@
         internal CSSAnimationFillModeProperty()
             : base(PropertyNames.AnimationFillMode)
         {
-            _fillModes = new List<AnimationFillStyle>();
-            _fillModes.Add(AnimationFillStyle.None);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_fillModes == null)
+                _fillModes = new List<AnimationFillStyle>();
+            else
+                _fillModes.Clear();
+
+            _fillModes.Add(AnimationFillStyle.None);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -57,18 +65,17 @@
                 {
                     var mode = item.ToFillMode();
 
-                    if (!mode.HasValue)
+                    if (mode == null)
                         return false;
 
                     fillModes.Add(mode.Value);
                 }
 
                 _fillModes = fillModes;
+                return true;
             }
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+            
+            return false;
         }
 
         #endregion

@@ -22,17 +22,16 @@
 
         static CSSBreakInsideProperty()
         {
-            modes.Add("auto", BreakMode.Auto);
-            modes.Add("avoid", BreakMode.Avoid);
-            modes.Add("avoid-page", BreakMode.AvoidPage);
-            modes.Add("avoid-column", BreakMode.AvoidColumn);
-            modes.Add("avoid-region", BreakMode.AvoidRegion);
+            modes.Add(Keywords.Auto, BreakMode.Auto);
+            modes.Add(Keywords.Avoid, BreakMode.Avoid);
+            modes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
+            modes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
+            modes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
         }
 
         internal CSSBreakInsideProperty()
             : base(PropertyNames.BreakInside)
         {
-            _mode = BreakMode.Auto;
         }
 
         #endregion
@@ -42,7 +41,7 @@
         /// <summary>
         /// Gets the selected break mode.
         /// </summary>
-        public BreakMode Mode
+        public BreakMode State
         {
             get { return _mode; }
         }
@@ -50,6 +49,11 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _mode = BreakMode.Auto;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -61,11 +65,12 @@
             BreakMode mode;
 
             if (modes.TryGetValue(value, out mode))
+            {
                 _mode = mode;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

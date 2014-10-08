@@ -96,6 +96,7 @@
             properties.Add(PropertyNames.Float, () => new CSSFloatProperty());
             properties.Add(PropertyNames.FontFamily, () => new CSSFontFamilyProperty());
             properties.Add(PropertyNames.FontSize, () => new CSSFontSizeProperty());
+            properties.Add(PropertyNames.FontSizeAdjust, () => new CSSFontSizeAdjustProperty());
             properties.Add(PropertyNames.FontStyle, () => new CSSFontStyleProperty());
             properties.Add(PropertyNames.FontVariant, () => new CSSFontVariantProperty());
             properties.Add(PropertyNames.FontWeight, () => new CSSFontWeightProperty());

@@ -280,8 +280,14 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
       <Link>DOM\Css\Constants\ListStyle.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\OverflowMode.cs">
+      <Link>DOM\Css\Constants\OverflowMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\PlayState.cs">
       <Link>DOM\Css\Constants\PlayState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\PositionMode.cs">
+      <Link>DOM\Css\Constants\PositionMode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
       <Link>DOM\Css\Constants\SystemCursor.cs</Link>
@@ -720,6 +726,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSFontProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs">
+      <Link>DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontSizeProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSFontSizeProperty.cs</Link>
@@ -1624,8 +1633,20 @@
     <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
       <Link>Infrastructure\CssStyleEngine.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IAudioService.cs">
+      <Link>Infrastructure\IAudioService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\ICookieService.cs">
       <Link>Infrastructure\ICookieService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IEventService.cs">
+      <Link>Infrastructure\IEventService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
+      <Link>Infrastructure\IImageService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IResourceService.cs">
+      <Link>Infrastructure\IResourceService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
@@ -1635,6 +1656,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
       <Link>Infrastructure\IStyleEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IVideoService.cs">
+      <Link>Infrastructure\IVideoService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
@@ -2434,6 +2458,21 @@
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Media\IAudioInfo.cs">
+      <Link>Media\IAudioInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IImageInfo.cs">
+      <Link>Media\IImageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IMediaInfo.cs">
+      <Link>Media\IMediaInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IResourceInfo.cs">
+      <Link>Media\IResourceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IVideoInfo.cs">
+      <Link>Media\IVideoInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Constants\CorsSetting.cs">
       <Link>Network\Constants\CorsSetting.cs</Link>
     </Compile>
@@ -2460,6 +2499,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
       <Link>Network\DefaultRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\DefaultRequester.cs">
+      <Link>Network\DefaultRequester.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultResponse.cs">
       <Link>Network\DefaultResponse.cs</Link>
@@ -2603,7 +2645,6 @@
       <Link>Tools\AnalysisWindow.cs</Link>
     </Compile>
     <Compile Include="LegacyExtensions.cs" />
-    <Compile Include="Network\DefaultRequester.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

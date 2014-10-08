@@ -19,7 +19,6 @@
         internal CSSTransformStyleProperty()
             : base(PropertyNames.TransformStyle)
         {
-            _flat = true;
         }
 
         #endregion
@@ -40,6 +39,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _flat = true;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,7 +55,7 @@
                 _flat = true;
             else if (value.Is(Keywords.Preserve3d))
                 _flat = false;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

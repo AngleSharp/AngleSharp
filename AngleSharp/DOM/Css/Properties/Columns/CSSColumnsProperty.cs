@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Properties
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -11,18 +10,16 @@
     {
         #region Fields
 
-        CSSColumnWidthProperty _width;
-        CSSColumnCountProperty _count;
+        Int32? _count;
+        Length? _width;
 
         #endregion
 
         #region ctor
 
         internal CSSColumnsProperty()
-            : base(PropertyNames.Columns)
+            : base(PropertyNames.Columns, PropertyFlags.Animatable)
         {
-            _count = new CSSColumnCountProperty();
-            _width = new CSSColumnWidthProperty();
         }
 
         #endregion
@@ -30,50 +27,30 @@
         #region Properties
 
         /// <summary>
-        /// Gets if width should be used.
-        /// </summary>
-        public Boolean UseWidth
-        {
-            get { return _width.IsUsed; }
-        }
-
-        /// <summary>
-        /// Gets if count should be used.
-        /// </summary>
-        public Boolean UseCount
-        {
-            get { return _count.IsUsed; }
-        }
-
-        /// <summary>
         /// Gets the width for the columns, if set.
         /// </summary>
-        public Length Width
+        public Length? Width
         {
-            get { return _width.Width; }
+            get { return _width; }
         }
 
         /// <summary>
         /// Gets the count for the columns, if set.
         /// </summary>
-        public Int32 Count
+        public Int32? Count
         {
-            get { return _count.Count; }
-        }
-
-        Boolean ICssColumnCountProperty.IsUsed
-        {
-            get { return _count.IsUsed; }
-        }
-
-        Boolean ICssColumnWidthProperty.IsUsed
-        {
-            get { return _width.IsUsed; }
+            get { return _count; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _count = null;
+            _width = null;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -82,43 +59,38 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
-            var index = 0;
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            var startGroup = new List<CSSProperty>(2);
-            var width = new CSSColumnWidthProperty();
-            var count = new CSSColumnCountProperty();
-            startGroup.Add(width);
-            startGroup.Add(count);
-
-            while (true)
+            if (value.Is(Keywords.Auto))
             {
-                var length = startGroup.Count;
+                _width = null;
+                _count = null;
+            }
+            else
+            {
+                var n = 0;
+                var list = value.AsEnumeration();
+                Int32? count = null;
+                Length? width = null;
 
-                for (int i = 0; i < length; i++)
+                foreach (var entry in list)
                 {
-                    if (CheckSingleProperty(startGroup[i], index, list))
+                    if (n++ < 2)
                     {
-                        startGroup.RemoveAt(i);
-                        index++;
-                        break;
+                        if (count == null && (count = entry.ToInteger()).HasValue)
+                            continue;
+                        else if (width == null && (width = entry.ToLength()).HasValue)
+                            continue;
+                        else if (entry.Is(Keywords.Auto))
+                            continue;
                     }
+
+                    return false;
                 }
 
-                if (length == startGroup.Count)
-                    break;
-            }
-
-            if (index == list.Length)
-            {
                 _width = width;
                 _count = count;
-                return true;
             }
 
-            return false;
+            return true;
         }
 
         #endregion

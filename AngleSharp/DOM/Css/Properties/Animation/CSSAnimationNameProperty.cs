@@ -20,7 +20,6 @@
         internal CSSAnimationNameProperty()
             : base(PropertyNames.AnimationName)
         {
-            _names = new List<String>();
         }
 
         #endregion
@@ -38,6 +37,14 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_names == null)
+                _names = new List<String>();
+            else
+                _names.Clear();
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -70,7 +77,7 @@
                 foreach (var ident in values)
                     _names.Add(ident.GetString());
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

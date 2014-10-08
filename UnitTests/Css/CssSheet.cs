@@ -504,7 +504,7 @@ h1 { color: blue }");
             Assert.IsNotNull(background);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.IsImportant);
-            Assert.AreEqual(CssValueType.Inherit, background.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, background.Value.Type);
             Assert.IsFalse(background.HasValue);
         }
 

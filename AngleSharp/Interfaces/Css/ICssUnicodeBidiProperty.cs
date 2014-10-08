@@ -10,6 +10,6 @@
         /// <summary>
         /// Gets the selected unicode mode.
         /// </summary>
-        UnicodeMode Mode { get; }
+        UnicodeMode State { get; }
     }
 }

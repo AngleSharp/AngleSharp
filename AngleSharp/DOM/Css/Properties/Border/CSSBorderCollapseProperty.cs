@@ -19,7 +19,6 @@
         internal CSSBorderCollapseProperty()
             : base(PropertyNames.BorderCollapse, PropertyFlags.Inherited)
         {
-            _separate = true;
         }
 
         #endregion
@@ -39,6 +38,11 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _separate = true;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -50,7 +54,7 @@
                 _separate = true;
             else if (value.Is(Keywords.Collapse))
                 _separate = false;
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

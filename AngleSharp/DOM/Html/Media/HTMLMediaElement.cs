@@ -2,50 +2,29 @@
 {
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Media;
+    using AngleSharp.Infrastructure;
+    using AngleSharp.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement : HTMLElement, IHtmlMediaElement
+    abstract class HTMLMediaElement<TResource> : HTMLElement, IHtmlMediaElement
+        where TResource : IMediaInfo
     {
         #region Fields
 
         /// <summary>
-        /// The source url.
-        /// </summary>
-        protected String _source;
-        /// <summary>
         /// The state of the network.
         /// </summary>
         protected MediaNetworkState _network;
-        /// <summary>
-        /// The state of the network.
-        /// </summary>
-        protected IMediaController _controller;
-        /// <summary>
-        /// Currently seeking ?
-        /// </summary>
-        protected Boolean _seeking;
-        /// <summary>
-        /// The total time (duration).
-        /// </summary>
-        protected Double _duration;
-        /// <summary>
-        /// The current time.
-        /// </summary>
-        protected Double _currentTime;
-        /// <summary>
-        /// Currently muted ?
-        /// </summary>
-        protected Boolean? _muted;
-        /// <summary>
-        /// The volume.
-        /// </summary>
-        protected Double _volume;
 
-        IAudioTrackList _audios;
-        IVideoTrackList _videos;
+        /// <summary>
+        /// The task that loads the resource.
+        /// </summary>
+        protected Task<TResource> _resourceTask;
+
         ITextTrackList _texts;
 
         #endregion
@@ -143,7 +122,7 @@
         internal HTMLMediaElement(String name)
             : base(name)
         {
-            _volume = 1.0;
+            _network = MediaNetworkState.Empty;
         }
 
         #endregion
@@ -190,7 +169,11 @@
         /// </summary>
         public MediaReadyState ReadyState
         {
-            get { return _controller == null ? MediaReadyState.Nothing : _controller.ReadyState; }
+            get 
+            { 
+                var controller = Controller; 
+                return controller == null ? MediaReadyState.Nothing : controller.ReadyState; 
+            }
         }
 
         /// <summary>
@@ -198,7 +181,8 @@
         /// </summary>
         public Boolean IsSeeking
         {
-            get { return _seeking; }
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -206,7 +190,11 @@
         /// </summary>
         public String CurrentSource
         {
-            get { return _source; }
+            get
+            {
+                //TODO Check for Source elements
+                return Source; 
+            }
         }
 
         /// <summary>
@@ -214,7 +202,11 @@
         /// </summary>
         public Double Duration
         {
-            get { return _duration; }
+            get 
+            {
+                var controller = Controller;
+                return controller != null ? controller.Duration : 0.0; 
+            }
         }
 
         /// <summary>
@@ -222,19 +214,27 @@
         /// </summary>
         public Double CurrentTime
         {
-            get { return _currentTime; }
+            get 
+            {
+                var controller = Controller;
+                return controller != null ? controller.CurrentTime : 0.0; }
             set
             {
-                if (value < 0)
-                    _currentTime = 0;
-                else if (value > Duration)
-                    _currentTime = Duration;
-                else
-                    _currentTime = value;
+                var controller = Controller;
 
-                var ev = new Event();
-                ev.Init(EventNames.DurationChange, true, true);
-                Dispatch(ev);
+                if (controller != null)
+                    controller.CurrentTime = value;
+
+                //if (value < 0)
+                //    _currentTime = 0;
+                //else if (value > Duration)
+                //    _currentTime = Duration;
+                //else
+                //    _currentTime = value;
+
+                //var ev = new Event();
+                //ev.Init(EventNames.DurationChange, true, true);
+                //Dispatch(ev);
             }
         }
 
@@ -279,17 +279,29 @@
 
         public ITimeRanges BufferedTime
         {
-            get { return _controller != null ? _controller.BufferedTime : null; }
+            get 
+            {
+                var controller = Controller;
+                return controller != null ? controller.BufferedTime : null; 
+            }
         }
 
         public ITimeRanges SeekableTime
         {
-            get { return _controller != null ? _controller.SeekableTime : null; }
+            get 
+            {
+                var controller = Controller;
+                return controller != null ? controller.SeekableTime : null; 
+            }
         }
 
         public ITimeRanges PlayedTime
         {
-            get { return _controller != null ? _controller.PlayedTime : null; }
+            get 
+            {
+                var controller = Controller;
+                return controller != null ? controller.PlayedTime : null;
+            }
         }
 
         public String MediaGroup
@@ -300,36 +312,80 @@
 
         public Double Volume
         {
-            get { return _volume; }
-            set { _volume = value; }
+            get
+            {
+                var controller = Controller; 
+                return controller != null ? controller.Volume : 1.0;
+            }
+            set
+            {
+                var controller = Controller;
+                
+                if (controller != null) 
+                    controller.Volume = value;
+            }
         }
 
         public Boolean IsMuted
         {
-            get { return _muted.HasValue ? _muted.Value : IsDefaultMuted; }
-            set { _muted = value; }
+            get
+            {
+                var controller = Controller; 
+                return controller != null ? controller.IsMuted : false;
+            }
+            set
+            {
+                var controller = Controller; 
+                
+                if (controller != null) 
+                    controller.IsMuted = value;
+            }
         }
 
         public IMediaController Controller
         {
-            get { return _controller; }
+            get { return _resourceTask != null && _resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Controller : null; }
         }
 
         public Double DefaultPlaybackRate
         {
-            get { return _controller != null ? _controller.DefaultPlaybackRate : 1.0; }
-            set { if (_controller != null) _controller.DefaultPlaybackRate = value; }
+            get
+            {
+                var controller = Controller; 
+                return controller != null ? controller.DefaultPlaybackRate : 1.0;
+            }
+            set
+            {
+                var controller = Controller; 
+                
+                if  (controller != null) 
+                    controller.DefaultPlaybackRate = value;
+            }
         }
 
         public Double PlaybackRate
         {
-            get { return _controller != null ? _controller.PlaybackRate : 1.0; }
-            set { if (_controller != null) _controller.PlaybackRate = value; }
+            get
+            {
+                var controller = Controller;
+                return controller != null ? controller.PlaybackRate : 1.0;
+            }
+            set
+            {
+                var controller = Controller; 
+                
+                if (controller != null) 
+                    controller.PlaybackRate = value;
+            }
         }
 
         public MediaControllerPlaybackState PlaybackState
         {
-            get { return _controller != null ? _controller.PlaybackState : MediaControllerPlaybackState.Waiting; }
+            get
+            {
+                var controller = Controller; 
+                return controller != null ? controller.PlaybackState : MediaControllerPlaybackState.Waiting;
+            }
         }
 
         public IMediaError Error
@@ -338,31 +394,58 @@
             private set;
         }
 
-        public IAudioTrackList AudioTracks
+        public virtual IAudioTrackList AudioTracks
         {
-            get { return _audios; }
+            get { return null; }
         }
 
-        public IVideoTrackList VideoTracks
+        public virtual IVideoTrackList VideoTracks
         {
-            get { return _videos; }
+            get { return null; }
         }
 
         public ITextTrackList TextTracks
         {
             get { return _texts; }
+            protected set { _texts = value; }
         }
 
         #endregion
 
         #region Methods
 
+        internal override void Close()
+        {
+            base.Close();
+            Load();
+        }
+
         /// <summary>
         /// Loads the media specified for this element.
         /// </summary>
         public void Load()
         {
-            //TODO
+            //TODO More complex check if something is already loading (what is loading, cancel?, ...)
+            //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
+            if (_resourceTask != null)
+                return;
+
+            var src = CurrentSource;
+
+            if (src != null)
+            {
+                _network = MediaNetworkState.Idle;
+                var url = HyperRef(src);
+                _resourceTask = Owner.Options.LoadResource<TResource>(url);
+                _network = MediaNetworkState.Loading;
+                _resourceTask.ContinueWith(_ =>
+                {
+                    if (_.Result == null)
+                        _network = MediaNetworkState.NoSource;
+
+                    FireSimpleEvent(EventNames.Load);
+                });
+            }
         }
 
         /// <summary>
@@ -370,8 +453,10 @@
         /// </summary>
         public void Play()
         {
-            if (_controller != null)
-                _controller.Play();
+            var controller = Controller;
+
+            if (controller != null)
+                controller.Play();
         }
 
         /// <summary>
@@ -379,13 +464,23 @@
         /// </summary>
         public void Pause()
         {
-            if (_controller != null)
-                _controller.Pause();
+            var controller = Controller;
+
+            if (controller != null)
+                controller.Pause();
         }
 
         public String CanPlayType(String type)
         {
-            //Does not play anything at the moment
+            var services = Owner.Options.GetServices<IResourceService<TResource>>();
+
+            foreach (var service in services)
+            {
+                if (service.SupportsType(type))
+                    return "maybe";//Other option would be probably.
+            }
+
+            //Cannot be played.
             return String.Empty;
         }
 

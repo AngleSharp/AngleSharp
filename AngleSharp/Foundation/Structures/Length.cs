@@ -289,18 +289,22 @@
             Rem,
             /// <summary>
             /// The value is relative to the viewport width.
+            /// 1vw = 1/100 of the viewport width.
             /// </summary>
             Vw,
             /// <summary>
             /// The value is relative to the viewport height.
+            /// 1vh = 1/100 of the viewport height.
             /// </summary>
             Vh,
             /// <summary>
             /// The value is relative to the minimum of viewport width and height.
+            /// 1vmin = 1/100 of the minimum viewport dimension.
             /// </summary>
             Vmin,
             /// <summary>
             /// The value is relative to the maximum of viewport width and height.
+            /// 1vmax = 1/100 of the maximum viewport dimension.
             /// </summary>
             Vmax,
         }

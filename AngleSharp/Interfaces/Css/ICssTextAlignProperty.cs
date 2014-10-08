@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets the selected horizontal alignment mode.
         /// </summary>
-        HorizontalAlignment Align { get; }
+        HorizontalAlignment State { get; }
     }
 }

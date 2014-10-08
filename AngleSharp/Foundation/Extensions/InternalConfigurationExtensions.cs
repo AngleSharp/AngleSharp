@@ -1,15 +1,16 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.DOM;
-    using AngleSharp.Infrastructure;
-    using AngleSharp.Network;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
+using AngleSharp.Infrastructure;
+using AngleSharp.Media;
+using AngleSharp.Network;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a helper to construct objects with externally
@@ -258,6 +259,48 @@
 
             if (service != null)
                 service[origin] = value;
+        }
+
+        #endregion
+
+        #region Resource Services
+        
+        /// <summary>
+        /// Tries to load an image if a proper image service can be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="url">The address of the image.</param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url)
+            where TResource : IResourceInfo
+        {
+            return options.LoadResource<TResource>(url, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Tries to load an image if a proper image service can be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="url">The address of the image.</param>
+        /// <param name="cancel">Token to trigger in case of cancellation.</param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
+            where TResource : IResourceInfo
+        {
+            var response = await options.LoadAsync(url, cancel).ConfigureAwait(false);
+
+            if (response != null)
+            {
+                var imageServices = options.GetServices<IResourceService<TResource>>();
+
+                foreach (var imageService in imageServices)
+                {
+                    if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                }
+            }
+
+            return default(TResource);
         }
 
         #endregion

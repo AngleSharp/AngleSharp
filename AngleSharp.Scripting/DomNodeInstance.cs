@@ -4,6 +4,7 @@
     using Jint.Native.Object;
     using Jint.Runtime.Descriptors;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
@@ -29,10 +30,26 @@
             {
                 SetProperties(type.GetProperties());
                 SetMethods(type.GetMethods());
+                SetEvents(type.GetEvents());
             }
         }
 
-        void SetProperties(PropertyInfo[] properties)
+        void SetEvents(EventInfo[] eventInfos)
+        {
+            foreach (var eventInfo in eventInfos)
+            {
+                var names = eventInfo.GetCustomAttributes<DomNameAttribute>();
+
+                foreach (var name in names.Select(m => m.OfficialName))
+                {
+                    FastSetProperty(name, new PropertyDescriptor(
+                        new DomFunctionInstance(this, eventInfo.RaiseMethod),
+                        new DomFunctionInstance(this, eventInfo.AddMethod), false, false));
+                }
+            }
+        }
+
+        void SetProperties(IEnumerable<PropertyInfo> properties)
         {
             foreach (var property in properties)
             {
@@ -47,7 +64,7 @@
             }
         }
 
-        void SetMethods(MethodInfo[] methods)
+        void SetMethods(IEnumerable<MethodInfo> methods)
         {
             foreach (var method in methods)
             {

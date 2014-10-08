@@ -20,8 +20,6 @@
         internal CSSBorderSpacingProperty()
             : base(PropertyNames.BorderSpacing, PropertyFlags.Inherited)
         {
-            _h = Length.Zero;
-            _v = Length.Zero;
         }
 
         #endregion
@@ -50,6 +48,12 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _h = Length.Zero;
+            _v = Length.Zero;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -77,7 +81,7 @@
                 _h = h.Value;
                 _v = v.Value;
             }
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;

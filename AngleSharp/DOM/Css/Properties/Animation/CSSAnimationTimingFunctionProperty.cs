@@ -20,8 +20,6 @@
         internal CSSAnimationTimingFunctionProperty()
             : base(PropertyNames.AnimationTimingFunction)
         {
-            _functions = new List<TransitionFunction>();
-            _functions.Add(TransitionFunction.Ease);
         }
 
         #endregion
@@ -40,6 +38,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_functions == null)
+                _functions = new List<TransitionFunction>();
+            else
+                _functions.Clear();
+
+            _functions.Add(TransitionFunction.Ease);
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -50,11 +58,12 @@
             var values = value.AsList(ValueExtensions.ToTimingFunction);
 
             if (values != null)
+            {
                 _functions = values;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

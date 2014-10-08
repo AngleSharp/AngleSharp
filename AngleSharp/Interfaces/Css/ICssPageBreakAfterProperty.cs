@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets the selected break mode.
         /// </summary>
-        BreakMode Mode { get; }
+        BreakMode State { get; }
     }
 }

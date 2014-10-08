@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
     /// </summary>
-    sealed class CSSWhiteSpaceProperty : CSSProperty, ICssWhiteSpaceProperty
+    sealed class CSSWhiteSpaceProperty : CSSProperty, ICssWhitespaceProperty
     {
         #region Fields
 
@@ -30,7 +30,6 @@
         internal CSSWhiteSpaceProperty()
             : base(PropertyNames.WhiteSpace, PropertyFlags.Inherited)
         {
-            _mode = Whitespace.Normal;
         }
 
         #endregion
@@ -40,7 +39,7 @@
         /// <summary>
         /// Gets the selected whitespace handling mode.
         /// </summary>
-        public Whitespace Mode
+        public Whitespace State
         {
             get { return _mode; }
         }
@@ -48,6 +47,11 @@
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _mode = Whitespace.Normal;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -59,11 +63,12 @@
             Whitespace mode;
 
             if (modes.TryGetValue(value, out mode))
+            {
                 _mode = mode;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

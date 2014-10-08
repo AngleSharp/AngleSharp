@@ -20,21 +20,34 @@
 
         static CSSOverflowProperty()
         {
-            modes.Add(Keywords.Visible, new VisibleOverflowMode());
-            modes.Add(Keywords.Hidden, new HiddenOverflowMode());
-            modes.Add(Keywords.Scroll, new ScrollOverflowMode());
-            modes.Add(Keywords.Auto, new AutoOverflowMode());
+            modes.Add(Keywords.Visible, OverflowMode.Visible);
+            modes.Add(Keywords.Hidden, OverflowMode.Hidden);
+            modes.Add(Keywords.Scroll, OverflowMode.Scroll);
+            modes.Add(Keywords.Auto, OverflowMode.Auto);
         }
 
         internal CSSOverflowProperty()
             : base(PropertyNames.Overflow)
         {
-            _mode = modes[Keywords.Visible];
+        }
+
+        #endregion
+
+        #region Properties
+
+        public OverflowMode State
+        {
+            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            _mode = OverflowMode.Visible;
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -46,36 +59,12 @@
             OverflowMode mode;
 
             if (modes.TryGetValue(value, out mode))
+            {
                 _mode = mode;
-            else if (value != CSSValue.Inherit)
-                return false;
-
-            return true;
-        }
-
-        #endregion
-
-        #region Modes
-        
-        abstract class OverflowMode
-        {
-            //TODO Add members that make sense
-        }
-
-        sealed class VisibleOverflowMode : OverflowMode
-        {
-        }
-
-        sealed class HiddenOverflowMode : OverflowMode
-        {
-        }
-
-        sealed class ScrollOverflowMode : OverflowMode
-        {
-        }
-
-        sealed class AutoOverflowMode : OverflowMode
-        {
+                return true;
+            }
+            
+            return false;
         }
 
         #endregion

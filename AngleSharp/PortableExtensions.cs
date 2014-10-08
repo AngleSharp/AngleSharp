@@ -4,9 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
 
     static class PortableExtensions
     {
+        public static Task InvokeAsync(this Action action)
+        {
+            return Task.Run(action);
+        }
+
         public static ConstructorInfo GetDeclaredConstructor(this Type type)
         {
             return type.GetTypeInfo().DeclaredConstructors.First();

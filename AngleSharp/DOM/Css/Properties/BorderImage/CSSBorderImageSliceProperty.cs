@@ -26,11 +26,6 @@
         internal CSSBorderImageSliceProperty()
             : base(PropertyNames.BorderImageSlice)
         {
-            _top = Percent.Hundred;
-            _right = Percent.Hundred;
-            _bottom = Percent.Hundred;
-            _left = Percent.Hundred;
-            _fill = false;
         }
 
         #endregion
@@ -81,6 +76,15 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            _top = Percent.Hundred;
+            _right = Percent.Hundred;
+            _bottom = Percent.Hundred;
+            _left = Percent.Hundred;
+            _fill = false;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -88,31 +92,16 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = ToMode(value);
+            var mode = value.ToBorderSlice();
 
             if (mode != null)
                 _top = _left = _bottom = _right = mode;
             else if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
-            else if (value != CSSValue.Inherit)
+            else
                 return false;
 
             return true;
-        }
-
-        static IDistance ToMode(CSSValue value)
-        {
-            var percent = value.ToPercent();
-
-            if (percent.HasValue)
-                return percent.Value;
-
-            var number = value.ToSingle();
-
-            if (number.HasValue)
-                return new Length(number.Value, Length.Unit.Px);
-
-            return null;
         }
 
         Boolean Evaluate(CSSValueList values)
@@ -125,12 +114,12 @@
 
             foreach (var value in values)
             {
-                if (!fill && value.Is("fill"))
+                if (!fill && value.Is(Keywords.Fill))
                     fill = true;
-                else if (ToMode(value) == null)
+                else if (value.ToBorderSlice() == null)
                     return false;
                 else
-                    modes.Add(ToMode(value));
+                    modes.Add(value.ToBorderSlice());
             }
 
             if (modes.Count == 5 || modes.Count == 0)

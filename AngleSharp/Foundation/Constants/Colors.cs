@@ -14,6 +14,7 @@
         #region Fields
 
         static Dictionary<String, Color> _colors;
+        public static readonly IBitmap Invert = new InvertColor();
 
         #endregion
 
@@ -218,6 +219,23 @@
         static void Add(String name, Color value)
         {
             _colors.Add(name, value);
+        }
+
+        #endregion
+
+        #region Special
+
+        /// <summary>
+        /// To ensure the outline is visible, performs a color inversion of the
+        /// background. This makes the focus border more salient, regardless of
+        /// the color in the background.
+        /// </summary>
+        sealed class InvertColor : IBitmap
+        {
+            public String ToCss()
+            {
+                return Keywords.Invert;
+            }
         }
 
         #endregion

@@ -30,8 +30,6 @@
         internal CSSBackgroundRepeatProperty()
             : base(PropertyNames.BackgroundRepeat)
         {
-            _repeats = new List<Repeat>();
-            _repeats.Add(new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat });
         }
 
         #endregion
@@ -58,6 +56,16 @@
 
         #region Methods
 
+        protected override void Reset()
+        {
+            if (_repeats == null)
+                _repeats = new List<Repeat>();
+            else
+                _repeats.Clear();
+
+            _repeats.Add(new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat });
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -65,9 +73,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value == CSSValue.Inherit)
-                return true;
-
             var values = value as CSSValueList ?? new CSSValueList(value);
             var repeats = new List<Repeat>();
 

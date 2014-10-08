@@ -17,18 +17,11 @@
         Boolean SupportsProtocol(String protocol);
 
         /// <summary>
-        /// Performs a blocking request with the given options.
-        /// </summary>
-        /// <param name="request">The options to consider.</param>
-        /// <returns>The response data.</returns>
-        IResponse Request(IRequest request);
-
-        /// <summary>
         /// Performs an asynchronous request that can be cancelled.
         /// </summary>
         /// <param name="request">The options to consider.</param>
-        /// <param name="cancellationToken">The token for cancelling the task.</param>
+        /// <param name="cancel">The token for cancelling the task.</param>
         /// <returns>The task that will eventually give the response data.</returns>
-        Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken);
+        Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel);
     }
 }

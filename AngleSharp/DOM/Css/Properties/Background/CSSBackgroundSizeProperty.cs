@@ -21,15 +21,23 @@
         #region ctor
 
         internal CSSBackgroundSizeProperty()
-            : base(PropertyNames.BackgroundSize)
+            : base(PropertyNames.BackgroundSize, PropertyFlags.Animatable)
         {
-            _sizes = new List<SizeMode>();
-            _sizes.Add(_default);
         }
 
         #endregion
 
         #region Methods
+
+        protected override void Reset()
+        {
+            if (_sizes == null)
+                _sizes = new List<SizeMode>();
+            else
+                _sizes.Clear();
+
+            _sizes.Add(_default);
+        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -40,10 +48,10 @@
         {
             if (value is CSSValueList)
                 return CheckList((CSSValueList)value);
-            else if (!CheckSingle(value) && value != CSSValue.Inherit)
-                return false;
+            else if (CheckSingle(value))
+                return true;
 
-            return true;
+            return false;
         }
 
         static SizeMode Check(CSSValue value)

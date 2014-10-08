@@ -1,16 +1,18 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Events;
-    using AngleSharp.DOM.Html;
-    using AngleSharp.DOM.Mathml;
-    using AngleSharp.DOM.Svg;
-    using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+using AngleSharp.DOM.Events;
+using AngleSharp.DOM.Html;
+using AngleSharp.DOM.Mathml;
+using AngleSharp.DOM.Svg;
+using AngleSharp.Infrastructure;
+using AngleSharp.Network;
+using AngleSharp.Parser.Html;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
@@ -20,9 +22,8 @@
         #region Fields
 
         readonly StyleSheetList _styleSheets;
-        readonly List<HTMLScriptElement> _scripts;
+        readonly Queue<HTMLScriptElement> _scripts;
 
-        Task _queue;
         QuirksMode _quirksMode;
         Boolean _designMode;
         DocumentReadyState _ready;
@@ -33,6 +34,7 @@
         String _currentStyleSheetSet;
         String _contentType;
         Location _location;
+        IBrowsingContext _context;
 
         #endregion
 
@@ -427,12 +429,11 @@
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _styleSheets = new StyleSheetList(this);
-            _scripts = new List<HTMLScriptElement>();
+            _scripts = new Queue<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
             _designMode = false;
             _location = new Location("about:blank");
             _options = Configuration.Default;
-            _queue = Task.Factory.StartNew(() => { });
             _location.Changed += LocationChanged;
         }
 
@@ -913,8 +914,17 @@
         /// </summary>
         internal IConfiguration Options
         {
-            get { return _options ?? Configuration.Default; }
-            set { _options = value; }
+            get { return _options; }
+            set { _options = value ?? Configuration.Default; }
+        }
+
+        /// <summary>
+        /// Gets or sets the browsing context to use, if any.
+        /// </summary>
+        internal IBrowsingContext Context
+        {
+            get { return _context; }
+            set { _context = value; _options = value.Configuration; }
         }
 
         /// <summary>
@@ -928,30 +938,15 @@
 
         internal void AddScript(HTMLScriptElement script)
         {
-            _scripts.Add(script);
+            _scripts.Enqueue(script);
         }
 
-        Int32 ScriptsWaiting
+        internal Boolean IsInBrowsingContext
         {
-            get { return _scripts.Count; }
+            get { return _context != null; }
         }
 
-        Int32 ScriptsAsSoonAsPossible
-        {
-            get { return 0; }
-        }
-
-        Boolean IsLoadingDelayed
-        {
-            get { return false; }
-        }
-
-        Boolean IsInBrowsingContext
-        {
-            get { return false; }
-        }
-
-        Boolean IsToBePrinted
+        internal Boolean IsToBePrinted
         {
             get { return false; }
         }
@@ -986,12 +981,16 @@
             if (_contentType == MimeTypes.Xml)
                 throw new DomException(ErrorCode.InvalidState);
 
-            //If the Document object is not an active document, then abort these steps.
-            //Follow: http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
+            if (IsInBrowsingContext)
+            {
+                //If the Document object is not an active document, then abort these steps.
+                //Follow: http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
 
-            //TODO
-            // If the replace argument is present and has the value "replace", the
-            // existing entries in the session history for the Document object are removed.
+                //TODO
+                // If the replace argument is present and has the value "replace", the
+                // existing entries in the session history for the Document object are removed.
+            }
+
             return new Document(String.Empty) { ContentType = type, BaseUri = BaseUri };
         }
 
@@ -1005,8 +1004,11 @@
 
             ReadyState = DocumentReadyState.Interactive;
 
-            while (ScriptsWaiting != 0)
-                RunNextScript();
+            while (_scripts.Count > 0)
+            {
+                WaitForReady();
+                _scripts.Dequeue().Run();
+            }
 
             QueueTask(RaiseDomContentLoaded);
             QueueTask(RaiseLoadedEvent);
@@ -1028,15 +1030,18 @@
         /// <param name="content">The text to be written on the document.</param>
         public void Write(String content)
         {
-            if (ReadyState != DocumentReadyState.Complete)
+            if (ReadyState == DocumentReadyState.Complete)
             {
-                _source.InsertText(content);
-                return;
-            }
+                var newDoc = OpenNew();
+                newDoc.Write(content);
 
-            var newDoc = OpenNew();
-            newDoc.Write(content);
-            //TODO place newDoc as active document to session manager
+                if (IsInBrowsingContext)
+                {
+                    //TODO place newDoc as active document to session manager
+                }
+            }
+            else
+                _source.InsertText(content);
         }
 
         /// <summary>
@@ -1376,15 +1381,9 @@
                 Options.LoadAsync(new Url(e.CurrentLocation)).ContinueWith(m =>
                 {
                     if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                        Load(m.Result);
+                        LoadAsync(m.Result, CancellationToken.None);
                 });
             }
-        }
-
-        void RunNextScript()
-        {
-            WaitForReady();
-            //TODO Run first script that should be executed when the document is finished parsing
         }
 
         internal void PerformMicrotaskCheckpoint()
@@ -1427,11 +1426,17 @@
 
         internal void QueueTask(Action action)
         {
-            _queue = _queue.ContinueWith(_ => action());
+            var eventLoop = Options.GetService<IEventService>();
+
+            if (eventLoop != null)
+                eventLoop.Enqueue(action);
+            else
+                action.InvokeAsync();
         }
 
         void Print()
         {
+            FireSimpleEvent(EventNames.BeforePrint);
             //TODO
             //Run the printing steps.
         }
@@ -1486,17 +1491,20 @@
         }
 
         /// <summary>
-        /// Loads the document content from the given HTTP response.
+        /// (Re-)loads the document with the given response.
         /// </summary>
-        /// <param name="response">The response that contains the HTML content stream and more.</param>
-        internal void Load(IResponse response)
+        /// <param name="response">The response to consider.</param>
+        /// <param name="cancelToken">Token for cancellation.</param>
+        /// <returns>The task that builds the document.</returns>
+        internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
         {
             DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
+            //TODO Should reset complete doc. incl. event-handlers?
             ReplaceAll(null, false);
             var parser = new HtmlParser(this);
-            parser.Parse();
+            return parser.ParseAsync(cancelToken);
         }
 
         /// <summary>

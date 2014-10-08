@@ -208,6 +208,11 @@
             return _content.ToString(start, characters);
         }
 
+        public Task Prefetch(Int32 length, CancellationToken cancellationToken)
+        {
+            return ExpandBufferAsync(length, cancellationToken);
+        }
+
         /// <summary>
         /// Inserts the given content at the current insertation mark.
         /// The insertation mark won't be changed.

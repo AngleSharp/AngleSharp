@@ -74,7 +74,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CSSStyleSheet { Options = configuration }, new TextSource(source, configuration.DefaultEncoding()))
+            : this(new CSSStyleSheet(new TextSource(source, configuration.DefaultEncoding())) { Options = configuration })
         { }
 
         /// <summary>
@@ -84,27 +84,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CSSStyleSheet { Options = configuration }, new TextSource(stream, configuration.DefaultEncoding()))
-        { }
-
-        /// <summary>
-        /// Creates a new CSS parser instance with the specified stylesheet
-        /// based on the given source.
-        /// </summary>
-        /// <param name="stylesheet">The stylesheet to be constructed.</param>
-        /// <param name="source">The source code as a string.</param>
-        internal CssParser(CSSStyleSheet stylesheet, String source)
-            : this(stylesheet, new TextSource(source, stylesheet.Options.DefaultEncoding()))
-        { }
-
-        /// <summary>
-        /// Creates a new CSS parser instance with the specified stylesheet
-        /// based on the given stream.
-        /// </summary>
-        /// <param name="stylesheet">The stylesheet to be constructed.</param>
-        /// <param name="stream">The stream to use as source.</param>
-        internal CssParser(CSSStyleSheet stylesheet, Stream stream)
-            : this(stylesheet, new TextSource(stream, stylesheet.Options.DefaultEncoding()))
+            : this(new CSSStyleSheet(new TextSource(stream, configuration.DefaultEncoding())) { Options = configuration })
         { }
 
         /// <summary>
@@ -112,14 +92,13 @@
         /// based on the given source manager.
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
-        /// <param name="source">The source to use.</param>
-        internal CssParser(CSSStyleSheet stylesheet, TextSource source)
+        internal CssParser(CSSStyleSheet stylesheet)
         {
             var owner = stylesheet.OwnerNode as Element;
             selector = new CssSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
-            tokenizer = new CssTokenizer(source)
+            tokenizer = new CssTokenizer(stylesheet.Source)
             {
                 IgnoreComments = true,
                 IgnoreWhitespace = true
@@ -1031,23 +1010,27 @@
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
         /// </summary>
-        Task KernelAsync(CancellationToken cancelToken)
+        async Task KernelAsync(CancellationToken cancelToken)
         {
-            return Task.Factory.StartNew(() =>
+            var source = sheet.Source;
+            var tokens = tokenizer.Tokens.GetEnumerator();
+
+            while (true)
             {
-                var tokens = tokenizer.Tokens.GetEnumerator();
+                if (source.Length - source.Index < 1024)
+                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
 
-                while (tokens.MoveNext())
-                {
-                    var rule = CreateRule(tokens);
+                if (!tokens.MoveNext())
+                    break;
 
-                    if (rule == null)
-                        continue;
+                var rule = CreateRule(tokens);
 
-                    rule.Owner = sheet;
-                    sheet.AddRule(rule);
-                }
-            });
+                if (rule == null)
+                    continue;
+
+                rule.Owner = sheet;
+                sheet.AddRule(rule);
+            }
         }
 
         /// <summary>
@@ -1292,8 +1275,10 @@
         /// <returns>The created value.</returns>
         static CSSValue ToIdentifier(String identifier)
         {
-            if (identifier == Keywords.Inherit)
+            if (identifier.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
                 return CSSValue.Inherit;
+            else if (identifier.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
+                return CSSValue.Initial;
 
             return new CSSPrimitiveValue(new CssIdentifier(identifier));
         }

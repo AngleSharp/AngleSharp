@@ -21,6 +21,11 @@
         static readonly Dictionary<String, FontSize> fontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, TextDecorationStyle> decorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, TextDecorationLine> decorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BorderRepeat> borderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, String> defaultfamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BackgroundAttachment> backgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, FontStyle> fontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, FontStretch> fontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -104,6 +109,34 @@
             decorationLines.Add(Keywords.Overline, TextDecorationLine.Overline);
             decorationLines.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
             decorationLines.Add(Keywords.Blink, TextDecorationLine.Blink);
+
+            borderRepeatModes.Add(Keywords.Stretch, BorderRepeat.Stretch);
+            borderRepeatModes.Add(Keywords.Repeat, BorderRepeat.Repeat);
+            borderRepeatModes.Add(Keywords.Round, BorderRepeat.Round);
+
+            defaultfamilies.Add(Keywords.Serif, "Times New Roman");
+            defaultfamilies.Add(Keywords.SansSerif, "Arial");
+            defaultfamilies.Add(Keywords.Monospace, "Consolas");
+            defaultfamilies.Add(Keywords.Cursive, "Cursive");
+            defaultfamilies.Add(Keywords.Fantasy, "Comic Sans");
+
+            backgroundAttachments.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
+            backgroundAttachments.Add(Keywords.Local, BackgroundAttachment.Local);
+            backgroundAttachments.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
+
+            fontStyles.Add(Keywords.Normal, FontStyle.Normal);
+            fontStyles.Add(Keywords.Italic, FontStyle.Italic);
+            fontStyles.Add(Keywords.Oblique, FontStyle.Oblique);
+
+            fontStretches.Add(Keywords.Normal, FontStretch.Normal);
+            fontStretches.Add(Keywords.UltraCondensed, FontStretch.UltraCondensed);
+            fontStretches.Add(Keywords.ExtraCondensed, FontStretch.ExtraCondensed);
+            fontStretches.Add(Keywords.Condensed, FontStretch.Condensed);
+            fontStretches.Add(Keywords.SemiCondensed, FontStretch.SemiCondensed);
+            fontStretches.Add(Keywords.SemiExpanded, FontStretch.SemiExpanded);
+            fontStretches.Add(Keywords.Expanded, FontStretch.Expanded);
+            fontStretches.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
+            fontStretches.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
         }
 
         #endregion
@@ -112,62 +145,37 @@
 
         public static AnimationDirection? ToDirection(this CSSValue value)
         {
-            AnimationDirection direction;
-
-            if (directions.TryGetValue(value, out direction))
-                return direction;
-
-            return null;
+            return directions.GetValueOrDefault(value);
         }
 
         public static TextDecorationStyle? ToDecorationStyle(this CSSValue value)
         {
-            TextDecorationStyle style;
-
-            if (decorationStyles.TryGetValue(value, out style))
-                return style;
-
-            return null;
+            return decorationStyles.GetValueOrDefault(value);
         }
 
         public static TextDecorationLine? ToDecorationLine(this CSSValue value)
         {
-            TextDecorationLine line;
+            return decorationLines.GetValueOrDefault(value);
+        }
 
-            if (decorationLines.TryGetValue(value, out line))
-                return line;
-
-            return null;
+        public static BorderRepeat? ToBorderRepeat(this CSSValue value)
+        {
+            return borderRepeatModes.GetValueOrDefault(value);
         }
 
         public static AnimationFillStyle? ToFillMode(this CSSValue value)
         {
-            AnimationFillStyle fillMode;
-
-            if (fillModes.TryGetValue(value, out fillMode))
-                return fillMode;
-
-            return null;
+            return fillModes.GetValueOrDefault(value);
         }
 
         public static LineStyle? ToLineStyle(this CSSValue value)
         {
-            LineStyle style;
-
-            if (lineStyles.TryGetValue(value, out style))
-                return style;
-
-            return null;
+            return lineStyles.GetValueOrDefault(value);
         }
 
         public static Visibility? ToVisibility(this CSSValue value)
         {
-            Visibility visibility;
-
-            if (visibilities.TryGetValue(value, out visibility))
-                return visibility;
-
-            return null;
+            return visibilities.GetValueOrDefault(value);
         }
 
         public static TransitionFunction ToTimingFunction(this CSSValue value)
@@ -187,40 +195,45 @@
 
         public static BoxModel? ToBoxModel(this CSSValue value)
         {
-            BoxModel model;
-
-            if (boxModels.TryGetValue(value, out model))
-                return model;
-
-            return null;
+            return boxModels.GetValueOrDefault(value);
         }
 
         public static ListStyle? ToListStyle(this CSSValue value)
         {
-            ListStyle style;
-
-            if (listStyles.TryGetValue(value, out style))
-                return style;
-
-            return null;
+            return listStyles.GetValueOrDefault(value);
         }
 
         public static ListPosition? ToListPosition(this CSSValue value)
         {
-            ListPosition position;
+            return listPositions.GetValueOrDefault(value);
+        }
 
-            if (listPositions.TryGetValue(value, out position))
-                return position;
-
-            return null;
+        public static BackgroundAttachment? ToBackgroundAttachment(this CSSValue value)
+        {
+            return backgroundAttachments.GetValueOrDefault(value);
         }
 
         public static FontSize? ToFontSize(this CSSValue value)
         {
-            FontSize size;
+            return fontSizes.GetValueOrDefault(value);
+        }
 
-            if (fontSizes.TryGetValue(value, out size))
-                return size;
+        public static FontStyle? ToFontStyle(this CSSValue value)
+        {
+            return fontStyles.GetValueOrDefault(value);
+        }
+
+        public static FontStretch? ToFontStretch(this CSSValue value)
+        {
+            return fontStretches.GetValueOrDefault(value);
+        }
+
+        public static FontVariant? ToFontVariant(this CSSValue value)
+        {
+            if (value.Is(Keywords.Normal))
+                return FontVariant.Normal;
+            else if (value.Is(Keywords.SmallCaps))
+                return FontVariant.SmallCaps;
 
             return null;
         }
@@ -240,6 +253,17 @@
             var primitive = value as CSSPrimitiveValue;
             mode = default(T);
             return primitive != null && primitive.Unit == UnitType.Ident && obj.TryGetValue(primitive.GetString(), out mode);
+        }
+
+        public static T? GetValueOrDefault<T>(this Dictionary<String, T> obj, CSSValue value)
+            where T : struct
+        {
+            T member;
+
+            if (obj.TryGetValue(value, out member))
+                return member;
+
+            return null;
         }
 
         public static Boolean IsOneOf(this CSSValue value, params String[] identifiers)
@@ -268,6 +292,14 @@
                 return primitive.Value as Url;
 
             return null;
+        }
+
+        public static IEnumerable<CSSValue> AsEnumeration(this CSSValue value)
+        {
+            if (value.Type == CssValueType.List)
+                return (CSSValueList)value;
+
+            return new CSSValue[1] { value };
         }
 
         public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
@@ -310,6 +342,38 @@
             return null;
         }
 
+        public static IDistance ToBorderSlice(this CSSValue value)
+        {
+            var percent = value.ToPercent();
+
+            if (percent.HasValue)
+                return percent.Value;
+
+            var number = value.ToSingle();
+
+            if (number.HasValue)
+                return new Length(number.Value, Length.Unit.Px);
+
+            return null;
+        }
+
+        public static IDistance ToLineHeight(this CSSValue value)
+        {
+            var distance = value.ToDistance();
+
+            if (distance != null)
+                return distance;
+            else if (value.Is(Keywords.Normal))
+                return new Percent(120f);
+
+            var val = value.ToSingle();
+
+            if (val.HasValue)
+                return new Percent(val.Value * 100f);
+
+            return null;
+        }
+
         public static IDistance ToDistance(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
@@ -323,6 +387,31 @@
             }
 
             return null;
+        }
+
+        public static IDistance ToDistance(this FontSize fontSize)
+        {
+            switch (fontSize)
+            {
+                case FontSize.Big://1.5em
+                    return new Length(1.5f, Length.Unit.Em);
+                case FontSize.Huge://2em
+                    return new Length(2f, Length.Unit.Em);
+                case FontSize.Large://1.2em
+                    return new Length(1.2f, Length.Unit.Em);
+                case FontSize.Larger://*120%
+                    return new Percent(120f);
+                case FontSize.Little://0.75em
+                    return new Length(0.75f, Length.Unit.Em);
+                case FontSize.Small://8/9em
+                    return new Length(8f / 9f, Length.Unit.Em);
+                case FontSize.Smaller://*80%
+                    return new Percent(80f);
+                case FontSize.Tiny://0.6em
+                    return new Length(0.6f, Length.Unit.Em);
+                default://1em
+                    return new Length(1f, Length.Unit.Em);
+            }
         }
 
         public static Shape ToShape(this CSSValue value)
@@ -434,6 +523,48 @@
             return null;
         }
 
+        public static String ToFontFamily(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+            {
+                if (primitive.Unit == UnitType.Ident)
+                {
+                    String family;
+                    var name = primitive.GetString();
+
+                    if (defaultfamilies.TryGetValue(name, out family))
+                        return family;
+
+                    return name;
+                }
+                else if (primitive.Unit == UnitType.String)
+                {
+                    return primitive.GetString();
+                }
+            }
+            else if (value is CSSValueList)
+            {
+                var values = (CSSValueList)value;
+                var names = new String[values.Length];
+
+                for (var i = 0; i < names.Length; i++)
+                {
+                    var ident = values[i] as CSSPrimitiveValue;
+
+                    if (ident == null || ident.Unit != UnitType.Ident)
+                        return null;
+
+                    names[i] = ident.GetString();
+                }
+
+                return String.Join(" ", names);
+            }
+
+            return null;
+        }
+
         public static Length? ToLength(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
@@ -495,6 +626,19 @@
             return null;
         }
 
+        public static IDistance ToImageBorderWidth(this CSSValue value)
+        {
+            if (value.Is(Keywords.Auto))
+                return Percent.Hundred;
+
+            var multiple = value.ToSingle();
+
+            if (multiple.HasValue)
+                return new Percent(multiple.Value * 100f);
+
+            return value.ToDistance();
+        }
+
         public static Length? ToBorderWidth(this CSSValue value)
         {
             var length = value.ToLength();
@@ -523,11 +667,11 @@
             return null;
         }
 
-        public static List<CSSValueList> ToList(this CSSValueList values)
+        public static List<CSSValueList> ToList(this CSSValueList values, Int32 offset = 0)
         {
             var list = new List<CSSValueList>();
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = offset; i < values.Length; i++)
             {
                 var entry = new CSSValueList();
 

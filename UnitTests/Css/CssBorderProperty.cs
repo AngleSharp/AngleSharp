@@ -19,7 +19,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSBorderSpacingProperty));
             var concrete = (CSSBorderSpacingProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("20px", concrete.Value.CssText);
         }
@@ -34,7 +34,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSBorderSpacingProperty));
             var concrete = (CSSBorderSpacingProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
         }
@@ -49,7 +49,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSBorderSpacingProperty));
             var concrete = (CSSBorderSpacingProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("15px 3em", concrete.Value.CssText);
         }
@@ -64,7 +64,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSBorderSpacingProperty));
             var concrete = (CSSBorderSpacingProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("15px 0", concrete.Value.CssText);
         }
@@ -78,7 +78,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderSpacingProperty));
             var concrete = (CSSBorderSpacingProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -227,7 +227,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderColorProperty));
             var concrete = (CSSBorderColorProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -316,7 +316,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderStyleProperty));
             var concrete = (CSSBorderStyleProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -563,7 +563,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderWidthProperty));
             var concrete = (CSSBorderWidthProperty)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
