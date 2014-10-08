@@ -7,92 +7,83 @@
 
     class TestSuite
     {
-        readonly Dictionary<ITest, IHtmlParser> winners;
+        readonly List<TestResult> _results;
+        readonly IEnumerable<ITest> _tests;
+        readonly IEnumerable<IHtmlParser> _parsers;
 
-        IEnumerable<ITest> tests;
-        IEnumerable<IHtmlParser> parsers;
-        Int32 repeats;
-        Int32 reruns;
+        Int32 _repeats;
+        Int32 _reruns;
 
-        public TestSuite()
+        public TestSuite(IEnumerable<IHtmlParser> parsers, IEnumerable<ITest> tests)
         {
-            reruns = 1;
-            repeats = 10;
-            winners = new Dictionary<ITest, IHtmlParser>();
-            tests = Enumerable.Empty<ITest>();
-            parsers = Enumerable.Empty<IHtmlParser>();
+            _reruns = 1;
+            _repeats = 10;
+            _tests = tests;
+            _parsers = parsers;
+            _results = new List<TestResult>(parsers.Join(tests, m => 0, m => 0, (a, b) => new TestResult(b, a)));
         }
 
         public Int32 NumberOfRepeats
         {
-            get { return repeats; }
-            set { repeats = value; }
+            get { return _repeats; }
+            set { _repeats = value; }
         }
 
         public Int32 NumberOfReRuns
         {
-            get { return reruns; }
-            set { reruns = value; }
+            get { return _reruns; }
+            set { _reruns = value; }
         }
 
         internal IEnumerable<ITest> Tests
         {
-            get { return tests; }
-            set { tests = value; }
+            get { return _tests; }
         }
 
         internal IEnumerable<IHtmlParser> Parsers
         {
-            get { return parsers; }
-            set { parsers = value; }
+            get { return _parsers; }
         }
 
         public void Run()
         {
             var totalWidth = 76;
-            var columns = parsers.Count() + 1;
+            var columns = _parsers.Count() + 1;
             var widthPerColumn = totalWidth / columns;
             var sw = new Stopwatch();
             Console.WriteLine("RUNNING TESTS".Center(totalWidth));
             Console.WriteLine(String.Empty.PadRight(totalWidth, '='));
             Console.Write(String.Empty.PadLeft(widthPerColumn));
 
-            foreach (var parser in parsers)
+            foreach (var parser in _parsers)
                 Console.Write(parser.Name.Center(widthPerColumn));
 
             Console.WriteLine();
             Console.WriteLine(String.Empty.PadRight(totalWidth, '-'));
 
-            foreach (var test in tests)
+            foreach (var test in _tests)
             {
                 if (test == null)
                     continue;
 
                 var source = test.Source;
-                var fastest = Int64.MaxValue;
 
-                for (int j = 0; j < reruns; j++)
+                for (int j = 0; j < _reruns; j++)
                 {
                     Console.Write(test.Name.Left(widthPerColumn));
 
-                    foreach (var parser in parsers)
+                    foreach (var parser in _parsers)
                     {
-                        sw.Start();
+                        var result = _results.First(m => m.Parser == parser && m.Test == test);
+                        sw.Restart();
 
-                        for (int i = 0; i < repeats; i++)
+                        for (int i = 0; i < _repeats; i++)
                             parser.Parse(source);
 
                         sw.Stop();
-                        var time = sw.ElapsedMilliseconds / repeats;
-                        var compare = sw.ElapsedTicks;
-                        Console.Write((time + "ms").Center(widthPerColumn));
-                        sw.Reset();
 
-                        if (compare < fastest)
-                        {
-                            winners[test] = parser;
-                            fastest = compare;
-                        }
+                        result.Durations.Add(sw.Elapsed);
+                        Console.Write(((sw.ElapsedMilliseconds / _repeats) + "ms").Center(widthPerColumn));
                     }
 
                     Console.WriteLine();
@@ -102,8 +93,11 @@
             Console.WriteLine(String.Empty.PadRight(totalWidth, '-'));
             Console.Write("Fastest".Left(widthPerColumn));
 
-            foreach (var parser in parsers)
-                Console.Write(winners.Values.Count(m => m == parser).ToString().Center(widthPerColumn));
+            foreach (var parser in _parsers)
+            {
+                var winner = _tests.Count(test => _results.Where(m => m.Test == test).OrderBy(m => m.Shortest).Select(m => m.Parser).First() == parser);
+                Console.Write(winner.ToString().Center(widthPerColumn));
+            }
 
             Console.WriteLine();
         }

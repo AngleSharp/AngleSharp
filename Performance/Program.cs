@@ -63,10 +63,8 @@
             //it by uncommenting the following line.
             //parsers.Add(new MajesticParser());
 
-            var testsuite = new TestSuite
+            var testsuite = new TestSuite(parsers, tests)
             {
-                Parsers = parsers,
-                Tests = tests,
                 NumberOfRepeats = 5,
                 NumberOfReRuns = 1
             };
