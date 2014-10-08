@@ -54,6 +54,10 @@
                 new AgilityPackParser()
             };
 
+            Warmup.ForceJit(typeof(AngleSharp.DocumentBuilder));
+            Warmup.ForceJit(typeof(CsQuery.CsQueryConfig));
+            Warmup.ForceJit(typeof(HtmlAgilityPack.HtmlDocument));
+
             //Majestic is neither HTML5 conform, nor building a realistic DOM structure.
             //Therefore Majestic has been excluded. You could, however, just re-enable
             //it by uncommenting the following line.

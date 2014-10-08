@@ -66,6 +66,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TestSuite.cs" />
     <Compile Include="UrlTest.cs" />
+    <Compile Include="Warmup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
