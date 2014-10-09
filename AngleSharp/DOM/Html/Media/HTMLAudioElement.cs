@@ -22,6 +22,7 @@
         internal HTMLAudioElement()
             : base(Tags.Audio)
         {
+            _audios = null;
         }
 
         #endregion

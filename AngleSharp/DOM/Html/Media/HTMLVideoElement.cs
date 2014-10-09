@@ -23,6 +23,7 @@
         internal HTMLVideoElement()
             : base(Tags.Video)
         {
+            _videos = null;
         }
 
         #endregion
