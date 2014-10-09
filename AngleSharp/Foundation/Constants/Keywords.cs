@@ -1086,5 +1086,20 @@
         /// The fill keyword.
         /// </summary>
         public static readonly String Fill = "fill";
+
+        /// <summary>
+        /// The screen keyword.
+        /// </summary>
+        public static readonly String Screen = "screen";
+
+        /// <summary>
+        /// The print keyword.
+        /// </summary>
+        public static readonly String Print = "print";
+        
+        /// <summary>
+        /// The speech keyword.
+        /// </summary>
+        public static readonly String Speech = "speech";
     }
 }

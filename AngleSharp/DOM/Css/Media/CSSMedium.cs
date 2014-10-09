@@ -15,22 +15,14 @@
 
         readonly static String[] Types = 
         {
-            // Intended for television-type devices (low resolution, color, limited scrollability).
-            "tv",
             // Intended for non-paged computer screens.
-            "screen",
-            // Intended for media using a fixed-pitch character grid, such as teletypes, terminals, or portable devices with limited display capabilities.
-            "tty",
-            // Intended for projectors.
-            "projection",
-            // Intended for handheld devices (small screen, monochrome, bitmapped graphics, limited bandwidth).
-            "handheld",
-            // Intended for paged, opaque material and for documents viewed on screen in print preview mode.
-            "print",
-            // Intended for braille tactile feedback devices.
-            "braille",
+            Keywords.Screen,
+            // Intended for speech synthesizers.
+            Keywords.Speech,
+            // Intended for paged material and for documents viewed on screen in print preview mode.
+            Keywords.Print,
             // Suitable for all devices.
-            "all"
+            Keywords.All
         };
 
         readonly static Dictionary<String, Func<MediaFeature>> featureConstructors = new Dictionary<String, Func<MediaFeature>>(StringComparer.OrdinalIgnoreCase);
@@ -39,7 +31,7 @@
 
         #region Fields
 
-        List<MediaFeature> _features;
+        readonly List<MediaFeature> _features;
 
         #endregion
 
