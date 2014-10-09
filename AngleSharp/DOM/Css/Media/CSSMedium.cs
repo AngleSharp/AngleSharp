@@ -9,7 +9,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    public sealed class CSSMedium : ICssObject, IEnumerable<MediaFeature>
+    sealed class CSSMedium : ICssObject, IEnumerable<MediaFeature>
     {
         #region Media Types and Features
 
