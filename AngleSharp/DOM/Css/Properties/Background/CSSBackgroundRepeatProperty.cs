@@ -56,7 +56,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_repeats == null)
                 _repeats = new List<Repeat>();

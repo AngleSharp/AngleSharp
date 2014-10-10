@@ -109,7 +109,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _image = new CSSBackgroundImageProperty();
             _position = new CSSBackgroundPositionProperty();

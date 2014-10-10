@@ -100,7 +100,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _topRightHorizontal = Percent.Zero;
             _bottomRightHorizontal = Percent.Zero;

@@ -161,7 +161,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _topOutset = Percent.Zero;
             _rightOutset = Percent.Zero;

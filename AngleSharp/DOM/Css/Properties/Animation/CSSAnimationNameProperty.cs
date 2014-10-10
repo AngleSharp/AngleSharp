@@ -38,7 +38,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_names == null)
                 _names = new List<String>();

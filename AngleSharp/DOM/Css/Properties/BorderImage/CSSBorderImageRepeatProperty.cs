@@ -46,7 +46,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _horizontal = BorderRepeat.Stretch;
             _vertical = BorderRepeat.Stretch;

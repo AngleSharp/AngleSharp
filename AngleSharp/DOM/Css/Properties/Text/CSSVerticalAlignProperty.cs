@@ -62,7 +62,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _mode = VerticalAlignment.Baseline;
             _shift = Percent.Zero;

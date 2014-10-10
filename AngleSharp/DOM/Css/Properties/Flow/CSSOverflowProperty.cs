@@ -44,7 +44,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _mode = OverflowMode.Visible;
         }

@@ -76,7 +76,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _top = Percent.Hundred;
             _right = Percent.Hundred;

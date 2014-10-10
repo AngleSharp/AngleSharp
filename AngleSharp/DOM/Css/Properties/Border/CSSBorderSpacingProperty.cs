@@ -48,7 +48,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _h = Length.Zero;
             _v = Length.Zero;

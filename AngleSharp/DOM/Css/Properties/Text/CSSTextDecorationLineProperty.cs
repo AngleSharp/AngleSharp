@@ -39,7 +39,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_line == null)
                 _line = new List<TextDecorationLine>();

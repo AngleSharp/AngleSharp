@@ -29,7 +29,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_sizes == null)
                 _sizes = new List<SizeMode>();

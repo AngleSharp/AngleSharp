@@ -48,7 +48,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_resets == null)
                 _resets = new Dictionary<String, Int32>();

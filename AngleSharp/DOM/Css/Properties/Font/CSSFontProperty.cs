@@ -114,7 +114,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _style = FontStyle.Normal;
             _variant = FontVariant.Normal;

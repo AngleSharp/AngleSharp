@@ -38,7 +38,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_functions == null)
                 _functions = new List<TransitionFunction>();

@@ -38,7 +38,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_fillModes == null)
                 _fillModes = new List<AnimationFillStyle>();

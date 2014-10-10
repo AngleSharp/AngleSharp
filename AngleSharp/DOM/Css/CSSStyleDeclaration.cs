@@ -14,6 +14,8 @@
         #region Fields
 
         readonly Dictionary<String, ICssProperty> _rules;
+        //readonly List<ICssProperty> _rules;
+        //readonly List<ICssProperty> 
         readonly Boolean _readonly;
         ICssRule _parent;
         String _text;

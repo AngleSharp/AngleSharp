@@ -39,7 +39,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _flat = true;
         }

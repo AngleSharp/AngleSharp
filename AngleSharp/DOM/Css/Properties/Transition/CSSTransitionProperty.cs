@@ -78,7 +78,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_transitions == null)
                 _transitions = new List<Transition>();

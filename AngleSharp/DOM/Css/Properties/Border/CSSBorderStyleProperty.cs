@@ -64,7 +64,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _left = LineStyle.None;
             _right = LineStyle.None;

@@ -155,14 +155,14 @@
             return false;
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Resets the property to its initial state.
         /// </summary>
-        protected abstract void Reset();
+        internal abstract void Reset();
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Notified once the value changed.

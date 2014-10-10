@@ -114,7 +114,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_animations == null)
                 _animations = new List<Animation>();

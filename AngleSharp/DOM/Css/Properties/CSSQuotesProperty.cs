@@ -42,7 +42,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             if (_quotes == null)
                 _quotes = new List<Tuple<String, String>>();

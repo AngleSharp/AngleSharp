@@ -46,7 +46,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _mode = FontSize.Medium;
             _size = _mode.ToDistance();

@@ -56,7 +56,7 @@
 
         #region Methods
 
-        protected override void Reset()
+        internal override void Reset()
         {
             _style = TextDecorationStyle.Solid;
             _color = Color.Black;
