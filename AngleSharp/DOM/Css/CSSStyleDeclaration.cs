@@ -30,13 +30,18 @@
 
         #region ctor
 
+        CSSStyleDeclaration(Boolean readOnly)
+        {
+            _readonly = readOnly;
+            _rules = new Dictionary<String, ICssProperty>(StringComparer.OrdinalIgnoreCase);
+        }
+
         /// <summary>
         /// Creates a new CSS style declaration.
         /// </summary>
         internal CSSStyleDeclaration()
+            : this(false)
         {
-            _readonly = false;
-            _rules = new Dictionary<String, ICssProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -44,10 +49,8 @@
         /// </summary>
         /// <param name="bag">The bag that indicates the properties to show.</param>
         internal CSSStyleDeclaration(CssPropertyBag bag)
+            : this(true)
         {
-            _readonly = true;
-            _rules = new Dictionary<String, ICssProperty>(StringComparer.OrdinalIgnoreCase);
-
             foreach (var property in bag)
                 _rules.Add(property.Name, property);
         }
