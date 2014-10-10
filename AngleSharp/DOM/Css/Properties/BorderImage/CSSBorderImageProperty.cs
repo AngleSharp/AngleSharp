@@ -33,7 +33,7 @@
         #region ctor
 
         internal CSSBorderImageProperty()
-            : base(PropertyNames.BorderImage)
+            : base(PropertyNames.BorderImage, PropertyFlags.Shorthand)
         {
         }
 

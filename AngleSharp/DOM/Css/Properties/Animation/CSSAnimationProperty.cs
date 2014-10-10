@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSAnimationProperty()
-            : base(PropertyNames.Animation)
+            : base(PropertyNames.Animation, PropertyFlags.Shorthand)
         {
         }
 

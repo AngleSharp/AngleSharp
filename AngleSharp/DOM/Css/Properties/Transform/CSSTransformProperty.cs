@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSTransformProperty()
-            : base(PropertyNames.Transform, PropertyFlags.Animatable)
+            : base(PropertyNames.Transform, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

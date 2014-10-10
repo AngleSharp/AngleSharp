@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSTransitionProperty()
-            : base(PropertyNames.Transition)
+            : base(PropertyNames.Transition, PropertyFlags.Shorthand)
         {
         }
 

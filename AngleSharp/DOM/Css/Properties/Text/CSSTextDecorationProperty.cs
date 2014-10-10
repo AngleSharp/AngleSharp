@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSTextDecorationProperty()
-            : base(PropertyNames.TextDecoration, PropertyFlags.Animatable)
+            : base(PropertyNames.TextDecoration, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

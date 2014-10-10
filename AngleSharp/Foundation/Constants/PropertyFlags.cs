@@ -29,6 +29,10 @@
         /// <summary>
         /// The property is supported in animations.
         /// </summary>
-        Animatable = 0x8
+        Animatable = 0x8,
+        /// <summary>
+        /// The property is actually a shorthand.
+        /// </summary>
+        Shorthand = 0x10
     }
 }

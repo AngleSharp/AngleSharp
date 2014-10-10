@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSBorderPartProperty(String name)
-            : base(name, PropertyFlags.Animatable)
+            : base(name, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

@@ -36,7 +36,7 @@
         }
 
         internal CSSFontProperty()
-            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable)
+            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

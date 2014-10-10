@@ -15,7 +15,7 @@
 
         readonly Dictionary<String, ICssProperty> _rules;
         //readonly List<ICssProperty> _rules;
-        //readonly List<ICssProperty> 
+        //readonly List<ICssProperty> _values;
         readonly Boolean _readonly;
         ICssRule _parent;
         String _text;

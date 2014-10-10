@@ -21,7 +21,7 @@
         #region ctor
 
         internal CSSMarginProperty()
-            : base(PropertyNames.Margin)
+            : base(PropertyNames.Margin, PropertyFlags.Shorthand)
         {
         }
 

@@ -19,7 +19,7 @@
         #region ctor
 
         internal CSSListStyleProperty()
-            : base(PropertyNames.ListStyle, PropertyFlags.Inherited)
+            : base(PropertyNames.ListStyle, PropertyFlags.Inherited | PropertyFlags.Shorthand)
         {
         }
 

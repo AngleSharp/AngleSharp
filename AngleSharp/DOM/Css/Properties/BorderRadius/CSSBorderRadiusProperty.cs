@@ -24,7 +24,7 @@
         #region ctor
 
         internal CSSBorderRadiusProperty()
-            : base(PropertyNames.BorderRadius, PropertyFlags.Animatable)
+            : base(PropertyNames.BorderRadius, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

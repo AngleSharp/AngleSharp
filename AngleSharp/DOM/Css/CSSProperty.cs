@@ -3,8 +3,8 @@
     using System;
 
     /// <summary>
-    /// Fore more information about CSS properties
-    /// see http://www.w3.org/TR/CSS21/propidx.html.
+    /// Fore more information about CSS properties see:
+    /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
     abstract class CSSProperty : ICssProperty, ICssObject
     {

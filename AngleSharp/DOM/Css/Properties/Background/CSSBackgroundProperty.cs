@@ -25,7 +25,7 @@
         #region ctor
 
         internal CSSBackgroundProperty()
-            : base(PropertyNames.Background, PropertyFlags.Animatable)
+            : base(PropertyNames.Background, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

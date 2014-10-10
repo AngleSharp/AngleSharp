@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSColumnRuleProperty()
-            : base(PropertyNames.ColumnRule, PropertyFlags.Animatable)
+            : base(PropertyNames.ColumnRule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
         }
 

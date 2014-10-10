@@ -21,7 +21,7 @@
         #region ctor
 
         internal CSSPaddingProperty()
-            : base(PropertyNames.Padding)
+            : base(PropertyNames.Padding, PropertyFlags.Shorthand)
         {
         }
 
