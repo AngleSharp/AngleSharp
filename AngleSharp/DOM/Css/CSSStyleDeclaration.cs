@@ -16,7 +16,7 @@
         readonly Dictionary<String, ICssProperty> _rules;
         //readonly List<ICssProperty> _rules;
         //readonly List<ICssProperty> _values;
-        readonly Boolean _readonly;
+        readonly Boolean _readOnly;
         ICssRule _parent;
         String _text;
 
@@ -32,7 +32,7 @@
 
         CSSStyleDeclaration(Boolean readOnly)
         {
-            _readonly = readOnly;
+            _readOnly = readOnly;
             _rules = new Dictionary<String, ICssProperty>(StringComparer.OrdinalIgnoreCase);
         }
 
@@ -67,7 +67,7 @@
             get { return _text ?? (_text = String.Join(" ", _rules.Values.Select(m => m.ToCss()))); }
             set
             {
-                if (_readonly)
+                if (_readOnly)
                     throw new DomException(ErrorCode.NoModificationAllowed);
 
                 Update(value);
@@ -80,7 +80,7 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return _readonly; }
+            get { return _readOnly; }
         }
 
         /// <summary>
@@ -2263,7 +2263,7 @@
         /// <returns>The value of the deleted property.</returns>
         public String RemoveProperty(String propertyName)
         {
-            if (_readonly)
+            if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
             ICssProperty property;
@@ -2326,7 +2326,7 @@
         /// <param name="priority">The optional priority.</param>
         public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
-            if (_readonly)
+            if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
             if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
