@@ -7,26 +7,43 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background
     /// </summary>
-    sealed class CSSBackgroundProperty : CSSProperty, ICssBackgroundProperty
+    sealed class CSSBackgroundProperty : CSSShorthandProperty, ICssBackgroundProperty
     {
         #region Fields
 
-        CSSBackgroundImageProperty _image;
-        CSSBackgroundPositionProperty _position;
-        CSSBackgroundSizeProperty _size;
-        CSSBackgroundRepeatProperty _repeat;
-        CSSBackgroundAttachmentProperty _attachment;
-        CSSBackgroundOriginProperty _origin;
-        CSSBackgroundClipProperty _clip;
-        CSSBackgroundColorProperty _color;
+        readonly CSSBackgroundImageProperty _image;
+        readonly CSSBackgroundPositionProperty _position;
+        readonly CSSBackgroundSizeProperty _size;
+        readonly CSSBackgroundRepeatProperty _repeat;
+        readonly CSSBackgroundAttachmentProperty _attachment;
+        readonly CSSBackgroundOriginProperty _origin;
+        readonly CSSBackgroundClipProperty _clip;
+        readonly CSSBackgroundColorProperty _color;
 
         #endregion
 
         #region ctor
 
         internal CSSBackgroundProperty()
-            : base(PropertyNames.Background, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.Background, PropertyFlags.Animatable, new CSSProperty[] {
+                new CSSBackgroundImageProperty(),
+                new CSSBackgroundPositionProperty(),
+                new CSSBackgroundSizeProperty(),
+                new CSSBackgroundRepeatProperty(),
+                new CSSBackgroundAttachmentProperty(),
+                new CSSBackgroundOriginProperty(),
+                new CSSBackgroundClipProperty(),
+                new CSSBackgroundColorProperty()
+            })
         {
+            _image = Get<CSSBackgroundImageProperty>();
+            _position = Get<CSSBackgroundPositionProperty>();
+            _size = Get<CSSBackgroundSizeProperty>();
+            _repeat = Get<CSSBackgroundRepeatProperty>();
+            _attachment = Get<CSSBackgroundAttachmentProperty>();
+            _origin = Get<CSSBackgroundOriginProperty>();
+            _clip = Get<CSSBackgroundClipProperty>();
+            _color = Get<CSSBackgroundColorProperty>();
         }
 
         #endregion
@@ -108,18 +125,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _image = new CSSBackgroundImageProperty();
-            _position = new CSSBackgroundPositionProperty();
-            _size = new CSSBackgroundSizeProperty();
-            _repeat = new CSSBackgroundRepeatProperty();
-            _attachment = new CSSBackgroundAttachmentProperty();
-            _origin = new CSSBackgroundOriginProperty();
-            _clip = new CSSBackgroundClipProperty();
-            _color = new CSSBackgroundColorProperty();
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

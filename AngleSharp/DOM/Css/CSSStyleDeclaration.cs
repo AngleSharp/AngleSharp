@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.DOM.Css.Properties;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;

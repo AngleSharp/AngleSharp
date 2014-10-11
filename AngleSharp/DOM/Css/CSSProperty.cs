@@ -44,7 +44,7 @@
         internal CSSStyleDeclaration Rule
         {
             get { return _rule; }
-            set { _rule = value; }
+            set { ChangeRule(value); }
         }
 
         /// <summary>
@@ -178,6 +178,11 @@
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
         protected abstract Boolean IsValid(CSSValue value);
+
+        protected virtual void ChangeRule(CSSStyleDeclaration value)
+        {
+            _rule = value;
+        }
 
         #endregion
 

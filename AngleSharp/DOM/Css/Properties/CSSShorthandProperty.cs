@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.DOM.Css.Properties
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Base class for all shorthand properties
@@ -20,6 +21,7 @@
             : base(name, flags | PropertyFlags.Shorthand)
         {
             _properties = properties;
+            Reset();
         }
 
         #endregion
@@ -35,10 +37,26 @@
 
         #region Methods
 
+        protected TProperty Get<TProperty>()
+        {
+            return _properties.OfType<TProperty>().FirstOrDefault();
+        }
+
         internal sealed override void Reset()
         {
+            if (_properties == null)
+                return;
+
             foreach (var property in _properties)
                 property.Reset();
+        }
+
+        protected sealed override void ChangeRule(CSSStyleDeclaration value)
+        {
+            base.ChangeRule(value);
+
+            foreach (var property in _properties)
+                property.Rule = value;
         }
 
         #endregion
