@@ -2361,11 +2361,10 @@
 
             if (!String.IsNullOrEmpty(propertyValue))
             {
-                var decl = CssParser.ParseDeclaration(String.Concat(propertyName, ": ", propertyValue));
+                var decl = CssParser.ParseDeclaration(String.Concat(propertyName, ":", propertyValue));
 
                 if (decl != null)
                 {
-                    // We give user defined properties the highest order.
                     decl.IsImportant = priority != null;
                     Set(decl);
                     RaiseChanged();
