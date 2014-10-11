@@ -98,13 +98,32 @@
         }
 
         /// <summary>
-        /// Returns a property name.
+        /// Gets the given CSS property.
         /// </summary>
-        /// <param name="index">The index of the property to retrieve.</param>
-        /// <returns>The name of the property at the given index.</returns>
-        public String this[Int32 index]
+        /// <param name="name">The name of the property to get.</param>
+        /// <returns>The property.</returns>
+        public ICssProperty this[String name]
         {
-            get { return Get(index).Name; }
+            get
+            {
+                foreach (var rule in _rules)
+                {
+                    if (rule.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                        return rule;
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the given CSS property.
+        /// </summary>
+        /// <param name="index">The index of the property to get.</param>
+        /// <returns>The property at the specified position or null.</returns>
+        public ICssProperty this[Int32 index]
+        {
+            get { return _rules[index]; }
         }
 
         #endregion
@@ -2254,6 +2273,16 @@
         #region Methods
 
         /// <summary>
+        /// Returns a property name.
+        /// </summary>
+        /// <param name="index">The index of the property to retrieve.</param>
+        /// <returns>The name of the property at the given index.</returns>
+        public String At(Int32 index)
+        {
+            return this[index].Name;
+        }
+
+        /// <summary>
         /// Returns the value deleted.
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
@@ -2263,24 +2292,13 @@
             if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            var property = GetProperty(propertyName);
+            var property = this[propertyName];
 
             if (property != null)
             {
                 _rules.Remove(property);
                 RaiseChanged();
                 return property.Value.CssText;
-            }
-
-            return null;
-        }
-
-        ICssProperty GetProperty(String name)
-        {
-            foreach (var rule in _rules)
-            {
-                if (rule.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    return rule;
             }
 
             return null;
@@ -2293,7 +2311,7 @@
         /// <returns>A priority or the empty string.</returns>
         public String GetPropertyPriority(String propertyName)
         {
-            var property = GetProperty(propertyName);
+            var property = this[propertyName];
 
             if (property != null && property.IsImportant)
                 return Keywords.Important;
@@ -2308,7 +2326,7 @@
         /// <returns>A value or the empty string if nothing has been set.</returns>
         public String GetPropertyValue(String propertyName)
         {
-            var property = GetProperty(propertyName);
+            var property = this[propertyName];
 
             if (property != null)
                 return property.Value.CssText;
@@ -2364,24 +2382,11 @@
         /// <summary>
         /// Gets the given CSS property.
         /// </summary>
-        /// <param name="index">The index of the property to get.</param>
-        /// <returns>The property at the specified position or null.</returns>
-        internal CSSProperty Get(Int32 index)
-        {
-            if (index >= 0 && index < _rules.Count)
-                return _rules[index] as CSSProperty;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the given CSS property.
-        /// </summary>
         /// <param name="name">The name of the property to get.</param>
         /// <returns>The property with the specified name or null.</returns>
         internal CSSProperty Get(String name)
         {
-            return GetProperty(name) as CSSProperty;
+            return this[name] as CSSProperty;
         }
 
         /// <summary>

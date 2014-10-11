@@ -104,12 +104,8 @@
 
             foreach (var element in elements.OfType<IHtmlElement>())
             {
-                for (int i = 0; i < decls.Length; i++)
-			    {
-                    var name = decls[i];
-                    var value = decls.GetPropertyValue(name);
-                    element.Style.SetProperty(name, value);
-			    }
+                foreach (var decl in decls)
+                    element.Style.SetProperty(decl.Name, decl.Value.CssText);
             }
 
             return elements;
