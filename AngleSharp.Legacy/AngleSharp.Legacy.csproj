@@ -691,6 +691,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSQuotesProperty.cs">
       <Link>DOM\Css\Properties\CSSQuotesProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSShorthandProperty.cs">
+      <Link>DOM\Css\Properties\CSSShorthandProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTableLayoutProperty.cs">
       <Link>DOM\Css\Properties\CSSTableLayoutProperty.cs</Link>
     </Compile>
