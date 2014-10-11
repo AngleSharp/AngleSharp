@@ -99,8 +99,8 @@ namespace UnitTests.Library
             Assert.AreEqual(1, style.Count());
 
             var prop = style[0];
-            Assert.AreEqual("color", prop);
-            Assert.AreEqual("red", style.GetPropertyValue(prop));
+            Assert.AreEqual("color", prop.Name);
+            Assert.AreEqual("red", prop.Value.CssText);
         }
 
         [TestMethod]
@@ -114,33 +114,33 @@ namespace UnitTests.Library
             Assert.AreEqual(1, style1.Count());
 
             var test1 = style1[0];
-            Assert.AreEqual("color", test1);
-            Assert.AreEqual("red", style1.GetPropertyValue(test1));
+            Assert.AreEqual("color", test1.Name);
+            Assert.AreEqual("red", style1.GetPropertyValue(test1.Name));
 
             var style2 = (elements[1] as IHtmlElement).Style;
             Assert.AreEqual(1, style2.Count());
 
             var test2 = style2[0];
-            Assert.AreEqual("color", test2);
-            Assert.AreEqual("red", style2.GetPropertyValue(test2));
+            Assert.AreEqual("color", test2.Name);
+            Assert.AreEqual("red", style2.GetPropertyValue(test2.Name));
 
             var style3 = (elements[2] as IHtmlElement).Style;
             Assert.AreEqual(1, style3.Count());
 
             var test3 = style3[0];
-            Assert.AreEqual("color", test3);
-            Assert.AreEqual("red", style3.GetPropertyValue(test3));
+            Assert.AreEqual("color", test3.Name);
+            Assert.AreEqual("red", style3.GetPropertyValue(test3.Name));
 
             var style4 = (elements[3] as IHtmlElement).Style;
             Assert.AreEqual(2, style4.Count());
 
             var background = style4[0];
-            Assert.AreEqual("background", background);
-            Assert.AreEqual("blue", style4.GetPropertyValue(background));
+            Assert.AreEqual("background", background.Name);
+            Assert.AreEqual("blue", style4.GetPropertyValue(background.Name));
 
             var color = style4[1];
-            Assert.AreEqual("color", color);
-            Assert.AreEqual("red", style4.GetPropertyValue(color));
+            Assert.AreEqual("color", color.Name);
+            Assert.AreEqual("red", style4.GetPropertyValue(color.Name));
         }
 
         [TestMethod]
