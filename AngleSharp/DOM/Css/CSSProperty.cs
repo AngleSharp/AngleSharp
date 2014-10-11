@@ -72,6 +72,14 @@
         }
 
         /// <summary>
+        /// Gets if the property is actually only a shorthand.
+        /// </summary>
+        internal Boolean IsShorthand
+        {
+            get { return _flags.HasFlag(PropertyFlags.Shorthand); }
+        }
+
+        /// <summary>
         /// Gets or sets the value of the property.
         /// </summary>
         internal CSSValue Value

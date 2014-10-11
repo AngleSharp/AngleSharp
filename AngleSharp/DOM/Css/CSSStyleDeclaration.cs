@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.DOM.Css.Properties;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
@@ -2397,13 +2398,29 @@
         {
             if (property != null)
             {
-                var existing = Get(property.Name);
+                var shorthand = property as CSSShorthandProperty;
 
-                if (existing != null)
-                    _rules.Remove(existing);
-
-                _rules.Add(property);
+                if (shorthand != null)
+                    SetShorthand(shorthand);
+                else
+                    SetLonghand(property);
             }
+        }
+
+        void SetShorthand(CSSShorthandProperty shorthand)
+        {
+            foreach (var property in shorthand.Properties)
+                SetLonghand(property);
+        }
+
+        void SetLonghand(CSSProperty property)
+        {
+            var existing = Get(property.Name);
+
+            if (existing != null)
+                _rules.Remove(existing);
+
+            _rules.Add(property);
         }
 
         void RaiseChanged()
