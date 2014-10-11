@@ -46,6 +46,7 @@
     <Compile Include="DOM\Css\Constants\OverflowMode.cs" />
     <Compile Include="DOM\Css\Constants\PositionMode.cs" />
     <Compile Include="DOM\Css\Constants\UnitType.cs" />
+    <Compile Include="DOM\Css\Properties\CSSShorthandProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs" />
     <Compile Include="DOM\Events\ErrorEvent.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
