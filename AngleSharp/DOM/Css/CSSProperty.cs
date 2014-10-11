@@ -44,7 +44,7 @@
         internal CSSStyleDeclaration Rule
         {
             get { return _rule; }
-            set { ChangeRule(value); }
+            set { _rule = value; ChangeRule(value); }
         }
 
         /// <summary>
@@ -181,7 +181,6 @@
 
         protected virtual void ChangeRule(CSSStyleDeclaration value)
         {
-            _rule = value;
         }
 
         #endregion

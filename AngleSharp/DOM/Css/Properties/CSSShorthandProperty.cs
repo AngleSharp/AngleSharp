@@ -53,8 +53,6 @@
 
         protected sealed override void ChangeRule(CSSStyleDeclaration value)
         {
-            base.ChangeRule(value);
-
             foreach (var property in _properties)
                 property.Rule = value;
         }
