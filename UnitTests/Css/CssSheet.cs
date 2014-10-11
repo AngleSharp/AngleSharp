@@ -511,12 +511,12 @@ h1 { color: blue }");
         [TestMethod]
         public void CssBackgroundColorRgba()
         {
-            var decl = CssParser.ParseDeclarations("background: rgba(255, 123, 13, 1)");
+            var decl = CssParser.ParseDeclarations("background-color: rgba(255, 123, 13, 1)");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
             var background = decl[0];
-            Assert.AreEqual("background", background.Name);
+            Assert.AreEqual("background-color", background.Name);
             Assert.IsFalse(background.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, background.Value.Type);
             Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value.CssText);
@@ -551,11 +551,7 @@ h1 { color: blue }");
         [TestMethod]
         public void CssBackgroundWithImage()
         {
-            var decl = CssParser.ParseDeclarations("background:url(../images/ribbon.svg) no-repeat");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var background = decl[0];
+            var background = CssParser.ParseDeclaration("background:url(../images/ribbon.svg) no-repeat");
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.IsImportant);
             Assert.AreEqual(CssValueType.List, background.Value.Type);

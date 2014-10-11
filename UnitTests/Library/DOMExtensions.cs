@@ -106,7 +106,7 @@ namespace UnitTests.Library
         [TestMethod]
         public void ExtensionCssWithMultipleElements()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li style='background:blue'>Last");
+            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
             var elements = document.QuerySelectorAll("li").Css("color:red");
             Assert.AreEqual(4, elements.Count());
 
@@ -135,7 +135,7 @@ namespace UnitTests.Library
             Assert.AreEqual(2, style4.Count());
 
             var background = style4[0];
-            Assert.AreEqual("background", background.Name);
+            Assert.AreEqual("background-color", background.Name);
             Assert.AreEqual("blue", style4.GetPropertyValue(background.Name));
 
             var color = style4[1];

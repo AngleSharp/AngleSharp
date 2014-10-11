@@ -349,7 +349,7 @@ namespace UnitTests
         public void CSSStyleDeclarationUnbound()
         {
             var css = new CSSStyleDeclaration();
-            var text = "background: red; color: black;";
+            var text = "background-color: red; color: black;";
             css.CssText = text;
             Assert.AreEqual(text, css.CssText);
             Assert.AreEqual(2, css.Length);
@@ -405,7 +405,7 @@ namespace UnitTests
         {
             var doc = new Document();
             var element = doc.CreateElement<IHtmlSpanElement>();
-            var text = "background: red; color: black;";
+            var text = "background-color: red; color: black;";
             element.SetAttribute("style", text);
             Assert.AreEqual(text, element.Style.CssText);
             Assert.AreEqual(2, element.Style.Length);
@@ -416,7 +416,7 @@ namespace UnitTests
         {
             var doc = new Document();
             var element = doc.CreateElement<IHtmlSpanElement>();
-            var text = "background: red; color: black;";
+            var text = "background-color: red; color: black;";
             element.SetAttribute("style", String.Empty);
             Assert.AreEqual(String.Empty, element.Style.CssText);
             element.SetAttribute("style", text);
@@ -428,7 +428,7 @@ namespace UnitTests
         public void CSSStyleDeclarationBoundInboundDirection()
         {
             var element = new HTMLSpanElement();
-            var text = "background: red; color: black;";
+            var text = "background-color: red; color: black;";
             element.Style.CssText = text;
             Assert.AreEqual(text, element.GetAttribute("style"));
             Assert.AreEqual(2, element.Style.Length);
