@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Css.Properties;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Css
 {
