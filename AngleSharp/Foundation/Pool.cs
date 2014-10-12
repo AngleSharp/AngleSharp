@@ -72,12 +72,14 @@
         /// <returns>The string that is contained in the stringbuilder.</returns>
         public static String ToPool(this StringBuilder sb)
         {
+            var result = sb.ToString();
+
             lock (_lock)
             {
                 _builder.Push(sb);
             }
 
-            return sb.ToString();
+            return result;
         }
 
 		/// <summary>
