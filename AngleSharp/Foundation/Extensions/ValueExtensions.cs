@@ -667,11 +667,24 @@
             return null;
         }
 
-        public static List<CSSValueList> ToList(this CSSValueList values, Int32 offset = 0)
+        public static CSSValueList Subset(this CSSValueList values, Int32 start = 0, Int32 end = -1)
+        {
+            if (end == -1)
+                end = values.Length;
+
+            var list = new List<CSSValue>();
+
+            for (var i = start; i < end; i++)
+                list.Add(values[i]);
+
+            return new CSSValueList(list);
+        }
+
+        public static List<CSSValueList> ToList(this CSSValueList values)
         {
             var list = new List<CSSValueList>();
 
-            for (int i = offset; i < values.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 var entry = new CSSValueList();
 
