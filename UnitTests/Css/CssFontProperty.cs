@@ -35,7 +35,7 @@ namespace UnitTests.Css
             var concrete = (CSSFontFamilyProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("initial", concrete.Value.CssText);
         }
 

@@ -482,15 +482,11 @@ h1 { color: blue }");
         {
             var decl = CssParser.ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
             Assert.IsNotNull(decl);
-            Assert.AreEqual(2, decl.Length);
+            Assert.AreEqual(8, decl.Length);
 
-            var font = decl[0];
-            Assert.AreEqual("font", font.Name);
-            Assert.IsFalse(font.IsImportant);
-            Assert.AreEqual(CssValueType.List, font.Value.Type);
-            Assert.AreEqual("bold 1em / 2em monospace", font.Value.CssText);
+            Assert.AreEqual("bold 1em / 2em monospace", decl.Font);
 
-            var content = decl[1];
+            var content = decl[7];
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             Assert.AreEqual(CssValueType.List, content.Value.Type);
@@ -525,11 +521,7 @@ h1 { color: blue }");
         [TestMethod]
         public void CssFontWithFraction()
         {
-            var decl = CssParser.ParseDeclarations("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var font = decl[0];
+            var font = CssParser.ParseDeclaration("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.IsImportant);
             Assert.AreEqual(CssValueType.List, font.Value.Type);

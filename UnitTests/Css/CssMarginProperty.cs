@@ -33,7 +33,7 @@ namespace UnitTests.Css
             var concrete = (CSSMarginLeftProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("initial", concrete.Value.CssText);
         }
 
