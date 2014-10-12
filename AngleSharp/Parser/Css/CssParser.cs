@@ -14,7 +14,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Creator Delegate
@@ -540,7 +540,7 @@
                             }
                         }
 
-                        if (style != null && (value == null || !property.TrySetValue(value)))
+                        if ((value == null || !property.TrySetValue(value)) && style != null)
                             property = null;
                         else if (IsImportant(tokens))
                             property.IsImportant = true;
