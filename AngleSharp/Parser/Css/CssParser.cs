@@ -540,7 +540,7 @@
                             }
                         }
 
-                        if (!property.TrySetValue(value) && style != null)
+                        if (style != null && (value == null || !property.TrySetValue(value)))
                             property = null;
                         else if (IsImportant(tokens))
                             property.IsImportant = true;
