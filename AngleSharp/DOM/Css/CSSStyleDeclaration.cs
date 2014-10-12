@@ -1163,7 +1163,7 @@
         /// </summary>
         public String Font
         {
-            get { return GetPropertyValue(PropertyNames.Font) ?? String.Empty; }
+            get { return CSSFontProperty.Stringify(this); }
             set { SetProperty(PropertyNames.Font, value); }
         }
 

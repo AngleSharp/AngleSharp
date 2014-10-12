@@ -7,19 +7,18 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font
     /// </summary>
-    sealed class CSSFontProperty : CSSProperty, ICssFontProperty
+    sealed class CSSFontProperty : CSSShorthandProperty, ICssFontProperty
     {
         #region Fields
 
         static readonly Dictionary<String, SystemFont> _parts = new Dictionary<String, SystemFont>();
-        FontStyle _style;
-        FontVariant _variant;
-        CSSFontWeightProperty _weight;
-        FontStretch _stretch;
-        FontSize _sizeMode;
-        IDistance _size;
-        IDistance _height;
-        List<String> _families;
+        readonly CSSFontStyleProperty _style;
+        readonly CSSFontVariantProperty _variant;
+        readonly CSSFontWeightProperty _weight;
+        readonly CSSFontStretchProperty _stretch;
+        readonly CSSFontSizeProperty _size;
+        readonly CSSLineHeightProperty _height;
+        readonly CSSFontFamilyProperty _families;
 
         #endregion
 
@@ -36,8 +35,23 @@
         }
 
         internal CSSFontProperty()
-            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable, new CSSProperty[]{
+                new CSSFontStyleProperty(),
+                new CSSFontWeightProperty(),
+                new CSSFontVariantProperty(),
+                new CSSFontStretchProperty(),
+                new CSSFontSizeProperty(),
+                new CSSLineHeightProperty(),
+                new CSSFontFamilyProperty()
+            })
         {
+            _style = Get<CSSFontStyleProperty>();
+            _variant = Get<CSSFontVariantProperty>();
+            _weight = Get<CSSFontWeightProperty>();
+            _stretch = Get<CSSFontStretchProperty>();
+            _size = Get<CSSFontSizeProperty>();
+            _height = Get<CSSLineHeightProperty>();
+            _families = Get<CSSFontFamilyProperty>();
         }
 
         #endregion
@@ -59,7 +73,7 @@
         /// </summary>
         public FontStyle Style
         {
-            get { return _style; }
+            get { return _style.Style; }
         }
 
         /// <summary>
@@ -67,7 +81,7 @@
         /// </summary>
         public FontVariant Variant
         {
-            get { return _variant; }
+            get { return _variant.Variant; }
         }
 
         /// <summary>
@@ -75,7 +89,7 @@
         /// </summary>
         public FontStretch Stretch
         {
-            get { return _stretch; }
+            get { return _stretch.Stretch; }
         }
 
         /// <summary>
@@ -83,7 +97,7 @@
         /// </summary>
         public FontSize SizingMode
         {
-            get { return _sizeMode; }
+            get { return _size.SizingMode; }
         }
 
         /// <summary>
@@ -91,7 +105,7 @@
         /// </summary>
         public IDistance Size
         {
-            get { return _size; }
+            get { return _size.Size; }
         }
 
         /// <summary>
@@ -99,7 +113,7 @@
         /// </summary>
         public IDistance Height
         {
-            get { return _height; }
+            get { return _height.Height; }
         }
 
         /// <summary>
@@ -107,30 +121,12 @@
         /// </summary>
         public IEnumerable<String> Families
         {
-            get { return _families; }
+            get { return _families.Families; }
         }
 
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _style = FontStyle.Normal;
-            _variant = FontVariant.Normal;
-            _weight = new CSSFontWeightProperty();
-            _stretch = FontStretch.Normal;
-            _sizeMode = FontSize.Medium;
-            _size = _sizeMode.ToDistance();
-
-            if (_families == null)
-                _families = new List<String>();
-            else
-                _families.Clear();
-
-            _families.Add("Times New Roman");
-            _height = new Percent(120f);
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -144,15 +140,13 @@
             if (!_parts.TryGetValue(value, out setting))
             {
                 var entries = value as CSSValueList ?? new CSSValueList(value);
-                var weight = new CSSFontWeightProperty();
-                var families = new List<String>();
                 var allowDelim = false;
-                FontStyle? style = null;
-                FontVariant? variant = null;
-                FontStretch? stretch = null;
-                FontSize? sizeMode = null;
-                IDistance size = null;
-                IDistance height = null;
+                CSSValue weight = null;
+                CSSValue style = null;
+                CSSValue variant = null;
+                CSSValue stretch = null;
+                CSSValue size = null;
+                CSSValue height = null;
 
                 for (var i = 0; i < entries.Length; i++)
                 {
@@ -165,67 +159,58 @@
                             if (++i == entries.Length)
                                 return false;
 
-                            height = entries[i].ToLineHeight();
+                            height = entries[i];
 
-                            if (height == null)
-                                return false;
-                            else if (++i == entries.Length)
+                            if (!_height.CanTake(height) || ++i == entries.Length)
                                 return false;
                         }
 
-                        var rest = entries.ToList(i);
-
-                        foreach (var item in rest)
-                        {
-                            var family = (item.Length == 1 ? item[0] : item).ToFontFamily();
-
-                            if (family == null)
-                                return false;
-
-                            families.Add(family);
-                        }
-
-                        if (families.Count == 0)
+                        if (!_families.TrySetValue(entries.Subset(start: i)))
                             return false;
 
                         break;
                     }
 
-                    if (style == null && (style = entry.ToFontStyle()).HasValue)
-                        continue;
-
-                    if (variant == null && (variant = entry.ToFontVariant()).HasValue)
-                        continue;
-
-                    if (weight.IsInitial && weight.TrySetValue(entry))
-                        continue;
-
-                    if (stretch == null && (stretch = entry.ToFontStretch()).HasValue)
-                        continue;
-
-                    if (sizeMode == null && (sizeMode = entry.ToFontSize()).HasValue)
+                    if (style == null && _style.CanTake(entry))
                     {
-                        size = sizeMode.Value.ToDistance();
+                        style = entry;
+                        continue;
+                    }
+
+                    if (variant == null && _variant.CanTake(entry))
+                    {
+                        variant = entry;
+                        continue;
+                    }
+
+                    if (weight == null && _weight.CanTake(entry))
+                    {
+                        weight = entry;
+                        continue;
+                    }
+
+                    if (stretch == null && _stretch.CanTake(entry))
+                    {
+                        stretch = entry;
+                        continue;
+                    }
+
+                    if (size == null && _size.CanTake(entry))
+                    {
+                        size = entry;
                         allowDelim = true;
                         continue;
                     }
 
-                    if (size == null && (size = entry.ToDistance()) != null)
-                    {
-                        sizeMode = FontSize.Custom;
-                        allowDelim = true;
-                        continue;
-                    }
+                    return false;
                 }
 
-                _stretch = stretch ?? FontStretch.Normal;
-                _variant = variant ?? FontVariant.Normal;
-                _sizeMode = sizeMode ?? FontSize.Medium;
-                _size = size ?? _sizeMode.ToDistance();
-                _height = height ?? new Percent(120f);
-                _style = style ?? FontStyle.Normal;
-                _weight = weight;
-                _families = families;
+                return _stretch.TrySetValue(stretch) &&
+                    _variant.TrySetValue(variant) &&
+                    _size.TrySetValue(size) && 
+                    _height.TrySetValue(height) && 
+                    _style.TrySetValue(style) && 
+                    _weight.TrySetValue(weight);
             }
             else
                 SetTo(setting);
@@ -252,6 +237,28 @@
                 case SystemFont.StatusBar:
                     return;
             }
+        }
+
+        internal static String Stringify(CSSStyleDeclaration style)
+        {
+            var height = style.LineHeight;
+            var parts = new List<String>();
+            parts.Add(style.FontStyle);
+            parts.Add(style.FontVariant);
+            parts.Add(style.FontWeight);
+            parts.Add(style.FontStretch);
+            parts.Add(style.FontSize);
+
+            if (!String.IsNullOrEmpty(height))
+            {
+                parts.Add("/");
+                parts.Add(height);
+            }
+
+            parts.Add(style.FontFamily);
+            parts.RemoveAll(m => String.IsNullOrEmpty(m));
+
+            return String.Join(" ", parts);
         }
 
         #endregion

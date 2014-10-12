@@ -171,6 +171,19 @@
 
         #region Methods
 
+        internal Boolean CanTake(CSSValue value)
+        {
+            var current = _value;
+
+            if (TrySetValue(value))
+            {
+                TrySetValue(current);
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Notified once the value changed.
         /// </summary>
