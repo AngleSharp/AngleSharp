@@ -30,7 +30,6 @@
         {
             _name = name;
             _flags = flags;
-            _value = CSSValue.Initial;
             Reset();
         }
 
@@ -52,7 +51,7 @@
         /// </summary>
         internal Boolean HasValue
         {
-            get { return _value != CSSValue.Initial; }
+            get { return _value != null; }
         }
 
         /// <summary>
@@ -84,7 +83,7 @@
         /// </summary>
         internal CSSValue Value
         {
-            get { return _value; }
+            get { return _value ?? CSSValue.Initial; }
         }
 
         #endregion
@@ -96,7 +95,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && _value == CSSValue.Initial) || _value == CSSValue.Inherit; }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || _value == CSSValue.Inherit; }
         }
 
         /// <summary>
@@ -112,7 +111,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _value == CSSValue.Initial; }
+            get { return _value == null || _value == CSSValue.Initial; }
         }
 
         /// <summary>
@@ -148,7 +147,7 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(CSSValue value)
         {
-            if (value == CSSValue.Inherit || value == CSSValue.Initial)
+            if (value == CSSValue.Inherit || value == CSSValue.Initial || value == null)
             {
                 Reset();
                 _value = value;
@@ -193,7 +192,7 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            return String.Concat(_name, ": ", _value.ToCss(), _important ? (" !" + Keywords.Important) : String.Empty, ";");
+            return String.Concat(_name, ": ", Value.ToCss(), _important ? (" !" + Keywords.Important) : String.Empty, ";");
         }
 
         #endregion
