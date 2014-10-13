@@ -45,15 +45,23 @@
         /// <returns>The name of the property at the given index.</returns>
         [DomName("item")]
         [DomAccessor(Accessors.Getter)]
-        String At(Int32 index);
+        String GetPropertyName(Int32 index);
+
+        /// <summary>
+        /// Gets the value of a property with the given name.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to get the value of.</param>
+        /// <returns>A string or null if nothing has been set.</returns>
+        [DomName("getPropertyValue")]
+        String GetPropertyText(String propertyName);
 
         /// <summary>
         /// Gets the value of a property with the given name.
         /// </summary>
         /// <param name="propertyName">The name of the property to get the value of.</param>
         /// <returns>A value or null if nothing has been set.</returns>
-        [DomName("getPropertyValue")]
-        String GetPropertyValue(String propertyName);
+        [DomName("getPropertyCSSValue")]
+        ICssValue GetPropertyValue(String propertyName);
 
         /// <summary>
         /// Returns the optional priority, "important" or null, if no priority has been set.
