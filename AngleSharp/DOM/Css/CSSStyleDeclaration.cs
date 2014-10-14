@@ -289,7 +289,7 @@
         /// </summary>
         public String Background
         {
-            get { return GetPropertyText(PropertyNames.Background) ?? String.Empty; }
+            get { return CSSBackgroundProperty.Stringify(this); }
             set { SetProperty(PropertyNames.Background, value); }
         }
 

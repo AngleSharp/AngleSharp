@@ -67,14 +67,6 @@
         }
 
         /// <summary>
-        /// Gets the value of the background size property.
-        /// </summary>
-        public CSSBackgroundSizeProperty Size
-        {
-            get { return _size; }
-        }
-
-        /// <summary>
         /// Gets the value of the horizontal repeat property.
         /// </summary>
         public IEnumerable<BackgroundRepeat> HorizontalRepeats
@@ -141,7 +133,7 @@
             var attachment = new CSSValueList();
             var origin = new CSSValueList();
             var clip = new CSSValueList();
-            Color? color = null;
+            CSSValue color = null;
             var list = values.ToList();
 
             for (int i = 0; i < list.Count; i++)
@@ -212,17 +204,10 @@
                         else
                             clip.Add(new CSSPrimitiveValue(new CssIdentifier(Keywords.BorderBox)));
                     }
+                    else if (!hasColor && _color.CanTake(entry[j]))
+                        color = entry[j];
                     else
-                    {
-                        if (hasColor)
-                            return false;
-
-                        hasColor = true;
-                        color = entry[j].ToColor();
-
-                        if (color == null)
-                            return false;
-                    }
+                        return false;
                 }
 
                 if (!hasImage)
@@ -265,8 +250,31 @@
             _origin.TrySetValue(origin);
             _size.TrySetValue(size);
             _clip.TrySetValue(clip);
-            _color.TrySetValue(new CSSPrimitiveValue(color ?? Color.Transparent));
+            _color.TrySetValue(color);
             return true;
+        }
+
+        internal static String Stringify(CSSStyleDeclaration style)
+        {
+            var size = style.GetPropertyCustomText(PropertyNames.BackgroundSize);
+            var parts = new List<String>();
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundImage));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundPosition));
+
+            if (!String.IsNullOrEmpty(size))
+            {
+                parts.Add("/");
+                parts.Add(size);
+            }
+
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundRepeat));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundAttachment));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundClip));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundOrigin));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundColor));
+            parts.RemoveAll(m => String.IsNullOrEmpty(m));
+
+            return String.Join(" ", parts);
         }
 
         #endregion
