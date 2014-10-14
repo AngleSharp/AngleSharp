@@ -2348,6 +2348,16 @@
             return String.Empty;
         }
 
+        public String GetPropertyCustomText(String propertyName)
+        {
+            var property = this[propertyName] as CSSProperty;
+
+            if (property != null && property.HasValue)
+                return property.Value.CssText;
+
+            return String.Empty;
+        }
+
         public void SetPropertyValue(String propertyName, String propertyValue)
         {
             SetProperty(propertyName, propertyValue);
@@ -2415,17 +2425,17 @@
                 if (shorthand != null)
                     SetShorthand(shorthand);
                 else
-                    SetLonghand(property);
+                    SetProperty(property);
             }
         }
 
         void SetShorthand(CSSShorthandProperty shorthand)
         {
             foreach (var property in shorthand.Properties)
-                SetLonghand(property);
+                SetProperty(property);
         }
 
-        void SetLonghand(CSSProperty property)
+        void SetProperty(CSSProperty property)
         {
             var existing = Get(property.Name);
 

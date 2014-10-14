@@ -241,13 +241,13 @@
 
         internal static String Stringify(CSSStyleDeclaration style)
         {
-            var height = style.LineHeight;
+            var height = style.GetPropertyCustomText(PropertyNames.LineHeight);
             var parts = new List<String>();
-            parts.Add(style.FontStyle);
-            parts.Add(style.FontVariant);
-            parts.Add(style.FontWeight);
-            parts.Add(style.FontStretch);
-            parts.Add(style.FontSize);
+            parts.Add(style.GetPropertyCustomText(PropertyNames.FontStyle));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.FontVariant));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.FontWeight));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.FontStretch));
+            parts.Add(style.GetPropertyCustomText(PropertyNames.FontSize));
 
             if (!String.IsNullOrEmpty(height))
             {
@@ -255,7 +255,7 @@
                 parts.Add(height);
             }
 
-            parts.Add(style.FontFamily);
+            parts.Add(style.GetPropertyCustomText(PropertyNames.FontFamily));
             parts.RemoveAll(m => String.IsNullOrEmpty(m));
 
             return String.Join(" ", parts);
