@@ -55,7 +55,15 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
-        public ICssRuleList Rules
+        internal CSSRuleList Rules
+        {
+            get { return _rules; }
+        }
+
+        /// <summary>
+        /// Gets a CSSRuleList of the CSS rules in the style sheet.
+        /// </summary>
+        ICssRuleList ICssStyleSheet.Rules
         {
             get { return _rules; }
         }
@@ -88,8 +96,17 @@
         /// <returns>The current stylesheet.</returns>
         public void RemoveAt(Int32 index)
         {
-            if (index >= 0 && index < _rules.Length)
-                _rules.List.RemoveAt(index);
+            if (index >= _rules.Length)
+                throw new DomException(ErrorCode.IndexSizeError);
+
+            var oldRule = _rules.List[index];
+
+            if (oldRule.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
+                throw new DomException(ErrorCode.InvalidState);
+
+            _rules.List.RemoveAt(index);
+            oldRule.Parent = null;
+            oldRule.Owner = null;
         }
 
         /// <summary>
@@ -100,20 +117,19 @@
         /// <returns>The current stylesheet.</returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            if (index >= 0 && index <= _rules.Length)
-            {
-                var value = CssParser.ParseRule(rule) as CSSRule;
+            var value = CssParser.ParseRule(rule);
 
-                if (value is CSSCharsetRule)
-                    throw new DomException(ErrorCode.Syntax);
-                else if (value is CSSNamespaceRule && _rules.Any(m => (m is CSSImportRule || m is CSSCharsetRule || m is CSSNamespaceRule) == false))
-                    throw new DomException(ErrorCode.InvalidState);
+            if (value == null)
+                throw new DomException(ErrorCode.Syntax);
+            else if (value.Type == CssRuleType.Charset)
+                throw new DomException(ErrorCode.Syntax);
+            else if (index > _rules.Length)
+                throw new DomException(ErrorCode.IndexSizeError);
+            else if (value.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
+                throw new DomException(ErrorCode.InvalidState);
 
-                _rules.List.Insert(index, value);
-                return index;
-            }
-            
-            throw new DomException(ErrorCode.IndexSizeError);
+            _rules.List.Insert(index, value);
+            return index;            
         }
 
         #endregion

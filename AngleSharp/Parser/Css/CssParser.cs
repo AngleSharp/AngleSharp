@@ -1341,7 +1341,7 @@
         /// <param name="rule">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSRule object.</returns>
-        public static ICssRule ParseRule(String rule, IConfiguration configuration = null)
+        internal static CSSRule ParseRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration ?? Configuration.Default);
             parser.Parse();
@@ -1349,7 +1349,7 @@
             if (parser.sheet.Rules.Length == 0)
                 return null;
 
-            return parser.sheet.Rules[0];
+            return parser.sheet.Rules.List[0];
         }
 
         /// <summary>
