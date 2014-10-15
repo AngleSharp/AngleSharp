@@ -84,7 +84,8 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@import url('{0}') {1};", _href, _media.MediaText);
+            var media = _media.MediaText;
+            return String.Concat("@import ", _href, media.Length > 0 ? " " : String.Empty, media);
         }
 
         #endregion
