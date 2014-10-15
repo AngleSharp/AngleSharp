@@ -25,6 +25,10 @@
         public static IElement QuerySelector(this INodeList elements, String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
+
+            if (sg == null)
+                throw new DomException(ErrorCode.Syntax);
+
             return elements.QuerySelector(sg);
         }
 
@@ -38,6 +42,10 @@
         public static HtmlElementCollection QuerySelectorAll(this INodeList elements, String selectors)
         {
             var sg = CssParser.ParseSelector(selectors);
+
+            if (sg == null)
+                throw new DomException(ErrorCode.Syntax);
+
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);
             return new HtmlElementCollection(result);

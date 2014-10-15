@@ -47,7 +47,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@charset '{0}';", CharacterSet);
+            return String.Format("@charset {0};", CharacterSet.CssEncode());
         }
 
         #endregion

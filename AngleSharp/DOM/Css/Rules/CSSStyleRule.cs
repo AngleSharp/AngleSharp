@@ -62,8 +62,13 @@
             get { return _selectorText; }
             set
             {
-                _selector = CssParser.ParseSelector(value);
-                _selectorText = value;
+                var selector = CssParser.ParseSelector(value);
+
+                if (selector != null)
+                {
+                    _selector = selector;
+                    _selectorText = value;
+                }
             }
         }
 
@@ -103,7 +108,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Concat(_selectorText, " { ", _style.ToCss(), " }");
+            return String.Concat(_selectorText, " { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
         }
 
         #endregion
