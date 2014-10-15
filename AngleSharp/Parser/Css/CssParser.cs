@@ -1317,7 +1317,7 @@
             foreach (var token in tokens)
             {
                 if (creator.Apply(token) == false)
-                    throw new DomException(ErrorCode.Syntax);
+                    return null;
             }
 
             return creator.ToPool();

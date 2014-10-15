@@ -62,8 +62,13 @@
             get { return _selectorText; }
             set
             {
-                _selector = CssParser.ParseSelector(value);
-                _selectorText = value;
+                var selector = CssParser.ParseSelector(value);
+
+                if (selector != null)
+                {
+                    _selector = selector;
+                    _selectorText = value;
+                }
             }
         }
 
