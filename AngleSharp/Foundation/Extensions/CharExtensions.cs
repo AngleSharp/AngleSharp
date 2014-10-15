@@ -35,6 +35,16 @@
         }
 
         /// <summary>
+        /// Transforms the given character to a hexadecimal string.
+        /// </summary>
+        /// <param name="character">The single character.</param>
+        /// <returns>A minimal digit lower case hexadecimal string.</returns>
+        public static String ToHex(this Char character)
+        {
+            return ((Int32)character).ToString("x");
+        }
+
+        /// <summary>
         /// Determines if the given character is in the given range.
         /// </summary>
         /// <param name="c">The character to examine.</param>

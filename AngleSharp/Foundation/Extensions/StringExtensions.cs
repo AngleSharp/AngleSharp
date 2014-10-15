@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.DOM;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -583,6 +584,35 @@
         {
             //TODO Decide if the encoding is sufficient (How?)
             return value;
+        }
+
+        /// <summary>
+        /// Serializes the string to a CSS string.
+        /// </summary>
+        /// <param name="value">The value to serialize.</param>
+        /// <returns>The CSS string representation.</returns>
+        public static String CssEncode(this String value)
+        {
+            var builder = Pool.NewStringBuilder();
+            builder.Append(Specification.DoubleQuote);
+
+            if (!String.IsNullOrEmpty(value))
+            {
+                foreach (var character in value)
+                {
+                    if (character == Specification.Null)
+                        throw new DomException(ErrorCode.InvalidCharacter);
+                    else if (character == Specification.DoubleQuote || character == Specification.ReverseSolidus)
+                        builder.Append(Specification.ReverseSolidus).Append(character);
+                    else if (character.IsInRange(0x1, 0x1f) || character == (Char)0x7b)
+                        builder.Append(Specification.ReverseSolidus).Append(character.ToHex()).Append(Specification.Space);
+                    else
+                        builder.Append(character);
+                }
+            }
+
+            builder.Append(Specification.DoubleQuote);
+            return builder.ToPool();
         }
 
         /// <summary>
