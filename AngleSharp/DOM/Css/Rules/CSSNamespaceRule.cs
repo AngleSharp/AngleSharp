@@ -35,7 +35,11 @@
         public String NamespaceUri
         {
             get { return _namespaceURI; }
-            set { _namespaceURI = value; }
+            set 
+            {
+                CheckValidity();
+                _namespaceURI = value; 
+            }
         }
 
         /// <summary>
@@ -46,7 +50,11 @@
         public String Prefix
         {
             get { return _prefix; }
-            set { _prefix = value; }
+            set 
+            {
+                CheckValidity();
+                _prefix = value;
+            }
         }
 
         #endregion
@@ -58,6 +66,25 @@
             var newRule = rule as CSSNamespaceRule;
             _namespaceURI = newRule._namespaceURI;
             _prefix = newRule._prefix;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void CheckValidity()
+        {
+            var parent = Owner;
+            var list = parent != null ? parent.Rules : null;
+
+            if (list != null)
+            {
+                foreach (var entry in list)
+                {
+                    if (entry.Type != CssRuleType.Charset && entry.Type != CssRuleType.Import && entry.Type != CssRuleType.Namespace)
+                        throw new DomException(ErrorCode.InvalidState);
+                }
+            }
         }
 
         #endregion
