@@ -97,7 +97,8 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@namespace {0} '{1}';", _prefix, _namespaceURI);
+            var prefix = String.IsNullOrEmpty(_prefix) ? String.Empty : _prefix + " ";
+            return String.Concat("@namespace ", prefix, _namespaceURI.CssUrl(), ";");
         }
 
         #endregion
