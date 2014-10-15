@@ -85,7 +85,7 @@
         public override String ToCss()
         {
             var media = _media.MediaText;
-            return String.Concat("@import ", _href, media.Length > 0 ? " " : String.Empty, media);
+            return String.Concat("@import ", _href.CssUrl(), media.Length > 0 ? " " : String.Empty, media);
         }
 
         #endregion

@@ -591,7 +591,7 @@
         /// </summary>
         /// <param name="value">The value to serialize.</param>
         /// <returns>The CSS string representation.</returns>
-        public static String CssEncode(this String value)
+        public static String CssString(this String value)
         {
             var builder = Pool.NewStringBuilder();
             builder.Append(Specification.DoubleQuote);
@@ -613,6 +613,16 @@
 
             builder.Append(Specification.DoubleQuote);
             return builder.ToPool();
+        }
+
+        /// <summary>
+        /// Serializes the string to a CSS url.
+        /// </summary>
+        /// <param name="value">The value to serialize.</param>
+        /// <returns>The CSS url representation.</returns>
+        public static String CssUrl(this String value)
+        {
+            return String.Concat(FunctionNames.Url, "(", value.CssString(), ")");
         }
 
         /// <summary>
