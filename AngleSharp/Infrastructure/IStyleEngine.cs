@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Infrastructure
 {
     using AngleSharp.DOM;
+    using AngleSharp.Network;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Defines the API of an available engine for computing
@@ -19,16 +19,16 @@
         /// Creates a style sheet for the given source.
         /// </summary>
         /// <param name="source">The source code describing the style sheet.</param>
-        /// <param name="owner">The owner of the style sheet, if any.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
         /// <returns>The created style sheet.</returns>
-        IStyleSheet CreateStyleSheetFor(String source, IElement owner);
+        IStyleSheet Parse(String source, StyleOptions options);
 
         /// <summary>
-        /// Creates a style sheet for the given stream.
+        /// Creates a style sheet for the given response from a request.
         /// </summary>
-        /// <param name="source">The stream with the source describing the style sheet.</param>
-        /// <param name="owner">The owner of the style sheet, if any.</param>
+        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
         /// <returns>The created style sheet.</returns>
-        IStyleSheet CreateStyleSheetFor(Stream source, IElement owner);
+        IStyleSheet Parse(IResponse response, StyleOptions options);
     }
 }

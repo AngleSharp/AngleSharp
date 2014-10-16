@@ -329,19 +329,16 @@ using System.Threading.Tasks;
         /// returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
-        /// <param name="source">The source code of the style sheet.</param>
-        /// <param name="owner">The optional owner of the stylesheet, if any.</param>
+        /// <param name="source">The source code describing the style sheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
         /// <param name="type">The optional mime-type of the source code.</param>
         /// <returns>A freshly created stylesheet, if any.</returns>
-        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, IElement owner = null, String type = null)
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, StyleOptions options, String type = null)
         {
-            if (configuration.IsStyling)
-            {
-                var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
+            var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
 
-                if (engine != null)
-                    return engine.CreateStyleSheetFor(source, owner);
-            }
+            if (engine != null)
+                return engine.Parse(source, options);
 
             return null;
         }
@@ -351,19 +348,16 @@ using System.Threading.Tasks;
         /// returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
-        /// <param name="source">The source code of the style sheet.</param>
-        /// <param name="owner">The optional owner of the stylesheet, if any.</param>
+        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
         /// <param name="type">The optional mime-type of the source code.</param>
         /// <returns>A freshly created stylesheet, if any.</returns>
-        public static IStyleSheet ParseStyling(this IConfiguration configuration, Stream source, IElement owner = null, String type = null)
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, IResponse response, StyleOptions options, String type = null)
         {
-            if (configuration.IsStyling)
-            {
-                var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
+            var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
 
-                if (engine != null)
-                    return engine.CreateStyleSheetFor(source, owner);
-            }
+            if (engine != null)
+                return engine.Parse(response, options);
 
             return null;
         }
@@ -413,17 +407,17 @@ using System.Threading.Tasks;
         /// returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
-        /// <param name="source">The source code of the style sheet.</param>
+        /// <param name="response">The response with the stream representing the source of the script.</param>
         /// <param name="options">The options for running the script.</param>
         /// <param name="type">The optional mime-type of the source code.</param>
-        public static void RunScript(this IConfiguration configuration, Stream source, ScriptOptions options, String type = null)
+        public static void RunScript(this IConfiguration configuration, IResponse response, ScriptOptions options, String type = null)
         {
             if (configuration.IsScripting)
             {
                 var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
 
                 if (engine != null)
-                    engine.Evaluate(source, options);
+                    engine.Evaluate(response, options);
             }
         }
 

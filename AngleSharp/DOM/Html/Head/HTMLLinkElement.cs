@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Infrastructure;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -198,7 +199,10 @@
                     _current = Owner.Options.LoadAsync(new Url(href), _cts.Token).ContinueWith(task =>
                     {
                         if (task.IsCompleted && !task.IsFaulted && task.Result != null)
-                            _sheet = Owner.Options.ParseStyling(source: task.Result.Content, owner: this, type: Type);
+                        {
+                            var options = new StyleOptions { Context = Owner.DefaultView, Document = Owner, Element = this };
+                            _sheet = Owner.Options.ParseStyling(task.Result, options, Type);
+                        }
                     });
                 }
             }

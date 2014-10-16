@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Infrastructure
 {
+    using AngleSharp.Network;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Defines the API of an available engine for running
@@ -22,10 +22,10 @@
         void Evaluate(String source, ScriptOptions options);
 
         /// <summary>
-        /// Evaluates the given stream with the specified options.
+        /// Evaluates a script that emerges from the network response with the specified options.
         /// </summary>
-        /// <param name="source">The stream with the source of the script.</param>
+        /// <param name="response">The response with the stream representing the source of the script.</param>
         /// <param name="options">The options with the parameters for invoking the script.</param>
-        void Evaluate(Stream source, ScriptOptions options);
+        void Evaluate(IResponse response, ScriptOptions options);
     }
 }

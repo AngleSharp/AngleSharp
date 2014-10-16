@@ -7,14 +7,14 @@
     /// <summary>
     /// Represent a stylesheet object.
     /// </summary>
-    class StyleSheet : IStyleSheet
+    abstract class StyleSheet : IStyleSheet
     {
         #region Fields
 
+        readonly MediaList _media;
+        String _url;
         IElement _owner;
         IStyleSheet _parent;
-        MediaList _media;
-        String _url;
 
         #endregion
 
@@ -28,17 +28,6 @@
             _media = new MediaList();
         }
 
-        /// <summary>
-        /// Creates a new style sheet included in another stylesheet.
-        /// </summary>
-        /// <param name="parent">The parent of the current stylesheet.</param>
-        internal StyleSheet(IStyleSheet parent)
-            : this()
-        {
-            _owner = parent.OwnerNode;
-            _parent = parent;
-        }
-
         #endregion
 
         #region Properties
@@ -46,7 +35,7 @@
         /// <summary>
         /// Gets the style sheet language for this style sheet.
         /// </summary>
-        public String Type
+        public virtual String Type
         {
             get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Type) ?? String.Empty) : String.Empty; }
         }
@@ -76,6 +65,7 @@
         public IStyleSheet Parent
         {
             get { return _parent; }
+            internal set { _parent = value; }
         }
 
         /// <summary>
@@ -83,8 +73,8 @@
         /// </summary>
         public String Href
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Href) ?? String.Empty) : (_url ?? String.Empty); }
-            internal set { _url = value; }
+            get { return _url; }
+            set { _url = value; }
         }
 
         /// <summary>

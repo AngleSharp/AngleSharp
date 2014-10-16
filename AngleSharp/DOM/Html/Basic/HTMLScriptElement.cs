@@ -157,7 +157,7 @@
             if (FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true))
                 return;
 
-            Owner.Options.RunScript(_load.Result.Content, CreateOptions(), ScriptLanguage);
+            Owner.Options.RunScript(_load.Result, CreateOptions(), ScriptLanguage);
             FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
 
             if (Source != null)
@@ -199,18 +199,18 @@
             if (!Owner.Options.IsScripting)
                 return;
 
-            var @event = GetAttribute(AttributeNames.Event);
-            var @for = GetAttribute(AttributeNames.For);
+            var eventAttr = GetAttribute(AttributeNames.Event);
+            var forAttr = GetAttribute(AttributeNames.For);
 
-            if (!String.IsNullOrEmpty(@event) && !String.IsNullOrEmpty(@for))
+            if (!String.IsNullOrEmpty(eventAttr) && !String.IsNullOrEmpty(forAttr))
             {
-                @event = @event.Trim();
-                @for = @for.Trim();
+                eventAttr = eventAttr.Trim();
+                forAttr = forAttr.Trim();
 
-                if (@event.EndsWith("()"))
-                    @event = @event.Substring(0, @event.Length - 2);
+                if (eventAttr.EndsWith("()"))
+                    eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
 
-                if (!@for.Equals("window", StringComparison.OrdinalIgnoreCase) || !@event.Equals("onload", StringComparison.OrdinalIgnoreCase))
+                if (!forAttr.Equals("window", StringComparison.OrdinalIgnoreCase) || !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
                     return;
             }
 
@@ -269,7 +269,6 @@
                 Context = Owner.DefaultView,
                 Document = Owner,
                 Element = this,
-                BaseUri = BaseUri,
                 Encoding = DocumentEncoding.Resolve(CharacterSet)
             };
         }

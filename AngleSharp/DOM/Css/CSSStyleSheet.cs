@@ -52,6 +52,11 @@
 
         #region Properties
 
+        public override String Type
+        {
+            get { return MimeTypes.Css; }
+        }
+
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>

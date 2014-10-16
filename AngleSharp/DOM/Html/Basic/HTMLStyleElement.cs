@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Infrastructure;
     using System;
 
     /// <summary>
@@ -107,7 +108,10 @@
         void UpdateSheet()
         {
             if (Owner.Options.IsStyling)
-                _sheet = Owner.Options.ParseStyling(source: TextContent, owner: this, type: Type);
+            {
+                var options = new StyleOptions { Element = this, Document = Owner, Context = Owner.DefaultView };
+                _sheet = Owner.Options.ParseStyling(TextContent, options, Type);
+            }
         }
 
         #endregion

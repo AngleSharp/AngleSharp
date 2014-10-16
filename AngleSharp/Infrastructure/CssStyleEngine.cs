@@ -2,9 +2,9 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
+    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
-    using System.IO;
 
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
@@ -23,25 +23,25 @@
         /// Creates a style sheet for the given source.
         /// </summary>
         /// <param name="source">The source code describing the style sheet.</param>
-        /// <param name="owner">The owner of the style sheet, if any.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet CreateStyleSheetFor(String source, IElement owner = null)
+        public IStyleSheet Parse(String source, StyleOptions options)
         {
-            var style = new CSSStyleSheet(source) { OwnerNode = owner };
+            var style = new CSSStyleSheet(source) { OwnerNode = options.Element };
             var parser = new CssParser(style);
             parser.Parse();
             return style;
         }
 
         /// <summary>
-        /// Creates a style sheet for the given stream.
+        /// Creates a style sheet for the given response from a request.
         /// </summary>
-        /// <param name="source">The stream with the source describing the style sheet.</param>
-        /// <param name="owner">The owner of the style sheet, if any.</param>
+        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet CreateStyleSheetFor(Stream source, IElement owner = null)
+        public IStyleSheet Parse(IResponse response, StyleOptions options)
         {
-            var style = new CSSStyleSheet(new TextSource(source)) { OwnerNode = owner };
+            var style = new CSSStyleSheet(new TextSource(response.Content)) { Href = response.Address.Href, OwnerNode = options.Element };
             var parser = new CssParser(style);
             parser.Parse();
             return style;
