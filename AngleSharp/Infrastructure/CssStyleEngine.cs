@@ -27,7 +27,11 @@
         /// <returns>The created style sheet.</returns>
         public IStyleSheet Parse(String source, StyleOptions options)
         {
-            var style = new CSSStyleSheet(source) { OwnerNode = options.Element };
+            var style = new CSSStyleSheet(source) 
+            {
+                OwnerNode = options.Element,
+                IsDisabled = options.IsDisabled
+            };
             var parser = new CssParser(style);
             parser.Parse();
             return style;
@@ -41,7 +45,12 @@
         /// <returns>The created style sheet.</returns>
         public IStyleSheet Parse(IResponse response, StyleOptions options)
         {
-            var style = new CSSStyleSheet(new TextSource(response.Content)) { Href = response.Address.Href, OwnerNode = options.Element };
+            var style = new CSSStyleSheet(new TextSource(response.Content)) 
+            { 
+                Href = response.Address.Href, 
+                OwnerNode = options.Element,
+                IsDisabled = options.IsDisabled
+            };
             var parser = new CssParser(style);
             parser.Parse();
             return style;

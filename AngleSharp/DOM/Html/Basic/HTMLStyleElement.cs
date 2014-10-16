@@ -109,7 +109,14 @@
         {
             if (Owner.Options.IsStyling)
             {
-                var options = new StyleOptions { Element = this, Document = Owner, Context = Owner.DefaultView };
+                var options = new StyleOptions 
+                { 
+                    Element = this, 
+                    Document = Owner, 
+                    Context = Owner.DefaultView, 
+                    IsDisabled = IsDisabled, 
+                    Title = Title 
+                };
                 _sheet = Owner.Options.ParseStyling(TextContent, options, Type);
             }
         }

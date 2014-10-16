@@ -200,7 +200,15 @@
                     {
                         if (task.IsCompleted && !task.IsFaulted && task.Result != null)
                         {
-                            var options = new StyleOptions { Context = Owner.DefaultView, Document = Owner, Element = this };
+                            var options = new StyleOptions 
+                            { 
+                                Context = Owner.DefaultView, 
+                                Document = Owner, 
+                                Element = this,
+                                Title = Title,
+                                IsDisabled = IsDisabled,
+                                IsAlternate = RelationList.Contains(Keywords.Alternate)
+                            };
                             _sheet = Owner.Options.ParseStyling(task.Result, options, Type);
                         }
                     });
