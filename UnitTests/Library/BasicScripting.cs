@@ -1,8 +1,8 @@
 ﻿using AngleSharp;
 using AngleSharp.Infrastructure;
+using AngleSharp.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.IO;
 
 namespace UnitTests.Library
 {
@@ -56,7 +56,7 @@ namespace UnitTests.Library
                     Callback(options);
             }
 
-            public void Evaluate(Stream source, ScriptOptions options)
+            public void Evaluate(IResponse response, ScriptOptions options)
             {
                 if (Callback != null)
                     Callback(options);
