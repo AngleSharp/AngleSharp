@@ -125,8 +125,15 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return Sheet.IsDisabled; }
-            set { Sheet.IsDisabled = value; }
+            get { return GetAttribute(AttributeNames.Disabled).ToBoolean(); }
+            set 
+            { 
+                SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); 
+                var sheet = Sheet;
+                
+                if (sheet != null)
+                    sheet.IsDisabled = value; 
+            }
         }
 
         /// <summary>
@@ -161,7 +168,7 @@
         /// </summary>
         public IStyleSheet Sheet
         {
-            get { return RelationList.Contains("stylesheet") ? _sheet : null; }
+            get { return RelationList.Contains(Keywords.StyleSheet) ? _sheet : null; }
         }
 
         #endregion

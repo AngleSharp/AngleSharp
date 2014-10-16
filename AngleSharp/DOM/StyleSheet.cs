@@ -13,6 +13,7 @@
 
         readonly MediaList _media;
         String _url;
+        String _title;
         IElement _owner;
         IStyleSheet _parent;
 
@@ -46,8 +47,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Disabled) != null) : false; }
-            set { if (_owner != null) _owner.SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get;
+            set;
         }
 
         /// <summary>
@@ -74,7 +75,7 @@
         public String Href
         {
             get { return _url; }
-            set { _url = value; }
+            internal set { _url = value; }
         }
 
         /// <summary>
@@ -82,7 +83,8 @@
         /// </summary>
         public String Title
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Title) ?? String.Empty) : String.Empty; }
+            get { return _title; }
+            internal set { _title = value; }
         }
 
         /// <summary>

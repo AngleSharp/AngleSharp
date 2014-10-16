@@ -30,7 +30,8 @@
             var style = new CSSStyleSheet(source) 
             {
                 OwnerNode = options.Element,
-                IsDisabled = options.IsDisabled
+                IsDisabled = options.IsDisabled,
+                Title = options.Title
             };
             var parser = new CssParser(style);
             parser.Parse();
@@ -49,7 +50,8 @@
             { 
                 Href = response.Address.Href, 
                 OwnerNode = options.Element,
-                IsDisabled = options.IsDisabled
+                IsDisabled = options.IsDisabled,
+                Title = options.Title
             };
             var parser = new CssParser(style);
             parser.Parse();

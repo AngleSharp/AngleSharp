@@ -1101,5 +1101,10 @@
         /// The speech keyword.
         /// </summary>
         public static readonly String Speech = "speech";
+
+        /// <summary>
+        /// The stylesheet keyword.
+        /// </summary>
+        public static readonly String StyleSheet = "stylesheet";
     }
 }

@@ -50,8 +50,14 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { if (_sheet != null) return _sheet.IsDisabled; else return false; }
-            set { if (_sheet != null) _sheet.IsDisabled = value; }
+            get { return GetAttribute(AttributeNames.Disabled).ToBoolean(); }
+            set 
+            {
+                SetAttribute(AttributeNames.Disabled, value ? String.Empty : null);
+
+                if (_sheet != null) 
+                    _sheet.IsDisabled = value; 
+            }
         }
 
         /// <summary>
