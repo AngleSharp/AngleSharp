@@ -1633,6 +1633,9 @@
     <Compile Include="..\AngleSharp\IHtmlObject.cs">
       <Link>IHtmlObject.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\BaseOptions.cs">
+      <Link>Infrastructure\BaseOptions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
       <Link>Infrastructure\CssStyleEngine.cs</Link>
     </Compile>
@@ -1665,6 +1668,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\StyleOptions.cs">
+      <Link>Infrastructure\StyleOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationPlayStateProperty.cs">
       <Link>Interfaces\Css\ICssAnimationPlayStateProperty.cs</Link>
