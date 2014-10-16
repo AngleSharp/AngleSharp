@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Scripting
 {
     using AngleSharp.Infrastructure;
+    using AngleSharp.Network;
     using AngleSharp.Tools;
     using Jint;
     using Jint.Runtime.Environments;
@@ -32,9 +33,9 @@
             _engine.LeaveExecutionContext();
         }
 
-        public void Evaluate(Stream source, ScriptOptions options)
+        public void Evaluate(IResponse response, ScriptOptions options)
         {
-            var reader = new StreamReader(source, options.Encoding ?? Encoding.UTF8, true);
+            var reader = new StreamReader(response.Content, options.Encoding ?? Encoding.UTF8, true);
             var content = reader.ReadToEnd();
             reader.Close();
             Evaluate(content, options);
