@@ -824,11 +824,11 @@
             target._owner = source._owner;
             target._baseUri = source._baseUri;
 
-            if (deep)
-            {
-                for (int i = 0; i < source._children.Length; i++)
-                    target._children.Add((Node)source._children[i].Clone(true));
-            }
+            if (!deep)
+                return;
+
+            foreach (var child in source._children)
+                target.AddNode((Node)child.Clone(true));
         }
 
         #endregion
