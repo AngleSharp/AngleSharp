@@ -77,5 +77,78 @@ namespace UnitTests.Library
             //No children on this one
             Assert.IsFalse(clonedParent.HasChilds);
         }
+
+        [TestMethod]
+        public void IsEqualNodesWithExactlyTheSameNodes()
+        {
+            const string html = @"
+<html>
+<body>
+    <div class='parent'>
+        <div class='child'>
+        </div>
+    </div>
+</body>
+</html>
+";
+            var doc = DocumentBuilder.Html(html);
+            var divOne = doc.QuerySelector(".parent");
+            var divTwo = doc.Body.FirstElementChild;
+            var divThree = doc.QuerySelectorAll("div")[0];
+
+            Assert.AreEqual(divOne, divThree);
+            Assert.AreEqual(divTwo, divThree);
+
+            Assert.IsTrue(divOne.IsEqualNode(divTwo));
+            Assert.IsTrue(divOne.IsEqualNode(divThree));
+            Assert.IsTrue(divTwo.IsEqualNode(divThree));
+        }
+
+        [TestMethod]
+        public void IsEqualNodesWithClonedNode()
+        {
+            const string html = @"
+<html>
+<body>
+    <div class='parent'>
+        <div class='child'>
+        </div>
+    </div>
+</body>
+</html>
+";
+            var doc = DocumentBuilder.Html(html);
+            var original = doc.QuerySelector(".parent");
+            var clone = original.Clone();
+
+            Assert.AreNotEqual(original, clone);
+            Assert.IsTrue(original.IsEqualNode(clone));
+            Assert.IsFalse(original.IsEqualNode(doc.Body));
+        }
+
+        [TestMethod]
+        public void ContainsWithChildNodes()
+        {
+            const string html = @"
+<html>
+<body>
+    <div class='parent'>
+        <div class='child'>
+            <div class='grandchild'></div>
+        </div>
+    </div>
+</body>
+</html>
+";
+            var doc = DocumentBuilder.Html(html);
+            var parent = doc.QuerySelector(".parent");
+            var child = doc.QuerySelector(".child");
+            var grandchild = doc.QuerySelector(".grandchild");
+
+            Assert.IsFalse(parent.Contains(doc.Body));
+            Assert.IsTrue(parent.Contains(parent));
+            Assert.IsTrue(parent.Contains(child));
+            Assert.IsTrue(parent.Contains(grandchild));
+        }
     }
 }
