@@ -1,18 +1,18 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
-using AngleSharp.DOM.Events;
-using AngleSharp.DOM.Html;
-using AngleSharp.DOM.Mathml;
-using AngleSharp.DOM.Svg;
-using AngleSharp.Infrastructure;
-using AngleSharp.Network;
-using AngleSharp.Parser.Html;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+    using AngleSharp.DOM.Events;
+    using AngleSharp.DOM.Html;
+    using AngleSharp.DOM.Mathml;
+    using AngleSharp.DOM.Svg;
+    using AngleSharp.Infrastructure;
+    using AngleSharp.Network;
+    using AngleSharp.Parser.Html;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
@@ -30,9 +30,9 @@ using System.Threading.Tasks;
         IConfiguration _options;
         ITextSource _source;
         String _referrer;
-        String _lastStyleSheetSet;
-        String _currentStyleSheetSet;
         String _contentType;
+        String _lastStyleSheetSet;
+        String _preferredStyleSheetSet;
         Location _location;
         IBrowsingContext _context;
 
@@ -429,6 +429,7 @@ using System.Threading.Tasks;
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _styleSheets = new StyleSheetList(this);
+            _preferredStyleSheetSet = String.Empty;
             _scripts = new Queue<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
             _designMode = false;
@@ -446,8 +447,8 @@ using System.Threading.Tasks;
         /// </summary>
         public String DesignMode
         {
-            get { return _designMode ? "on" : "off"; }
-            set { _designMode = value.Equals("on", StringComparison.OrdinalIgnoreCase); }
+            get { return _designMode ? Keywords.On : Keywords.Off; }
+            set { _designMode = value.Equals(Keywords.On, StringComparison.OrdinalIgnoreCase); }
         }
 
         /// <summary>
@@ -856,11 +857,26 @@ using System.Threading.Tasks;
         /// </summary>
         public String SelectedStyleSheetSet
         {
-            get { return _currentStyleSheetSet; }
+            get 
+            {
+                var enabled = _styleSheets.GetEnabledStyleSheetSets();
+                var enabledName = enabled.FirstOrDefault();
+                var others = _styleSheets.Where(m => !String.IsNullOrEmpty(m.Title) && !m.IsDisabled);
+
+                if (enabled.Count() == 1 && !others.Any(m => m.Title != enabledName))
+                    return enabledName;
+                else if (others.Any())
+                    return null;
+
+                return String.Empty;
+            }
             set
             {
-                _lastStyleSheetSet = value;
-                EnableStyleSheetsForSet(value);
+                if (value != null)
+                {
+                    _styleSheets.EnableStyleSheetSet(value);
+                    _lastStyleSheetSet = value;
+                }
             }
         }
 
@@ -878,23 +894,7 @@ using System.Threading.Tasks;
         /// </summary>
         public String PreferredStyleSheetSet
         {
-            get { return StyleSheetSets.FirstOrDefault(); }
-        }
-
-        /// <summary>
-        /// Enables the stylesheets matching the specified name in the current stylesheet set,
-        /// and disables all other stylesheets (except those without a title, which are always enabled).
-        /// </summary>
-        /// <param name="name">The name of the stylesheet set to enable.</param>
-        public void EnableStyleSheetsForSet(String name)
-        {
-            foreach (var sheet in _styleSheets)
-            {
-                if (!String.IsNullOrEmpty(sheet.Title))
-                    sheet.IsDisabled = sheet.Title != name;
-            }
-
-            _currentStyleSheetSet = name;
+            get { return _preferredStyleSheetSet; }
         }
 
         #endregion
@@ -954,6 +954,19 @@ using System.Threading.Tasks;
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Enables the stylesheets matching the specified name in the current stylesheet set,
+        /// and disables all other stylesheets (except those without a title, which are always enabled).
+        /// </summary>
+        /// <param name="name">The name of the stylesheet set to enable.</param>
+        public void EnableStyleSheetsForSet(String name)
+        {
+            if (name == null)
+                return;
+
+            _styleSheets.EnableStyleSheetSet(name);
+        }
 
         public ITouch CreateTouch(IWindowProxy view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY)
         {
