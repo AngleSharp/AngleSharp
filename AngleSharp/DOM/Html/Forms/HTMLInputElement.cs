@@ -558,7 +558,7 @@
                 {
                     if (IsChecked)
                     {
-                        var value = "on";
+                        var value = Keywords.On;
 
                         if (!String.IsNullOrEmpty(Value))
                             value = Value;
