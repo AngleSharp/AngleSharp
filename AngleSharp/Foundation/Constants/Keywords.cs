@@ -1106,5 +1106,15 @@
         /// The stylesheet keyword.
         /// </summary>
         public static readonly String StyleSheet = "stylesheet";
+
+        /// <summary>
+        /// The on keyword.
+        /// </summary>
+        public static readonly String On = "on";
+
+        /// <summary>
+        /// The off keyword.
+        /// </summary>
+        public static readonly String Off = "off";
     }
 }
