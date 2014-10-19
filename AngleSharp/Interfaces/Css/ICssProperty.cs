@@ -6,6 +6,7 @@
     /// Common interface of all CSS properties.
     /// </summary>
     [DomName("CSSProperty")]
+    [DomNoInterfaceObject]
     public interface ICssProperty
     {
         /// <summary>
