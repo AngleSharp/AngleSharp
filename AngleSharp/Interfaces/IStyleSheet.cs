@@ -47,6 +47,7 @@
         /// specified in the ownerNode. If no media has been specified, the MediaList is empty.
         /// </summary>
         [DomName("media")]
+        [DomPutForwards("mediaText")]
         IMediaList Media { get; }
 
         /// <summary>

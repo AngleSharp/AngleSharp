@@ -18,6 +18,7 @@
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
         [DomName("style")]
+        [DomPutForwards("cssText")]
         ICssStyleDeclaration Style { get; }
     }
 }

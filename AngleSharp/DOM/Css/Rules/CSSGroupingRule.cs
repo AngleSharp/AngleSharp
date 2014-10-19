@@ -54,8 +54,7 @@
 
         internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
         {
-            foreach (CSSRule rule in _rules)
-                rule.ComputeStyle(style, window, element);
+            _rules.ComputeStyle(style, window, element);
         }
 
         #endregion

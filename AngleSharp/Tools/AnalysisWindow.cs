@@ -139,10 +139,8 @@
 
                 if (sheet != null && !stylesheet.IsDisabled && ((MediaList)stylesheet.Media).Validate(this))//TODO remove cast ASAP
                 {
-                    var rules = sheet.Rules as CSSRuleList;
-
-                    foreach (CSSRule rule in rules)
-                        rule.ComputeStyle(bag, this, element);
+                    var rules = (CSSRuleList)sheet.Rules;
+                    rules.ComputeStyle(bag, this, element);
                 }
             }
 

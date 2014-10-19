@@ -50,11 +50,17 @@
 
         #endregion
 
-        #region Internal Properties
+        #region Internal Methods
 
         internal CSSRule this[Int32 index]
         {
             get { return _rules[index]; }
+        }
+
+        internal void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
+        {
+            foreach (var rule in _rules)
+                rule.ComputeStyle(style, window, element);
         }
 
         internal void Clear()

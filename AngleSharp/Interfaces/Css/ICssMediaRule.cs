@@ -10,6 +10,7 @@
         /// Gets a list of media types for this rule.
         /// </summary>
         [DomName("media")]
+        [DomPutForwards("mediaText")]
         IMediaList Media { get; }
     }
 }
