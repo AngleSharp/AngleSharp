@@ -38,7 +38,7 @@
             set 
             {
                 CheckValidity();
-                _namespaceURI = value; 
+                _namespaceURI = value ?? String.Empty;
             }
         }
 
@@ -53,7 +53,7 @@
             set 
             {
                 CheckValidity();
-                _prefix = value;
+                _prefix = value ?? String.Empty;
             }
         }
 
