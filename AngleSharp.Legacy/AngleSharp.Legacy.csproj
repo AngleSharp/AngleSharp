@@ -2011,6 +2011,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Events\IMessageEvent.cs">
       <Link>Interfaces\Events\IMessageEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IMessagePort.cs">
+      <Link>Interfaces\Events\IMessagePort.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IMouseEvent.cs">
       <Link>Interfaces\Events\IMouseEvent.cs</Link>
     </Compile>
