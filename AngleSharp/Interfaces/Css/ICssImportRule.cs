@@ -18,6 +18,7 @@
         /// Gets a list of media types for which this style sheet may be used.
         /// </summary>
         [DomName("media")]
+        [DomPutForwards("mediaText")]
         IMediaList Media { get; }
 
         /// <summary>

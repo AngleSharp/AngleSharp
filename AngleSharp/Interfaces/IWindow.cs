@@ -33,6 +33,7 @@
         /// Gets the location of the current document.
         /// </summary>
         [DomName("location")]
+        [DomPutForwards("href")]
         ILocation Location { get; }
 
         /// <summary>

@@ -4,6 +4,7 @@
     /// Implemented by elements that may expose stylesheets.
     /// </summary>
     [DomName("LinkStyle")]
+    [DomNoInterfaceObject]
     public interface ILinkStyle
     {
         /// <summary>

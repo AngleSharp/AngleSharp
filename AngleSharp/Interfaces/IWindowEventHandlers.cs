@@ -4,6 +4,7 @@
     /// Represents a set of event handlers for a Window.
     /// </summary>
     [DomName("WindowEventHandlers")]
+    [DomNoInterfaceObject]
     public interface IWindowEventHandlers
     {
         /// <summary>

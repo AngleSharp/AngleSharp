@@ -16,8 +16,7 @@
         }
 
         /// <summary>
-        /// Gets the official name of the given class,
-        /// method or property.
+        /// Gets the official name of the given class, method or property.
         /// </summary>
         public String OfficialName
         {

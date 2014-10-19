@@ -41,6 +41,7 @@
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
+    <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Collections\TouchList.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />

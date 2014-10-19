@@ -100,6 +100,7 @@
         /// Gets the dropzone for this element.
         /// </summary>
         [DomName("dropzone")]
+        [DomPutForwards("value")]
         ISettableTokenList DropZone { get; }
 
         /// <summary>
