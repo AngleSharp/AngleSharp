@@ -6,7 +6,7 @@
     /// Represents a group of selectors.
     /// Zero or more selectors separated by commas.
     /// </summary>
-    sealed class ListSelector : Selectors, ISelector, ICssObject
+    sealed class ListSelector : Selectors, ISelector
     {
         #region ctor
 
@@ -73,7 +73,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public String ToCss()
+        public override String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 

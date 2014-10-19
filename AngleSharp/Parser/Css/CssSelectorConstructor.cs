@@ -1255,6 +1255,11 @@
                 return true;
             }
 
+            public String Text
+            {
+                get { return ToCss(); }
+            }
+
             public String ToCss()
             {
                 return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthChild, step, offset);
@@ -1286,6 +1291,11 @@
                 return true;
             }
 
+            public String Text
+            {
+                get { return ToCss(); }
+            }
+
             public String ToCss()
             {
                 return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastChild, step, offset);
@@ -1305,6 +1315,11 @@
             public static FirstChildSelector Instance
             {
                 get { return instance ?? (instance = new FirstChildSelector()); }
+            }
+            
+            public String Text
+            {
+                get { return ToCss(); }
             }
 
             public Priority Specifity
@@ -1349,6 +1364,11 @@
             public static LastChildSelector Instance
             {
                 get { return instance ?? (instance = new LastChildSelector()); }
+            }
+
+            public String Text
+            {
+                get { return ToCss(); }
             }
 
             public Priority Specifity

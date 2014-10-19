@@ -132,7 +132,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return "@font-face {" + Environment.NewLine + _style.ToCss() + "}";
+            return String.Concat("@font-face { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
         }
 
         #endregion

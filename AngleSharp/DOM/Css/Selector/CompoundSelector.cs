@@ -7,7 +7,7 @@
     /// Chain of simple selectors which are not separated by
     /// a combinator.
     /// </summary>
-    sealed class CompoundSelector : Selectors, ISelector, ICssObject
+    sealed class CompoundSelector : Selectors, ISelector
     {
         #region ctor
 
@@ -61,7 +61,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public String ToCss()
+        public override String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 

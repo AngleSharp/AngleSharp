@@ -19,5 +19,10 @@
         /// <param name="element">The element to be matched.</param>
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
         Boolean Match(IElement element);
+
+        /// <summary>
+        /// Gets the string representation of the selector.
+        /// </summary>
+        String Text { get; }
     }
 }

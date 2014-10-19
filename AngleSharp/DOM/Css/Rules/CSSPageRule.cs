@@ -12,7 +12,6 @@
 
         CSSStyleDeclaration _style;
         ISelector _selector;
-        String _selectorText;
 
         #endregion
 
@@ -27,6 +26,7 @@
             _style = style;
             _style.ParentRule = this;
             _type = CssRuleType.Page;
+            _selector = SimpleSelector.All;
         }
 
         #endregion
@@ -39,7 +39,6 @@
             var newRule = rule as CSSPageRule;
             _style = newRule._style;
             _selector = newRule._selector;
-            _selectorText = newRule._selectorText;
         }
 
         #endregion
@@ -52,11 +51,7 @@
         public ISelector Selector
         {
             get { return _selector; }
-            set
-            {
-                _selector = value;
-                _selectorText = value.ToCss();
-            }
+            set { _selector = value; }
         }
 
         /// <summary>
@@ -64,16 +59,13 @@
         /// </summary>
         public String SelectorText
         {
-            get { return _selectorText; }
+            get { return _selector.Text; }
             set
             {
                 var selector = CssParser.ParseSelector(value);
 
                 if (selector != null)
-                {
                     _selector = selector;
-                    _selectorText = value;
-                }
             }
         }
 
@@ -95,7 +87,8 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@page {0} {{{1}{2}}}", _selectorText, Environment.NewLine, _style.ToCss());
+            var inner = String.Concat(" { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
+            return String.Concat("@page ", _selector.Text, inner);
         }
 
         #endregion

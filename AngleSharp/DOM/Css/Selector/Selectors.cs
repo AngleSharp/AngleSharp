@@ -7,7 +7,7 @@
     /// <summary>
     /// A list of selectors, which is the basis for CompoundSelector and SelectorGroup.
     /// </summary>
-    abstract class Selectors : IEnumerable<ISelector>
+    abstract class Selectors : IEnumerable<ISelector>, ICssObject
     {
         #region Fields
 
@@ -43,6 +43,14 @@
 
                 return sum;
             }
+        }
+
+        /// <summary>
+        /// Gets the string representation of the selector.
+        /// </summary>
+        public String Text
+        {
+            get { return ToCss(); }
         }
 
         /// <summary>
@@ -117,6 +125,16 @@
         {
             return GetEnumerator();
         }
+
+        #endregion
+
+        #region String Representation
+
+        /// <summary>
+        /// Returns a valid CSS string representing this selector.
+        /// </summary>
+        /// <returns>The CSS to create this selector.</returns>
+        public abstract String ToCss();
 
         #endregion
     }

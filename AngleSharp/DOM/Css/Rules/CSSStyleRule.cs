@@ -11,7 +11,6 @@
         #region Fields
 
         CSSStyleDeclaration _style;
-        String _selectorText;
         ISelector _selector;
 
         #endregion
@@ -35,6 +34,7 @@
             _style = style;
             _style.ParentRule = this;
             _type = CssRuleType.Style;
+            _selector = SimpleSelector.All;
 		}
 
         #endregion
@@ -47,11 +47,7 @@
         public ISelector Selector
         {
             get { return _selector; }
-            set
-            {
-                _selector = value;
-                _selectorText = value.ToCss();
-            }
+            set { _selector = value; }
         }
 
         /// <summary>
@@ -59,16 +55,13 @@
         /// </summary>
         public String SelectorText
         {
-            get { return _selectorText; }
-            set
+            get { return _selector.Text; }
+            set 
             {
                 var selector = CssParser.ParseSelector(value);
 
                 if (selector != null)
-                {
                     _selector = selector;
-                    _selectorText = value;
-                }
             }
         }
 
@@ -88,7 +81,6 @@
         {
             var newRule = rule as CSSStyleRule;
             _style = newRule._style;
-            _selectorText = newRule._selectorText;
             _selector = newRule._selector;
         }
 
@@ -108,7 +100,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Concat(_selectorText, " { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
+            return String.Concat(_selector.Text, " { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
         }
 
         #endregion

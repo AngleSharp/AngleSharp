@@ -47,6 +47,14 @@
         }
 
         /// <summary>
+        /// Gets the string representation of the selector.
+        /// </summary>
+        public String Text
+        {
+            get { return ToCss(); }
+        }
+
+        /// <summary>
         /// Gets the number of selectors in this group.
         /// </summary>
         public Int32 Length

@@ -75,6 +75,14 @@
             get { return _specifity; }
         }
 
+        /// <summary>
+        /// Gets the string representation of the selector.
+        /// </summary>
+        public String Text
+        {
+            get { return _code; }
+        }
+
         #endregion
 
         #region Static constructors
@@ -306,7 +314,7 @@
         /// <returns>The CSS to create this selector.</returns>
         public String ToCss()
         {
-            return _code;
+            return Text;
         }
 
         #endregion
