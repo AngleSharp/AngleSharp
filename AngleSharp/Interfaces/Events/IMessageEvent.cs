@@ -32,9 +32,11 @@
         [DomName("source")]
         IWindow Source { get; }
 
-        //TODO http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#messageport
-        //[DomName("ports")]
-        //MessagePort[]? Ports {get;}
+        /// <summary>
+        /// Gets the used message ports.
+        /// </summary>
+        [DomName("ports")]
+        IMessagePort[] Ports { get; }
 
         /// <summary>
         /// Initializes the message event.
@@ -46,7 +48,8 @@
         /// <param name="origin">Sets the origin who send the message.</param>
         /// <param name="lastEventId">Sets the id of the last event.</param>
         /// <param name="source">Sets the source window of the message.</param>
+        /// <param name="ports">The message ports to include.</param>
         [DomName("initMessageEvent")]
-        void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source/*, params MessagePort[] portsArg*/);
+        void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source, params IMessagePort[] ports);
     }
 }

@@ -463,6 +463,7 @@
     <Compile Include="Interfaces\Events\IInputEvent.cs" />
     <Compile Include="Interfaces\Events\IKeyboardEvent.cs" />
     <Compile Include="Interfaces\Events\IMessageEvent.cs" />
+    <Compile Include="Interfaces\Events\IMessagePort.cs" />
     <Compile Include="Interfaces\Events\IMouseEvent.cs" />
     <Compile Include="Interfaces\Events\ITouch.cs" />
     <Compile Include="Interfaces\Events\ITouchEvent.cs" />
