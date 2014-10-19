@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the CSSGroupingRule interface.
     /// </summary>
-    abstract class CSSGroupingRule : CSSRule, ICssRules
+    abstract class CSSGroupingRule : CSSRule, ICssGroupingRule
     {
         #region Fields
 
@@ -31,7 +31,12 @@
         /// <summary>
         /// Gets a list of all CSS rules contained within the grouping block.
         /// </summary>
-        public ICssRuleList Rules
+        public CSSRuleList Rules
+        {
+            get { return _rules; }
+        }
+
+        ICssRuleList ICssGroupingRule.Rules
         {
             get { return _rules; }
         }
@@ -47,14 +52,9 @@
             _rules.Import(newRule._rules, Owner, Parent);
         }
 
-        internal void AddRule(CSSRule rule)
-        {
-            _rules.List.Add(rule);
-        }
-
         internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
         {
-            foreach (var rule in _rules.List)
+            foreach (CSSRule rule in _rules)
                 rule.ComputeStyle(style, window, element);
         }
 

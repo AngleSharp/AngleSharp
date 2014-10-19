@@ -644,7 +644,6 @@
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
-    <Compile Include="DOM\Css\ICssRules.cs" />
     <Compile Include="DOM\Css\Rules\CSSDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
     <Compile Include="DOM\Factories\HtmlElementFactory.cs" />

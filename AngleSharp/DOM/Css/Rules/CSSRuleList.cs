@@ -57,14 +57,9 @@
             get { return _rules[index]; }
         }
 
-        internal List<CSSRule> List
-        {
-            get { return _rules; }
-        }
-
         internal void Clear()
         {
-            for (int i = _rules.Count - 1; i >= 0; i--)
+            for (var i = _rules.Count - 1; i >= 0; i--)
             {
                 var oldRule = _rules[i];
                 _rules.RemoveAt(i);
@@ -100,7 +95,7 @@
             oldRule.Owner = null;
         }
 
-        internal void Insert(CSSRule value, int index)
+        internal void Insert(CSSRule value, Int32 index)
         {
             if (value == null)
                 throw new DomException(ErrorCode.Syntax);
@@ -112,6 +107,11 @@
                 throw new DomException(ErrorCode.InvalidState);
 
             _rules.Insert(index, value);
+        }
+
+        internal void Add(CSSRule value)
+        {
+            _rules.Add(value);
         }
 
         #endregion

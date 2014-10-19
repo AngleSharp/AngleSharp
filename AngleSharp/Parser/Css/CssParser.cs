@@ -1003,7 +1003,7 @@
                     continue;
 
                 rule.Owner = sheet;
-                sheet.AddRule(rule);
+                sheet.Rules.Add(rule);
             }
         }
 
@@ -1029,7 +1029,7 @@
                     continue;
 
                 rule.Owner = sheet;
-                sheet.AddRule(rule);
+                sheet.Rules.Add(rule);
             }
         }
 
@@ -1052,7 +1052,7 @@
 
                 rule.Owner = sheet;
                 rule.Parent = parentRule;
-                parentRule.AddRule(rule);
+                parentRule.Rules.Add(rule);
             }
         }
 
@@ -1075,7 +1075,7 @@
 
                 rule.Owner = sheet;
                 rule.Parent = parentRule;
-                parentRule.AddRule(rule);
+                parentRule.Rules.Add(rule);
             }
         }
 
@@ -1349,7 +1349,7 @@
             if (parser.sheet.Rules.Length == 0)
                 return null;
 
-            return parser.sheet.Rules.List[0];
+            return parser.sheet.Rules[0];
         }
 
         /// <summary>

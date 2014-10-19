@@ -137,15 +137,6 @@
 
         #endregion
 
-        #region Internal Methods
-
-        internal void AddRule(CSSRule rule)
-        {
-            _rules.List.Add(rule);
-        }
-
-        #endregion
-
         #region Internal Properties
 
         internal IConfiguration Options

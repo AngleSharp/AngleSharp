@@ -2,11 +2,12 @@
 {
     using AngleSharp.Parser.Css;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
-    sealed class CSSKeyframesRule : CSSRule, ICssRules, ICssKeyframesRule
+    sealed class CSSKeyframesRule : CSSRule, ICssKeyframesRule
     {
         #region Fields
 
@@ -43,7 +44,12 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
-        public ICssRuleList Rules
+        public CSSRuleList Rules
+        {
+            get { return _rules; }
+        }
+
+        ICssRuleList ICssKeyframesRule.Rules
         {
             get { return _rules; }
         }
@@ -58,14 +64,10 @@
         /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
         public void Add(String rule)
         {
-            var obj = CssParser.ParseKeyframeRule(rule);
-
-            if (obj == null)
-                throw new DomException(ErrorCode.Syntax);
-
-            obj.Owner = _ownerSheet;
-            obj.Parent = this;
-            _rules.List.Insert(_rules.Length, obj);
+            var value = CssParser.ParseKeyframeRule(rule);
+            _rules.Insert(value, _rules.Length);
+            value.Owner = _ownerSheet;
+            value.Parent = this;
         }
 
         /// <summary>
@@ -74,11 +76,16 @@
         /// <param name="key">The index of the keyframe to be deleted, expressed as a string resolving as a number between 0 and 1.</param>
         public void Remove(String key)
         {
+            var element = Find(key);
+
+            if (element == null)
+                return;
+
             for (int i = 0; i < _rules.Length; i++)
             {
-                if ((_rules[i] as CSSKeyframeRule).KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
+                if (element == _rules[i])
                 {
-                    _rules.List.RemoveAt(i);
+                    _rules.RemoveAt(i);
                     break;
                 }
             }
@@ -91,15 +98,7 @@
         /// <returns>The keyframe or null.</returns>
         public ICssKeyframeRule Find(String key)
         {
-            for (int i = 0; i < _rules.Length; i++)
-            {
-                var rule = _rules[i] as ICssKeyframeRule;
-
-                if (rule.KeyText.Equals(key, StringComparison.OrdinalIgnoreCase))
-                    return rule;
-            }
-
-            return null;
+            return _rules.OfType<ICssKeyframeRule>().FirstOrDefault(m => m.KeyText.Equals(key, StringComparison.OrdinalIgnoreCase));
         }
 
         #endregion
@@ -110,13 +109,8 @@
         {
             var newRule = rule as CSSKeyframesRule;
             _name = newRule._name;
-            _rules.List.Clear();
-            _rules.List.AddRange(newRule._rules.List);
-        }
-
-        internal void AddRule(CSSKeyframeRule rule)
-        {
-            _rules.List.Add(rule);
+            _rules.Clear();
+            _rules.Import(newRule._rules, Owner, Parent);
         }
 
         #endregion

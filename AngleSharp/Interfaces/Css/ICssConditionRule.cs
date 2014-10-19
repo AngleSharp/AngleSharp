@@ -7,7 +7,7 @@
     /// of a condition and a statement block.
     /// </summary>
     [DomName("CSSConditionRule")]
-    public interface ICssConditionRule :ICssGroupingRule
+    public interface ICssConditionRule : ICssGroupingRule
     {
         /// <summary>
         /// Gets or sets the text representation of the condition.

@@ -141,7 +141,7 @@
                 {
                     var rules = sheet.Rules as CSSRuleList;
 
-                    foreach (var rule in rules.List)
+                    foreach (CSSRule rule in rules)
                         rule.ComputeStyle(bag, this, element);
                 }
             }
