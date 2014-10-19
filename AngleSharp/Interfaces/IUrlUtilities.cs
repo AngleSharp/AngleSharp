@@ -6,6 +6,7 @@
     /// The URLUtils interface defines utility methods to work with URLs.
     /// </summary>
     [DomName("URLUtils")]
+    [DomNoInterfaceObject]
     public interface IUrlUtilities
     {
         /// <summary>

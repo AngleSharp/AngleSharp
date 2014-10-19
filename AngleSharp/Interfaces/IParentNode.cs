@@ -6,6 +6,7 @@
     /// Defines the ParentNode interface that is implemented by possible parents.
     /// </summary>
     [DomName("ParentNode")]
+    [DomNoInterfaceObject]
     public interface IParentNode
     {
         /// <summary>

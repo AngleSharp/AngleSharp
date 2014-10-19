@@ -6,6 +6,7 @@
     /// Extensions to ParentNode nodes that are not Element nodes.
     /// </summary>
     [DomName("NonElementParentNode")]
+    [DomNoInterfaceObject]
     public interface INonElementParentNode
     {
         /// <summary>

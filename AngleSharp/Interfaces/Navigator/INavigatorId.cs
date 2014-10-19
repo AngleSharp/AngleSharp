@@ -6,6 +6,7 @@
     /// Holds the user-agent information.
     /// </summary>
     [DomName("NavigatorID")]
+    [DomNoInterfaceObject]
     public interface INavigatorId
     {
         /// <summary>

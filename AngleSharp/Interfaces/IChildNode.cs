@@ -5,6 +5,7 @@
     /// particular to Node objects that can have a parent.
     /// </summary>
     [DomName("ChildNode")]
+    [DomNoInterfaceObject]
     public interface IChildNode
     {
         /// <summary>

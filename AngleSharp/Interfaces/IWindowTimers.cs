@@ -6,6 +6,7 @@
     /// Providers timers to the Window object.
     /// </summary>
     [DomName("WindowTimers")]
+    [DomNoInterfaceObject]
     public interface IWindowTimers 
     {
         /// <summary>

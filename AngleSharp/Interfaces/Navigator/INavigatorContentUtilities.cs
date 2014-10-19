@@ -6,6 +6,7 @@
     /// A set of utilities to modify the navigator's behavior.
     /// </summary>
     [DomName("NavigatorContentUtils")]
+    [DomNoInterfaceObject]
     public interface INavigatorContentUtilities
     {
         /// <summary>

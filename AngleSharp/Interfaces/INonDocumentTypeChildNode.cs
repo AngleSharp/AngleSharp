@@ -4,6 +4,7 @@
     /// Extensions to ChildNode nodes that are not document type nodes.
     /// </summary>
     [DomName("NonDocumentTypeChildNode")]
+    [DomNoInterfaceObject]
     public interface INonDocumentTypeChildNode
     {
         /// <summary>

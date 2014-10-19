@@ -6,6 +6,7 @@
     /// Connectivity information regarding the navigator.
     /// </summary>
     [DomName("NavigatorOnLine")]
+    [DomNoInterfaceObject]
     public interface INavigatorOnline
     {
         /// <summary>

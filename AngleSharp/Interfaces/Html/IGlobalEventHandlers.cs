@@ -4,6 +4,7 @@
     /// Defines a set of event handlers that are implemented by all HTML elements.
     /// </summary>
     [DomName("GlobalEventHandlers")]
+    [DomNoInterfaceObject]
     public interface IGlobalEventHandlers
     {
         /// <summary>
