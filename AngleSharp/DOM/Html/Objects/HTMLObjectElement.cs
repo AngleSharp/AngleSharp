@@ -10,7 +10,7 @@
         #region Fields
 
         IDocument _contentDocument;
-        IWindowProxy _contentWindow;
+        IWindow _contentWindow;
         Int32 _objWidth;
         Int32 _objHeight;
 
@@ -101,7 +101,7 @@
         /// <summary>
         /// Gets the object element's nested browsing context, if it has one; otherwise returns null.
         /// </summary>
-        public IWindowProxy ContentWindow //TODO Object is WindowProxy (or IWindow to be more specific)
+        public IWindow ContentWindow
         {
             get { return _contentWindow; }
         }

@@ -70,6 +70,6 @@
         /// Gets the object element's nested browsing context, if it has one; otherwise returns null.
         /// </summary>
         [DomName("contentWindow")]
-        IWindowProxy ContentWindow { get; }
+        IWindow ContentWindow { get; }
     }
 }

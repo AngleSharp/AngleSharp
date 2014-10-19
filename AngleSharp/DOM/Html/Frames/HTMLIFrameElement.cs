@@ -72,9 +72,9 @@
         /// <summary>
         /// Gets the frame's parent's window context.
         /// </summary>
-        public IWindowProxy ContentWindow
+        public IWindow ContentWindow
         {
-            get { return null; }
+            get { return _doc != null ? _doc.DefaultView : null; }
         }
 
         #endregion

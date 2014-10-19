@@ -66,6 +66,6 @@
         /// Gets the frame's parent's window context.
         /// </summary>
         [DomName("contentWindow")]
-        IWindowProxy ContentWindow { get; }
+        IWindow ContentWindow { get; }
     }
 }

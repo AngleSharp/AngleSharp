@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets the current window proxy.
         /// </summary>
-        IWindowProxy Current { get; }
+        IWindow Current { get; }
 
         /// <summary>
         /// Gets the session history of the given browsing context.

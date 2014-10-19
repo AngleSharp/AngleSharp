@@ -633,7 +633,7 @@
         /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
-        public IWindowProxy DefaultView 
+        public IWindow DefaultView 
         {
             get; //TODO
             internal set; 
@@ -968,7 +968,7 @@
             _styleSheets.EnableStyleSheetSet(name);
         }
 
-        public ITouch CreateTouch(IWindowProxy view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY)
+        public ITouch CreateTouch(IWindow view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY)
         {
             return new TouchPoint
             {

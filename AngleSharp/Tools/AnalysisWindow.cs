@@ -11,7 +11,7 @@
     /// Represents a sample browsing Window implementation for
     /// automated tests, analysis and as a useful playground.
     /// </summary>
-    public class AnalysisWindow : EventTarget, IWindow, IWindowProxy
+    public class AnalysisWindow : EventTarget, IWindow
     {
         #region ctor
 
@@ -162,7 +162,7 @@
         /// <summary>
         /// Gets the proxy to the current browsing context.
         /// </summary>
-        public IWindowProxy Proxy
+        public IWindow Proxy
         {
             get { return this; }
         }

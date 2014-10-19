@@ -79,7 +79,7 @@
         [DomName("window")]
         [DomName("frames")]
         [DomName("self")]
-        IWindowProxy Proxy { get; }
+        IWindow Proxy { get; }
 
         /// <summary>
         /// Gets the user-agent information.

@@ -593,7 +593,6 @@
     <Compile Include="Interfaces\Io\IFile.cs" />
     <Compile Include="Interfaces\Io\IFileList.cs" />
     <Compile Include="Interfaces\IWindowEventHandlers.cs" />
-    <Compile Include="Interfaces\IWindowProxy.cs" />
     <Compile Include="Interfaces\Navigator\INavigator.cs" />
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\INodeIterator.cs" />

@@ -30,7 +30,7 @@
         /// Gets the source of the message.
         /// </summary>
         [DomName("source")]
-        IWindowProxy Source { get; }
+        IWindow Source { get; }
 
         //TODO http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#messageport
         //[DomName("ports")]
@@ -47,6 +47,6 @@
         /// <param name="lastEventId">Sets the id of the last event.</param>
         /// <param name="source">Sets the source window of the message.</param>
         [DomName("initMessageEvent")]
-        void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindowProxy source/*, params MessagePort[] portsArg*/);
+        void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source/*, params MessagePort[] portsArg*/);
     }
 }

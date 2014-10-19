@@ -163,7 +163,7 @@
         /// <param name="screenY">The y-coordinate relative to the screen.</param>
         /// <returns>The touch point.</returns>
         [DomName("createTouch")]
-        ITouch CreateTouch(IWindowProxy view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY);
+        ITouch CreateTouch(IWindow view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY);
 
         /// <summary>
         /// Creates a touch list containing the specified touch points.
@@ -385,7 +385,7 @@
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
         [DomName("defaultView")]
-        IWindowProxy DefaultView { get; }
+        IWindow DefaultView { get; }
 
         /// <summary>
         /// Loads the document content from the given url.
