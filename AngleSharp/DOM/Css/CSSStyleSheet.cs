@@ -2,7 +2,6 @@
 {
     using AngleSharp.Parser.Css;
     using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -101,17 +100,7 @@
         /// <returns>The current stylesheet.</returns>
         public void RemoveAt(Int32 index)
         {
-            if (index >= _rules.Length)
-                throw new DomException(ErrorCode.IndexSizeError);
-
-            var oldRule = _rules.List[index];
-
-            if (oldRule.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
-                throw new DomException(ErrorCode.InvalidState);
-
-            _rules.List.RemoveAt(index);
-            oldRule.Parent = null;
-            oldRule.Owner = null;
+            _rules.RemoveAt(index);
         }
 
         /// <summary>
@@ -123,17 +112,8 @@
         public Int32 Insert(String rule, Int32 index)
         {
             var value = CssParser.ParseRule(rule);
-
-            if (value == null)
-                throw new DomException(ErrorCode.Syntax);
-            else if (value.Type == CssRuleType.Charset)
-                throw new DomException(ErrorCode.Syntax);
-            else if (index > _rules.Length)
-                throw new DomException(ErrorCode.IndexSizeError);
-            else if (value.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
-                throw new DomException(ErrorCode.InvalidState);
-
-            _rules.List.Insert(index, value);
+            _rules.Insert(value, index);
+            value.Owner = this;
             return index;            
         }
 

@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents an array like structure containing CSS rules.
@@ -42,7 +43,7 @@
         /// </summary>
         /// <param name="index">The index of the rule.</param>
         /// <returns>The CSS rule or null, if the index has been invalid.</returns>
-        public ICssRule this[Int32 index]
+        ICssRule ICssRuleList.this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }
         }
@@ -51,9 +52,66 @@
 
         #region Internal Properties
 
+        internal CSSRule this[Int32 index]
+        {
+            get { return _rules[index]; }
+        }
+
         internal List<CSSRule> List
         {
             get { return _rules; }
+        }
+
+        internal void Clear()
+        {
+            for (int i = _rules.Count - 1; i >= 0; i--)
+            {
+                var oldRule = _rules[i];
+                _rules.RemoveAt(i);
+                oldRule.Parent = null;
+                oldRule.Owner = null;
+            }
+        }
+
+        internal void Import(CSSRuleList rules, ICssStyleSheet owner, ICssRule parent)
+        {
+            while (rules._rules.Count > 0)
+            {
+                var newRule = rules._rules[0];
+                rules._rules.RemoveAt(0);
+                newRule.Parent = parent;
+                newRule.Owner = owner;
+                _rules.Add(newRule);
+            }
+        }
+
+        internal void RemoveAt(Int32 index)
+        {
+            if (index >= _rules.Count)
+                throw new DomException(ErrorCode.IndexSizeError);
+
+            var oldRule = _rules[index];
+
+            if (oldRule.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
+                throw new DomException(ErrorCode.InvalidState);
+
+            _rules.RemoveAt(index);
+            oldRule.Parent = null;
+            oldRule.Owner = null;
+        }
+
+        internal void Insert(CSSRule value, int index)
+        {
+            if (value == null)
+                throw new DomException(ErrorCode.Syntax);
+            else if (value.Type == CssRuleType.Charset)
+                throw new DomException(ErrorCode.Syntax);
+            else if (index > _rules.Count)
+                throw new DomException(ErrorCode.IndexSizeError);
+            else if (value.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
+                throw new DomException(ErrorCode.InvalidState);
+
+            _rules.Insert(index, value);
         }
 
         #endregion

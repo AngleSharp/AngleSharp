@@ -43,8 +43,8 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CSSGroupingRule;
-            _rules.List.Clear();
-            _rules.List.AddRange(newRule._rules.List);
+            _rules.Clear();
+            _rules.Import(newRule._rules, Owner, Parent);
         }
 
         internal void AddRule(CSSRule rule)
@@ -65,30 +65,37 @@
         /// <summary>
         /// Used to insert a new rule into the media block.
         /// </summary>
-        /// <param name="rule">The parsable text representing the rule. For rule sets this contains both the selector and the style declaration. For at-rules, this specifies both the at-identifier and the rule content.</param>
-        /// <param name="index">The index within the media block's rule collection of the rule before which to insert the specified rule.</param>
-        /// <returns>The index within the media block's rule collection of the newly inserted rule.</returns>
+        /// <param name="rule">
+        /// The parsable text representing the rule. For rule sets this contains
+        /// both the selector and the style declaration. For at-rules, this
+        /// specifies both the at-identifier and the rule content.
+        /// </param>
+        /// <param name="index">
+        /// The index within the media block's rule collection of the rule before
+        /// which to insert the specified rule.
+        /// </param>
+        /// <returns>
+        /// The index within the media block's rule collection of the newly
+        /// inserted rule.
+        /// </returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            var obj = CssParser.ParseRule(rule) as CSSRule;
-
-            if (obj == null)
-                throw new DomException(ErrorCode.Syntax);
-
-            obj.Owner = _ownerSheet;
-            obj.Parent = this;
-            _rules.List.Insert(index, obj);
-            return index;
+            var value = CssParser.ParseRule(rule);
+            _rules.Insert(value, index);
+            value.Parent = this;
+            value.Owner = Owner;
+            return index;    
         }
 
         /// <summary>
         /// Used to delete a rule from the media block.
         /// </summary>
-        /// <param name="index">The index within the media block's rule collection of the rule to remove.</param>
+        /// <param name="index">
+        /// The index within the media block's rule collection of the rule to remove.
+        /// </param>
         public void RemoveAt(Int32 index)
         {
-            if (index >= 0 && index < _rules.Length)
-                _rules.List.RemoveAt(index);
+            _rules.RemoveAt(index);
         }
 
         #endregion
