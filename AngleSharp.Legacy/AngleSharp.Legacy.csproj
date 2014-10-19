@@ -337,9 +337,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
       <Link>DOM\Css\CssValueType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\ICssRules.cs">
-      <Link>DOM\Css\ICssRules.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Media\AspectRatioMediaFeature.cs">
       <Link>DOM\Css\Media\AspectRatioMediaFeature.cs</Link>
     </Compile>
