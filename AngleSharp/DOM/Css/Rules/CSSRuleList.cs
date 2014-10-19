@@ -101,7 +101,7 @@
             oldRule.Owner = null;
         }
 
-        internal void Insert(CSSRule value, Int32 index)
+        internal void Insert(CSSRule value, Int32 index, ICssStyleSheet owner, ICssRule parent)
         {
             if (value == null)
                 throw new DomException(ErrorCode.Syntax);
@@ -113,11 +113,15 @@
                 throw new DomException(ErrorCode.InvalidState);
 
             _rules.Insert(index, value);
+            value.Owner = owner;
+            value.Parent = parent;
         }
 
-        internal void Add(CSSRule value)
+        internal void Add(CSSRule value, ICssStyleSheet owner, ICssRule parent)
         {
             _rules.Add(value);
+            value.Owner = owner;
+            value.Parent = parent;
         }
 
         #endregion

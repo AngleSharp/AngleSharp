@@ -12,7 +12,6 @@
         #region Fields
 
         readonly CSSRuleList _rules;
-
         String _name;
 
         #endregion
@@ -65,9 +64,7 @@
         public void Add(String rule)
         {
             var value = CssParser.ParseKeyframeRule(rule);
-            _rules.Insert(value, _rules.Length);
-            value.Owner = _ownerSheet;
-            value.Parent = this;
+            _rules.Insert(value, _rules.Length, _ownerSheet, this);
         }
 
         /// <summary>

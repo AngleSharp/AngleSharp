@@ -112,8 +112,7 @@
         public Int32 Insert(String rule, Int32 index)
         {
             var value = CssParser.ParseRule(rule);
-            _rules.Insert(value, index);
-            value.Owner = this;
+            _rules.Insert(value, index, this, null);
             return index;            
         }
 

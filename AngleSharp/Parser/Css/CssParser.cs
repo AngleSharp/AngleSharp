@@ -5,7 +5,6 @@
     using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -1002,8 +1001,7 @@
                 if (rule == null)
                     continue;
 
-                rule.Owner = sheet;
-                sheet.Rules.Add(rule);
+                sheet.Rules.Add(rule, sheet, null);
             }
         }
 
@@ -1028,8 +1026,7 @@
                 if (rule == null)
                     continue;
 
-                rule.Owner = sheet;
-                sheet.Rules.Add(rule);
+                sheet.Rules.Add(rule, sheet, null);
             }
         }
 
@@ -1050,9 +1047,7 @@
                 if (rule == null)
                     continue;
 
-                rule.Owner = sheet;
-                rule.Parent = parentRule;
-                parentRule.Rules.Add(rule);
+                parentRule.Rules.Add(rule, sheet, parentRule);
             }
         }
 
@@ -1073,9 +1068,7 @@
                 if (rule == null)
                     continue;
 
-                rule.Owner = sheet;
-                rule.Parent = parentRule;
-                parentRule.Rules.Add(rule);
+                parentRule.Rules.Add(rule, sheet, parentRule);
             }
         }
 

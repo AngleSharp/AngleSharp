@@ -80,9 +80,7 @@
         public Int32 Insert(String rule, Int32 index)
         {
             var value = CssParser.ParseRule(rule);
-            _rules.Insert(value, index);
-            value.Parent = this;
-            value.Owner = Owner;
+            _rules.Insert(value, index, _ownerSheet, this);
             return index;    
         }
 
