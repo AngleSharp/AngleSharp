@@ -2389,9 +2389,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IWindowEventHandlers.cs">
       <Link>Interfaces\IWindowEventHandlers.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IWindowProxy.cs">
-      <Link>Interfaces\IWindowProxy.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IWindowTimers.cs">
       <Link>Interfaces\IWindowTimers.cs</Link>
     </Compile>
