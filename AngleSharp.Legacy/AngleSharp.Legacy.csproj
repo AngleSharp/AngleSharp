@@ -76,6 +76,9 @@
     <Compile Include="..\AngleSharp\Attributes\DomNoInterfaceObjectAttribute.cs">
       <Link>Attributes\DomNoInterfaceObjectAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomPutForwardsAttribute.cs">
+      <Link>Attributes\DomPutForwardsAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Delegates\DomEventHandler.cs">
       <Link>Delegates\DomEventHandler.cs</Link>
     </Compile>
