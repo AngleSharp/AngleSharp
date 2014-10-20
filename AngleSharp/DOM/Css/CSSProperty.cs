@@ -205,7 +205,7 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            return String.Concat(_name, ": ", Value.ToCss(), _important ? (" !" + Keywords.Important) : String.Empty, ";");
+            return String.Concat(_name, ": ", String.Concat(Value.ToCss(), _important ? " !important" : String.Empty, ";"));
         }
 
         #endregion

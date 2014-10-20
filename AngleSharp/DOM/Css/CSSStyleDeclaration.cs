@@ -61,7 +61,7 @@
         /// </summary>
         public String CssText
         {
-            get { return String.Join(" ", _rules.Select(m => m.ToCss())); }
+            get { return ToCss(); }
             set
             {
                 if (_readOnly)
@@ -2471,7 +2471,14 @@
         /// <returns>A string containing the CSS code of the declarations.</returns>
         public String ToCss()
         {
-            return CssText;
+            var list = new List<String>();
+
+            foreach (var rule in _rules)
+            {
+                list.Add(rule.ToCss());
+            }
+
+            return String.Join(" ", list);
         }
 
         #endregion
