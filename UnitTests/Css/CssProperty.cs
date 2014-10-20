@@ -1140,10 +1140,10 @@ namespace UnitTests.Css
         public void CssPropertyFactoryCalls()
         {
             var decl = new CSSStyleDeclaration();
-            var invalid = CssPropertyFactory.Create("invalid", null);
-            var border = CssPropertyFactory.Create("border", null);
+            var invalid = CssPropertyFactory.Create("invalid", decl);
+            var border = CssPropertyFactory.Create("border", decl);
             var color = CssPropertyFactory.Create("color", decl);
-            decl.Set(color);
+            decl.SetProperty(color);
             var colorAgain = CssPropertyFactory.Create("color", decl);
 
             Assert.IsNull(invalid);
