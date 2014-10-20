@@ -20,8 +20,9 @@
         #region ctor
 
         internal CSSBorderStyleProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderStyle, rule)
+            : base(PropertyNames.BorderStyle, rule, PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

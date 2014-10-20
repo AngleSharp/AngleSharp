@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSBorderColorProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
+            : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
             Reset();
         }

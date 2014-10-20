@@ -20,7 +20,7 @@
         #region ctor
 
         internal CSSBorderWidthProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
+            : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
             Reset();
         }
