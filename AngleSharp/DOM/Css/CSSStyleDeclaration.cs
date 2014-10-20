@@ -2306,16 +2306,17 @@
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
             var value = GetPropertyText(propertyName);
-            var property = this[propertyName];
 
-            if (property is CSSShorthandProperty)
+            if (CssPropertyFactory.IsShorthand(propertyName))
             {
-                foreach (var longhand in ((CSSShorthandProperty)property).Properties)
-                    _rules.Remove(longhand);
+                var longhands = CssPropertyFactory.GetMapping(propertyName);
+
+                foreach (var longhand in longhands)
+                    RemoveProperty(longhand);
             }
-            else if (property != null)
+            else
             {
-                _rules.Remove(property);
+                _rules.RemoveAll(rule => rule.Name == propertyName);
                 RaiseChanged();
             }
 
@@ -2331,7 +2332,19 @@
         {
             var property = this[propertyName];
 
-            if (property != null && property.IsImportant)
+            if (CssPropertyFactory.IsShorthand(propertyName))
+            {
+                var longhands = CssPropertyFactory.GetMapping(propertyName);
+
+                foreach (var longhand in longhands)
+                {
+                    if (GetPropertyPriority(longhand) != Keywords.Important)
+                        return String.Empty;
+                }
+
+                return Keywords.Important;
+            }
+            else if (property != null && property.IsImportant)
                 return Keywords.Important;
 
             return String.Empty;
