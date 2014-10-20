@@ -2378,11 +2378,11 @@
             if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
-                return;
-
             if (!String.IsNullOrEmpty(propertyValue))
             {
+                if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
+                    return;
+
                 var value = CssParser.ParseValue(propertyValue);
 
                 if (value == null)
