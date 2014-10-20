@@ -2305,16 +2305,21 @@
             if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
+            var value = GetPropertyText(propertyName);
             var property = this[propertyName];
 
-            if (property != null)
+            if (property is CSSShorthandProperty)
+            {
+                foreach (var longhand in ((CSSShorthandProperty)property).Properties)
+                    _rules.Remove(longhand);
+            }
+            else if (property != null)
             {
                 _rules.Remove(property);
                 RaiseChanged();
-                return property.Value.CssText;
             }
 
-            return null;
+            return value;
         }
 
         /// <summary>
