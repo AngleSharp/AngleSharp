@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSDirectionProperty()
-            : base(PropertyNames.Direction, PropertyFlags.Inherited)
+        internal CSSDirectionProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Direction, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

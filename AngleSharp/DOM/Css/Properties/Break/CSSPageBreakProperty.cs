@@ -26,9 +26,10 @@
             modes.Add(Keywords.Right, BreakMode.Right);
         }
 
-        internal CSSPageBreakProperty(String name)
-            : base(name)
+        internal CSSPageBreakProperty(String name, CSSStyleDeclaration rule)
+            : base(name, rule)
         {
+            Reset();
         }
 
         #endregion

@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSCounterIncrementProperty()
-            : base(PropertyNames.CounterIncrement)
+        internal CSSCounterIncrementProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.CounterIncrement, rule)
         {
+            Reset();
         }
 
         #endregion

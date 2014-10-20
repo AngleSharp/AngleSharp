@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSFontFamilyProperty()
-            : base(PropertyNames.FontFamily, PropertyFlags.Inherited)
+        internal CSSFontFamilyProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.FontFamily, rule, PropertyFlags.Inherited)
         {
+            _families = new List<String>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_families == null)
-                _families = new List<String>();
-            else
-                _families.Clear();
-
+            _families.Clear();
             _families.Add("Times New Roman");
         }
 

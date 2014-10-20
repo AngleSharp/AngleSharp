@@ -18,9 +18,10 @@
 
         #region ctor
 
-        internal CSSTransformOriginProperty()
-            : base(PropertyNames.TransformOrigin, PropertyFlags.Animatable)
+        internal CSSTransformOriginProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TransformOrigin, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

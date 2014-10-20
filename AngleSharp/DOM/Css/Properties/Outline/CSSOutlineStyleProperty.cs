@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSOutlineStyleProperty()
-            : base(PropertyNames.OutlineStyle)
+        internal CSSOutlineStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.OutlineStyle, rule)
         {
+            Reset();
         }
 
         #endregion

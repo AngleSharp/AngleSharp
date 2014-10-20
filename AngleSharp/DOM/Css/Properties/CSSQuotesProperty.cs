@@ -18,9 +18,11 @@
 
         #region ctor
 
-        internal CSSQuotesProperty()
-            : base(PropertyNames.Quotes, PropertyFlags.Inherited)
+        internal CSSQuotesProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Quotes, rule, PropertyFlags.Inherited)
         {
+            _quotes = new List<Tuple<String, String>>();
+            Reset();
         }
 
         #endregion
@@ -44,11 +46,7 @@
 
         internal override void Reset()
         {
-            if (_quotes == null)
-                _quotes = new List<Tuple<String, String>>();
-            else
-                _quotes.Clear();
-
+            _quotes.Clear();
             _quotes.Add(_default);
         }
 

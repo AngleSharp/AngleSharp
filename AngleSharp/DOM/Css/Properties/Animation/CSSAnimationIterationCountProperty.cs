@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSAnimationIterationCountProperty()
-            : base(PropertyNames.AnimationIterationCount)
+        internal CSSAnimationIterationCountProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.AnimationIterationCount, rule)
         {
+            _iterations = new List<Int32>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_iterations == null)
-                _iterations = new List<Int32>();
-            else
-                _iterations.Clear();
-
+            _iterations.Clear();
             _iterations.Add(1);
         }
 

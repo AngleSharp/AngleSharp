@@ -20,9 +20,11 @@
 
         #region ctor
 
-        internal CSSBackgroundSizeProperty()
-            : base(PropertyNames.BackgroundSize, PropertyFlags.Animatable)
+        internal CSSBackgroundSizeProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundSize, rule, PropertyFlags.Animatable)
         {
+            _sizes = new List<SizeMode>();
+            Reset();
         }
 
         #endregion
@@ -31,11 +33,7 @@
 
         internal override void Reset()
         {
-            if (_sizes == null)
-                _sizes = new List<SizeMode>();
-            else
-                _sizes.Clear();
-
+            _sizes.Clear();
             _sizes.Add(_default);
         }
 

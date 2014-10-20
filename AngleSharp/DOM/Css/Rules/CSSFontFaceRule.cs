@@ -111,17 +111,6 @@
             _style = newRule._style;
         }
 
-        /// <summary>
-        /// Appends the given rule to the list of rules.
-        /// </summary>
-        /// <param name="rule">The rule to append.</param>
-        /// <returns>The current font-face rule.</returns>
-        internal CSSFontFaceRule AppendRule(CSSProperty rule)
-        {
-            _style.Set(rule);
-            return this;
-        }
-
         #endregion
 
         #region String representation
@@ -136,17 +125,5 @@
         }
 
         #endregion
-
-		#region Style Declaration
-
-		/// <summary>
-		/// Gets the style declaration.
-		/// </summary>
-		public CSSStyleDeclaration Styles
-		{
-			get { return _style; }
-		}
-
-		#endregion
 	}
 }

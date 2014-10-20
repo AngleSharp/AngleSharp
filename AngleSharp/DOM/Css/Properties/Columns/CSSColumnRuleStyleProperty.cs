@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSColumnRuleStyleProperty()
-            : base(PropertyNames.ColumnRuleStyle)
+        internal CSSColumnRuleStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ColumnRuleStyle, rule)
         {
+            Reset();
         }
 
         #endregion

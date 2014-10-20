@@ -15,9 +15,10 @@
 
         #region ctor
 
-        internal CSSBorderPartColorProperty(String name)
-            : base(name, PropertyFlags.Hashless | PropertyFlags.Animatable)
+        internal CSSBorderPartColorProperty(String name, CSSStyleDeclaration rule)
+            : base(name, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

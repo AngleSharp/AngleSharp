@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSTextDecorationStyleProperty()
-            : base(PropertyNames.TextDecorationStyle)
+        internal CSSTextDecorationStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextDecorationStyle, rule)
         {
+            Reset();
         }
 
         #endregion

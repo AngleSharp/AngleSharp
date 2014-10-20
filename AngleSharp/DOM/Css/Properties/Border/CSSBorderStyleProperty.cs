@@ -19,8 +19,8 @@
 
         #region ctor
 
-        internal CSSBorderStyleProperty()
-            : base(PropertyNames.BorderStyle)
+        internal CSSBorderStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderStyle, rule)
         {
         }
 

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSBackgroundColorProperty()
-            : base(PropertyNames.BackgroundColor, PropertyFlags.Hashless | PropertyFlags.Animatable)
+        internal CSSBackgroundColorProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

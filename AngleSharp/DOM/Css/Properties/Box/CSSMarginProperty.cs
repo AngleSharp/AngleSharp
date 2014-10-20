@@ -20,9 +20,10 @@
 
         #region ctor
 
-        internal CSSMarginProperty()
-            : base(PropertyNames.Margin, PropertyFlags.Shorthand)
+        internal CSSMarginProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Margin, rule, PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

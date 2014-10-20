@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSBackgroundAttachmentProperty()
-            : base(PropertyNames.BackgroundAttachment)
+        internal CSSBackgroundAttachmentProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundAttachment, rule)
         {
+            _attachments = new List<BackgroundAttachment>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_attachments == null)
-                _attachments = new List<BackgroundAttachment>();
-            else
-                _attachments.Clear();
-
+            _attachments.Clear();
             _attachments.Add(BackgroundAttachment.Scroll);
         }
 

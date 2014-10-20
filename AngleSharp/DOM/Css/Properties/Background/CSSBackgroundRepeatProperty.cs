@@ -27,9 +27,11 @@
             _modes.Add(Keywords.Space, BackgroundRepeat.Space);
         }
 
-        internal CSSBackgroundRepeatProperty()
-            : base(PropertyNames.BackgroundRepeat)
+        internal CSSBackgroundRepeatProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundRepeat, rule)
         {
+            _repeats = new List<Repeat>();
+            Reset();
         }
 
         #endregion
@@ -58,11 +60,7 @@
 
         internal override void Reset()
         {
-            if (_repeats == null)
-                _repeats = new List<Repeat>();
-            else
-                _repeats.Clear();
-
+            _repeats.Clear();
             _repeats.Add(new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat });
         }
 

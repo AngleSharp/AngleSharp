@@ -27,9 +27,10 @@
             modes.Add(Keywords.NoCloseQuote, new NoCloseQuoteContentMode());
         }
 
-        internal CSSContentProperty()
-            : base(PropertyNames.Content)
+        internal CSSContentProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Content, rule)
         {
+            Reset();
         }
 
         #endregion

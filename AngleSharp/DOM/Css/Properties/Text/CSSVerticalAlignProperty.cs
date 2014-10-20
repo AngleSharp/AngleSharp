@@ -31,9 +31,10 @@
             modes.Add(Keywords.Bottom, VerticalAlignment.Bottom);
         }
 
-        internal CSSVerticalAlignProperty()
-            : base(PropertyNames.VerticalAlign, PropertyFlags.Animatable)
+        internal CSSVerticalAlignProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.VerticalAlign, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSTransformStyleProperty()
-            : base(PropertyNames.TransformStyle)
+        internal CSSTransformStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TransformStyle, rule)
         {
+            Reset();
         }
 
         #endregion

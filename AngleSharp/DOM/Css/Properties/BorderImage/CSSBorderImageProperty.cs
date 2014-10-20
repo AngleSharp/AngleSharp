@@ -32,9 +32,10 @@
 
         #region ctor
 
-        internal CSSBorderImageProperty()
-            : base(PropertyNames.BorderImage, PropertyFlags.Shorthand)
+        internal CSSBorderImageProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderImage, rule, PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

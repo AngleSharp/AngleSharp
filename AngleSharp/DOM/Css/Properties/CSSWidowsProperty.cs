@@ -21,9 +21,10 @@
 
         #region ctor
 
-        internal CSSWidowsProperty()
-            : base(PropertyNames.Widows, PropertyFlags.Inherited)
+        internal CSSWidowsProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Widows, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

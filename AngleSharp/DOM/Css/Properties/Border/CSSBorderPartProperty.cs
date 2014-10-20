@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSBorderPartProperty(String name)
-            : base(name, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+        internal CSSBorderPartProperty(String name, CSSStyleDeclaration rule)
+            : base(name, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

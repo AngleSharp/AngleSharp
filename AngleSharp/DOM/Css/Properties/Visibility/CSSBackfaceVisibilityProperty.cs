@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSBackfaceVisibilityProperty()
-            : base(PropertyNames.BackfaceVisibility)
+        internal CSSBackfaceVisibilityProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackfaceVisibility, rule)
         {
+            Reset();
         }
 
         #endregion

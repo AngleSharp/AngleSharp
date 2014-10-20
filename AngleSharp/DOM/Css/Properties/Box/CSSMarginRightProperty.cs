@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSMarginRightProperty()
-            : base(PropertyNames.MarginRight)
+        internal CSSMarginRightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.MarginRight, rule)
         {
         }
 

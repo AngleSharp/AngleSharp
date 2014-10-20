@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSPageBreakInsideProperty()
-            : base(PropertyNames.PageBreakInside)
+        internal CSSPageBreakInsideProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.PageBreakInside, rule)
         {
+            Reset();
         }
 
         #endregion

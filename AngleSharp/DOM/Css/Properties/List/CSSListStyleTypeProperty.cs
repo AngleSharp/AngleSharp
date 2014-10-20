@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSListStyleTypeProperty()
-            : base(PropertyNames.ListStyleType, PropertyFlags.Inherited)
+        internal CSSListStyleTypeProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ListStyleType, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

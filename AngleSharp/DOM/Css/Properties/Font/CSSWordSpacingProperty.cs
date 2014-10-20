@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSWordSpacingProperty()
-            : base(PropertyNames.WordSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CSSWordSpacingProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.WordSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

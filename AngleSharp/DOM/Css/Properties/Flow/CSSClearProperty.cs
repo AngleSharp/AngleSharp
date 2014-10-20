@@ -26,9 +26,10 @@
             modes.Add(Keywords.Both, ClearMode.Both);
         }
 
-        internal CSSClearProperty()
-            : base(PropertyNames.Clear)
+        internal CSSClearProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Clear, rule)
         {
+            Reset();
         }
 
         #endregion

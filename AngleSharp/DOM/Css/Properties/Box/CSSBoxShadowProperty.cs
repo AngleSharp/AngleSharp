@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSBoxShadowProperty()
-            : base(PropertyNames.BoxShadow, PropertyFlags.Animatable)
+        internal CSSBoxShadowProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BoxShadow, rule, PropertyFlags.Animatable)
         {
+            _shadows = new List<Shadow>();
         }
 
         #endregion
@@ -40,10 +41,7 @@
 
         internal override void Reset()
         {
-            if (_shadows == null)
-                _shadows = new List<Shadow>();
-            else
-                _shadows.Clear();
+            _shadows.Clear();
         }
 
         /// <summary>

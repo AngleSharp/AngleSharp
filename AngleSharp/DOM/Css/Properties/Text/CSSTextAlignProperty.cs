@@ -26,9 +26,10 @@
             modes.Add(Keywords.Justify, HorizontalAlignment.Justify);
         }
 
-        internal CSSTextAlignProperty()
-            : base(PropertyNames.TextAlign, PropertyFlags.Inherited)
+        internal CSSTextAlignProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextAlign, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

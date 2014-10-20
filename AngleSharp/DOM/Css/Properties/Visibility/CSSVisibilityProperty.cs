@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSVisibilityProperty()
-            : base(PropertyNames.Visibility, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CSSVisibilityProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Visibility, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

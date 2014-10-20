@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSTransitionProperty()
-            : base(PropertyNames.Transition, PropertyFlags.Shorthand)
+        internal CSSTransitionProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Transition, rule, PropertyFlags.Shorthand)
         {
+            _transitions = new List<Transition>();
         }
 
         #endregion
@@ -80,10 +81,7 @@
 
         internal override void Reset()
         {
-            if (_transitions == null)
-                _transitions = new List<Transition>();
-            else
-                _transitions.Clear();
+            _transitions.Clear();
         }
 
         /// <summary>

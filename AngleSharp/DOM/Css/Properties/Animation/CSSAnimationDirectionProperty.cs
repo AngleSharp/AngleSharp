@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSAnimationDirectionProperty()
-            : base(PropertyNames.AnimationDirection)
+        internal CSSAnimationDirectionProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.AnimationDirection, rule)
         {
+            _directions = new List<AnimationDirection>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_directions == null)
-                _directions = new List<AnimationDirection>();
-            else
-                _directions.Clear();
-
+            _directions.Clear();
             _directions.Add(AnimationDirection.Normal);
         }
 

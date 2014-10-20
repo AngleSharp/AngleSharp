@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal CSSOutlineProperty()
-            : base(PropertyNames.Outline, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+        internal CSSOutlineProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Outline, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

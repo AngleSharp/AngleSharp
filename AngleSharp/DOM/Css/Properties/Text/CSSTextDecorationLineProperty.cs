@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSTextDecorationLineProperty()
-            : base(PropertyNames.TextDecorationLine)
+        internal CSSTextDecorationLineProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextDecorationLine, rule)
         {
+            _line = new List<TextDecorationLine>();
         }
 
         #endregion
@@ -41,10 +42,7 @@
 
         internal override void Reset()
         {
-            if (_line == null)
-                _line = new List<TextDecorationLine>();
-            else
-                _line.Clear();
+            _line.Clear();
         }
 
         /// <summary>

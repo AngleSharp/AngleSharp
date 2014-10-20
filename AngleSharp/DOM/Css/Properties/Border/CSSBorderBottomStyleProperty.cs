@@ -10,9 +10,10 @@
     {
         #region ctor
 
-        internal CSSBorderBottomStyleProperty()
-            : base(PropertyNames.BorderBottomStyle)
-        { }
+        internal CSSBorderBottomStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderBottomStyle, rule)
+        { 
+        }
 
         #endregion
     }

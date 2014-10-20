@@ -41,9 +41,10 @@
             modes.Add(Keywords.InlineGrid, DisplayMode.InlineGrid);
         }
 
-        internal CSSDisplayProperty()
-            : base(PropertyNames.Display)
+        internal CSSDisplayProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Display, rule)
         {
+            Reset();
         }
 
         #endregion

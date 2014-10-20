@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSMinWidthProperty()
-            : base(PropertyNames.MinWidth, PropertyFlags.Animatable)
+        internal CSSMinWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.MinWidth, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

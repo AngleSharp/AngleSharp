@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSHeightProperty()
-            : base(PropertyNames.Height)
+        internal CSSHeightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Height, rule)
         {
         }
 

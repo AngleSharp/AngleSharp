@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSClipProperty()
-            : base(PropertyNames.Clip, PropertyFlags.Animatable)
+        internal CSSClipProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Clip, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

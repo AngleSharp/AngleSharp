@@ -19,8 +19,8 @@
 
         #region ctor
 
-        internal CSSBorderImageOutsetProperty()
-            : base(PropertyNames.BorderImageOutset)
+        internal CSSBorderImageOutsetProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderImageOutset, rule)
         {
         }
 

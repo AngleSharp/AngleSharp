@@ -29,9 +29,10 @@
             modes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
         }
 
-        internal CSSBreakInsideProperty()
-            : base(PropertyNames.BreakInside)
+        internal CSSBreakInsideProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BreakInside, rule)
         {
+            Reset();
         }
 
         #endregion

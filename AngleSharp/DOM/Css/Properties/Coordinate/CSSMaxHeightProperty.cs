@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal CSSMaxHeightProperty()
-            : base(PropertyNames.MaxHeight, PropertyFlags.Animatable)
+        internal CSSMaxHeightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.MaxHeight, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

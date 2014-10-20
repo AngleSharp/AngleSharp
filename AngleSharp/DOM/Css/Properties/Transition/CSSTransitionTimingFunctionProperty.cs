@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSTransitionTimingFunctionProperty()
-            : base(PropertyNames.TransitionTimingFunction)
+        internal CSSTransitionTimingFunctionProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TransitionTimingFunction, rule)
         {
+            _functions = new List<TransitionFunction>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_functions == null)
-                _functions = new List<TransitionFunction>();
-            else
-                _functions.Clear();
-
+            _functions.Clear();
             _functions.Add(TransitionFunction.Ease);
         }
 

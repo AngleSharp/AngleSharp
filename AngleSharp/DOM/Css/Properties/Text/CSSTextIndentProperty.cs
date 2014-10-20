@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSTextIndentProperty()
-            : base(PropertyNames.TextIndent, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CSSTextIndentProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextIndent, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

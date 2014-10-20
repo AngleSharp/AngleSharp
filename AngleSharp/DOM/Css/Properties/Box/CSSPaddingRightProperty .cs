@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSPaddingRightProperty()
-            : base(PropertyNames.PaddingRight)
+        internal CSSPaddingRightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.PaddingRight, rule)
         {
         }
 

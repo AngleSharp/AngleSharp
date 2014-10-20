@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSColumnsProperty()
-            : base(PropertyNames.Columns, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+        internal CSSColumnsProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Columns, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

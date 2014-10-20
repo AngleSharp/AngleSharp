@@ -21,9 +21,10 @@
 
         #region ctor
 
-        internal CSSColumnSpanProperty()
-            : base(PropertyNames.ColumnSpan)
+        internal CSSColumnSpanProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ColumnSpan, rule)
         {
+            Reset();
         }
 
         #endregion

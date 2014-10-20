@@ -10,9 +10,10 @@
     {
         #region ctor
 
-        internal CSSBorderTopColorProperty()
-            : base(PropertyNames.BorderTopColor)
-        { }
+        internal CSSBorderTopColorProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderTopColor, rule)
+        { 
+        }
 
         #endregion
     }

@@ -19,8 +19,8 @@
 
         #region ctor
 
-        internal CSSBorderImageWidthProperty()
-            : base(PropertyNames.BorderImageWidth)
+        internal CSSBorderImageWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderImageWidth, rule)
         {
         }
 

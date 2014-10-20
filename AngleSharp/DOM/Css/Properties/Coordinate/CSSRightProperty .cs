@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSRightProperty()
-            : base(PropertyNames.Right)
+        internal CSSRightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Right, rule)
         {
         }
 

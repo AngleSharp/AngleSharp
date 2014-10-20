@@ -26,9 +26,10 @@
             modes.Add(Keywords.Auto, OverflowMode.Auto);
         }
 
-        internal CSSOverflowProperty()
-            : base(PropertyNames.Overflow)
+        internal CSSOverflowProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Overflow, rule)
         {
+            Reset();
         }
 
         #endregion

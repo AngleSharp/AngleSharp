@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSBackgroundOriginProperty()
-            : base(PropertyNames.BackgroundOrigin)
+        internal CSSBackgroundOriginProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundOrigin, rule)
         {
+            _origins = new List<BoxModel>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_origins == null)
-                _origins = new List<BoxModel>();
-            else
-                _origins.Clear();
-
+            _origins.Clear();
             _origins.Add(BoxModel.PaddingBox);
         }
 

@@ -58,9 +58,10 @@
             modes.Add(Keywords.Grabbing, new SystemCursorMode(SystemCursor.Grabbing));
         }
 
-        internal CSSCursorProperty()
-            : base(PropertyNames.Cursor, PropertyFlags.Inherited)
+        internal CSSCursorProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Cursor, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

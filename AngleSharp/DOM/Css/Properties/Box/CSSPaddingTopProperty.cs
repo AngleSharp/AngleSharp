@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSPaddingTopProperty()
-            : base(PropertyNames.PaddingTop)
+        internal CSSPaddingTopProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.PaddingTop, rule)
         {
         }
 

@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSMarginTopProperty()
-            : base(PropertyNames.MarginTop)
+        internal CSSMarginTopProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.MarginTop, rule)
         {
         }
 

@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSCounterResetProperty()
-            : base(PropertyNames.CounterReset)
+        internal CSSCounterResetProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.CounterReset, rule)
         {
+            Reset();
         }
 
         #endregion

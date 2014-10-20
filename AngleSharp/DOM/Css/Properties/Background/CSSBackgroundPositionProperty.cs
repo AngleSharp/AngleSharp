@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSBackgroundPositionProperty()
-            : base(PropertyNames.BackgroundPosition, PropertyFlags.Animatable)
+        internal CSSBackgroundPositionProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundPosition, rule, PropertyFlags.Animatable)
         {
+            _positions = new List<Point>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_positions == null)
-                _positions = new List<Point>();
-            else
-                _positions.Clear();
-
+            _positions.Clear();
             _positions.Add(Point.Centered);
         }
 

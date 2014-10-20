@@ -19,9 +19,11 @@
 
         #region ctor
 
-        internal CSSTextDecorationProperty()
-            : base(PropertyNames.TextDecoration, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+        internal CSSTextDecorationProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextDecoration, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
+            _line = new List<TextDecorationLine>();
+            Reset();
         }
 
         #endregion
@@ -60,11 +62,7 @@
         {
             _style = TextDecorationStyle.Solid;
             _color = Color.Black;
-
-            if (_line == null)
-                _line = new List<TextDecorationLine>();
-            else
-                _line.Clear();
+            _line.Clear();
         }
 
         /// <summary>

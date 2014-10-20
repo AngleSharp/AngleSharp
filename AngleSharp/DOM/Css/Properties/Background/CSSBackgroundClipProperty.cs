@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSBackgroundClipProperty()
-            : base(PropertyNames.BackgroundClip)
+        internal CSSBackgroundClipProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundClip, rule)
         {
+            _clips = new List<BoxModel>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_clips == null)
-                _clips = new List<BoxModel>();
-            else
-                _clips.Clear();
-
+            _clips.Clear();
             _clips.Add(BoxModel.BorderBox);
         }
 

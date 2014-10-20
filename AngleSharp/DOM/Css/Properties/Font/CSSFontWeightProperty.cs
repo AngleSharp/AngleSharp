@@ -26,9 +26,10 @@
             _weights.Add(Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 });
         }
 
-        internal CSSFontWeightProperty()
-            : base(PropertyNames.FontWeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CSSFontWeightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.FontWeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

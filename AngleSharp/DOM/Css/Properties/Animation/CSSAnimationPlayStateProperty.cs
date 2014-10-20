@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSAnimationPlayStateProperty()
-            : base(PropertyNames.AnimationPlayState)
+        internal CSSAnimationPlayStateProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.AnimationPlayState, rule)
         {
+            _states = new List<PlayState>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_states == null)
-                _states = new List<PlayState>();
-            else
-                _states.Clear();
-
+            _states.Clear();
             _states.Add(PlayState.Running);
         }
 

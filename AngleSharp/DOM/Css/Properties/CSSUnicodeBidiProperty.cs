@@ -28,9 +28,10 @@
             modes.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
         }
 
-        internal CSSUnicodeBidiProperty()
-            : base(PropertyNames.UnicodeBidi)
+        internal CSSUnicodeBidiProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.UnicodeBidi, rule)
         {
+            Reset();
         }
 
         #endregion

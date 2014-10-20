@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSTransformProperty()
-            : base(PropertyNames.Transform, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+        internal CSSTransformProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Transform, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
         {
+            _transforms = new List<ITransform>();
         }
 
         #endregion
@@ -40,10 +41,7 @@
 
         internal override void Reset()
         {
-            if (_transforms == null)
-                _transforms = new List<ITransform>();
-            else
-                _transforms.Clear();
+            _transforms.Clear();
         }
 
         /// <summary>

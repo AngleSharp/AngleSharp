@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSBottomProperty()
-            : base(PropertyNames.Bottom)
+        internal CSSBottomProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Bottom, rule)
         {
         }
 

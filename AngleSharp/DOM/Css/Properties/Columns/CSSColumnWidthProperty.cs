@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal CSSColumnWidthProperty()
-            : base(PropertyNames.ColumnWidth, PropertyFlags.Animatable)
+        internal CSSColumnWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ColumnWidth, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSTopProperty()
-            : base(PropertyNames.Top)
+        internal CSSTopProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Top, rule)
         {
         }
 

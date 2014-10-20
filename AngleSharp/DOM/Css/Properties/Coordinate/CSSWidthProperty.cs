@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSWidthProperty()
-            : base(PropertyNames.Width)
+        internal CSSWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Width, rule)
         {
         }
 

@@ -23,9 +23,10 @@
 
         #region ctor
 
-        internal CSSBorderImageSliceProperty()
-            : base(PropertyNames.BorderImageSlice)
+        internal CSSBorderImageSliceProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderImageSlice, rule)
         {
+            Reset();
         }
 
         #endregion

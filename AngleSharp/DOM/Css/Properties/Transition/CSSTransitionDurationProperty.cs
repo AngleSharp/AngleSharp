@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSTransitionDurationProperty()
-            : base(PropertyNames.TransitionDuration)
+        internal CSSTransitionDurationProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TransitionDuration, rule)
         {
+            _times = new List<Time>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_times == null)
-                _times = new List<Time>();
-            else
-                _times.Clear();
-
+            _times.Clear();
             _times.Add(Time.Zero);
         }
 

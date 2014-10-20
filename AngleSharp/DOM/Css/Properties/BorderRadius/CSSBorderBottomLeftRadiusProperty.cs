@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSBorderBottomLeftRadiusProperty()
-            : base(PropertyNames.BorderBottomLeftRadius)
+        internal CSSBorderBottomLeftRadiusProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderBottomLeftRadius, rule)
         {
         }
 

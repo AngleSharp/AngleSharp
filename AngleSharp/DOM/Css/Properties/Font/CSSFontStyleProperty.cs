@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSFontStyleProperty()
-            : base(PropertyNames.FontStyle, PropertyFlags.Inherited)
+        internal CSSFontStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.FontStyle, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

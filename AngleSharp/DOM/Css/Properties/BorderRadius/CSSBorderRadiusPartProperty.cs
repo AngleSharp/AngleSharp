@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSBorderRadiusPartProperty(String name)
-            : base(name, PropertyFlags.Animatable)
+        internal CSSBorderRadiusPartProperty(String name, CSSStyleDeclaration rule)
+            : base(name, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

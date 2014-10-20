@@ -27,9 +27,10 @@
             modes.Add(Keywords.Fixed, PositionMode.Fixed);
         }
 
-        internal CSSPositionProperty()
-            : base(PropertyNames.Position)
+        internal CSSPositionProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Position, rule)
         {
+            Reset();
         }
 
         #endregion

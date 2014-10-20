@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSBorderRightWidthProperty()
-            : base(PropertyNames.BorderRightWidth)
+        internal CSSBorderRightWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderRightWidth, rule)
         {
         }
 

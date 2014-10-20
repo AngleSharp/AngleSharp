@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSMarginBottomProperty()
-            : base(PropertyNames.MarginBottom)
+        internal CSSMarginBottomProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.MarginBottom, rule)
         {
         }
 

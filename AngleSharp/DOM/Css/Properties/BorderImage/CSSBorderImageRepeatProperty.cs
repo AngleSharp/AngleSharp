@@ -17,8 +17,8 @@
 
         #region ctor
 
-        internal CSSBorderImageRepeatProperty()
-            : base(PropertyNames.BorderImageRepeat)
+        internal CSSBorderImageRepeatProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderImageRepeat, rule)
         {
         }
 

@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSAnimationProperty()
-            : base(PropertyNames.Animation, PropertyFlags.Shorthand)
+        internal CSSAnimationProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Animation, rule, PropertyFlags.Shorthand)
         {
+            _animations = new List<Animation>();
+            Reset();
         }
 
         #endregion
@@ -116,10 +118,7 @@
 
         internal override void Reset()
         {
-            if (_animations == null)
-                _animations = new List<Animation>();
-            else
-                _animations.Clear();
+            _animations.Clear();
 
             _animations.Add(new Animation
             {

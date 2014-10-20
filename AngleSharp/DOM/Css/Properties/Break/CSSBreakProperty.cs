@@ -30,9 +30,10 @@
             modes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
         }
 
-        internal CSSBreakProperty(String name)
-            : base(name)
+        internal CSSBreakProperty(String name, CSSStyleDeclaration rule)
+            : base(name, rule)
         {
+            Reset();
         }
 
         #endregion

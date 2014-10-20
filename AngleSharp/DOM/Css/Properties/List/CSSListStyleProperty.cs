@@ -18,9 +18,10 @@
 
         #region ctor
 
-        internal CSSListStyleProperty()
-            : base(PropertyNames.ListStyle, PropertyFlags.Inherited | PropertyFlags.Shorthand)
+        internal CSSListStyleProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited | PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

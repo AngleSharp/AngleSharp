@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSTextDecorationColorProperty()
-            : base(PropertyNames.TextDecorationColor, PropertyFlags.Animatable)
+        internal CSSTextDecorationColorProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextDecorationColor, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

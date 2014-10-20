@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSFontStretchProperty()
-            : base(PropertyNames.FontStretch, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CSSFontStretchProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.FontStretch, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSPerspectiveProperty()
-            : base(PropertyNames.Perspective, PropertyFlags.Animatable)
+        internal CSSPerspectiveProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Perspective, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

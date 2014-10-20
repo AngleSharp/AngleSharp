@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSAnimationNameProperty()
-            : base(PropertyNames.AnimationName)
+        internal CSSAnimationNameProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.AnimationName, rule)
         {
+            _names = new List<String>();
         }
 
         #endregion
@@ -40,10 +41,7 @@
 
         internal override void Reset()
         {
-            if (_names == null)
-                _names = new List<String>();
-            else
-                _names.Clear();
+            _names.Clear();
         }
 
         /// <summary>

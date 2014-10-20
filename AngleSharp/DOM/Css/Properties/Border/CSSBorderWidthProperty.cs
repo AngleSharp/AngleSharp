@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal CSSBorderWidthProperty()
-            : base(PropertyNames.BorderWidth, PropertyFlags.Animatable)
+        internal CSSBorderWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

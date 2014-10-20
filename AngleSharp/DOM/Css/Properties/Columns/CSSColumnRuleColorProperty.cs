@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal CSSColumnRuleColorProperty()
-            : base(PropertyNames.ColumnRuleColor, PropertyFlags.Animatable)
+        internal CSSColumnRuleColorProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ColumnRuleColor, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

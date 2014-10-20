@@ -22,9 +22,10 @@
 
         #region ctor
 
-        internal CSSColumnGapProperty()
-            : base(PropertyNames.ColumnGap, PropertyFlags.Animatable)
+        internal CSSColumnGapProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ColumnGap, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

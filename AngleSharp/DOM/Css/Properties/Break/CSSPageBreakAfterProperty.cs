@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSPageBreakAfterProperty()
-            : base(PropertyNames.PageBreakAfter)
+        internal CSSPageBreakAfterProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.PageBreakAfter, rule)
         {
         }
 

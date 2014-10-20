@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSLetterSpacingProperty()
-            : base(PropertyNames.LetterSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless)
+        internal CSSLetterSpacingProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.LetterSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
+            Reset();
         }
 
         #endregion

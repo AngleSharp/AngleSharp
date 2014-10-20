@@ -20,9 +20,10 @@
 
         #region ctor
 
-        internal CSSPaddingProperty()
-            : base(PropertyNames.Padding, PropertyFlags.Shorthand)
+        internal CSSPaddingProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Padding, rule, PropertyFlags.Shorthand)
         {
+            Reset();
         }
 
         #endregion

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSBorderCollapseProperty()
-            : base(PropertyNames.BorderCollapse, PropertyFlags.Inherited)
+        internal CSSBorderCollapseProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderCollapse, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

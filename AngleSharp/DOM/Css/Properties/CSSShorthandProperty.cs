@@ -17,11 +17,10 @@
 
         #region ctor
 
-        public CSSShorthandProperty(String name, PropertyFlags flags, IEnumerable<CSSProperty> properties)
-            : base(name, flags | PropertyFlags.Shorthand)
+        public CSSShorthandProperty(String name, CSSStyleDeclaration rule, IEnumerable<CSSProperty> properties, PropertyFlags flags)
+            : base(name, rule, flags | PropertyFlags.Shorthand)
         {
             _properties = properties;
-            Reset();
         }
 
         #endregion
@@ -44,17 +43,8 @@
 
         internal sealed override void Reset()
         {
-            if (_properties == null)
-                return;
-
             foreach (var property in _properties)
                 property.Reset();
-        }
-
-        protected sealed override void ChangeRule(CSSStyleDeclaration value)
-        {
-            foreach (var property in _properties)
-                property.Rule = value;
         }
 
         #endregion

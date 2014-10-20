@@ -24,17 +24,17 @@
 
         #region ctor
 
-        internal CSSBackgroundProperty()
-            : base(PropertyNames.Background, PropertyFlags.Animatable, new CSSProperty[] {
-                new CSSBackgroundImageProperty(),
-                new CSSBackgroundPositionProperty(),
-                new CSSBackgroundSizeProperty(),
-                new CSSBackgroundRepeatProperty(),
-                new CSSBackgroundAttachmentProperty(),
-                new CSSBackgroundOriginProperty(),
-                new CSSBackgroundClipProperty(),
-                new CSSBackgroundColorProperty()
-            })
+        internal CSSBackgroundProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Background, rule, new CSSProperty[] {
+                new CSSBackgroundImageProperty(rule),
+                new CSSBackgroundPositionProperty(rule),
+                new CSSBackgroundSizeProperty(rule),
+                new CSSBackgroundRepeatProperty(rule),
+                new CSSBackgroundAttachmentProperty(rule),
+                new CSSBackgroundOriginProperty(rule),
+                new CSSBackgroundClipProperty(rule),
+                new CSSBackgroundColorProperty(rule)
+            }, PropertyFlags.Animatable)
         {
             _image = Get<CSSBackgroundImageProperty>();
             _position = Get<CSSBackgroundPositionProperty>();

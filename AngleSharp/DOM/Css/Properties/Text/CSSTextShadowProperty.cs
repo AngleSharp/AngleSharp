@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSTextShadowProperty()
-            : base(PropertyNames.TextShadow, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CSSTextShadowProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextShadow, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
+            _shadows = new List<Shadow>();
         }
 
         #endregion
@@ -40,10 +41,7 @@
 
         internal override void Reset()
         {
-            if (_shadows == null)
-                _shadows = new List<Shadow>();
-            else
-                _shadows.Clear();
+            _shadows.Clear();
         }
 
         /// <summary>

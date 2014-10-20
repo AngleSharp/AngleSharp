@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSFontSizeAdjustProperty()
-            : base(PropertyNames.FontSizeAdjust, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CSSFontSizeAdjustProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.FontSizeAdjust, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

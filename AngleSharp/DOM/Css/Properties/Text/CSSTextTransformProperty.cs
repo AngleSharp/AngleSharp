@@ -27,9 +27,10 @@
             modes.Add(Keywords.FullWidth, TextTransform.FullWidth);
         }
 
-        internal CSSTextTransformProperty()
-            : base(PropertyNames.TextTransform, PropertyFlags.Inherited)
+        internal CSSTextTransformProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TextTransform, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

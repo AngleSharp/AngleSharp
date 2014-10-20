@@ -17,9 +17,11 @@
 
         #region ctor
 
-        internal CSSAnimationFillModeProperty()
-            : base(PropertyNames.AnimationFillMode)
+        internal CSSAnimationFillModeProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.AnimationFillMode, rule)
         {
+            _fillModes = new List<AnimationFillStyle>();
+            Reset();
         }
 
         #endregion
@@ -40,11 +42,7 @@
 
         internal override void Reset()
         {
-            if (_fillModes == null)
-                _fillModes = new List<AnimationFillStyle>();
-            else
-                _fillModes.Clear();
-
+            _fillModes.Clear();
             _fillModes.Add(AnimationFillStyle.None);
         }
 

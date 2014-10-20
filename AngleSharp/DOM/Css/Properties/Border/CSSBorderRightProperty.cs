@@ -8,10 +8,9 @@
     {
         #region ctor
 
-        internal CSSBorderRightProperty()
-            : base(PropertyNames.BorderRight)
+        internal CSSBorderRightProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderRight, rule)
         {
-
         }
 
         #endregion

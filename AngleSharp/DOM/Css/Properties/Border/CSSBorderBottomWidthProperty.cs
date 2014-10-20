@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSBorderBottomWidthProperty()
-            : base(PropertyNames.BorderBottomWidth)
+        internal CSSBorderBottomWidthProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BorderBottomWidth, rule)
         {
         }
 

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSEmptyCellsProperty()
-            : base(PropertyNames.EmptyCells, PropertyFlags.Inherited)
+        internal CSSEmptyCellsProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.EmptyCells, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

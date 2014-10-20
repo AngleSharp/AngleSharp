@@ -25,9 +25,10 @@
             modes.Add(Keywords.Right, Floating.Right);
         }
 
-        internal CSSFloatProperty()
-            : base(PropertyNames.Float)
+        internal CSSFloatProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Float, rule)
         {
+            Reset();
         }
 
         #endregion

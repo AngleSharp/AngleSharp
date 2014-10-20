@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSOrphansProperty()
-            : base(PropertyNames.Orphans, PropertyFlags.Inherited)
+        internal CSSOrphansProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Orphans, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal CSSColumnCountProperty()
-            : base(PropertyNames.ColumnCount, PropertyFlags.Animatable)
+        internal CSSColumnCountProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ColumnCount, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

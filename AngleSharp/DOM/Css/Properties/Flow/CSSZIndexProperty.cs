@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSZIndexProperty()
-            : base(PropertyNames.ZIndex, PropertyFlags.Animatable)
+        internal CSSZIndexProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.ZIndex, rule, PropertyFlags.Animatable)
         {
+            Reset();
         }
 
         #endregion

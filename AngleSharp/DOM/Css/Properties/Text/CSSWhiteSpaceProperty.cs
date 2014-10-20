@@ -27,9 +27,10 @@
             modes.Add(Keywords.PreLine, Whitespace.PreLine);
         }
 
-        internal CSSWhiteSpaceProperty()
-            : base(PropertyNames.WhiteSpace, PropertyFlags.Inherited)
+        internal CSSWhiteSpaceProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.WhiteSpace, rule, PropertyFlags.Inherited)
         {
+            Reset();
         }
 
         #endregion

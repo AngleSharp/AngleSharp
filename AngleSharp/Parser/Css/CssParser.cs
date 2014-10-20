@@ -497,10 +497,10 @@
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
-        /// <param name="style">The style to populate.</param>
         /// <param name="tokens">The stream of tokens.</param>
+        /// <param name="style">The style to populate.</param>
         /// <returns>The created property.</returns>
-        CSSProperty Declaration(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
+        CSSProperty Declaration(IEnumerator<CssToken> tokens, CSSStyleDeclaration style)
         {
             var token = tokens.Current;
 
@@ -510,16 +510,10 @@
 
                 if (!tokens.MoveNext())
                     return null;
-
-                token = tokens.Current;
-
-                if (token.Type != CssTokenType.Colon)
-                {
+                
+                if (tokens.Current.Type != CssTokenType.Colon)
                     JumpToEndOfDeclaration(tokens);
-                    return null;
-                }
-
-                if (tokens.MoveNext())
+                else if (tokens.MoveNext())
                 {
                     var property = CssPropertyFactory.Create(propertyName, style);
 
@@ -539,9 +533,10 @@
                             }
                         }
 
-                        if ((value == null || !property.TrySetValue(value)) && style != null)
-                            property = null;
-                        else if (IsImportant(tokens))
+                        if (value != null && property.TrySetValue(value))
+                            style.SetProperty(property);
+                        
+                        if (IsImportant(tokens))
                             property.IsImportant = true;
                     }
 
@@ -1084,12 +1079,7 @@
                 if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
                     break;
 
-                var property = Declaration(style, tokens);
-
-                if (property == null)
-                    continue;
-
-                style.Set(property);
+                Declaration(tokens, style);
             }
         }
 
@@ -1372,7 +1362,7 @@
             if (!tokens.MoveNext())
                 return null;
 
-            return parser.Declaration(null, tokens);
+            return parser.Declaration(tokens, new CSSStyleDeclaration());
         }
 
         /// <summary>

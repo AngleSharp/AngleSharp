@@ -12,10 +12,10 @@
 
         readonly PropertyFlags _flags;
         readonly String _name;
+        readonly CSSStyleDeclaration _rule;
 
         CSSValue _value;
         Boolean _important;
-        CSSStyleDeclaration _rule;
 
         #endregion
 
@@ -25,12 +25,13 @@
         /// Creates a new CSS property.
         /// </summary>
         /// <param name="name">The name of the property</param>
+        /// <param name="rule">The parent style declaration.</param>
         /// <param name="flags">The property flags, if any.</param>
-        internal CSSProperty(String name, PropertyFlags flags = PropertyFlags.None)
+        internal CSSProperty(String name, CSSStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
         {
+            _rule = rule;
             _name = name;
             _flags = flags;
-            Reset();
         }
 
         #endregion
@@ -43,7 +44,6 @@
         internal CSSStyleDeclaration Rule
         {
             get { return _rule; }
-            set { _rule = value; ChangeRule(value); }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the value of the property.
+        /// Gets the value of the property.
         /// </summary>
         internal CSSValue Value
         {
@@ -190,10 +190,6 @@
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
         protected abstract Boolean IsValid(CSSValue value);
-
-        protected virtual void ChangeRule(CSSStyleDeclaration value)
-        {
-        }
 
         #endregion
 

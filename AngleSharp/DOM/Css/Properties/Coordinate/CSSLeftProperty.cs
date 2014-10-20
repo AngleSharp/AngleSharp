@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        internal CSSLeftProperty()
-            : base(PropertyNames.Left)
+        internal CSSLeftProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Left, rule)
         {
         }
 

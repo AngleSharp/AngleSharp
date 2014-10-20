@@ -34,16 +34,16 @@
             _parts.Add(Keywords.StatusBar, SystemFont.StatusBar);
         }
 
-        internal CSSFontProperty()
-            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable, new CSSProperty[]{
-                new CSSFontStyleProperty(),
-                new CSSFontWeightProperty(),
-                new CSSFontVariantProperty(),
-                new CSSFontStretchProperty(),
-                new CSSFontSizeProperty(),
-                new CSSLineHeightProperty(),
-                new CSSFontFamilyProperty()
-            })
+        internal CSSFontProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.Font, rule, new CSSProperty[]{
+                new CSSFontStyleProperty(rule),
+                new CSSFontWeightProperty(rule),
+                new CSSFontVariantProperty(rule),
+                new CSSFontStretchProperty(rule),
+                new CSSFontSizeProperty(rule),
+                new CSSLineHeightProperty(rule),
+                new CSSFontFamilyProperty(rule)
+            }, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _style = Get<CSSFontStyleProperty>();
             _variant = Get<CSSFontVariantProperty>();

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal CSSTableLayoutProperty()
-            : base(PropertyNames.TableLayout)
+        internal CSSTableLayoutProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.TableLayout, rule)
         {
+            Reset();
         }
 
         #endregion

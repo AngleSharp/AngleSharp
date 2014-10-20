@@ -17,9 +17,10 @@
 
         #region ctor
 
-        internal CSSBackgroundImageProperty()
-            : base(PropertyNames.BackgroundImage)
+        internal CSSBackgroundImageProperty(CSSStyleDeclaration rule)
+            : base(PropertyNames.BackgroundImage, rule)
         {
+            _images = new List<IBitmap>();
         }
 
         #endregion
@@ -40,10 +41,7 @@
 
         internal override void Reset()
         {
-            if (_images == null)
-                _images = new List<IBitmap>();
-            else
-                _images.Clear();
+            _images.Clear();
         }
 
         /// <summary>
