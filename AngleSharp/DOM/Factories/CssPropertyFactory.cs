@@ -13,6 +13,7 @@
 
         static readonly Dictionary<String, PropertyCreator> longhands = new Dictionary<String, PropertyCreator>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, PropertyCreator> shorthands = new Dictionary<String, PropertyCreator>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, String[]> mappings = new Dictionary<String, String[]>();
 
         #endregion
 
@@ -20,7 +21,14 @@
 
         static CssPropertyFactory()
         {
-            AddShorthand(PropertyNames.Animation, style => new CSSAnimationProperty(style));
+            AddShorthand(PropertyNames.Animation, style => new CSSAnimationProperty(style), 
+                PropertyNames.AnimationDelay, 
+                PropertyNames.AnimationDirection, 
+                PropertyNames.AnimationDuration, 
+                PropertyNames.AnimationFillMode, 
+                PropertyNames.AnimationIterationCount, 
+                PropertyNames.AnimationName, 
+                PropertyNames.AnimationTimingFunction);
             AddLonghand(PropertyNames.AnimationDelay, style => new CSSAnimationDelayProperty(style));
             AddLonghand(PropertyNames.AnimationDirection, style => new CSSAnimationDirectionProperty(style));
             AddLonghand(PropertyNames.AnimationDuration, style => new CSSAnimationDurationProperty(style));
@@ -37,11 +45,27 @@
             AddLonghand(PropertyNames.BackgroundImage, style => new CSSBackgroundImageProperty(style));
             AddLonghand(PropertyNames.BackgroundPosition, style => new CSSBackgroundPositionProperty(style));
             AddLonghand(PropertyNames.BackgroundRepeat, style => new CSSBackgroundRepeatProperty(style));
-            AddShorthand(PropertyNames.Background, style => new CSSBackgroundProperty(style));
-            AddShorthand(PropertyNames.BorderColor, style => new CSSBorderColorProperty(style));
+            AddShorthand(PropertyNames.Background, style => new CSSBackgroundProperty(style),
+                PropertyNames.BackgroundAttachment,
+                PropertyNames.BackgroundClip,
+                PropertyNames.BackgroundColor,
+                PropertyNames.BackgroundImage,
+                PropertyNames.BackgroundOrigin,
+                PropertyNames.BackgroundPosition,
+                PropertyNames.BackgroundRepeat,
+                PropertyNames.BackgroundSize);
+            AddShorthand(PropertyNames.BorderColor, style => new CSSBorderColorProperty(style),
+                PropertyNames.BorderLeftColor,
+                PropertyNames.BorderRightColor,
+                PropertyNames.BorderTopColor,
+                PropertyNames.BorderBottomColor);
             AddLonghand(PropertyNames.BorderSpacing, style => new CSSBorderSpacingProperty(style));
             AddLonghand(PropertyNames.BorderCollapse, style => new CSSBorderCollapseProperty(style));
-            AddShorthand(PropertyNames.BorderStyle, style => new CSSBorderStyleProperty(style));
+            AddShorthand(PropertyNames.BorderStyle, style => new CSSBorderStyleProperty(style),
+                PropertyNames.BorderLeftStyle,
+                PropertyNames.BorderRightStyle,
+                PropertyNames.BorderTopStyle,
+                PropertyNames.BorderBottomStyle);
             AddLonghand(PropertyNames.BoxShadow, style => new CSSBoxShadowProperty(style));
             AddLonghand(PropertyNames.BoxDecorationBreak, style => new CSSBoxDecorationBreak(style));
             AddLonghand(PropertyNames.BreakAfter, style => new CSSBreakAfterProperty(style));
@@ -71,20 +95,53 @@
             AddLonghand(PropertyNames.BorderLeftWidth, style => new CSSBorderLeftWidthProperty(style));
             AddLonghand(PropertyNames.BorderRightWidth, style => new CSSBorderRightWidthProperty(style));
             AddLonghand(PropertyNames.BorderBottomWidth, style => new CSSBorderBottomWidthProperty(style));
-            AddShorthand(PropertyNames.BorderWidth, style => new CSSBorderWidthProperty(style));
-            AddShorthand(PropertyNames.BorderTop, style => new CSSBorderTopProperty(style));
-            AddShorthand(PropertyNames.BorderRight, style => new CSSBorderRightProperty(style));
-            AddShorthand(PropertyNames.BorderBottom, style => new CSSBorderBottomProperty(style));
-            AddShorthand(PropertyNames.BorderLeft, style => new CSSBorderLeftProperty(style));
-            AddShorthand(PropertyNames.Border, style => new CSSBorderProperty(style));
+            AddShorthand(PropertyNames.BorderWidth, style => new CSSBorderWidthProperty(style),
+                PropertyNames.BorderLeftWidth,
+                PropertyNames.BorderRightWidth,
+                PropertyNames.BorderTopWidth,
+                PropertyNames.BorderBottomWidth);
+            AddShorthand(PropertyNames.BorderTop, style => new CSSBorderTopProperty(style),
+                PropertyNames.BorderTopColor,
+                PropertyNames.BorderTopStyle,
+                PropertyNames.BorderTopWidth);
+            AddShorthand(PropertyNames.BorderRight, style => new CSSBorderRightProperty(style),
+                PropertyNames.BorderRightColor,
+                PropertyNames.BorderRightStyle,
+                PropertyNames.BorderRightWidth);
+            AddShorthand(PropertyNames.BorderBottom, style => new CSSBorderBottomProperty(style),
+                PropertyNames.BorderBottomColor,
+                PropertyNames.BorderBottomStyle,
+                PropertyNames.BorderBottomWidth);
+            AddShorthand(PropertyNames.BorderLeft, style => new CSSBorderLeftProperty(style),
+                PropertyNames.BorderLeftColor,
+                PropertyNames.BorderLeftStyle,
+                PropertyNames.BorderLeftWidth);
+            AddShorthand(PropertyNames.Border, style => new CSSBorderProperty(style),
+                PropertyNames.BorderLeftStyle,
+                PropertyNames.BorderLeftColor,
+                PropertyNames.BorderLeftWidth,
+                PropertyNames.BorderRightStyle,
+                PropertyNames.BorderRightWidth,
+                PropertyNames.BorderRightColor,
+                PropertyNames.BorderTopStyle,
+                PropertyNames.BorderTopWidth,
+                PropertyNames.BorderTopColor,
+                PropertyNames.BorderBottomStyle,
+                PropertyNames.BorderBottomWidth,
+                PropertyNames.BorderBottomColor);
             AddLonghand(PropertyNames.Bottom, style => new CSSBottomProperty(style));
-            AddShorthand(PropertyNames.Columns, style => new CSSColumnsProperty(style));
+            AddShorthand(PropertyNames.Columns, style => new CSSColumnsProperty(style),
+                PropertyNames.ColumnCount,
+                PropertyNames.ColumnWidth);
             AddLonghand(PropertyNames.ColumnCount, style => new CSSColumnCountProperty(style));
             AddLonghand(PropertyNames.ColumnWidth, style => new CSSColumnWidthProperty(style));
             AddLonghand(PropertyNames.ColumnFill, style => new CSSColumnFillProperty(style));
             AddLonghand(PropertyNames.ColumnGap, style => new CSSColumnGapProperty(style));
             AddLonghand(PropertyNames.ColumnSpan, style => new CSSColumnSpanProperty(style));
-            AddShorthand(PropertyNames.ColumnRule, style => new CSSColumnRuleProperty(style));
+            AddShorthand(PropertyNames.ColumnRule, style => new CSSColumnRuleProperty(style),
+                PropertyNames.ColumnRuleColor,
+                PropertyNames.ColumnRuleStyle,
+                PropertyNames.ColumnRuleWidth);
             AddLonghand(PropertyNames.ColumnRuleColor, style => new CSSColumnRuleColorProperty(style));
             AddLonghand(PropertyNames.ColumnRuleStyle, style => new CSSColumnRuleStyleProperty(style));
             AddLonghand(PropertyNames.ColumnRuleWidth, style => new CSSColumnRuleWidthProperty(style));
@@ -107,7 +164,14 @@
             AddLonghand(PropertyNames.FontVariant, style => new CSSFontVariantProperty(style));
             AddLonghand(PropertyNames.FontWeight, style => new CSSFontWeightProperty(style));
             AddLonghand(PropertyNames.FontStretch, style => new CSSFontStretchProperty(style));
-            AddShorthand(PropertyNames.Font, style => new CSSFontProperty(style));
+            AddShorthand(PropertyNames.Font, style => new CSSFontProperty(style),
+                PropertyNames.FontFamily,
+                PropertyNames.FontSize,
+                PropertyNames.FontStretch,
+                PropertyNames.FontStyle,
+                PropertyNames.FontVariant,
+                PropertyNames.FontWeight,
+                PropertyNames.LineHeight);
             AddLonghand(PropertyNames.Height, style => new CSSHeightProperty(style));
             AddLonghand(PropertyNames.Left, style => new CSSLeftProperty(style));
             AddLonghand(PropertyNames.LetterSpacing, style => new CSSLetterSpacingProperty(style));
@@ -115,28 +179,42 @@
             AddLonghand(PropertyNames.ListStyleImage, style => new CSSListStyleImageProperty(style));
             AddLonghand(PropertyNames.ListStylePosition, style => new CSSListStylePositionProperty(style));
             AddLonghand(PropertyNames.ListStyleType, style => new CSSListStyleTypeProperty(style));
-            AddShorthand(PropertyNames.ListStyle, style => new CSSListStyleProperty(style));
+            AddShorthand(PropertyNames.ListStyle, style => new CSSListStyleProperty(style),
+                PropertyNames.ListStyleImage,
+                PropertyNames.ListStylePosition,
+                PropertyNames.ListStyleType);
             AddLonghand(PropertyNames.MarginRight, style => new CSSMarginRightProperty(style));
             AddLonghand(PropertyNames.MarginLeft, style => new CSSMarginLeftProperty(style));
             AddLonghand(PropertyNames.MarginTop, style => new CSSMarginTopProperty(style));
             AddLonghand(PropertyNames.MarginBottom, style => new CSSMarginBottomProperty(style));
-            AddShorthand(PropertyNames.Margin, style => new CSSMarginProperty(style));
+            AddShorthand(PropertyNames.Margin, style => new CSSMarginProperty(style),
+                PropertyNames.MarginBottom,
+                PropertyNames.MarginLeft,
+                PropertyNames.MarginRight,
+                PropertyNames.MarginTop);
             AddLonghand(PropertyNames.MaxHeight, style => new CSSMaxHeightProperty(style));
             AddLonghand(PropertyNames.MaxWidth, style => new CSSMaxWidthProperty(style));
             AddLonghand(PropertyNames.MinHeight, style => new CSSMinHeightProperty(style));
             AddLonghand(PropertyNames.MinWidth, style => new CSSMinWidthProperty(style));
             AddLonghand(PropertyNames.Opacity, style => new CSSOpacityProperty(style));
             AddLonghand(PropertyNames.Orphans, style => new CSSOrphansProperty(style));
+            AddShorthand(PropertyNames.Outline, style => new CSSOutlineProperty(style),
+                PropertyNames.OutlineColor,
+                PropertyNames.OutlineStyle,
+                PropertyNames.OutlineWidth);
             AddLonghand(PropertyNames.OutlineColor, style => new CSSOutlineColorProperty(style));
             AddLonghand(PropertyNames.OutlineStyle, style => new CSSOutlineStyleProperty(style));
             AddLonghand(PropertyNames.OutlineWidth, style => new CSSOutlineWidthProperty(style));
-            AddShorthand(PropertyNames.Outline, style => new CSSOutlineProperty(style));
             AddLonghand(PropertyNames.Overflow, style => new CSSOverflowProperty(style));
             AddLonghand(PropertyNames.PaddingTop, style => new CSSPaddingTopProperty(style));
             AddLonghand(PropertyNames.PaddingRight, style => new CSSPaddingRightProperty(style));
             AddLonghand(PropertyNames.PaddingLeft, style => new CSSPaddingLeftProperty(style));
             AddLonghand(PropertyNames.PaddingBottom, style => new CSSPaddingBottomProperty(style));
-            AddShorthand(PropertyNames.Padding, style => new CSSPaddingProperty(style));
+            AddShorthand(PropertyNames.Padding, style => new CSSPaddingProperty(style),
+                PropertyNames.PaddingBottom,
+                PropertyNames.PaddingLeft,
+                PropertyNames.PaddingRight,
+                PropertyNames.PaddingTop);
             AddLonghand(PropertyNames.PageBreakAfter, style => new CSSPageBreakAfterProperty(style));
             AddLonghand(PropertyNames.PageBreakBefore, style => new CSSPageBreakBeforeProperty(style));
             AddLonghand(PropertyNames.PageBreakInside, style => new CSSPageBreakInsideProperty(style));
@@ -147,7 +225,10 @@
             AddLonghand(PropertyNames.Right, style => new CSSRightProperty(style));
             AddLonghand(PropertyNames.TableLayout, style => new CSSTableLayoutProperty(style));
             AddLonghand(PropertyNames.TextAlign, style => new CSSTextAlignProperty(style));
-            AddShorthand(PropertyNames.TextDecoration, style => new CSSTextDecorationProperty(style));
+            AddShorthand(PropertyNames.TextDecoration, style => new CSSTextDecorationProperty(style),
+                PropertyNames.TextDecorationColor,
+                PropertyNames.TextDecorationLine,
+                PropertyNames.TextDecorationStyle);
             AddLonghand(PropertyNames.TextDecorationStyle, style => new CSSTextDecorationStyleProperty(style));
             AddLonghand(PropertyNames.TextDecorationLine, style => new CSSTextDecorationLineProperty(style));
             AddLonghand(PropertyNames.TextDecorationColor, style => new CSSTextDecorationColorProperty(style));
@@ -157,7 +238,11 @@
             AddLonghand(PropertyNames.Transform, style => new CSSTransformProperty(style));
             AddLonghand(PropertyNames.TransformOrigin, style => new CSSTransformOriginProperty(style));
             AddLonghand(PropertyNames.TransformStyle, style => new CSSTransformStyleProperty(style));
-            AddShorthand(PropertyNames.Transition, style => new CSSTransitionProperty(style));
+            AddShorthand(PropertyNames.Transition, style => new CSSTransitionProperty(style),
+                PropertyNames.TransitionDelay,
+                PropertyNames.TransitionDuration,
+                PropertyNames.TransitionProperty,
+                PropertyNames.TransitionTimingFunction);
             AddLonghand(PropertyNames.TransitionDelay, style => new CSSTransitionDelayProperty(style));
             AddLonghand(PropertyNames.TransitionDuration, style => new CSSTransitionDurationProperty(style));
             AddLonghand(PropertyNames.TransitionTimingFunction, style => new CSSTransitionTimingFunctionProperty(style));
@@ -173,9 +258,10 @@
             AddLonghand(PropertyNames.ZIndex, style => new CSSZIndexProperty(style));
         }
 
-        static void AddShorthand(String name, PropertyCreator creator)
+        static void AddShorthand(String name, PropertyCreator creator, params String[] longhands)
         {
             shorthands.Add(name, creator);
+            mappings.Add(name, longhands);
         }
 
         static void AddLonghand(String name, PropertyCreator creator)
@@ -212,6 +298,16 @@
         #region Helpers
 
         /// <summary>
+        /// Checks if the given property name is a longhand property.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>True if the property is a longhand, otherwise false.</returns>
+        public static Boolean IsLonghand(String name)
+        {
+            return longhands.ContainsKey(name);
+        }
+
+        /// <summary>
         /// Checks if the given property name is a shorthand property.
         /// </summary>
         /// <param name="name">The name of the property.</param>
@@ -222,14 +318,26 @@
         }
 
         /// <summary>
-        /// Gets the longhand mapping of the shorthand property.
+        /// Checks if the given property name if generally supported.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>True if the property name is supported, otherwise false.</returns>
+        public static Boolean IsSupported(String name)
+        {
+            return IsLonghand(name) || IsShorthand(name);
+        }
+
+        /// <summary>
+        /// Gets the longhand mapping of the shorthand property or the mapping to itself.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>An enumeration over all longhand properties.</returns>
         public static IEnumerable<String> GetMapping(String name)
         {
-            //TODO
-            yield break;
+            if (mappings.ContainsKey(name))
+                return mappings[name];
+            
+            return new [] { name };
         }
 
         #endregion
