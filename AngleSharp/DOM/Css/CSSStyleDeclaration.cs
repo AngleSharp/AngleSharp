@@ -2382,7 +2382,25 @@
 
         public void SetPropertyPriority(String propertyName, String priority)
         {
-            SetProperty(propertyName, GetPropertyText(propertyName), priority);
+            if (_readOnly)
+                throw new DomException(ErrorCode.NoModificationAllowed);
+            
+            if (CssPropertyFactory.IsSupported(propertyName))
+                return;
+
+            if (!String.IsNullOrEmpty(priority) && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            var important = !String.IsNullOrEmpty(priority);
+            var mappings = CssPropertyFactory.GetMapping(propertyName);
+
+            foreach (var mapping in mappings)
+            {
+                var property = GetProperty(mapping);
+
+                if (property != null)
+                    property.IsImportant = important;
+            }
         }
 
         /// <summary>
