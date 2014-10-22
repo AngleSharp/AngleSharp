@@ -115,32 +115,32 @@ namespace UnitTests.Library
 
             var test1 = style1[0];
             Assert.AreEqual("color", test1.Name);
-            Assert.AreEqual("red", style1.GetPropertyText(test1.Name));
+            Assert.AreEqual("red", style1.GetPropertyValue(test1.Name));
 
             var style2 = (elements[1] as IHtmlElement).Style;
             Assert.AreEqual(1, style2.Count());
 
             var test2 = style2[0];
             Assert.AreEqual("color", test2.Name);
-            Assert.AreEqual("red", style2.GetPropertyText(test2.Name));
+            Assert.AreEqual("red", style2.GetPropertyValue(test2.Name));
 
             var style3 = (elements[2] as IHtmlElement).Style;
             Assert.AreEqual(1, style3.Count());
 
             var test3 = style3[0];
             Assert.AreEqual("color", test3.Name);
-            Assert.AreEqual("red", style3.GetPropertyText(test3.Name));
+            Assert.AreEqual("red", style3.GetPropertyValue(test3.Name));
 
             var style4 = (elements[3] as IHtmlElement).Style;
             Assert.AreEqual(2, style4.Count());
 
             var background = style4[0];
             Assert.AreEqual("background-color", background.Name);
-            Assert.AreEqual("blue", style4.GetPropertyText(background.Name));
+            Assert.AreEqual("blue", style4.GetPropertyValue(background.Name));
 
             var color = style4[1];
             Assert.AreEqual("color", color.Name);
-            Assert.AreEqual("red", style4.GetPropertyText(color.Name));
+            Assert.AreEqual("red", style4.GetPropertyValue(color.Name));
         }
 
         [TestMethod]
