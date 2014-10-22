@@ -32,7 +32,7 @@
 		internal CSSStyleRule(CSSStyleDeclaration style)
 		{
             _style = style;
-            _style.ParentRule = this;
+            _style.Parent = this;
             _type = CssRuleType.Style;
             _selector = SimpleSelector.All;
 		}

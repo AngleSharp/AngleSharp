@@ -53,15 +53,7 @@
         /// <param name="propertyName">The name of the property to get the value of.</param>
         /// <returns>A string or null if nothing has been set.</returns>
         [DomName("getPropertyValue")]
-        String GetPropertyText(String propertyName);
-
-        /// <summary>
-        /// Gets the value of a property with the given name.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to get the value of.</param>
-        /// <returns>A value or null if nothing has been set.</returns>
-        [DomName("getPropertyCSSValue")]
-        ICssValue GetPropertyValue(String propertyName);
+        String GetPropertyValue(String propertyName);
 
         /// <summary>
         /// Returns the optional priority, "important" or null, if no priority has been set.
@@ -93,7 +85,7 @@
         /// Gets the containing rule.
         /// </summary>
         [DomName("parentRule")]
-        ICssRule ParentRule { get; }
+        ICssRule Parent { get; }
 
         #endregion
 

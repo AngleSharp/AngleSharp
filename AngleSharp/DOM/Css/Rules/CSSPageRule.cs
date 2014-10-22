@@ -24,7 +24,7 @@
         internal CSSPageRule(CSSStyleDeclaration style)
         {
             _style = style;
-            _style.ParentRule = this;
+            _style.Parent = this;
             _type = CssRuleType.Page;
             _selector = SimpleSelector.All;
         }

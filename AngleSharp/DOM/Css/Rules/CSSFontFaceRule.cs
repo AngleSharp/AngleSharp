@@ -21,7 +21,7 @@
         internal CSSFontFaceRule(CSSStyleDeclaration style)
         {
             _style = style;
-            _style.ParentRule = this;
+            _style.Parent = this;
             _type = CssRuleType.FontFace;
         }
 
@@ -34,7 +34,7 @@
         /// </summary>
         public String Family
         {
-            get { return _style.GetPropertyText(PropertyNames.FontFamily); }
+            get { return _style.GetPropertyValue(PropertyNames.FontFamily); }
             set { _style.SetProperty(PropertyNames.FontFamily, value); }
         }
 
@@ -43,7 +43,7 @@
         /// </summary>
         public String Source
         {
-            get { return _style.GetPropertyText(AttributeNames.Src); }
+            get { return _style.GetPropertyValue(AttributeNames.Src); }
             set { _style.SetProperty(AttributeNames.Src, value); }
         }
 
@@ -52,7 +52,7 @@
         /// </summary>
         public String Style
         {
-            get { return _style.GetPropertyText(PropertyNames.FontStyle); }
+            get { return _style.GetPropertyValue(PropertyNames.FontStyle); }
             set { _style.SetProperty(PropertyNames.FontStyle, value); }
         }
 
@@ -61,7 +61,7 @@
         /// </summary>
         public String Weight
         {
-            get { return _style.GetPropertyText(PropertyNames.FontWeight); }
+            get { return _style.GetPropertyValue(PropertyNames.FontWeight); }
             set { _style.SetProperty(PropertyNames.FontWeight, value); }
         }
 
@@ -70,7 +70,7 @@
         /// </summary>
         public String Stretch
         {
-            get { return _style.GetPropertyText(PropertyNames.FontStretch); }
+            get { return _style.GetPropertyValue(PropertyNames.FontStretch); }
             set { _style.SetProperty(PropertyNames.FontStretch, value); }
         }
 
@@ -79,7 +79,7 @@
         /// </summary>
         public String Range
         {
-            get { return _style.GetPropertyText(PropertyNames.UnicodeRange); }
+            get { return _style.GetPropertyValue(PropertyNames.UnicodeRange); }
             set { _style.SetProperty(PropertyNames.UnicodeRange, value); }
         }
 
@@ -88,7 +88,7 @@
         /// </summary>
         public String Variant
         {
-            get { return _style.GetPropertyText(PropertyNames.FontVariant); }
+            get { return _style.GetPropertyValue(PropertyNames.FontVariant); }
             set { _style.SetProperty(PropertyNames.FontVariant, value); }
         }
 
@@ -97,7 +97,7 @@
         /// </summary>
         public String Features
         {
-            get { return _style.GetPropertyText(PropertyNames.FontFeatureSettings); }
+            get { return _style.GetPropertyValue(PropertyNames.FontFeatureSettings); }
             set { _style.SetProperty(PropertyNames.FontFeatureSettings, value); }
         }
 
