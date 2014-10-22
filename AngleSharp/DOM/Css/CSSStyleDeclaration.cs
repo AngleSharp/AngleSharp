@@ -4,6 +4,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a single CSS declaration block.
@@ -2289,7 +2290,7 @@
 
             if (CssPropertyFactory.IsShorthand(propertyName))
             {
-                var longhands = CssPropertyFactory.GetMapping(propertyName);
+                var longhands = CssPropertyFactory.GetLonghands(propertyName);
 
                 foreach (var longhand in longhands)
                     RemoveProperty(longhand);
@@ -2314,7 +2315,7 @@
 
             if (CssPropertyFactory.IsShorthand(propertyName))
             {
-                var longhands = CssPropertyFactory.GetMapping(propertyName);
+                var longhands = CssPropertyFactory.GetLonghands(propertyName);
 
                 foreach (var longhand in longhands)
                 {
@@ -2339,7 +2340,7 @@
         {
             if (CssPropertyFactory.IsShorthand(propertyName))
             {
-                var declarations = CssPropertyFactory.GetMapping(propertyName);
+                var declarations = CssPropertyFactory.GetLonghands(propertyName);
 
                 foreach (var declaration in declarations)
                     if (this[declaration] == null)
@@ -2373,8 +2374,8 @@
                 return;
 
             var important = !String.IsNullOrEmpty(priority);
-            var mappings = CssPropertyFactory.GetMapping(propertyName);
-
+            var mappings = CssPropertyFactory.IsShorthand(propertyName) ? CssPropertyFactory.GetLonghands(propertyName) : Enumerable.Repeat(propertyName, 1);
+            
             foreach (var mapping in mappings)
             {
                 var property = GetProperty(mapping);
@@ -2502,26 +2503,41 @@
                 if (serialized.Contains(property))
                     continue;
 
-                //3. If property maps to one or more shorthand properties, let shorthands be an array of those shorthand properties, in preferred order, and follow these substeps: 
-                /*
-                    if (rule is CSSShorthandProperty)
+                var shorthands = CssPropertyFactory.GetShorthands(property);
+
+                if (shorthands.Any())
+                {
+                    var longhands = _rules.Where(m => !serialized.Contains(m.Name)).ToList();
+
+                    foreach (var shorthand in shorthands.OrderByDescending(m => CssPropertyFactory.GetLonghands(m).Count()))
                     {
-                        var longhands = ((CSSShorthandProperty)rule).Properties;
-                        var currentLonghands = new List<String>();
+                        var properties = CssPropertyFactory.GetLonghands(shorthand);
+                        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToList();
+
+                        if (currentLonghands.Count == 0)
+                            continue;
+
+                        var important = currentLonghands.Count(m => m.IsImportant);
+
+                        if (important > 0 && important != currentLonghands.Count)
+                            continue;
+
+                        continue;
+
+                        //    5. Let value be the result of invoking serialize a CSS value of current longhands. 
+                        //    6. If value is the empty string, continue with the steps labeled shorthand loop. 
+                        //    7. Let serialized declaration be the result of invoking serialize a CSS declaration with
+                        //       property name shorthand, value value, and the important flag set if the CSS declarations
+                        //       in current longhands have their important flag set. 
+                        //    8. Append serialized declaration to list. 
+
+                        foreach (var longhand in currentLonghands)
+                        {
+                            serialized.Add(longhand.Name);
+                            longhands.Remove(longhand);
+                        }
                     }
-                 */
-                //  1. Let longhands be an array consisting of all CSS declarations in declaration block's declarations that that are not in already serialized and have a property name that maps to one of the shorthand properties in shorthands. 
-                //  2. Shorthand loop: For each shorthand in shorthands, follow these substeps: 
-                //    1. If all properties that map to shorthand are not present in longhands, continue with the steps labeled shorthand loop. 
-                //    2. Let current longhands be an empty array. 
-                //    3. Append all CSS declarations in longhands have a property name that maps to shorthand to current longhands. 
-                //    4. If there is one or more CSS declarations in current longhands have their important flag set and one or more with it unset, continue with the steps labeled shorthand loop. 
-                //    5. Let value be the result of invoking serialize a CSS value of current longhands. 
-                //    6. If value is the empty string, continue with the steps labeled shorthand loop. 
-                //    7. Let serialized declaration be the result of invoking serialize a CSS declaration with property name shorthand, value value, and the important flag set if the CSS declarations in current longhands have their important flag set. 
-                //    8. Append serialized declaration to list. 
-                //    9. Append the property names of all items of current longhands to already serialized. 
-                //    10. Remove the items present in current longhands from longhands. 
+                }
 
                 if (serialized.Contains(property))
                     continue;
