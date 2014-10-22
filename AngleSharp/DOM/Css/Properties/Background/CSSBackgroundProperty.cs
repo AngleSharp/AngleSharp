@@ -245,28 +245,28 @@
             return true;
         }
 
-        internal static String Stringify(CSSStyleDeclaration style)
-        {
-            var size = style.GetPropertyCustomText(PropertyNames.BackgroundSize);
-            var parts = new List<String>();
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundImage));
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundPosition));
+        //internal static String Stringify(CSSStyleDeclaration style)
+        //{
+        //    var size = style.GetPropertyCustomText(PropertyNames.BackgroundSize);
+        //    var parts = new List<String>();
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundImage));
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundPosition));
 
-            if (!String.IsNullOrEmpty(size))
-            {
-                parts.Add("/");
-                parts.Add(size);
-            }
+        //    if (!String.IsNullOrEmpty(size))
+        //    {
+        //        parts.Add("/");
+        //        parts.Add(size);
+        //    }
 
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundRepeat));
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundAttachment));
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundClip));
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundOrigin));
-            parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundColor));
-            parts.RemoveAll(m => String.IsNullOrEmpty(m));
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundRepeat));
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundAttachment));
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundClip));
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundOrigin));
+        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundColor));
+        //    parts.RemoveAll(m => String.IsNullOrEmpty(m));
 
-            return String.Join(" ", parts);
-        }
+        //    return String.Join(" ", parts);
+        //}
 
         #endregion
     }
