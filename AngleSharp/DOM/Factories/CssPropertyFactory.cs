@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using PropertyCreator = System.Func<CSSStyleDeclaration, CSSProperty>;
 
     /// <summary>
@@ -337,8 +338,7 @@
         /// <returns>The created longhand properties.</returns>
         public static IEnumerable<CSSProperty> CreateLonghandsFor(String name, CSSStyleDeclaration style)
         {
-            foreach (var longhand in GetMapping(name))
-                yield return CreateLonghand(longhand, style);
+            return GetLonghands(name).Select(m => CreateLonghand(m, style));
         }
 
         #endregion
@@ -376,16 +376,30 @@
         }
 
         /// <summary>
-        /// Gets the longhand mapping of the shorthand property or the mapping to itself.
+        /// Gets the longhands that map to the specified shorthand property.
         /// </summary>
-        /// <param name="name">The name of the property.</param>
+        /// <param name="name">The name of the shorthand property.</param>
         /// <returns>An enumeration over all longhand properties.</returns>
-        public static IEnumerable<String> GetMapping(String name)
+        public static IEnumerable<String> GetLonghands(String name)
         {
             if (mappings.ContainsKey(name))
                 return mappings[name];
             
-            return new [] { name };
+            return Enumerable.Empty<String>();
+        }
+
+        /// <summary>
+        /// Gets the shorthands that map to the specified longhand property.
+        /// </summary>
+        /// <param name="name">The name of the longhand property.</param>
+        /// <returns>An enumeration over all shorthand properties.</returns>
+        public static IEnumerable<String> GetShorthands(String name)
+        {
+            foreach (var mapping in mappings)
+            {
+                if (mapping.Value.Contains(name, StringComparison.OrdinalIgnoreCase))
+                    yield return mapping.Key;
+            }
         }
 
         #endregion
