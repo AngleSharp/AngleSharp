@@ -35,15 +35,7 @@
         }
 
         internal CSSFontProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Font, rule, new CSSProperty[]{
-                new CSSFontStyleProperty(rule),
-                new CSSFontWeightProperty(rule),
-                new CSSFontVariantProperty(rule),
-                new CSSFontStretchProperty(rule),
-                new CSSFontSizeProperty(rule),
-                new CSSLineHeightProperty(rule),
-                new CSSFontFamilyProperty(rule)
-            }, PropertyFlags.Inherited | PropertyFlags.Animatable)
+            : base(PropertyNames.Font, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _style = Get<CSSFontStyleProperty>();
             _variant = Get<CSSFontVariantProperty>();

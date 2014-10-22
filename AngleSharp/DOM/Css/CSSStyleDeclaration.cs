@@ -2272,7 +2272,7 @@
         #region Methods
 
         /// <summary>
-        /// Returns a property name.
+        /// Returns the name of the property at the given index.
         /// </summary>
         /// <param name="index">The index of the property to retrieve.</param>
         /// <returns>The name of the property at the given index.</returns>
@@ -2285,10 +2285,10 @@
         }
 
         /// <summary>
-        /// Returns the value deleted.
+        /// Removes the given property and returns its value.
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
-        /// <returns>The value of the deleted property.</returns>
+        /// <returns>The value of the deleted property, if any.</returns>
         public String RemoveProperty(String propertyName)
         {
             if (_readOnly)

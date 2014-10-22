@@ -278,7 +278,7 @@
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
-        /// <returns>The created property</returns>
+        /// <returns>The created property.</returns>
         public static CSSProperty Create(String name, CSSStyleDeclaration style)
         {
             PropertyCreator propertyCreator;
@@ -294,11 +294,31 @@
         }
 
         /// <summary>
+        /// Creates a new longhand property.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="style">The given style set.</param>
+        /// <returns>The created longhand property.</returns>
+        public static CSSProperty CreateLonghand(String name, CSSStyleDeclaration style)
+        {
+            PropertyCreator propertyCreator;
+            var property = style.GetProperty(name);
+
+            if (property != null)
+                return property;
+
+            if (longhands.TryGetValue(name, out propertyCreator))
+                return propertyCreator(style);
+
+            return null;
+        }
+
+        /// <summary>
         /// Creates a new shorthand property.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
-        /// <returns>The created shorthand property</returns>
+        /// <returns>The created shorthand property.</returns>
         public static CSSProperty CreateShorthand(String name, CSSStyleDeclaration style)
         {
             PropertyCreator propertyCreator;
@@ -307,6 +327,18 @@
                 return propertyCreator(style);
 
             return null;
+        }
+
+        /// <summary>
+        /// Creates a series of longhand properties for the provided shorthand.
+        /// </summary>
+        /// <param name="name">The name of the corresponding shorthand property.</param>
+        /// <param name="style">The given style set.</param>
+        /// <returns>The created longhand properties.</returns>
+        public static IEnumerable<CSSProperty> CreateLonghandsFor(String name, CSSStyleDeclaration style)
+        {
+            foreach (var longhand in GetMapping(name))
+                yield return CreateLonghand(longhand, style);
         }
 
         #endregion

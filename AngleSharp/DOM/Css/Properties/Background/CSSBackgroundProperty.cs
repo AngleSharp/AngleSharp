@@ -25,16 +25,7 @@
         #region ctor
 
         internal CSSBackgroundProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Background, rule, new CSSProperty[] {
-                new CSSBackgroundImageProperty(rule),
-                new CSSBackgroundPositionProperty(rule),
-                new CSSBackgroundSizeProperty(rule),
-                new CSSBackgroundRepeatProperty(rule),
-                new CSSBackgroundAttachmentProperty(rule),
-                new CSSBackgroundOriginProperty(rule),
-                new CSSBackgroundClipProperty(rule),
-                new CSSBackgroundColorProperty(rule)
-            }, PropertyFlags.Animatable)
+            : base(PropertyNames.Background, rule, PropertyFlags.Animatable)
         {
             _image = Get<CSSBackgroundImageProperty>();
             _position = Get<CSSBackgroundPositionProperty>();

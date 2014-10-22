@@ -17,10 +17,10 @@
 
         #region ctor
 
-        public CSSShorthandProperty(String name, CSSStyleDeclaration rule, IEnumerable<CSSProperty> properties, PropertyFlags flags)
+        public CSSShorthandProperty(String name, CSSStyleDeclaration rule, PropertyFlags flags)
             : base(name, rule, flags | PropertyFlags.Shorthand)
         {
-            _properties = properties;
+            _properties = CssPropertyFactory.CreateLonghandsFor(name, rule);
         }
 
         #endregion
