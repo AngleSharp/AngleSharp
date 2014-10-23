@@ -219,14 +219,13 @@
         /// <returns>The created page rule.</returns>
         static CSSPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var style = new CSSStyleDeclaration();
-            var rule = new CSSPageRule(style);
+            var rule = new CSSPageRule();
 
             if (tokens.MoveNext())
                 rule.Selector = parser.InSelector(tokens);
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(style, tokens);
+                parser.FillDeclarations(rule.Style, tokens);
 
             return rule;
         }
@@ -239,12 +238,12 @@
         /// <returns>The created font-face rule.</returns>
         static CSSFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var style = new CSSStyleDeclaration();
+            var rule = new CSSFontFaceRule();
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(style, tokens);
+                parser.FillDeclarations(rule.Style, tokens);
 
-            return new CSSFontFaceRule(style);
+            return rule;
         }
 
         /// <summary>
@@ -431,9 +430,10 @@
                         return null;
                     }
 
-                    var style = new CSSStyleDeclaration();
-                    FillDeclarations(style, tokens);
-                    return new CSSStyleRule(style) { Selector = selector };
+                    var rule = new CSSStyleRule();
+                    FillDeclarations(rule.Style, tokens);
+                    rule.Selector = selector;
+                    return rule;
                 }
             }
         }
@@ -649,13 +649,10 @@
         /// <returns>The generated keyframe data.</returns>
         CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
-            var style = new CSSStyleDeclaration();
-            var keyText = InKeyframeText(tokens);
-            FillDeclarations(style, tokens);
-            return new CSSKeyframeRule(style)
-            {
-                KeyText = keyText
-            };
+            var rule = new CSSKeyframeRule();
+            rule.KeyText = InKeyframeText(tokens);
+            FillDeclarations(rule.Style, tokens);
+            return rule;
         }
 
         /// <summary>

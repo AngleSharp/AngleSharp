@@ -18,10 +18,9 @@
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
-        internal CSSFontFaceRule(CSSStyleDeclaration style)
+        internal CSSFontFaceRule()
         {
-            _style = style;
-            _style.Parent = this;
+            _style = new CSSStyleDeclaration(this);
             _type = CssRuleType.FontFace;
         }
 
@@ -29,10 +28,15 @@
 
         #region Properties
 
+        public CSSStyleDeclaration Style
+        {
+            get { return _style; }
+        }
+
         /// <summary>
         /// Gets or sets the font-family.
         /// </summary>
-        public String Family
+        String ICssFontFaceRule.Family
         {
             get { return _style.GetPropertyValue(PropertyNames.FontFamily); }
             set { _style.SetProperty(PropertyNames.FontFamily, value); }
@@ -41,7 +45,7 @@
         /// <summary>
         /// Gets or sets the source of the font.
         /// </summary>
-        public String Source
+        String ICssFontFaceRule.Source
         {
             get { return _style.GetPropertyValue(AttributeNames.Src); }
             set { _style.SetProperty(AttributeNames.Src, value); }
@@ -50,7 +54,7 @@
         /// <summary>
         /// Gets or sets the style of the font.
         /// </summary>
-        public String Style
+        String ICssFontFaceRule.Style
         {
             get { return _style.GetPropertyValue(PropertyNames.FontStyle); }
             set { _style.SetProperty(PropertyNames.FontStyle, value); }
@@ -59,7 +63,7 @@
         /// <summary>
         /// Gets or sets the weight of the font.
         /// </summary>
-        public String Weight
+        String ICssFontFaceRule.Weight
         {
             get { return _style.GetPropertyValue(PropertyNames.FontWeight); }
             set { _style.SetProperty(PropertyNames.FontWeight, value); }
@@ -68,7 +72,7 @@
         /// <summary>
         /// Gets or sets the stretch value of the font.
         /// </summary>
-        public String Stretch
+        String ICssFontFaceRule.Stretch
         {
             get { return _style.GetPropertyValue(PropertyNames.FontStretch); }
             set { _style.SetProperty(PropertyNames.FontStretch, value); }
@@ -77,7 +81,7 @@
         /// <summary>
         /// Gets or sets the unicode range of the font.
         /// </summary>
-        public String Range
+        String ICssFontFaceRule.Range
         {
             get { return _style.GetPropertyValue(PropertyNames.UnicodeRange); }
             set { _style.SetProperty(PropertyNames.UnicodeRange, value); }
@@ -86,7 +90,7 @@
         /// <summary>
         /// Gets or sets the variant of the font.
         /// </summary>
-        public String Variant
+        String ICssFontFaceRule.Variant
         {
             get { return _style.GetPropertyValue(PropertyNames.FontVariant); }
             set { _style.SetProperty(PropertyNames.FontVariant, value); }
@@ -95,7 +99,7 @@
         /// <summary>
         /// Gets or sets the feature settings of the font.
         /// </summary>
-        public String Features
+        String ICssFontFaceRule.Features
         {
             get { return _style.GetPropertyValue(PropertyNames.FontFeatureSettings); }
             set { _style.SetProperty(PropertyNames.FontFeatureSettings, value); }

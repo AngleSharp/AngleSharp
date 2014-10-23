@@ -21,21 +21,11 @@
         /// Creates a new CSS style rule.
         /// </summary>
         internal CSSStyleRule()
-            : this(new CSSStyleDeclaration())
         {
-        }
-
-		/// <summary>
-		/// Creates a new CSS style rule with the given declaration.
-		/// </summary>
-		/// <param name="style">The declaration to use.</param>
-		internal CSSStyleRule(CSSStyleDeclaration style)
-		{
-            _style = style;
-            _style.Parent = this;
+            _style = new CSSStyleDeclaration(this);
             _type = CssRuleType.Style;
             _selector = SimpleSelector.All;
-		}
+        }
 
         #endregion
 
@@ -68,7 +58,12 @@
         /// <summary>
         /// Gets the CSSStyleDeclaration object for the rule.
         /// </summary>
-        public ICssStyleDeclaration Style
+        ICssStyleDeclaration ICssStyleRule.Style
+        {
+            get { return _style; }
+        }
+
+        public CSSStyleDeclaration Style
         {
             get { return _style; }
         }

@@ -20,11 +20,9 @@
         /// <summary>
         /// Creates a new @page rule.
         /// </summary>
-        /// <param name="style">The style declaration to use.</param>
-        internal CSSPageRule(CSSStyleDeclaration style)
+        internal CSSPageRule()
         {
-            _style = style;
-            _style.Parent = this;
+            _style = new CSSStyleDeclaration(this);
             _type = CssRuleType.Page;
             _selector = SimpleSelector.All;
         }
@@ -72,7 +70,15 @@
         /// <summary>
         /// Gets the  declaration-block of this rule.
         /// </summary>
-        public ICssStyleDeclaration Style
+        ICssStyleDeclaration ICssPageRule.Style
+        {
+            get { return _style; }
+        }
+
+        /// <summary>
+        /// Gets the  declaration-block of this rule.
+        /// </summary>
+        public CSSStyleDeclaration Style
         {
             get { return _style; }
         }

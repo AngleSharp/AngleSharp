@@ -13,9 +13,9 @@
     {
         #region Fields
 
-        readonly List<CSSProperty> _rules;
+        readonly List<CSSProperty> _declarations;
         readonly Boolean _readOnly;
-        ICssRule _parent;
+        readonly ICssRule _parent;
 
         #endregion
 
@@ -27,17 +27,27 @@
 
         #region ctor
 
-        CSSStyleDeclaration(Boolean readOnly)
+        CSSStyleDeclaration(Boolean readOnly, ICssRule parent)
         {
             _readOnly = readOnly;
-            _rules = new List<CSSProperty>();
+            _parent = parent;
+            _declarations = new List<CSSProperty>();
+        }
+
+        /// <summary>
+        /// Creates a new CSS style declaration with no parent.
+        /// </summary>
+        internal CSSStyleDeclaration()
+            : this(false, null)
+        {
         }
 
         /// <summary>
         /// Creates a new CSS style declaration.
         /// </summary>
-        internal CSSStyleDeclaration()
-            : this(false)
+        /// <param name="parent">The parent of the style declaration.</param>
+        internal CSSStyleDeclaration(ICssRule parent)
+            : this(false, parent)
         {
         }
 
@@ -46,10 +56,10 @@
         /// </summary>
         /// <param name="bag">The bag that indicates the properties to show.</param>
         internal CSSStyleDeclaration(CssPropertyBag bag)
-            : this(true)
+            : this(true, null)
         {
             foreach (CSSProperty property in bag)
-                _rules.Add(property);
+                _declarations.Add(property);
         }
 
         #endregion
@@ -85,7 +95,7 @@
         /// </summary>
         public Int32 Length
         {
-            get { return _rules.Count; }
+            get { return _declarations.Count; }
         }
 
         /// <summary>
@@ -94,7 +104,6 @@
         public ICssRule Parent
         {
             get { return _parent; }
-            set { _parent = value; }
         }
 
         /// <summary>
@@ -114,7 +123,7 @@
         /// <returns>The property at the specified position or null.</returns>
         public ICssProperty this[Int32 index]
         {
-            get { return _rules[index]; }
+            get { return _declarations[index]; }
         }
 
         #endregion
@@ -2270,7 +2279,7 @@
         /// <returns>The name of the property at the given index.</returns>
         public String GetPropertyName(Int32 index)
         {
-            if (index >= 0 && index < _rules.Count)
+            if (index >= 0 && index < _declarations.Count)
                 return this[index].Name;
 
             return null;
@@ -2297,7 +2306,7 @@
             }
             else
             {
-                _rules.RemoveAll(rule => rule.Name == propertyName);
+                _declarations.RemoveAll(rule => rule.Name == propertyName);
                 RaiseChanged();
             }
 
@@ -2434,10 +2443,10 @@
         /// <returns>The property with the specified name or null.</returns>
         internal CSSProperty GetProperty(String name)
         {
-            foreach (var rule in _rules)
+            foreach (var declaration in _declarations)
             {
-                if (rule.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    return rule;
+                if (declaration.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    return declaration;
             }
 
             return null;
@@ -2457,8 +2466,8 @@
 
         void SetLonghand(CSSProperty property)
         {
-            if (!_rules.Contains(property))
-                _rules.Add(property);
+            if (!_declarations.Contains(property))
+                _declarations.Add(property);
         }
 
         void SetShorthand(CSSShorthandProperty shorthand)
@@ -2479,8 +2488,10 @@
         /// <param name="value">The new value.</param>
         internal void Update(String value)
         {
-            _rules.Clear();
-            CssParser.AppendDeclarations(this, value ?? String.Empty);
+            _declarations.Clear();
+
+            if (!String.IsNullOrEmpty(value))
+                CssParser.AppendDeclarations(this, value);
         }
 
         #endregion
@@ -2496,9 +2507,9 @@
             var list = new List<String>();
             var serialized = new List<String>();
 
-            foreach (var rule in _rules)
+            foreach (var declaration in _declarations)
             {
-                var property = rule.Name;
+                var property = declaration.Name;
 
                 if (serialized.Contains(property))
                     continue;
@@ -2507,7 +2518,7 @@
 
                 if (shorthands.Any())
                 {
-                    var longhands = _rules.Where(m => !serialized.Contains(m.Name)).ToList();
+                    var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
                     foreach (var shorthand in shorthands.OrderByDescending(m => CssPropertyFactory.GetLonghands(m).Count()))
                     {
@@ -2523,13 +2534,12 @@
                             continue;
 
                         continue;
+                        var rule = CssPropertyFactory.CreateShorthand(shorthand, this);
 
-                        //    5. Let value be the result of invoking serialize a CSS value of current longhands. 
-                        //    6. If value is the empty string, continue with the steps labeled shorthand loop. 
-                        //    7. Let serialized declaration be the result of invoking serialize a CSS declaration with
-                        //       property name shorthand, value value, and the important flag set if the CSS declarations
-                        //       in current longhands have their important flag set. 
-                        //    8. Append serialized declaration to list. 
+                        // Let value be the result of invoking serialize a CSS value of current longhands. 
+                        // If value is the empty string, continue with the steps labeled shorthand loop. 
+
+                        list.Add(rule.ToCss());
 
                         foreach (var longhand in currentLonghands)
                         {
@@ -2542,7 +2552,7 @@
                 if (serialized.Contains(property))
                     continue;
 
-                list.Add(rule.ToCss());
+                list.Add(declaration.ToCss());
                 serialized.Add(property);
             }
 
@@ -2559,7 +2569,7 @@
         /// <returns>The iterator.</returns>
         public IEnumerator<ICssProperty> GetEnumerator()
         {
-            return _rules.GetEnumerator();
+            return _declarations.GetEnumerator();
         }
 
         /// <summary>
