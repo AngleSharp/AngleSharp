@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        CSSStyleDeclaration _style;
+        readonly CSSStyleDeclaration _style;
 
         #endregion
 
@@ -112,7 +112,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CSSFontFaceRule;
-            _style = newRule._style;
+            _style.TakeFrom(newRule._style);
         }
 
         #endregion

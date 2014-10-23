@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSStyleDeclaration _style;
+        readonly CSSStyleDeclaration _style;
         ISelector _selector;
 
         #endregion
@@ -35,7 +35,7 @@
         {
             base.ReplaceWith(rule);
             var newRule = rule as CSSPageRule;
-            _style = newRule._style;
+            _style.TakeFrom(newRule._style);
             _selector = newRule._selector;
         }
 

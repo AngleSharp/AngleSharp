@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        CSSStyleDeclaration _style;
+        readonly CSSStyleDeclaration _style;
         ISelector _selector;
 
         #endregion
@@ -75,7 +75,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CSSStyleRule;
-            _style = newRule._style;
+            _style.TakeFrom(newRule._style);
             _selector = newRule._selector;
         }
 

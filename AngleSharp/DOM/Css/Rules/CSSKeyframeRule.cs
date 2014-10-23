@@ -9,8 +9,8 @@
     {
         #region Fields
 
+        readonly CSSStyleDeclaration _style;
         String _keyText;
-        CSSStyleDeclaration _style;
 
         #endregion
 
@@ -64,7 +64,7 @@
         {
             var newRule = rule as CSSKeyframeRule;
             _keyText = newRule._keyText;
-            _style = newRule._style;
+            _style.TakeFrom(newRule._style);
         }
 
         #endregion
