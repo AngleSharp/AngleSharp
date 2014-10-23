@@ -135,7 +135,7 @@
         /// is extra space along the axis that is perpendicular to the axis defined by the
         /// flex-direction property.
         /// </summary>
-        public String AlignContent
+        String ICssStyleDeclaration.AlignContent
         {
             get { return GetPropertyValue(PropertyNames.AlignContent); }
             set { SetProperty(PropertyNames.AlignContent, value); }
@@ -145,7 +145,7 @@
         /// Gets or sets the alignment value (perpendicular to the layout axis
         /// defined by the flex-direction property) of flex items of the flex container.
         /// </summary>
-        public String AlignItems
+        String ICssStyleDeclaration.AlignItems
         {
             get { return GetPropertyValue(PropertyNames.AlignItems); }
             set { SetProperty(PropertyNames.AlignItems, value); }
@@ -156,7 +156,7 @@
         /// axis defined by the flex-direction property) of flex items of
         /// the flex container.
         /// </summary>
-        public String AlignSelf
+        String ICssStyleDeclaration.AlignSelf
         {
             get { return GetPropertyValue(PropertyNames.AlignSelf); }
             set { SetProperty(PropertyNames.AlignSelf, value); }
@@ -166,7 +166,7 @@
         /// Gets or sets a string that indicates whether the object represents a
         /// keyboard shortcut.
         /// </summary>
-        public String Accelerator
+        String ICssStyleDeclaration.Accelerator
         {
             get { return GetPropertyValue(PropertyNames.Accelerator); }
             set { SetProperty(PropertyNames.Accelerator, value); }
@@ -176,7 +176,7 @@
         /// Gets or sets which baseline of this element is to be aligned
         /// with the corresponding baseline of the parent.
         /// </summary>
-        public String AlignmentBaseline
+        String ICssStyleDeclaration.AlignmentBaseline
         {
             get { return GetPropertyValue(PropertyNames.AlignBaseline); }
             set { SetProperty(PropertyNames.AlignBaseline, value); }
@@ -188,7 +188,7 @@
         /// properties identified in the CSS @keyframes at-rule specified by the
         /// animations-name property.
         /// </summary>
-        public String Animation
+        String ICssStyleDeclaration.Animation
         {
             get { return GetPropertyValue(PropertyNames.Animation); }
             set { SetProperty(PropertyNames.Animation, value); }
@@ -201,7 +201,7 @@
         /// object properties identified in the CSS @keyframes at-rule
         /// specified by the animation-name property.
         /// </summary>
-        public String AnimationDelay
+        String ICssStyleDeclaration.AnimationDelay
         {
             get { return GetPropertyValue(PropertyNames.AnimationDelay); }
             set { SetProperty(PropertyNames.AnimationDelay, value); }
@@ -210,7 +210,7 @@
         /// <summary>
         /// Gets or sets the direction of play for an animation cycle.
         /// </summary>
-        public String AnimationDirection
+        String ICssStyleDeclaration.AnimationDirection
         {
             get { return GetPropertyValue(PropertyNames.AnimationDirection); }
             set { SetProperty(PropertyNames.AnimationDirection, value); }
@@ -219,7 +219,7 @@
         /// <summary>
         /// Gets or sets the length of time to complete one cycle of the animation.
         /// </summary>
-        public String AnimationDuration
+        String ICssStyleDeclaration.AnimationDuration
         {
             get { return GetPropertyValue(PropertyNames.AnimationDuration); }
             set { SetProperty(PropertyNames.AnimationDuration, value); }
@@ -228,7 +228,7 @@
         /// <summary>
         /// Gets or sets whether the effects of an animation are visible before or after it plays.
         /// </summary>
-        public String AnimationFillMode
+        String ICssStyleDeclaration.AnimationFillMode
         {
             get { return GetPropertyValue(PropertyNames.AnimationFillMode); }
             set { SetProperty(PropertyNames.AnimationFillMode, value); }
@@ -237,7 +237,7 @@
         /// <summary>
         /// Gets or sets the number of times an animation cycle is played.
         /// </summary>
-        public String AnimationIterationCount
+        String ICssStyleDeclaration.AnimationIterationCount
         {
             get { return GetPropertyValue(PropertyNames.AnimationIterationCount); }
             set { SetProperty(PropertyNames.AnimationIterationCount, value); }
@@ -247,7 +247,7 @@
         /// Gets or sets one or more animation names. An animation name
         /// selects a CSS @keyframes at-rule.
         /// </summary>
-        public String AnimationName
+        String ICssStyleDeclaration.AnimationName
         {
             get { return GetPropertyValue(PropertyNames.AnimationName); }
             set { SetProperty(PropertyNames.AnimationName, value); }
@@ -256,7 +256,7 @@
         /// <summary>
         /// Gets or sets whether an animation is playing or paused.
         /// </summary>
-        public String AnimationPlayState
+        String ICssStyleDeclaration.AnimationPlayState
         {
             get { return GetPropertyValue(PropertyNames.AnimationPlayState); }
             set { SetProperty(PropertyNames.AnimationPlayState, value); }
@@ -268,7 +268,7 @@
         /// properties identified in the CSS @keyframes at-rule specified by
         /// the animation-name property.
         /// </summary>
-        public String AnimationTimingFunction
+        String ICssStyleDeclaration.AnimationTimingFunction
         {
             get { return GetPropertyValue(PropertyNames.AnimationTimingFunction); }
             set { SetProperty(PropertyNames.AnimationTimingFunction, value); }
@@ -278,7 +278,7 @@
         /// Gets or sets a value that specifies whether the back face
         /// (reverse side) of an object is visible.
         /// </summary>
-        public String BackfaceVisibility
+        String ICssStyleDeclaration.BackfaceVisibility
         {
             get { return GetPropertyValue(PropertyNames.BackfaceVisibility); }
             set { SetProperty(PropertyNames.BackfaceVisibility, value); }
@@ -287,7 +287,7 @@
         /// <summary>
         /// Gets or sets up to five separate background properties of an object.
         /// </summary>
-        public String Background
+        String ICssStyleDeclaration.Background
         {
             get { return GetPropertyValue(PropertyNames.Background); }
             set { SetProperty(PropertyNames.Background, value); }
@@ -297,7 +297,7 @@
         /// Gets or sets how the background image (or images) is attached
         /// to the object within the document.
         /// </summary>
-        public String BackgroundAttachment
+        String ICssStyleDeclaration.BackgroundAttachment
         {
             get { return GetPropertyValue(PropertyNames.BackgroundAttachment); }
             set { SetProperty(PropertyNames.BackgroundAttachment, value); }
@@ -307,7 +307,7 @@
         /// Gets or sets the background painting area or areas relative to the
         /// element's bounding boxes.
         /// </summary>
-        public String BackgroundClip
+        String ICssStyleDeclaration.BackgroundClip
         {
             get { return GetPropertyValue(PropertyNames.BackgroundClip); }
             set { SetProperty(PropertyNames.BackgroundClip, value); }
@@ -316,7 +316,7 @@
         /// <summary>
         /// Gets or sets the color behind the content of the object.
         /// </summary>
-        public String BackgroundColor
+        String ICssStyleDeclaration.BackgroundColor
         {
             get { return GetPropertyValue(PropertyNames.BackgroundColor); }
             set { SetProperty(PropertyNames.BackgroundColor, value); }
@@ -325,7 +325,7 @@
         /// <summary>
         /// Gets or sets the background image or images of the object.
         /// </summary>
-        public String BackgroundImage
+        String ICssStyleDeclaration.BackgroundImage
         {
             get { return GetPropertyValue(PropertyNames.BackgroundImage); }
             set { SetProperty(PropertyNames.BackgroundImage, value); }
@@ -334,7 +334,7 @@
         /// <summary>
         /// Gets or sets the positioning area of an element or multiple elements.
         /// </summary>
-        public String BackgroundOrigin
+        String ICssStyleDeclaration.BackgroundOrigin
         {
             get { return GetPropertyValue(PropertyNames.BackgroundOrigin); }
             set { SetProperty(PropertyNames.BackgroundOrigin, value); }
@@ -343,7 +343,7 @@
         /// <summary>
         /// Gets or sets the position of the background of the object.
         /// </summary>
-        public String BackgroundPosition
+        String ICssStyleDeclaration.BackgroundPosition
         {
             get { return GetPropertyValue(PropertyNames.BackgroundPosition); }
             set { SetProperty(PropertyNames.BackgroundPosition, value); }
@@ -352,7 +352,7 @@
         /// <summary>
         /// Gets or sets the x-coordinate of the background-position property.
         /// </summary>
-        public String BackgroundPositionX
+        String ICssStyleDeclaration.BackgroundPositionX
         {
             get { return GetPropertyValue(PropertyNames.BackgroundPositionX); }
             set { SetProperty(PropertyNames.BackgroundPositionX, value); }
@@ -361,7 +361,7 @@
         /// <summary>
         /// Gets or sets the y-coordinate of the background-position property.
         /// </summary>
-        public String BackgroundPositionY
+        String ICssStyleDeclaration.BackgroundPositionY
         {
             get { return GetPropertyValue(PropertyNames.BackgroundPositionY); }
             set { SetProperty(PropertyNames.BackgroundPositionY, value); }
@@ -370,7 +370,7 @@
         /// <summary>
         /// Gets or sets whether and how the background image (or images) is tiled.
         /// </summary>
-        public String BackgroundRepeat
+        String ICssStyleDeclaration.BackgroundRepeat
         {
             get { return GetPropertyValue(PropertyNames.BackgroundRepeat); }
             set { SetProperty(PropertyNames.BackgroundRepeat, value); }
@@ -379,7 +379,7 @@
         /// <summary>
         /// Gets or sets the size of the background images.
         /// </summary>
-        public String BackgroundSize
+        String ICssStyleDeclaration.BackgroundSize
         {
             get { return GetPropertyValue(PropertyNames.BackgroundSize); }
             set { SetProperty(PropertyNames.BackgroundSize, value); }
@@ -390,7 +390,7 @@
         /// should be repositioned relative to the dominant baseline of the
         /// parent text content element.
         /// </summary>
-        public String BaselineShift
+        String ICssStyleDeclaration.BaselineShift
         {
             get { return GetPropertyValue(PropertyNames.BaselineShift); }
             set { SetProperty(PropertyNames.BaselineShift, value); }
@@ -399,7 +399,7 @@
         /// <summary>
         /// Gets or sets the location of the Dynamic HTML (DHTML) behaviorDHTML Behaviors.
         /// </summary>
-        public String Behavior
+        String ICssStyleDeclaration.Behavior
         {
             get { return GetPropertyValue(PropertyNames.Behavior); }
             set { SetProperty(PropertyNames.Behavior, value); }
@@ -408,7 +408,7 @@
         /// <summary>
         /// Gets or sets the properties of a border drawn around an object.
         /// </summary>
-        public String Border
+        String ICssStyleDeclaration.Border
         {
             get { return GetPropertyValue(PropertyNames.Border); }
             set { SetProperty(PropertyNames.Border, value); }
@@ -417,7 +417,7 @@
         /// <summary>
         /// Gets or sets the properties of the bottom border of the object.
         /// </summary>
-        public String BorderBottom
+        String ICssStyleDeclaration.BorderBottom
         {
             get { return GetPropertyValue(PropertyNames.BorderBottom); }
             set { SetProperty(PropertyNames.BorderBottom, value); }
@@ -426,7 +426,7 @@
         /// <summary>
         /// Gets or sets the foreground color of the bottom border of an object.
         /// </summary>
-        public String BorderBottomColor
+        String ICssStyleDeclaration.BorderBottomColor
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomColor); }
             set { SetProperty(PropertyNames.BorderBottomColor, value); }
@@ -436,7 +436,7 @@
         /// Gets or sets the radii of the quarter ellipse that defines
         /// the shape of the lower-left corner for the outer border edge of the current box.
         /// </summary>
-        public String BorderBottomLeftRadius
+        String ICssStyleDeclaration.BorderBottomLeftRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomLeftRadius); }
             set { SetProperty(PropertyNames.BorderBottomLeftRadius, value); }
@@ -447,7 +447,7 @@
         /// quarter ellipse that defines the shape of the lower-right corner
         /// for the outer border edge of the current box.
         /// </summary>
-        public String BorderBottomRightRadius
+        String ICssStyleDeclaration.BorderBottomRightRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomRightRadius); }
             set { SetProperty(PropertyNames.BorderBottomRightRadius, value); }
@@ -456,7 +456,7 @@
         /// <summary>
         /// Gets or sets the style of the bottom border of the object.
         /// </summary>
-        public String BorderBottomStyle
+        String ICssStyleDeclaration.BorderBottomStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomStyle); }
             set { SetProperty(PropertyNames.BorderBottomStyle, value); }
@@ -465,7 +465,7 @@
         /// <summary>
         /// Gets or sets the thickness of the bottom border of the object.
         /// </summary>
-        public String BorderBottomWidth
+        String ICssStyleDeclaration.BorderBottomWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderBottomWidth); }
             set { SetProperty(PropertyNames.BorderBottomWidth, value); }
@@ -475,7 +475,7 @@
         /// Gets or sets whether the row and cell borders of a table are joined in a
         /// single border or detached as in standard HTML.
         /// </summary>
-        public String BorderCollapse
+        String ICssStyleDeclaration.BorderCollapse
         {
             get { return GetPropertyValue(PropertyNames.BorderCollapse); }
             set { SetProperty(PropertyNames.BorderCollapse, value); }
@@ -484,7 +484,7 @@
         /// <summary>
         /// Gets or sets the border color of the object.
         /// </summary>
-        public String BorderColor
+        String ICssStyleDeclaration.BorderColor
         {
             get { return GetPropertyValue(PropertyNames.BorderColor); }
             set { SetProperty(PropertyNames.BorderColor, value); }
@@ -493,7 +493,7 @@
         /// <summary>
         /// Gets or sets an image to be used in place of the border styles.
         /// </summary>
-        public String BorderImage
+        String ICssStyleDeclaration.BorderImage
         {
             get { return GetPropertyValue(PropertyNames.BorderImage); }
             set { SetProperty(PropertyNames.BorderImage, value); }
@@ -502,7 +502,7 @@
         /// <summary>
         /// Gets or sets the amount by which the border image area extends beyond the border box.
         /// </summary>
-        public String BorderImageOutset
+        String ICssStyleDeclaration.BorderImageOutset
         {
             get { return GetPropertyValue(PropertyNames.BorderImageOutset); }
             set { SetProperty(PropertyNames.BorderImageOutset, value); }
@@ -511,7 +511,7 @@
         /// <summary>
         /// Gets or sets ow the image is scaled and tiled.
         /// </summary>
-        public String BorderImageRepeat
+        String ICssStyleDeclaration.BorderImageRepeat
         {
             get { return GetPropertyValue(PropertyNames.BorderImageRepeat); }
             set { SetProperty(PropertyNames.BorderImageRepeat, value); }
@@ -521,7 +521,7 @@
         /// Gets or sets four inward offsets, this property slices the specified
         /// border image into a three by three grid: four corners, four edges, and a central region.
         /// </summary>
-        public String BorderImageSlice
+        String ICssStyleDeclaration.BorderImageSlice
         {
             get { return GetPropertyValue(PropertyNames.BorderImageSlice); }
             set { SetProperty(PropertyNames.BorderImageSlice, value); }
@@ -530,7 +530,7 @@
         /// <summary>
         /// Gets or sets the path of the image to be used for the border.
         /// </summary>
-        public String BorderImageSource
+        String ICssStyleDeclaration.BorderImageSource
         {
             get { return GetPropertyValue(PropertyNames.BorderImageSource); }
             set { SetProperty(PropertyNames.BorderImageSource, value); }
@@ -539,7 +539,7 @@
         /// <summary>
         /// Gets or sets the inward offsets from the outer border edge.
         /// </summary>
-        public String BorderImageWidth
+        String ICssStyleDeclaration.BorderImageWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderImageWidth); }
             set { SetProperty(PropertyNames.BorderImageWidth, value); }
@@ -548,7 +548,7 @@
         /// <summary>
         /// Gets or sets the properties of the left border of the object.
         /// </summary>
-        public String BorderLeft
+        String ICssStyleDeclaration.BorderLeft
         {
             get { return GetPropertyValue(PropertyNames.BorderLeft); }
             set { SetProperty(PropertyNames.BorderLeft, value); }
@@ -557,7 +557,7 @@
         /// <summary>
         /// Gets or sets the foreground color of the left border of an object.
         /// </summary>
-        public String BorderLeftColor
+        String ICssStyleDeclaration.BorderLeftColor
         {
             get { return GetPropertyValue(PropertyNames.BorderLeftColor); }
             set { SetProperty(PropertyNames.BorderLeftColor, value); }
@@ -566,7 +566,7 @@
         /// <summary>
         /// Gets or sets the style of the left border of the object.
         /// </summary>
-        public String BorderLeftStyle
+        String ICssStyleDeclaration.BorderLeftStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderLeftStyle); }
             set { SetProperty(PropertyNames.BorderLeftStyle, value); }
@@ -575,7 +575,7 @@
         /// <summary>
         /// Gets or sets the thickness of the left border of the object.
         /// </summary>
-        public String BorderLeftWidth
+        String ICssStyleDeclaration.BorderLeftWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderLeftWidth); }
             set { SetProperty(PropertyNames.BorderLeftWidth, value); }
@@ -585,7 +585,7 @@
         /// Gets or sets the radii of a quarter ellipse that defines the shape of
         /// the corners for the outer border edge of the current box.
         /// </summary>
-        public String BorderRadius
+        String ICssStyleDeclaration.BorderRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderRadius); }
             set { SetProperty(PropertyNames.BorderRadius, value); }
@@ -594,7 +594,7 @@
         /// <summary>
         /// Gets or sets the properties of the right border of the object.
         /// </summary>
-        public String BorderRight
+        String ICssStyleDeclaration.BorderRight
         {
             get { return GetPropertyValue(PropertyNames.BorderRight); }
             set { SetProperty(PropertyNames.BorderRight, value); }
@@ -603,7 +603,7 @@
         /// <summary>
         /// Gets or sets the foreground color of the right border of an object.
         /// </summary>
-        public String BorderRightColor
+        String ICssStyleDeclaration.BorderRightColor
         {
             get { return GetPropertyValue(PropertyNames.BorderRightColor); }
             set { SetProperty(PropertyNames.BorderRightColor, value); }
@@ -612,7 +612,7 @@
         /// <summary>
         /// Gets or sets the style of the right border of the object.
         /// </summary>
-        public String BorderRightStyle
+        String ICssStyleDeclaration.BorderRightStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderRightStyle); }
             set { SetProperty(PropertyNames.BorderRightStyle, value); }
@@ -621,7 +621,7 @@
         /// <summary>
         /// Gets or sets the thickness of the right border of the object.
         /// </summary>
-        public String BorderRightWidth
+        String ICssStyleDeclaration.BorderRightWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderRightWidth); }
             set { SetProperty(PropertyNames.BorderRightWidth, value); }
@@ -630,7 +630,7 @@
         /// <summary>
         /// Gets or sets the distance between the borders of adjoining cells in a table.
         /// </summary>
-        public String BorderSpacing
+        String ICssStyleDeclaration.BorderSpacing
         {
             get { return GetPropertyValue(PropertyNames.BorderSpacing); }
             set { SetProperty(PropertyNames.BorderSpacing, value); }
@@ -639,7 +639,7 @@
         /// <summary>
         /// Gets or sets the style of the left, right, top, and bottom borders of the object.
         /// </summary>
-        public String BorderStyle
+        String ICssStyleDeclaration.BorderStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderStyle); }
             set { SetProperty(PropertyNames.BorderStyle, value); }
@@ -648,7 +648,7 @@
         /// <summary>
         /// Gets or sets the properties of the top border of the object.
         /// </summary>
-        public String BorderTop
+        String ICssStyleDeclaration.BorderTop
         {
             get { return GetPropertyValue(PropertyNames.BorderTop); }
             set { SetProperty(PropertyNames.BorderTop, value); }
@@ -657,7 +657,7 @@
         /// <summary>
         /// Gets or sets the foreground color of the top border of an object.
         /// </summary>
-        public String BorderTopColor
+        String ICssStyleDeclaration.BorderTopColor
         {
             get { return GetPropertyValue(PropertyNames.BorderTopColor); }
             set { SetProperty(PropertyNames.BorderTopColor, value); }
@@ -667,7 +667,7 @@
         /// Gets or sets  one or two values that define the radii of the quarter ellipse
         /// that defines the shape of the upper-left corner for the outer border edge of the current box.
         /// </summary>
-        public String BorderTopLeftRadius
+        String ICssStyleDeclaration.BorderTopLeftRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderTopLeftRadius); }
             set { SetProperty(PropertyNames.BorderTopLeftRadius, value); }
@@ -678,7 +678,7 @@
         /// quarter ellipse that defines the shape of the upper-right
         /// corner for the outer border edge of the current box.
         /// </summary>
-        public String BorderTopRightRadius
+        String ICssStyleDeclaration.BorderTopRightRadius
         {
             get { return GetPropertyValue(PropertyNames.BorderTopRightRadius); }
             set { SetProperty(PropertyNames.BorderTopRightRadius, value); }
@@ -687,7 +687,7 @@
         /// <summary>
         /// Gets or sets  the style of the top border of the object.
         /// </summary>
-        public String BorderTopStyle
+        String ICssStyleDeclaration.BorderTopStyle
         {
             get { return GetPropertyValue(PropertyNames.BorderTopStyle); }
             set { SetProperty(PropertyNames.BorderTopStyle, value); }
@@ -696,7 +696,7 @@
         /// <summary>
         /// Gets or sets the thickness of the top border of the object.
         /// </summary>
-        public String BorderTopWidth
+        String ICssStyleDeclaration.BorderTopWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderTopWidth); }
             set { SetProperty(PropertyNames.BorderTopWidth, value); }
@@ -705,7 +705,7 @@
         /// <summary>
         /// Gets or sets the thicknesses of the left, right, top, and bottom borders of an object.
         /// </summary>
-        public String BorderWidth
+        String ICssStyleDeclaration.BorderWidth
         {
             get { return GetPropertyValue(PropertyNames.BorderWidth); }
             set { SetProperty(PropertyNames.BorderWidth, value); }
@@ -715,7 +715,7 @@
         /// Gets or sets one or more set of shadow values that attaches one or
         /// more drop shadows to the current box.
         /// </summary>
-        public String BoxShadow
+        String ICssStyleDeclaration.BoxShadow
         {
             get { return GetPropertyValue(PropertyNames.BoxShadow); }
             set { SetProperty(PropertyNames.BoxShadow, value); }
@@ -724,7 +724,7 @@
         /// <summary>
         /// Gets or sets the box model to use for object sizing.
         /// </summary>
-        public String BoxSizing
+        String ICssStyleDeclaration.BoxSizing
         {
             get { return GetPropertyValue(PropertyNames.BoxSizing); }
             set { SetProperty(PropertyNames.BoxSizing, value); }
@@ -734,7 +734,7 @@
         /// Gets or sets the column-break behavior that follows a content
         /// block in a multi-column element.
         /// </summary>
-        public String BreakAfter
+        String ICssStyleDeclaration.BreakAfter
         {
             get { return GetPropertyValue(PropertyNames.BreakAfter); }
             set { SetProperty(PropertyNames.BreakAfter, value); }
@@ -744,7 +744,7 @@
         /// Gets or sets the column-break behavior that precedes a content
         /// block in a multi-column element.
         /// </summary>
-        public String BreakBefore
+        String ICssStyleDeclaration.BreakBefore
         {
             get { return GetPropertyValue(PropertyNames.BreakBefore); }
             set { SetProperty(PropertyNames.BreakBefore, value); }
@@ -754,7 +754,7 @@
         /// Gets or sets the column-break behavior that occurs within a
         /// content block in a multi-column element.
         /// </summary>
-        public String BreakInside
+        String ICssStyleDeclaration.BreakInside
         {
             get { return GetPropertyValue(PropertyNames.BreakInside); }
             set { SetProperty(PropertyNames.BreakInside, value); }
@@ -763,7 +763,7 @@
         /// <summary>
         /// Gets or sets where the caption of a table is located.
         /// </summary>
-        public String CaptionSide
+        String ICssStyleDeclaration.CaptionSide
         {
             get { return GetPropertyValue(PropertyNames.CaptionSide); }
             set { SetProperty(PropertyNames.CaptionSide, value); }
@@ -773,7 +773,7 @@
         /// Gets or sets whether the object allows floating objects on its left side,
         /// right side, or both, so that the next text displays past the floating objects.
         /// </summary>
-        public String Clear
+        String ICssStyleDeclaration.Clear
         {
             get { return GetPropertyValue(PropertyNames.Clear); }
             set { SetProperty(PropertyNames.Clear, value); }
@@ -782,7 +782,7 @@
         /// <summary>
         /// Gets or sets which part of a positioned object is visible.
         /// </summary>
-        public String Clip
+        String ICssStyleDeclaration.Clip
         {
             get { return GetPropertyValue(PropertyNames.Clip); }
             set { SetProperty(PropertyNames.Clip, value); }
@@ -791,7 +791,7 @@
         /// <summary>
         /// Gets or sets the bottom coordinate of the object clipping region.
         /// </summary>
-        public String ClipBottom
+        String ICssStyleDeclaration.ClipBottom
         {
             get { return GetPropertyValue(PropertyNames.ClipBottom); }
             set { SetProperty(PropertyNames.ClipBottom, value); }
@@ -800,7 +800,7 @@
         /// <summary>
         /// Gets or sets the left coordinate of the object clipping region.
         /// </summary>
-        public String ClipLeft
+        String ICssStyleDeclaration.ClipLeft
         {
             get { return GetPropertyValue(PropertyNames.ClipLeft); }
             set { SetProperty(PropertyNames.ClipLeft, value); }
@@ -810,7 +810,7 @@
         /// Gets or sets a reference to the SVG graphical object
         /// that will be used as the clipping path.
         /// </summary>
-        public String ClipPath
+        String ICssStyleDeclaration.ClipPath
         {
             get { return GetPropertyValue(PropertyNames.ClipPath); }
             set { SetProperty(PropertyNames.ClipPath, value); }
@@ -819,7 +819,7 @@
         /// <summary>
         /// Gets or sets the right coordinate of the object clipping region.
         /// </summary>
-        public String ClipRight
+        String ICssStyleDeclaration.ClipRight
         {
             get { return GetPropertyValue(PropertyNames.ClipRight); }
             set { SetProperty(PropertyNames.ClipRight, value); }
@@ -829,7 +829,7 @@
         /// Gets or sets the algorithm used to determine what parts of the
         /// canvas are affected by the fill operation.
         /// </summary>
-        public String ClipRule
+        String ICssStyleDeclaration.ClipRule
         {
             get { return GetPropertyValue(PropertyNames.ClipRule); }
             set { SetProperty(PropertyNames.ClipRule, value); }
@@ -838,7 +838,7 @@
         /// <summary>
         /// Gets or sets the top coordinate of the object clipping region.
         /// </summary>
-        public String ClipTop
+        String ICssStyleDeclaration.ClipTop
         {
             get { return GetPropertyValue(PropertyNames.ClipTop); }
             set { SetProperty(PropertyNames.ClipTop, value); }
@@ -847,7 +847,7 @@
         /// <summary>
         /// Gets or sets the foreground color of the text of an object.
         /// </summary>
-        public String Color
+        String ICssStyleDeclaration.Color
         {
             get { return GetPropertyValue(PropertyNames.Color); }
             set { SetProperty(PropertyNames.Color, value); }
@@ -856,7 +856,7 @@
         /// <summary>
         /// Gets or sets which color space to use for filter effects.
         /// </summary>
-        public String ColorInterpolationFilters
+        String ICssStyleDeclaration.ColorInterpolationFilters
         {
             get { return GetPropertyValue(PropertyNames.ColorInterpolationFilters); }
             set { SetProperty(PropertyNames.ColorInterpolationFilters, value); }
@@ -865,7 +865,7 @@
         /// <summary>
         /// Gets or sets the optimal number of columns in a multi-column element.
         /// </summary>
-        public String ColumnCount
+        String ICssStyleDeclaration.ColumnCount
         {
             get { return GetPropertyValue(PropertyNames.ColumnCount); }
             set { SetProperty(PropertyNames.ColumnCount, value); }
@@ -875,7 +875,7 @@
         /// Gets or sets a value that indicates how the column lengths in a
         /// multi-column element are affected by the content flow.
         /// </summary>
-        public String ColumnFill
+        String ICssStyleDeclaration.ColumnFill
         {
             get { return GetPropertyValue(PropertyNames.ColumnFill); }
             set { SetProperty(PropertyNames.ColumnFill, value); }
@@ -884,7 +884,7 @@
         /// <summary>
         /// Gets or sets the width of the gap between columns in a multi-column element.
         /// </summary>
-        public String ColumnGap
+        String ICssStyleDeclaration.ColumnGap
         {
             get { return GetPropertyValue(PropertyNames.ColumnGap); }
             set { SetProperty(PropertyNames.ColumnGap, value); }
@@ -894,7 +894,7 @@
         /// Gets or sets a shorthand value  that specifies values for the columnRuleWidth, 
         /// columnRuleStyle, and the columnRuleColor of a multi-column element.
         /// </summary>
-        public String ColumnRule
+        String ICssStyleDeclaration.ColumnRule
         {
             get { return GetPropertyValue(PropertyNames.ColumnRule); }
             set { SetProperty(PropertyNames.ColumnRule, value); }
@@ -903,7 +903,7 @@
         /// <summary>
         /// Gets or sets the color for all column rules in a multi-column element.
         /// </summary>
-        public String ColumnRuleColor
+        String ICssStyleDeclaration.ColumnRuleColor
         {
             get { return GetPropertyValue(PropertyNames.ColumnRuleColor); }
             set { SetProperty(PropertyNames.ColumnRuleColor, value); }
@@ -912,7 +912,7 @@
         /// <summary>
         /// Gets or sets the style for all column rules in a multi-column element.
         /// </summary>
-        public String ColumnRuleStyle
+        String ICssStyleDeclaration.ColumnRuleStyle
         {
             get { return GetPropertyValue(PropertyNames.ColumnRuleStyle); }
             set { SetProperty(PropertyNames.ColumnRuleStyle, value); }
@@ -921,7 +921,7 @@
         /// <summary>
         /// Gets or sets the width of all column rules in a multi-column element.
         /// </summary>
-        public String ColumnRuleWidth
+        String ICssStyleDeclaration.ColumnRuleWidth
         {
             get { return GetPropertyValue(PropertyNames.ColumnRuleWidth); }
             set { SetProperty(PropertyNames.ColumnRuleWidth, value); }
@@ -931,7 +931,7 @@
         /// Gets or sets a shorthand value that specifies values for the column-width
         /// and the column-count of a multi-column element.
         /// </summary>
-        public String Columns
+        String ICssStyleDeclaration.Columns
         {
             get { return GetPropertyValue(PropertyNames.Columns); }
             set { SetProperty(PropertyNames.Columns, value); }
@@ -941,7 +941,7 @@
         /// Gets or sets the number of columns that a content block
         /// spans in a multi-column element.
         /// </summary>
-        public String ColumnSpan
+        String ICssStyleDeclaration.ColumnSpan
         {
             get { return GetPropertyValue(PropertyNames.ColumnSpan); }
             set { SetProperty(PropertyNames.ColumnSpan, value); }
@@ -950,7 +950,7 @@
         /// <summary>
         /// Gets or sets the optimal width of the columns in a multi-column element.
         /// </summary>
-        public String ColumnWidth
+        String ICssStyleDeclaration.ColumnWidth
         {
             get { return GetPropertyValue(PropertyNames.ColumnWidth); }
             set { SetProperty(PropertyNames.ColumnWidth, value); }
@@ -959,7 +959,7 @@
         /// <summary>
         /// Gets or sets generated content to insert before or after an element.
         /// </summary>
-        public String Content
+        String ICssStyleDeclaration.Content
         {
             get { return GetPropertyValue(PropertyNames.Content); }
             set { SetProperty(PropertyNames.Content, value); }
@@ -968,7 +968,7 @@
         /// <summary>
         /// Gets or sets a list of counters to increment.
         /// </summary>
-        public String CounterIncrement
+        String ICssStyleDeclaration.CounterIncrement
         {
             get { return GetPropertyValue(PropertyNames.CounterIncrement); }
             set { SetProperty(PropertyNames.CounterIncrement, value); }
@@ -977,7 +977,7 @@
         /// <summary>
         /// Gets or sets a list of counters to create or reset to zero.
         /// </summary>
-        public String CounterReset
+        String ICssStyleDeclaration.CounterReset
         {
             get { return GetPropertyValue(PropertyNames.CounterReset); }
             set { SetProperty(PropertyNames.CounterReset, value); }
@@ -987,7 +987,7 @@
         /// Gets or sets a value that specifies whether a box should float
         /// to the left, right, or not at all.
         /// </summary>
-        public String Float
+        String ICssStyleDeclaration.Float
         {
             get { return GetPropertyValue(PropertyNames.Float); }
             set { SetProperty(PropertyNames.Float, value); }
@@ -997,7 +997,7 @@
         /// Gets or sets the type of cursor to display as the mouse pointer
         /// moves over the object.
         /// </summary>
-        public String Cursor
+        String ICssStyleDeclaration.Cursor
         {
             get { return GetPropertyValue(PropertyNames.Cursor); }
             set { SetProperty(PropertyNames.Cursor, value); }
@@ -1006,7 +1006,7 @@
         /// <summary>
         /// Gets or sets the reading order of the object.
         /// </summary>
-        public String Direction
+        String ICssStyleDeclaration.Direction
         {
             get { return GetPropertyValue(PropertyNames.Direction); }
             set { SetProperty(PropertyNames.Direction, value); }
@@ -1015,7 +1015,7 @@
         /// <summary>
         /// Gets or sets a value that indicates whether and how the object is rendered.
         /// </summary>
-        public String Display
+        String ICssStyleDeclaration.Display
         {
             get { return GetPropertyValue(PropertyNames.Display); }
             set { SetProperty(PropertyNames.Display, value); }
@@ -1024,7 +1024,7 @@
         /// <summary>
         /// Gets or sets a value that determines or redetermines a scaled-baseline table.
         /// </summary>
-        public String DominantBaseline
+        String ICssStyleDeclaration.DominantBaseline
         {
             get { return GetPropertyValue(PropertyNames.DominantBaseline); }
             set { SetProperty(PropertyNames.DominantBaseline, value); }
@@ -1033,7 +1033,7 @@
         /// <summary>
         /// Determines whether to show or hide a cell without content.
         /// </summary>
-        public String EmptyCells
+        String ICssStyleDeclaration.EmptyCells
         {
             get { return GetPropertyValue(PropertyNames.EmptyCells); }
             set { SetProperty(PropertyNames.EmptyCells, value); }
@@ -1042,7 +1042,7 @@
         /// <summary>
         /// Allocate a shared background image all graphic elements within a container.
         /// </summary>
-        public String EnableBackground
+        String ICssStyleDeclaration.EnableBackground
         {
             get { return GetPropertyValue(PropertyNames.EnableBackground); }
             set { SetProperty(PropertyNames.EnableBackground, value); }
@@ -1052,7 +1052,7 @@
         /// Gets or sets a value that indicates the color to paint the
         /// interior of the given graphical element.
         /// </summary>
-        public String Fill
+        String ICssStyleDeclaration.Fill
         {
             get { return GetPropertyValue(PropertyNames.Fill); }
             set { SetProperty(PropertyNames.Fill, value); }
@@ -1062,7 +1062,7 @@
         /// Gets or sets a value that specifies the opacity of the painting operation that
         /// is used to paint the interior of the current object.
         /// </summary>
-        public String FillOpacity
+        String ICssStyleDeclaration.FillOpacity
         {
             get { return GetPropertyValue(PropertyNames.FillOpacity); }
             set { SetProperty(PropertyNames.FillOpacity, value); }
@@ -1072,7 +1072,7 @@
         /// Gets or sets a value that indicates the algorithm that is to be used to determine
         /// what parts of the canvas are included inside the shape.
         /// </summary>
-        public String FillRule
+        String ICssStyleDeclaration.FillRule
         {
             get { return GetPropertyValue(PropertyNames.FillRule); }
             set { SetProperty(PropertyNames.FillRule, value); }
@@ -1082,7 +1082,7 @@
         /// The filter property is generally used to apply a previously
         /// define filter to an applicable element.
         /// </summary>
-        public String Filter
+        String ICssStyleDeclaration.Filter
         {
             get { return GetPropertyValue(PropertyNames.Filter); }
             set { SetProperty(PropertyNames.Filter, value); }
@@ -1092,7 +1092,7 @@
         /// Gets or sets the parameter values of a flexible length, the positive and
         /// negative flexibility, and the preferred size.
         /// </summary>
-        public String Flex
+        String ICssStyleDeclaration.Flex
         {
             get { return GetPropertyValue(PropertyNames.Flex); }
             set { SetProperty(PropertyNames.Flex, value); }
@@ -1101,7 +1101,7 @@
         /// <summary>
         /// Gets or sets the initial main size of the flex item.
         /// </summary>
-        public String FlexBasis
+        String ICssStyleDeclaration.FlexBasis
         {
             get { return GetPropertyValue(PropertyNames.FlexBasis); }
             set { SetProperty(PropertyNames.FlexBasis, value); }
@@ -1111,7 +1111,7 @@
         /// Gets or sets the direction of the main axis which specifies how
         /// the flex items are displayed in the flex container.
         /// </summary>
-        public String FlexDirection
+        String ICssStyleDeclaration.FlexDirection
         {
             get { return GetPropertyValue(PropertyNames.FlexDirection); }
             set { SetProperty(PropertyNames.FlexDirection, value); }
@@ -1121,7 +1121,7 @@
         /// Gets or sets the shorthand property to set both the flex-direction and flex-wrap
         /// properties of a flex container.
         /// </summary>
-        public String FlexFlow
+        String ICssStyleDeclaration.FlexFlow
         {
             get { return GetPropertyValue(PropertyNames.FlexFlow); }
             set { SetProperty(PropertyNames.FlexFlow, value); }
@@ -1130,7 +1130,7 @@
         /// <summary>
         /// Gets or sets the flex grow factor for the flex item.
         /// </summary>
-        public String FlexGrow
+        String ICssStyleDeclaration.FlexGrow
         {
             get { return GetPropertyValue(PropertyNames.FlexGrow); }
             set { SetProperty(PropertyNames.FlexGrow, value); }
@@ -1139,7 +1139,7 @@
         /// <summary>
         /// Gets or sets the flex shrink factor for the flex item.
         /// </summary>
-        public String FlexShrink
+        String ICssStyleDeclaration.FlexShrink
         {
             get { return GetPropertyValue(PropertyNames.FlexShrink); }
             set { SetProperty(PropertyNames.FlexShrink, value); }
@@ -1150,7 +1150,7 @@
         /// wrap onto multiple lines or columns based on the spac
         /// available in the flex container. 
         /// </summary>
-        public String FlexWrap
+        String ICssStyleDeclaration.FlexWrap
         {
             get { return GetPropertyValue(PropertyNames.FlexWrap); }
             set { SetProperty(PropertyNames.FlexWrap, value); }
@@ -1161,7 +1161,7 @@
         /// object. Alternatively, sets or retrieves one or more of
         /// six user-preference fonts.
         /// </summary>
-        public String Font
+        String ICssStyleDeclaration.Font
         {
             get { return GetPropertyValue(PropertyNames.Font); }
             set { SetProperty(PropertyNames.Font, value); }
@@ -1170,7 +1170,7 @@
         /// <summary>
         /// Gets or sets the name of the font used for text in the object.
         /// </summary>
-        public String FontFamily
+        String ICssStyleDeclaration.FontFamily
         {
             get { return GetPropertyValue(PropertyNames.FontFamily); }
             set { SetProperty(PropertyNames.FontFamily, value); }
@@ -1180,7 +1180,7 @@
         /// Gets or sets one or more values that specify glyph substitution and
         /// positioning in fonts that include OpenType layout features.
         /// </summary>
-        public String FontFeatureSettings
+        String ICssStyleDeclaration.FontFeatureSettings
         {
             get { return GetPropertyValue(PropertyNames.FontFeatureSettings); }
             set { SetProperty(PropertyNames.FontFeatureSettings, value); }
@@ -1189,7 +1189,7 @@
         /// <summary>
         /// Gets or sets a value that indicates the font size used for text in the object.
         /// </summary>
-        public String FontSize
+        String ICssStyleDeclaration.FontSize
         {
             get { return GetPropertyValue(PropertyNames.FontSize); }
             set { SetProperty(PropertyNames.FontSize, value); }
@@ -1200,7 +1200,7 @@
         /// will effectively preserve the x-height of the first choice font, whether
         /// it is substituted or not.
         /// </summary>
-        public String FontSizeAdjust
+        String ICssStyleDeclaration.FontSizeAdjust
         {
             get { return GetPropertyValue(PropertyNames.FontSizeAdjust); }
             set { SetProperty(PropertyNames.FontSizeAdjust, value); }
@@ -1210,7 +1210,7 @@
         /// Gets or sets a value that indicates a normal, condensed,
         /// or expanded face of a font family.
         /// </summary>
-        public String FontStretch
+        String ICssStyleDeclaration.FontStretch
         {
             get { return GetPropertyValue(PropertyNames.FontStretch); }
             set { SetProperty(PropertyNames.FontStretch, value); }
@@ -1219,7 +1219,7 @@
         /// <summary>
         /// Gets or sets the font style of the object as italic, normal, or oblique.
         /// </summary>
-        public String FontStyle
+        String ICssStyleDeclaration.FontStyle
         {
             get { return GetPropertyValue(PropertyNames.FontStyle); }
             set { SetProperty(PropertyNames.FontStyle, value); }
@@ -1228,7 +1228,7 @@
         /// <summary>
         /// Gets or sets whether the text of the object is in small capital letters.
         /// </summary>
-        public String FontVariant
+        String ICssStyleDeclaration.FontVariant
         {
             get { return GetPropertyValue(PropertyNames.FontVariant); }
             set { SetProperty(PropertyNames.FontVariant, value); }
@@ -1237,7 +1237,7 @@
         /// <summary>
         /// Gets of sets the weight of the font of the object.
         /// </summary>
-        public String FontWeight
+        String ICssStyleDeclaration.FontWeight
         {
             get { return GetPropertyValue(PropertyNames.FontWeight); }
             set { SetProperty(PropertyNames.FontWeight, value); }
@@ -1247,7 +1247,7 @@
         /// Gets or sets a value that alters the orientation of a sequence of characters
         /// relative to an inline-progression-direction of horizontal.
         /// </summary>
-        public String GlyphOrientationHorizontal
+        String ICssStyleDeclaration.GlyphOrientationHorizontal
         {
             get { return GetPropertyValue(PropertyNames.GlyphOrientationHorizontal); }
             set { SetProperty(PropertyNames.GlyphOrientationHorizontal, value); }
@@ -1257,7 +1257,7 @@
         /// Gets or sets a value that alters the orientation of a sequence
         /// of characters relative to an inline-progression-direction of vertical.
         /// </summary>
-        public String GlyphOrientationVertical
+        String ICssStyleDeclaration.GlyphOrientationVertical
         {
             get { return GetPropertyValue(PropertyNames.GlyphOrientationVertical); }
             set { SetProperty(PropertyNames.GlyphOrientationVertical, value); }
@@ -1266,7 +1266,7 @@
         /// <summary>
         /// Gets or sets the height of the object.
         /// </summary>
-        public String Height
+        String ICssStyleDeclaration.Height
         {
             get { return GetPropertyValue(PropertyNames.Height); }
             set { SetProperty(PropertyNames.Height, value); }
@@ -1275,7 +1275,7 @@
         /// <summary>
         /// Gets or sets the state of an IME.
         /// </summary>
-        public String ImeMode
+        String ICssStyleDeclaration.ImeMode
         {
             get { return GetPropertyValue(PropertyNames.ImeMode); }
             set { SetProperty(PropertyNames.ImeMode, value); }
@@ -1285,7 +1285,7 @@
         /// Gets or sets a how flex items are aligned along the main axis of the flex
         /// container after any flexible lengths and auto margins are resolved.
         /// </summary>
-        public String JustifyContent
+        String ICssStyleDeclaration.JustifyContent
         {
             get { return GetPropertyValue(PropertyNames.JustifyContent); }
             set { SetProperty(PropertyNames.JustifyContent, value); }
@@ -1295,7 +1295,7 @@
         /// Gets or sets the composite document grid properties
         /// that specify the layout of text characters.
         /// </summary>
-        public String LayoutGrid
+        String ICssStyleDeclaration.LayoutGrid
         {
             get { return GetPropertyValue(PropertyNames.LayoutGrid); }
             set { SetProperty(PropertyNames.LayoutGrid, value); }
@@ -1305,7 +1305,7 @@
         /// Gets or sets the size of the character grid used for rendering
         /// the text content of an element.
         /// </summary>
-        public String LayoutGridChar
+        String ICssStyleDeclaration.LayoutGridChar
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridChar); }
             set { SetProperty(PropertyNames.LayoutGridChar, value); }
@@ -1315,7 +1315,7 @@
         /// Gets or sets the gridline value used for rendering the
         /// text content of an element.
         /// </summary>
-        public String LayoutGridLine
+        String ICssStyleDeclaration.LayoutGridLine
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridLine); }
             set { SetProperty(PropertyNames.LayoutGridLine, value); }
@@ -1324,7 +1324,7 @@
         /// <summary>
         /// Gets or sets whether the text layout grid uses two dimensions.
         /// </summary>
-        public String LayoutGridMode
+        String ICssStyleDeclaration.LayoutGridMode
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridMode); }
             set { SetProperty(PropertyNames.LayoutGridMode, value); }
@@ -1334,7 +1334,7 @@
         /// Gets or sets the type of grid used for rendering
         /// the text content of an element.
         /// </summary>
-        public String LayoutGridType
+        String ICssStyleDeclaration.LayoutGridType
         {
             get { return GetPropertyValue(PropertyNames.LayoutGridType); }
             set { SetProperty(PropertyNames.LayoutGridType, value); }
@@ -1344,7 +1344,7 @@
         /// Gets or sets the position of the object relative to the left edge
         /// of the next positioned object in the document hierarchy.
         /// </summary>
-        public String Left
+        String ICssStyleDeclaration.Left
         {
             get { return GetPropertyValue(PropertyNames.Left); }
             set { SetProperty(PropertyNames.Left, value); }
@@ -1353,7 +1353,7 @@
         /// <summary>
         /// Gets or sets the amount of additional space between letters in the object.
         /// </summary>
-        public String LetterSpacing
+        String ICssStyleDeclaration.LetterSpacing
         {
             get { return GetPropertyValue(PropertyNames.LetterSpacing); }
             set { SetProperty(PropertyNames.LetterSpacing, value); }
@@ -1362,7 +1362,7 @@
         /// <summary>
         /// Gets or sets the distance between lines in the object.
         /// </summary>
-        public String LineHeight
+        String ICssStyleDeclaration.LineHeight
         {
             get { return GetPropertyValue(PropertyNames.LineHeight); }
             set { SetProperty(PropertyNames.LineHeight, value); }
@@ -1371,7 +1371,7 @@
         /// <summary>
         /// Gets or sets up to three separate list-style properties of the object.
         /// </summary>
-        public String ListStyle
+        String ICssStyleDeclaration.ListStyle
         {
             get { return GetPropertyValue(PropertyNames.ListStyle); }
             set { SetProperty(PropertyNames.ListStyle, value); }
@@ -1381,7 +1381,7 @@
         /// Gets or sets a value that indicates which image to use as
         /// a list-item marker for the object.
         /// </summary>
-        public String ListStyleImage
+        String ICssStyleDeclaration.ListStyleImage
         {
             get { return GetPropertyValue(PropertyNames.ListStyleImage); }
             set { SetProperty(PropertyNames.ListStyleImage, value); }
@@ -1391,7 +1391,7 @@
         /// Gets or sets a variable that indicates how the list-item marker
         /// is drawn relative to the content of the object.
         /// </summary>
-        public String ListStylePosition
+        String ICssStyleDeclaration.ListStylePosition
         {
             get { return GetPropertyValue(PropertyNames.ListStylePosition); }
             set { SetProperty(PropertyNames.ListStylePosition, value); }
@@ -1400,7 +1400,7 @@
         /// <summary>
         /// Gets or sets the predefined type of the line-item marker for the object.
         /// </summary>
-        public String ListStyleType
+        String ICssStyleDeclaration.ListStyleType
         {
             get { return GetPropertyValue(PropertyNames.ListStyleType); }
             set { SetProperty(PropertyNames.ListStyleType, value); }
@@ -1409,7 +1409,7 @@
         /// <summary>
         /// Gets or sets the width of the top, right, bottom, and left margins of the object.
         /// </summary>
-        public String Margin
+        String ICssStyleDeclaration.Margin
         {
             get { return GetPropertyValue(PropertyNames.Margin); }
             set { SetProperty(PropertyNames.Margin, value); }
@@ -1418,7 +1418,7 @@
         /// <summary>
         /// Gets or sets the height of the bottom margin of the object.
         /// </summary>
-        public String MarginBottom
+        String ICssStyleDeclaration.MarginBottom
         {
             get { return GetPropertyValue(PropertyNames.MarginBottom); }
             set { SetProperty(PropertyNames.MarginBottom, value); }
@@ -1427,7 +1427,7 @@
         /// <summary>
         /// Gets or sets the width of the left margin of the object.
         /// </summary>
-        public String MarginLeft
+        String ICssStyleDeclaration.MarginLeft
         {
             get { return GetPropertyValue(PropertyNames.MarginLeft); }
             set { SetProperty(PropertyNames.MarginLeft, value); }
@@ -1436,7 +1436,7 @@
         /// <summary>
         /// Gets or sets the width of the right margin of the object.
         /// </summary>
-        public String MarginRight
+        String ICssStyleDeclaration.MarginRight
         {
             get { return GetPropertyValue(PropertyNames.MarginRight); }
             set { SetProperty(PropertyNames.MarginRight, value); }
@@ -1445,7 +1445,7 @@
         /// <summary>
         /// Gets or sets the height of the top margin of the object.
         /// </summary>
-        public String MarginTop
+        String ICssStyleDeclaration.MarginTop
         {
             get { return GetPropertyValue(PropertyNames.MarginTop); }
             set { SetProperty(PropertyNames.MarginTop, value); }
@@ -1455,7 +1455,7 @@
         /// Gets or sets a value that specifies the marker symbol that is
         /// used for all vertices on the given path element or basic shape.
         /// </summary>
-        public String Marker
+        String ICssStyleDeclaration.Marker
         {
             get { return GetPropertyValue(PropertyNames.Marker); }
             set { SetProperty(PropertyNames.Marker, value); }
@@ -1466,7 +1466,7 @@
         /// that is drawn at the final vertex of a given path element or
         /// basic shape.
         /// </summary>
-        public String MarkerEnd
+        String ICssStyleDeclaration.MarkerEnd
         {
             get { return GetPropertyValue(PropertyNames.MarkerEnd); }
             set { SetProperty(PropertyNames.MarkerEnd, value); }
@@ -1477,7 +1477,7 @@
         /// is drawn at every other vertex (that is, every vertex except the
         /// first and last) of a given path element or basic shape.
         /// </summary>
-        public String MarkerMid
+        String ICssStyleDeclaration.MarkerMid
         {
             get { return GetPropertyValue(PropertyNames.MarkerMid); }
             set { SetProperty(PropertyNames.MarkerMid, value); }
@@ -1488,7 +1488,7 @@
         /// that is drawn at the first vertex of a given path element or
         /// basic shape.
         /// </summary>
-        public String MarkerStart
+        String ICssStyleDeclaration.MarkerStart
         {
             get { return GetPropertyValue(PropertyNames.MarkerStart); }
             set { SetProperty(PropertyNames.MarkerStart, value); }
@@ -1497,7 +1497,7 @@
         /// <summary>
         /// Gets or sets a value that indicates a SVG mask.
         /// </summary>
-        public String Mask
+        String ICssStyleDeclaration.Mask
         {
             get { return GetPropertyValue(PropertyNames.Mask); }
             set { SetProperty(PropertyNames.Mask, value); }
@@ -1506,7 +1506,7 @@
         /// <summary>
         /// Gets or sets the maximum height for an element.
         /// </summary>
-        public String MaxHeight
+        String ICssStyleDeclaration.MaxHeight
         {
             get { return GetPropertyValue(PropertyNames.MaxHeight); }
             set { SetProperty(PropertyNames.MaxHeight, value); }
@@ -1515,7 +1515,7 @@
         /// <summary>
         /// Gets or sets the maximum width for an element.
         /// </summary>
-        public String MaxWidth
+        String ICssStyleDeclaration.MaxWidth
         {
             get { return GetPropertyValue(PropertyNames.MaxWidth); }
             set { SetProperty(PropertyNames.MaxWidth, value); }
@@ -1524,7 +1524,7 @@
         /// <summary>
         /// Gets or sets the minimum height for an element.
         /// </summary>
-        public String MinHeight
+        String ICssStyleDeclaration.MinHeight
         {
             get { return GetPropertyValue(PropertyNames.MinHeight); }
             set { SetProperty(PropertyNames.MinHeight, value); }
@@ -1533,7 +1533,7 @@
         /// <summary>
         /// Gets or sets the minimum width for an element.
         /// </summary>
-        public String MinWidth
+        String ICssStyleDeclaration.MinWidth
         {
             get { return GetPropertyValue(PropertyNames.MinWidth); }
             set { SetProperty(PropertyNames.MinWidth, value); }
@@ -1542,7 +1542,7 @@
         /// <summary>
         /// Gets or sets a value that specifies object or group opacity in CSS or SVG.
         /// </summary>
-        public String Opacity
+        String ICssStyleDeclaration.Opacity
         {
             get { return GetPropertyValue(PropertyNames.Opacity); }
             set { SetProperty(PropertyNames.Opacity, value); }
@@ -1554,7 +1554,7 @@
         /// of the order value. Elements with the same order value are laid out in the
         /// order they appear in the source code.
         /// </summary>
-        public String Order
+        String ICssStyleDeclaration.Order
         {
             get { return GetPropertyValue(PropertyNames.Order); }
             set { SetProperty(PropertyNames.Order, value); }
@@ -1564,7 +1564,7 @@
         /// Gets or sets the minimum number of lines of a paragraph
         /// that must appear at the bottom of a page.
         /// </summary>
-        public String Orphans
+        String ICssStyleDeclaration.Orphans
         {
             get { return GetPropertyValue(PropertyNames.Orphans); }
             set { SetProperty(PropertyNames.Orphans, value); }
@@ -1573,7 +1573,7 @@
         /// <summary>
         /// Gets or sets the outline frame.
         /// </summary>
-        public String Outline
+        String ICssStyleDeclaration.Outline
         {
             get { return GetPropertyValue(PropertyNames.Outline); }
             set { SetProperty(PropertyNames.Outline, value); }
@@ -1582,7 +1582,7 @@
         /// <summary>
         /// Gets or sets the color of the outline frame.
         /// </summary>
-        public String OutlineColor
+        String ICssStyleDeclaration.OutlineColor
         {
             get { return GetPropertyValue(PropertyNames.OutlineColor); }
             set { SetProperty(PropertyNames.OutlineColor, value); }
@@ -1591,7 +1591,7 @@
         /// <summary>
         /// Gets or sets the style of the outline frame.
         /// </summary>
-        public String OutlineStyle
+        String ICssStyleDeclaration.OutlineStyle
         {
             get { return GetPropertyValue(PropertyNames.OutlineStyle); }
             set { SetProperty(PropertyNames.OutlineStyle, value); }
@@ -1600,7 +1600,7 @@
         /// <summary>
         /// Gets or sets the width of the outline frame.
         /// </summary>
-        public String OutlineWidth
+        String ICssStyleDeclaration.OutlineWidth
         {
             get { return GetPropertyValue(PropertyNames.OutlineWidth); }
             set { SetProperty(PropertyNames.OutlineWidth, value); }
@@ -1610,7 +1610,7 @@
         /// Gets or sets a value indicating how to manage the content of the
         /// object when the content exceeds the height or width of the object.
         /// </summary>
-        public String Overflow
+        String ICssStyleDeclaration.Overflow
         {
             get { return GetPropertyValue(PropertyNames.Overflow); }
             set { SetProperty(PropertyNames.Overflow, value); }
@@ -1620,7 +1620,7 @@
         /// Gets or sets how to manage the content of the object when the
         /// content exceeds the width of the object.
         /// </summary>
-        public String OverflowX
+        String ICssStyleDeclaration.OverflowX
         {
             get { return GetPropertyValue(PropertyNames.OverflowX); }
             set { SetProperty(PropertyNames.OverflowX, value); }
@@ -1630,7 +1630,7 @@
         /// Gets or sets how to manage the content of the object when
         /// the content exceeds the height of the object.
         /// </summary>
-        public String OverflowY
+        String ICssStyleDeclaration.OverflowY
         {
             get { return GetPropertyValue(PropertyNames.OverflowY); }
             set { SetProperty(PropertyNames.OverflowY, value); }
@@ -1640,7 +1640,7 @@
         /// Gets or sets the amount of space to insert between the object and
         /// its margin or, if there is a border, between the object and its border.
         /// </summary>
-        public String Padding
+        String ICssStyleDeclaration.Padding
         {
             get { return GetPropertyValue(PropertyNames.Padding); }
             set { SetProperty(PropertyNames.Padding, value); }
@@ -1650,7 +1650,7 @@
         /// Gets or sets the amount of space to insert between the bottom
         /// border of the object and the content.
         /// </summary>
-        public String PaddingBottom
+        String ICssStyleDeclaration.PaddingBottom
         {
             get { return GetPropertyValue(PropertyNames.PaddingBottom); }
             set { SetProperty(PropertyNames.PaddingBottom, value); }
@@ -1660,7 +1660,7 @@
         /// Gets or sets the amount of space to insert between the left
         /// border of the object and the content.
         /// </summary>
-        public String PaddingLeft
+        String ICssStyleDeclaration.PaddingLeft
         {
             get { return GetPropertyValue(PropertyNames.PaddingLeft); }
             set { SetProperty(PropertyNames.PaddingLeft, value); }
@@ -1670,7 +1670,7 @@
         /// Gets or sets the amount of space to insert between
         /// the right border of the object and the content.
         /// </summary>
-        public String PaddingRight
+        String ICssStyleDeclaration.PaddingRight
         {
             get { return GetPropertyValue(PropertyNames.PaddingRight); }
             set { SetProperty(PropertyNames.PaddingRight, value); }
@@ -1680,7 +1680,7 @@
         /// Gets or sets the amount of space to insert between the top
         /// border of the object and the content.
         /// </summary>
-        public String PaddingTop
+        String ICssStyleDeclaration.PaddingTop
         {
             get { return GetPropertyValue(PropertyNames.PaddingTop); }
             set { SetProperty(PropertyNames.PaddingTop, value); }
@@ -1689,7 +1689,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether a page break occurs after the object.
         /// </summary>
-        public String PageBreakAfter
+        String ICssStyleDeclaration.PageBreakAfter
         {
             get { return GetPropertyValue(PropertyNames.PageBreakAfter); }
             set { SetProperty(PropertyNames.PageBreakAfter, value); }
@@ -1698,7 +1698,7 @@
         /// <summary>
         /// Gets or sets a string indicating whether a page break occurs before the object.
         /// </summary>
-        public String PageBreakBefore
+        String ICssStyleDeclaration.PageBreakBefore
         {
             get { return GetPropertyValue(PropertyNames.PageBreakBefore); }
             set { SetProperty(PropertyNames.PageBreakBefore, value); }
@@ -1708,7 +1708,7 @@
         /// Gets or sets a string indicating whether a page break is
         /// allowed to occur inside the object.
         /// </summary>
-        public String PageBreakInside
+        String ICssStyleDeclaration.PageBreakInside
         {
             get { return GetPropertyValue(PropertyNames.PageBreakInside); }
             set { SetProperty(PropertyNames.PageBreakInside, value); }
@@ -1718,7 +1718,7 @@
         /// Gets or sets a value that represents the perspective from which all child
         /// elements of the object are viewed.
         /// </summary>
-        public String Perspective
+        String ICssStyleDeclaration.Perspective
         {
             get { return GetPropertyValue(PropertyNames.Perspective); }
             set { SetProperty(PropertyNames.Perspective, value); }
@@ -1729,7 +1729,7 @@
         /// vanishing point for the 3-D space) of an object with an perspective
         /// property declaration.
         /// </summary>
-        public String PerspectiveOrigin
+        String ICssStyleDeclaration.PerspectiveOrigin
         {
             get { return GetPropertyValue(PropertyNames.PerspectiveOrigin); }
             set { SetProperty(PropertyNames.PerspectiveOrigin, value); }
@@ -1739,7 +1739,7 @@
         /// Gets or sets a value that specifies under what circumstances a given graphics
         /// element can be the target element for a pointer event in SVG.
         /// </summary>
-        public String PointerEvents
+        String ICssStyleDeclaration.PointerEvents
         {
             get { return GetPropertyValue(PropertyNames.PointerEvents); }
             set { SetProperty(PropertyNames.PointerEvents, value); }
@@ -1748,7 +1748,7 @@
         /// <summary>
         /// Gets or sets the type of positioning used for the object.
         /// </summary>
-        public String Position
+        String ICssStyleDeclaration.Position
         {
             get { return GetPropertyValue(PropertyNames.Position); }
             set { SetProperty(PropertyNames.Position, value); }
@@ -1757,7 +1757,7 @@
         /// <summary>
         /// Gets or sets the pairs of strings to be used as quotes in generated content.
         /// </summary>
-        public String Quotes
+        String ICssStyleDeclaration.Quotes
         {
             get { return GetPropertyValue(PropertyNames.Quotes); }
             set { SetProperty(PropertyNames.Quotes, value); }
@@ -1767,7 +1767,7 @@
         /// Gets or sets the position of the object relative to the right edge of
         /// the next positioned object in the document hierarchy.
         /// </summary>
-        public String Right
+        String ICssStyleDeclaration.Right
         {
             get { return GetPropertyValue(PropertyNames.Right); }
             set { SetProperty(PropertyNames.Right, value); }
@@ -1776,7 +1776,7 @@
         /// <summary>
         /// Gets or sets a value that indicates how to align the ruby text content.
         /// </summary>
-        public String RubyAlign
+        String ICssStyleDeclaration.RubyAlign
         {
             get { return GetPropertyValue(PropertyNames.RubyAlign); }
             set { SetProperty(PropertyNames.RubyAlign, value); }
@@ -1787,7 +1787,7 @@
         /// text is allowed to partially overhang any adjacent text in addition
         /// to its own base, when the ruby text is wider than the ruby base
         /// </summary>
-        public String RubyOverhang
+        String ICssStyleDeclaration.RubyOverhang
         {
             get { return GetPropertyValue(PropertyNames.RubyOverhang); }
             set { SetProperty(PropertyNames.RubyOverhang, value); }
@@ -1797,7 +1797,7 @@
         /// Gets or sets a value that controls the position of the ruby text
         /// with respect to its base.
         /// </summary>
-        public String RubyPosition
+        String ICssStyleDeclaration.RubyPosition
         {
             get { return GetPropertyValue(PropertyNames.RubyPosition); }
             set { SetProperty(PropertyNames.RubyPosition, value); }
@@ -1807,7 +1807,7 @@
         /// Gets or sets the color of the top and left edges of the scroll
         /// box and scroll arrows of a scroll bar.
         /// </summary>
-        public String Scrollbar3dLightColor
+        String ICssStyleDeclaration.Scrollbar3dLightColor
         {
             get { return GetPropertyValue(PropertyNames.Scrollbar3dLightColor); }
             set { SetProperty(PropertyNames.Scrollbar3dLightColor, value); }
@@ -1816,7 +1816,7 @@
         /// <summary>
         /// Gets or sets the color of the arrow elements of a scroll arrow.
         /// </summary>
-        public String ScrollbarArrowColor
+        String ICssStyleDeclaration.ScrollbarArrowColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarArrowColor); }
             set { SetProperty(PropertyNames.ScrollbarArrowColor, value); }
@@ -1825,7 +1825,7 @@
         /// <summary>
         /// Gets or sets the color of the gutter of a scroll bar.
         /// </summary>
-        public String ScrollbarDarkShadowColor
+        String ICssStyleDeclaration.ScrollbarDarkShadowColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarDarkShadowColor); }
             set { SetProperty(PropertyNames.ScrollbarDarkShadowColor, value); }
@@ -1834,7 +1834,7 @@
         /// <summary>
         /// Gets or sets the color of the scroll box and scroll arrows of a scroll bar.
         /// </summary>
-        public String ScrollbarFaceColor
+        String ICssStyleDeclaration.ScrollbarFaceColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarFaceColor); }
             set { SetProperty(PropertyNames.ScrollbarFaceColor, value); }
@@ -1843,7 +1843,7 @@
         /// <summary>
         /// Gets or sets the color of the top and left edges of the scroll box and scroll arrows of a scroll bar.
         /// </summary>
-        public String ScrollbarHighlightColor
+        String ICssStyleDeclaration.ScrollbarHighlightColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarHighlightColor); }
             set { SetProperty(PropertyNames.ScrollbarHighlightColor, value); }
@@ -1853,7 +1853,7 @@
         /// Gets or sets the color of the bottom and right edges of the
         /// scroll box and scroll arrows of a scroll bar.
         /// </summary>
-        public String ScrollbarShadowColor
+        String ICssStyleDeclaration.ScrollbarShadowColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarShadowColor); }
             set { SetProperty(PropertyNames.ScrollbarShadowColor, value); }
@@ -1862,7 +1862,7 @@
         /// <summary>
         /// Gets or sets the color of the track element of a scroll bar.
         /// </summary>
-        public String ScrollbarTrackColor
+        String ICssStyleDeclaration.ScrollbarTrackColor
         {
             get { return GetPropertyValue(PropertyNames.ScrollbarTrackColor); }
             set { SetProperty(PropertyNames.ScrollbarTrackColor, value); }
@@ -1872,7 +1872,7 @@
         /// Gets or sets a value that indicates the color to paint along
         /// the outline of a given graphical element.
         /// </summary>
-        public String Stroke
+        String ICssStyleDeclaration.Stroke
         {
             get { return GetPropertyValue(PropertyNames.Stroke); }
             set { SetProperty(PropertyNames.Stroke, value); }
@@ -1882,7 +1882,7 @@
         /// Gets or sets one or more values that indicate the pattern of
         /// dashes and gaps used to stroke paths.
         /// </summary>
-        public String StrokeDasharray
+        String ICssStyleDeclaration.StrokeDasharray
         {
             get { return GetPropertyValue(PropertyNames.StrokeDasharray); }
             set { SetProperty(PropertyNames.StrokeDasharray, value); }
@@ -1892,7 +1892,7 @@
         /// Gets or sets a value that specifies the distance into the
         /// dash pattern to start the dash.
         /// </summary>
-        public String StrokeDashoffset
+        String ICssStyleDeclaration.StrokeDashoffset
         {
             get { return GetPropertyValue(PropertyNames.StrokeDashoffset); }
             set { SetProperty(PropertyNames.StrokeDashoffset, value); }
@@ -1902,7 +1902,7 @@
         /// Gets or sets a value that specifies the shape to be used at the
         /// end of open subpaths when they are stroked.
         /// </summary>
-        public String StrokeLinecap
+        String ICssStyleDeclaration.StrokeLinecap
         {
             get { return GetPropertyValue(PropertyNames.StrokeLinecap); }
             set { SetProperty(PropertyNames.StrokeLinecap, value); }
@@ -1912,7 +1912,7 @@
         /// Gets or sets a value that specifies the shape to be used at the corners of
         /// paths or basic shapes when they are stroked.
         /// </summary>
-        public String StrokeLinejoin
+        String ICssStyleDeclaration.StrokeLinejoin
         {
             get { return GetPropertyValue(PropertyNames.StrokeLinejoin); }
             set { SetProperty(PropertyNames.StrokeLinejoin, value); }
@@ -1922,7 +1922,7 @@
         /// Gets or sets a value that indicates the limit on the ratio of the
         /// length of miter joins (as specified in the StrokeLinejoin property).
         /// </summary>
-        public String StrokeMiterlimit
+        String ICssStyleDeclaration.StrokeMiterlimit
         {
             get { return GetPropertyValue(PropertyNames.StrokeMiterlimit); }
             set { SetProperty(PropertyNames.StrokeMiterlimit, value); }
@@ -1932,7 +1932,7 @@
         /// Gets or sets a value that specifies the opacity of the painting operation
         /// that is used to stroke the current object.
         /// </summary>
-        public String StrokeOpacity
+        String ICssStyleDeclaration.StrokeOpacity
         {
             get { return GetPropertyValue(PropertyNames.StrokeOpacity); }
             set { SetProperty(PropertyNames.StrokeOpacity, value); }
@@ -1941,7 +1941,7 @@
         /// <summary>
         /// Gets or sets a value that specifies the width of the stroke on the current object.
         /// </summary>
-        public String StrokeWidth
+        String ICssStyleDeclaration.StrokeWidth
         {
             get { return GetPropertyValue(PropertyNames.StrokeWidth); }
             set { SetProperty(PropertyNames.StrokeWidth, value); }
@@ -1950,7 +1950,7 @@
         /// <summary>
         /// Gets or sets a string that indicates whether the table layout is fixed.
         /// </summary>
-        public String TableLayout
+        String ICssStyleDeclaration.TableLayout
         {
             get { return GetPropertyValue(PropertyNames.TableLayout); }
             set { SetProperty(PropertyNames.TableLayout, value); }
@@ -1960,7 +1960,7 @@
         /// Gets or sets whether the text in the object is left-aligned, right-aligned, 
         /// centered, or justified.
         /// </summary>
-        public String TextAlign
+        String ICssStyleDeclaration.TextAlign
         {
             get { return GetPropertyValue(PropertyNames.TextAlign); }
             set { SetProperty(PropertyNames.TextAlign, value); }
@@ -1970,7 +1970,7 @@
         /// Gets or sets a value that indicates how to align the last line or only
         /// line of text in the specified object.
         /// </summary>
-        public String TextAlignLast
+        String ICssStyleDeclaration.TextAlignLast
         {
             get { return GetPropertyValue(PropertyNames.TextAlignLast); }
             set { SetProperty(PropertyNames.TextAlignLast, value); }
@@ -1979,7 +1979,7 @@
         /// <summary>
         /// Aligns a string of text relative to the specified point.
         /// </summary>
-        public String TextAnchor
+        String ICssStyleDeclaration.TextAnchor
         {
             get { return GetPropertyValue(PropertyNames.TextAnchor); }
             set { SetProperty(PropertyNames.TextAnchor, value); }
@@ -1988,7 +1988,7 @@
         /// <summary>
         /// Gets or sets the autospacing and narrow space width adjustment of text.
         /// </summary>
-        public String TextAutospace
+        String ICssStyleDeclaration.TextAutospace
         {
             get { return GetPropertyValue(PropertyNames.TextAutospace); }
             set { SetProperty(PropertyNames.TextAutospace, value); }
@@ -1998,7 +1998,7 @@
         /// Gets or sets a value that indicates whether the text in the object
         /// has blink, line-through, overline, or underline decorations.
         /// </summary>
-        public String TextDecoration
+        String ICssStyleDeclaration.TextDecoration
         {
             get { return GetPropertyValue(PropertyNames.TextDecoration); }
             set { SetProperty(PropertyNames.TextDecoration, value); }
@@ -2007,7 +2007,7 @@
         /// <summary>
         /// Gets or sets the indentation of the first line of text in the object.
         /// </summary>
-        public String TextIndent
+        String ICssStyleDeclaration.TextIndent
         {
             get { return GetPropertyValue(PropertyNames.TextIndent); }
             set { SetProperty(PropertyNames.TextIndent, value); }
@@ -2016,7 +2016,7 @@
         /// <summary>
         /// Gets or sets the type of alignment used to justify text in the object.
         /// </summary>
-        public String TextJustify
+        String ICssStyleDeclaration.TextJustify
         {
             get { return GetPropertyValue(PropertyNames.TextJustify); }
             set { SetProperty(PropertyNames.TextJustify, value); }
@@ -2026,7 +2026,7 @@
         /// Gets or sets a value that indicates whether to render
         /// ellipses (...) to indicate text overflow.
         /// </summary>
-        public String TextOverflow
+        String ICssStyleDeclaration.TextOverflow
         {
             get { return GetPropertyValue(PropertyNames.TextOverflow); }
             set { SetProperty(PropertyNames.TextOverflow, value); }
@@ -2036,7 +2036,7 @@
         /// Gets or sets a comma-separated list of shadows that attaches one or
         /// more drop shadows to the specified text.
         /// </summary>
-        public String TextShadow
+        String ICssStyleDeclaration.TextShadow
         {
             get { return GetPropertyValue(PropertyNames.TextShadow); }
             set { SetProperty(PropertyNames.TextShadow, value); }
@@ -2045,7 +2045,7 @@
         /// <summary>
         /// Gets or sets the rendering of the text in the object.
         /// </summary>
-        public String TextTransform
+        String ICssStyleDeclaration.TextTransform
         {
             get { return GetPropertyValue(PropertyNames.TextTransform); }
             set { SetProperty(PropertyNames.TextTransform, value); }
@@ -2055,7 +2055,7 @@
         /// Gets or sets the position of the underline decoration that is set through the
         /// text-decoration property of the object.
         /// </summary>
-        public String TextUnderlinePosition
+        String ICssStyleDeclaration.TextUnderlinePosition
         {
             get { return GetPropertyValue(PropertyNames.TextUnderlinePosition); }
             set { SetProperty(PropertyNames.TextUnderlinePosition, value); }
@@ -2065,7 +2065,7 @@
         /// Gets or sets the position of the object relative to the top of
         /// the next positioned object in the document hierarchy.
         /// </summary>
-        public String Top
+        String ICssStyleDeclaration.Top
         {
             get { return GetPropertyValue(PropertyNames.Top); }
             set { SetProperty(PropertyNames.Top, value); }
@@ -2075,7 +2075,7 @@
         /// Gets or sets a list of one or more transform functions that specify how
         /// to translate, rotate, or scale an element in 2-D or 3-D space.
         /// </summary>
-        public String Transform
+        String ICssStyleDeclaration.Transform
         {
             get { return GetPropertyValue(PropertyNames.Transform); }
             set { SetProperty(PropertyNames.Transform, value); }
@@ -2084,7 +2084,7 @@
         /// <summary>
         /// Gets or sets one or two values that establish the origin of transformation for an element.
         /// </summary>
-        public String TransformOrigin
+        String ICssStyleDeclaration.TransformOrigin
         {
             get { return GetPropertyValue(PropertyNames.TransformOrigin); }
             set { SetProperty(PropertyNames.TransformOrigin, value); }
@@ -2094,7 +2094,7 @@
         /// Gets or sets a value that specifies how child elements of the
         /// object are rendered in 3-D space.
         /// </summary>
-        public String TransformStyle
+        String ICssStyleDeclaration.TransformStyle
         {
             get { return GetPropertyValue(PropertyNames.TransformStyle); }
             set { SetProperty(PropertyNames.TransformStyle, value); }
@@ -2105,7 +2105,7 @@
         /// for a set of corresponding object properties identified in the transition-property
         /// property.
         /// </summary>
-        public String Transition
+        String ICssStyleDeclaration.Transition
         {
             get { return GetPropertyValue(PropertyNames.Transition); }
             set { SetProperty(PropertyNames.Transition, value); }
@@ -2117,7 +2117,7 @@
         /// the transition is displayed  for a set of corresponding object properties 
         /// identified in the transition property.
         /// </summary>
-        public String TransitionDelay
+        String ICssStyleDeclaration.TransitionDelay
         {
             get { return GetPropertyValue(PropertyNames.TransitionDelay); }
             set { SetProperty(PropertyNames.TransitionDelay, value); }
@@ -2128,7 +2128,7 @@
         /// a set of corresponding object properties identified in the transition-property
         /// property.
         /// </summary>
-        public String TransitionDuration
+        String ICssStyleDeclaration.TransitionDuration
         {
             get { return GetPropertyValue(PropertyNames.TransitionDuration); }
             set { SetProperty(PropertyNames.TransitionDuration, value); }
@@ -2139,7 +2139,7 @@
         /// the transition effect (defined by the transition-duration, transition-timing-function,
         /// and transition-delay properties) is applied when a new property value is specified.
         /// </summary>
-        public String TransitionProperty
+        String ICssStyleDeclaration.TransitionProperty
         {
             get { return GetPropertyValue(PropertyNames.TransitionProperty); }
             set { SetProperty(PropertyNames.TransitionProperty, value); }
@@ -2150,7 +2150,7 @@
         /// used during a transition on a set of corresponding object properties identified
         /// in the transition-property property.
         /// </summary>
-        public String TransitionTimingFunction
+        String ICssStyleDeclaration.TransitionTimingFunction
         {
             get { return GetPropertyValue(PropertyNames.TransitionTimingFunction); }
             set { SetProperty(PropertyNames.TransitionTimingFunction, value); }
@@ -2159,7 +2159,7 @@
         /// <summary>
         /// Gets or sets the level of embedding with respect to the bidirectional algorithm.
         /// </summary>
-        public String UnicodeBidi
+        String ICssStyleDeclaration.UnicodeBidi
         {
             get { return GetPropertyValue(PropertyNames.UnicodeBidi); }
             set { SetProperty(PropertyNames.UnicodeBidi, value); }
@@ -2168,7 +2168,7 @@
         /// <summary>
         /// Gets or sets the vertical alignment of the object.
         /// </summary>
-        public String VerticalAlign
+        String ICssStyleDeclaration.VerticalAlign
         {
             get { return GetPropertyValue(PropertyNames.VerticalAlign); }
             set { SetProperty(PropertyNames.VerticalAlign, value); }
@@ -2177,7 +2177,7 @@
         /// <summary>
         /// Gets or sets whether the content of the object is displayed.
         /// </summary>
-        public String Visibility
+        String ICssStyleDeclaration.Visibility
         {
             get { return GetPropertyValue(PropertyNames.Visibility); }
             set { SetProperty(PropertyNames.Visibility, value); }
@@ -2187,7 +2187,7 @@
         /// Gets or sets a value that indicates whether lines are automatically
         /// broken inside the object.
         /// </summary>
-        public String WhiteSpace
+        String ICssStyleDeclaration.WhiteSpace
         {
             get { return GetPropertyValue(PropertyNames.WhiteSpace); }
             set { SetProperty(PropertyNames.WhiteSpace, value); }
@@ -2197,7 +2197,7 @@
         /// Gets or sets the minimum number of lines of a paragraph that must
         /// appear at the top of a document.
         /// </summary>
-        public String Widows
+        String ICssStyleDeclaration.Widows
         {
             get { return GetPropertyValue(PropertyNames.Widows); }
             set { SetProperty(PropertyNames.Widows, value); }
@@ -2206,7 +2206,7 @@
         /// <summary>
         /// Gets or sets the width of the object.
         /// </summary>
-        public String Width
+        String ICssStyleDeclaration.Width
         {
             get { return GetPropertyValue(PropertyNames.Width); }
             set { SetProperty(PropertyNames.Width, value); }
@@ -2216,7 +2216,7 @@
         /// Gets or sets line-breaking behavior within words, particularly where
         /// multiple languages appear in the object.
         /// </summary>
-        public String WordBreak
+        String ICssStyleDeclaration.WordBreak
         {
             get { return GetPropertyValue(PropertyNames.WordBreak); }
             set { SetProperty(PropertyNames.WordBreak, value); }
@@ -2225,7 +2225,7 @@
         /// <summary>
         /// Gets or sets the amount of additional space between words in the object.
         /// </summary>
-        public String WordSpacing
+        String ICssStyleDeclaration.WordSpacing
         {
             get { return GetPropertyValue(PropertyNames.WordSpacing); }
             set { SetProperty(PropertyNames.WordSpacing, value); }
@@ -2235,7 +2235,7 @@
         /// Gets or sets whether to break words when the content exceeds the
         /// boundaries of its container.
         /// </summary>
-        public String WordWrap
+        String ICssStyleDeclaration.WordWrap
         {
             get { return GetPropertyValue(PropertyNames.WordWrap); }
             set { SetProperty(PropertyNames.WordWrap, value); }
@@ -2244,7 +2244,7 @@
         /// <summary>
         /// Gets or sets the direction and flow of the content in the object.
         /// </summary>
-        public String WritingMode
+        String ICssStyleDeclaration.WritingMode
         {
             get { return GetPropertyValue(PropertyNames.WritingMode); }
             set { SetProperty(PropertyNames.WritingMode, value); }
@@ -2253,7 +2253,7 @@
         /// <summary>
         /// Gets or sets the stacking order of positioned objects.
         /// </summary>
-        public String ZIndex
+        String ICssStyleDeclaration.ZIndex
         {
             get { return GetPropertyValue(PropertyNames.ZIndex); }
             set { SetProperty(PropertyNames.ZIndex, value); }
@@ -2262,7 +2262,7 @@
         /// <summary>
         /// Gets or sets the magnification scale of the object.
         /// </summary>
-        public String Zoom
+        String ICssStyleDeclaration.Zoom
         {
             get { return GetPropertyValue(PropertyNames.Zoom); }
             set { SetProperty(PropertyNames.Zoom, value); }
@@ -2492,6 +2492,18 @@
 
             if (!String.IsNullOrEmpty(value))
                 CssParser.AppendDeclarations(this, value);
+        }
+
+        /// <summary>
+        /// Takes the declarations from the other style declaration.
+        /// Clears the other style declarations.
+        /// </summary>
+        /// <param name="style">The style to take the declarations from.</param>
+        internal void TakeFrom(CSSStyleDeclaration style)
+        {
+            _declarations.Clear();
+            _declarations.AddRange(style._declarations);
+            style._declarations.Clear();
         }
 
         #endregion
