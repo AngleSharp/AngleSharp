@@ -54,11 +54,11 @@
         /// <summary>
         /// Creates a new read-only CSS style declaration.
         /// </summary>
-        /// <param name="bag">The bag that indicates the properties to show.</param>
-        internal CSSStyleDeclaration(CssPropertyBag bag)
+        /// <param name="properties">The properties to show.</param>
+        internal CSSStyleDeclaration(IEnumerable<ICssProperty> properties)
             : this(true, null)
         {
-            foreach (CSSProperty property in bag)
+            foreach (CSSProperty property in properties)
                 _declarations.Add(property);
         }
 
