@@ -6,6 +6,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// A set of extension methods for style / related methods.
+    /// </summary>
     static class StyleExtensions
     {
         /// <summary>
