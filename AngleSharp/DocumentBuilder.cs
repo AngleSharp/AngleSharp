@@ -209,7 +209,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
+            var stream = new TextSource(sourceCode);
             var doc = new Document(stream) { Options = configuration, DocumentUri = url };
             var parser = Construct(doc, configuration);
             return parser.Result;
@@ -357,7 +357,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var stream = new TextSource(sourceCode, configuration.DefaultEncoding());
+            var stream = new TextSource(sourceCode);
             var sheet = new CSSStyleSheet(stream) { Options = configuration };
             var parser = Construct(sheet, configuration);
             return parser.Result;

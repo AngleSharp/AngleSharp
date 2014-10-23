@@ -43,9 +43,8 @@
         /// underlying stream will be used.
         /// </summary>
         /// <param name="source">The data source.</param>
-        /// <param name="encoding">The initial encoding. Otherwise UTF-8.</param>
-        public TextSource(String source, Encoding encoding = null)
-            : this(encoding)
+        public TextSource(String source)
+            : this(Encoding.UTF8)
         {
             _finished = true;
             _content = new StringBuilder(source.Replace("\r\n", "\n"));

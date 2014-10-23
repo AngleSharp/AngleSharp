@@ -59,7 +59,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new Document(new TextSource(source, configuration.DefaultEncoding())) { Options = configuration })
+            : this(new Document(new TextSource(source)) { Options = configuration })
         {
         }
 

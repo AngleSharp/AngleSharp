@@ -74,7 +74,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CSSStyleSheet(new TextSource(source, configuration.DefaultEncoding())) { Options = configuration })
+            : this(new CSSStyleSheet(new TextSource(source)) { Options = configuration })
         { }
 
         /// <summary>
@@ -1292,7 +1292,7 @@
         /// <returns>The Selector object.</returns>
         public static ISelector ParseSelector(String selector, IConfiguration configuration = null)
         {
-            var source = new TextSource(selector, configuration.DefaultEncoding());
+            var source = new TextSource(selector);
             var tokenizer = new CssTokenizer(source);
             tokenizer.IgnoreComments = true;
             var tokens = tokenizer.Tokens;
