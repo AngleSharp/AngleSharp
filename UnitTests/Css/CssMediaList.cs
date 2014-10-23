@@ -40,8 +40,8 @@ namespace UnitTests.Css
             var source = @"@media screen; h1 { color: green }";
             var sheet = CssParser.ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
-            var h1 = (CSSStyleRule)sheet.Rules[0];
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(ICssStyleRule));
+            var h1 = (ICssStyleRule)sheet.Rules[0];
             Assert.AreEqual("h1", h1.SelectorText);
             var style = h1.Style;
             Assert.AreEqual("green", style.Color);
@@ -219,8 +219,8 @@ namespace UnitTests.Css
 h1 { color: green }";
             var sheet = CssParser.ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
-            var style = (CSSStyleRule)sheet.Rules[0];
+            Assert.IsInstanceOfType(sheet.Rules[0], typeof(ICssStyleRule));
+            var style = (ICssStyleRule)sheet.Rules[0];
             Assert.AreEqual("green", style.Style.Color);
             Assert.AreEqual("h1", style.SelectorText);
         }
