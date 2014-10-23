@@ -491,5 +491,46 @@ namespace UnitTests
             body.TextContent = ">";
             Assert.AreEqual("&gt;", body.InnerHtml);
         }
+
+        [TestMethod]
+        public void HtmlWithLangAttributeFromString()
+        {
+            var content = @"<html>
+<head>
+<meta http-equiv=Content-Type content=""text/html; charset=utf-8"">
+</head>
+<body lang=RU style='tab-interval:35.4pt'>
+<!--StartFragment-->
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>тест</span><o:p></o:p></p>
+<!--EndFragment-->
+</body>
+</html>";
+            var doc = DocumentBuilder.Html(content);
+
+            var body = doc.Body;
+            var span = body.QuerySelector("span") as HTMLSpanElement;
+            Assert.AreEqual("RU", body.Language);
+            Assert.AreEqual("тест", span.TextContent);
+            Assert.AreEqual("EN-US", span.GetAttribute("lang"));
+            Assert.AreEqual("EN-US", span.Language);
+            Assert.AreEqual("mso-ansi-language:EN-US", span.GetAttribute("style"));
+        }
+
+        [TestMethod]
+        public void HtmlWithLangAttributeFromStream()
+        {
+            var fs = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Pages.encoding.html");
+            var doc = DocumentBuilder.Html(fs);
+
+            var body = doc.Body;
+            var span = body.QuerySelector("span") as HTMLSpanElement;
+            Assert.AreEqual("RU", body.Language);
+            Assert.AreEqual("тест", span.TextContent);
+            Assert.AreEqual("EN-US", span.GetAttribute("lang"));
+            Assert.AreEqual("EN-US", span.Language);
+            Assert.AreEqual("mso-ansi-language:EN-US", span.GetAttribute("style"));
+
+            fs.Dispose();
+        }
     }
 }

@@ -135,6 +135,7 @@
   <ItemGroup>
     <Content Include="Pages\books.xml" />
     <Content Include="Pages\catalog.xml" />
+    <EmbeddedResource Include="Pages\encoding.html" />
     <Content Include="Pages\engineering.xml" />
     <Content Include="Pages\food.xml" />
     <Content Include="Pages\nbc.html" />
