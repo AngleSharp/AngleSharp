@@ -183,7 +183,7 @@ em { font-style: italic !important; }
 
             var style = window.GetComputedStyle(element);
             Assert.IsNotNull(style);
-            Assert.AreEqual(5, style.Length);
+            Assert.AreEqual(8, style.Length);
 
             Assert.AreEqual("0", style.Margin);
             Assert.AreEqual("red", style.Color);

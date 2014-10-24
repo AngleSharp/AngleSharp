@@ -433,31 +433,39 @@ h1 { color: blue }");
         [TestMethod]
         public void CssRgbaFunction()
         {
-            var decl = CssParser.ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
+            var names = new[] { "border-top-color", "border-right-color", "border-bottom-color", "border-left-color" };
+            var decls = CssParser.ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
+            Assert.IsNotNull(decls);
+            Assert.AreEqual(4, decls.Length);
 
-            var prop = decl[0];
-            Assert.AreEqual("border-color", prop.Name);
-            Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual(CssValueType.Primitive, prop.Value.Type);
+            for (int i = 0; i < decls.Length; i++)
+            {
+                var decl = decls[i];
+                Assert.AreEqual(names[i], decl.Name);
+                Assert.IsFalse(decl.IsImportant);
+                Assert.AreEqual(CssValueType.Primitive, decl.Value.Type);
 
-            var color = ((CSSPrimitiveValue)prop.Value).Value;
-            Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
+                var color = ((CSSPrimitiveValue)decl.Value).Value;
+                Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
+            }
         }
 
         [TestMethod]
         public void CssMarginAll()
         {
-            var decl = CssParser.ParseDeclarations("margin: 20px;");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
+            var names = new[] { "margin-top", "margin-right", "margin-bottom", "margin-left" };
+            var decls = CssParser.ParseDeclarations("margin: 20px;");
+            Assert.IsNotNull(decls);
+            Assert.AreEqual(4, decls.Length);
 
-            var prop = decl[0];
-            Assert.AreEqual("margin", prop.Name);
-            Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual(CssValueType.Primitive, prop.Value.Type);
-            Assert.AreEqual("20px", prop.Value.CssText);
+            for (int i = 0; i < decls.Length; i++)
+            {
+                var decl = decls[i];
+                Assert.AreEqual(names[i], decl.Name);
+                Assert.IsFalse(decl.IsImportant);
+                Assert.AreEqual(CssValueType.Primitive, decl.Value.Type);
+                Assert.AreEqual("20px", decl.Value.CssText);   
+            }
         }
 
         [TestMethod]
