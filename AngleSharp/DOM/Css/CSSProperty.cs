@@ -201,7 +201,28 @@
         /// <returns>A string that contains the code.</returns>
         public String ToCss()
         {
-            return String.Concat(_name, ": ", String.Concat(Value.ToCss(), _important ? " !important" : String.Empty, ";"));
+            return Serialize(_name, SerializeValue(), _important);
+        }
+
+        /// <summary>
+        /// Serializes the current value of the CSS property.
+        /// </summary>
+        /// <returns></returns>
+        internal String SerializeValue()
+        {
+            return Value.ToCss();
+        }
+
+        /// <summary>
+        /// Serializes the full CSS declaration.
+        /// </summary>
+        /// <param name="name">The name of the declaration.</param>
+        /// <param name="value">The value of the declaration.</param>
+        /// <param name="important">True if the important flag is set.</param>
+        /// <returns>The string representation of the declaration.</returns>
+        internal static String Serialize(String name, String value, Boolean important)
+        {
+            return String.Concat(name, ": ", String.Concat(value, important ? " !important" : String.Empty, ";"));
         }
 
         #endregion

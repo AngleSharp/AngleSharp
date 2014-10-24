@@ -2352,16 +2352,18 @@
                 var declarations = CssPropertyFactory.GetLonghands(propertyName);
 
                 foreach (var declaration in declarations)
+                {
                     if (this[declaration] == null)
                         return String.Empty;
+                }
 
-                return CssPropertyFactory.CreateShorthand(propertyName, this).Value.CssText;
+                return CssPropertyFactory.CreateShorthand(propertyName, this).SerializeValue();
             }
 
             var property = GetProperty(propertyName);
 
             if (property != null)
-                return property.Value.CssText;
+                return property.SerializeValue();
 
             return String.Empty;
         }
@@ -2545,13 +2547,14 @@
                         if (important > 0 && important != currentLonghands.Count)
                             continue;
 
-                        continue;
                         var rule = CssPropertyFactory.CreateShorthand(shorthand, this);
+                        var value = rule.SerializeValue(currentLonghands);
 
-                        // Let value be the result of invoking serialize a CSS value of current longhands. 
-                        // If value is the empty string, continue with the steps labeled shorthand loop. 
+                        if (String.IsNullOrEmpty(value))
+                            continue;
 
-                        list.Add(rule.ToCss());
+                        value = CSSProperty.Serialize(shorthand, value, important != 0);
+                        list.Add(value);
 
                         foreach (var longhand in currentLonghands)
                         {

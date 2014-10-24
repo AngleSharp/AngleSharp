@@ -17,10 +17,11 @@
 
         #region ctor
 
-        public CSSShorthandProperty(String name, CSSStyleDeclaration rule, PropertyFlags flags)
+        public CSSShorthandProperty(String name, CSSStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
             : base(name, rule, flags | PropertyFlags.Shorthand)
         {
             _properties = CssPropertyFactory.CreateLonghandsFor(name, rule);
+            Reset();
         }
 
         #endregion
@@ -45,6 +46,17 @@
         {
             foreach (var property in _properties)
                 property.Reset();
+        }
+
+        /// <summary>
+        /// Serializes the shorthand with only the given properties.
+        /// </summary>
+        /// <param name="properties">The properties to use.</param>
+        /// <returns>The serialized value or an empty string, if serialization is not possible.</returns>
+        internal String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            //TODO
+            return String.Empty;
         }
 
         #endregion
