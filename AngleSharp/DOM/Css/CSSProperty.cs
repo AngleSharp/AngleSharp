@@ -184,6 +184,17 @@
             return false;
         }
 
+        internal Boolean CanStore(CSSValue value, ref CSSValue storagePosition)
+        {
+            if (storagePosition == null && CanTake(value))
+            {
+                storagePosition = value;
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Notified once the value changed.
         /// </summary>
