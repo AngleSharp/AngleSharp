@@ -10,9 +10,9 @@
     {
         #region Fields
 
-        ListStyle _type;
-        IBitmap _image;
-        ListPosition _position;
+        readonly CSSListStyleTypeProperty _type;
+        readonly CSSListStyleImageProperty _image;
+        readonly CSSListStylePositionProperty _position;
 
         #endregion
 
@@ -21,6 +21,9 @@
         internal CSSListStyleProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited)
         {
+            _type = Get<CSSListStyleTypeProperty>();
+            _image = Get<CSSListStyleImageProperty>();
+            _position = Get<CSSListStylePositionProperty>();
         }
 
         #endregion
@@ -32,7 +35,7 @@
         /// </summary>
         public ListStyle Style
         {
-            get { return _type; }
+            get { return _type.Style; }
         }
 
         /// <summary>
@@ -40,7 +43,7 @@
         /// </summary>
         public IBitmap Image
         {
-            get { return _image; }
+            get { return _image.Image; }
         }
 
         /// <summary>
@@ -48,7 +51,7 @@
         /// </summary>
         public ListPosition Position
         {
-            get { return _position; }
+            get { return _position.Position; }
         }
 
         #endregion
@@ -63,29 +66,22 @@
         protected override Boolean IsValid(CSSValue value)
         {
             var list = value as CSSValueList ?? new CSSValueList(value);
-            ListStyle? type = null;
-            IBitmap image = null;
-            ListPosition? position = null;
+            CSSValue type = null;
+            CSSValue image = null;
+            CSSValue position = null;
 
             if (list.Length > 3)
                 return false;
 
             for (int i = 0; i < list.Length; i++)
             {
-                if (!type.HasValue && (type = list[i].ToListStyle()).HasValue)
-                    continue;
-                else if (image == null && (image = list[i].ToImage()) != null)
-                    continue;
-                else if (!position.HasValue && (position = list[i].ToListPosition()).HasValue)
-                    continue;
-
-                return false;
+                if (!_type.CanStore(list[i], ref type) &&
+                    !_image.CanStore(list[i], ref image) &&
+                    !_position.CanStore(list[i], ref position))
+                    return false;
             }
 
-            _type = type.HasValue ? type.Value : ListStyle.Disc;
-            _image = image;
-            _position = position.HasValue ? position.Value : ListPosition.Outside;
-            return true;
+            return _type.TrySetValue(type) && _image.TrySetValue(image) && _position.TrySetValue(position);
         }
 
         #endregion

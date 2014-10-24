@@ -11,10 +11,10 @@
     {
         #region Fields
 
-        IDistance _top;
-        IDistance _right;
-        IDistance _bottom;
-        IDistance _left;
+        readonly CSSMarginTopProperty _top;
+        readonly CSSMarginRightProperty _right;
+        readonly CSSMarginBottomProperty _bottom;
+        readonly CSSMarginLeftProperty _left;
 
         #endregion
 
@@ -23,6 +23,10 @@
         internal CSSMarginProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Margin, rule)
         {
+            _top = Get<CSSMarginTopProperty>();
+            _right = Get<CSSMarginRightProperty>();
+            _bottom = Get<CSSMarginBottomProperty>();
+            _left = Get<CSSMarginLeftProperty>();
         }
 
         #endregion
@@ -34,7 +38,7 @@
         /// </summary>
         public IDistance Top
         {
-            get { return _top; }
+            get { return _top.Top; }
         }
 
         /// <summary>
@@ -42,7 +46,7 @@
         /// </summary>
         public IDistance Right
         {
-            get { return _right; }
+            get { return _right.Right; }
         }
 
         /// <summary>
@@ -50,7 +54,7 @@
         /// </summary>
         public IDistance Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Bottom; }
         }
 
         /// <summary>
@@ -58,39 +62,7 @@
         /// </summary>
         public IDistance Left
         {
-            get { return _left; }
-        }
-
-        /// <summary>
-        /// Gets if the top margin is automatic.
-        /// </summary>
-        public Boolean IsTopAuto
-        {
-            get { return _top == null; }
-        }
-
-        /// <summary>
-        /// Gets if the right margin is automatic.
-        /// </summary>
-        public Boolean IsRightAuto
-        {
-            get { return _right == null; }
-        }
-
-        /// <summary>
-        /// Gets if the bottom margin is automatic.
-        /// </summary>
-        public Boolean IsBottomAuto
-        {
-            get { return _bottom == null; }
-        }
-
-        /// <summary>
-        /// Gets if the left margin is automatic.
-        /// </summary>
-        public Boolean IsLeftAuto
-        {
-            get { return _left == null; }
+            get { return _left.Left; }
         }
 
         #endregion
@@ -104,46 +76,28 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSValueList)
-                return Check((CSSValueList)value);
+            var list = value as CSSValueList ?? new CSSValueList(value);
+            CSSValue top = null;
+            CSSValue right = null;
+            CSSValue bottom = null;
+            CSSValue left = null;
 
-            return Check(new CSSValue[1] { value });
-        }
+            if (list.Length > 4)
+                return false;
 
-        Boolean Check(IEnumerable<CSSValue> values)
-        {
-            IDistance top = null;
-            IDistance right = null;
-            IDistance bottom = null;
-            IDistance left = null;
-            var i = 0;
-
-            foreach (var value in values)
+            for (int i = 0; i < list.Length; i++)
             {
-                var distance = value.ToDistance();
-
-                if (distance == null && !value.Is(Keywords.Auto))
+                if (!_top.CanStore(list[i], ref top) &&
+                    !_right.CanStore(list[i], ref right) &&
+                    !_bottom.CanStore(list[i], ref bottom) &&
+                    !_left.CanStore(list[i], ref left))
                     return false;
-
-                if (i == 0)
-                    top = distance;
-                else if (i == 1)
-                    right = distance;
-                else if (i == 2)
-                    bottom = distance;
-                else if (i == 3)
-                    left = distance;
-                else
-                    return false;
-
-                i++;
             }
 
-            _top = top;
-            _right = i > 1 ? right : _top;
-            _bottom = i > 2 ? bottom : _top;
-            _left = i > 3 ? left : _right;
-            return true;
+            right = right ?? top;
+            bottom = bottom ?? top;
+            left = left ?? right;
+            return _top.TrySetValue(top) && _right.TrySetValue(right) && _bottom.TrySetValue(bottom) && _left.TrySetValue(left);
         }
 
         #endregion

@@ -11,10 +11,10 @@
     {
         #region Fields
 
-        IDistance _top;
-        IDistance _right;
-        IDistance _bottom;
-        IDistance _left;
+        readonly CSSPaddingTopProperty _top;
+        readonly CSSPaddingRightProperty _right;
+        readonly CSSPaddingBottomProperty _bottom;
+        readonly CSSPaddingLeftProperty _left;
 
         #endregion
 
@@ -23,6 +23,10 @@
         internal CSSPaddingProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Padding, rule)
         {
+            _top = Get<CSSPaddingTopProperty>();
+            _right = Get<CSSPaddingRightProperty>();
+            _bottom = Get<CSSPaddingBottomProperty>();
+            _left = Get<CSSPaddingLeftProperty>();
         }
 
         #endregion
@@ -34,7 +38,7 @@
         /// </summary>
         public IDistance Top
         {
-            get { return _top; }
+            get { return _top.Top; }
         }
 
         /// <summary>
@@ -42,7 +46,7 @@
         /// </summary>
         public IDistance Right
         {
-            get { return _right; }
+            get { return _right.Right; }
         }
 
         /// <summary>
@@ -50,7 +54,7 @@
         /// </summary>
         public IDistance Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Bottom; }
         }
 
         /// <summary>
@@ -58,7 +62,7 @@
         /// </summary>
         public IDistance Left
         {
-            get { return _left; }
+            get { return _left.Left; }
         }
 
         #endregion
@@ -72,43 +76,28 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSValueList)
-                return Check((CSSValueList)value);
+            var list = value as CSSValueList ?? new CSSValueList(value);
+            CSSValue top = null;
+            CSSValue right = null;
+            CSSValue bottom = null;
+            CSSValue left = null;
 
-            return Check(new CSSValue[1] { value });
-        }
+            if (list.Length > 4)
+                return false;
 
-        Boolean Check(IEnumerable<CSSValue> values)
-        {
-            IDistance top = null;
-            IDistance right = null;
-            IDistance bottom = null;
-            IDistance left = null;
-
-            foreach (var value in values)
+            for (int i = 0; i < list.Length; i++)
             {
-                var distance = value.ToDistance();
-
-                if (distance == null)
-                    return false;
-
-                if (top == null)
-                    top = distance;
-                else if (right == null)
-                    right = distance;
-                else if (bottom == null)
-                    bottom = distance;
-                else if (left == null)
-                    left = distance;
-                else
+                if (!_top.CanStore(list[i], ref top) &&
+                    !_right.CanStore(list[i], ref right) &&
+                    !_bottom.CanStore(list[i], ref bottom) &&
+                    !_left.CanStore(list[i], ref left))
                     return false;
             }
 
-            _top = top;
-            _right = right ?? _top;
-            _bottom = bottom ?? _top;
-            _left = left ?? _right;
-            return true;
+            right = right ?? top;
+            bottom = bottom ?? top;
+            left = left ?? right;
+            return _top.TrySetValue(top) && _right.TrySetValue(right) && _bottom.TrySetValue(bottom) && _left.TrySetValue(left);
         }
 
         #endregion
