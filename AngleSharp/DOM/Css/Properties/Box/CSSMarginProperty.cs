@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin
     /// </summary>
-    sealed class CSSMarginProperty : CSSProperty, ICssMarginProperty
+    sealed class CSSMarginProperty : CSSShorthandProperty, ICssMarginProperty
     {
         #region Fields
 
@@ -21,9 +21,8 @@
         #region ctor
 
         internal CSSMarginProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Margin, rule, PropertyFlags.Shorthand)
+            : base(PropertyNames.Margin, rule)
         {
-            Reset();
         }
 
         #endregion
@@ -97,14 +96,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _left = Percent.Zero;
-            _right = Percent.Zero;
-            _top = Percent.Zero;
-            _bottom = Percent.Zero;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

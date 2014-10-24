@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/columns
     /// </summary>
-    sealed class CSSColumnsProperty : CSSProperty, ICssColumnsProperty
+    sealed class CSSColumnsProperty : CSSShorthandProperty, ICssColumnsProperty
     {
         #region Fields
 
@@ -18,9 +18,8 @@
         #region ctor
 
         internal CSSColumnsProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Columns, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.Columns, rule, PropertyFlags.Animatable)
         {
-            Reset();
         }
 
         #endregion
@@ -46,12 +45,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _count = null;
-            _width = null;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

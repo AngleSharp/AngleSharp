@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-width
     /// </summary>
-    sealed class CSSBorderWidthProperty : CSSProperty, ICssBorderWidthsProperty
+    sealed class CSSBorderWidthProperty : CSSShorthandProperty, ICssBorderWidthsProperty
     {
         #region Fields
 
@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSBorderWidthProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
         {
-            Reset();
         }
 
         #endregion
@@ -64,14 +63,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _top = Length.Medium;
-            _right = Length.Medium;
-            _bottom = Length.Medium;
-            _left = Length.Medium;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

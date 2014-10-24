@@ -5,7 +5,7 @@
     /// <summary>
     /// The abstract base class for border properties.
     /// </summary>
-    abstract class CSSBorderPartProperty : CSSProperty
+    abstract class CSSBorderPartProperty : CSSShorthandProperty
     {
         #region Fields
 
@@ -18,9 +18,8 @@
         #region ctor
 
         internal CSSBorderPartProperty(String name, CSSStyleDeclaration rule)
-            : base(name, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(name, rule, PropertyFlags.Animatable)
         {
-            Reset();
         }
 
         #endregion
@@ -54,13 +53,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _width = Length.Medium;
-            _color = Color.Transparent;
-            _style = LineStyle.None;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

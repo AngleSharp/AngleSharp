@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline
     /// </summary>
-    sealed class CSSOutlineProperty : CSSProperty, ICssOutlineProperty
+    sealed class CSSOutlineProperty : CSSShorthandProperty, ICssOutlineProperty
     {
         #region Fields
 
@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSOutlineProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Outline, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.Outline, rule, PropertyFlags.Animatable)
         {
-            Reset();
         }
 
         #endregion
@@ -56,13 +55,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _style = LineStyle.None;
-            _width = Length.Medium;
-            _color = Colors.Invert;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

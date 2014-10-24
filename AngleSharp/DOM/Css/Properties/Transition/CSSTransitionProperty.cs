@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition
     /// </summary>
-    sealed class CSSTransitionProperty : CSSProperty, ICssTransitionProperty
+    sealed class CSSTransitionProperty : CSSShorthandProperty, ICssTransitionProperty
     {
         #region Fields
 
@@ -18,7 +18,7 @@
         #region ctor
 
         internal CSSTransitionProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Transition, rule, PropertyFlags.Shorthand)
+            : base(PropertyNames.Transition, rule)
         {
             _transitions = new List<Transition>();
         }
@@ -78,11 +78,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _transitions.Clear();
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-style
     /// </summary>
-    sealed class CSSBorderStyleProperty : CSSProperty, ICssBorderStylesProperty
+    sealed class CSSBorderStyleProperty : CSSShorthandProperty, ICssBorderStylesProperty
     {
         #region Fields
 
@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSBorderStyleProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderStyle, rule, PropertyFlags.Shorthand)
+            : base(PropertyNames.BorderStyle, rule)
         {
-            Reset();
         }
 
         #endregion
@@ -64,14 +63,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _left = LineStyle.None;
-            _right = LineStyle.None;
-            _bottom = LineStyle.None;
-            _top = LineStyle.None;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

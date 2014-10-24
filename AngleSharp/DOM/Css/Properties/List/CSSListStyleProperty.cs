@@ -6,7 +6,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style
     /// </summary>
-    sealed class CSSListStyleProperty : CSSProperty, ICssListStyleProperty
+    sealed class CSSListStyleProperty : CSSShorthandProperty, ICssListStyleProperty
     {
         #region Fields
 
@@ -19,9 +19,8 @@
         #region ctor
 
         internal CSSListStyleProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited | PropertyFlags.Shorthand)
+            : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited)
         {
-            Reset();
         }
 
         #endregion
@@ -55,13 +54,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _type = ListStyle.Disc;
-            _image = null;
-            _position = ListPosition.Outside;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

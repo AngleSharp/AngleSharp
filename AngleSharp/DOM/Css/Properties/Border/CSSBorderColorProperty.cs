@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
     /// </summary>
-    sealed class CSSBorderColorProperty : CSSProperty, ICssBorderColorsProperty
+    sealed class CSSBorderColorProperty : CSSShorthandProperty, ICssBorderColorsProperty
     {
         #region Fields
 
@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSBorderColorProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
-            Reset();
         }
 
         #endregion
@@ -64,14 +63,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _top = Color.Transparent;
-            _right = Color.Transparent;
-            _bottom = Color.Transparent;
-            _left = Color.Transparent;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

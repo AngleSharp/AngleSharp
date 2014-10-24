@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding
     /// </summary>
-    sealed class CSSPaddingProperty : CSSProperty, ICssPaddingProperty
+    sealed class CSSPaddingProperty : CSSShorthandProperty, ICssPaddingProperty
     {
         #region Fields
 
@@ -21,9 +21,8 @@
         #region ctor
 
         internal CSSPaddingProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Padding, rule, PropertyFlags.Shorthand)
+            : base(PropertyNames.Padding, rule)
         {
-            Reset();
         }
 
         #endregion
@@ -65,14 +64,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _left = Percent.Zero;
-            _right = Percent.Zero;
-            _top = Percent.Zero;
-            _bottom = Percent.Zero;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation
     /// </summary>
-    sealed class CSSAnimationProperty : CSSProperty, ICssAnimationProperty
+    sealed class CSSAnimationProperty : CSSShorthandProperty, ICssAnimationProperty
     {
         #region Fields
 
@@ -18,10 +18,9 @@
         #region ctor
 
         internal CSSAnimationProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.Animation, rule, PropertyFlags.Shorthand)
+            : base(PropertyNames.Animation, rule)
         {
             _animations = new List<Animation>();
-            Reset();
         }
 
         #endregion
@@ -115,22 +114,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _animations.Clear();
-
-            _animations.Add(new Animation
-            {
-                Delay = Time.Zero,
-                Timing = TransitionFunction.Ease,
-                Duration = Time.Zero,
-                FillMode = AnimationFillStyle.None,
-                IterationCount = 1,
-                Direction = AnimationDirection.Normal,
-                Name = Keywords.None
-            });
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

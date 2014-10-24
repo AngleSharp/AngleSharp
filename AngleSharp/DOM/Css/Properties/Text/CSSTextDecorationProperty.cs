@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
     /// </summary>
-    sealed class CSSTextDecorationProperty : CSSProperty, ICssTextDecorationProperty
+    sealed class CSSTextDecorationProperty : CSSShorthandProperty, ICssTextDecorationProperty
     {
         #region Fields
 
@@ -20,10 +20,9 @@
         #region ctor
 
         internal CSSTextDecorationProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.TextDecoration, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.TextDecoration, rule, PropertyFlags.Animatable)
         {
             _line = new List<TextDecorationLine>();
-            Reset();
         }
 
         #endregion
@@ -57,13 +56,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _style = TextDecorationStyle.Solid;
-            _color = Color.Black;
-            _line.Clear();
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.

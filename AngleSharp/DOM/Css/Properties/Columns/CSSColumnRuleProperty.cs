@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule
     /// </summary>
-    sealed class CSSColumnRuleProperty : CSSProperty, ICssColumnRuleProperty
+    sealed class CSSColumnRuleProperty : CSSShorthandProperty, ICssColumnRuleProperty
     {
         #region Fields
 
@@ -20,9 +20,8 @@
         #region ctor
 
         internal CSSColumnRuleProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.ColumnRule, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.ColumnRule, rule, PropertyFlags.Animatable)
         {
-            Reset();
         }
 
         #endregion
@@ -56,13 +55,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _style = LineStyle.None;
-            _width = Length.Medium;
-            _color = Color.Transparent;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
