@@ -3,17 +3,23 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using PropertyCreator = System.Func<CSSStyleDeclaration, CSSProperty>;
 
     /// <summary>
     /// Provides string to CSSProperty instance creation mappings.
     /// </summary>
     static class CssPropertyFactory
     {
+        #region Delegates
+
+        delegate CSSProperty LonghandCreator(CSSStyleDeclaration style);
+        delegate CSSProperty ShorthandCreator(CSSStyleDeclaration style);
+
+        #endregion
+
         #region Fields
 
-        static readonly Dictionary<String, PropertyCreator> longhands = new Dictionary<String, PropertyCreator>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, PropertyCreator> shorthands = new Dictionary<String, PropertyCreator>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, LonghandCreator> longhands = new Dictionary<String, LonghandCreator>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, ShorthandCreator> shorthands = new Dictionary<String, ShorthandCreator>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, String[]> mappings = new Dictionary<String, String[]>();
 
         #endregion
@@ -259,13 +265,13 @@
             AddLonghand(PropertyNames.ZIndex, style => new CSSZIndexProperty(style));
         }
 
-        static void AddShorthand(String name, PropertyCreator creator, params String[] longhands)
+        static void AddShorthand(String name, ShorthandCreator creator, params String[] longhands)
         {
             shorthands.Add(name, creator);
             mappings.Add(name, longhands);
         }
 
-        static void AddLonghand(String name, PropertyCreator creator)
+        static void AddLonghand(String name, LonghandCreator creator)
         {
             longhands.Add(name, creator);
         }
@@ -282,16 +288,9 @@
         /// <returns>The created property.</returns>
         public static CSSProperty Create(String name, CSSStyleDeclaration style)
         {
-            PropertyCreator propertyCreator;
-            var property = style.GetProperty(name);
-
-            if (property != null)
-                return property;
-
-            if (longhands.TryGetValue(name, out propertyCreator) || shorthands.TryGetValue(name, out propertyCreator))
-                property = propertyCreator(style);
-
-            return property;
+            return style.GetProperty(name) ?? 
+                   CreateLonghand(name, style) ?? 
+                   CreateShorthand(name, style);
         }
 
         /// <summary>
@@ -302,16 +301,13 @@
         /// <returns>The created longhand property.</returns>
         public static CSSProperty CreateLonghand(String name, CSSStyleDeclaration style)
         {
-            PropertyCreator propertyCreator;
+            LonghandCreator longhand;
             var property = style.GetProperty(name);
 
-            if (property != null)
-                return property;
+            if (property == null && longhands.TryGetValue(name, out longhand))
+                property = longhand(style);
 
-            if (longhands.TryGetValue(name, out propertyCreator))
-                return propertyCreator(style);
-
-            return null;
+            return property;
         }
 
         /// <summary>
@@ -322,10 +318,10 @@
         /// <returns>The created shorthand property.</returns>
         public static CSSProperty CreateShorthand(String name, CSSStyleDeclaration style)
         {
-            PropertyCreator propertyCreator;
+            ShorthandCreator shorthand;
 
-            if (shorthands.TryGetValue(name, out propertyCreator))
-                return propertyCreator(style);
+            if (shorthands.TryGetValue(name, out shorthand))
+                return shorthand(style);
 
             return null;
         }
