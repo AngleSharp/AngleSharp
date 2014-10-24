@@ -12,7 +12,7 @@
         #region Delegates
 
         delegate CSSProperty LonghandCreator(CSSStyleDeclaration style);
-        delegate CSSProperty ShorthandCreator(CSSStyleDeclaration style);
+        delegate CSSShorthandProperty ShorthandCreator(CSSStyleDeclaration style);
 
         #endregion
 
@@ -316,7 +316,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created shorthand property.</returns>
-        public static CSSProperty CreateShorthand(String name, CSSStyleDeclaration style)
+        public static CSSShorthandProperty CreateShorthand(String name, CSSStyleDeclaration style)
         {
             ShorthandCreator shorthand;
 
