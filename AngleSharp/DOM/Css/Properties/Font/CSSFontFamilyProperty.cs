@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<String> _families;
+        readonly List<String> _families;
 
         #endregion
 
@@ -81,7 +81,8 @@
                 families.Add(family);
             }
 
-            _families = families;
+            _families.Clear();
+            _families.AddRange(families);
             return true;
         }
 

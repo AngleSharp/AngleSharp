@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Animation> _animations;
+        readonly List<Animation> _animations;
 
         #endregion
 
@@ -161,7 +161,8 @@
                     animations.Add(t.Value);
                 }
 
-                _animations = animations;
+                _animations.Clear();
+                _animations.AddRange(animations);
             }
             else 
                 return false;

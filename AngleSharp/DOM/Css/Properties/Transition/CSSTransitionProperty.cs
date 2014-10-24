@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Transition> _transitions;
+        readonly List<Transition> _transitions;
 
         #endregion
 
@@ -107,7 +107,7 @@
             else if (value is CSSValueList)
             {
                 var values = ((CSSValueList)value).ToList();
-                var list = new List<Transition>();
+                var transitions = new List<Transition>();
 
                 foreach (var item in values)
                 {
@@ -116,10 +116,11 @@
                     if (!t.HasValue)
                         return false;
 
-                    list.Add(t.Value);
+                    transitions.Add(t.Value);
                 }
 
-                _transitions = list;
+                _transitions.Clear();
+                _transitions.AddRange(transitions);
             }
             else
                 return false;
