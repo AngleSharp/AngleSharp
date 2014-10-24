@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        Int32? _count;
-        Length? _width;
+        readonly CSSColumnCountProperty _count;
+        readonly CSSColumnWidthProperty _width;
 
         #endregion
 
@@ -20,6 +20,8 @@
         internal CSSColumnsProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Columns, rule, PropertyFlags.Animatable)
         {
+            _count = Get<CSSColumnCountProperty>();
+            _width = Get<CSSColumnWidthProperty>();
         }
 
         #endregion
@@ -31,7 +33,7 @@
         /// </summary>
         public Length? Width
         {
-            get { return _width; }
+            get { return _width.Width; }
         }
 
         /// <summary>
@@ -39,7 +41,7 @@
         /// </summary>
         public Int32? Count
         {
-            get { return _count; }
+            get { return _count.Count; }
         }
 
         #endregion
@@ -53,38 +55,21 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Auto))
-            {
-                _width = null;
-                _count = null;
-            }
-            else
-            {
-                var n = 0;
-                var list = value.AsEnumeration();
-                Int32? count = null;
-                Length? width = null;
+            var list = value as CSSValueList ?? new CSSValueList(value);
+            CSSValue width = null;
+            CSSValue count = null;
 
-                foreach (var entry in list)
-                {
-                    if (n++ < 2)
-                    {
-                        if (count == null && (count = entry.ToInteger()).HasValue)
-                            continue;
-                        else if (width == null && (width = entry.ToLength()).HasValue)
-                            continue;
-                        else if (entry.Is(Keywords.Auto))
-                            continue;
-                    }
+            if (list.Length > 2)
+                return false;
 
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (!_width.CanStore(list[i], ref width) &&
+                    !_count.CanStore(list[i], ref count))
                     return false;
-                }
-
-                _width = width;
-                _count = count;
             }
 
-            return true;
+            return _width.TrySetValue(width) && _count.TrySetValue(count);
         }
 
         #endregion

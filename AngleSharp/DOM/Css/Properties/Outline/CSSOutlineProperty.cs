@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        LineStyle _style;
-        Length _width;
-        IBitmap _color;
+        readonly CSSOutlineStyleProperty _style;
+        readonly CSSOutlineWidthProperty _width;
+        readonly CSSOutlineColorProperty _color;
 
         #endregion
 
@@ -22,6 +22,9 @@
         internal CSSOutlineProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Outline, rule, PropertyFlags.Animatable)
         {
+            _style = Get<CSSOutlineStyleProperty>();
+            _width = Get<CSSOutlineWidthProperty>();
+            _color = Get<CSSOutlineColorProperty>();
         }
 
         #endregion
@@ -33,7 +36,7 @@
         /// </summary>
         public LineStyle Style
         {
-            get { return _style; }
+            get { return _style.Style; }
         }
 
         /// <summary>
@@ -41,7 +44,7 @@
         /// </summary>
         public Length Width
         {
-            get { return _width; }
+            get { return _width.Width; }
         }
 
         /// <summary>
@@ -49,7 +52,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _color is Color ? (Color)_color : Color.Transparent; }
+            get { return _color.Color; }
         }
 
         #endregion
@@ -63,40 +66,23 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var entries = value.AsEnumeration();
-            LineStyle? style = null;
-            Length? width = null;
-            IBitmap color = null;
+            var list = value as CSSValueList ?? new CSSValueList(value);
+            CSSValue style = null;
+            CSSValue width = null;
+            CSSValue color = null;
 
-            foreach (var entry in entries)
-            {
-                if (style == null && (style = entry.ToLineStyle()).HasValue)
-                    continue;
-                else if (width == null && (width = entry.ToBorderWidth()).HasValue)
-                    continue;
-                else if (color == null)
-                {
-                    var c = entry.ToColor();
-
-                    if (c.HasValue)
-                    {
-                        color = c.Value;
-                        continue;
-                    }
-                    else if (entry.Is(Keywords.Invert))
-                    {
-                        color = Colors.Invert;
-                        continue;
-                    }
-                }
-
+            if (list.Length > 3)
                 return false;
+
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (!_style.CanStore(list[i], ref style) &&
+                    !_width.CanStore(list[i], ref width) &&
+                    !_color.CanStore(list[i], ref color))
+                    return false;
             }
 
-            _style = style ?? LineStyle.None;
-            _width = width ?? Length.Medium;
-            _color = color ?? Colors.Invert;
-            return true;
+            return _style.TrySetValue(style) && _width.TrySetValue(width) && _color.TrySetValue(color);
         }
 
         #endregion

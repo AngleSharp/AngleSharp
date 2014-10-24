@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        Length _width;
-        LineStyle _style;
-        Color _color;
+        readonly CSSColumnRuleColorProperty _color;
+        readonly CSSColumnRuleStyleProperty _style;
+        readonly CSSColumnRuleWidthProperty _width;
 
         #endregion
 
@@ -22,6 +22,9 @@
         internal CSSColumnRuleProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.ColumnRule, rule, PropertyFlags.Animatable)
         {
+            _color = Get<CSSColumnRuleColorProperty>();
+            _style = Get<CSSColumnRuleStyleProperty>();
+            _width = Get<CSSColumnRuleWidthProperty>();
         }
 
         #endregion
@@ -33,7 +36,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _color; }
+            get { return _color.Color; }
         }
 
         /// <summary>
@@ -41,7 +44,7 @@
         /// </summary>
         public LineStyle Style
         {
-            get { return _style; }
+            get { return _style.Style; }
         }
 
         /// <summary>
@@ -49,7 +52,7 @@
         /// </summary>
         public Length Width
         {
-            get { return _width; }
+            get { return _width.Width; }
         }
 
         #endregion
@@ -64,29 +67,22 @@
         protected override Boolean IsValid(CSSValue value)
         {
             var list = value as CSSValueList ?? new CSSValueList(value);
-            Color? color = null;
-            Length? width = null;
-            LineStyle? style = null;
+            CSSValue color = null;
+            CSSValue width = null;
+            CSSValue style = null;
 
             if (list.Length > 3)
                 return false;
 
             for (int i = 0; i < list.Length; i++)
             {
-                if (!color.HasValue && (color = list[i].ToColor()).HasValue)
-                    continue;
-                else if (!width.HasValue && (width = list[i].ToBorderWidth()).HasValue)
-                    continue;
-                else if (!style.HasValue && (style = list[i].ToLineStyle()).HasValue)
-                    continue;
-
-                return false;
+                if (!_color.CanStore(list[i], ref color) && 
+                    !_width.CanStore(list[i], ref width) && 
+                    !_style.CanStore(list[i], ref style))
+                    return false;
             }
 
-            _color = color.HasValue ? color.Value : Color.Transparent;
-            _width = width.HasValue ? width.Value : Length.Medium;
-            _style = style.HasValue ? style.Value : LineStyle.None;
-            return true;
+            return _color.TrySetValue(color) && _width.TrySetValue(width) && _style.TrySetValue(style);
         }
 
         #endregion
