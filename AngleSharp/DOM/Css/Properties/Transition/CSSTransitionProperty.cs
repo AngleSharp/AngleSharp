@@ -95,22 +95,14 @@
                     properties.Add(CSSValue.Separator);
                 }
 
-                CSSValue delay = null;
-                CSSValue duration = null;
-                CSSValue timingFunction = null;
-                CSSValue property = null;
+                CSSValue delay = null, duration = null, timingFunction = null, property = null;
 
                 foreach (var item in list)
                 {
-                    if (!_property.CanStore(item, ref property) &&
-                        !_duration.CanStore(item, ref duration) &&
-                        !_timingFunction.CanStore(item, ref timingFunction) &&
-                        !_delay.CanStore(item, ref delay))
+                    if (!_property.CanStore(item, ref property) && !_duration.CanStore(item, ref duration) &&
+                        !_timingFunction.CanStore(item, ref timingFunction) && !_delay.CanStore(item, ref delay))
                         return false;
                 }
-
-                if (properties.Length > 0 && property.Is(Keywords.None))
-                    return false;
 
                 delays.Add(delay ?? new CSSPrimitiveValue(Time.Zero));
                 durations.Add(duration ?? new CSSPrimitiveValue(Time.Zero));
@@ -118,8 +110,8 @@
                 properties.Add(property ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.All)));
             }
 
-            return _delay.TrySetValue(delays.Reduce()) && _duration.TrySetValue(durations.Reduce()) &&
-                   _timingFunction.TrySetValue(timingFunctions.Reduce()) && _property.TrySetValue(properties.Reduce());
+            return _property.TrySetValue(properties.Reduce()) && _delay.TrySetValue(delays.Reduce()) &&
+                   _duration.TrySetValue(durations.Reduce()) && _timingFunction.TrySetValue(timingFunctions.Reduce());
         }
 
         #endregion
