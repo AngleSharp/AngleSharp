@@ -188,7 +188,6 @@
     <Compile Include="DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Border\CSSBorderPartProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs" />
     <Compile Include="DOM\Css\Properties\Border\CSSBorderProperty.cs" />
