@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        Color _top;
-        Color _right;
-        Color _bottom;
-        Color _left;
+        readonly CSSBorderTopColorProperty _top;
+        readonly CSSBorderRightColorProperty _right;
+        readonly CSSBorderBottomColorProperty _bottom;
+        readonly CSSBorderLeftColorProperty _left;
 
         #endregion
 
@@ -22,6 +22,10 @@
         internal CSSBorderColorProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
+            _top = Get<CSSBorderTopColorProperty>();
+            _right = Get<CSSBorderRightColorProperty>();
+            _bottom = Get<CSSBorderBottomColorProperty>();
+            _left = Get<CSSBorderLeftColorProperty>();
         }
 
         #endregion
@@ -33,7 +37,7 @@
         /// </summary>
         public Color Top
         {
-            get { return _top; }
+            get { return _top.Color; }
         }
 
         /// <summary>
@@ -41,7 +45,7 @@
         /// </summary>
         public Color Right
         {
-            get { return _right; }
+            get { return _right.Color; }
         }
 
         /// <summary>
@@ -49,7 +53,7 @@
         /// </summary>
         public Color Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Color; }
         }
 
         /// <summary>
@@ -57,7 +61,7 @@
         /// </summary>
         public Color Left
         {
-            get { return _left; }
+            get { return _left.Color; }
         }
 
         #endregion
@@ -71,45 +75,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value as CSSValueList ?? new CSSValueList(value);
-            Color? top;
-            Color? bottom;
-            Color? right;
-            Color? left;
-
-            if (values.Length == 1)
-            {
-                right = left = bottom = top = values[0].ToColor();
-            }
-            else if (values.Length == 2)
-            {
-                bottom = top = values[0].ToColor();
-                left = right = values[1].ToColor();
-            }
-            else if (values.Length == 3)
-            {
-                top = values[0].ToColor();
-                left = right = values[1].ToColor();
-                bottom = values[2].ToColor();
-            }
-            else if (values.Length == 4)
-            {
-                top = values[0].ToColor();
-                right = values[1].ToColor();
-                bottom = values[2].ToColor();
-                left = values[3].ToColor();
-            }
-            else
-                return false;
-
-            if (!top.HasValue || !right.HasValue || !bottom.HasValue || !left.HasValue)
-                return false;
-
-            _top = top.Value;
-            _bottom = bottom.Value;
-            _right = right.Value;
-            _left = left.Value;
-            return true;
+            return ValidatePeriodic(value, _top, _right, _bottom, _left);
         }
 
         #endregion

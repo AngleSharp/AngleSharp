@@ -76,28 +76,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue top = null;
-            CSSValue right = null;
-            CSSValue bottom = null;
-            CSSValue left = null;
-
-            if (list.Length > 4)
-                return false;
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (!_top.CanStore(list[i], ref top) &&
-                    !_right.CanStore(list[i], ref right) &&
-                    !_bottom.CanStore(list[i], ref bottom) &&
-                    !_left.CanStore(list[i], ref left))
-                    return false;
-            }
-
-            right = right ?? top;
-            bottom = bottom ?? top;
-            left = left ?? right;
-            return _top.TrySetValue(top) && _right.TrySetValue(right) && _bottom.TrySetValue(bottom) && _left.TrySetValue(left);
+            return ValidatePeriodic(value, _top, _right, _bottom, _left);
         }
 
         #endregion
