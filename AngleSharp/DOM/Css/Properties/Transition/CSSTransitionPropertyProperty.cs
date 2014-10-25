@@ -56,13 +56,13 @@
                 _properties.Clear();
             else if (value is CSSPrimitiveValue)
             {
-                var primitive = (CSSPrimitiveValue)value;
+                var ident = value.ToIdentifier();
 
-                if (primitive.Unit != UnitType.Ident)
+                if (ident == null)
                     return false;
 
                 _properties.Clear();
-                _properties.Add(primitive.GetString());
+                _properties.Add(ident);
             }
             else if (value is CSSValueList)
             {
