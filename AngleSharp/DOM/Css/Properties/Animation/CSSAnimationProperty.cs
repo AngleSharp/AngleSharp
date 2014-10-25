@@ -128,32 +128,43 @@
                 if (list.Length > 8)
                     return false;
 
-                CSSValue delay = null;
-                CSSValue direction = null;
-                CSSValue duration = null;
-                CSSValue fillMode = null;
-                CSSValue iterationCount = null;
-                CSSValue name = null;
-                CSSValue timingFunction = null;
-                CSSValue playState = null;
+                if (delays.Length != 0)
+                {
+                    delays.Add(CSSValue.Separator); 
+                    durations.Add(CSSValue.Separator);
+                    timingFunctions.Add(CSSValue.Separator);
+                    iterationCounts.Add(CSSValue.Separator);
+                    directions.Add(CSSValue.Separator);
+                    fillModes.Add(CSSValue.Separator);
+                    names.Add(CSSValue.Separator);
+                    playStates.Add(CSSValue.Separator);
+                }
+
+                CSSValue delay = null, direction = null, duration = null, fillMode = null,
+                         iterationCount = null, name = null, timingFunction = null, playState = null;
 
                 foreach (var item in list)
                 {
-                    if (!_name.CanStore(item, ref name) &&
-                        !_duration.CanStore(item, ref duration) &&
-                        !_timingFunction.CanStore(item, ref timingFunction) &&
-                        !_delay.CanStore(item, ref delay) &&
-                        !_iterationCount.CanStore(item, ref iterationCount) &&
-                        !_direction.CanStore(item, ref direction) &&
-                        !_fillMode.CanStore(item, ref fillMode) &&
-                        !_playState.CanStore(item, ref playState))
+                    if (!_duration.CanStore(item, ref duration) && !_timingFunction.CanStore(item, ref timingFunction) &&
+                        !_delay.CanStore(item, ref delay) && !_iterationCount.CanStore(item, ref iterationCount) &&
+                        !_direction.CanStore(item, ref direction) && !_fillMode.CanStore(item, ref fillMode) &&
+                        !_playState.CanStore(item, ref playState) && !_name.CanStore(item, ref name))
                         return false;
                 }
+
+                delays.Add(delay ?? new CSSPrimitiveValue(Time.Zero));
+                durations.Add(duration ?? new CSSPrimitiveValue(Time.Zero));
+                timingFunctions.Add(timingFunction ?? new CSSPrimitiveValue(TransitionFunction.Ease));
+                iterationCounts.Add(iterationCount ?? new CSSPrimitiveValue(Number.One));
+                directions.Add(direction ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Normal)));
+                fillModes.Add(fillMode ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.None)));
+                names.Add(name ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.None)));
+                playStates.Add(playState ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Running)));
             }
 
-            return _delay.TrySetValue(delays.Reduce()) && _direction.TrySetValue(directions.Reduce()) &&
-                   _duration.TrySetValue(durations.Reduce()) && _fillMode.TrySetValue(fillModes.Reduce()) &&
-                   _iterationCount.TrySetValue(iterationCounts.Reduce()) && _name.TrySetValue(names.Reduce()) &&
+            return _name.TrySetValue(names.Reduce()) && _delay.TrySetValue(delays.Reduce()) && 
+                   _direction.TrySetValue(directions.Reduce()) && _duration.TrySetValue(durations.Reduce()) && 
+                   _fillMode.TrySetValue(fillModes.Reduce()) && _iterationCount.TrySetValue(iterationCounts.Reduce()) &&
                    _timingFunction.TrySetValue(timingFunctions.Reduce()) && _playState.TrySetValue(playStates.Reduce());
         }
 

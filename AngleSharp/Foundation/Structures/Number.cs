@@ -20,6 +20,11 @@
         /// </summary>
         public static readonly Number Infinite = new Number(Single.PositiveInfinity);
 
+        /// <summary>
+        /// Gets the neutral element.
+        /// </summary>
+        public static readonly Number One = new Number(1f);
+
         Single _value;
 
         #endregion
