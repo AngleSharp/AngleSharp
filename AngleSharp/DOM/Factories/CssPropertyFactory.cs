@@ -35,7 +35,8 @@
                 PropertyNames.AnimationFillMode, 
                 PropertyNames.AnimationIterationCount, 
                 PropertyNames.AnimationName, 
-                PropertyNames.AnimationTimingFunction);
+                PropertyNames.AnimationTimingFunction,
+                PropertyNames.AnimationPlayState);
             AddLonghand(PropertyNames.AnimationDelay, style => new CSSAnimationDelayProperty(style));
             AddLonghand(PropertyNames.AnimationDirection, style => new CSSAnimationDirectionProperty(style));
             AddLonghand(PropertyNames.AnimationDuration, style => new CSSAnimationDurationProperty(style));

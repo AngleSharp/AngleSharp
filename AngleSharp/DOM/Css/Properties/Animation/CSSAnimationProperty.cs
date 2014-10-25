@@ -11,7 +11,14 @@
     {
         #region Fields
 
-        readonly List<Animation> _animations;
+        readonly CSSAnimationDelayProperty _delay;
+        readonly CSSAnimationDirectionProperty _direction;
+        readonly CSSAnimationDurationProperty _duration;
+        readonly CSSAnimationFillModeProperty _fillMode;
+        readonly CSSAnimationIterationCountProperty _iterationCount;
+        readonly CSSAnimationNameProperty _name;
+        readonly CSSAnimationTimingFunctionProperty _timingFunction;
+        readonly CSSAnimationPlayStateProperty _playState;
 
         #endregion
 
@@ -20,7 +27,14 @@
         internal CSSAnimationProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Animation, rule)
         {
-            _animations = new List<Animation>();
+            _delay = Get<CSSAnimationDelayProperty>();
+            _direction = Get<CSSAnimationDirectionProperty>();
+            _duration = Get<CSSAnimationDurationProperty>();
+            _fillMode = Get<CSSAnimationFillModeProperty>();
+            _iterationCount = Get<CSSAnimationIterationCountProperty>();
+            _name = Get<CSSAnimationNameProperty>();
+            _timingFunction = Get<CSSAnimationTimingFunctionProperty>();
+            _playState = Get<CSSAnimationPlayStateProperty>();
         }
 
         #endregion
@@ -32,11 +46,7 @@
         /// </summary>
         public IEnumerable<Time> Durations
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.Duration;
-            }
+            get { return _duration.Durations; }
         }
 
         /// <summary>
@@ -44,11 +54,7 @@
         /// </summary>
         public IEnumerable<Time> Delays
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.Delay;
-            }
+            get { return _delay.Delays; }
         }
 
         /// <summary>
@@ -56,11 +62,7 @@
         /// </summary>
         public IEnumerable<TransitionFunction> TimingFunctions
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.Timing;
-            }
+            get { return _timingFunction.TimingFunctions; }
         }
 
         /// <summary>
@@ -68,11 +70,7 @@
         /// </summary>
         public IEnumerable<String> Names
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.Name;
-            }
+            get { return _name.Names; }
         }
 
         /// <summary>
@@ -80,11 +78,7 @@
         /// </summary>
         public IEnumerable<AnimationFillStyle> FillModes
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.FillMode;
-            }
+            get { return _fillMode.FillModes; }
         }
 
         /// <summary>
@@ -92,11 +86,7 @@
         /// </summary>
         public IEnumerable<AnimationDirection> Directions
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.Direction;
-            }
+            get { return _direction.Directions; }
         }
 
         /// <summary>
@@ -104,11 +94,12 @@
         /// </summary>
         public IEnumerable<Int32> Iterations
         {
-            get
-            {
-                foreach (var time in _animations)
-                    yield return time.IterationCount;
-            }
+            get { return _iterationCount.Iterations; }
+        }
+
+        public IEnumerable<PlayState> States
+        {
+            get { return _playState.States; }
         }
 
         #endregion
@@ -122,129 +113,48 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var transition = ParseValue(value);
+            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
+            var delays = new CSSValueList();
+            var directions = new CSSValueList();
+            var durations = new CSSValueList();
+            var fillModes = new CSSValueList();
+            var iterationCounts = new CSSValueList();
+            var names = new CSSValueList();
+            var timingFunctions = new CSSValueList();
+            var playStates = new CSSValueList();
 
-            if (transition.HasValue)
+            foreach (var list in items)
             {
-                _animations.Clear();
-                _animations.Add(transition.Value);
-            }
-            else if (value is CSSValueList)
-            {
-                var values = ((CSSValueList)value).ToList();
-                var animations = new List<Animation>();
+                if (list.Length > 8)
+                    return false;
 
-                foreach (var item in values)
+                CSSValue delay = null;
+                CSSValue direction = null;
+                CSSValue duration = null;
+                CSSValue fillMode = null;
+                CSSValue iterationCount = null;
+                CSSValue name = null;
+                CSSValue timingFunction = null;
+                CSSValue playState = null;
+
+                foreach (var item in list)
                 {
-                    var t = item.Length == 1 ? ParseValue(item[0]) : ParseValue(item);
-
-                    if (!t.HasValue)
+                    if (!_name.CanStore(item, ref name) &&
+                        !_duration.CanStore(item, ref duration) &&
+                        !_timingFunction.CanStore(item, ref timingFunction) &&
+                        !_delay.CanStore(item, ref delay) &&
+                        !_iterationCount.CanStore(item, ref iterationCount) &&
+                        !_direction.CanStore(item, ref direction) &&
+                        !_fillMode.CanStore(item, ref fillMode) &&
+                        !_playState.CanStore(item, ref playState))
                         return false;
-
-                    animations.Add(t.Value);
                 }
-
-                _animations.Clear();
-                _animations.AddRange(animations);
-            }
-            else 
-                return false;
-
-            return true;
-        }
-
-        Animation? ParseValue(CSSValue value)
-        {
-            Time? duration = null;
-            Int32? iterationCount = null;
-            String name = null;
-            var function = value.ToTimingFunction();
-
-            if (function == null && (name = value.ToIdentifier()) == null && !(duration = value.ToTime()).HasValue && !(iterationCount = value.ToInteger()).HasValue)
-                return null;
-
-            return new Animation
-            {
-                Delay = Time.Zero,
-                Duration = duration ?? Time.Zero,
-                Timing = function ?? TransitionFunction.Ease,
-                Name = name ?? Keywords.None,
-                IterationCount = iterationCount ?? 1,
-                FillMode = AnimationFillStyle.None,
-                Direction = AnimationDirection.Normal
-            };
-        }
-
-        Animation? ParseValue(CSSValueList values)
-        {
-            Time? delay = null;
-            Time? duration = null;
-            Int32? iterationCount = null;
-            TransitionFunction function = null;
-            AnimationFillStyle? fillMode = null;
-            AnimationDirection? direction = null;
-            String name = null;
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                if (function == null && (function = values[i].ToTimingFunction()) != null)
-                    continue;
-
-                if (name == null && (name = values[i].ToIdentifier()) != null)
-                    continue;
-
-                if (!fillMode.HasValue && (fillMode = values[i].ToFillMode()).HasValue)
-                    continue;
-
-                if (!direction.HasValue && (direction = values[i].ToDirection()).HasValue)
-                    continue;
-
-                var time = values[i].ToTime();
-
-                if (time.HasValue)
-                {
-                    if (duration == null)
-                    {
-                        duration = time;
-                        continue;
-                    }
-                    else if (delay == null)
-                    {
-                        delay = time;
-                        continue;
-                    }
-                }
-                else if (!iterationCount.HasValue && (iterationCount = values[i].ToInteger()).HasValue)
-                    continue;
-
-                return null;
             }
 
-            return new Animation
-            {
-                Delay = delay ?? Time.Zero,
-                Duration = duration ?? Time.Zero,
-                Timing = function ?? TransitionFunction.Ease,
-                Name = name ?? Keywords.None,
-                IterationCount = iterationCount ?? 1,
-                FillMode = fillMode.HasValue ? fillMode.Value : AnimationFillStyle.None,
-                Direction = direction.HasValue ? direction.Value : AnimationDirection.Normal
-            };
-        }
-
-        #endregion
-
-        #region Animation
-
-        struct Animation
-        {
-            public Time Delay;
-            public Time Duration;
-            public TransitionFunction Timing;
-            public Int32 IterationCount;
-            public AnimationDirection Direction;
-            public AnimationFillStyle FillMode;
-            public String Name;
+            return _delay.TrySetValue(delays.Reduce()) && _direction.TrySetValue(directions.Reduce()) &&
+                   _duration.TrySetValue(durations.Reduce()) && _fillMode.TrySetValue(fillModes.Reduce()) &&
+                   _iterationCount.TrySetValue(iterationCounts.Reduce()) && _name.TrySetValue(names.Reduce()) &&
+                   _timingFunction.TrySetValue(timingFunctions.Reduce()) && _playState.TrySetValue(playStates.Reduce());
         }
 
         #endregion
