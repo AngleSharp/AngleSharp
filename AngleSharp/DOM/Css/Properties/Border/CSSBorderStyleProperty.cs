@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        LineStyle _top;
-        LineStyle _right;
-        LineStyle _bottom;
-        LineStyle _left;
+        readonly CSSBorderTopStyleProperty _top;
+        readonly CSSBorderRightStyleProperty _right;
+        readonly CSSBorderBottomStyleProperty _bottom;
+        readonly CSSBorderLeftStyleProperty _left;
 
         #endregion
 
@@ -22,6 +22,10 @@
         internal CSSBorderStyleProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BorderStyle, rule)
         {
+            _top = Get<CSSBorderTopStyleProperty>();
+            _right = Get<CSSBorderRightStyleProperty>();
+            _bottom = Get<CSSBorderBottomStyleProperty>();
+            _left = Get<CSSBorderLeftStyleProperty>();
         }
 
         #endregion
@@ -33,7 +37,7 @@
         /// </summary>
         public LineStyle Top
         {
-            get { return _top; }
+            get { return _top.Style; }
         }
 
         /// <summary>
@@ -41,7 +45,7 @@
         /// </summary>
         public LineStyle Right
         {
-            get { return _right; }
+            get { return _right.Style; }
         }
 
         /// <summary>
@@ -49,7 +53,7 @@
         /// </summary>
         public LineStyle Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Style; }
         }
 
         /// <summary>
@@ -57,7 +61,7 @@
         /// </summary>
         public LineStyle Left
         {
-            get { return _left; }
+            get { return _left.Style; }
         }
 
         #endregion
@@ -71,45 +75,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value as CSSValueList ?? new CSSValueList(value);
-            LineStyle? top;
-            LineStyle? bottom;
-            LineStyle? right;
-            LineStyle? left;
-
-            if (values.Length == 1)
-            {
-                right = left = bottom = top = values[0].ToLineStyle();
-            }
-            else if (values.Length == 2)
-            {
-                bottom = top = values[0].ToLineStyle();
-                left = right = values[1].ToLineStyle();
-            }
-            else if (values.Length == 3)
-            {
-                top = values[0].ToLineStyle();
-                left = right = values[1].ToLineStyle();
-                bottom = values[2].ToLineStyle();
-            }
-            else if (values.Length == 4)
-            {
-                top = values[0].ToLineStyle();
-                right = values[1].ToLineStyle();
-                bottom = values[2].ToLineStyle();
-                left = values[3].ToLineStyle();
-            }
-            else
-                return false;
-
-            if (!top.HasValue || !right.HasValue || !bottom.HasValue || !left.HasValue)
-                return false;
-
-            _top = top.Value;
-            _bottom = bottom.Value;
-            _right = right.Value;
-            _left = left.Value;
-            return true;
+            return ValidatePeriodic(value, _top, _right, _bottom, _left);
         }
 
         #endregion

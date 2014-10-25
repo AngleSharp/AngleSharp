@@ -10,10 +10,10 @@
     {
         #region Fields
 
-        Length _top;
-        Length _right;
-        Length _bottom;
-        Length _left;
+        readonly CSSBorderTopWidthProperty _top;
+        readonly CSSBorderRightWidthProperty _right;
+        readonly CSSBorderBottomWidthProperty _bottom;
+        readonly CSSBorderLeftWidthProperty _left;
 
         #endregion
 
@@ -22,6 +22,10 @@
         internal CSSBorderWidthProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
         {
+            _top = Get<CSSBorderTopWidthProperty>();
+            _right = Get<CSSBorderRightWidthProperty>();
+            _bottom = Get<CSSBorderBottomWidthProperty>();
+            _left = Get<CSSBorderLeftWidthProperty>();
         }
 
         #endregion
@@ -33,7 +37,7 @@
         /// </summary>
         public Length Top
         {
-            get { return _top; }
+            get { return _top.Width; }
         }
 
         /// <summary>
@@ -41,7 +45,7 @@
         /// </summary>
         public Length Right
         {
-            get { return _right; }
+            get { return _right.Width; }
         }
 
         /// <summary>
@@ -49,7 +53,7 @@
         /// </summary>
         public Length Bottom
         {
-            get { return _bottom; }
+            get { return _bottom.Width; }
         }
 
         /// <summary>
@@ -57,7 +61,7 @@
         /// </summary>
         public Length Left
         {
-            get { return _left; }
+            get { return _left.Width; }
         }
 
         #endregion
@@ -71,37 +75,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value as CSSValueList ?? new CSSValueList(value);
-
-            if (values.Length > 4)
-                return false;
-
-            var widths = new Length?[4];
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                var width = values[i].ToBorderWidth();
-
-                if (!width.HasValue)
-                    return false;
-
-                widths[i] = width;
-            }
-
-            if (!widths[1].HasValue)
-                widths[1] = widths[0];
-
-            if (!widths[2].HasValue)
-                widths[2] = widths[0];
-
-            if (!widths[3].HasValue)
-                widths[3] = widths[1];
-
-            _top = widths[0].Value;
-            _right = widths[1].Value;
-            _bottom = widths[2].Value;
-            _left = widths[3].Value;
-            return true;
+            return ValidatePeriodic(value, _top, _right, _bottom, _left);
         }
 
         #endregion
