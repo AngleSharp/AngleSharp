@@ -133,12 +133,7 @@
             {
                 var entries = value as CSSValueList ?? new CSSValueList(value);
                 var allowDelim = false;
-                CSSValue weight = null;
-                CSSValue style = null;
-                CSSValue variant = null;
-                CSSValue stretch = null;
-                CSSValue size = null;
-                CSSValue height = null;
+                CSSValue weight = null, style = null, variant = null, stretch = null, size = null, height = null;
 
                 for (var i = 0; i < entries.Length; i++)
                 {
@@ -146,63 +141,23 @@
 
                     if (allowDelim)
                     {
-                        if (entry == CSSValue.Delimiter)
-                        {
-                            if (++i == entries.Length)
-                                return false;
-
-                            height = entries[i];
-
-                            if (!_height.CanTake(height) || ++i == entries.Length)
-                                return false;
-                        }
+                        if (entry == CSSValue.Delimiter && (++i == entries.Length || !_height.CanStore(entries[i++], ref height)))
+                            return false;
 
                         if (!_families.TrySetValue(entries.Subset(start: i)))
                             return false;
 
-                        break;
+                        return _stretch.TrySetValue(stretch) && _variant.TrySetValue(variant) && _size.TrySetValue(size) &&
+                               _height.TrySetValue(height) && _style.TrySetValue(style) && _weight.TrySetValue(weight);
                     }
-
-                    if (style == null && _style.CanTake(entry))
-                    {
-                        style = entry;
-                        continue;
-                    }
-
-                    if (variant == null && _variant.CanTake(entry))
-                    {
-                        variant = entry;
-                        continue;
-                    }
-
-                    if (weight == null && _weight.CanTake(entry))
-                    {
-                        weight = entry;
-                        continue;
-                    }
-
-                    if (stretch == null && _stretch.CanTake(entry))
-                    {
-                        stretch = entry;
-                        continue;
-                    }
-
-                    if (size == null && _size.CanTake(entry))
-                    {
-                        size = entry;
+                    else if (_size.CanStore(entry, ref size))
                         allowDelim = true;
-                        continue;
-                    }
-
-                    return false;
+                    else if (!_style.CanStore(entry, ref style) && !_variant.CanStore(entry, ref variant) &&
+                             !_weight.CanStore(entry, ref weight) && !_stretch.CanStore(entry, ref stretch))
+                        return false;
                 }
 
-                return _stretch.TrySetValue(stretch) &&
-                    _variant.TrySetValue(variant) &&
-                    _size.TrySetValue(size) && 
-                    _height.TrySetValue(height) && 
-                    _style.TrySetValue(style) && 
-                    _weight.TrySetValue(weight);
+                return false;
             }
             else
                 SetTo(setting);
