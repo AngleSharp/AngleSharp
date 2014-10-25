@@ -502,9 +502,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderPartProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs</Link>
     </Compile>
