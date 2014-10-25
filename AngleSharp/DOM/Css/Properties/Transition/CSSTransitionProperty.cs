@@ -11,7 +11,10 @@
     {
         #region Fields
 
-        readonly List<Transition> _transitions;
+        readonly CSSTransitionDelayProperty _delay;
+        readonly CSSTransitionDurationProperty _duration;
+        readonly CSSTransitionTimingFunctionProperty _timingFunction;
+        readonly CSSTransitionPropertyProperty _property;
 
         #endregion
 
@@ -20,7 +23,10 @@
         internal CSSTransitionProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Transition, rule)
         {
-            _transitions = new List<Transition>();
+            _delay = Get<CSSTransitionDelayProperty>();
+            _duration = Get<CSSTransitionDurationProperty>();
+            _timingFunction = Get<CSSTransitionTimingFunctionProperty>();
+            _property = Get<CSSTransitionPropertyProperty>();
         }
 
         #endregion
@@ -32,11 +38,7 @@
         /// </summary>
         public IEnumerable<Time> Durations
         {
-            get
-            {
-                foreach (var time in _transitions)
-                    yield return time.Duration;
-            }
+            get { return _duration.Durations; }
         }
 
         /// <summary>
@@ -44,11 +46,7 @@
         /// </summary>
         public IEnumerable<Time> Delays
         {
-            get
-            {
-                foreach (var time in _transitions)
-                    yield return time.Delay;
-            }
+            get { return _delay.Delays; }
         }
 
         /// <summary>
@@ -56,11 +54,7 @@
         /// </summary>
         public IEnumerable<TransitionFunction> TimingFunctions
         {
-            get
-            {
-                foreach (var time in _transitions)
-                    yield return time.Timing;
-            }
+            get { return _timingFunction.TimingFunctions; }
         }
 
         /// <summary>
@@ -68,11 +62,7 @@
         /// </summary>
         public IEnumerable<String> Properties
         {
-            get
-            {
-                foreach (var time in _transitions)
-                    yield return time.Property;
-            }
+            get { return _property.Properties; }
         }
 
         #endregion
@@ -88,112 +78,38 @@
         {
             if (value.Is(Keywords.None))
             {
-                _transitions.Clear();
+                Reset();
                 return true;
             }
-            
-            var transition = ParseValue(value);
 
-            if (transition.HasValue)
-            {
-                _transitions.Clear();
-                _transitions.Add(transition.Value);
-            }
-            else if (value is CSSValueList)
-            {
-                var values = ((CSSValueList)value).ToList();
-                var transitions = new List<Transition>();
+            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
+            var delays = new CSSValueList();
+            var durations = new CSSValueList();
+            var timingFunctions = new CSSValueList();
+            var properties = new CSSValueList();
 
-                foreach (var item in values)
+            foreach (var list in items)
+            {
+                if (list.Length > 8)
+                    return false;
+
+                CSSValue delay = null;
+                CSSValue duration = null;
+                CSSValue timingFunction = null;
+                CSSValue property = null;
+
+                foreach (var item in list)
                 {
-                    var t = item.Length == 1 ? ParseValue(item[0]) : ParseValue(item);
-
-                    if (!t.HasValue)
+                    if (!_property.CanStore(item, ref property) &&
+                        !_duration.CanStore(item, ref duration) &&
+                        !_timingFunction.CanStore(item, ref timingFunction) &&
+                        !_delay.CanStore(item, ref delay))
                         return false;
-
-                    transitions.Add(t.Value);
                 }
-
-                _transitions.Clear();
-                _transitions.AddRange(transitions);
-            }
-            else
-                return false;
-
-            return true;
-        }
-
-        Transition? ParseValue(CSSValue value)
-        {
-            Time? duration = null;
-            String property = null;
-            var function = value.ToTimingFunction();
-
-            if (function == null && (property = value.ToIdentifier()) == null && !(duration = value.ToTime()).HasValue)
-                return null;
-
-            return new Transition
-            {
-                Delay = Time.Zero,
-                Duration = duration ?? Time.Zero,
-                Timing = function ?? TransitionFunction.Ease,
-                Property = property ?? Keywords.All
-            };
-        }
-
-        Transition? ParseValue(CSSValueList values)
-        {
-            Time? delay = null;
-            Time? duration = null;
-            TransitionFunction function = null;
-            String property = null;
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                if (function == null && (function = values[i].ToTimingFunction()) != null)
-                    continue;
-
-                if (property == null && (property = values[i].ToIdentifier()) != null)
-                    continue;
-
-                var time = values[i].ToTime();
-
-                if (time.HasValue)
-                {
-                    if (duration == null)
-                    {
-                        duration = time;
-                        continue;
-                    }
-                    else if (delay == null)
-                    {
-                        delay = time;
-                        continue;
-                    }
-                }
-
-                return null;
             }
 
-            return new Transition
-            {
-                Delay = delay ?? Time.Zero,
-                Duration = duration ?? Time.Zero,
-                Timing = function ?? TransitionFunction.Ease,
-                Property = property ?? Keywords.All
-            };
-        }
-
-        #endregion
-
-        #region Transition
-
-        struct Transition
-        {
-            public Time Delay;
-            public Time Duration;
-            public TransitionFunction Timing;
-            public String Property;
+            return _delay.TrySetValue(delays.Reduce()) && _duration.TrySetValue(durations.Reduce()) &&
+                   _timingFunction.TrySetValue(timingFunctions.Reduce()) && _property.TrySetValue(properties.Reduce());
         }
 
         #endregion
