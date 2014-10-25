@@ -78,6 +78,11 @@
         {
         }
 
+        public CSSPrimitiveValue(TransitionFunction transition)
+            : this(UnitType.Transition, transition)
+        {
+        }
+
         public CSSPrimitiveValue(Number number)
             : this(UnitType.Number, number)
         {

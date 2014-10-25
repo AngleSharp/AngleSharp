@@ -76,12 +76,6 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.None))
-            {
-                Reset();
-                return true;
-            }
-
             var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
             var delays = new CSSValueList();
             var durations = new CSSValueList();
@@ -92,6 +86,14 @@
             {
                 if (list.Length > 8)
                     return false;
+
+                if (delays.Length != 0)
+                {
+                    delays.Add(CSSValue.Separator);
+                    durations.Add(CSSValue.Separator);
+                    timingFunctions.Add(CSSValue.Separator);
+                    properties.Add(CSSValue.Separator);
+                }
 
                 CSSValue delay = null;
                 CSSValue duration = null;
@@ -106,6 +108,14 @@
                         !_delay.CanStore(item, ref delay))
                         return false;
                 }
+
+                if (properties.Length > 0 && property.Is(Keywords.None))
+                    return false;
+
+                delays.Add(delay ?? new CSSPrimitiveValue(Time.Zero));
+                durations.Add(duration ?? new CSSPrimitiveValue(Time.Zero));
+                timingFunctions.Add(timingFunction ?? new CSSPrimitiveValue(TransitionFunction.Ease));
+                properties.Add(property ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.All)));
             }
 
             return _delay.TrySetValue(delays.Reduce()) && _duration.TrySetValue(durations.Reduce()) &&

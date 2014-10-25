@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<String> _properties;
+        readonly List<String> _properties;
         
         #endregion
 
@@ -42,6 +42,7 @@
         internal override void Reset()
         {
             _properties.Clear();
+            _properties.Add(Keywords.All);
         }
 
         /// <summary>
