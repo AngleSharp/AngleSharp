@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        TextDecorationStyle _style;
-        List<TextDecorationLine> _line;
-        Color _color;
+        readonly CSSTextDecorationColorProperty _color;
+        readonly CSSTextDecorationLineProperty _line;
+        readonly CSSTextDecorationStyleProperty _style;
 
         #endregion
 
@@ -22,7 +22,9 @@
         internal CSSTextDecorationProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.TextDecoration, rule, PropertyFlags.Animatable)
         {
-            _line = new List<TextDecorationLine>();
+            _color = Get<CSSTextDecorationColorProperty>();
+            _line = Get<CSSTextDecorationLineProperty>();
+            _style = Get<CSSTextDecorationStyleProperty>();
         }
 
         #endregion
@@ -34,7 +36,7 @@
         /// </summary>
         public TextDecorationStyle DecorationStyle
         {
-            get { return _style; }
+            get { return _style.DecorationStyle; }
         }
 
         /// <summary>
@@ -42,7 +44,7 @@
         /// </summary>
         public IEnumerable<TextDecorationLine> Line
         {
-            get { return _line; }
+            get { return _line.Line; }
         }
 
         /// <summary>
@@ -50,7 +52,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _color; }
+            get { return _color.Color; }
         }
 
         #endregion
@@ -64,76 +66,23 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList;
+            var list = value as CSSValueList ?? new CSSValueList(value);
+            var line = new CSSValueList();
+            CSSValue color = null;
+            CSSValue style = null;
 
-            if (list == null)
-                list = new CSSValueList(value);
+            if (list.Length > 3)
+                return false;
 
-            TextDecorationStyle? style = null;
-            Color? color = null;
-            var line = new List<TextDecorationLine>();
-
-            foreach (var item in list)
+            for (int i = 0; i < list.Length; i++)
             {
-                if (color == null && (color = item.ToColor()).HasValue)
-                    continue;
-                else if (style == null && (style = item.ToDecorationStyle()).HasValue)
-                    continue;
-
-                var element = item.ToDecorationLine();
-
-                if (!element.HasValue)
+                if (_line.CanTake(list[i]))
+                    line.Add(list[i]);
+                else if (!_color.CanStore(list[i], ref color) && !_style.CanStore(list[i], ref style))
                     return false;
-
-                line.Add(element.Value);
             }
 
-            _style = style ?? TextDecorationStyle.Solid;
-            _line = line;
-            _color = color ?? Color.Black;
-            return true;
-        }
-
-        /// <summary>
-        /// Instead of specifying individual longhand properties, a
-        /// keyword can be used to represent a specific system font.
-        /// </summary>
-        /// <param name="setting">The setting to apply.</param>
-        void SetTo(SystemSetting setting)
-        {
-            //TODO set properties to the setting given by the enumeration value
-        }
-
-        #endregion
-
-        #region Predefined settings
-
-        enum SystemSetting
-        {
-            /// <summary>
-            /// The font used for captioned controls (e.g., buttons, drop-downs, etc.).
-            /// </summary>
-            Caption,
-            /// <summary>
-            /// The font used to label icons.
-            /// </summary>
-            Icon,
-            /// <summary>
-            /// The font used in menus (e.g., dropdown menus and menu lists).
-            /// </summary>
-            Menu,
-            /// <summary>
-            /// The font used in dialog boxes.
-            /// </summary>
-            MessageBox,
-            /// <summary>
-            /// The font used for labeling small controls.
-            /// </summary>
-            SmallCaption,
-            /// <summary>
-            /// The font used in window status bars.
-            /// </summary>
-            StatusBar
+            return _line.TrySetValue(line.Reduce()) && _color.TrySetValue(color) && _style.TrySetValue(style);
         }
 
         #endregion

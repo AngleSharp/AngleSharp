@@ -302,6 +302,16 @@
             return new CSSValue[1] { value };
         }
 
+        public static CSSValue Reduce(this CSSValueList list)
+        {
+            if (list.Length == 0)
+                return null;
+            else if (list.Length == 1)
+                return list[0];
+
+            return list;
+        }
+
         public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
             where T : class, ICssObject
         {
