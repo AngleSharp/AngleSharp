@@ -13,18 +13,13 @@
         #region API
 
         /// <summary>
-        /// Gets the property at the specified index.
+        /// Gets the name of the property with the specified index.
         /// </summary>
-        /// <param name="index">The index of the property.</param>
-        /// <returns>The property.</returns>
-        ICssProperty this[Int32 index] { get; }
-
-        /// <summary>
-        /// Gets the property with the specific name.
-        /// </summary>
-        /// <param name="name">The name of the property.</param>
-        /// <returns>The property.</returns>
-        ICssProperty this[String name] { get; }
+        /// <param name="index">The index of the property to retrieve.</param>
+        /// <returns>The name of the property at the given index.</returns>
+        [DomName("item")]
+        [DomAccessor(Accessors.Getter)]
+        String this[Int32 index] { get; }
 
         /// <summary>
         /// Gets or sets the textual representation of the declaration block.
@@ -37,15 +32,6 @@
         /// </summary>
         [DomName("length")]
         Int32 Length { get; }
-
-        /// <summary>
-        /// Gets the name of the property with the specified index.
-        /// </summary>
-        /// <param name="index">The index of the property to retrieve.</param>
-        /// <returns>The name of the property at the given index.</returns>
-        [DomName("item")]
-        [DomAccessor(Accessors.Getter)]
-        String GetPropertyName(Int32 index);
 
         /// <summary>
         /// Gets the value of a property with the given name.

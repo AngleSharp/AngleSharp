@@ -107,23 +107,19 @@
         }
 
         /// <summary>
-        /// Gets the given CSS property.
-        /// </summary>
-        /// <param name="name">The name of the property to get.</param>
-        /// <returns>The property.</returns>
-        public ICssProperty this[String name]
-        {
-            get { return GetProperty(name); }
-        }
-
-        /// <summary>
-        /// Gets the given CSS property.
+        /// Gets the name of the property at the given index.
         /// </summary>
         /// <param name="index">The index of the property to get.</param>
-        /// <returns>The property at the specified position or null.</returns>
-        public ICssProperty this[Int32 index]
+        /// <returns>The name of the property at the given index or null.</returns>
+        public String this[Int32 index]
         {
-            get { return _declarations[index]; }
+            get
+            {
+                if (index >= 0 && index < _declarations.Count)
+                    return _declarations[index].Name;
+
+                return null;
+            }
         }
 
         #endregion
@@ -2273,19 +2269,6 @@
         #region Methods
 
         /// <summary>
-        /// Returns the name of the property at the given index.
-        /// </summary>
-        /// <param name="index">The index of the property to retrieve.</param>
-        /// <returns>The name of the property at the given index.</returns>
-        public String GetPropertyName(Int32 index)
-        {
-            if (index >= 0 && index < _declarations.Count)
-                return this[index].Name;
-
-            return null;
-        }
-
-        /// <summary>
         /// Removes the given property and returns its value.
         /// </summary>
         /// <param name="propertyName">The name of the property to be removed.</param>
@@ -2353,7 +2336,7 @@
 
                 foreach (var declaration in declarations)
                 {
-                    if (this[declaration] == null)
+                    if (GetProperty(declaration) == null)
                         return String.Empty;
                 }
 
