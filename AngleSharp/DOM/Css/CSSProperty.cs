@@ -219,7 +219,7 @@
         /// Serializes the current value of the CSS property.
         /// </summary>
         /// <returns></returns>
-        internal String SerializeValue()
+        internal virtual String SerializeValue()
         {
             return Value.ToCss();
         }

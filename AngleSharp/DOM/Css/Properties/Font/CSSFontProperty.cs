@@ -186,27 +186,29 @@
             }
         }
 
-        //internal static String Stringify(CSSStyleDeclaration style)
-        //{
-        //    var height = style.GetPropertyCustomText(PropertyNames.LineHeight);
-        //    var parts = new List<String>();
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.FontStyle));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.FontVariant));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.FontWeight));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.FontStretch));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.FontSize));
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
 
-        //    if (!String.IsNullOrEmpty(height))
-        //    {
-        //        parts.Add("/");
-        //        parts.Add(height);
-        //    }
+            var values = new List<String>();
+            values.Add(_style.SerializeValue());
+            values.Add(_variant.SerializeValue());
+            values.Add(_weight.SerializeValue());
+            values.Add(_stretch.SerializeValue());
+            values.Add(_size.SerializeValue());
 
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.FontFamily));
-        //    parts.RemoveAll(m => String.IsNullOrEmpty(m));
+            if (_height.HasValue)
+            {
+                values.Add("/");
+                values.Add(_height.SerializeValue());
+            }
 
-        //    return String.Join(" ", parts);
-        //}
+            values.Add(_families.SerializeValue());
+            values.RemoveAll(m => String.IsNullOrEmpty(m));
+
+            return String.Join(" ", values);
+        }
 
         #endregion
     }

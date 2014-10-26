@@ -114,6 +114,14 @@
                    _duration.TrySetValue(durations.Reduce()) && _timingFunction.TrySetValue(timingFunctions.Reduce());
         }
 
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return String.Format("{0} {1} {2} {3}", _property.SerializeValue(), _duration.SerializeValue(), _timingFunction.SerializeValue(), _delay.SerializeValue());
+        }
+
         #endregion
     }
 }

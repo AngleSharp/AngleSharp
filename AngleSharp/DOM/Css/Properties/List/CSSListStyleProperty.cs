@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at
@@ -82,6 +83,14 @@
             }
 
             return _type.TrySetValue(type) && _image.TrySetValue(image) && _position.TrySetValue(position);
+        }
+
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return String.Format("{0} {1} {2}", _type.SerializeValue(), _image.SerializeValue(), _position.SerializeValue());
         }
 
         #endregion

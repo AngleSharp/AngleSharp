@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -79,18 +80,14 @@
         protected override Boolean IsValid(CSSValue value)
         {
             var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue width = null;
-            CSSValue color = null;
-            CSSValue style = null;
+            CSSValue width = null, color = null, style = null;
 
             if (list.Length > 3)
                 return false;
 
             for (int i = 0; i < list.Length; i++)
             {
-                if (!_topWidth.CanStore(list[i], ref width) &&
-                    !_topColor.CanStore(list[i], ref color) &&
-                    !_topStyle.CanStore(list[i], ref style))
+                if (!_topWidth.CanStore(list[i], ref width) && !_topStyle.CanStore(list[i], ref style) && !_topColor.CanStore(list[i], ref color))
                     return false;
             }
 
@@ -98,6 +95,28 @@
                    _leftWidth.TrySetValue(width) && _leftColor.TrySetValue(color) && _leftStyle.TrySetValue(style) &&
                    _rightWidth.TrySetValue(width) && _rightColor.TrySetValue(color) && _rightStyle.TrySetValue(style) &&
                    _bottomWidth.TrySetValue(width) && _bottomColor.TrySetValue(color) && _bottomStyle.TrySetValue(style);
+        }
+
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            var values = new List<String>();
+            var width = _leftWidth.SerializeValue();
+            var style = _leftStyle.SerializeValue();
+            var color = _leftColor.SerializeValue();
+
+            if (width == _topWidth.SerializeValue() && width == _bottomWidth.SerializeValue() && width == _rightWidth.SerializeValue())
+                values.Add(width);
+
+            if (style == _topWidth.SerializeValue() && style == _bottomWidth.SerializeValue() && style == _rightWidth.SerializeValue())
+                values.Add(style);
+
+            if (color == _topWidth.SerializeValue() && color == _bottomWidth.SerializeValue() && color == _rightWidth.SerializeValue())
+                values.Add(color);
+
+            return String.Join(" ", values);
         }
 
         #endregion

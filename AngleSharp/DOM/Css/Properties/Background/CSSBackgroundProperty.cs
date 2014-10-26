@@ -222,28 +222,30 @@
                    _clip.TrySetValue(clips) && _color.TrySetValue(color);
         }
 
-        //internal static String Stringify(CSSStyleDeclaration style)
-        //{
-        //    var size = style.GetPropertyCustomText(PropertyNames.BackgroundSize);
-        //    var parts = new List<String>();
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundImage));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundPosition));
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
 
-        //    if (!String.IsNullOrEmpty(size))
-        //    {
-        //        parts.Add("/");
-        //        parts.Add(size);
-        //    }
+            var values = new List<String>();
+            values.Add(_image.SerializeValue());
+            values.Add(_position.SerializeValue());
 
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundRepeat));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundAttachment));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundClip));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundOrigin));
-        //    parts.Add(style.GetPropertyCustomText(PropertyNames.BackgroundColor));
-        //    parts.RemoveAll(m => String.IsNullOrEmpty(m));
+            if (_size.HasValue)
+            {
+                values.Add("/");
+                values.Add(_size.SerializeValue());
+            }
 
-        //    return String.Join(" ", parts);
-        //}
+            values.Add(_repeat.SerializeValue());
+            values.Add(_attachment.SerializeValue());
+            values.Add(_clip.SerializeValue());
+            values.Add(_origin.SerializeValue());
+            values.Add(_color.SerializeValue());
+            values.RemoveAll(m => String.IsNullOrEmpty(m));
+
+            return String.Join(" ", values);
+        }
 
         #endregion
     }

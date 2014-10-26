@@ -42,6 +42,17 @@
             return _properties.OfType<TProperty>().FirstOrDefault();
         }
 
+        protected Boolean IsComplete(IEnumerable<CSSProperty> properties)
+        {
+            foreach (var property in _properties)
+            {
+                if (!properties.Contains(property))
+                    return false;
+            }
+
+            return true;
+        }
+
         protected Boolean ValidatePeriodic(CSSValue v, CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
         {
             var values = v as CSSValueList ?? new CSSValueList(v);
@@ -65,10 +76,32 @@
             return t.TrySetValue(top) && r.TrySetValue(right) && b.TrySetValue(bottom) && l.TrySetValue(left);
         }
 
+        protected String SerializePeriodic(CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
+        {
+            var top = t.SerializeValue();
+            var right = r.SerializeValue();
+            var bottom = b.SerializeValue();
+            var left = l.SerializeValue();
+
+            if (left != right)
+                return String.Format("{0} {1} {2} {3}", top, right, bottom, left);
+            else if (bottom != top)
+                return String.Format("{0} {1} {2}", top, right, bottom);
+            else if (right != top)
+                return String.Format("{0} {1}", top, right);
+
+            return top;
+        }
+
         internal sealed override void Reset()
         {
             foreach (var property in _properties)
                 property.Reset();
+        }
+
+        internal override sealed String SerializeValue()
+        {
+            return SerializeValue(_properties);
         }
 
         /// <summary>
@@ -76,11 +109,7 @@
         /// </summary>
         /// <param name="properties">The properties to use.</param>
         /// <returns>The serialized value or an empty string, if serialization is not possible.</returns>
-        internal String SerializeValue(IEnumerable<CSSProperty> properties)
-        {
-            //TODO
-            return String.Empty;
-        }
+        internal abstract String SerializeValue(IEnumerable<CSSProperty> properties);
 
         #endregion
     }

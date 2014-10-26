@@ -68,8 +68,7 @@
         {
             var list = value as CSSValueList ?? new CSSValueList(value);
             var line = new CSSValueList();
-            CSSValue color = null;
-            CSSValue style = null;
+            CSSValue color = null, style = null;
 
             if (list.Length > 3)
                 return false;
@@ -83,6 +82,14 @@
             }
 
             return _line.TrySetValue(line.Reduce()) && _color.TrySetValue(color) && _style.TrySetValue(style);
+        }
+
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return String.Format("{0} {1} {2}", _line.SerializeValue(), _style.SerializeValue(), _color.SerializeValue());
         }
 
         #endregion

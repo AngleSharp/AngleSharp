@@ -67,22 +67,26 @@
         protected override Boolean IsValid(CSSValue value)
         {
             var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue color = null;
-            CSSValue width = null;
-            CSSValue style = null;
+            CSSValue color = null, width = null, style = null;
 
             if (list.Length > 3)
                 return false;
 
             for (int i = 0; i < list.Length; i++)
             {
-                if (!_color.CanStore(list[i], ref color) && 
-                    !_width.CanStore(list[i], ref width) && 
-                    !_style.CanStore(list[i], ref style))
+                if (!_color.CanStore(list[i], ref color) && !_width.CanStore(list[i], ref width) &&  !_style.CanStore(list[i], ref style))
                     return false;
             }
 
             return _color.TrySetValue(color) && _width.TrySetValue(width) && _style.TrySetValue(style);
+        }
+
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return String.Format("{0} {1} {2}", _width.SerializeValue(), _style.SerializeValue(), _color.SerializeValue());
         }
 
         #endregion

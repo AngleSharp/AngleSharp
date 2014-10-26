@@ -168,6 +168,17 @@
                    _timingFunction.TrySetValue(timingFunctions.Reduce()) && _playState.TrySetValue(playStates.Reduce());
         }
 
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7}", _name.SerializeValue(), _duration.SerializeValue(), 
+                _timingFunction.SerializeValue(), _delay.SerializeValue(), 
+                _iterationCount.SerializeValue(), _direction.SerializeValue(),
+                _fillMode.SerializeValue(), _playState.SerializeValue());
+        }
+
         #endregion
     }
 }

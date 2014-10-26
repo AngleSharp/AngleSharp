@@ -79,6 +79,14 @@
             return ValidatePeriodic(value, _top, _right, _bottom, _left);
         }
 
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return SerializePeriodic(_top, _right, _bottom, _left);
+        }
+
         #endregion
     }
 }

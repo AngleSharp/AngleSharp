@@ -85,6 +85,14 @@
             return _style.TrySetValue(style) && _width.TrySetValue(width) && _color.TrySetValue(color);
         }
 
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!IsComplete(properties))
+                return String.Empty;
+
+            return String.Format("{0} {1} {2}", _width.SerializeValue(), _color.SerializeValue(), _style.SerializeValue());
+        }
+
         #endregion
     }
 }
