@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available:
@@ -144,11 +145,10 @@
                         if (entry == CSSValue.Delimiter && (++i == entries.Length || !_height.CanStore(entries[i++], ref height)))
                             return false;
 
-                        if (!_families.TrySetValue(entries.Subset(start: i)))
-                            return false;
-
-                        return _stretch.TrySetValue(stretch) && _variant.TrySetValue(variant) && _size.TrySetValue(size) &&
-                               _height.TrySetValue(height) && _style.TrySetValue(style) && _weight.TrySetValue(weight);
+                        return _families.TrySetValue(entries.Subset(start: i)) && _stretch.TrySetValue(stretch) && 
+                               _variant.TrySetValue(variant) && _size.TrySetValue(size) &&
+                               _height.TrySetValue(height) && _style.TrySetValue(style) &&
+                               _weight.TrySetValue(weight);
                     }
                     else if (_size.CanStore(entry, ref size))
                         allowDelim = true;
@@ -188,17 +188,26 @@
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
         {
-            if (!IsComplete(properties))
+            if (!properties.Contains(_families) || !properties.Contains(_size))
                 return String.Empty;
 
             var values = new List<String>();
-            values.Add(_style.SerializeValue());
-            values.Add(_variant.SerializeValue());
-            values.Add(_weight.SerializeValue());
-            values.Add(_stretch.SerializeValue());
+
+            if (_style.HasValue && properties.Contains(_style))
+                values.Add(_style.SerializeValue());
+
+            if (_variant.HasValue && properties.Contains(_variant))
+                values.Add(_variant.SerializeValue());
+
+            if (_weight.HasValue && properties.Contains(_weight))
+                values.Add(_weight.SerializeValue());
+
+            if (_stretch.HasValue && properties.Contains(_stretch))
+                values.Add(_stretch.SerializeValue());
+
             values.Add(_size.SerializeValue());
 
-            if (_height.HasValue)
+            if (_height.HasValue && properties.Contains(_height))
             {
                 values.Add("/");
                 values.Add(_height.SerializeValue());
