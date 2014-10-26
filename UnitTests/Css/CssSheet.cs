@@ -48,7 +48,7 @@ h1 {
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -90,7 +90,7 @@ h1 {
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
-            Assert.AreEqual("color", h1.Style[0].Name);
+            Assert.AreEqual("color", h1.Style[0]);
             Assert.AreEqual("red", h1.Style.Color);
         }
 
@@ -138,7 +138,7 @@ h1 { color: blue }");
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
-            Assert.AreEqual("color", h1.Style[0].Name);
+            Assert.AreEqual("color", h1.Style[0]);
             Assert.AreEqual("blue", h1.Style.Color);
         }
 
@@ -151,7 +151,7 @@ h1 { color: blue }");
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(1, img.Style.Length);
-            Assert.AreEqual("float", img.Style[0].Name);
+            Assert.AreEqual("float", img.Style[0]);
             Assert.AreEqual("left", img.Style.Float);
         }
 
@@ -197,7 +197,7 @@ h1 { color: blue }");
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -210,7 +210,7 @@ h1 { color: blue }");
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -223,7 +223,7 @@ h1 { color: blue }");
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -236,7 +236,7 @@ h1 { color: blue }");
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -249,7 +249,7 @@ h1 { color: blue }");
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -262,7 +262,7 @@ h1 { color: blue }");
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
-            Assert.AreEqual("color", p.Style[0].Name);
+            Assert.AreEqual("color", p.Style[0]);
             Assert.AreEqual("green", p.Style.Color);
         }
 
@@ -440,8 +440,10 @@ h1 { color: blue }");
 
             for (int i = 0; i < decls.Length; i++)
             {
-                var decl = decls[i];
+                var propertyName = decls[i];
+                var decl = decls.GetProperty(propertyName);
                 Assert.AreEqual(names[i], decl.Name);
+                Assert.AreEqual(propertyName, decl.Name);
                 Assert.IsFalse(decl.IsImportant);
                 Assert.AreEqual(CssValueType.Primitive, decl.Value.Type);
 
@@ -460,8 +462,10 @@ h1 { color: blue }");
 
             for (int i = 0; i < decls.Length; i++)
             {
-                var decl = decls[i];
+                var propertyName = decls[i];
+                var decl = decls.GetProperty(propertyName);
                 Assert.AreEqual(names[i], decl.Name);
+                Assert.AreEqual(propertyName, decl.Name);
                 Assert.IsFalse(decl.IsImportant);
                 Assert.AreEqual(CssValueType.Primitive, decl.Value.Type);
                 Assert.AreEqual("20px", decl.Value.CssText);   
@@ -475,7 +479,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var prop = decl[0];
+            var prop = decl.GetProperty("font-family");
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual(CssValueType.List, prop.Value.Type);
@@ -494,7 +498,7 @@ h1 { color: blue }");
 
             Assert.AreEqual("bold 1em / 2em monospace", decl.GetPropertyValue("font"));
 
-            var content = decl[7];
+            var content = decl.GetProperty("content");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             Assert.AreEqual(CssValueType.List, content.Value.Type);
@@ -519,7 +523,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var background = decl[0];
+            var background = decl.GetProperty("background-color");
             Assert.AreEqual("background-color", background.Name);
             Assert.IsFalse(background.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, background.Value.Type);
@@ -542,7 +546,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var textShadow = decl[0];
+            var textShadow = decl.GetProperty("text-shadow");
             Assert.AreEqual("text-shadow", textShadow.Name);
             Assert.IsFalse(textShadow.IsImportant);
             Assert.AreEqual(CssValueType.List, textShadow.Value.Type);
@@ -564,7 +568,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var content = decl[0];
+            var content = decl.GetProperty("content");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, content.Value.Type);
@@ -577,7 +581,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var backgroundColor = decl[0];
+            var backgroundColor = decl.GetProperty("background-color");
             Assert.AreEqual("background-color", backgroundColor.Name);
             Assert.IsFalse(backgroundColor.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, backgroundColor.Value.Type);
@@ -601,7 +605,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var content = decl[0];
+            var content = decl.GetProperty("content");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, content.Value.Type);
@@ -614,7 +618,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var content = decl[0];
+            var content = decl.GetProperty("content");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             Assert.AreEqual(CssValueType.List, content.Value.Type);
@@ -627,7 +631,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var transform = decl[0];
+            var transform = decl.GetProperty("transform");
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, transform.Value.Type);
@@ -643,7 +647,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var boxShadow = decl[0];
+            var boxShadow = decl.GetProperty("box-shadow");
             Assert.AreEqual("box-shadow", boxShadow.Name);
             Assert.IsFalse(boxShadow.IsImportant);
             Assert.AreEqual(CssValueType.List, boxShadow.Value.Type);
@@ -656,7 +660,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(1, decl.Length);
 
-            var display = decl[0];
+            var display = decl.GetProperty("display");
             Assert.AreEqual("display", display.Name);
             Assert.IsFalse(display.IsImportant);
             Assert.AreEqual(CssValueType.Primitive, display.Value.Type);
