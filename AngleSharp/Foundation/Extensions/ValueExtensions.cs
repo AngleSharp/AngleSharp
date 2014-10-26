@@ -313,7 +313,7 @@
         }
 
         public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
-            where T : class, ICssObject
+            where T : class
         {
             transformer = transformer ?? (v => v as T);
 

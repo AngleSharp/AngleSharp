@@ -56,25 +56,25 @@
                 _properties.Clear();
             else if (value is CSSPrimitiveValue)
             {
-                var ident = value.ToIdentifier();
+                var identifier = value.ToIdentifier();
 
-                if (ident == null)
+                if (identifier == null)
                     return false;
 
                 _properties.Clear();
-                _properties.Add(ident);
+                _properties.Add(identifier);
             }
             else if (value is CSSValueList)
             {
-                var values = value.AsList<CSSPrimitiveValue>();
+                var identifiers = value.AsList(m => m.ToIdentifier());
 
-                if (values == null)
+                if (identifiers == null)
                     return false;
 
                 _properties.Clear();
 
-                foreach (var ident in values)
-                    _properties.Add(ident.GetString());
+                foreach (var identifier in identifiers)
+                    _properties.Add(identifier);
             }
             else 
                 return false;
