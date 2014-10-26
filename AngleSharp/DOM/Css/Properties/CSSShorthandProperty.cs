@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly IEnumerable<CSSProperty> _properties;
+        readonly CSSProperty[] _properties;
 
         #endregion
 
@@ -20,7 +20,7 @@
         public CSSShorthandProperty(String name, CSSStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
             : base(name, rule, flags | PropertyFlags.Shorthand)
         {
-            _properties = CssPropertyFactory.CreateLonghandsFor(name, rule);
+            _properties = CssPropertyFactory.CreateLonghandsFor(name, rule).ToArray();
             Reset();
         }
 
@@ -28,7 +28,7 @@
 
         #region Properties
 
-        public IEnumerable<CSSProperty> Properties
+        public CSSProperty[] Properties
         {
             get { return _properties; }
         }
