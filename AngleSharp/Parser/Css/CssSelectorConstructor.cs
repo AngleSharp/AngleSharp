@@ -1178,7 +1178,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchBefore(IElement element)
         {
-            //TODO
+            //TODO Pseudo
             return true;
         }
 
@@ -1189,7 +1189,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchAfter(IElement element)
         {
-            //TODO
+            //TODO Pseudo
             return true;
         }
 
@@ -1200,7 +1200,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchFirstLine(IElement element)
         {
-            //TODO
+            //TODO Pseudo
             return true;
         }
 
@@ -1211,7 +1211,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchFirstLetter(IElement element)
         {
-            //TODO
+            //TODO Pseudo
             return true;
         }
 

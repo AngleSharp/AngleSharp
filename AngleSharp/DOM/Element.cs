@@ -868,7 +868,7 @@
                 handler(attr != null ? attr.Value : null);
             }
 
-            //TODO
+            //TODO Mutation
             // Queue a mutation record of "attributes" for element with name attribute's
             // local name, namespace attribute's namespace, and oldValue attribute's value.
             // OldValue for new : null

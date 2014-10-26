@@ -88,6 +88,22 @@
         #region Methods
 
         /// <summary>
+        /// Validates the list of contained media.
+        /// </summary>
+        /// <param name="window">The current browsing window.</param>
+        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
+        public Boolean Validate(IWindow window)
+        {
+            foreach (var media in _media)
+            {
+                if (media.Validate(window) == false)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Adds the medium newMedium to the end of the list.
         /// If the newMedium is already used, it is first removed.
         /// </summary>
@@ -147,22 +163,6 @@
         {
             _media.Clear();
             _media.AddRange(list._media);
-        }
-
-        /// <summary>
-        /// Validates the list of contained media.
-        /// </summary>
-        /// <param name="window">The current browsing window.</param>
-        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        internal Boolean Validate(IWindow window)
-        {
-            foreach (var media in _media)
-            {
-                if (media.Validate(window) == false)
-                    return false;
-            }
-
-            return true;
         }
 
         #endregion

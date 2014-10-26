@@ -1033,8 +1033,6 @@
 
             if (IsToBePrinted)
                 Print();
-
-            QueueTask(FinishLoading);
         }
 
         /// <summary>
@@ -1401,7 +1399,7 @@
 
         internal void PerformMicrotaskCheckpoint()
         {
-            //TODO
+            //TODO Mutation
             //IF RUNNING MUTATION OBSERVERS == false
             //1. Let the running mutation observers flag be true.
             //2. Sort the tables with pending sorts.
@@ -1470,13 +1468,6 @@
             //If the Document has any pending application cache download process tasks, then queue each such task in the order they were added to the list of pending
             //application cache download process tasks, and then empty the list of pending application cache download process tasks. The task source for these tasks is
             //the networking task source.
-        }
-
-        void FinishLoading()
-        {
-            //TODO
-            //The Document is now ready for post-load tasks.
-            //Mark the Document as completely loaded.
         }
 
         #endregion

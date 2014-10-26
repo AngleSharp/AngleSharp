@@ -122,7 +122,7 @@
             {
                 parent.InsertBefore(newNode, NextSibling);
 
-                //TODO
+                //TODO Range
                 // For each range whose start node is node and start offset is greater than offset, set its start node to new node and decrease its start offset by offset. 
                 // For each range whose end node is node and end offset is greater than offset, set its end node to new node and decrease its end offset by offset. 
                 // For each range whose start node is parent and start offset is equal to the index of node + 1, increase its start offset by one. 
@@ -133,7 +133,7 @@
 
             if (parent != null)
             {
-                //TODO
+                //TODO Range
                 // For each range whose start node is node and start offset is greater than offset, set its start offset to offset. 
                 // For each range whose end node is node and end offset is greater than offset, set its end offset to offset.
             }

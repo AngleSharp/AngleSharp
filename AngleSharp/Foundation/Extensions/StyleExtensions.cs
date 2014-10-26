@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -18,9 +19,9 @@
         /// <param name="bag">The bag to modify.</param>
         /// <param name="styling">The styling properties to use.</param>
         /// <param name="priority">Sets the priority of the new properties.</param>
-        public static void ExtendWith(this CssPropertyBag bag, ICssStyleDeclaration styling, Priority priority)
+        public static void ExtendWith(this CssPropertyBag bag, CSSStyleDeclaration styling, Priority priority)
         {
-            foreach (var property in styling)
+            foreach (var property in styling.Declarations)
                 bag.TryUpdate(property, priority);
         }
 
@@ -36,9 +37,9 @@
 
             if (parent != null)
             {
-                var styling = window.GetComputedStyle(parent);
+                var styling = window.ComputeDeclarations(parent);
 
-                foreach (var property in styling)
+                foreach (var property in styling.Declarations)
                 {
                     var styleProperty = bag[property.Name];
 
@@ -46,6 +47,36 @@
                         bag.TryUpdate(property);
                 }
             }
+        }
+
+        /// <summary>
+        /// Computes the declarations for the given element in the specified window.
+        /// </summary>
+        /// <param name="window">The context of the element.</param>
+        /// <param name="element">The element that is questioned.</param>
+        /// <returns>The style declaration containing all the declarations.</returns>
+        public static CSSStyleDeclaration ComputeDeclarations(this IWindow window, IElement element)
+        {
+            var bag = new CssPropertyBag();
+
+            foreach (var stylesheet in window.Document.StyleSheets)
+            {
+                var sheet = stylesheet as CSSStyleSheet;
+
+                if (sheet != null && !stylesheet.IsDisabled && stylesheet.Media.Validate(window))
+                {
+                    var rules = (CSSRuleList)sheet.Rules;
+                    rules.ComputeStyle(bag, window, element);
+                }
+            }
+
+            var htmlElement = element as HTMLElement;
+
+            if (htmlElement != null)
+                bag.ExtendWith(htmlElement.Style, Priority.Inline);
+
+            bag.InheritFrom(element, window);
+            return new CSSStyleDeclaration(bag);
         }
 
         /// <summary>

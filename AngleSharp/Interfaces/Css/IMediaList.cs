@@ -48,5 +48,12 @@
         /// <param name="medium">The medium to delete from the list.</param>
         [DomName("removeMedium")]
         void Remove(String medium);
+
+        /// <summary>
+        /// Validates the list of contained media.
+        /// </summary>
+        /// <param name="window">The current browsing window.</param>
+        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
+        Boolean Validate(IWindow window);
     }
 }

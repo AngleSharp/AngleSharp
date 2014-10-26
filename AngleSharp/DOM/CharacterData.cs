@@ -217,8 +217,6 @@
         /// <param name="data">The data to insert at the replacement.</param>
         public void Replace(Int32 offset, Int32 count, String data)
         {
-            //TODO Mutation implemented
-            //TODO Range connected ...
             var length = _content.Length;
 
             if (offset > length)
@@ -227,6 +225,7 @@
             if (offset + count > length)
                 count = length - offset;
             
+            //TODO Mutation
             //Queue a mutation record of "characterData" for node with oldValue node's data.
             //var record = new MutationRecord
             //{
@@ -237,6 +236,7 @@
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data).Remove(deleteOffset, count);
 
+            //TODO Range
             //For each range whose start node is node and start offset is greater than offset but less than or equal to offset plus count, set its start offset to offset. 
             //For each range whose end node is node and end offset is greater than offset but less than or equal to offset plus count, set its end offset to offset. 
             //For each range whose start node is node and start offset is greater than offset plus count, increase its start offset by the number of code units in data, then decrease it by count. 

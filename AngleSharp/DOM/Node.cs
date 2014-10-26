@@ -431,7 +431,7 @@
                             sb.Append(sibling.Data);
                             end++;
 
-                            //TODO
+                            //TODO Range
                             // For each range whose start node is sibling, add length to its start offset and set its start node to text. 
                             // For each range whose end node is sibling, add length to its end offset and set its end node to text. 
                             // For each range whose start node is sibling's parent and start offset is sibling's index, set its start node to text and its start offset to length. 
@@ -500,13 +500,7 @@
         /// <returns>True if they are equal, otherwise false.</returns>
         public virtual Boolean IsEqualNode(INode otherNode)
         {
-            if (BaseUri != otherNode.BaseUri)
-                return false;
-
-            if (NodeName != otherNode.NodeName)
-                return false;
-
-            if (ChildNodes.Length != otherNode.ChildNodes.Length)
+            if (BaseUri != otherNode.BaseUri || NodeName != otherNode.NodeName || ChildNodes.Length != otherNode.ChildNodes.Length)
                 return false;
 
             for (int i = 0; i < _children.Length; i++)
@@ -608,7 +602,7 @@
             for (int i = 0; i < addedNodes.Length; i++)
                 InsertBefore(addedNodes[i], null, true);
 
-            //TODO
+            //TODO Mutation
             // Queue a mutation record of "childList" for parent with
             // addedNodes and removedNodes.
         }
@@ -627,7 +621,7 @@
 
             if (referenceElement != null)
             {
-                //TODO
+                //TODO Range
                 // For each range whose start node is parent and start offset is greater than child's index, increase its start offset by count. 
                 // For each range whose end node is parent and end offset is greater than child's index, increase its end offset by count.
             }
@@ -673,7 +667,7 @@
         {
             var index = _children.Index(node);
 
-            //TODO
+            //TODO Range
             // For each range whose start node is an inclusive descendant of node, set its start to (parent, index). 
             // For each range whose end node is an inclusive descendant of node, set its end to (parent, index). 
             // For each range whose start node is parent and start offset is greater than index, decrease its start offset by one. 
@@ -683,7 +677,7 @@
 
             if (!suppressObservers)
             {
-                //TODO
+                //TODO Mutation
                 // queue a mutation record of "childList" for parent with removedNodes a list solely containing node, nextSibling node's next sibling, and previousSibling oldPreviousSibling. 
 
                 // For each ancestor ancestor of node, if ancestor has any registered observers whose options's subtree is true,
@@ -752,7 +746,7 @@
                 else
                     nodes.Add(node);
 
-                //TODO
+                //TODO Mutation
                 // Queue a mutation record of "childList" for target parent with addedNodes nodes, removedNodes a
                 // list solely containing child, nextSibling reference child, and previousSibling child's previous sibling. 
 

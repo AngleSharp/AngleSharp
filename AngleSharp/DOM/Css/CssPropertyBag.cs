@@ -5,11 +5,11 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class CssPropertyBag : IEnumerable<ICssProperty>
+    sealed class CssPropertyBag : IEnumerable<CSSProperty>
     {
         #region Fields
 
-        readonly Dictionary<String, KeyValuePair<ICssProperty, Priority>> _bag;
+        readonly Dictionary<String, KeyValuePair<CSSProperty, Priority>> _bag;
 
         #endregion
 
@@ -17,16 +17,16 @@
 
         public CssPropertyBag()
         {
-            _bag = new Dictionary<String, KeyValuePair<ICssProperty, Priority>>(StringComparer.OrdinalIgnoreCase);
+            _bag = new Dictionary<String, KeyValuePair<CSSProperty, Priority>>(StringComparer.OrdinalIgnoreCase);
         }
 
         #endregion
 
         #region Methods
 
-        public void TryUpdate(ICssProperty property, Priority priority)
+        public void TryUpdate(CSSProperty property, Priority priority)
         {
-            KeyValuePair<ICssProperty, Priority> value;
+            KeyValuePair<CSSProperty, Priority> value;
 
             if (_bag.TryGetValue(property.Name, out value))
             {
@@ -36,23 +36,23 @@
                     return;
             }
 
-            _bag[property.Name] = new KeyValuePair<ICssProperty,Priority>(property, priority);
+            _bag[property.Name] = new KeyValuePair<CSSProperty, Priority>(property, priority);
         }
 
-        public void TryUpdate(ICssProperty property)
+        public void TryUpdate(CSSProperty property)
         {
-            KeyValuePair<ICssProperty, Priority> value;
+            KeyValuePair<CSSProperty, Priority> value;
 
             if (!_bag.TryGetValue(property.Name, out value))
-                _bag[property.Name] = new KeyValuePair<ICssProperty, Priority>(property, Priority.Zero);
+                _bag[property.Name] = new KeyValuePair<CSSProperty, Priority>(property, Priority.Zero);
 
         }
 
-        public ICssProperty this[String name]
+        public CSSProperty this[String name]
         {
             get 
             {
-                KeyValuePair<ICssProperty, Priority> value;
+                KeyValuePair<CSSProperty, Priority> value;
 
                 if (_bag.TryGetValue(name, out value))
                     return value.Key;
@@ -65,7 +65,7 @@
 
         #region IEnumerable
 
-        public IEnumerator<ICssProperty> GetEnumerator()
+        public IEnumerator<CSSProperty> GetEnumerator()
         {
             return _bag.Values.Select(m => m.Key).GetEnumerator();
         }

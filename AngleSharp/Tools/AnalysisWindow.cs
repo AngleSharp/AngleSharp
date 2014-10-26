@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Tools
 {
     using AngleSharp.DOM;
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Navigator;
@@ -123,34 +122,12 @@
         /// <returns>The style declaration describing the element.</returns>
         public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
         {
-            var document = Document as Document;
-
-            if (document == null)
+            if (Document == null)
                 throw new ArgumentException("A valid HTML document is required for computing the style of an element.");
 
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
-
-            var bag = new CssPropertyBag();
-
-            foreach (var stylesheet in document.StyleSheets)
-            {
-                var sheet = stylesheet as CSSStyleSheet;
-
-                if (sheet != null && !stylesheet.IsDisabled && ((MediaList)stylesheet.Media).Validate(this))//TODO remove cast ASAP
-                {
-                    var rules = (CSSRuleList)sheet.Rules;
-                    rules.ComputeStyle(bag, this, element);
-                }
-            }
-
-            var htmlElement = element as IHtmlElement;
-
-            if (htmlElement != null)
-                bag.ExtendWith(htmlElement.Style, Priority.Inline);
-
-            bag.InheritFrom(element, this);
-            return new CSSStyleDeclaration(bag);
+            return this.ComputeDeclarations(element);
         }
 
         #endregion

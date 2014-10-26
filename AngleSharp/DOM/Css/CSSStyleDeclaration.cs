@@ -122,6 +122,11 @@
             }
         }
 
+        internal IEnumerable<CSSProperty> Declarations 
+        {
+            get { return _declarations; }
+        }
+
         #endregion
 
         #region CSS Properties
