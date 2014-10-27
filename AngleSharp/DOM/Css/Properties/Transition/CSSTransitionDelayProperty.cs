@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Time> _times;
+        readonly List<Time> _times;
 
         #endregion
 
@@ -57,16 +57,20 @@
 
             if (values != null)
             {
-                _times.Clear();
+                var times = new List<Time>();
 
                 foreach (var v in values)
                 {
                     var time = v.ToTime();
 
-                    if (time != null)
-                        _times.Add(time.Value);
+                    if (time == null)
+                        return false;
+
+                    times.Add(time.Value);
                 }
 
+                _times.Clear();
+                _times.AddRange(times);
                 return true;
             }
             
