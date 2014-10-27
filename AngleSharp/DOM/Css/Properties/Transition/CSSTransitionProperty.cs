@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at:
@@ -116,10 +117,20 @@
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
         {
-            if (!IsComplete(properties))
+            if (!properties.Contains(_property) || !properties.Contains(_duration))
                 return String.Empty;
 
-            return String.Format("{0} {1} {2} {3}", _property.SerializeValue(), _duration.SerializeValue(), _timingFunction.SerializeValue(), _delay.SerializeValue());
+            var values = new List<String>();
+            values.Add(_property.SerializeValue());
+            values.Add(_duration.SerializeValue());
+
+            if (_timingFunction.HasValue && properties.Contains(_timingFunction))
+                values.Add(_timingFunction.SerializeValue());
+
+            if (_delay.HasValue && properties.Contains(_delay))
+                values.Add(_delay.SerializeValue());
+
+            return String.Join(" ", values);
         }
 
         #endregion
