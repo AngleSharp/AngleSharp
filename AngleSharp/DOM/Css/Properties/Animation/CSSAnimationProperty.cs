@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at:
@@ -170,13 +171,32 @@
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
         {
-            if (!IsComplete(properties))
+            if (!properties.Contains(_name) || !properties.Contains(_duration))
                 return String.Empty;
 
-            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7}", _name.SerializeValue(), _duration.SerializeValue(), 
-                _timingFunction.SerializeValue(), _delay.SerializeValue(), 
-                _iterationCount.SerializeValue(), _direction.SerializeValue(),
-                _fillMode.SerializeValue(), _playState.SerializeValue());
+            var values = new List<String>();
+            values.Add(_name.SerializeValue());
+            values.Add(_duration.SerializeValue());
+
+            if (_timingFunction.HasValue && properties.Contains(_timingFunction))
+                values.Add(_timingFunction.SerializeValue());
+
+            if (_delay.HasValue && properties.Contains(_delay))
+                values.Add(_delay.SerializeValue());
+
+            if (_iterationCount.HasValue && properties.Contains(_iterationCount))
+                values.Add(_iterationCount.SerializeValue());
+
+            if (_direction.HasValue && properties.Contains(_direction))
+                values.Add(_direction.SerializeValue());
+
+            if (_fillMode.HasValue && properties.Contains(_fillMode))
+                values.Add(_fillMode.SerializeValue());
+
+            if (_playState.HasValue && properties.Contains(_playState))
+                values.Add(_playState.SerializeValue());
+            
+            return String.Join(" ", values);
         }
 
         #endregion
