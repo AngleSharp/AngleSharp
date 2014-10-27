@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<ITransform> _transforms;
+        readonly List<ITransform> _transforms;
 
         #endregion
 
