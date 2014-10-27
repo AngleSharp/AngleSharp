@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        Dictionary<String, Int32> _resets;
+        readonly Dictionary<String, Int32> _resets;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal CSSCounterResetProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.CounterReset, rule)
         {
-            Reset();
+            _resets = new Dictionary<String, Int32>();
         }
 
         #endregion
@@ -51,10 +51,7 @@
 
         internal override void Reset()
         {
-            if (_resets == null)
-                _resets = new Dictionary<String, Int32>();
-            else
-                _resets.Clear();
+            _resets.Clear();
         }
 
         /// <summary>

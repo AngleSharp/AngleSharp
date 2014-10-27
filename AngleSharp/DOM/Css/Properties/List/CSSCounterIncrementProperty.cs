@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        Dictionary<String, Int32> _increments;
+        readonly Dictionary<String, Int32> _increments;
 
         #endregion
 
@@ -20,7 +20,7 @@
         internal CSSCounterIncrementProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.CounterIncrement, rule)
         {
-            Reset();
+            _increments = new Dictionary<String, Int32>();
         }
 
         #endregion
@@ -51,10 +51,7 @@
 
         internal override void Reset()
         {
-            if (_increments == null)
-                _increments = new Dictionary<String, Int32>();
-            else
-                _increments.Clear();
+            _increments.Clear();
         }
 
         /// <summary>
