@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Shadow> _shadows;
+        readonly List<Shadow> _shadows;
 
         #endregion
 
@@ -76,7 +76,8 @@
                 shadows.Add(shadow);
             }
 
-            _shadows = shadows;
+            _shadows.Clear();
+            _shadows.AddRange(shadows);
             return true;
         }
 
