@@ -66,7 +66,7 @@
             }
             else if (value is CSSValueList)
             {
-                var identifiers = value.AsList(m => m.ToIdentifier());
+                var identifiers = value.AsList(ValueExtensions.ToIdentifier);
 
                 if (identifiers == null)
                     return false;
