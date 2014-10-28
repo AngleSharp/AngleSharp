@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Int32> _iterations;
+        readonly List<Int32> _iterations;
 
         #endregion
 
@@ -69,7 +69,9 @@
                     iterations.Add(n.Value);
                 }
 
-                _iterations = iterations;
+
+                _iterations.Clear();
+                _iterations.AddRange(iterations);
                 return true;
             }
             

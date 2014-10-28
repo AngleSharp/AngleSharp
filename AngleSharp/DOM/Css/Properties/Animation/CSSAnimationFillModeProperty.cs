@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<AnimationFillStyle> _fillModes;
+        readonly List<AnimationFillStyle> _fillModes;
 
         #endregion
 
@@ -69,7 +69,8 @@
                     fillModes.Add(mode.Value);
                 }
 
-                _fillModes = fillModes;
+                _fillModes.Clear();
+                _fillModes.AddRange(fillModes);
                 return true;
             }
             

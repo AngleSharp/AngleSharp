@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<AnimationDirection> _directions;
+        readonly List<AnimationDirection> _directions;
 
         #endregion
 
@@ -69,7 +69,8 @@
                     fillModes.Add(direction.Value);
                 }
 
-                _directions = fillModes;
+                _directions.Clear();
+                _directions.AddRange(fillModes);
                 return true;
             }
             

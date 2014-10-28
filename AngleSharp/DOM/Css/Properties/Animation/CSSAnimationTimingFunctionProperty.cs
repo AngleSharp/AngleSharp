@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<TransitionFunction> _functions;
+        readonly List<TransitionFunction> _functions;
 
         #endregion
 
@@ -53,11 +53,12 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList(ValueExtensions.ToTimingFunction);
+            var functions = value.AsList(ValueExtensions.ToTimingFunction);
 
-            if (values != null)
+            if (functions != null)
             {
-                _functions = values;
+                _functions.Clear();
+                _functions.AddRange(functions);
                 return true;
             }
             

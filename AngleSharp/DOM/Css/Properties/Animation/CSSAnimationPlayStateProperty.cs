@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<PlayState> _states;
+        readonly List<PlayState> _states;
 
         #endregion
 
@@ -69,7 +69,8 @@
                         return false;
                 }
 
-                _states = states;
+                _states.Clear();
+                _states.AddRange(states);
                 return true;
             }
             

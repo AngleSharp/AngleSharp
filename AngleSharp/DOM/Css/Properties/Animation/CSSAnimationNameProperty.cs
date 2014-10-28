@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<String> _names;
+        readonly List<String> _names;
 
         #endregion
 

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        List<Time> _times;
+        readonly List<Time> _times;
 
         #endregion
 
@@ -69,7 +69,8 @@
                     times.Add(time.Value);
                 }
 
-                _times = times;
+                _times.Clear();
+                _times.AddRange(times);
                 return true;
             }
             
