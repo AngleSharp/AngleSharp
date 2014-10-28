@@ -217,7 +217,6 @@
     <Compile Include="DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Break\CSSPageBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs" />
     <Compile Include="DOM\Css\Properties\Columns\CSSColumnCountProperty.cs" />
     <Compile Include="DOM\Css\Properties\Columns\CSSColumnRuleColorProperty.cs" />

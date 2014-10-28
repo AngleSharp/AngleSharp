@@ -27,6 +27,7 @@
         static readonly Dictionary<String, FontStyle> fontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, FontStretch> fontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BreakMode> breakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BreakMode> pageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -148,6 +149,12 @@
             breakModes.Add(Keywords.Column, BreakMode.Column);
             breakModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
             breakModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
+
+            pageBreakModes.Add(Keywords.Auto, BreakMode.Auto);
+            pageBreakModes.Add(Keywords.Always, BreakMode.Always);
+            pageBreakModes.Add(Keywords.Avoid, BreakMode.Avoid);
+            pageBreakModes.Add(Keywords.Left, BreakMode.Left);
+            pageBreakModes.Add(Keywords.Right, BreakMode.Right);
         }
 
         #endregion
@@ -192,6 +199,11 @@
         public static BreakMode? ToBreakMode(this CSSValue value)
         {
             return breakModes.GetValueOrDefault(value);
+        }
+
+        public static BreakMode? ToPageBreakMode(this CSSValue value)
+        {
+            return pageBreakModes.GetValueOrDefault(value);
         }
 
         public static TransitionFunction ToTimingFunction(this CSSValue value)
