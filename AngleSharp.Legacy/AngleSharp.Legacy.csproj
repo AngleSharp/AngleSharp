@@ -595,9 +595,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakInsideProperty.cs">
       <Link>DOM\Css\Properties\Break\CSSBreakInsideProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSBreakProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs">
       <Link>DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs</Link>
     </Compile>
