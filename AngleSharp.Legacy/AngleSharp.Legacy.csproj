@@ -604,9 +604,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs">
       <Link>DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSPageBreakProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnCountProperty.cs">
       <Link>DOM\Css\Properties\Columns\CSSColumnCountProperty.cs</Link>
     </Compile>
