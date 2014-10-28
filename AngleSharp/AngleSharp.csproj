@@ -274,7 +274,6 @@
     <Compile Include="DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs" />
     <Compile Include="DOM\Css\Properties\Box\CSSBoxShadowProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSBreakInsideProperty.cs" />
-    <Compile Include="DOM\Css\Properties\Break\CSSBreakProperty.cs" />
     <Compile Include="DOM\Css\Properties\Break\CSSBreakAfterProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSColorProperty.cs" />
     <Compile Include="DOM\Css\Properties\CSSContentProperty.cs" />

@@ -26,6 +26,7 @@
         static readonly Dictionary<String, BackgroundAttachment> backgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, FontStyle> fontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, FontStretch> fontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BreakMode> breakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -137,6 +138,16 @@
             fontStretches.Add(Keywords.Expanded, FontStretch.Expanded);
             fontStretches.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
             fontStretches.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
+
+            breakModes.Add(Keywords.Auto, BreakMode.Auto);
+            breakModes.Add(Keywords.Always, BreakMode.Always);
+            breakModes.Add(Keywords.Avoid, BreakMode.Avoid);
+            breakModes.Add(Keywords.Left, BreakMode.Left);
+            breakModes.Add(Keywords.Right, BreakMode.Right);
+            breakModes.Add(Keywords.Page, BreakMode.Page);
+            breakModes.Add(Keywords.Column, BreakMode.Column);
+            breakModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
+            breakModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
         }
 
         #endregion
@@ -176,6 +187,11 @@
         public static Visibility? ToVisibility(this CSSValue value)
         {
             return visibilities.GetValueOrDefault(value);
+        }
+
+        public static BreakMode? ToBreakMode(this CSSValue value)
+        {
+            return breakModes.GetValueOrDefault(value);
         }
 
         public static TransitionFunction ToTimingFunction(this CSSValue value)
