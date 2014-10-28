@@ -13,21 +13,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, BreakMode> modes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
         BreakMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSBreakInsideProperty()
-        {
-            modes.Add(Keywords.Auto, BreakMode.Auto);
-            modes.Add(Keywords.Avoid, BreakMode.Avoid);
-            modes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
-            modes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
-            modes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
-        }
 
         internal CSSBreakInsideProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BreakInside, rule)
@@ -63,11 +53,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            BreakMode mode;
+            var mode = value.ToBreakInsideMode();
 
-            if (modes.TryGetValue(value, out mode))
+            if (mode.HasValue)
             {
-                _mode = mode;
+                _mode = mode.Value;
                 return true;
             }
             

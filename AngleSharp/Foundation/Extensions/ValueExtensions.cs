@@ -28,6 +28,7 @@
         static readonly Dictionary<String, FontStretch> fontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BreakMode> breakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BreakMode> pageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, BreakMode> breakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -155,6 +156,12 @@
             pageBreakModes.Add(Keywords.Avoid, BreakMode.Avoid);
             pageBreakModes.Add(Keywords.Left, BreakMode.Left);
             pageBreakModes.Add(Keywords.Right, BreakMode.Right);
+
+            breakInsideModes.Add(Keywords.Auto, BreakMode.Auto);
+            breakInsideModes.Add(Keywords.Avoid, BreakMode.Avoid);
+            breakInsideModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
+            breakInsideModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
+            breakInsideModes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
         }
 
         #endregion
@@ -199,6 +206,11 @@
         public static BreakMode? ToBreakMode(this CSSValue value)
         {
             return breakModes.GetValueOrDefault(value);
+        }
+
+        public static BreakMode? ToBreakInsideMode(this CSSValue value)
+        {
+            return breakInsideModes.GetValueOrDefault(value);
         }
 
         public static BreakMode? ToPageBreakMode(this CSSValue value)
