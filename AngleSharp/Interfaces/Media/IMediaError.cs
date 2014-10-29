@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Media
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Stores information about media errors.
     /// </summary>

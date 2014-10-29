@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Extensions to ChildNode nodes that are not document type nodes.
     /// </summary>

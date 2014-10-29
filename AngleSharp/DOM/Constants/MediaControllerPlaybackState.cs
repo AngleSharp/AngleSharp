@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Media
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// An enumeration over the various playback states.
     /// </summary>

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Defines the callback signature for a mutation event.
     /// </summary>

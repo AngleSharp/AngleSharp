@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Events
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// An enumeration over all possible keyboard locations.
     /// </summary>

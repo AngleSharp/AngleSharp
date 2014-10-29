@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Media
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// The modes of a text track.
     /// </summary>

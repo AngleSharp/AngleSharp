@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Represents the template HTML element.
     /// </summary>

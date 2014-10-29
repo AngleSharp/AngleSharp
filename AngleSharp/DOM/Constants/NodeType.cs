@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Contains an enumeration of various node types.
     /// </summary>

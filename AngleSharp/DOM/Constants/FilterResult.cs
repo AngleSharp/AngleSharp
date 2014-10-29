@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// An enumeration that contains the valid results of examining a node.
     /// </summary>

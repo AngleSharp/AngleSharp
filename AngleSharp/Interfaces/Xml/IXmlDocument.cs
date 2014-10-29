@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Xml
 {
+    using AngleSharp.Attributes;
     using System;
 
     /// <summary>

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Events
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Represents the different phases of an event.
     /// </summary>

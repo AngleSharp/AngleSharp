@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// The set of possible CSS rules.
     /// </summary>

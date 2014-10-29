@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Io
 {
+    using AngleSharp.Attributes;
     using System;
 
     /// <summary>

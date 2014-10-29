@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// An enumeration with track ready state values.
     /// </summary>

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Events
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Enumeration with the various mouse wheel modes.
     /// </summary>

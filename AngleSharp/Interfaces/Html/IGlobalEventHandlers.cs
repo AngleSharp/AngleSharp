@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Defines a set of event handlers that are implemented by all HTML elements.
     /// </summary>

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Media
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Enumeration with the various media error codes.
     /// </summary>

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// A set of useful methods for retrieving style information.
     /// </summary>

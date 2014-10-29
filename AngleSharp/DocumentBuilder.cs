@@ -329,16 +329,16 @@
             var node = context as Element;
             var parser = Construct(doc, configuration);
 
-            if (node != null)
-            {
-                if (node.Owner != null && node.Owner.QuirksMode != QuirksMode.Off)
-                    doc.QuirksMode = node.Owner.QuirksMode;
+            if (node == null)
+                return parser.Result.ChildNodes;
 
-                parser.SwitchToFragment(node);
-                return parser.Result.DocumentElement.ChildNodes;
-            }
+            var owner = node.Owner;
 
-            return parser.Result.ChildNodes;
+            if (owner != null && owner.QuirksMode != QuirksMode.Off)
+                doc.QuirksMode = owner.QuirksMode;
+
+            parser.SwitchToFragment(node);
+            return parser.Result.DocumentElement.ChildNodes;
         }
 
         #endregion

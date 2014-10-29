@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Media
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// An enumeration of possible network states.
     /// </summary>

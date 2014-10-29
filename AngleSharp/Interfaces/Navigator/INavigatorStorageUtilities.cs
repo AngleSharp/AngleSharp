@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Navigator
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Defines a set of methods for working with IO.
     /// </summary>

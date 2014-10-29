@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Represents a @media CSS rule.
     /// </summary>

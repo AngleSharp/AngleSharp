@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Svg
 {
+    using AngleSharp.Attributes;
     using AngleSharp.DOM.Css;
 
     /// <summary>

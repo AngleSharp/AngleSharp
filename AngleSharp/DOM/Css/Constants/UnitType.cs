@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Representation of the various primitive types.
     /// </summary>

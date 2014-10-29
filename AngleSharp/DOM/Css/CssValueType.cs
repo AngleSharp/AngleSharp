@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// This enumeration is indicating which type of unit applies to the value.
     /// </summary>

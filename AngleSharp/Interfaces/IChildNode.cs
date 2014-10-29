@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// The ChildNode interface contains methods that are
     /// particular to Node objects that can have a parent.

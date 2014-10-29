@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Attributes;
     using System;
 
     /// <summary>

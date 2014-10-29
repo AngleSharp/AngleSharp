@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// Used to mark elements that may have inline style,
     /// usually set and defined over an attribute.
