@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="code">The error code.</param>
         internal DomException(ErrorCode code)
-            : base(code.GetErrorMessage())
+            : base(code.GetMessage())
         {
             Code = (Int32)code;
             Name = code.ToString();

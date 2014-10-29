@@ -3853,7 +3853,7 @@
         {
             if (ParseError != null)
             {
-                var pck = new ParseErrorEventArgs((Int32)code, code.GetErrorMessage());
+                var pck = new ParseErrorEventArgs((Int32)code, code.GetMessage());
                 pck.Line = tokenizer.Line;
                 pck.Column = tokenizer.Column;
                 ParseError(this, pck);
