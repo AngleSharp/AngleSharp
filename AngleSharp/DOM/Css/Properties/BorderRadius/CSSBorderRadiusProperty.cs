@@ -1,32 +1,32 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
     /// </summary>
-    sealed class CSSBorderRadiusProperty : CSSProperty, ICssBorderRadiusProperty
+    sealed class CSSBorderRadiusProperty : CSSShorthandProperty, ICssBorderRadiusProperty
     {
         #region Fields
 
-        IDistance _bottomLeftHorizontal;
-        IDistance _bottomRightHorizontal;
-        IDistance _topLeftHorizontal;
-        IDistance _topRightHorizontal;
-        IDistance _bottomLeftVertical;
-        IDistance _bottomRightVertical;
-        IDistance _topLeftVertical;
-        IDistance _topRightVertical;
+        readonly CSSBorderTopLeftRadiusProperty _topLeft;
+        readonly CSSBorderTopRightRadiusProperty _topRight;
+        readonly CSSBorderBottomRightRadiusProperty _bottomRight;
+        readonly CSSBorderBottomLeftRadiusProperty _bottomLeft;
 
         #endregion
 
         #region ctor
 
         internal CSSBorderRadiusProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderRadius, rule, PropertyFlags.Animatable | PropertyFlags.Shorthand)
+            : base(PropertyNames.BorderRadius, rule, PropertyFlags.Animatable)
         {
-            Reset();
+            _topLeft = Get<CSSBorderTopLeftRadiusProperty>();
+            _topRight = Get<CSSBorderTopRightRadiusProperty>();
+            _bottomRight = Get<CSSBorderBottomRightRadiusProperty>();
+            _bottomLeft = Get<CSSBorderBottomLeftRadiusProperty>();
         }
 
         #endregion
@@ -38,7 +38,7 @@
         /// </summary>
         public IDistance HorizontalBottomLeft
         {
-            get { return _bottomLeftHorizontal; }
+            get { return _bottomLeft.HorizontalRadius; }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// </summary>
         public IDistance VerticalBottomLeft
         {
-            get { return _bottomLeftVertical; }
+            get { return _bottomLeft.VerticalRadius; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
         /// </summary>
         public IDistance HorizontalBottomRight
         {
-            get { return _bottomRightHorizontal; }
+            get { return _bottomRight.HorizontalRadius; }
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         /// </summary>
         public IDistance VerticalBottomRight
         {
-            get { return _bottomRightVertical; }
+            get { return _bottomRight.VerticalRadius; }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@
         /// </summary>
         public IDistance HorizontalTopLeft
         {
-            get { return _topLeftHorizontal; }
+            get { return _topLeft.HorizontalRadius; }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@
         /// </summary>
         public IDistance VerticalTopLeft
         {
-            get { return _topLeftVertical; }
+            get { return _topLeft.VerticalRadius; }
         }
 
         /// <summary>
@@ -86,7 +86,7 @@
         /// </summary>
         public IDistance HorizontalTopRight
         {
-            get { return _topRightHorizontal; }
+            get { return _topRight.HorizontalRadius; }
         }
 
         /// <summary>
@@ -94,95 +94,88 @@
         /// </summary>
         public IDistance VerticalTopRight
         {
-            get { return _topRightVertical; }
+            get { return _topRight.VerticalRadius; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override void Reset()
-        {
-            _topRightHorizontal = Percent.Zero;
-            _bottomRightHorizontal = Percent.Zero;
-            _bottomLeftHorizontal = Percent.Zero;
-            _topLeftHorizontal = Percent.Zero;
-            _topRightVertical = Percent.Zero;
-            _bottomRightVertical = Percent.Zero;
-            _bottomLeftVertical = Percent.Zero;
-            _topLeftVertical = Percent.Zero;
-        }
-
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
-        /// <param name="value">The state that should be used.</param>
+        /// <param name="v">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(CSSValue v)
         {
-            if (value is CSSValueList)
-                return Check((CSSValueList)value);
+            var values = v as CSSValueList ?? new CSSValueList(v);
+            var horizontal = new CSSValueList();
+            var vertical = new CSSValueList();
+            var uv = false;
 
-            var distance = value.ToDistance();
-
-            if (distance == null)
+            if (values.Length > 9)
                 return false;
 
-            _bottomLeftHorizontal = _bottomLeftVertical = _bottomRightHorizontal = _bottomRightVertical = _topLeftHorizontal = _topLeftVertical = _topRightHorizontal = _topRightVertical = distance;
-            return true;
+            foreach (var value in values)
+            {
+                if (value == CSSValue.Delimiter && uv)
+                    return false;
+                else if (value == CSSValue.Delimiter)
+                    uv = true;
+                else if (!_topLeft.CanTake(value))
+                    return false;
+                else if (uv)
+                    vertical.Add(value);
+                else
+                    horizontal.Add(value);
+            }
+
+            if (!ExpandPeriodic(horizontal))
+                return false;
+
+            if (uv)
+            {
+                return ExpandPeriodic(vertical) && _topLeft.TrySetValue(Combine(horizontal, vertical, 0)) && _topRight.TrySetValue(Combine(horizontal, vertical, 1)) &&
+                       _bottomRight.TrySetValue(Combine(horizontal, vertical, 2)) && _bottomLeft.TrySetValue(Combine(horizontal, vertical, 3));
+            }
+
+            return _topLeft.TrySetValue(horizontal[0]) && _topRight.TrySetValue(horizontal[1]) && 
+                   _bottomRight.TrySetValue(horizontal[2]) && _bottomLeft.TrySetValue(horizontal[3]);
         }
 
-        Boolean Check(CSSValueList arguments)
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
         {
-            var count = arguments.Length;
-            var splitIndex = arguments.Length;
+            if (!IsComplete(properties))
+                return String.Empty;
 
-            for (var i = 0; i < splitIndex; i++)
-                if (arguments[i] == CSSValue.Delimiter)
-                    splitIndex = i;
+            return String.Empty;
+        }
 
-            if (count - 1 > splitIndex + 4 || splitIndex > 4 || splitIndex == count - 1 || splitIndex == 0)
+        #endregion
+
+        #region Helpers
+
+        static CSSValueList Combine(CSSValueList h, CSSValueList v, Int32 index)
+        {
+            var list = new CSSValueList();
+            list.Add(h[index]);
+            list.Add(v[index]);
+            return list;
+        }
+
+        static Boolean ExpandPeriodic(CSSValueList list)
+        {
+            if (list.Length == 0 || list.Length > 4)
                 return false;
 
-            var values = new IDistance[4];
+            if (list.Length == 1)
+                list.Add(list[0]);
 
-            for (int i = 0; i < splitIndex; i++)
-            {
-                values[i] = arguments[i].ToDistance();
+            if (list.Length == 2)
+                list.Add(list[0]);
 
-                for (int j = 2 * i + 1; j < 4; j += i + 1)
-                    values[j] = values[i];
-
-                if (values[i] == null)
-                    return false;
-            }
-
-            _topLeftHorizontal = values[0];
-            _topRightHorizontal = values[1];
-            _bottomRightHorizontal = values[2];
-            _bottomLeftHorizontal = values[3];
-
-            if (splitIndex != count)
-            {
-                splitIndex++;
-                count -= splitIndex;
-
-                for (int i = 0; i < count; i++)
-                {
-                    values[i] = arguments[i + splitIndex].ToDistance();
-
-                    for (int j = 2 * i + 1; j < 4; j += i + 1)
-                        values[j] = values[i];
-
-                    if (values[i] == null)
-                        return false;
-                }
-            }
-
-            _topLeftVertical = values[0];
-            _topRightVertical = values[1];
-            _bottomRightVertical = values[2];
-            _bottomLeftVertical = values[3];
+            if (list.Length == 3)
+                list.Add(list[1]);
 
             return true;
         }
