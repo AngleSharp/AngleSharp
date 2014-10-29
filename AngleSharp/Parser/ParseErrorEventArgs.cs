@@ -16,10 +16,14 @@
         /// </summary>
         /// <param name="code">The provided error code.</param>
         /// <param name="msg">The associated error message.</param>
-        public ParseErrorEventArgs(Int32 code, String msg)
+        /// <param name="line">The line of the error.</param>
+        /// <param name="column">The column of the error.</param>
+        public ParseErrorEventArgs(Int32 code, String msg, Int32 line, Int32 column)
         {
             ErrorMessage = msg;
             ErrorCode = code;
+            Line = line;
+            Column = column;
         }
 
         #endregion
@@ -32,7 +36,7 @@
         public Int32 Line
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -40,7 +44,7 @@
         /// </summary>
         public Int32 Column
         {
-            get;
+            private get;
             set;
         }
 

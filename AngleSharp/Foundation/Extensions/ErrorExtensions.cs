@@ -25,5 +25,15 @@
 
             return "An unknown error occurred.";
         }
+
+        /// <summary>
+        /// Retrieves a number describing the error of a given error code.
+        /// </summary>
+        /// <param name="code">A specific error code.</param>
+        /// <returns>The code of the error.</returns>
+        public static Int32 GetCode(this ErrorCode code)
+        {
+            return (Int32)code;
+        }
     }
 }

@@ -41,14 +41,12 @@
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>
-        protected void RaiseErrorOccurred(ErrorCode code)
+        public void RaiseErrorOccurred(ErrorCode code)
         {
             if (ErrorOccurred != null)
             {
-                var pck = new ParseErrorEventArgs((Int32)code, code.GetMessage());
-                pck.Line = Line;
-                pck.Column = Column;
-                ErrorOccurred(this, pck);
+                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), Line, Column);
+                ErrorOccurred(this, errorArguments);
             }
         }
 

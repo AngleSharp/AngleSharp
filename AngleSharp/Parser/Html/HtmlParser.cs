@@ -46,7 +46,11 @@
         /// <summary>
         /// The event will be fired once an error has been detected.
         /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ParseError;
+        public event EventHandler<ParseErrorEventArgs> ParseError
+        {
+            add { tokenizer.ErrorOccurred += value; }
+            remove { tokenizer.ErrorOccurred -= value; }
+        }
 
         #endregion
 
@@ -82,13 +86,6 @@
         internal HtmlParser(Document document)
         {
             tokenizer = new HtmlTokenizer(document.Source);
-
-            tokenizer.ErrorOccurred += (s, ev) =>
-            {
-                if (ParseError != null)
-                    ParseError(this, ev);
-            };
-
 			sync = new Object();
             started = false;
             doc = document;
@@ -3851,13 +3848,7 @@
         /// <param name="code">The associated error code.</param>
         void RaiseErrorOccurred(ErrorCode code)
         {
-            if (ParseError != null)
-            {
-                var pck = new ParseErrorEventArgs((Int32)code, code.GetMessage());
-                pck.Line = tokenizer.Line;
-                pck.Column = tokenizer.Column;
-                ParseError(this, pck);
-            }
+            tokenizer.RaiseErrorOccurred(code);
         }
 
         #endregion
