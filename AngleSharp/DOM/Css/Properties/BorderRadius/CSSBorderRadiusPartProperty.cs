@@ -35,6 +35,14 @@
         }
 
         /// <summary>
+        /// Gets if the horizontal radius is the same as the vertical one.
+        /// </summary>
+        public Boolean IsCircle
+        {
+            get { return _h.Equals(_v); }
+        }
+
+        /// <summary>
         /// Gets the vertical radius of the ellipse.
         /// </summary>
         public IDistance VerticalRadius

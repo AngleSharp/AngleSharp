@@ -53,7 +53,7 @@
             return true;
         }
 
-        protected Boolean ValidatePeriodic(CSSValue v, CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
+        protected static Boolean ValidatePeriodic(CSSValue v, CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
         {
             var values = v as CSSValueList ?? new CSSValueList(v);
             CSSValue top = null;
@@ -76,13 +76,43 @@
             return t.TrySetValue(top) && r.TrySetValue(right) && b.TrySetValue(bottom) && l.TrySetValue(left);
         }
 
-        protected String SerializePeriodic(CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
+        protected static Boolean ExpandPeriodic(CSSValueList list)
+        {
+            if (list.Length == 0 || list.Length > 4)
+                return false;
+
+            if (list.Length == 1)
+                list.Add(list[0]);
+
+            if (list.Length == 2)
+                list.Add(list[0]);
+
+            if (list.Length == 3)
+                list.Add(list[1]);
+
+            return true;
+        }
+
+        protected static String SerializePeriodic(CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
         {
             var top = t.SerializeValue();
             var right = r.SerializeValue();
             var bottom = b.SerializeValue();
             var left = l.SerializeValue();
+            return SerializePeriodic(top, right, bottom, left);
+        }
 
+        protected static String SerializePeriodic(IDistance t, IDistance r, IDistance b, IDistance l)
+        {
+            var top = t.ToCss();
+            var right = r.ToCss();
+            var bottom = b.ToCss();
+            var left = l.ToCss();
+            return SerializePeriodic(top, right, bottom, left);
+        }
+
+        protected static String SerializePeriodic(String top, String right, String bottom, String left)
+        {
             if (left != right)
                 return String.Format("{0} {1} {2} {3}", top, right, bottom, left);
             else if (bottom != top)

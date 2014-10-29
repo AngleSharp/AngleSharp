@@ -148,7 +148,13 @@
             if (!IsComplete(properties))
                 return String.Empty;
 
-            return String.Empty;
+            var horizontal = SerializePeriodic(_topLeft.HorizontalRadius, _topRight.HorizontalRadius, _bottomRight.HorizontalRadius, _bottomLeft.HorizontalRadius);
+
+            if (_topLeft.IsCircle && _topRight.IsCircle && _bottomRight.IsCircle && _bottomLeft.IsCircle)
+                return horizontal;
+
+            var vertical = SerializePeriodic(_topLeft.VerticalRadius, _topRight.VerticalRadius, _bottomRight.VerticalRadius, _bottomLeft.VerticalRadius);
+            return horizontal + " / " + vertical;
         }
 
         #endregion
@@ -161,23 +167,6 @@
             list.Add(h[index]);
             list.Add(v[index]);
             return list;
-        }
-
-        static Boolean ExpandPeriodic(CSSValueList list)
-        {
-            if (list.Length == 0 || list.Length > 4)
-                return false;
-
-            if (list.Length == 1)
-                list.Add(list[0]);
-
-            if (list.Length == 2)
-                list.Add(list[0]);
-
-            if (list.Length == 3)
-                list.Add(list[1]);
-
-            return true;
         }
 
         #endregion
