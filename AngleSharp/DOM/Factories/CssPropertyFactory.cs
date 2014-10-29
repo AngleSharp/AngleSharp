@@ -84,7 +84,11 @@
             AddLonghand(PropertyNames.BorderTopRightRadius, style => new CSSBorderTopRightRadiusProperty(style));
             AddLonghand(PropertyNames.BorderBottomLeftRadius, style => new CSSBorderBottomLeftRadiusProperty(style));
             AddLonghand(PropertyNames.BorderBottomRightRadius, style => new CSSBorderBottomRightRadiusProperty(style));
-            AddLonghand(PropertyNames.BorderRadius, style => new CSSBorderRadiusProperty(style));
+            AddShorthand(PropertyNames.BorderRadius, style => new CSSBorderRadiusProperty(style),
+                PropertyNames.BorderTopLeftRadius,
+                PropertyNames.BorderTopRightRadius,
+                PropertyNames.BorderBottomRightRadius,
+                PropertyNames.BorderBottomLeftRadius);
             AddLonghand(PropertyNames.BorderImage, style => new CSSBorderImageProperty(style));
             AddLonghand(PropertyNames.BorderImageOutset, style => new CSSBorderImageOutsetProperty(style));
             AddLonghand(PropertyNames.BorderImageRepeat, style => new CSSBorderImageRepeatProperty(style));
