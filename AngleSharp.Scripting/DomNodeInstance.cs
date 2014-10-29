@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Scripting
 {
+    using AngleSharp.Attributes;
     using Jint;
     using Jint.Native.Object;
     using Jint.Runtime.Descriptors;
