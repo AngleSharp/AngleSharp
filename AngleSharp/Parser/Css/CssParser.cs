@@ -32,7 +32,6 @@
         readonly CSSStyleSheet sheet;
 
         Boolean started;
-        Boolean quirks;
         Task task;
 
         #endregion
@@ -110,7 +109,6 @@
             };
             started = false;
             sheet = stylesheet;
-            quirks = owner != null && owner.Owner.QuirksMode == QuirksMode.On;
         }
 
         #endregion
@@ -135,14 +133,6 @@
                 Parse();
                 return sheet;
             }
-        }
-
-        /// <summary>
-        /// Gets if the quirks-mode is activated.
-        /// </summary>
-        public Boolean IsQuirksMode
-        {
-            get { return quirks; }
         }
 
         #endregion
@@ -521,18 +511,6 @@
                     if (property != null)
                     {
                         var value = InValue(tokens);
-
-                        if (quirks)
-                        {
-                            if (property.IsHashless)
-                            {
-                                //TODO Convert Strings / Numbers to Color
-                            }
-                            else if (property.IsUnitless)
-                            {
-                                //TODO Convert Numbers to Length
-                            }
-                        }
 
                         if (value != null && property.TrySetValue(value))
                             style.SetProperty(property);
