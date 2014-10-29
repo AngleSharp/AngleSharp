@@ -1,4 +1,4 @@
-﻿using AngleSharp;
+﻿using AngleSharp.Attributes;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
