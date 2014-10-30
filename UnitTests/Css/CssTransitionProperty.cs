@@ -53,7 +53,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssTransitionPropertyDashSpecificLegal()
+        public void CssTransitionPropertyDashSpecificIllegal()
         {
             var snippet = "transition-property : -specific";
             var property = CssParser.ParseDeclaration(snippet);
@@ -61,14 +61,13 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("-specific", concrete.Value.CssText);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
-        public void CssTransitionPropertySlidingVerticallyLegal()
+        public void CssTransitionPropertySlidingVerticallyIllegal()
         {
             var snippet = "transition-property : sliding-vertically";
             var property = CssParser.ParseDeclaration(snippet);
@@ -76,14 +75,13 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("sliding-vertically", concrete.Value.CssText);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
-        public void CssTransitionPropertyTest05Legal()
+        public void CssTransitionPropertyTest05Illegal()
         {
             var snippet = "transition-property : test_05";
             var property = CssParser.ParseDeclaration(snippet);
@@ -91,10 +89,9 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSTransitionPropertyProperty));
             var concrete = (CSSTransitionPropertyProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("test_05", concrete.Value.CssText);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
