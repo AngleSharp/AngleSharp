@@ -84,7 +84,12 @@
             AddLonghand(PropertyNames.BorderBottomLeftRadius, style => new CSSBorderBottomLeftRadiusProperty(style), animatable: true);
             AddLonghand(PropertyNames.BorderBottomRightRadius, style => new CSSBorderBottomRightRadiusProperty(style), animatable: true);
 
-            AddLonghand(PropertyNames.BorderImage, style => new CSSBorderImageProperty(style));
+            AddShorthand(PropertyNames.BorderImage, style => new CSSBorderImageProperty(style),
+                PropertyNames.BorderImageOutset,
+                PropertyNames.BorderImageRepeat,
+                PropertyNames.BorderImageSlice,
+                PropertyNames.BorderImageSource,
+                PropertyNames.BorderImageWidth);
             AddLonghand(PropertyNames.BorderImageOutset, style => new CSSBorderImageOutsetProperty(style));
             AddLonghand(PropertyNames.BorderImageRepeat, style => new CSSBorderImageRepeatProperty(style));
             AddLonghand(PropertyNames.BorderImageSource, style => new CSSBorderImageSourceProperty(style));

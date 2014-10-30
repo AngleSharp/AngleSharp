@@ -2,40 +2,34 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image
     /// </summary>
-    sealed class CSSBorderImageProperty : CSSProperty, ICssBorderImageProperty
+    sealed class CSSBorderImageProperty : CSSShorthandProperty, ICssBorderImageProperty
     {
         #region Fields
 
-        IDistance _topOutset;
-        IDistance _rightOutset;
-        IDistance _bottomOutset;
-        IDistance _leftOutset;
-        BorderRepeat _horizontal;
-        BorderRepeat _vertical;
-        IDistance _topSlice;
-        IDistance _rightSlice;
-        IDistance _bottomSlice;
-        IDistance _leftSlice;
-        Boolean _fillSlice;
-        IBitmap _image;
-        IDistance _topWidth;
-        IDistance _leftWidth;
-        IDistance _rightWidth;
-        IDistance _bottomWidth;
+        readonly CSSBorderImageOutsetProperty _outset;
+        readonly CSSBorderImageRepeatProperty _repeat;
+        readonly CSSBorderImageSliceProperty _slice;
+        readonly CSSBorderImageWidthProperty _width;
+        readonly CSSBorderImageSourceProperty _source;
 
         #endregion
 
         #region ctor
 
         internal CSSBorderImageProperty(CSSStyleDeclaration rule)
-            : base(PropertyNames.BorderImage, rule, PropertyFlags.Shorthand)
+            : base(PropertyNames.BorderImage, rule)
         {
-            Reset();
+            _outset = Get<CSSBorderImageOutsetProperty>();
+            _repeat = Get<CSSBorderImageRepeatProperty>();
+            _slice = Get<CSSBorderImageSliceProperty>();
+            _source = Get<CSSBorderImageSourceProperty>();
+            _width = Get<CSSBorderImageWidthProperty>();
         }
 
         #endregion
@@ -47,7 +41,7 @@
         /// </summary>
         public IDistance OutsetBottom
         {
-            get { return _bottomOutset; }
+            get { return _outset.OutsetBottom; }
         }
 
         /// <summary>
@@ -55,7 +49,7 @@
         /// </summary>
         public IDistance OutsetLeft
         {
-            get { return _leftOutset; }
+            get { return _outset.OutsetLeft; }
         }
 
         /// <summary>
@@ -63,7 +57,7 @@
         /// </summary>
         public IDistance OutsetRight
         {
-            get { return _rightOutset; }
+            get { return _outset.OutsetRight; }
         }
 
         /// <summary>
@@ -71,7 +65,7 @@
         /// </summary>
         public IDistance OutsetTop
         {
-            get { return _topOutset; }
+            get { return _outset.OutsetTop; }
         }
 
         /// <summary>
@@ -79,7 +73,7 @@
         /// </summary>
         public BorderRepeat Horizontal
         {
-            get { return _horizontal; }
+            get { return _repeat.Horizontal; }
         }
 
         /// <summary>
@@ -87,7 +81,7 @@
         /// </summary>
         public BorderRepeat Vertical
         {
-            get { return _vertical; }
+            get { return _repeat.Vertical; }
         }
 
         /// <summary>
@@ -95,7 +89,7 @@
         /// </summary>
         public Boolean IsFilled
         {
-            get { return _fillSlice; }
+            get { return _slice.IsFilled; }
         }
 
         /// <summary>
@@ -103,7 +97,7 @@
         /// </summary>
         public IDistance SliceBottom
         {
-            get { return _bottomSlice; }
+            get { return _slice.SliceBottom; }
         }
 
         /// <summary>
@@ -111,7 +105,7 @@
         /// </summary>
         public IDistance SliceRight
         {
-            get { return _rightSlice; }
+            get { return _slice.SliceRight; }
         }
 
         /// <summary>
@@ -119,7 +113,7 @@
         /// </summary>
         public IDistance SliceTop
         {
-            get { return _topSlice; }
+            get { return _slice.SliceTop; }
         }
 
         /// <summary>
@@ -127,7 +121,7 @@
         /// </summary>
         public IDistance SliceLeft
         {
-            get { return _leftSlice; }
+            get { return _slice.SliceLeft; }
         }
 
         /// <summary>
@@ -135,52 +129,32 @@
         /// </summary>
         public IBitmap Image
         {
-            get { return _image; }
+            get { return _source.Image; }
         }
 
         public IDistance WidthTop
         {
-            get { throw new NotImplementedException(); }
+            get { return _width.WidthTop; }
         }
 
         public IDistance WidthBottom
         {
-            get { throw new NotImplementedException(); }
+            get { return _width.WidthBottom; }
         }
 
         public IDistance WidthLeft
         {
-            get { throw new NotImplementedException(); }
+            get { return _width.WidthLeft; }
         }
 
         public IDistance WidthRight
         {
-            get { throw new NotImplementedException(); }
+            get { return _width.WidthRight; }
         }
 
         #endregion
 
         #region Methods
-
-        internal override void Reset()
-        {
-            _topOutset = Percent.Zero;
-            _rightOutset = Percent.Zero;
-            _bottomOutset = Percent.Zero;
-            _leftOutset = Percent.Zero;
-            _horizontal = BorderRepeat.Stretch;
-            _vertical = BorderRepeat.Stretch;
-            _topSlice = Percent.Hundred;
-            _rightSlice = Percent.Hundred;
-            _bottomSlice = Percent.Hundred;
-            _leftSlice = Percent.Hundred;
-            _fillSlice = false;
-            _image = Color.Transparent;
-            _topWidth = Percent.Hundred;
-            _rightWidth = Percent.Hundred;
-            _bottomWidth = Percent.Hundred;
-            _leftWidth = Percent.Hundred;
-        }
 
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
@@ -197,100 +171,87 @@
 
         Boolean Evaluate(CSSValueList values)
         {
-            var fillSlice = false;
-            IDistance topOutset = null;
-            IDistance rightOutset = null;
-            IDistance bottomOutset = null;
-            IDistance leftOutset = null;
-            BorderRepeat? horizontal = null;
-            BorderRepeat? vertical = null;
-            IDistance topSlice = null;
-            IDistance rightSlice = null;
-            IDistance bottomSlice = null;
-            IDistance leftSlice = null;
-            IBitmap image = null;
-            IDistance topWidth = null;
-            IDistance rightWidth = null;
-            IDistance bottomWidth = null;
-            IDistance leftWidth = null;
+            CSSValue source = null;
+            var slice = new CSSValueList();
+            var outset = new CSSValueList();
+            var repeat = new CSSValueList();
+            var width = new CSSValueList();
 
             for (var i = 0; i < values.Length; i++)
             {
                 var value = values[i];
 
-                if (image == null && (image = value.ToImage()) != null)
+                if (_source.CanStore(value, ref source))
                     continue;
-                else if (horizontal == null && (horizontal = value.ToBorderRepeat()).HasValue)
+                else if (repeat.Length == 0 && _repeat.CanTake(value))
+                {
+                    repeat.Add(value);
+
+                    if (i + 1 < values.Length)
+                    {
+                        repeat.Add(values[++i]);
+
+                        if (!_repeat.CanTake(repeat))
+                            repeat.Remove(values[i--]);
+                    }
+
                     continue;
-                else if (vertical == null && (vertical = value.ToBorderRepeat()).HasValue)
+                }
+                else if (slice.Length == 0 && _slice.CanTake(value))
+                {
+                    slice.Add(value);
+
+                    while (i + 1 < values.Length)
+                    {
+                        slice.Add(values[++i]);
+
+                        if (!_slice.CanTake(slice))
+                        {
+                            slice.Remove(values[i--]);
+                            break;
+                        }
+                    }
+
                     continue;
-                else if (topSlice == null && (topSlice = value.ToBorderSlice()) != null)
-                    continue;
-                else if (rightSlice == null && (rightSlice = value.ToBorderSlice()) != null)
-                    continue;
-                else if (bottomSlice == null && (bottomSlice = value.ToBorderSlice()) != null)
-                    continue;
-                else if (leftSlice == null && (leftSlice = value.ToBorderSlice()) != null)
-                    continue;
-                else if (!fillSlice && (fillSlice = value.Is(Keywords.Fill)))
-                    continue;
+                }
                 else if (value == CSSValue.Delimiter)
                 {
                     if (++i == values.Length)
                         return false;
 
-                    do
+                    while (i + 1 < values.Length)
                     {
-                        value = values[i];
-                        var width = value.ToImageBorderWidth();
+                        value = values[++i];
 
-                        if (width == null)
-                            break;
-
-                        if (topWidth == null)
-                            topWidth = width;
-                        else if (rightWidth == null)
-                            rightWidth = width;
-                        else if (bottomWidth == null)
-                            bottomWidth = width;
-                        else if (leftWidth == null)
-                            leftWidth = width;
-                        else
-                            return false;
-                    }
-                    while (++i < values.Length);
-
-                    if (topWidth == null)
-                        return false;
-
-                    if (value == CSSValue.Delimiter)
-                    {
-                        if (++i == values.Length)
-                            return false;
-
-                        do
+                        if (value == CSSValueList.Delimiter)
                         {
-                            value = values[i];
-                            var outset = value.ToDistance();
-
-                            if (outset == null)
-                                break;
-
-                            if (topOutset == null)
-                                topOutset = outset;
-                            else if (rightOutset == null)
-                                rightOutset = outset;
-                            else if (bottomOutset == null)
-                                bottomOutset = outset;
-                            else if (leftOutset == null)
-                                leftOutset = outset;
-                            else
+                            if (++i == values.Length)
                                 return false;
-                        }
-                        while (++i < values.Length);
 
-                        if (topOutset == null)
-                            return false;
+                            while (i + 1 < values.Length)
+                            {
+                                outset.Add(values[++i]);
+
+                                if (!_outset.CanTake(outset))
+                                {
+                                    outset.Remove(values[i--]);
+                                    break;
+                                }
+                            }
+
+                            if (outset.Length == 0)
+                                return false;
+
+                            break;
+                        }
+
+                        width.Add(value);
+
+                        if (!_width.CanTake(width))
+                        {
+                            width.Remove(values[i--]);
+                            break;
+                        }
                     }
 
                     continue;
@@ -299,28 +260,43 @@
                 return false;
             }
 
-            _fillSlice = fillSlice;
+            return _width.TrySetValue(width.Reduce()) && _source.TrySetValue(source) &&
+                   _outset.TrySetValue(outset.Reduce()) && _repeat.TrySetValue(repeat.Reduce()) &&
+                   _slice.TrySetValue(slice.Reduce());
+        }
 
-            _topOutset = topOutset;
-            _rightOutset = rightOutset ?? _topOutset;
-            _bottomOutset = bottomOutset ?? _topOutset;
-            _leftOutset = leftOutset ?? _rightOutset;
+        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        {
+            if (!properties.Contains(_source))
+                return String.Empty;
 
-            _horizontal = horizontal ?? BorderRepeat.Stretch;
-            _vertical = vertical ?? (horizontal ?? BorderRepeat.Stretch);
+            var values = new List<String>();
+            values.Add(_source.SerializeValue());
 
-            _topSlice = topSlice;
-            _rightSlice = rightSlice ?? _topSlice;
-            _bottomSlice = bottomSlice ?? _topSlice;
-            _leftSlice = leftSlice ?? _rightSlice;
+            if (_slice.HasValue && properties.Contains(_slice))
+                values.Add(_slice.SerializeValue());
 
-            _topWidth = topWidth;
-            _rightWidth = rightWidth ?? _topWidth;
-            _bottomWidth = bottomWidth ?? _topWidth;
-            _leftWidth = leftWidth ?? _rightWidth;
+            var hasWidth = (_width.HasValue && properties.Contains(_width));
+            var hasOutset = (_outset.HasValue && properties.Contains(_outset));
 
-            _image = image;
-            return true;
+            if (hasWidth || hasOutset)
+            {
+                values.Add("/");
+
+                if (hasWidth)
+                    values.Add(_width.SerializeValue());
+
+                if (hasOutset)
+                {
+                    values.Add("/");
+                    values.Add(_outset.SerializeValue());
+                }
+            }
+
+            if (_repeat.HasValue && properties.Contains(_repeat))
+                values.Add(_repeat.SerializeValue());
+
+            return String.Format(" ", values);
         }
 
         #endregion
