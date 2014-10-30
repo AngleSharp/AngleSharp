@@ -395,6 +395,25 @@
         }
 
         /// <summary>
+        /// Checks if the given property name is actually animatable.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>True if the property is animatable, or has a longhand that is animatable.</returns>
+        public static Boolean IsAnimatable(String name)
+        {
+            if (IsLonghand(name))
+                return animatables.Contains(name);
+
+            foreach (var longhand in GetLonghands(name))
+            {
+                if (animatables.Contains(name))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Checks if the given property name if generally supported.
         /// </summary>
         /// <param name="name">The name of the property.</param>

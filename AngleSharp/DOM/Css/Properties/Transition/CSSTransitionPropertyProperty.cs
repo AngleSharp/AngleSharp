@@ -56,25 +56,23 @@
                 _properties.Clear();
             else if (value is CSSPrimitiveValue)
             {
-                var identifier = value.ToIdentifier();
+                var property = value.ToAnimatableIdentifier();
 
-                if (identifier == null)
+                if (property == null)
                     return false;
 
                 _properties.Clear();
-                _properties.Add(identifier);
+                _properties.Add(property);
             }
             else if (value is CSSValueList)
             {
-                var identifiers = value.AsList(ValueExtensions.ToIdentifier);
+                var properties = value.AsList(ValueExtensions.ToAnimatableIdentifier);
 
-                if (identifiers == null)
+                if (properties == null)
                     return false;
 
                 _properties.Clear();
-
-                foreach (var identifier in identifiers)
-                    _properties.Add(identifier);
+                _properties.AddRange(properties);
             }
             else 
                 return false;

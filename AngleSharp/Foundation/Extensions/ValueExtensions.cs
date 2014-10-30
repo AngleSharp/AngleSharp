@@ -517,6 +517,16 @@
             return null;
         }
 
+        public static String ToAnimatableIdentifier(this CSSValue value)
+        {
+            var identifier = value.ToIdentifier();
+
+            if (identifier != null && (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || CssPropertyFactory.IsAnimatable(identifier)))
+                return identifier;
+
+            return null;
+        }
+
         public static Single? ToSingle(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
