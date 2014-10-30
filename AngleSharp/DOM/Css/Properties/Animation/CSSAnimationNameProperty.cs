@@ -55,25 +55,23 @@
                 _names.Clear();
             else if (value is CSSPrimitiveValue)
             {
-                var primitive = (CSSPrimitiveValue)value;
+                var name = value.ToIdentifier();
 
-                if (primitive.Unit != UnitType.Ident)
+                if (name == null)
                     return false;
 
                 _names.Clear();
-                _names.Add(primitive.GetString());
+                _names.Add(name);
             }
             else if (value is CSSValueList)
             {
-                var values = value.AsList<CSSPrimitiveValue>();
+                var names = value.AsList(ValueExtensions.ToIdentifier);
 
-                if (values == null)
+                if (names == null)
                     return false;
 
                 _names.Clear();
-
-                foreach (var ident in values)
-                    _names.Add(ident.GetString());
+                _names.AddRange(names);
             }
             else
                 return false;
