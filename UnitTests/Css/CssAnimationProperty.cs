@@ -197,7 +197,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("INFINITE", concrete.Value.CssText);
+            Assert.AreEqual("infinite", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -256,7 +256,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("EASE", concrete.Value.CssText);
+            Assert.AreEqual("ease", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -285,7 +285,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease-IN-out", concrete.Value.CssText);
+            Assert.AreEqual("ease-in-out", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -300,7 +300,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-END", concrete.Value.CssText);
+            Assert.AreEqual("step-end", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -315,7 +315,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, LINeAr", concrete.Value.CssText);
+            Assert.AreEqual("step-start, linear", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -360,7 +360,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("PAUSED", concrete.Value.CssText);
+            Assert.AreEqual("paused", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -375,7 +375,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("paused, Running, paused", concrete.Value.CssText);
+            Assert.AreEqual("paused, running, paused", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -434,7 +434,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("FORWARDS", concrete.Value.CssText);
+            Assert.AreEqual("forwards", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -449,7 +449,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("both, backwards, forwards, NONE", concrete.Value.CssText);
+            Assert.AreEqual("both, backwards, forwards, none", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -508,7 +508,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("alternate-REVERSE", concrete.Value.CssText);
+            Assert.AreEqual("alternate-reverse", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -523,7 +523,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal, alternate, reverse, ALTERNATE-reverse", concrete.Value.CssText);
+            Assert.AreEqual("normal, alternate, reverse, alternate-reverse", concrete.Value.CssText);
         }
 
         [TestMethod]

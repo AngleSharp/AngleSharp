@@ -20,7 +20,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             var value = concrete.Value;
-            Assert.AreEqual("NONE", value.CssText);
+            Assert.AreEqual("none", value.CssText);
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
             var value = (CSSValueList)concrete.Value;
-            Assert.AreEqual("right BOTTOM", value.CssText);
+            Assert.AreEqual("right bottom", value.CssText);
         }
 
         [TestMethod]

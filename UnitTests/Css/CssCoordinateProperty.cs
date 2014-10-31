@@ -72,7 +72,7 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             var value = concrete.Value;
-            Assert.AreEqual("AUTO", value.CssText);
+            Assert.AreEqual("auto", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 

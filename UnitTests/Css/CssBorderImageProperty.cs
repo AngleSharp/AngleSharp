@@ -242,7 +242,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("StRETCH", concrete.Value.CssText);
+            Assert.AreEqual("stretch", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -478,7 +478,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('image.png') STRETCH", concrete.Value.CssText);
+            Assert.AreEqual("url('image.png') stretch", concrete.Value.CssText);
         }
 
         [TestMethod]

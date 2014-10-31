@@ -21,7 +21,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Gill Sans Extrabold, sans-serif", concrete.Value.CssText);
+            Assert.AreEqual("gill sans extrabold, sans-serif", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Courier, 'Lucida Console', monospace", concrete.Value.CssText);
+            Assert.AreEqual("courier, 'Lucida Console', monospace", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -179,7 +179,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("NORMAL", concrete.Value.CssText);
+            Assert.AreEqual("normal", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -460,7 +460,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("NORMAL", concrete.Value.CssText);
+            Assert.AreEqual("normal", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -579,7 +579,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value.CssText);
+            Assert.AreEqual("italic bold 12px / 30px georgia, serif", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -654,7 +654,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("NONE", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -743,7 +743,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bold italic large Palatino, serif", concrete.Value.CssText);
+            Assert.AreEqual("bold italic large palatino, serif", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -803,12 +803,12 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value.CssText);
+            Assert.AreEqual("italic bold 12px / 30px georgia, serif", concrete.Value.CssText);
             Assert.AreEqual(new Length(30f, Length.Unit.Px), concrete.Height);
             Assert.AreEqual(new Length(12f, Length.Unit.Px), concrete.Size);
             Assert.AreEqual(FontStyle.Italic, concrete.Style);
             Assert.AreEqual(2, concrete.Families.Count());
-            Assert.AreEqual("Georgia", concrete.Families.First());
+            Assert.AreEqual("georgia", concrete.Families.First());
             Assert.AreEqual("Times New Roman", concrete.Families.Skip(1).First());
         }
     }

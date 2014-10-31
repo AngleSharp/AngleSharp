@@ -54,7 +54,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("Page", value.CssText);
+            Assert.AreEqual("page", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -102,7 +102,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("AUTO", value.CssText);
+            Assert.AreEqual("auto", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -119,7 +119,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("AUTO", value.CssText);
+            Assert.AreEqual("auto", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -179,7 +179,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("avoid-REGION", value.CssText);
+            Assert.AreEqual("avoid-region", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -213,7 +213,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("AUTO", value.CssText);
+            Assert.AreEqual("auto", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -342,7 +342,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("HIDDEN", value.CssText);
+            Assert.AreEqual("hidden", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -376,7 +376,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            Assert.AreEqual("fiXed", value.CssText);
+            Assert.AreEqual("fixed", value.CssText);
             Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
@@ -422,7 +422,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("NONE", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -688,7 +688,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("DEFAULT", concrete.Value.CssText);
+            Assert.AreEqual("default", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -838,7 +838,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("BLUE", concrete.Value.CssText);
+            Assert.AreEqual("blue", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -955,7 +955,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Clone", concrete.Value.CssText);
+            Assert.AreEqual("clone", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -1000,7 +1000,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("noNe", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value.CssText);
         }
 
         [TestMethod]

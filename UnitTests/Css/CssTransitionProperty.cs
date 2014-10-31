@@ -34,7 +34,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ALL", concrete.Value.CssText);
+            Assert.AreEqual("all", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -121,7 +121,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease-IN", concrete.Value.CssText);
+            Assert.AreEqual("ease-in", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -166,7 +166,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, step-end, linear, ease-IN-OUT", concrete.Value.CssText);
+            Assert.AreEqual("step-start, step-end, linear, ease-in-out", concrete.Value.CssText);
         }
 
         [TestMethod]

@@ -49,7 +49,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Fixed", concrete.Value.CssText);
+            Assert.AreEqual("fixed", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Padding-Box", concrete.Value.CssText);
+            Assert.AreEqual("padding-box", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Padding-Box, border-box", concrete.Value.CssText);
+            Assert.AreEqual("padding-box, border-box", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -198,7 +198,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("Transparent", concrete.Value.CssText);
+            Assert.AreEqual("transparent", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -242,7 +242,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("NONE", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -317,7 +317,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("CONTENT-BOX", concrete.Value.CssText);
+            Assert.AreEqual("content-box", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -332,7 +332,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("CONTENT-BOX, Padding-Box", concrete.Value.CssText);
+            Assert.AreEqual("content-box, padding-box", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -482,7 +482,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("REPEAT", concrete.Value.CssText);
+            Assert.AreEqual("repeat", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -497,7 +497,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rounD", concrete.Value.CssText);
+            Assert.AreEqual("round", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -541,7 +541,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("repeat-X, repeat-Y", concrete.Value.CssText);
+            Assert.AreEqual("repeat-x, repeat-y", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -690,7 +690,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("AUTO", concrete.Value.CssText);
+            Assert.AreEqual("auto", concrete.Value.CssText);
         }
 
         [TestMethod]

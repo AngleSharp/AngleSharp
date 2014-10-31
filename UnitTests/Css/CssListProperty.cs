@@ -62,7 +62,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("insiDe", concrete.Value.CssText);
+            Assert.AreEqual("inside", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -122,7 +122,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("lower-ALPHA", concrete.Value.CssText);
+            Assert.AreEqual("lower-alpha", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -152,7 +152,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("decimal-leading-zerO", concrete.Value.CssText);
+            Assert.AreEqual("decimal-leading-zero", concrete.Value.CssText);
         }
 
         [TestMethod]

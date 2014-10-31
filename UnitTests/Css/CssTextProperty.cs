@@ -199,7 +199,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTextDecorationProperty));
             var concrete = (CSSTextDecorationProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.AreEqual("line-Through", concrete.Value.CssText);
+            Assert.AreEqual("line-through", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -303,7 +303,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSTextDecorationStyleProperty));
             var concrete = (CSSTextDecorationStyleProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.AreEqual("WAVY", concrete.Value.CssText);
+            Assert.AreEqual("wavy", concrete.Value.CssText);
         }
 
         [TestMethod]

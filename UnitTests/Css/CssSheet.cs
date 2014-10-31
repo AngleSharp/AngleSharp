@@ -319,10 +319,10 @@ h1 { color: blue }");
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(4, list.Count);
-            Assert.AreEqual("Arial", list[0].CssText);
-            Assert.AreEqual("Verdana", list[1].CssText);
-            Assert.AreEqual("Helvetica", list[2].CssText);
-            Assert.AreEqual("Sans-Serif", list[3].CssText);
+            Assert.AreEqual("arial", list[0].CssText);
+            Assert.AreEqual("verdana", list[1].CssText);
+            Assert.AreEqual("helvetica", list[2].CssText);
+            Assert.AreEqual("sans-serif", list[3].CssText);
         }
 
         [TestMethod]
@@ -331,8 +331,8 @@ h1 { color: blue }");
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(2, list.Count);
-            Assert.AreEqual("Arial 10pt bold", list[0].CssText);
-            Assert.AreEqual("Verdana 12pt italic", list[1].CssText);
+            Assert.AreEqual("arial 10pt bold", list[0].CssText);
+            Assert.AreEqual("verdana 12pt italic", list[1].CssText);
             Assert.AreEqual(CssValueType.List, list[0].Type);
             Assert.AreEqual(CssValueType.List, list[1].Type);
             Assert.AreEqual(3, ((CSSValueList)list[0]).Length);
@@ -345,10 +345,10 @@ h1 { color: blue }");
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
             var list = CssParser.ParseMultipleValues(valueString);
             Assert.AreEqual(4, list.Count);
-            Assert.AreEqual("Arial", list[0].CssText);
-            Assert.AreEqual("Verdana", list[1].CssText);
-            Assert.AreEqual("Helvetica", list[2].CssText);
-            Assert.AreEqual("Sans-Serif", list[3].CssText);
+            Assert.AreEqual("arial", list[0].CssText);
+            Assert.AreEqual("verdana", list[1].CssText);
+            Assert.AreEqual("helvetica", list[2].CssText);
+            Assert.AreEqual("sans-serif", list[3].CssText);
         }
 
         [TestMethod]
@@ -486,7 +486,7 @@ h1 { color: blue }");
 
             var value = prop.Value as CSSValueList;
             Assert.AreEqual(7, value.Length);
-            Assert.AreEqual("'Helvetica Neue', Helvetica, Arial, sans-serif", value.ToCss());
+            Assert.AreEqual("'Helvetica Neue', helvetica, arial, sans-serif", value.ToCss());
         }
 
         [TestMethod]

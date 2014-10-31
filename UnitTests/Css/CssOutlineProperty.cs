@@ -20,7 +20,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("dotTED", concrete.Value.CssText);
+            Assert.AreEqual("dotted", concrete.Value.CssText);
         }
 
         [TestMethod]
