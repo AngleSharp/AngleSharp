@@ -444,7 +444,6 @@
     <Compile Include="Interfaces\Css\ICssTransitionProperty.cs" />
     <Compile Include="Interfaces\Css\ICssUnicodeBidiProperty.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
-    <Compile Include="Interfaces\Css\ICssValueList.cs" />
     <Compile Include="Interfaces\Css\ICssVerticalAlignProperty.cs" />
     <Compile Include="Interfaces\Css\ICssVisibilityProperty.cs" />
     <Compile Include="Interfaces\Css\ICssWhitespaceProperty.cs" />

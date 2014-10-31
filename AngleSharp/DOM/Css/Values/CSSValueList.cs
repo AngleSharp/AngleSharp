@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    sealed class CSSValueList : CSSValue, ICollection<CSSValue>, ICssValueList
+    sealed class CSSValueList : CSSValue, ICollection<CSSValue>
     {
         #region Fields
 
@@ -66,11 +66,6 @@
         public CSSValue this[Int32 index]
         {
             get { return index >= 0 && index < _items.Count ? _items[index] : null; }
-        }
-
-        ICssValue ICssValueList.this[Int32 index]
-        {
-            get { return this[index]; }
         }
 
         #endregion
