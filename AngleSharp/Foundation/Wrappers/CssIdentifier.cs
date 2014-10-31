@@ -21,7 +21,7 @@
         /// <param name="token">The identifier token.</param>
         public CssIdentifier(String token)
         {
-            _token = token;
+            _token = token.ToLowerInvariant();
         }
 
         #endregion
