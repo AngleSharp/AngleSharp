@@ -563,7 +563,7 @@
                         if (!String.IsNullOrEmpty(Value))
                             value = Value;
 
-                        dataSet.Append(Name, value, Type.ToString());
+                        dataSet.Append(Name, value, Type);
                     }
 
                     break;
@@ -581,8 +581,8 @@
                         var namey = name + "y";
 
                         //TODO get x and y of submitter and save those
-                        dataSet.Append(namex, "0", Type.ToString());
-                        dataSet.Append(namey, "0", Type.ToString());
+                        dataSet.Append(namex, "0", Type);
+                        dataSet.Append(namey, "0", Type);
                     }
 
                     break;
@@ -593,30 +593,19 @@
                         dataSet.Append(Name, String.Empty, MimeTypes.Binary);
 
                     foreach (var file in _files)
-                        dataSet.Append(Name, file, Type.ToString());
+                        dataSet.Append(Name, file, Type);
 
                     break;
                 }
                 case InputType.Text:
                 case InputType.Search:
                 {
-                    dataSet.Append(Name, Value, Type.ToString());
-
-                    if (HasAttribute(AttributeNames.DirName))
-                    {
-                        var dirname = GetAttribute(AttributeNames.DirName);
-
-                        if (String.IsNullOrEmpty(dirname))
-                            break;
-
-                        dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");
-                    }
-
+                    ConstructDataSet(dataSet, Type);
                     break;
                 }
                 default:
                 {
-                    dataSet.Append(Name, Value, Type.ToString());
+                    dataSet.Append(Name, Value, Type);
                     break;
                 }
             }

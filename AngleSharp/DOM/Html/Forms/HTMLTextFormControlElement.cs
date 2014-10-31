@@ -183,6 +183,21 @@
 
         #region Helpers
 
+        protected void ConstructDataSet(FormDataSet dataSet, String type)
+        {
+            dataSet.Append(Name, Value, type);
+
+            if (HasAttribute(AttributeNames.DirName))
+            {
+                var dirname = GetAttribute(AttributeNames.DirName);
+
+                if (String.IsNullOrEmpty(dirname))
+                    return;
+
+                dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");
+            }
+        }
+
         void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, SelectionType selectionType)
         {
             if (selectionEnd > Value.Length)

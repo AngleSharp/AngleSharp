@@ -96,17 +96,7 @@
         /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            dataSet.Append(Name, Value, Type.ToString());
-
-            if (HasAttribute(AttributeNames.DirName))
-            {
-                var dirname = GetAttribute(AttributeNames.DirName);
-
-                if (String.IsNullOrEmpty(dirname))
-                    return;
-
-                dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");
-            }
+            ConstructDataSet(dataSet, Type);
         }
 
         /// <summary>
