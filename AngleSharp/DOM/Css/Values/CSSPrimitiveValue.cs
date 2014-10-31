@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a CSS primitive value.
     /// </summary>
-    sealed class CSSPrimitiveValue : CSSValue, ICssPrimitiveValue
+    sealed class CSSPrimitiveValue : CSSValue
     {
         #region Fields
 

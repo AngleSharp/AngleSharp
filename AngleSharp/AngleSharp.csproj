@@ -422,7 +422,6 @@
     <Compile Include="Interfaces\Css\ICssPerspectiveOriginProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPerspectiveProperty.cs" />
     <Compile Include="Interfaces\Css\ICssPositionProperty.cs" />
-    <Compile Include="Interfaces\Css\ICssPrimitiveValue.cs" />
     <Compile Include="Interfaces\Css\ICssProperty.cs" />
     <Compile Include="Interfaces\Css\ICssQuotesProperty.cs" />
     <Compile Include="Interfaces\Css\ICssRightProperty.cs" />
