@@ -323,7 +323,7 @@
         public static String Extract(String content)
         {
             var position = 0;
-            content = content.ToLower();
+            content = content.ToLowerInvariant();
 
             for (int i = position; i < content.Length - 7; i++)
             {
@@ -434,7 +434,7 @@
         {
             if (!String.IsNullOrEmpty(local) && local.Length > 1)
             {
-                var firstTwo = local.Substring(0, 2).ToLower();
+                var firstTwo = local.Substring(0, 2).ToLowerInvariant();
 
                 switch (firstTwo)
                 {

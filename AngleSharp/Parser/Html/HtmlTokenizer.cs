@@ -2078,7 +2078,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataNameEndTag(Char c, HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString().ToLower();
+            var name = _stringBuffer.ToString().ToLowerInvariant();
             var appropriateEndTag = name == _lastStartTag;
 
             if (appropriateEndTag && c.IsSpaceCharacter())
@@ -2281,7 +2281,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedNameTag(Char c, HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString().ToLower();
+            var name = _stringBuffer.ToString().ToLowerInvariant();
             var appropriateEndTag = name == _lastStartTag;
 
             if (appropriateEndTag && c.IsSpaceCharacter())

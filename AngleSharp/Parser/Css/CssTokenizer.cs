@@ -643,7 +643,7 @@
                 }
                 else if (current == Specification.RoundBracketOpen)
                 {
-                    var fn = _stringBuffer.ToString().ToLower();
+                    var fn = _stringBuffer.ToString().ToLowerInvariant();
 
                     if (fn == FunctionNames.Url)
                     {

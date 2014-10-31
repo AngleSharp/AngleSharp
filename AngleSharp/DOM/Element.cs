@@ -366,7 +366,7 @@
         public Boolean HasAttribute(String name)
         {
             if (_namespace == Namespaces.HtmlUri)
-                name = name.ToLower();
+                name = name.ToLowerInvariant();
 
             return _attributes.Has(name);
         }
@@ -427,7 +427,7 @@
                     throw new DomException(ErrorCode.InvalidCharacter);
 
                 if (_namespace == Namespaces.HtmlUri)
-                    name = name.ToLower();
+                    name = name.ToLowerInvariant();
 
                 for (int i = 0; i < _attributes.Count; i++)
                 {

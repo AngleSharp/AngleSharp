@@ -133,7 +133,7 @@
 
         protected override HTMLElement CreateDefault(String name, Document document)
         {
-            return new HTMLUnknownElement(name.ToLower()) { Owner = document };
+            return new HTMLUnknownElement(name.ToLowerInvariant()) { Owner = document };
         }
 
         /// <summary>

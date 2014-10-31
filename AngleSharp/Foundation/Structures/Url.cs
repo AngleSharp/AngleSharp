@@ -351,7 +351,7 @@
                     else if (c == Specification.Colon)
                     {
                         var originalScheme = _scheme;
-                        _scheme = input.Substring(0, index).ToLower();
+                        _scheme = input.Substring(0, index).ToLowerInvariant();
 
                         if (onlyScheme)
                             return true;

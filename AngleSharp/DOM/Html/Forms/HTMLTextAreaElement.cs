@@ -105,7 +105,7 @@
                 if (String.IsNullOrEmpty(dirname))
                     return;
 
-                dataSet.Append(dirname, Direction.ToString().ToLower(), "Direction");
+                dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");
             }
         }
 

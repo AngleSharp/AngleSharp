@@ -1223,7 +1223,7 @@
             if (token.Type == CssTokenType.Percentage)
                 return new CSSPrimitiveValue(new Percent(token.Data));
 
-            return CssUnitFactory.Create(token.Unit.ToLower(), token.Data);
+            return CssUnitFactory.Create(token.Unit.ToLowerInvariant(), token.Data);
         }
 
         /// <summary>
