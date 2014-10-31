@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static Dictionary<String, Color> _colors;
+        static readonly Dictionary<String, Color> _colors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase);
         public static readonly IBitmap Invert = new InvertColor();
 
         #endregion
@@ -22,8 +22,6 @@
 
         static Colors()
         {
-            _colors = new Dictionary<String, Color>();
-
             Add("aliceblue", 240, 248, 255);
             Add("antiquewhite", 250, 235, 215);
             Add("aqua", 0, 255, 255);
@@ -187,7 +185,7 @@
         {
             Color color;
 
-            if (_colors.TryGetValue(name.ToLower(), out color))
+            if (_colors.TryGetValue(name, out color))
                 return color;
 
             return null;
