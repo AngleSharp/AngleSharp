@@ -1876,9 +1876,6 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPositionProperty.cs">
       <Link>Interfaces\Css\ICssPositionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICssPrimitiveValue.cs">
-      <Link>Interfaces\Css\ICssPrimitiveValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperty.cs">
       <Link>Interfaces\Css\ICssProperty.cs</Link>
     </Compile>
