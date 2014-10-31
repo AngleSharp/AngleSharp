@@ -221,5 +221,39 @@
         }
 
         #endregion
+
+        /// <summary>
+        /// TODO: Temporary method that will be removed when CSSValue is removed.
+        /// </summary>
+        /// <param name="obj"></param>
+        internal void AddValue(ICssObject obj)
+        {
+            if (obj is CSSValue)
+                _values.Add((CSSValue)obj);
+            else if (obj is CssIdentifier)
+                _values.Add(new CSSPrimitiveValue((CssIdentifier)obj));
+            else if (obj is Color)
+                _values.Add(new CSSPrimitiveValue((Color)obj));
+            else if (obj is Length)
+                _values.Add(new CSSPrimitiveValue((Length)obj));
+            else if (obj is Percent)
+                _values.Add(new CSSPrimitiveValue((Percent)obj));
+            else if (obj is Angle)
+                _values.Add(new CSSPrimitiveValue((Angle)obj));
+            else if (obj is Time)
+                _values.Add(new CSSPrimitiveValue((Time)obj));
+            else if (obj is Frequency)
+                _values.Add(new CSSPrimitiveValue((Frequency)obj));
+            else if (obj is Resolution)
+                _values.Add(new CSSPrimitiveValue((Resolution)obj));
+            else if (obj is CssString)
+                _values.Add(new CSSPrimitiveValue((CssString)obj));
+            else if (obj is Number)
+                _values.Add(new CSSPrimitiveValue((Number)obj));
+            else if (obj is Percent)
+                _values.Add(new CSSPrimitiveValue((Percent)obj));
+            else if (obj is Url)
+                _values.Add(new CSSPrimitiveValue((Url)obj));
+        }
     }
 }

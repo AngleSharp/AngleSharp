@@ -827,10 +827,10 @@
                     value.AddValue(ToIdentifier(((CssKeywordToken)token).Data));
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
-                    value.AddValue(new CSSPrimitiveValue((CssString)((CssStringToken)token).Data));
+                    value.AddValue((CssString)((CssStringToken)token).Data);
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CSSPrimitiveValue(new Url(((CssStringToken)token).Data)));
+                    value.AddValue(new Url(((CssStringToken)token).Data));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
                     value.AddValue(ToNumber((CssNumberToken)token));
@@ -851,7 +851,7 @@
             return false;
         }
 
-        Boolean TakeValue(CSSValue val, IEnumerator<CssToken> tokens)
+        Boolean TakeValue(ICssObject val, IEnumerator<CssToken> tokens)
         {
             var nxt = tokens.MoveNext();
 
@@ -933,7 +933,7 @@
             var color = GetColorFromHexValue(buffer.ToPool());
 
             if (color != null)
-                value.AddValue(color);
+                value.AddValue(color.Value);
 
             return alive;
         }
@@ -943,12 +943,12 @@
         /// </summary>
         /// <param name="hexColor">The value of the token.</param>
         /// <returns>The generated value.</returns>
-        static CSSPrimitiveValue GetColorFromHexValue(String hexColor)
+        static Color? GetColorFromHexValue(String hexColor)
         {
             Color colorValue;
 
             if (Color.TryFromHex(hexColor, out colorValue))
-                return new CSSPrimitiveValue(colorValue);
+                return colorValue;
 
             return null;
         }
@@ -1218,10 +1218,10 @@
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>The created value.</returns>
-        static CSSValue ToUnit(CssUnitToken token)
+        static ICssObject ToUnit(CssUnitToken token)
         {
             if (token.Type == CssTokenType.Percentage)
-                return new CSSPrimitiveValue(new Percent(token.Data));
+                return new Percent(token.Data);
 
             return CssUnitFactory.Create(token.Unit.ToLowerInvariant(), token.Data);
         }
@@ -1231,14 +1231,14 @@
         /// </summary>
         /// <param name="identifier">The identifier to consider.</param>
         /// <returns>The created value.</returns>
-        static CSSValue ToIdentifier(String identifier)
+        static ICssObject ToIdentifier(String identifier)
         {
             if (identifier.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
                 return CSSValue.Inherit;
             else if (identifier.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
                 return CSSValue.Initial;
 
-            return new CSSPrimitiveValue(new CssIdentifier(identifier));
+            return new CssIdentifier(identifier);
         }
 
         /// <summary>
@@ -1246,12 +1246,12 @@
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>The created value.</returns>
-        static CSSValue ToNumber(CssNumberToken token)
+        static Number ToNumber(CssNumberToken token)
         {
             if (token.Data == 0f)
-                return new CSSPrimitiveValue(Number.Zero);
+                return Number.Zero;
 
-            return new CSSPrimitiveValue(new Number(token.Data));
+            return new Number(token.Data);
         }
 
         #endregion
