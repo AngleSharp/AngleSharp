@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using System;
+
     /// <summary>
     /// Represents the CSS list-style-type property.
     /// </summary>
@@ -30,7 +32,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        IBitmap Image { get; }
+        Object Image { get; }
     }
 
     /// <summary>

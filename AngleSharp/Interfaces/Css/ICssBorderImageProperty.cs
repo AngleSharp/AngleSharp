@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        IBitmap Image { get; }
+        Object Image { get; }
     }
 
     /// <summary>

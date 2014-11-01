@@ -14,7 +14,7 @@
         #region Fields
 
         static readonly Dictionary<String, Color> _colors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase);
-        public static readonly IBitmap Invert = new InvertColor();
+        public static readonly ICssObject Invert = new InvertColor();
 
         #endregion
 
@@ -228,7 +228,7 @@
         /// background. This makes the focus border more salient, regardless of
         /// the color in the background.
         /// </summary>
-        sealed class InvertColor : IBitmap
+        sealed class InvertColor : ICssObject
         {
             public String ToCss()
             {

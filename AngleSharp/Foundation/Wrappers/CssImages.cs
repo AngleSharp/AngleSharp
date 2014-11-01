@@ -7,7 +7,7 @@
     /// <summary>
     /// Wraps a list of urls as a CSS Images value.
     /// </summary>
-    sealed class CssImages : ICssObject, IBitmap
+    sealed class CssImages : ICssObject
     {
         #region Fields
 

@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        IBitmap _mode;
+        ICssObject _mode;
 
         #endregion
 

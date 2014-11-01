@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the value of the background image property.
         /// </summary>
-        public IEnumerable<IBitmap> Images
+        public IEnumerable<Object> Images
         {
             get { return _image.Images; }
         }

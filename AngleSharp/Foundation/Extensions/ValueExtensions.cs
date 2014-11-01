@@ -474,17 +474,32 @@
             return null;
         }
 
-        public static IBitmap ToImage(this CSSValue value)
+        public static LinearGradient ToLinearGradient(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+                return primitive.Value as LinearGradient;
+
+            return null;
+        }
+
+        public static RadialGradient ToRadialGradient(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+                return primitive.Value as RadialGradient;
+
+            return null;
+        }
+
+        public static ICssObject ToImage(this CSSValue value)
         {
             if (value.Is(Keywords.None))
                 return Color.Transparent;
 
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as IBitmap;
-
-            return null;
+            return value.ToUri() ?? value.ToLinearGradient() ?? value.ToRadialGradient() as ICssObject;
         }
 
         public static Percent? ToPercent(this CSSValue value)

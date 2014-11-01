@@ -127,7 +127,7 @@
         /// <summary>
         /// Gets the image source of the border-image.
         /// </summary>
-        public IBitmap Image
+        public Object Image
         {
             get { return _source.Image; }
         }

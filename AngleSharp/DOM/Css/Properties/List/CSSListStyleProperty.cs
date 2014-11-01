@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        public IBitmap Image
+        public Object Image
         {
             get { return _image.Image; }
         }

@@ -7,7 +7,7 @@
     /// Represents an Url class according to RFC3986.
     /// This is the base for all internal Url manipulation.
     /// </summary>
-    public class Url : ICssObject, IBitmap
+    public class Url : ICssObject
     {
         #region Fields
 

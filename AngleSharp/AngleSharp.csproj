@@ -90,7 +90,6 @@
     <Compile Include="Foundation\Constants\EventFlags.cs" />
     <Compile Include="Foundation\Constants\NodeFlags.cs" />
     <Compile Include="Foundation\Extensions\UnitExtensions.cs" />
-    <Compile Include="Foundation\IBitmap.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Foundation\ITransform.cs" />

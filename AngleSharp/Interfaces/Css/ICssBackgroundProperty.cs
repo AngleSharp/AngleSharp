@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -32,7 +33,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        IEnumerable<IBitmap> Images { get; }
+        IEnumerable<Object> Images { get; }
     }
 
     /// <summary>

@@ -8,7 +8,7 @@
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    public sealed class LinearGradient : ICssObject, IBitmap
+    public sealed class LinearGradient : ICssObject
     {
         #region Fields
 

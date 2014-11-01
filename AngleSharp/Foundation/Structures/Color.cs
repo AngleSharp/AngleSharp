@@ -8,7 +8,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, ICssObject, IBitmap
+    public struct Color : IEquatable<Color>, ICssObject
     {
         #region Basic colors
 
@@ -57,15 +57,15 @@
         #region Fields
 
         [FieldOffset(0)]
-        Byte alpha;
+        readonly Byte alpha;
         [FieldOffset(1)]
-        Byte red;
+        readonly Byte red;
         [FieldOffset(2)]
-        Byte green;
+        readonly Byte green;
         [FieldOffset(3)]
-        Byte blue;
+        readonly Byte blue;
         [FieldOffset(0)]
-        Int32 hashcode;
+        readonly Int32 hashcode;
 
         #endregion
 
@@ -201,12 +201,11 @@
         public static Boolean TryFromHex(String color, out Color value)
         {
             value = new Color();
-            value.alpha = 255;
 
             if (color.Length == 3)
             {
                 if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex())
-                    return false;
+                    return false; 
 
                 var r = color[0].FromHex();
                 r += r * 16;
@@ -215,9 +214,7 @@
                 var b = color[2].FromHex();
                 b += b * 16;
 
-                value.red = (Byte)r;
-                value.green = (Byte)g;
-                value.blue = (Byte)b;
+                value = new Color((Byte)r, (Byte)g, (Byte)b);
                 return true;
             }
             else if (color.Length == 6)
@@ -233,9 +230,7 @@
                 g += color[3].FromHex();
                 b += color[5].FromHex();
 
-                value.red = (Byte)r;
-                value.green = (Byte)g;
-                value.blue = (Byte)b;
+                value = new Color((Byte)r, (Byte)g, (Byte)b);
                 return true;
             }
 
