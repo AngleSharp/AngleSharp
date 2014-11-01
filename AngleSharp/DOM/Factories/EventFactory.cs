@@ -17,9 +17,7 @@
             AddEventConstructor("uievent", () => new UiEvent());
             AddEventConstructor("focusevent", () => new FocusEvent());
             AddEventConstructor("keyboardevent", () => new KeyboardEvent());
-            AddEventConstructor("messageevent", () => new Event());//TODO MessageEvent
             AddEventConstructor("mouseevent", () => new MouseEvent());
-            AddEventConstructor("touchevent", () => new Event());//TODO TouchEvent
             AddEventConstructor("wheelevent", () => new WheelEvent());
             AddEventConstructor("customevent", () => new CustomEvent());
 
