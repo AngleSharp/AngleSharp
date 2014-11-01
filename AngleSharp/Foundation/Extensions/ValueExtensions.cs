@@ -956,7 +956,42 @@
 
         public static IDistance Add(this IDistance a, IDistance b)
         {
-            return a;//TODO
+            return new Compute(a, b, '+');
+        }
+
+        sealed class Compute : IDistance
+        {
+            readonly IDistance _left;
+            readonly IDistance _right;
+            readonly Char _op;
+
+            public Compute(IDistance left, IDistance right, Char op)
+            {
+                _left = left;
+                _right = right;
+                _op = op;
+            }
+
+            public String ToCss()
+            {
+                return String.Concat(_left.ToCss(), _op.ToString(), _right.ToCss());
+            }
+
+            public Single ToPixel()
+            {
+                var left = _left.ToPixel();
+                var right = _right.ToPixel();
+
+                switch (_op)
+                {
+                    case '+': return left + right;
+                    case '-': return left - right;
+                    case '*': return left * right;
+                    case '/': return left / right;
+                }
+
+                return 0f;
+            }
         }
 
         #endregion
