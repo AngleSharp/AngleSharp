@@ -809,23 +809,7 @@
 					}, pseudoClassLastOfType);
 
 				case pseudoClassOnlyChild:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						var parent = el.ParentElement;
-
-						if (parent == null)
-							return false;
-
-						var elements = 0;
-
-						for (int i = 0; i < parent.ChildNodes.Length; i++)
-						{
-							if (parent.ChildNodes[i] is Element && ++elements == 2)
-								return false;
-						}
-
-						return true;
-					}, pseudoClassOnlyChild);
+					return SimpleSelector.PseudoClass(el => el.IsOnlyChild(), pseudoClassOnlyChild);
 
 				case pseudoClassFirstChild:
 					return FirstChildSelector.Instance;
@@ -837,297 +821,64 @@
 					return SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, pseudoClassEmpty);
 
 				case pseudoClassLink:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLAnchorElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAnchorElement)el).IsVisited;
-						else if (el is HTMLAreaElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLAreaElement)el).IsVisited;
-						else if (el is HTMLLinkElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && !((HTMLLinkElement)el).IsVisited;
-
-						return false;
-					}, pseudoClassLink);
+					return SimpleSelector.PseudoClass(el => el.IsLink(), pseudoClassLink);
 
 				case pseudoClassVisited:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLAnchorElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsVisited;
-						else if (el is HTMLAreaElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsVisited;
-						else if (el is HTMLLinkElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsVisited;
-
-						return false;
-					}, pseudoClassVisited);
+					return SimpleSelector.PseudoClass(el => el.IsVisited(), pseudoClassVisited);
 
 				case pseudoClassActive:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLAnchorElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)el).IsActive;
-						else if (el is HTMLAreaElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)el).IsActive;
-						else if (el is HTMLLinkElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)el).IsActive;
-						else if (el is HTMLButtonElement)
-							return !((HTMLButtonElement)el).IsDisabled && ((HTMLButtonElement)el).IsActive;
-                        else if (el is HTMLInputElement)
-						{
-                            var inp = (HTMLInputElement)el;
-                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
-							return (type == HTMLInputElement.InputType.Submit || type == HTMLInputElement.InputType.Image ||
-								type == HTMLInputElement.InputType.Reset || type == HTMLInputElement.InputType.Button) && inp.IsActive;
-						}
-						else if (el is HTMLMenuItemElement)
-							return string.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled)) && ((HTMLMenuItemElement)el).IsActive;
-
-						return false;
-					}, pseudoClassActive);
+					return SimpleSelector.PseudoClass(el => el.IsActive(), pseudoClassActive);
 
 				case pseudoClassHover:
-					return SimpleSelector.PseudoClass(el => false, pseudoClassHover);//TODO IsHovered
+					return SimpleSelector.PseudoClass(el => el.IsHovered(), pseudoClassHover);
 
 				case pseudoClassFocus:
-					return SimpleSelector.PseudoClass(el => false, pseudoClassFocus);//TODO IsFocused
+					return SimpleSelector.PseudoClass(el => el.IsFocused(), pseudoClassFocus);
 
 				case pseudoClassTarget:
 					return SimpleSelector.PseudoClass(el => el.Owner != null && el.Id == el.Owner.Location.Hash, pseudoClassTarget);
 
 				case pseudoClassEnabled:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLAnchorElement || el is HTMLAreaElement || el is HTMLLinkElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Href));
-						else if (el is HTMLButtonElement)
-							return !((HTMLButtonElement)el).IsDisabled;
-						else if (el is HTMLInputElement)
-                            return !((HTMLInputElement)el).IsDisabled;
-						else if (el is HTMLSelectElement)
-                            return !((HTMLSelectElement)el).IsDisabled;
-						else if (el is HTMLTextAreaElement)
-                            return !((HTMLTextAreaElement)el).IsDisabled;
-						else if (el is HTMLOptionElement)
-							return !((HTMLOptionElement)el).IsDisabled;
-						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
-
-						return false;
-					}, pseudoClassEnabled);
+					return SimpleSelector.PseudoClass(el => el.IsEnabled(), pseudoClassEnabled);
 
 				case pseudoClassDisabled:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLButtonElement)
-                            return ((HTMLButtonElement)el).IsDisabled;
-						else if (el is HTMLInputElement)
-                            return ((HTMLInputElement)el).IsDisabled;
-						else if (el is HTMLSelectElement)
-                            return ((HTMLSelectElement)el).IsDisabled;
-						else if (el is HTMLTextAreaElement)
-                            return ((HTMLTextAreaElement)el).IsDisabled;
-						else if (el is HTMLOptionElement)
-							return ((HTMLOptionElement)el).IsDisabled;
-						else if (el is HTMLOptGroupElement || el is HTMLMenuItemElement || el is HTMLFieldSetElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Disabled));
-
-						return false;
-					}, pseudoClassDisabled);
+					return SimpleSelector.PseudoClass(el => el.IsDisabled(), pseudoClassDisabled);
 
 				case pseudoClassDefault:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLButtonElement)
-						{
-							var bt = (HTMLButtonElement)el;
-							var form = bt.Form;
-
-							if (form != null)//TODO Check if button is form def. button
-								return true;
-						}
-						else if (el is HTMLInputElement)
-						{
-                            var input = (HTMLInputElement)el;
-                            var type = input.Type.ToEnum(HTMLInputElement.InputType.Text);
-
-							if (type == HTMLInputElement.InputType.Submit || type == HTMLInputElement.InputType.Image)
-							{
-								var form = input.Form;
-
-								if (form != null)//TODO Check if input is form def. button
-									return true;
-							}
-							else
-							{
-								//TODO input that are checked and can be checked ...
-							}
-						}
-						else if (el is HTMLOptionElement)
-							return !String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Selected));
-
-						return false;
-					}, pseudoClassDefault);
+					return SimpleSelector.PseudoClass(el => el.IsDefault(), pseudoClassDefault);
 
 				case pseudoClassChecked:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-						{
-                            var inp = (HTMLInputElement)el;
-                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
-
-							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && inp.IsChecked;
-						}
-						else if (el is HTMLMenuItemElement)
-						{
-                            var mi = (HTMLMenuItemElement)el;
-                            var type = mi.Type.ToEnum(HTMLMenuItemElement.ItemType.Command);
-
-							return (type == HTMLMenuItemElement.ItemType.Checkbox || type == HTMLMenuItemElement.ItemType.Radio)
-								&& mi.IsChecked;
-						}
-						else if (el is HTMLOptionElement)
-							return ((HTMLOptionElement)el).IsSelected;
-
-						return false;
-					}, pseudoClassChecked);
+					return SimpleSelector.PseudoClass(el => el.IsChecked(), pseudoClassChecked);
 
 				case pseudoClassIndeterminate:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-						{
-                            var inp = (HTMLInputElement)el;
-                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
-							return type == HTMLInputElement.InputType.Checkbox && inp.IsIndeterminate;
-						}
-						else if (el is HTMLProgressElement)
-							return String.IsNullOrEmpty(el.GetAttribute(AttributeNames.Value));
-
-						return false;
-					}, pseudoClassIndeterminate);
+					return SimpleSelector.PseudoClass(el => el.IsIndeterminate(), pseudoClassIndeterminate);
 
 				case pseudoClassUnchecked:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-						{
-                            var inp = (HTMLInputElement)el;
-                            var type = inp.Type.ToEnum(HTMLInputElement.InputType.Text);
-							return (type == HTMLInputElement.InputType.Checkbox || type == HTMLInputElement.InputType.Radio) && !inp.IsChecked;
-						}
-						else if (el is HTMLMenuItemElement)
-						{
-                            var mi = (HTMLMenuItemElement)el;
-                            var type = mi.Type.ToEnum(HTMLMenuItemElement.ItemType.Command);
-
-							return (type == HTMLMenuItemElement.ItemType.Checkbox || type == HTMLMenuItemElement.ItemType.Radio)
-								&& !mi.IsChecked;
-						}
-						else if (el is HTMLOptionElement)
-							return !((HTMLOptionElement)el).IsSelected;
-
-						return false;
-					}, pseudoClassUnchecked);
+					return SimpleSelector.PseudoClass(el => el.IsUnchecked(), pseudoClassUnchecked);
 
 				case pseudoClassValid:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is IValidation)
-							return ((IValidation)el).CheckValidity();
-						else if (el is HTMLFormElement)
-							return ((HTMLFormElement)el).CheckValidity();
-
-						return false;
-					}, pseudoClassValid);
+					return SimpleSelector.PseudoClass(el => el.IsValid(), pseudoClassValid);
 
 				case pseudoClassInvalid:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is IValidation)
-							return !((IValidation)el).CheckValidity();
-						else if (el is HTMLFormElement)
-							return !((HTMLFormElement)el).CheckValidity();
-
-						return false;
-					}, pseudoClassInvalid);
+					return SimpleSelector.PseudoClass(el => el.IsInvalid(), pseudoClassInvalid);
 
 				case pseudoClassRequired:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-							return ((HTMLInputElement)el).IsRequired;
-						else if (el is HTMLSelectElement)
-							return ((HTMLSelectElement)el).IsRequired;
-						else if (el is HTMLTextAreaElement)
-                            return ((HTMLTextAreaElement)el).IsRequired;
-
-						return false;
-					}, pseudoClassRequired);
+					return SimpleSelector.PseudoClass(el => el.IsRequired(), pseudoClassRequired);
 
 				case pseudoClassReadOnly:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-							return !((HTMLInputElement)el).IsMutable;
-						else if (el is HTMLTextAreaElement)
-							return !((HTMLTextAreaElement)el).IsMutable;
-                        else if (el is IHtmlElement)
-						    return !((IHtmlElement)el).IsContentEditable;
-
-                        return true;
-					}, pseudoClassReadOnly);
+					return SimpleSelector.PseudoClass(el => el.IsReadOnly(), pseudoClassReadOnly);
 
 				case pseudoClassReadWrite:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-							return ((HTMLInputElement)el).IsMutable;
-						else if (el is HTMLTextAreaElement)
-                            return ((HTMLTextAreaElement)el).IsMutable;
-                        else if (el is IHtmlElement)
-                            return ((IHtmlElement)el).IsContentEditable;
-
-						return false;
-					}, pseudoClassReadWrite);
+					return SimpleSelector.PseudoClass(el => el.IsEditable(), pseudoClassReadWrite);
 
 				case pseudoClassInRange:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is IValidation)
-						{
-							var state = ((IValidation)el).Validity;
-							return !state.IsRangeOverflow && !state.IsRangeUnderflow;
-						}
-
-						return false;
-					}, pseudoClassInRange);
+					return SimpleSelector.PseudoClass(el => el.IsInRange(), pseudoClassInRange);
 
 				case pseudoClassOutOfRange:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is IValidation)
-						{
-							var state = ((IValidation)el).Validity;
-							return state.IsRangeOverflow || state.IsRangeUnderflow;
-						}
-
-						return false;
-					}, pseudoClassOutOfRange);
+					return SimpleSelector.PseudoClass(el => el.IsOutOfRange(), pseudoClassOutOfRange);
 
 				case pseudoClassOptional:
-					return SimpleSelector.PseudoClass(el =>
-					{
-						if (el is HTMLInputElement)
-                            return !((HTMLInputElement)el).IsRequired;
-						else if (el is HTMLSelectElement)
-							return !((HTMLSelectElement)el).IsRequired;
-						else if (el is HTMLTextAreaElement)
-                            return !((HTMLTextAreaElement)el).IsRequired;
-
-						return false;
-					}, pseudoClassOptional);
+					return SimpleSelector.PseudoClass(el => el.IsOptional(), pseudoClassOptional);
 
 				// LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
 				case pseudoElementBefore:
