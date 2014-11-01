@@ -65,7 +65,7 @@
         /// </summary>
         public void Start()
         {
-            //TODO
+            FireSimpleEvent(EventNames.Play);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@
         /// </summary>
         public void Stop()
         {
-            //TODO
+            FireSimpleEvent(EventNames.Pause);
         }
 
         #endregion
