@@ -49,6 +49,21 @@
 
         #endregion
 
+        #region Methods
+
+        internal override FormControlState SaveControlState()
+        {
+            return new FormControlState(Name, Type, Challenge);
+        }
+
+        internal override void RestoreFormControlState(FormControlState state)
+        {
+            if (state.Type == Type && state.Name == Name)
+                Challenge = state.Value;
+        }
+
+        #endregion
+
         #region Enumeration
 
         /// <summary>

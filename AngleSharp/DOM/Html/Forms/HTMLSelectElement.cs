@@ -159,6 +159,17 @@
 
         #region Methods
 
+        internal override FormControlState SaveControlState()
+        {
+            return new FormControlState(Name, Type, Value);
+        }
+
+        internal override void RestoreFormControlState(FormControlState state)
+        {
+            if (state.Type == Type && state.Name == Name)
+                Value = state.Value;
+        }
+
         /// <summary>
         /// Adds the element to the options collection.
         /// </summary>

@@ -42,22 +42,16 @@
         #region Internal Methods
 
         /// <summary>
-        /// This method is not implemented yet.
+        /// Saves the current control's state.
         /// </summary>
         /// <returns>The current state.</returns>
-        internal FormControlState SaveControlState()
-        {
-            //TODO
-            return null;
-        }
+        internal abstract FormControlState SaveControlState();
 
         /// <summary>
         /// Resets the form control state to the given state.
         /// </summary>
         /// <param name="state">The desired state.</param>
-        internal void RestoreFormControlState(FormControlState state)
-        {
-        }
+        internal abstract void RestoreFormControlState(FormControlState state);
 
         #endregion
     }
