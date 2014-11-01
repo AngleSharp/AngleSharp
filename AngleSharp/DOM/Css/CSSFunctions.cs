@@ -165,18 +165,17 @@
 
                     for (int i = offset, k = 0; i < arguments.Count; i++, k++)
                     {
+                        var list = arguments[i] as CSSValueList;
                         Color? color = null;
-                        Percent? location = new Percent(perStop * k);//TODO allow Length
+                        IDistance location = new Percent(perStop * k);
 
-                        if (arguments[i] is CSSValueList)
+                        if (list != null)
                         {
-                            var list = (CSSValueList)arguments[i];
-
                             if (list.Length != 2)
                                 return null;
 
                             color = list[0].ToColor();
-                            location = list[1].ToPercent();
+                            location = list[1].ToDistance();
                         }
                         else
                             color = arguments[i].ToColor();
@@ -184,7 +183,7 @@
                         if (color == null || location == null)
                             return null;
 
-                        stops[k] = new GradientStop(color.Value, location.Value);
+                        stops[k] = new GradientStop(color.Value, location);
                     }
 
                     return new CSSPrimitiveValue(UnitType.Gradient, new LinearGradient(direction, stops, repeating));

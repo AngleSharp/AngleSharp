@@ -11,7 +11,7 @@
         #region Fields
 
         readonly Color _color;
-        readonly Percent _location;//TODO allow Length
+        readonly IDistance _location;
 
         #endregion
 
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="color">The color of the stop.</param>
         /// <param name="location">The location of the stop.</param>
-        public GradientStop(Color color, Percent location)
+        public GradientStop(Color color, IDistance location)
         {
             _color = color;
             _location = location;
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the location of the gradient stop.
         /// </summary>
-        public Percent Location
+        public IDistance Location
         {
             get { return _location; }
         }
