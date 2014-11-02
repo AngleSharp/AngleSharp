@@ -14,7 +14,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Creator Delegate
@@ -1055,6 +1055,9 @@
                     break;
 
                 Declaration(tokens, style);
+
+                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
+                    break;
             }
         }
 
@@ -1068,9 +1071,6 @@
             {
                 switch (tokens.Current.Type)
                 {
-                    case CssTokenType.Function:
-                        round++;
-                        break;
                     case CssTokenType.CurlyBracketClose:
                         curly--;
                         goto case CssTokenType.Semicolon;
@@ -1080,6 +1080,7 @@
                     case CssTokenType.RoundBracketClose:
                         round--;
                         break;
+                    case CssTokenType.Function:
                     case CssTokenType.RoundBracketOpen:
                         round++;
                         break;
@@ -1092,6 +1093,7 @@
                     case CssTokenType.Semicolon:
                         if (round <= 0 && curly <= 0 && square <= 0)
                             return;
+
                         break;
                 }
             }
@@ -1117,6 +1119,7 @@
                     case CssTokenType.RoundBracketClose:
                         round--;
                         break;
+                    case CssTokenType.Function:
                     case CssTokenType.RoundBracketOpen:
                         round++;
                         break;
@@ -1127,7 +1130,7 @@
                         square++;
                         break;
                     case CssTokenType.Semicolon:
-                        if (round == 0 && curly == 0 && square == 0)
+                        if (round <= 0 && curly <= 0 && square <= 0)
                             return;
 
                         break;
@@ -1153,11 +1156,12 @@
                         curly++;
                         break;
                     case CssTokenType.RoundBracketClose:
-                        if (round == 0 && curly == 0 && square == 0)
+                        if (round <= 0 && curly <= 0 && square <= 0)
                             return;
 
                         round--;
                         break;
+                    case CssTokenType.Function:
                     case CssTokenType.RoundBracketOpen:
                         round++;
                         break;
