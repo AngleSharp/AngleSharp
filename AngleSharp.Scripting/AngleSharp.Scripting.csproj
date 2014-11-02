@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="ConsoleInstance.cs" />
     <Compile Include="DomDelegates.cs" />
     <Compile Include="DomFunctionInstance.cs" />
