@@ -318,7 +318,7 @@
             if (charLength > 0 && _chars[charLength - 1] == Specification.CarriageReturn)
                 charLength--;
 
-            _content.Insert(_index, _chars, 0, charLength);
+            _content.Append(_chars, 0, charLength);
         }
 
         #endregion
