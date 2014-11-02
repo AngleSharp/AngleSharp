@@ -745,7 +745,6 @@
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
     <Compile Include="Foundation\Extensions\InternalConfigurationExtensions.cs" />
-    <Compile Include="Parser\IParser.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />

@@ -211,8 +211,7 @@
 
             var stream = new TextSource(sourceCode);
             var doc = new Document(stream) { Options = configuration, DocumentUri = url };
-            var parser = Construct(doc, configuration);
-            return parser.Result;
+            return Construct(doc, configuration).Parse();
         }
 
         /// <summary>
@@ -252,9 +251,7 @@
             var response = await configuration.LoadForcedAsync(new Url(url), cancel).ConfigureAwait(false);
             var stream = new TextSource(response.Content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
-            var parser = Construct(doc, configuration);
-            await parser.ParseAsync(cancel).ConfigureAwait(false);
-            return parser.Result;
+            return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -271,8 +268,7 @@
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration, DocumentUri = url };
-            var parser = Construct(doc, configuration);
-            return parser.Result;
+            return Construct(doc, configuration).Parse();
         }
 
         /// <summary>
@@ -303,8 +299,7 @@
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration, DocumentUri = url };
             var parser = Construct(doc, configuration);
-            await parser.ParseAsync(cancel).ConfigureAwait(false);
-            return parser.Result;
+            return await parser.ParseAsync(cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -330,15 +325,14 @@
             var parser = Construct(doc, configuration);
 
             if (node == null)
-                return parser.Result.ChildNodes;
+                return parser.Parse().ChildNodes;
 
             var owner = node.Owner;
 
             if (owner != null && owner.QuirksMode != QuirksMode.Off)
                 doc.QuirksMode = owner.QuirksMode;
 
-            parser.SwitchToFragment(node);
-            return parser.Result.DocumentElement.ChildNodes;
+            return parser.SwitchToFragment(node).Parse().DocumentElement.ChildNodes;
         }
 
         #endregion
@@ -359,8 +353,7 @@
 
             var stream = new TextSource(sourceCode);
             var sheet = new CSSStyleSheet(stream) { Options = configuration };
-            var parser = Construct(sheet, configuration);
-            return parser.Result;
+            return Construct(sheet, configuration).Result;
         }
 
         /// <summary>
@@ -400,9 +393,7 @@
             var response = await configuration.LoadForcedAsync(new Url(url), cancel).ConfigureAwait(false);
             var source = new TextSource(response.Content, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
-            var parser = Construct(sheet, configuration);
-            await parser.ParseAsync(cancel).ConfigureAwait(false);
-            return parser.Result;
+            return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -419,8 +410,7 @@
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet(source) { Options = configuration };
-            var parser = Construct(sheet, configuration);
-            return parser.Result;
+            return Construct(sheet, configuration).Result;
         }
 
         /// <summary>
@@ -450,9 +440,7 @@
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet(source) { Href = url, Options = configuration };
-            var parser = Construct(sheet, configuration);
-            await parser.ParseAsync(cancel).ConfigureAwait(false);
-            return parser.Result;
+            return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
         }
 
         #endregion

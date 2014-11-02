@@ -17,7 +17,7 @@
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class HtmlParser : IParser
+    public sealed class HtmlParser
     {
         #region Fields
 
@@ -37,7 +37,7 @@
         Int32 nesting;
         Boolean started;
         HTMLScriptElement pendingParsingBlock;
-        Task task;
+        Task<IDocument> task;
 
         #endregion
 
@@ -162,7 +162,7 @@
         /// Parses the given source asynchronously and creates the document.
         /// </summary>
         /// <returns>The task which could be awaited or continued differently.</returns>
-        public Task ParseAsync()
+        public Task<IDocument> ParseAsync()
         {
             return ParseAsync(CancellationToken.None);
         }
@@ -172,7 +172,7 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to use.</param>
         /// <returns>The task which could be awaited or continued differently.</returns>
-        public Task ParseAsync(CancellationToken cancelToken)
+        public Task<IDocument> ParseAsync(CancellationToken cancelToken)
         {
 			lock (sync)
 			{
@@ -189,20 +189,23 @@
         /// <summary>
         /// Parses the given source and creates the document.
         /// </summary>
-        public void Parse()
+        public IDocument Parse()
         {
             if (!started)
             {
                 started = true;
 				Kernel();
             }
+
+            return doc;
         }
 
         /// <summary>
         /// Switches to the fragment algorithm with the specified context element.
         /// </summary>
         /// <param name="context">The context element where the algorithm is applied to.</param>
-        internal void SwitchToFragment(Element context)
+        /// <returns>The current instance for chaining.</returns>
+        internal HtmlParser SwitchToFragment(Element context)
         {
             if (started)
                 throw new InvalidOperationException("Fragment mode has to be activated before running the parser!");
@@ -243,6 +246,8 @@
                 context = context.ParentElement as Element;
             }
             while (context != null);
+
+            return this;
         }
 
         /// <summary>
@@ -3388,7 +3393,7 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to consider.</param>
         /// <returns>The task to await.</returns>
-        async Task KernelAsync(CancellationToken cancelToken)
+        async Task<IDocument> KernelAsync(CancellationToken cancelToken)
         {
             var source = doc.Source;
             HtmlToken token;
@@ -3402,6 +3407,8 @@
                 Consume(token);
             }
             while (token.Type != HtmlTokenType.EOF);
+
+            return doc;
         }
 
         /// <summary>

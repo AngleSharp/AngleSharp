@@ -15,7 +15,7 @@
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class CssParser : IParser
+    public sealed class CssParser
     {
         #region Creator Delegate
 
@@ -32,7 +32,7 @@
         readonly CSSStyleSheet sheet;
 
         Boolean started;
-        Task task;
+        Task<ICssStyleSheet> task;
 
         #endregion
 
@@ -142,7 +142,7 @@
         /// Parses the given source asynchronously and creates the stylesheet.
         /// </summary>
         /// <returns>The task which could be awaited or continued differently.</returns>
-        public Task ParseAsync()
+        public Task<ICssStyleSheet> ParseAsync()
         {
             return ParseAsync(CancellationToken.None);
         }
@@ -152,7 +152,7 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to use.</param>
         /// <returns>The task which could be awaited or continued differently.</returns>
-        public Task ParseAsync(CancellationToken cancelToken)
+        public Task<ICssStyleSheet> ParseAsync(CancellationToken cancelToken)
         {
             lock (sync)
             {
@@ -169,13 +169,15 @@
         /// <summary>
         /// Parses the given source code.
         /// </summary>
-        public void Parse()
+        public ICssStyleSheet Parse()
         {
             if (!started)
             {
                 started = true;
                 Kernel();
             }
+
+            return sheet;
         }
 
         #endregion
@@ -982,7 +984,7 @@
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
         /// </summary>
-        async Task KernelAsync(CancellationToken cancelToken)
+        async Task<ICssStyleSheet> KernelAsync(CancellationToken cancelToken)
         {
             var source = sheet.Source;
             var tokens = tokenizer.Tokens.GetEnumerator();
@@ -1002,6 +1004,8 @@
 
                 sheet.Rules.Add(rule, sheet, null);
             }
+
+            return sheet;
         }
 
         /// <summary>
