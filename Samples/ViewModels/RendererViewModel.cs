@@ -1,16 +1,16 @@
-﻿using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Html;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+
     public class RendererViewModel : RequestViewModel
     {
         FlowDocument root;

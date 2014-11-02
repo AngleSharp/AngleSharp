@@ -1,13 +1,13 @@
-﻿using AngleSharp.DOM;
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp.DOM;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class ProfilerViewModel : RequestViewModel
     {
         static ProfilerViewModel _data;

@@ -1,9 +1,9 @@
-﻿using AngleSharp.DOM.Css;
-using System;
-using System.Collections.ObjectModel;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp.DOM.Css;
+    using System;
+    using System.Collections.ObjectModel;
+
     public class CssRuleViewModel : BaseViewModel
     {
         readonly ObservableCollection<CssRuleViewModel> children;

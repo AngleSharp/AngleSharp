@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.IO;
-using System.Runtime.CompilerServices;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using System;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Runtime.CompilerServices;
+
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         protected static readonly Char[] ws = new Char[] { ' ', '\n', '\t' };

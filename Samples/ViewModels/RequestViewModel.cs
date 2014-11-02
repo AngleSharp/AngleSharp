@@ -1,13 +1,13 @@
-﻿using AngleSharp;
-using AngleSharp.DOM;
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp;
+    using AngleSharp.DOM;
+    using System;
+    using System.IO;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public abstract class RequestViewModel : BaseViewModel
     {
         #region Fields

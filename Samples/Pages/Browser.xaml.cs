@@ -1,27 +1,14 @@
-﻿using AngleSharp;
-using Samples.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using FirstFloor.ModernUI.Windows.Navigation;
-using System.Windows.Shapes;
-using FirstFloor.ModernUI.Windows;
-
-namespace Samples.Pages
+﻿namespace Samples.Pages
 {
+    using AngleSharp;
+    using FirstFloor.ModernUI.Windows;
+    using FirstFloor.ModernUI.Windows.Navigation;
+    using Samples.ViewModels;
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+
     /// <summary>
     /// Interaction logic for Browser.xaml
     /// </summary>

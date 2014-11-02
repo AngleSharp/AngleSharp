@@ -1,12 +1,12 @@
-﻿using AngleSharp.Attributes;
-using System;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp.Attributes;
+    using System;
+    using System.Collections;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Reflection;
+
     public class DOMNodeViewModel : BaseViewModel
     {
         ObservableCollection<DOMNodeViewModel> children;

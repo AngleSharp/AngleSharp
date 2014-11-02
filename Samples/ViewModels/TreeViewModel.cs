@@ -1,11 +1,11 @@
-﻿using AngleSharp.DOM;
-using System;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp.DOM;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class TreeViewModel : RequestViewModel
     {
         ObservableCollection<TreeNodeViewModel> nodes;

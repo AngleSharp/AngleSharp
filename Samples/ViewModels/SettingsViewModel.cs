@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+
     public class SettingsViewModel : BaseViewModel
     {
         static readonly SettingsViewModel instance;

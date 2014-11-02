@@ -1,14 +1,14 @@
-﻿using AngleSharp.DOM;
-using OxyPlot;
-using OxyPlot.Series;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp.DOM;
+    using OxyPlot;
+    using OxyPlot.Series;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class StatisticsViewModel : RequestViewModel
     {
         PlotModel mostElements;

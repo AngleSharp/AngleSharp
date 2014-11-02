@@ -1,14 +1,14 @@
-﻿using AngleSharp;
-using AngleSharp.DOM;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp;
+    using AngleSharp.DOM;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text;
+    using System.Windows.Media;
+
     public class TreeNodeViewModel : BaseViewModel
     {
         ObservableCollection<TreeNodeViewModel> children;

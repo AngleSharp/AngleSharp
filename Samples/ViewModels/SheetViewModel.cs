@@ -1,15 +1,14 @@
-﻿using AngleSharp;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Html;
-using System;
-using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Samples.ViewModels
+﻿namespace Samples.ViewModels
 {
+    using AngleSharp;
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Html;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class SheetViewModel : RequestViewModel
     {
         ObservableCollection<IElement> source;
