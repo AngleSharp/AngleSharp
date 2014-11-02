@@ -72,6 +72,7 @@
     <Compile Include="Css\CssTransitionProperty.cs" />
     <Compile Include="Css\CssAnimationProperty.cs" />
     <Compile Include="Css\CssMediaList.cs" />
+    <Compile Include="Css\FontFace.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
