@@ -481,6 +481,7 @@
             }
             while (tokens.MoveNext());
 
+            tokenizer.IgnoreWhitespace = true;
             return selector.Result;
         }
 
@@ -681,6 +682,9 @@
             if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
             {
                 if (tokens.Current.Type == CssTokenType.RoundBracketClose)
+                    tokens.MoveNext();
+
+                if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                     tokens.MoveNext();
 
                 JumpToEndOfDeclaration(tokens);
@@ -1072,8 +1076,11 @@
                 switch (tokens.Current.Type)
                 {
                     case CssTokenType.CurlyBracketClose:
-                        curly--;
-                        goto case CssTokenType.Semicolon;
+                        if (round <= 0 && curly <= 0 && square <= 0)
+                            return;
+                        else
+                            curly--;
+                        break;
                     case CssTokenType.CurlyBracketOpen:
                         curly++;
                         break;
@@ -1093,8 +1100,8 @@
                     case CssTokenType.Semicolon:
                         if (round <= 0 && curly <= 0 && square <= 0)
                             return;
-
-                        break;
+                        else
+                            break;
                 }
             }
             while (tokens.MoveNext());
@@ -1158,8 +1165,8 @@
                     case CssTokenType.RoundBracketClose:
                         if (round <= 0 && curly <= 0 && square <= 0)
                             return;
-
-                        round--;
+                        else
+                            round--;
                         break;
                     case CssTokenType.Function:
                     case CssTokenType.RoundBracketOpen:
