@@ -168,7 +168,7 @@
         /// </summary>
         public IStyleSheet Sheet
         {
-            get { return RelationList.Contains(Keywords.StyleSheet) ? _sheet : null; }
+            get { return _sheet; }
         }
 
         #endregion
