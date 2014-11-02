@@ -2623,9 +2623,6 @@
     <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlToken.cs">
       <Link>Parser\Html\Tokens\HtmlToken.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\IParser.cs">
-      <Link>Parser\IParser.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\ParseErrorEventArgs.cs">
       <Link>Parser\ParseErrorEventArgs.cs</Link>
     </Compile>
