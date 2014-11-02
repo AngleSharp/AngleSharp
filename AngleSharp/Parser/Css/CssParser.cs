@@ -14,7 +14,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser : IParser
     {
         #region Creator Delegate
@@ -229,7 +229,7 @@
         {
             var rule = new CSSFontFaceRule();
 
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+            if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                 parser.FillDeclarations(rule.Style, tokens);
 
             return rule;
@@ -308,7 +308,7 @@
 
                 if (token.Type == CssTokenType.Ident)
                 {
-                    rule.Prefix = ((CssKeywordToken)token).Data;
+                    rule.Prefix = token.Data;
 
                     if (tokens.MoveNext())
                         token = tokens.Current;
@@ -396,7 +396,7 @@
                 {
                     Creator creator;
 
-                    if (creators.TryGetValue(((CssKeywordToken)token).Data, out creator))
+                    if (creators.TryGetValue(token.Data, out creator))
                         return creator(this, tokens);
 
                     SkipUnknownRule(tokens);
@@ -496,7 +496,7 @@
 
             if (token.Type == CssTokenType.Ident)
             {
-                var propertyName = ((CssKeywordToken)token).Data;
+                var propertyName = token.Data;
 
                 if (!tokens.MoveNext())
                     return null;
@@ -534,7 +534,7 @@
         Boolean IsImportant(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
-            return token.Type == CssTokenType.Ident && ((CssKeywordToken)token).Data == Keywords.Important;
+            return token.Type == CssTokenType.Ident && token.Data == Keywords.Important;
         }
 
         #endregion
@@ -579,7 +579,7 @@
                     return Tuple.Create(CSSDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data);
 
                 case CssTokenType.Function:
-                    if (String.Compare(((CssKeywordToken)token).Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
+                    if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         if (!tokens.MoveNext())
                             break;
@@ -613,7 +613,7 @@
             if (token.Type == CssTokenType.Ident)
             {
                 tokens.MoveNext();
-                return ((CssKeywordToken)token).Data;
+                return token.Data;
             }
 
             return String.Empty;
@@ -703,14 +703,14 @@
 
             if (token.Type == CssTokenType.Ident)
             {
-                medium.Type = ((CssKeywordToken)token).Data;
+                medium.Type = token.Data;
 
                 if (!tokens.MoveNext())
                     return medium;
                 
                 token = tokens.Current;
 
-                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0 || !tokens.MoveNext())
+                if (token.Type != CssTokenType.Ident || String.Compare(token.Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0 || !tokens.MoveNext())
                     return medium;
             }
 
@@ -730,7 +730,7 @@
 
                 token = tokens.Current;
 
-                if (token.Type != CssTokenType.Ident || String.Compare(((CssKeywordToken)token).Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0)
+                if (token.Type != CssTokenType.Ident || String.Compare(token.Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0)
                     break;
             }
             while (tokens.MoveNext()) ;
@@ -749,7 +749,7 @@
             }
 
             value.Reset();
-            var feature = ((CssKeywordToken)token).Data;
+            var feature = token.Data;
             tokens.MoveNext();
             token = tokens.Current;
 
@@ -773,7 +773,7 @@
 
             if (token.Type == CssTokenType.Ident)
             {
-                var ident = ((CssKeywordToken)token).Data;
+                var ident = token.Data;
 
                 if (String.Compare(ident, Keywords.Not, StringComparison.OrdinalIgnoreCase) == 0)
                 {
@@ -1068,6 +1068,9 @@
             {
                 switch (tokens.Current.Type)
                 {
+                    case CssTokenType.Function:
+                        round++;
+                        break;
                     case CssTokenType.CurlyBracketClose:
                         curly--;
                         goto case CssTokenType.Semicolon;
@@ -1087,7 +1090,7 @@
                         square++;
                         break;
                     case CssTokenType.Semicolon:
-                        if (round == 0 && curly == 0 && square == 0)
+                        if (round <= 0 && curly <= 0 && square <= 0)
                             return;
                         break;
                 }
