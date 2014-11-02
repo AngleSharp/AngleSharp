@@ -7,21 +7,13 @@
     /// </summary>
     abstract class CssCharacterToken : CssToken
     {
-        #region Members
+        #region Fields
 
         Char _data;
 
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new character token.
-        /// </summary>
-        public CssCharacterToken()
-        {
-            _data = Specification.Null;
-        }
 
         /// <summary>
         /// Creates a new character token with the given character.

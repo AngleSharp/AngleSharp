@@ -8,9 +8,9 @@
     /// </summary>
     sealed class CssRangeToken : CssToken
     {
-        #region Members
+        #region Fields
 
-        String[] _range;
+        readonly String[] _range;
 
         #endregion
 
@@ -19,9 +19,31 @@
         /// <summary>
         /// Creates a new CSS range token.
         /// </summary>
-        public CssRangeToken()
+        /// <param name="start">The (hex-)string where to begin.</param>
+        /// <param name="end">The (hex-)string where to end.</param>
+        public CssRangeToken(String start, String end)
         {
             _type = CssTokenType.Range;
+            var index = Int32.Parse(start, System.Globalization.NumberStyles.HexNumber);
+
+            if (index <= Specification.MaximumCodepoint)
+            {
+                if (end != null)
+                {
+                    var list = new List<String>();
+                    var f = Int32.Parse(end, System.Globalization.NumberStyles.HexNumber);
+
+                    if (f > Specification.MaximumCodepoint)
+                        f = Specification.MaximumCodepoint;
+
+                    for (; index <= f; index++)
+                        list.Add(Char.ConvertFromUtf32(index));
+
+                    _range = list.ToArray();
+                }
+                else
+                    _range = new String[] { Char.ConvertFromUtf32(index) };
+            }
         }
 
         #endregion
@@ -47,40 +69,6 @@
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Sets the range in the token.
-        /// </summary>
-        /// <param name="start">The (hex-)string where to begin.</param>
-        /// <param name="end">The (hex-)string where to end.</param>
-        /// <returns>The token itself.</returns>
-        public CssRangeToken SetRange(String start, String end)
-        {
-            var i = int.Parse(start, System.Globalization.NumberStyles.HexNumber);
-
-            if (i <= Specification.MaximumCodepoint)
-            {
-                if (end == null)
-                {
-                    _range = new string[] { char.ConvertFromUtf32(i) };
-                }
-                else
-                {
-                    var list = new List<string>();
-                    var f = int.Parse(end, System.Globalization.NumberStyles.HexNumber);
-
-                    if (f > Specification.MaximumCodepoint)
-                        f = Specification.MaximumCodepoint;
-
-                    for (; i <= f; i++)
-                        list.Add(char.ConvertFromUtf32(i));
-
-                    _range = list.ToArray();
-                }
-            }
-
-            return this;
-        }
 
         /// <summary>
         /// Gets a string which represents the original value.

@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        String _data;
-        String _unit;
+        readonly String _data;
+        readonly String _unit;
 
         #endregion
 
@@ -21,9 +21,13 @@
         /// Creates a new CSS unit token.
         /// </summary>
         /// <param name="type">The exact type.</param>
-        CssUnitToken(CssTokenType type)
+        /// <param name="value">The value.</param>
+        /// <param name="dimension">The unit (dimension).</param>
+        CssUnitToken(CssTokenType type, String value, String dimension)
         {
             _type = type;
+            _data = value;
+            _unit = dimension;
         }
 
         #endregion
@@ -57,7 +61,7 @@
         /// <returns>The created token.</returns>
         public static CssUnitToken Percentage(String value)
         {
-            return new CssUnitToken(CssTokenType.Percentage) { _data = value, _unit = "%" };
+            return new CssUnitToken(CssTokenType.Percentage, value, "%");
         }
 
         /// <summary>
@@ -68,7 +72,7 @@
         /// <returns>The created token.</returns>
         public static CssUnitToken Dimension(String value, String dimension)
         {
-            return new CssUnitToken(CssTokenType.Dimension) { _data = value, _unit = dimension };
+            return new CssUnitToken(CssTokenType.Dimension, value, dimension);
         }
 
         #endregion

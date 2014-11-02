@@ -7,9 +7,9 @@
     /// </summary>
     sealed class CssKeywordToken : CssToken
     {
-        #region Members
+        #region Fields
 
-        String _data;
+        readonly String _data;
 
         #endregion
 
@@ -19,9 +19,10 @@
         /// Creates a new CSS keyword token.
         /// </summary>
         /// <param name="type">The exact type.</param>
-        CssKeywordToken(CssTokenType type)
+        CssKeywordToken(CssTokenType type, String data)
         {
             _type = type;
+            _data = data;
         }
 
         #endregion
@@ -35,7 +36,7 @@
         /// <returns>The created token.</returns>
         public static CssKeywordToken Function(String name)
         {
-            return new CssKeywordToken(CssTokenType.Function) { _data = name };
+            return new CssKeywordToken(CssTokenType.Function, name);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@
         /// <returns>The created token.</returns>
         public static CssKeywordToken Ident(String identifier)
         {
-            return new CssKeywordToken(CssTokenType.Ident) { _data = identifier };
+            return new CssKeywordToken(CssTokenType.Ident, identifier);
         }
 
         /// <summary>
@@ -55,7 +56,7 @@
         /// <returns>The created token.</returns>
         public static CssKeywordToken At(String name)
         {
-            return new CssKeywordToken(CssTokenType.AtKeyword) { _data = name };
+            return new CssKeywordToken(CssTokenType.AtKeyword, name);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@
         /// <returns>The created token.</returns>
         public static CssKeywordToken Hash(String characters)
         {
-            return new CssKeywordToken(CssTokenType.Hash) { _data = characters };
+            return new CssKeywordToken(CssTokenType.Hash, characters);
         }
 
         #endregion

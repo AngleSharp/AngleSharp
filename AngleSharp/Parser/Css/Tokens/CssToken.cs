@@ -68,7 +68,7 @@
         [DebuggerStepThrough]
         public static CssRangeToken Range(String start, String end)
         {
-            return new CssRangeToken().SetRange(start, end);
+            return new CssRangeToken(start, end);
         }
 
         #endregion

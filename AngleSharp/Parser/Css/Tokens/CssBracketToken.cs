@@ -18,22 +18,16 @@
 
         #endregion
 
-        #region Fields
-
-        CssTokenType _mirror;
-
-        #endregion
-
         #region ctor
 
         static CssBracketToken()
         {
-            roundOpen = new CssBracketToken { _type = CssTokenType.RoundBracketOpen, _mirror = CssTokenType.RoundBracketClose };
-            roundClose = new CssBracketToken { _type = CssTokenType.RoundBracketClose, _mirror = CssTokenType.RoundBracketOpen };
-            curlyOpen = new CssBracketToken { _type = CssTokenType.CurlyBracketOpen, _mirror = CssTokenType.CurlyBracketClose };
-            curlyClose = new CssBracketToken { _type = CssTokenType.CurlyBracketClose, _mirror = CssTokenType.CurlyBracketOpen };
-            squareOpen = new CssBracketToken { _type = CssTokenType.SquareBracketOpen, _mirror = CssTokenType.SquareBracketClose };
-            squareClose = new CssBracketToken { _type = CssTokenType.SquareBracketClose, _mirror = CssTokenType.SquareBracketOpen };
+            roundOpen = new CssBracketToken { _type = CssTokenType.RoundBracketOpen };
+            roundClose = new CssBracketToken { _type = CssTokenType.RoundBracketClose };
+            curlyOpen = new CssBracketToken { _type = CssTokenType.CurlyBracketOpen };
+            curlyClose = new CssBracketToken { _type = CssTokenType.CurlyBracketClose };
+            squareOpen = new CssBracketToken { _type = CssTokenType.SquareBracketOpen };
+            squareClose = new CssBracketToken { _type = CssTokenType.SquareBracketClose };
         }
 
         /// <summary>
@@ -46,46 +40,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the bracket symbol that opens this block.
-        /// </summary>
-        public Char Open
-        {
-            get
-            {
-                if (_type == CssTokenType.RoundBracketOpen)
-                    return '(';
-                else if (_type == CssTokenType.SquareBracketOpen)
-                    return '[';
-                else
-                    return '{';
-            }
-        }
-
-        /// <summary>
-        /// Gets the bracket symbol that closes this block.
-        /// </summary>
-        public Char Close
-        {
-            get
-            {
-                if (_type == CssTokenType.RoundBracketOpen)
-                    return ')';
-                else if (_type == CssTokenType.SquareBracketOpen)
-                    return ']';
-                else
-                    return '}';
-            }
-        }
-
-        /// <summary>
-        /// Gets the mirror token type for the current token.
-        /// </summary>
-        public CssTokenType Mirror
-        {
-            get { return _mirror; }
-        }
 
         /// <summary>
         /// Gets a curly bracket open token.

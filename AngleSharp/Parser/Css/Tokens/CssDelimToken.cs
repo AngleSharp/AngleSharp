@@ -10,14 +10,6 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new delimiter token.
-        /// </summary>
-        public CssDelimToken()
-        {
-            _type = CssTokenType.Delim;
-        }
-
-        /// <summary>
         /// Creates a new delimiter token with the given character.
         /// </summary>
         /// <param name="data">The character.</param>

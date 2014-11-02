@@ -8,9 +8,9 @@
     /// </summary>
     sealed class CssNumberToken : CssToken
     {
-        #region Members
+        #region Fields
 
-        String _data;
+        readonly String _data;
 
         #endregion
 
