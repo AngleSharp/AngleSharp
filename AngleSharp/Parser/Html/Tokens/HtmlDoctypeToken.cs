@@ -18,18 +18,6 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new DOCTYPE token.
-        /// </summary>
-        public HtmlDoctypeToken()
-        {
-            _quirks = false;
-            _name = null;
-            _publicIdentifier = null;
-            _systemIdentifier = null;
-            _type = HtmlTokenType.DOCTYPE;
-        }
-
-        /// <summary>
         /// Creates a new DOCTYPE token with the quirks mode set initially.
         /// </summary>
         /// <param name="quirksForced">The state of the force-quirks flag.</param>

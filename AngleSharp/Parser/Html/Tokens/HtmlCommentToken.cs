@@ -10,15 +10,6 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new comment token.
-        /// </summary>
-        public HtmlCommentToken()
-        {
-            _name = String.Empty;
-            _type = HtmlTokenType.Comment;
-        }
-
-        /// <summary>
         /// Creates a new comment token with the supplied data.
         /// </summary>
         /// <param name="data">The data to set.</param>
