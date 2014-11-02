@@ -40,7 +40,7 @@
         /// <returns>The stylesheet.</returns>
         public IStyleSheet this[Int32 index]
         {
-            get { return GetStyleSheets(_parent).Skip(index).FirstOrDefault(); }
+            get { return _parent.GetStyleSheets().Skip(index).FirstOrDefault(); }
         }
 
         #endregion
@@ -52,7 +52,7 @@
         /// </summary>
         public Int32 Length
         {
-            get { return GetStyleSheets(_parent).Count(); }
+            get { return _parent.GetStyleSheets().Count(); }
         }
 
         #endregion
@@ -65,7 +65,7 @@
         /// <returns>The enumerator.</returns>
         public IEnumerator<IStyleSheet> GetEnumerator()
         {
-            return GetStyleSheets(_parent).GetEnumerator();
+            return _parent.GetStyleSheets().GetEnumerator();
         }
 
         /// <summary>
@@ -75,34 +75,6 @@
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static IEnumerable<IStyleSheet> GetStyleSheets(INode parent)
-        {
-            foreach (var child in parent.ChildNodes)
-            {
-                if (child is IElement)
-                {
-                    var linkStyle = child as ILinkStyle;
-
-                    if (linkStyle != null)
-                    {
-                        var sheet = linkStyle.Sheet;
-
-                        if (sheet != null)
-                            yield return sheet;
-                    }
-                    else
-                    {
-                        foreach (var sheet in GetStyleSheets(child))
-                            yield return sheet;
-                    }
-                }
-            }
         }
 
         #endregion

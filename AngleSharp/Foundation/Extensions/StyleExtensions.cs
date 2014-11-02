@@ -137,5 +137,34 @@
                     sheet.IsDisabled = title != name;
             }
         }
+
+        /// <summary>
+        /// Gets an enumeration over all the stylesheets from the given parent.
+        /// </summary>
+        /// <param name="parent">The parent to use.</param>
+        /// <returns>The enumeration over all stylesheets.</returns>
+        public static IEnumerable<IStyleSheet> GetStyleSheets(this INode parent)
+        {
+            foreach (var child in parent.ChildNodes)
+            {
+                if (child is IElement)
+                {
+                    var linkStyle = child as ILinkStyle;
+
+                    if (linkStyle != null)
+                    {
+                        var sheet = linkStyle.Sheet;
+
+                        if (sheet != null)
+                            yield return sheet;
+                    }
+                    else
+                    {
+                        foreach (var sheet in child.GetStyleSheets())
+                            yield return sheet;
+                    }
+                }
+            }
+        }
     }
 }
