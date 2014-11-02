@@ -2408,7 +2408,7 @@
                 if (value == null)
                     return;
 
-                var property = CssPropertyFactory.Create(propertyName, this);
+                var property = CreateProperty(propertyName);
 
                 if (property != null && property.TrySetValue(value))
                 {
@@ -2424,6 +2424,17 @@
         #endregion
 
         #region Internal Methods
+
+        /// <summary>
+        /// Creates the given property, if it does not already exist.
+        /// Otherwise returns the existing declaration.
+        /// </summary>
+        /// <param name="name">The name of the property to retrieve or create.</param>
+        /// <returns>The created / existing property.</returns>
+        internal CSSProperty CreateProperty(String name)
+        {
+            return GetProperty(name) ?? CssPropertyFactory.Create(name, this);
+        }
 
         /// <summary>
         /// Gets the given CSS property.

@@ -50,6 +50,8 @@
     <Compile Include="DOM\Css\Constants\UnitType.cs" />
     <Compile Include="DOM\Css\Properties\CSSShorthandProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Font\CSSSrcProperty.cs" />
     <Compile Include="DOM\Events\ErrorEvent.cs" />
     <Compile Include="DOM\Events\FocusEvent.cs" />
     <Compile Include="DOM\Events\HashChangedEvent.cs" />

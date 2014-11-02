@@ -508,7 +508,7 @@
                     JumpToEndOfDeclaration(tokens);
                 else if (tokens.MoveNext())
                 {
-                    var property = CssPropertyFactory.Create(propertyName, style);
+                    var property = style.CreateProperty(propertyName);
 
                     if (property != null)
                     {
@@ -1307,8 +1307,7 @@
         /// <returns>The CSSStyleSheet object.</returns>
         public static ICssStyleSheet ParseStyleSheet(String stylesheet, IConfiguration configuration = null)
         {
-            var parser = new CssParser(stylesheet, configuration ?? Configuration.Default);
-            return parser.Result;
+            return new CssParser(stylesheet, configuration ?? Configuration.Default).Parse();
         }
 
         /// <summary>

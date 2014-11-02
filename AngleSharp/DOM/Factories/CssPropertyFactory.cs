@@ -326,9 +326,7 @@
         /// <returns>The created property.</returns>
         public static CSSProperty Create(String name, CSSStyleDeclaration style)
         {
-            return style.GetProperty(name) ?? 
-                   CreateLonghand(name, style) ?? 
-                   CreateShorthand(name, style);
+            return CreateLonghand(name, style) ?? CreateShorthand(name, style);
         }
 
         /// <summary>
