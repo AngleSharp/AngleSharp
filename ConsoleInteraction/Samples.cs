@@ -1,11 +1,11 @@
-﻿using AngleSharp;
-using AngleSharp.DOM.Html;
-using AngleSharp.Scripting;
-using System;
-using System.Linq;
-
-namespace ConsoleInteraction
+﻿namespace ConsoleInteraction
 {
+    using AngleSharp;
+    using AngleSharp.DOM.Html;
+    using AngleSharp.Scripting;
+    using System;
+    using System.Linq;
+
     class Samples
     {
         public static void RunAll()
@@ -210,10 +210,10 @@ div {
             //This is our sample source, we will trigger the load event
             var source = @"<!doctype html>
 <html>
-<head><title>Custo Event sample</title></head>
+<head><title>Custom Event sample</title></head>
 <body>
 <script>
-console.log('Beforem setting the handler!');
+console.log('Before setting the handler!');
 
 document.addEventListener('load', function() {
     console.log('Document loaded!');
