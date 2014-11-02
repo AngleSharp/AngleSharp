@@ -748,6 +748,12 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSLineHeightProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSLineHeightProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSSrcProperty.cs">
+      <Link>DOM\Css\Properties\Font\CSSSrcProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs">
+      <Link>DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSWordSpacingProperty.cs">
       <Link>DOM\Css\Properties\Font\CSSWordSpacingProperty.cs</Link>
     </Compile>
