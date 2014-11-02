@@ -18,14 +18,15 @@
 
         static CssCommentToken()
         {
-            open = new CssCommentToken { _type = CssTokenType.Cdo };
-            close = new CssCommentToken { _type = CssTokenType.Cdc };
+            open = new CssCommentToken(CssTokenType.Cdo, "<!--");
+            close = new CssCommentToken(CssTokenType.Cdc, "-->");
         }
 
         /// <summary>
         /// Creates a new comment.
         /// </summary>
-        CssCommentToken()
+        CssCommentToken(CssTokenType type, String data)
+            : base(type, data)
         {
         }
 
@@ -47,19 +48,6 @@
         public static CssCommentToken Close
         {
             get { return close; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            return _type == CssTokenType.Cdo ? "<!--" : "-->";
         }
 
         #endregion

@@ -820,17 +820,17 @@
                 case CssTokenType.Percentage: // e.g. "5%"
                     return TakeValue(ToUnit((CssUnitToken)token), tokens);
                 case CssTokenType.Hash:// e.g. "#ABCDEF"
-                    return TakeValue(GetColorFromHexValue(((CssKeywordToken)token).Data), tokens);
+                    return TakeValue(GetColorFromHexValue(token.Data), tokens);
                 case CssTokenType.Delim:// e.g. "#"
-                    return GetValueFromDelim(((CssDelimToken)token).Data, tokens);
+                    return GetValueFromDelim(token.Data[0], tokens);
                 case CssTokenType.Ident: // e.g. "auto"
-                    value.AddValue(ToIdentifier(((CssKeywordToken)token).Data));
+                    value.AddValue(ToIdentifier(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
-                    value.AddValue((CssString)((CssStringToken)token).Data);
+                    value.AddValue((CssString)token.Data);
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new Url(((CssStringToken)token).Data));
+                    value.AddValue(new Url(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
                     value.AddValue(ToNumber((CssNumberToken)token));
@@ -1221,9 +1221,9 @@
         static ICssObject ToUnit(CssUnitToken token)
         {
             if (token.Type == CssTokenType.Percentage)
-                return new Percent(token.Data);
+                return new Percent(token.Value);
 
-            return CssUnitFactory.Create(token.Unit.ToLowerInvariant(), token.Data);
+            return CssUnitFactory.Create(token.Unit.ToLowerInvariant(), token.Value);
         }
 
         /// <summary>
@@ -1248,10 +1248,10 @@
         /// <returns>The created value.</returns>
         static Number ToNumber(CssNumberToken token)
         {
-            if (token.Data == 0f)
+            if (token.Value == 0f)
                 return Number.Zero;
 
-            return new Number(token.Data);
+            return new Number(token.Value);
         }
 
         #endregion

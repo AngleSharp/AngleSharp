@@ -8,12 +8,6 @@
     /// </summary>
     sealed class CssNumberToken : CssToken
     {
-        #region Fields
-
-        readonly String _data;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -21,9 +15,8 @@
         /// </summary>
         /// <param name="number">The number to contain.</param>
         public CssNumberToken(String number)
+            : base(CssTokenType.Number, number)
         {
-            _data = number;
-            _type = CssTokenType.Number;
         }
 
         #endregion
@@ -33,22 +26,9 @@
         /// <summary>
         /// Gets the contained number.
         /// </summary>
-        public Single Data
+        public Single Value
         {
-            get { return Single.Parse(_data, CultureInfo.InvariantCulture); }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            return _data;
+            get { return Single.Parse(Data, CultureInfo.InvariantCulture); }
         }
 
         #endregion

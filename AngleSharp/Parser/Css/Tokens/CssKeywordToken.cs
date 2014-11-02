@@ -7,12 +7,6 @@
     /// </summary>
     sealed class CssKeywordToken : CssToken
     {
-        #region Fields
-
-        readonly String _data;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -20,9 +14,8 @@
         /// </summary>
         /// <param name="type">The exact type.</param>
         CssKeywordToken(CssTokenType type, String data)
+            : base(type, data)
         {
-            _type = type;
-            _data = data;
         }
 
         #endregion
@@ -71,18 +64,6 @@
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Gets the contained data.
-        /// </summary>
-        public String Data
-        {
-            get { return _data; }
-        }
-
-        #endregion
-
         #region String representation
 
         /// <summary>
@@ -91,15 +72,15 @@
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            switch (_type)
+            switch (Type)
             {
                 case CssTokenType.Hash:
                     return "#" + Data;
                 case CssTokenType.AtKeyword:
                     return "@" + Data;
+                default:
+                    return Data;
             }
-
-            return Data;
         }
 
         #endregion

@@ -11,7 +11,18 @@
     {
         #region Fields
 
-        protected CssTokenType _type;
+        readonly CssTokenType _type;
+        readonly String _data;
+
+        #endregion
+
+        #region ctor
+
+        public CssToken(CssTokenType type, String data)
+        {
+            _type = type;
+            _data = data;
+        }
 
         #endregion
 
@@ -23,6 +34,14 @@
         public CssTokenType Type
         {
             get { return _type; }
+        }
+
+        /// <summary>
+        /// Gets the data of the token.
+        /// </summary>
+        public String Data
+        {
+            get { return _data; }
         }
 
         #endregion
@@ -79,7 +98,10 @@
         /// Gets a string which represents the original value.
         /// </summary>
         /// <returns>The original value.</returns>
-        public abstract String ToValue();
+        public virtual String ToValue()
+        {
+            return _data;
+        }
 
         #endregion
     }

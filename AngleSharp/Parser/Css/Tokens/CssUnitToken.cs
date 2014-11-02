@@ -10,7 +10,6 @@
     {
         #region Fields
 
-        readonly String _data;
         readonly String _unit;
 
         #endregion
@@ -24,9 +23,8 @@
         /// <param name="value">The value.</param>
         /// <param name="dimension">The unit (dimension).</param>
         CssUnitToken(CssTokenType type, String value, String dimension)
+            : base(type, value)
         {
-            _type = type;
-            _data = value;
             _unit = dimension;
         }
 
@@ -37,9 +35,9 @@
         /// <summary>
         /// Gets the contained data.
         /// </summary>
-        public Single Data
+        public Single Value
         {
-            get { return Single.Parse(_data, CultureInfo.InvariantCulture); }
+            get { return Single.Parse(Data, CultureInfo.InvariantCulture); }
         }
 
         /// <summary>
@@ -85,7 +83,7 @@
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            return _data + _unit;
+            return Data + _unit;
         }
 
         #endregion

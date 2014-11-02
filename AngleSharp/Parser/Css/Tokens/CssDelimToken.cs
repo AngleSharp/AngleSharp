@@ -14,9 +14,8 @@
         /// </summary>
         /// <param name="data">The character.</param>
         public CssDelimToken(Char data)
-            : base(data)
+            : base(CssTokenType.Delim, data)
         {
-            _type = CssTokenType.Delim;
         }
 
         #endregion
@@ -29,7 +28,7 @@
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            return Data.ToString();
+            return Data;
         }
 
         #endregion

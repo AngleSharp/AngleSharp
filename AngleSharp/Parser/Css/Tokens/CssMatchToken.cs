@@ -22,18 +22,19 @@
 
         static CssMatchToken()
         {
-            include = new CssMatchToken { _type = CssTokenType.IncludeMatch };
-            dash = new CssMatchToken { _type = CssTokenType.DashMatch };
-            prefix = new CssMatchToken { _type = CssTokenType.PrefixMatch };
-            substring = new CssMatchToken { _type = CssTokenType.SubstringMatch };
-            suffix = new CssMatchToken { _type = CssTokenType.SuffixMatch };
-            not = new CssMatchToken { _type = CssTokenType.NotMatch };
+            include = new CssMatchToken(CssTokenType.IncludeMatch, "~=");
+            dash = new CssMatchToken(CssTokenType.DashMatch, "|=");
+            prefix = new CssMatchToken(CssTokenType.PrefixMatch, "^=");
+            substring = new CssMatchToken(CssTokenType.SubstringMatch, "*=");
+            suffix = new CssMatchToken(CssTokenType.SuffixMatch, "$=");
+            not = new CssMatchToken(CssTokenType.NotMatch, "!=");
         }
 
         /// <summary>
         /// Creates a new CSS match token.
         /// </summary>
-        CssMatchToken()
+        CssMatchToken(CssTokenType type, String data)
+            : base(type, data)
         {
         }
 
@@ -87,40 +88,6 @@
         public static CssToken Not
         {
             get { return not; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            switch (_type)
-            {
-                case CssTokenType.SubstringMatch:
-                    return "*=";
-
-                case CssTokenType.SuffixMatch:
-                    return "$=";
-
-                case CssTokenType.PrefixMatch:
-                    return "^=";
-
-                case CssTokenType.IncludeMatch:
-                    return "~=";
-
-                case CssTokenType.DashMatch:
-                    return "|=";
-
-                case CssTokenType.NotMatch:
-                    return "!=";
-            }
-
-            return String.Empty;
         }
 
         #endregion

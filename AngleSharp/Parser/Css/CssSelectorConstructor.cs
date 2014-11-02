@@ -472,11 +472,11 @@
 							return true;
 
 						case CssTokenType.Delim:
-							var chr = ((CssDelimToken)token).Data;
+							var chr = token.Data[0];
 
 							if (chr == Specification.Plus || chr == Specification.Minus)
 							{
-								attrValue += chr;
+								attrValue += token.Data;
 								return true;
 							}
 
@@ -685,7 +685,7 @@
         /// <returns>True if no error occurred, otherwise false.</returns>
 		Boolean OnDelim(CssToken token)
 		{
-			switch (((CssDelimToken)token).Data)
+			switch (token.Data[0])
 			{
 				case Specification.Comma:
 					InsertOr();

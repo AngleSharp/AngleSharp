@@ -22,18 +22,19 @@
 
         static CssBracketToken()
         {
-            roundOpen = new CssBracketToken { _type = CssTokenType.RoundBracketOpen };
-            roundClose = new CssBracketToken { _type = CssTokenType.RoundBracketClose };
-            curlyOpen = new CssBracketToken { _type = CssTokenType.CurlyBracketOpen };
-            curlyClose = new CssBracketToken { _type = CssTokenType.CurlyBracketClose };
-            squareOpen = new CssBracketToken { _type = CssTokenType.SquareBracketOpen };
-            squareClose = new CssBracketToken { _type = CssTokenType.SquareBracketClose };
+            roundOpen = new CssBracketToken(CssTokenType.RoundBracketOpen, "(");
+            roundClose = new CssBracketToken(CssTokenType.RoundBracketClose, ")");
+            curlyOpen = new CssBracketToken(CssTokenType.CurlyBracketOpen, "{");
+            curlyClose = new CssBracketToken(CssTokenType.CurlyBracketClose, "}");
+            squareOpen = new CssBracketToken(CssTokenType.SquareBracketOpen, "[");
+            squareClose = new CssBracketToken(CssTokenType.SquareBracketClose, "]");
         }
 
         /// <summary>
         /// Creates a new CSS bracket token.
         /// </summary>
-        CssBracketToken()
+        CssBracketToken(CssTokenType type, String bracket)
+            : base(type, bracket)
         {
         }
 
@@ -87,35 +88,6 @@
         public static CssBracketToken CloseSquare
         {
             get { return squareClose; }
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            switch (_type)
-            {
-                case CssTokenType.CurlyBracketOpen:
-                    return "{";
-                case CssTokenType.CurlyBracketClose:
-                    return "}";
-                case CssTokenType.RoundBracketClose:
-                    return ")";
-                case CssTokenType.RoundBracketOpen:
-                    return "(";
-                case CssTokenType.SquareBracketClose:
-                    return "]";
-                case CssTokenType.SquareBracketOpen:
-                    return "[";
-            }
-
-            return String.Empty;
         }
 
         #endregion

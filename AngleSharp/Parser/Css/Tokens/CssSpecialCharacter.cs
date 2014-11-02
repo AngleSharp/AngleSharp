@@ -32,9 +32,8 @@
         /// <param name="c">The character to contain.</param>
         /// <param name="type">The actual token type.</param>
         CssSpecialCharacter(Char c, CssTokenType type)
-            : base(c)
+            : base(type, c)
         {
-            _type = type;
         }
 
         #endregion
@@ -71,19 +70,6 @@
         public static CssSpecialCharacter Whitespace
         {
             get { return whitespace; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            return Data.ToString();
         }
 
         #endregion

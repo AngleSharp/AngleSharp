@@ -24,8 +24,8 @@
         /// Creates a new CSS column token.
         /// </summary>
         CssColumnToken()
+            : base(CssTokenType.Column, "||")
         {
-            _type = CssTokenType.Column;
         }
 
         #endregion
@@ -38,19 +38,6 @@
         public static CssColumnToken Token
         {
             get { return token; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            return "||";
         }
 
         #endregion

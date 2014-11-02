@@ -9,7 +9,6 @@
     {
         #region Fields
 
-        readonly String _data;
         readonly Boolean _bad;
 
         #endregion
@@ -23,9 +22,8 @@
         /// <param name="data">The string data.</param>
         /// <param name="bad">If the string was bad (optional).</param>
         CssStringToken(CssTokenType type, String data, Boolean bad)
+            : base(type, data)
         {
-            _type = type;
-            _data = data;
             _bad = bad;
         }
 
@@ -57,14 +55,6 @@
         #region Properties
 
         /// <summary>
-        /// Gets the contained data.
-        /// </summary>
-        public String Data
-        {
-            get { return _data; }
-        }
-
-        /// <summary>
         /// Gets if the data is bad.
         /// </summary>
         public Boolean IsBad
@@ -82,10 +72,10 @@
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            if(_type == CssTokenType.Url)
-                return "url('" + _data + "')";
+            if (Type == CssTokenType.Url)
+                return Data.CssUrl();
 
-            return "'" + _data + "'";
+            return Data.CssString();
         }
 
         #endregion

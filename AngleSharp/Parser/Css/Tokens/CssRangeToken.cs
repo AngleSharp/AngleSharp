@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// Represents the CSS range token.
@@ -22,16 +23,16 @@
         /// <param name="start">The (hex-)string where to begin.</param>
         /// <param name="end">The (hex-)string where to end.</param>
         public CssRangeToken(String start, String end)
+            : base(CssTokenType.Range, String.Empty)
         {
-            _type = CssTokenType.Range;
-            var index = Int32.Parse(start, System.Globalization.NumberStyles.HexNumber);
+            var index = Int32.Parse(start, NumberStyles.HexNumber);
 
             if (index <= Specification.MaximumCodepoint)
             {
                 if (end != null)
                 {
                     var list = new List<String>();
-                    var f = Int32.Parse(end, System.Globalization.NumberStyles.HexNumber);
+                    var f = Int32.Parse(end, NumberStyles.HexNumber);
 
                     if (f > Specification.MaximumCodepoint)
                         f = Specification.MaximumCodepoint;
@@ -77,12 +78,12 @@
         public override String ToValue()
         {
             if (IsEmpty)
-                return string.Empty;
+                return String.Empty;
 
             if (_range.Length == 1)
-                return "#" + char.ConvertToUtf32(_range[0], 0).ToString("x");
+                return "#" + Char.ConvertToUtf32(_range[0], 0).ToString("x");
 
-            return "#" + char.ConvertToUtf32(_range[0], 0).ToString("x") + "-#" + char.ConvertToUtf32(_range[_range.Length - 1], 0).ToString("x");
+            return "#" + Char.ConvertToUtf32(_range[0], 0).ToString("x") + "-#" + Char.ConvertToUtf32(_range[_range.Length - 1], 0).ToString("x");
         }
 
         #endregion
