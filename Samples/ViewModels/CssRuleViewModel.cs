@@ -10,10 +10,27 @@ namespace Samples.ViewModels
         readonly String typeName;
         readonly String name;
 
-        private CssRuleViewModel(Object o)
+        private CssRuleViewModel(String typeName)
         {
-            children = new ObservableCollection<CssRuleViewModel>();
-            typeName = o.GetType().Name;
+            this.children = new ObservableCollection<CssRuleViewModel>();
+            this.typeName = typeName;
+        }
+
+        private CssRuleViewModel(Object o)
+            : this(o.GetType().Name)
+        {
+        }
+
+        private CssRuleViewModel(String name, String value)
+            : this(name, new PseudoValue(value))
+        {
+        }
+
+        private CssRuleViewModel(String name, ICssValue value)
+            : this("CSSProperty")
+        {
+            this.name = name;
+            this.children.Add(new CssRuleViewModel(value));
         }
 
         public CssRuleViewModel(ICssRule rule)
@@ -24,7 +41,7 @@ namespace Samples.ViewModels
                 case CssRuleType.FontFace:
                     var font = (ICssFontFaceRule)rule;
                     name = "@font-face";
-                    //How to populate ?
+                    Populate(font);
                     break;
 
                 case CssRuleType.Keyframe:
@@ -70,16 +87,32 @@ namespace Samples.ViewModels
         }
 
         public CssRuleViewModel(ICssProperty declaration)
-            : this((Object)declaration)
+            : this(declaration.Name, declaration.Value)
         {
-            name = declaration.Name;
-            children.Add(new CssRuleViewModel(declaration.Value));
         }
 
         public CssRuleViewModel(ICssValue value)
-            : this((Object)value)
+            : this("CSSValue")
         {
             name = value.CssText;
+        }
+
+        void Populate(ICssFontFaceRule font)
+        {
+            AddIfNotEmpty("Family", font.Family);
+            AddIfNotEmpty("Features", font.Features);
+            AddIfNotEmpty("Range", font.Range);
+            AddIfNotEmpty("Source", font.Source);
+            AddIfNotEmpty("Stretch", font.Stretch);
+            AddIfNotEmpty("Style", font.Style);
+            AddIfNotEmpty("Variant", font.Variant);
+            AddIfNotEmpty("Weight", font.Weight);
+        }
+
+        void AddIfNotEmpty(String name, String value)
+        {
+            if (!String.IsNullOrEmpty(value))
+                children.Add(new CssRuleViewModel(name, value));
         }
 
         void Populate(ICssStyleDeclaration declarations)
@@ -107,6 +140,25 @@ namespace Samples.ViewModels
         public ObservableCollection<CssRuleViewModel> Children
         {
             get { return children; }
+        }
+
+        class PseudoValue : ICssValue
+        {
+            public PseudoValue(String value)
+            {
+                CssText = value;
+            }
+
+            public CssValueType Type
+            {
+                get { return CssValueType.Custom; }
+            }
+
+            public String CssText
+            {
+                get;
+                private set;
+            }
         }
     }
 }

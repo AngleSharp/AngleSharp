@@ -99,7 +99,7 @@ namespace Samples.ViewModels
 
             Status = "Parsing " + uri.AbsoluteUri + " ...";
             ProfilerViewModel.Data.Start("Parsing (HTML)", OxyPlot.OxyColors.Orange);
-            var document = DocumentBuilder.Html(response, new Configuration().WithCss().WithDefaultRequester());
+            var document = DocumentBuilder.Html(response, new Configuration(), uri.AbsoluteUri);
             ProfilerViewModel.Data.Stop();
             response.Close();
 

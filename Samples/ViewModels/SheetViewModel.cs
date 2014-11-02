@@ -1,5 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
+using AngleSharp.DOM.Css;
+using AngleSharp.DOM.Html;
 using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -10,8 +12,8 @@ namespace Samples.ViewModels
 {
     public class SheetViewModel : RequestViewModel
     {
-        ObservableCollection<IStyleSheet> source;
-        IStyleSheet selected;
+        ObservableCollection<IElement> source;
+        IElement selected;
         Uri local;
         ObservableCollection<CssRuleViewModel> tree;
         CancellationTokenSource cts;
@@ -20,11 +22,11 @@ namespace Samples.ViewModels
         public SheetViewModel()
 	    {
             Status = "Nothing to display ...";
-            source = new ObservableCollection<IStyleSheet>();
+            source = new ObservableCollection<IElement>();
             tree = new ObservableCollection<CssRuleViewModel>();
 	    }
 
-        public ObservableCollection<IStyleSheet> Source
+        public ObservableCollection<IElement> Source
         {
             get { return source; }
         }
@@ -34,7 +36,7 @@ namespace Samples.ViewModels
             get { return tree; }
         }
 
-        public IStyleSheet Selected
+        public IElement Selected
         {
             get { return selected; }
             set 
@@ -56,32 +58,24 @@ namespace Samples.ViewModels
             var content = String.Empty;
             var token = cts.Token;
 
-            if (String.IsNullOrEmpty(selected.Href))
-                content = selected.OwnerNode.TextContent;
-            else
+            if (selected is IHtmlLinkElement)
             {
                 var http = new HttpClient { BaseAddress = local };
                 ProfilerViewModel.Data.Start("Response (CSS)", OxyPlot.OxyColors.Blue);
-                var request = await http.GetAsync(selected.Href, cts.Token);
+                var request = await http.GetAsync(((IHtmlLinkElement)selected).Href, cts.Token);
                 content = await request.Content.ReadAsStringAsync();
                 ProfilerViewModel.Data.Stop();
                 token.ThrowIfCancellationRequested();
             }
-
+            else if (selected is IHtmlStyleElement)
+                content = ((IHtmlStyleElement)selected).TextContent;
+            
             ProfilerViewModel.Data.Start("Parsing (CSS)", OxyPlot.OxyColors.Violet);
             var css = DocumentBuilder.Css(content);
             ProfilerViewModel.Data.Stop();
 
-            for (int i = 0, j = 0; i < css.Rules.Length; i++, j++)
-            {
+            for (int i = 0; i < css.Rules.Length; i++)
                 tree.Add(new CssRuleViewModel(css.Rules[i]));
-
-                if (j == 80)
-                {
-                    j = 0;
-                    await Task.Delay(1, cts.Token);
-                }
-            }
         }
 
         protected override async Task Use(Uri url, IDocument document, CancellationToken cancel)
@@ -91,11 +85,8 @@ namespace Samples.ViewModels
             source.Clear();
             Status = "Looking for stylesheets ...";
 
-            for (int i = 0; i < document.StyleSheets.Length; i++)
-            {
-                var s = document.StyleSheets[i];
-                source.Add(s);
-            }
+            foreach (var sheet in document.QuerySelectorAll("link,style"))
+                source.Add(sheet);
 
             await Task.Yield();
         }
