@@ -75,7 +75,7 @@
 
                 do
                 {
-                    sb.Append(start.Text);
+                    sb.Append(start.Data);
                     start = start.NextSibling as TextNode;
                 }
                 while (start != null);
