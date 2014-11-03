@@ -1,19 +1,33 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
-	sealed class CSSFontFaceRule : CSSRule, ICssFontFaceRule
+	sealed class CSSFontFaceRule : CSSRule, ICssFontFaceRule, IPropertyCreator
     {
         #region Fields
 
+        static Dictionary<String, Func<CSSStyleDeclaration, CSSProperty>> _creators = new Dictionary<String, Func<CSSStyleDeclaration, CSSProperty>>(StringComparer.OrdinalIgnoreCase);
         readonly CSSStyleDeclaration _style;
 
         #endregion
 
         #region ctor
+
+        static CSSFontFaceRule()
+        {
+            _creators.Add(PropertyNames.FontFamily, style => new CSSFontFamilyProperty(style));
+            _creators.Add(PropertyNames.FontStyle, style => new CSSFontStyleProperty(style));
+            _creators.Add(PropertyNames.FontVariant, style => new CSSFontVariantProperty(style));
+            _creators.Add(PropertyNames.FontWeight, style => new CSSFontWeightProperty(style));
+            _creators.Add(PropertyNames.FontStretch, style => new CSSFontStretchProperty(style));
+            //_creators.Add(PropertyNames.FontFeatureSettings, style => new CSSFontFeatureSettingsProperty(style));
+            _creators.Add(PropertyNames.UnicodeRange, style => new CSSUnicodeRangeProperty(style));
+            _creators.Add(PropertyNames.Src, style => new CSSSrcProperty(style));
+        }
 
         /// <summary>
         /// Creates a new @font-face rule.
@@ -129,5 +143,19 @@
         }
 
         #endregion
-	}
+
+        #region Property Creator
+
+        CSSProperty IPropertyCreator.Create(String name, CSSStyleDeclaration style)
+        {
+            Func<CSSStyleDeclaration, CSSProperty> creator;
+
+            if (_creators.TryGetValue(name, out creator))
+                return creator(style);
+
+            return null;
+        }
+
+        #endregion
+    }
 }

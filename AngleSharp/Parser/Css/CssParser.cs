@@ -644,6 +644,10 @@
         {
             var buffer = Pool.NewStringBuilder();
 
+            //TODO
+            // Check agains official syntax:
+            //  [ from | to | <percentage> ] [, from | to | <percentage> ]*
+
             do
             {
                 var token = tokens.Current;

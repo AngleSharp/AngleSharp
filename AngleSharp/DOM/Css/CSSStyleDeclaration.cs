@@ -9,13 +9,14 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CSSStyleDeclaration : ICssStyleDeclaration, ICssObject
+    sealed class CSSStyleDeclaration : ICssStyleDeclaration, ICssObject, IPropertyCreator
     {
         #region Fields
 
         readonly List<CSSProperty> _declarations;
         readonly Boolean _readOnly;
         readonly CSSRule _parent;
+        readonly IPropertyCreator _creator;
 
         #endregion
 
@@ -31,6 +32,7 @@
         {
             _readOnly = readOnly;
             _parent = parent;
+            _creator = parent as IPropertyCreator ?? this;
             _declarations = new List<CSSProperty>();
         }
 
@@ -2433,7 +2435,7 @@
         /// <returns>The created / existing property.</returns>
         internal CSSProperty CreateProperty(String name)
         {
-            return GetProperty(name) ?? CssPropertyFactory.Create(name, this);
+            return GetProperty(name) ?? _creator.Create(name, this);
         }
 
         /// <summary>
@@ -2575,6 +2577,11 @@
         #endregion
 
         #region Interface implementation
+
+        CSSProperty IPropertyCreator.Create(String name, CSSStyleDeclaration style)
+        {
+            return CssPropertyFactory.Create(name, this);
+        }
 
         /// <summary>
         /// Returns an ienumerator that enumerates over all entries.
