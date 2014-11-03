@@ -264,7 +264,7 @@ console.log('After setting the handler!');
 
             var e = document.CreateEvent("event");
             e.Init("hello", false, false);
-            //document.Dispatch(e);
+            document.Dispatch(e);
         }
 
         static void Html5Test()
