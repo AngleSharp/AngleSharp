@@ -15,7 +15,7 @@
 
         readonly List<CSSProperty> _declarations;
         readonly Boolean _readOnly;
-        readonly ICssRule _parent;
+        readonly CSSRule _parent;
 
         #endregion
 
@@ -27,7 +27,7 @@
 
         #region ctor
 
-        CSSStyleDeclaration(Boolean readOnly, ICssRule parent)
+        CSSStyleDeclaration(Boolean readOnly, CSSRule parent)
         {
             _readOnly = readOnly;
             _parent = parent;
@@ -46,7 +46,7 @@
         /// Creates a new CSS style declaration.
         /// </summary>
         /// <param name="parent">The parent of the style declaration.</param>
-        internal CSSStyleDeclaration(ICssRule parent)
+        internal CSSStyleDeclaration(CSSRule parent)
             : this(false, parent)
         {
         }
