@@ -3,6 +3,7 @@
     using AngleSharp.Attributes;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
@@ -16,7 +17,6 @@
         Boolean selected;
         Boolean expanded;
         Boolean populated;
-        Type type;
         Object element;
         DOMNodeViewModel parent;
 
@@ -98,56 +98,67 @@
         {
             if (!populated)
             {
-                var hv = true;
+                var type = element.GetType();
+                typeName = type.Name;
+                SetMembers(type);
                 populated = true;
-                type = element.GetType();
-                typeName = FindName(type);
-
-                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-                    .Where(m => m.GetCustomAttributes(typeof(DomNameAttribute), false).Length > 0)
-                    .OrderBy(m => m.Name);
-
-                foreach (var property in properties)
-                {
-                    hv = false;
-
-                    switch(property.GetIndexParameters().Length)
-                    {
-                        case 0:
-                            children.Add(new DOMNodeViewModel(property.GetValue(element), FindName(property), this));
-                            break;
-                        case 1:
-                            {
-                                if (element is IEnumerable)
-                                {
-                                    var collection = (IEnumerable)element;
-                                    var index = 0;
-                                    var idx = new object[1];
-
-                                    foreach (var item in collection)
-                                    {
-                                        idx[0] = index;
-                                        children.Add(new DOMNodeViewModel(item, "[" + index.ToString() + "]", this));
-                                        index++;
-                                    }
-                                }
-                            }
-                            break;
-                    }
-                }
-
-                if (hv) Value = element.ToString();
             }
         }
 
-        String FindName(MemberInfo member)
+        void SetMembers(Type type)
         {
-            var objs = member.GetCustomAttributes(typeof(DomNameAttribute), true);
+            if (type.GetCustomAttribute<DomNameAttribute>() == null)
+            {
+                foreach (var contract in type.GetInterfaces())
+                    SetMembers(contract);
+            }
+            else
+                SetProperties(type.GetProperties());
+        }
 
-            if (objs.Length == 0)
-                return member.Name;
+        void SetProperties(IEnumerable<PropertyInfo> properties)
+        {
+            var hv = true;
 
-            return ((DomNameAttribute)objs[0]).OfficialName;
+            foreach (var property in properties)
+            {
+                var names = property.GetCustomAttributes<DomNameAttribute>();
+
+                foreach (var name in names.Select(m => m.OfficialName))
+                {
+                    hv = false;
+
+                    switch (property.GetIndexParameters().Length)
+                    {
+                        case 0:
+                        {
+                            var value = property.GetValue(element);
+                            children.Add(new DOMNodeViewModel(value, name, this));
+                            break;
+                        }
+                        case 1:
+                        {
+                            if (element is IEnumerable)
+                            {
+                                var collection = (IEnumerable)element;
+                                var index = 0;
+                                var idx = new object[1];
+
+                                foreach (var item in collection)
+                                {
+                                    idx[0] = index;
+                                    children.Add(new DOMNodeViewModel(item, "[" + index.ToString() + "]", this));
+                                    index++;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (hv) 
+                Value = element.ToString();
         }
     }
 }
