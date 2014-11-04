@@ -336,8 +336,7 @@
         {
             var src = new TextSource(response.Content, context.Configuration.DefaultEncoding());
             var doc = new Document { Context = context };
-            await doc.LoadAsync(response, cancel).ConfigureAwait(false);
-            return doc;
+            return await doc.LoadAsync(response, cancel).ConfigureAwait(false);
         }
 
         /// <summary>

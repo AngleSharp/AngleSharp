@@ -1500,7 +1500,7 @@
         /// <param name="response">The response to consider.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
+        internal Task<IDocument> LoadAsync(IResponse response, CancellationToken cancelToken)
         {
             DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
