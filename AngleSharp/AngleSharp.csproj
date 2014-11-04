@@ -66,15 +66,15 @@
     <Compile Include="Foundation\Constants\Keywords.cs" />
     <Compile Include="Foundation\Constants\PropertyFlags.cs" />
     <Compile Include="Foundation\Constants\Units.cs" />
-    <Compile Include="Foundation\Extensions\AttrExtensions.cs" />
-    <Compile Include="Foundation\Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\AttrExtensions.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="DOM\Collections\HtmlAllCollection.cs" />
     <Compile Include="DOM\Collections\HtmlElementCollection.cs" />
     <Compile Include="DOM\Collections\HtmlFormControlsCollection.cs" />
     <Compile Include="DOM\Collections\NodeIterator.cs" />
-    <Compile Include="Foundation\Extensions\ElementExtensions.cs" />
-    <Compile Include="Foundation\Extensions\ParentNodeExtensions.cs" />
-    <Compile Include="Foundation\Extensions\QueryExtensions.cs" />
+    <Compile Include="Extensions\ElementExtensions.cs" />
+    <Compile Include="Extensions\ParentNodeExtensions.cs" />
+    <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="DOM\Collections\Range.cs" />
     <Compile Include="DOM\Collections\TreeWalker.cs" />
     <Compile Include="DOM\Constants\KeyboardLocation.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="DOM\Html\Tables\HTMLTableColgroupElement.cs" />
     <Compile Include="Foundation\Constants\EventFlags.cs" />
     <Compile Include="Foundation\Constants\NodeFlags.cs" />
-    <Compile Include="Foundation\Extensions\UnitExtensions.cs" />
+    <Compile Include="Extensions\UnitExtensions.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Foundation\ITransform.cs" />
@@ -313,7 +313,7 @@
     <Compile Include="Foundation\IDistance.cs" />
     <Compile Include="Foundation\Structures\Point.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
-    <Compile Include="Foundation\Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Foundation\Structures\Counter.cs" />
     <Compile Include="Foundation\Structures\GradientStop.cs" />
     <Compile Include="Foundation\Structures\LinearGradient.cs" />
@@ -324,7 +324,7 @@
     <Compile Include="DOM\Xml\XmlElement.cs" />
     <Compile Include="Foundation\Structures\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
-    <Compile Include="Foundation\Extensions\IdlExtensions.cs" />
+    <Compile Include="Extensions\IdlExtensions.cs" />
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
     <Compile Include="Foundation\Structures\Shape.cs" />
@@ -333,7 +333,7 @@
     <Compile Include="Foundation\Structures\TransformMatrix.cs" />
     <Compile Include="Foundation\Structures\StepsTransitionFunction.cs" />
     <Compile Include="Foundation\Structures\Url.cs" />
-    <Compile Include="Foundation\Extensions\StyleExtensions.cs" />
+    <Compile Include="Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
     <Compile Include="Foundation\Wrappers\CssAttr.cs" />
     <Compile Include="Foundation\Wrappers\CssIdentifier.cs" />
@@ -634,8 +634,8 @@
     <Compile Include="Foundation\Structures\Time.cs" />
     <Compile Include="Foundation\Structures\Resolution.cs" />
     <Compile Include="Foundation\Structures\Length.cs" />
-    <Compile Include="Foundation\Extensions\NodeExtensions.cs" />
-    <Compile Include="Foundation\Extensions\ValueExtensions.cs" />
+    <Compile Include="Extensions\NodeExtensions.cs" />
+    <Compile Include="Extensions\ValueExtensions.cs" />
     <Compile Include="Network\Constants\OriginBehavior.cs" />
     <Compile Include="Network\RequesterExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
@@ -656,10 +656,10 @@
     <Compile Include="Network\Constants\HeaderNames.cs" />
     <Compile Include="Foundation\Constants\PropertyNames.cs" />
     <Compile Include="Foundation\Constants\RuleNames.cs" />
-    <Compile Include="Foundation\Extensions\XmlExtensions.cs" />
+    <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="DOM\Html\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
-    <Compile Include="Foundation\Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Network\IInfo.cs" />
     <Compile Include="Network\DefaultInfo.cs" />
     <Compile Include="Foundation\Pool.cs" />
@@ -747,7 +747,7 @@
     <Compile Include="DOM\Constants\EventPhase.cs" />
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
-    <Compile Include="Foundation\Extensions\InternalConfigurationExtensions.cs" />
+    <Compile Include="Extensions\InternalConfigurationExtensions.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />
@@ -801,7 +801,7 @@
     <Compile Include="Parser\Css\Tokens\CssStringToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssUnitToken.cs" />
     <Compile Include="Parser\Html\HtmlTokenType.cs" />
-    <Compile Include="Foundation\Extensions\CharExtensions.cs" />
+    <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Parser\Html\Helpers\ForeignHelpers.cs" />
     <Compile Include="Foundation\Structures\Color.cs" />
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
@@ -880,7 +880,7 @@
     <Compile Include="DOM\Html\Media\HTMLVideoElement.cs" />
     <Compile Include="DOM\Mathml\MathElement.cs" />
     <Compile Include="DOM\Node.cs" />
-    <Compile Include="Foundation\Extensions\ErrorExtensions.cs" />
+    <Compile Include="Extensions\ErrorExtensions.cs" />
     <Compile Include="DOM\Collections\NodeList.cs" />
     <Compile Include="DOM\Notation.cs" />
     <Compile Include="DOM\Svg\SVGElement.cs" />
