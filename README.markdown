@@ -39,6 +39,14 @@ This is a long-term project which will eventually result in a state of the art p
 Change log
 ----------
 
+**0.7.0**
+- Native (callback based) async parsing
+- Interfaces for resource loading defined
+- Browsing context available / creation possible (if demanded)
+- Event model included (`addEventListener`, ...)
+- CSS property / value architecture finalized
+- Sample JavaScript engine based on Jint included
+
 **0.6.0:**
 - Implemented parsing of CSS media queries
 - Improved URL parsing according to RFC 3986
@@ -89,14 +97,6 @@ Roadmap
 The roadmap presents a draft on what is about to be implemented, and when. The priorities might change, which will affect the roadmap. Additionally the implementation speed will be impacted by factors like people participating in the project and design decisions.
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
-
-(September 2014) **0.7.0**
-- Native (callback based) async parsing
-- Interfaces for resource loading defined
-- Browsing context available / creation possible (if demanded)
-- Event model included (`addEventListener`, ...)
-- CSS property / value architecture finalized
-- Sample JavaScript engine based on Jint included
 
 (December 2014) **0.8.0**
 - Interface for rendering defined
