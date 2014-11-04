@@ -18,8 +18,7 @@
         public Sheets()
         {
             InitializeComponent();
-            vm = new SheetViewModel();
-            DataContext = vm;
+            DataContext = vm = new SheetViewModel();
         }
 
         public void OnFragmentNavigation(FragmentNavigationEventArgs e)

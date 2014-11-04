@@ -1,24 +1,39 @@
 ﻿namespace Samples.ViewModels
 {
+    using AngleSharp.DOM;
+    using AngleSharp.Infrastructure;
+    using AngleSharp.Scripting;
     using System;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Input;
+    using System.Collections.ObjectModel;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
 
-    sealed class ReplViewModel : BaseViewModel
+    sealed class ReplViewModel : RequestViewModel
     {
         readonly String _prompt;
         readonly ObservableCollection<String> _items;
+        readonly JavaScriptEngine _engine;
+        IDocument _document;
         Boolean _readOnly;
 
         public ReplViewModel()
         {
             _readOnly = false;
+            _engine = new JavaScriptEngine();
             _prompt = "$ ";
             _items = new ObservableCollection<String>();
             ClearCommand = new RelayCommand(() => Clear());
             ResetCommand = new RelayCommand(() => Reset());
             ExecuteCommand = new RelayCommand(cmd => Run(cmd.ToString()));
+        }
+
+        protected override async Task Use(Uri url, IDocument document, CancellationToken cancel)
+        {
+            Reset();
+            _document = document;
+            await Task.Yield();
         }
 
         public Boolean IsReadOnly
@@ -66,14 +81,18 @@ using System.Windows.Input;
 
         void Reset()
         {
-            //TODO Reset global context
+            _engine.Reset();
             Clear();
         }
 
         void Run(String command)
         {
             _items.Add(_prompt + command);
-            var lines = "OUTPUT";
+            _engine.Evaluate(command, new ScriptOptions
+            {
+                Document = _document
+            });
+            var lines = _engine.Result.ToString();
 
             foreach (var line in lines.Split(new [] { Environment.NewLine }, StringSplitOptions.None))
                 _items.Add(line);
