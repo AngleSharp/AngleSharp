@@ -58,6 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AngleSharp\ApiExtensions.cs">
+      <Link>ApiExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\Accessors.cs">
       <Link>Attributes\Accessors.cs</Link>
     </Compile>
@@ -78,6 +81,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomPutForwardsAttribute.cs">
       <Link>Attributes\DomPutForwardsAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\ConfigurationExtensions.cs">
+      <Link>ConfigurationExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Delegates\DomEventHandler.cs">
       <Link>Delegates\DomEventHandler.cs</Link>
@@ -1411,9 +1417,6 @@
     <Compile Include="..\AngleSharp\DOM\Xml\XmlElement.cs">
       <Link>DOM\Xml\XmlElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Extensions.cs">
-      <Link>Extensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Extensions\AttrExtensions.cs">
       <Link>Extensions\AttrExtensions.cs</Link>
     </Compile>
@@ -1431,12 +1434,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\ErrorExtensions.cs">
       <Link>Extensions\ErrorExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Extensions\IdlExtensions.cs">
-      <Link>Extensions\IdlExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Extensions\InternalConfigurationExtensions.cs">
-      <Link>Extensions\InternalConfigurationExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\NodeExtensions.cs">
       <Link>Extensions\NodeExtensions.cs</Link>
