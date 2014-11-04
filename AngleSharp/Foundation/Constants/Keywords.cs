@@ -1116,5 +1116,15 @@
         /// The off keyword.
         /// </summary>
         public static readonly String Off = "off";
+
+        /// <summary>
+        /// The portrait keyword.
+        /// </summary>
+        public static readonly String Portrait = "portrait";
+
+        /// <summary>
+        /// The landscape keyword.
+        /// </summary>
+        public static readonly String Landscape = "landscape";
     }
 }

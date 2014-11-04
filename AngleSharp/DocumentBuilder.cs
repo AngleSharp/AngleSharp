@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using System;

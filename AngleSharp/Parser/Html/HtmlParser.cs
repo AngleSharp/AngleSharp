@@ -4,6 +4,7 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

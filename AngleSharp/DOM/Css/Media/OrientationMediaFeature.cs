@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class OrientationMediaFeature : MediaFeature
@@ -21,14 +22,14 @@
 
         internal override Boolean TrySetValue(CSSValue value)
         {
-            if (Value.Is("portrait"))
+            if (Value.Is(Keywords.Portrait))
             {
                 Value = value;
                 _portrait = true;
                 _landscape = false;
                 return true;
             }
-            else if (Value.Is("landscape"))
+            else if (Value.Is(Keywords.Landscape))
             {
                 Value = value;
                 _portrait = false;

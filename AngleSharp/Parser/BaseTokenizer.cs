@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
     using System.Text;

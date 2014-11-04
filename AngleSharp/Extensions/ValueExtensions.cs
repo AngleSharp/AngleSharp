@@ -1,11 +1,15 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// A bunch of useful extension methods.
     /// </summary>
+    [DebuggerStepThrough]
     static class ValueExtensions
     {
         #region Dictionaries

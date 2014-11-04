@@ -1,7 +1,12 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.DOM.Css;
+    using System.Diagnostics;
 
+    /// <summary>
+    /// Extensions for CSS unit types.
+    /// </summary>
+    [DebuggerStepThrough]
     static class UnitExtensions
     {
         public static UnitType Generalize(this Length.Unit unit)

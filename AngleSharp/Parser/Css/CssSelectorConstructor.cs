@@ -3,6 +3,7 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
+    using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
 

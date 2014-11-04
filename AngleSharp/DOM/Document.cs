@@ -5,6 +5,7 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
+    using AngleSharp.Extensions;
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;

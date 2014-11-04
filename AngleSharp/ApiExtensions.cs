@@ -3,6 +3,7 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
+    using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
@@ -15,7 +16,7 @@
     /// <summary>
     /// A set of useful extension methods when dealing with the DOM.
     /// </summary>
-    public static class Extensions
+    public static class ApiExtensions
     {
         #region Generic extensions
 
@@ -29,7 +30,7 @@
         public static TElement CreateElement<TElement>(this IDocument document)
             where TElement : IElement
         {
-            var type = typeof(Extensions).GetAssembly().GetTypes()
+            var type = typeof(ApiExtensions).GetAssembly().GetTypes()
                 .Where(m => m.Implements<TElement>())
                 .FirstOrDefault(m => !m.IsAbstractClass());
 

@@ -313,7 +313,7 @@
     <Compile Include="Foundation\IDistance.cs" />
     <Compile Include="Foundation\Structures\Point.cs" />
     <Compile Include="DOM\Css\Values\CSSUnknownValue.cs" />
-    <Compile Include="Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Foundation\Structures\Counter.cs" />
     <Compile Include="Foundation\Structures\GradientStop.cs" />
     <Compile Include="Foundation\Structures\LinearGradient.cs" />
@@ -324,7 +324,6 @@
     <Compile Include="DOM\Xml\XmlElement.cs" />
     <Compile Include="Foundation\Structures\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
-    <Compile Include="Extensions\IdlExtensions.cs" />
     <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
     <Compile Include="Foundation\Structures\Shape.cs" />
@@ -649,7 +648,7 @@
     <Compile Include="DOM\Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
     <Compile Include="Parser\ParseErrorEventArgs.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="ApiExtensions.cs" />
     <Compile Include="Foundation\Constants\AttributeNames.cs" />
     <Compile Include="Foundation\Constants\FunctionNames.cs" />
     <Compile Include="Foundation\Constants\EventNames.cs" />
@@ -747,7 +746,7 @@
     <Compile Include="DOM\Constants\EventPhase.cs" />
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
-    <Compile Include="Extensions\InternalConfigurationExtensions.cs" />
+    <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Network\Constants\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />

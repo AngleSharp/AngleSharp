@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Media;
+    using AngleSharp.Extensions;
     using AngleSharp.Infrastructure;
     using AngleSharp.Media;
     using System;

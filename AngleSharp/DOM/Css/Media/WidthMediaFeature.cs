@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class MinWidthMediaFeature : MediaFeature

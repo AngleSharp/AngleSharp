@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.Parser.Css;
@@ -180,6 +181,23 @@
                         QuerySelectorAll(element.ChildNodes, selector, result);
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns true if the underlying string contains all of the tokens, otherwise false.
+        /// </summary>
+        /// <param name="list">The list that is considered.</param>
+        /// <param name="tokens">The tokens to consider.</param>
+        /// <returns>True if the string contained all tokens, otherwise false.</returns>
+        public static Boolean Contains(this ITokenList list, String[] tokens)
+        {
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                if (!list.Contains(tokens[i]))
+                    return false;
+            }
+
+            return true;
         }
 
         /// <summary>

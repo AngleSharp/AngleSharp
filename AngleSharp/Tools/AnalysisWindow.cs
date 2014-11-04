@@ -4,6 +4,7 @@
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Navigator;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>

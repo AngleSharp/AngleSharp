@@ -1,162 +1,451 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.DOM;
-    using AngleSharp.DOM.Css;
     using AngleSharp.Infrastructure;
+    using AngleSharp.Media;
     using AngleSharp.Network;
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
+    using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// A set of useful extensions for IConfiguration and Configuration objects.
+    /// Represents a helper to construct objects with externally
+    /// defined classes and libraries.
     /// </summary>
-    public static class ConfigurationExtensions
+    [DebuggerStepThrough]
+    static class ConfigurationExtensions
     {
-        #region Styling
+        #region Encoding
 
         /// <summary>
-        /// Sets styling to true and registers a new CSS style engine, if none is available.
+        /// Gets the default encoding for the given configuration.
         /// </summary>
-        /// <typeparam name="TConfiguration">Configuration or derived.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithCss<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : Configuration
+        /// <param name="configuration">The configuration to use for getting the default encoding.</param>
+        /// <returns>The current encoding.</returns>
+        public static Encoding DefaultEncoding(this IConfiguration configuration)
         {
-            configuration.IsStyling = true;
+            if (configuration == null)
+                configuration = Configuration.Default;
 
-            if (configuration.StyleEngines.OfType<CssStyleEngine>().Any() == false)
-                configuration.Register(new CssStyleEngine());
-
-            return configuration;
+            return DocumentEncoding.Suggest(configuration.GetLanguage());
         }
 
         /// <summary>
-        /// Sets styling to true and returns the same instance.
+        /// Gets the provided current language.
         /// </summary>
-        /// <typeparam name="TConfiguration">Implementation of IConfiguration.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithStyling<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : IConfiguration
+        /// <param name="configuration">The configuration to use.</param>
+        /// <returns>The language string, e.g. en-US.</returns>
+        public static String GetLanguage(this IConfiguration configuration)
         {
-            configuration.IsStyling = true;
-            return configuration;
+            return (configuration.Culture ?? System.Globalization.CultureInfo.CurrentUICulture).Name;
         }
 
         #endregion
 
-        #region Scripting
+        #region Loading
 
         /// <summary>
-        /// Sets scripting to true and returns the same instance.
+        /// Loads the given URI by using an asynchronous GET request.
         /// </summary>
-        /// <typeparam name="TConfiguration">Implementation of IConfiguration.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithScripting<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : IConfiguration
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url)
         {
-            configuration.IsScripting = true;
-            return configuration;
+            return configuration.LoadAsync(url, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Loads the given URI by using an asynchronous GET request.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="cancel">The token which can be used to cancel the request.</param>
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel)
+        {
+            var requester = configuration.GetRequester(url.Scheme);
+
+            if (requester == null)
+                return Empty<IResponse>();
+
+            return requester.RequestAsync(new DefaultRequest
+            {
+                Address = url,
+                Method = HttpMethod.Get
+            }, cancel);
+        }
+
+        /// <summary>
+        /// Loads the given URI by using an asynchronous GET request with possibly considering the default requester.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="cancel">The token which can be used to cancel the request.</param>
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> LoadForcedAsync(this IConfiguration configuration, Url url, CancellationToken cancel)
+        {
+            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
+            return requester.RequestAsync(new DefaultRequest
+            {
+                Address = url,
+                Method = HttpMethod.Get
+            }, cancel);
         }
 
         #endregion
 
-        #region Requester
+        #region Fetching
 
         /// <summary>
-        /// Include the default http/https requester for external resources. Returns the same instance.
+        /// Performs a potentially CORS-enabled fetch from the given URI by using an asynchronous GET request.
         /// </summary>
-        /// <typeparam name="TConfiguration">Configuration or derived.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <param name="agent">User-Agent information if any.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithDefaultRequester<TConfiguration>(this TConfiguration configuration, IInfo agent = null)
-            where TConfiguration : Configuration
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="cors">The cross origin settings to use.</param>
+        /// <param name="origin">The origin of the page that requests the loading.</param>
+        /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
+        /// <returns>The task which will eventually return the stream.</returns>
+        public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
         {
-            configuration.Register(new DefaultRequester(agent ?? new DefaultInfo()));
-            return configuration;
+            return configuration.LoadWithCorsAsync(url, cors, origin, defaultBehavior, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Performs a potentially CORS-enabled fetch from the given URI by using an asynchronous GET request.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="cors">The cross origin settings to use.</param>
+        /// <param name="origin">The origin of the page that requests the loading.</param>
+        /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
+        /// <param name="cancel">The token which can be used to cancel the request.</param>
+        /// <returns>The task which will eventually return the stream.</returns>
+        public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
+        {
+            var requester = configuration.GetRequester(url.Scheme);
+
+            if (requester == null)
+                return Empty<IResponse>();
+
+            //TODO
+            //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
+            return requester.RequestAsync(new DefaultRequest
+            {
+                Address = url,
+                Method = HttpMethod.Get
+            }, cancel);
         }
 
         #endregion
 
-        #region HTML creation
+        #region Sending
 
         /// <summary>
-        /// Builds a new HTML Document with the given source code string.
+        /// Loads the given URI by using an asynchronous request with the given method and body.
         /// </summary>
-        /// <param name="configuration">Options to use for the document generation.</param>
-        /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="url">[Optional] The base URL of the document.</param>
-        /// <returns>The constructed HTML document.</returns>
-        public static IDocument ParseHtml(this IConfiguration configuration, String sourceCode, String url = null)
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="content">The body that should be used in the request.</param>
+        /// <param name="mimeType">The mime-type of the request.</param>
+        /// <param name="method">The method that is used for sending the request asynchronously.</param>
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
         {
-            return DocumentBuilder.Html(sourceCode, configuration, url);
+            return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }
 
         /// <summary>
-        /// Builds a new HTML Document asynchronously with the given (network) stream.
+        /// Loads the given URI by using an asynchronous request with the given method and body.
         /// </summary>
-        /// <param name="configuration">Options to use for the document generation.</param>
-        /// <param name="content">The stream of chars to use as source code.</param>
-        /// <param name="url">[Optional] The base URL of the document.</param>
-        /// <returns>The task to construct the HTML document.</returns>
-        public static Task<IDocument> ParseHtmlAsync(this IConfiguration configuration, Stream content, String url = null)
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="url">The url that yields the path to the desired action.</param>
+        /// <param name="content">The body that should be used in the request.</param>
+        /// <param name="mimeType">The mime-type of the request.</param>
+        /// <param name="method">The method that is used for sending the request asynchronously.</param>
+        /// <param name="cancel">The token which can be used to cancel the request.</param>
+        /// <returns>The task which will eventually return the response.</returns>
+        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel)
         {
-            return DocumentBuilder.HtmlAsync(content, configuration, url);
-        }
+            var requester = configuration.GetRequester(url.Scheme);
 
-        /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given URL.
-        /// </summary>
-        /// <param name="configuration">Options to use for the document generation.</param>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <returns>The task that constructs the HTML document.</returns>
-        public static Task<IDocument> ParseHtmlAsync(this IConfiguration configuration, Uri url)
-        {
-            return DocumentBuilder.HtmlAsync(url, configuration);
+            if (requester == null)
+                return Empty<IResponse>();
+
+            var request = new DefaultRequest
+            {
+                Address = url,
+                Content = content,
+                Method = method
+            };
+
+            if (mimeType != null)
+                request.Headers[HeaderNames.ContentType] = mimeType;
+
+            return requester.RequestAsync(request, cancel);
         }
 
         #endregion
 
-        #region CSS creation
+        #region Services
 
         /// <summary>
-        /// Builds a new CSSStyleSheet with the given source code string.
+        /// Gets a service with a specific type from the configuration, if it has been registered.
         /// </summary>
-        /// <param name="configuration">Options to use for the document generation.</param>
-        /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="url">[Optional] The base URL of the document.</param>
-        /// <returns>The constructed CSS stylesheet.</returns>
-        public static ICssStyleSheet ParseCss(this IConfiguration configuration, String sourceCode, String url = null)
+        /// <typeparam name="TService">The type of the service to get.</typeparam>
+        /// <param name="configuration">The configuration instance to use.</param>
+        /// <returns>The service, if any.</returns>
+        public static TService GetService<TService>(this IConfiguration configuration)
+            where TService : IService
         {
-            return DocumentBuilder.Css(sourceCode, configuration, url);
+            foreach (var service in configuration.Services)
+            {
+                if (service is TService)
+                    return (TService)service;
+            }
+
+            return default(TService);
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given (network) stream.
+        /// Gets services with a specific type from the configuration, if it has been registered.
         /// </summary>
-        /// <param name="configuration">Options to use for the document generation.</param>
-        /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="url">[Optional] The base URL of the document.</param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static Task<ICssStyleSheet> ParseCssAsync(this IConfiguration config, Stream stream, String url = null)
+        /// <typeparam name="TService">The type of the service to get.</typeparam>
+        /// <param name="configuration">The configuration instance to use.</param>
+        /// <returns>An enumerable over all services.</returns>
+        public static IEnumerable<TService> GetServices<TService>(this IConfiguration configuration)
+            where TService : IService
         {
-            return DocumentBuilder.CssAsync(stream, config, url);
+            foreach (var service in configuration.Services)
+            {
+                if (service is TService)
+                    yield return (TService)service;
+            }
+        }
+
+        #endregion
+
+        #region Cookies
+
+        /// <summary>
+        /// Gets the cookie for the provided address.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="origin">The origin of the cookie.</param>
+        /// <returns>The value of the cookie.</returns>
+        public static String GetCookie(this IConfiguration options, String origin)
+        {
+            var service = options.GetService<ICookieService>();
+
+            if (service != null)
+                return service[origin];
+
+            return String.Empty;
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// Sets the cookie for the provided address.
         /// </summary>
-        /// <param name="configuration">Options to use for the document generation.</param>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static Task<ICssStyleSheet> ParseCssAsync(this IConfiguration configuration, Uri url)
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="origin">The origin of the cookie.</param>
+        /// <param name="value">The value of the cookie.</param>
+        public static void SetCookie(this IConfiguration options, String origin, String value)
         {
-            return DocumentBuilder.CssAsync(url, configuration);
+            var service = options.GetService<ICookieService>();
+
+            if (service != null)
+                service[origin] = value;
+        }
+
+        #endregion
+
+        #region Resource Services
+        
+        /// <summary>
+        /// Tries to load an image if a proper image service can be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="url">The address of the image.</param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url)
+            where TResource : IResourceInfo
+        {
+            return options.LoadResource<TResource>(url, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Tries to load an image if a proper image service can be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="url">The address of the image.</param>
+        /// <param name="cancel">Token to trigger in case of cancellation.</param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
+            where TResource : IResourceInfo
+        {
+            var response = await options.LoadAsync(url, cancel).ConfigureAwait(false);
+
+            if (response != null)
+            {
+                var imageServices = options.GetServices<IResourceService<TResource>>();
+
+                foreach (var imageService in imageServices)
+                {
+                    if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                }
+            }
+
+            return default(TResource);
+        }
+
+        #endregion
+
+        #region Parsing Styles
+
+        /// <summary>
+        /// Tries to resolve a style engine for the given type name.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="type">The mime-type of the source code.</param>
+        /// <returns>The style engine or null, if the type if unknown.</returns>
+        public static IStyleEngine GetStyleEngine(this IConfiguration configuration, String type)
+        {
+            foreach (var styleEngine in configuration.StyleEngines)
+            {
+                if (styleEngine.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
+                    return styleEngine;
+            }
+
+            return null;
+        }
+        
+        /// <summary>
+        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
+        /// returns the created stylesheet.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="source">The source code describing the style sheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
+        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <returns>A freshly created stylesheet, if any.</returns>
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, StyleOptions options, String type = null)
+        {
+            var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
+
+            if (engine != null)
+                return engine.Parse(source, options);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
+        /// returns the created stylesheet.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
+        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <returns>A freshly created stylesheet, if any.</returns>
+        public static IStyleSheet ParseStyling(this IConfiguration configuration, IResponse response, StyleOptions options, String type = null)
+        {
+            var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
+
+            if (engine != null)
+                return engine.Parse(response, options);
+
+            return null;
+        }
+
+        #endregion
+
+        #region Parsing Scripts
+
+        /// <summary>
+        /// Tries to resolve a script engine for the given type name.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="type">The mime-type of the source code.</param>
+        /// <returns>The script engine or null, if the type if unknown.</returns>
+        public static IScriptEngine GetScriptEngine(this IConfiguration configuration, String type)
+        {
+            foreach (var scriptEngine in configuration.ScriptEngines)
+            {
+                if (scriptEngine.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
+                    return scriptEngine;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
+        /// returns the created stylesheet.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="source">The source code of the style sheet.</param>
+        /// <param name="options">The options for running the script.</param>
+        /// <param name="type">The optional mime-type of the source code.</param>
+        public static void RunScript(this IConfiguration configuration, String source, ScriptOptions options, String type = null)
+        {
+            if (configuration.IsScripting)
+            {
+                var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
+
+                if (engine != null)
+                    engine.Evaluate(source, options);
+            }
+        }
+
+        /// <summary>
+        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
+        /// returns the created stylesheet.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="response">The response with the stream representing the source of the script.</param>
+        /// <param name="options">The options for running the script.</param>
+        /// <param name="type">The optional mime-type of the source code.</param>
+        public static void RunScript(this IConfiguration configuration, IResponse response, ScriptOptions options, String type = null)
+        {
+            if (configuration.IsScripting)
+            {
+                var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
+
+                if (engine != null)
+                    engine.Evaluate(response, options);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static IRequester GetRequester(this IConfiguration configuration, String protocol)
+        {
+            foreach (var requester in configuration.Requesters)
+            {
+                if (requester.SupportsProtocol(protocol))
+                    return requester;
+            }
+
+            return null;
+        }
+
+        static Task<TResult> Empty<TResult>()
+            where TResult : class
+        {
+#if LEGACY
+            var task = new TaskCompletionSource<TResult>();
+            task.SetResult(null);
+            return task.Task;
+#else
+            return Task.FromResult<TResult>(null);
+#endif
         }
 
         #endregion

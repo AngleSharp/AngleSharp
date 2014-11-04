@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Attributes;
     using System;

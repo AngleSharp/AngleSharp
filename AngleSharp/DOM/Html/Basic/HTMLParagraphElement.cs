@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Extensions;
+
     /// <summary>
     /// Represents the HTML paragraph element.
     /// </summary>
