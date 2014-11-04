@@ -1414,6 +1414,54 @@
     <Compile Include="..\AngleSharp\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\AttrExtensions.cs">
+      <Link>Extensions\AttrExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\CharExtensions.cs">
+      <Link>Extensions\CharExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\CollectionExtensions.cs">
+      <Link>Extensions\CollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ConfigurationExtensions.cs">
+      <Link>Extensions\ConfigurationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ElementExtensions.cs">
+      <Link>Extensions\ElementExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ErrorExtensions.cs">
+      <Link>Extensions\ErrorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\IdlExtensions.cs">
+      <Link>Extensions\IdlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\InternalConfigurationExtensions.cs">
+      <Link>Extensions\InternalConfigurationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\NodeExtensions.cs">
+      <Link>Extensions\NodeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ParentNodeExtensions.cs">
+      <Link>Extensions\ParentNodeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\QueryExtensions.cs">
+      <Link>Extensions\QueryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\StringExtensions.cs">
+      <Link>Extensions\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\StyleExtensions.cs">
+      <Link>Extensions\StyleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\UnitExtensions.cs">
+      <Link>Extensions\UnitExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ValueExtensions.cs">
+      <Link>Extensions\ValueExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
+      <Link>Extensions\XmlExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Constants\AttributeNames.cs">
       <Link>Foundation\Constants\AttributeNames.cs</Link>
     </Compile>
@@ -1467,54 +1515,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\AttrExtensions.cs">
-      <Link>Foundation\Extensions\AttrExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\CharExtensions.cs">
-      <Link>Foundation\Extensions\CharExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\CollectionExtensions.cs">
-      <Link>Foundation\Extensions\CollectionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\ConfigurationExtensions.cs">
-      <Link>Foundation\Extensions\ConfigurationExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\ElementExtensions.cs">
-      <Link>Foundation\Extensions\ElementExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\ErrorExtensions.cs">
-      <Link>Foundation\Extensions\ErrorExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\IdlExtensions.cs">
-      <Link>Foundation\Extensions\IdlExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\InternalConfigurationExtensions.cs">
-      <Link>Foundation\Extensions\InternalConfigurationExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\NodeExtensions.cs">
-      <Link>Foundation\Extensions\NodeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\ParentNodeExtensions.cs">
-      <Link>Foundation\Extensions\ParentNodeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\QueryExtensions.cs">
-      <Link>Foundation\Extensions\QueryExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\StringExtensions.cs">
-      <Link>Foundation\Extensions\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\StyleExtensions.cs">
-      <Link>Foundation\Extensions\StyleExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\UnitExtensions.cs">
-      <Link>Foundation\Extensions\UnitExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\ValueExtensions.cs">
-      <Link>Foundation\Extensions\ValueExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Extensions\XmlExtensions.cs">
-      <Link>Foundation\Extensions\XmlExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\IDistance.cs">
       <Link>Foundation\IDistance.cs</Link>
