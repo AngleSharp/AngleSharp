@@ -80,5 +80,10 @@
         {
             get { return _value; }
         }
+
+        public override String ToString()
+        {
+            return String.Format("[object {0}]", _value.GetType().Name);
+        }
     }
 }
