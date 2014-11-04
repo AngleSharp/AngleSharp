@@ -43,6 +43,7 @@
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.4\lib\net45\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="OxyPlot">
       <HintPath>..\packages\OxyPlot.Core.2013.1.49.1\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll</HintPath>
     </Reference>
@@ -54,12 +55,19 @@
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
+    <Reference Include="Simple.Wpf.Terminal">
+      <HintPath>..\packages\Simple.Wpf.Terminal.1.33.0.0\lib\net40\Simple.Wpf.Terminal.dll</HintPath>
+    </Reference>
+    <Reference Include="Simple.Wpf.Terminal.Themes">
+      <HintPath>..\packages\Simple.Wpf.Terminal.1.33.0.0\lib\net40\Simple.Wpf.Terminal.Themes.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -88,6 +96,9 @@
     <Compile Include="Pages\Query.xaml.cs">
       <DependentUpon>Query.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Repl.xaml.cs">
+      <DependentUpon>Repl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Sheets.xaml.cs">
       <DependentUpon>Sheets.xaml</DependentUpon>
     </Compile>
@@ -99,7 +110,9 @@
     <Compile Include="ViewModels\CssRuleViewModel.cs" />
     <Compile Include="ViewModels\ProfilerViewModel.cs" />
     <Compile Include="ViewModels\QueryViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\RendererViewModel.cs" />
+    <Compile Include="ViewModels\ReplViewModel.cs" />
     <Compile Include="ViewModels\RequestViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SheetViewModel.cs" />
@@ -136,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Renderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Repl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
