@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
-    sealed class NodeList : IHtmlObject, INodeList
+    sealed class NodeList : INodeList
     {
         #region Fields
 

@@ -91,20 +91,14 @@
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml()
         {
-            var sb = Pool.NewStringBuilder();
-
-            sb.Append(Specification.LessThan).Append(NodeName);
+            var sb = Pool.NewStringBuilder().Append(Specification.LessThan).Append(NodeName);
 
             foreach (var attribute in Attributes)
                 sb.Append(Specification.Space).Append(attribute.ToString());
 
             sb.Append(Specification.GreaterThan);
-
-            foreach (var child in Content.ChildNodes)
-                sb.Append(child.ToHtml());
-
+            sb.Append(_content.ChildNodes.ToHtml());
             sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(NodeName);
-
             return sb.Append(Specification.GreaterThan).ToPool();
         }
 

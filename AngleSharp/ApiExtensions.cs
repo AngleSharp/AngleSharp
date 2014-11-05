@@ -6,7 +6,6 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
-    using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -113,9 +112,21 @@
         }
 
         /// <summary>
+        /// Gets the inner HTML of the given element.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="element">The element.</param>
+        /// <returns>The source code of the inner HTML.</returns>
+        public static String Html<T>(this T element)
+            where T : IElement
+        {
+            return element.InnerHtml;
+        }
+
+        /// <summary>
         /// Sets the inner HTML of the given elements.
         /// </summary>
-        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <typeparam name="T">The type of collection.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="html">The source code of the inner HTML to set.</param>
         /// <returns>The collection itself.</returns>
@@ -129,14 +140,26 @@
         }
 
         /// <summary>
+        /// Gets the content text of the given DOM element.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="element">The element to stringify.</param>
+        /// <returns>The text of the element and its children.</returns>
+        public static String Text<T>(this T element)
+            where T : INode
+        {
+            return element.TextContent;
+        }
+
+        /// <summary>
         /// Sets the text content of the given elements.
         /// </summary>
-        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <typeparam name="T">The type of collection.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="text">The text that should be set.</param>
         /// <returns>The collection itself.</returns>
         public static T Text<T>(this T elements, String text)
-            where T : IEnumerable<IElement>
+            where T : IEnumerable<INode>
         {
             foreach (var element in elements)
                 element.TextContent = text;
@@ -145,9 +168,21 @@
         }
 
         /// <summary>
+        /// Wraps a single element to use it with jQuery like methods.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="element">The element to wrap.</param>
+        /// <returns>An enumeration over the single element.</returns>
+        public static IEnumerable<T> Wrap<T>(this T element)
+            where T : INode
+        {
+            return new[] { element };
+        }
+
+        /// <summary>
         /// Gets the index of the given item in the list of elements.
         /// </summary>
-        /// <typeparam name="T">The element type of the list of elements.</typeparam>
+        /// <typeparam name="T">The type of element.</typeparam>
         /// <param name="elements">The source list of elements.</param>
         /// <param name="item">The item to search for.</param>
         /// <returns>The index of the item or -1 if not found.</returns>
@@ -362,37 +397,6 @@
         {
             var response = await context.Configuration.LoadAsync(url, cancel).ConfigureAwait(false);
             return await context.OpenAsync(response, cancel).ConfigureAwait(false);
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns the HTML code representation of the given DOM element.
-        /// </summary>
-        /// <param name="element">The element to stringify.</param>
-        /// <returns>The HTML code of the element and its children.</returns>
-        public static String ToHtml(this INode element)
-        {
-            var htmlObject = element as IHtmlObject;
-
-            if (htmlObject != null)
-                return htmlObject.ToHtml();
-            else if (element is IElement)
-                return ((IElement)element).OuterHtml;
-
-            return element.TextContent;
-        }
-
-        /// <summary>
-        /// Returns the content text of the given DOM element.
-        /// </summary>
-        /// <param name="element">The element to stringify.</param>
-        /// <returns>The text of the element and its children.</returns>
-        public static String ToText(this INode element)
-        {
-            return element.TextContent;
         }
 
         #endregion

@@ -735,7 +735,6 @@
     <Compile Include="DOM\Html\Forms\HTMLProgressElement.cs" />
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
     <Compile Include="ICssObject.cs" />
-    <Compile Include="IHtmlObject.cs" />
     <Compile Include="DOM\Html\ValidityState.cs" />
     <Compile Include="DOM\Events\Event.cs" />
     <Compile Include="DOM\FormControlState.cs" />

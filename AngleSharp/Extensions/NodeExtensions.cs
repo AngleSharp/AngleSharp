@@ -424,22 +424,6 @@
         }
 
         /// <summary>
-        /// Tries to print the HTML representation of the Object, if any.
-        /// Otherwise the an empty string is returned.
-        /// </summary>
-        /// <param name="obj">The object to convert.</param>
-        /// <returns>The HTML string representation.</returns>
-        public static String ToHtml(this Object obj)
-        {
-            var html = obj as IHtmlObject;
-
-            if (html == null)
-                return String.Empty;
-
-            return html.ToHtml();
-        }
-
-        /// <summary>
         /// Tries to print the CSS representation of the Object, if any.
         /// Otherwise the an empty string is returned.
         /// </summary>

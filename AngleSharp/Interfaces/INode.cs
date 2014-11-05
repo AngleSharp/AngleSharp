@@ -212,5 +212,11 @@
         /// <returns>The old Node, if any.</returns>
         [DomName("replaceChild")]
         INode ReplaceChild(INode newChild, INode oldChild);
+
+        /// <summary>
+        /// Returns the (complete) HTML markup representation of the node.
+        /// </summary>
+        /// <returns>The source code snippet.</returns>
+        String ToHtml();
     }
 }

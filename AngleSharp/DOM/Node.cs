@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    public class Node : EventTarget, INode, IHtmlObject
+    public class Node : EventTarget, INode
     {
         #region Fields
 
