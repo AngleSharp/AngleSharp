@@ -12,12 +12,23 @@
     sealed class DomNodeInstance : ObjectInstance
     {
         readonly Object _value;
+        PropertyInfo _indexer;
 
         public DomNodeInstance(Engine engine, Object value)
             : base(engine)
         {
             _value = value;
             SetMembers(value.GetType());
+        }
+
+        public override PropertyDescriptor GetOwnProperty(String propertyName)
+        {
+            var index = 0;
+
+            if (_indexer != null && Int32.TryParse(propertyName, out index))
+                return new PropertyDescriptor(_indexer.GetMethod.Invoke(_value, new Object[] { index }).ToJsValue(Engine), false, false, false);
+
+            return base.GetOwnProperty(propertyName);
         }
 
         void SetMembers(Type type)
@@ -54,6 +65,11 @@
         {
             foreach (var property in properties)
             {
+                var index = property.GetCustomAttribute<DomAccessorAttribute>();
+
+                if (index != null)
+                    _indexer = property;
+
                 var names = property.GetCustomAttributes<DomNameAttribute>();
 
                 foreach (var name in names.Select(m => m.OfficialName))
