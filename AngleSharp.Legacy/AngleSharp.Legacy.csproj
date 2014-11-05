@@ -102,6 +102,21 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CssAttr.cs">
+      <Link>Css\CssAttr.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\CssIdentifier.cs">
+      <Link>Css\CssIdentifier.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\CssImages.cs">
+      <Link>Css\CssImages.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\CssString.cs">
+      <Link>Css\CssString.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\CssUrl.cs">
+      <Link>Css\CssUrl.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\CubicBezierTransitionFunction.cs">
       <Link>Css\CubicBezierTransitionFunction.cs</Link>
       <SubType>
@@ -1634,21 +1649,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
       <Link>Foundation\TextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssAttr.cs">
-      <Link>Foundation\Wrappers\CssAttr.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssIdentifier.cs">
-      <Link>Foundation\Wrappers\CssIdentifier.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssImages.cs">
-      <Link>Foundation\Wrappers\CssImages.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssString.cs">
-      <Link>Foundation\Wrappers\CssString.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssUrl.cs">
-      <Link>Foundation\Wrappers\CssUrl.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
