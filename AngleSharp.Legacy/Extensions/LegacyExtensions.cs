@@ -186,4 +186,19 @@
             property.SetValue(obj, value, null);
         }
     }
+
+    /// <summary>
+    /// Dummy to cover method impl. attribute.
+    /// </summary>
+    class MethodImplAttribute : Attribute
+    {
+        public MethodImplAttribute(MethodImplOptions options)
+        {
+        }
+    }
+
+    enum MethodImplOptions
+    {
+        AggressiveInlining
+    }
 }
