@@ -82,6 +82,9 @@
     <Compile Include="..\AngleSharp\Attributes\DomPutForwardsAttribute.cs">
       <Link>Attributes\DomPutForwardsAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Configuration.cs">
+      <Link>Configuration.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\ConfigurationExtensions.cs">
       <Link>ConfigurationExtensions.cs</Link>
     </Compile>
@@ -1552,6 +1555,9 @@
     <Compile Include="..\AngleSharp\Foundation\Constants\Units.cs">
       <Link>Foundation\Constants\Units.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\CopyConfiguration.cs">
+      <Link>Foundation\CopyConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
@@ -1569,15 +1575,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Setup\Configuration.cs">
-      <Link>Foundation\Setup\Configuration.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Setup\CopyConfiguration.cs">
-      <Link>Foundation\Setup\CopyConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Setup\IConfiguration.cs">
-      <Link>Foundation\Setup\IConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Angle.cs">
       <Link>Foundation\Structures\Angle.cs</Link>
@@ -1626,6 +1623,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Wrappers\CssString.cs">
       <Link>Foundation\Wrappers\CssString.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IConfiguration.cs">
+      <Link>IConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\BaseOptions.cs">
       <Link>Infrastructure\BaseOptions.cs</Link>

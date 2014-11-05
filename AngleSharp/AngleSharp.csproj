@@ -42,6 +42,7 @@
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="ContextExtensions.cs" />
     <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Collections\TouchList.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Css\ITransform.cs" />
-    <Compile Include="Configuration.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
@@ -339,6 +339,7 @@
     <Compile Include="Foundation\Wrappers\CssIdentifier.cs" />
     <Compile Include="Foundation\Wrappers\CssImages.cs" />
     <Compile Include="Foundation\Wrappers\CssString.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="Infrastructure\BaseOptions.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Infrastructure\IAudioService.cs" />
@@ -666,7 +667,6 @@
     <Compile Include="Network\DefaultRequest.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
     <Compile Include="Network\DefaultResponse.cs" />
-    <Compile Include="IConfiguration.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
     <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
