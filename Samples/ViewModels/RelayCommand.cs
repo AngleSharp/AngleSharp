@@ -5,7 +5,12 @@
 
     sealed class RelayCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { }
+            remove { }
+        }
+
         readonly Action<Object> _action;
 
         public RelayCommand(Action action)
