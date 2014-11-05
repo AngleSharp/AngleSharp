@@ -887,6 +887,505 @@
             Home(token);
         }
 
+        void InBodyStartTag(HtmlTagToken tag)
+        {
+            var tagName = tag.Name;
+
+            if (tagName == Tags.Li)
+            {
+                InBodyStartTagListItem(tag);
+            }
+            else if (tagName == Tags.A)
+            {
+                for (var i = formatting.Count - 1; i >= 0; i--)
+                {
+                    if (formatting[i] == null)
+                        break;
+
+                    if (formatting[i] is HTMLAnchorElement)
+                    {
+                        var format = formatting[i];
+                        RaiseErrorOccurred(ErrorCode.AnchorNested);
+                        HeisenbergAlgorithm(HtmlToken.CloseTag(Tags.A));
+
+                        if (open.Contains(format))
+                            open.Remove(format);
+
+                        if (formatting.Contains(format))
+                            formatting.RemoveAt(i);
+
+                        break;
+                    }
+                }
+
+                ReconstructFormatting();
+                var element = AddElement<HTMLAnchorElement>(tag);
+                formatting.AddFormatting(element);
+            }
+            else if (tagName.IsOneOf(Tags.H1, Tags.H2, Tags.H3, Tags.H4, Tags.H5, Tags.H6))
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                if (CurrentNode is HTMLHeadingElement)
+                {
+                    RaiseErrorOccurred(ErrorCode.HeadingNested);
+                    CloseCurrentNode();
+                }
+
+                AddElement(new HTMLHeadingElement(tag.Name) { Owner = doc }, tag);
+            }
+            else if (tagName == Tags.Input)
+            {
+                ReconstructFormatting();
+                AddElement<HTMLInputElement>(tag, true);
+                CloseCurrentNode();
+
+                if (!tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
+                    frameset = false;
+            }
+            else if (tagName.IsOneOf(Tags.Pre, Tags.Listing))
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                AddElement(new HTMLPreElement(tag.Name) { Owner = doc }, tag);
+                frameset = false;
+                PreventNewLine();
+            }
+            else if (tagName == Tags.Form)
+            {
+                if (form == null)
+                {
+                    if (IsInButtonScope())
+                        InBodyEndTagParagraph();
+
+                    form = AddElement<HTMLFormElement>(tag);
+                }
+                else
+                    RaiseErrorOccurred(ErrorCode.FormAlreadyOpen);
+            }
+            else if (tagName.IsOneOf(Tags.Div, Tags.P, Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset) ||
+                     tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) ||
+                     tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details) ||
+                     tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup))
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                AddElement(tag);
+            }
+            else if (tagName.IsOneOf(Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I) ||
+                     tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
+            {
+                ReconstructFormatting();
+                var element = HtmlElementFactory.Create(tag.Name, doc);
+                AddElement(element, tag);
+                formatting.AddFormatting(element);
+            }
+            else if (tagName.IsOneOf(Tags.Caption, Tags.Col, Tags.Colgroup) ||
+                     tagName.IsOneOf(Tags.Frame, Tags.Head) ||
+                     tagName.IsOneOf(Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr))
+            {
+                RaiseErrorOccurred(ErrorCode.TagCannotStartHere);
+            }
+            else if (tagName.IsOneOf(Tags.Script, Tags.Style, Tags.Link) ||
+                     tagName.IsOneOf(Tags.Meta, Tags.MenuItem, Tags.Title, Tags.NoFrames, Tags.Template) ||
+                     tagName.IsOneOf(Tags.Base, Tags.BaseFont, Tags.Bgsound))
+            {
+                InHead(tag);
+            }
+            else if (tagName.IsOneOf(Tags.Dd, Tags.Dt))
+            {
+                InBodyStartTagDefinitionItem(tag);
+            }
+            else if (tagName == Tags.Plaintext)
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                AddElement(tag);
+                tokenizer.State = HtmlParseMode.Plaintext;
+            }
+            else if (tagName == Tags.Button)
+            {
+                if (IsInScope<HTMLButtonElement>())
+                {
+                    RaiseErrorOccurred(ErrorCode.ButtonInScope);
+                    InBodyEndTagBlock(Tags.Button);
+                    InBody(tag);
+                }
+                else
+                {
+                    ReconstructFormatting();
+                    AddElement<HTMLButtonElement>(tag);
+                    frameset = false;
+                }
+            }
+            else if (tagName == Tags.NoBr)
+            {
+                ReconstructFormatting();
+
+                if (IsInScope<HTMLNoNewlineElement>())
+                {
+                    RaiseErrorOccurred(ErrorCode.NobrInScope);
+                    HeisenbergAlgorithm(tag);
+                    ReconstructFormatting();
+                }
+
+                var element = HtmlElementFactory.Create(tag.Name, doc);
+                AddElement(element, tag);
+                formatting.AddFormatting(element);
+            }
+            else if (tagName == Tags.Table)
+            {
+                if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                AddElement<HTMLTableElement>(tag);
+                frameset = false;
+                insert = HtmlTreeMode.InTable;
+            }
+            else if (tagName.IsOneOf(Tags.Area, Tags.Br, Tags.Embed, Tags.Keygen, Tags.Wbr, Tags.Img))
+            {
+                InBodyStartTagBreakrow(tag);
+            }
+            else if (tagName == Tags.Image)
+            {
+                RaiseErrorOccurred(ErrorCode.ImageTagNamedWrong);
+                tag.Name = Tags.Img;
+                InBodyStartTagBreakrow(tag);
+            }
+            else if (tagName.IsOneOf(Tags.Applet, Tags.Marquee, Tags.Object))
+            {
+                ReconstructFormatting();
+                AddElement(tag);
+                formatting.AddScopeMarker();
+                frameset = false;
+            }
+            else if (tagName.IsOneOf(Tags.Param, Tags.Source, Tags.Track))
+            {
+                AddElement(tag, true);
+                CloseCurrentNode();
+            }
+            else if (tagName == Tags.Hr)
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                AddElement<HTMLHRElement>(tag, true);
+                CloseCurrentNode();
+                frameset = false;
+            }
+            else if (tagName == Tags.IsIndex)
+            {
+                RaiseErrorOccurred(ErrorCode.TagInappropriate);
+
+                if (form == null)
+                {
+                    InBody(HtmlToken.OpenTag(Tags.Form));
+
+                    if (tag.GetAttribute(AttributeNames.Action) != String.Empty)
+                        form.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
+
+                    InBody(HtmlToken.OpenTag(Tags.Hr));
+                    InBody(HtmlToken.OpenTag(Tags.Label));
+
+                    if (tag.GetAttribute(AttributeNames.Prompt) != String.Empty)
+                        AddCharacters(tag.GetAttribute(AttributeNames.Prompt));
+                    else
+                        AddCharacters("This is a searchable index. Enter search keywords: ");
+
+                    var input = HtmlToken.OpenTag(Tags.Input);
+                    input.AddAttribute(AttributeNames.Name, Tags.IsIndex);
+
+                    for (int i = 0; i < tag.Attributes.Count; i++)
+                    {
+                        if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
+                            continue;
+
+                        input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
+                    }
+
+                    InBody(input);
+                    InBody(HtmlToken.CloseTag(Tags.Label));
+                    InBody(HtmlToken.OpenTag(Tags.Hr));
+                    InBody(HtmlToken.CloseTag(Tags.Form));
+                }
+            }
+            else if (tagName == Tags.Textarea)
+            {
+                AddElement<HTMLTextAreaElement>(tag);
+                tokenizer.State = HtmlParseMode.RCData;
+                originalInsert = insert;
+                frameset = false;
+                insert = HtmlTreeMode.Text;
+                PreventNewLine();
+            }
+            else if (tagName == Tags.Xmp)
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                ReconstructFormatting();
+                frameset = false;
+                RawtextAlgorithm(tag);
+            }
+            else if (tagName == Tags.Iframe)
+            {
+                frameset = false;
+                RawtextAlgorithm(tag);
+            }
+            else if (tagName == Tags.Select)
+            {
+                ReconstructFormatting();
+                AddElement<HTMLSelectElement>(tag);
+                frameset = false;
+
+                switch (insert)
+                {
+                    case HtmlTreeMode.InTable:
+                    case HtmlTreeMode.InCaption:
+                    case HtmlTreeMode.InRow:
+                    case HtmlTreeMode.InCell:
+                        insert = HtmlTreeMode.InSelectInTable;
+                        break;
+
+                    default:
+                        insert = HtmlTreeMode.InSelect;
+                        break;
+                }
+            }
+            else if (tagName.IsOneOf(Tags.Optgroup, Tags.Option))
+            {
+                if (CurrentNode is HTMLOptionElement)
+                    InBodyEndTagAnythingElse(HtmlToken.CloseTag(Tags.Option));
+
+                ReconstructFormatting();
+                AddElement(tag);
+            }
+            else if (tagName.IsOneOf(Tags.Rp, Tags.Rt))
+            {
+                if (IsInScope<HTMLRubyElement>())
+                {
+                    GenerateImpliedEndTags();
+
+                    if (CurrentNode is HTMLRubyElement == false)
+                        RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
+                }
+
+                AddElement(tag);
+            }
+            else if (tagName == Tags.NoEmbed)
+            {
+                RawtextAlgorithm(tag);
+            }
+            else if (tagName == Tags.NoScript)
+            {
+                if (doc.Options.IsScripting)
+                {
+                    RawtextAlgorithm(tag);
+                    return;
+                }
+
+                ReconstructFormatting();
+                AddElement(tag);
+            }
+            else if (tagName == Tags.Math)
+            {
+                var element = new MathElement(tag.Name) { Owner = doc };
+                ReconstructFormatting();
+
+                for (int i = 0; i < tag.Attributes.Count; i++)
+                {
+                    var name = tag.Attributes[i].Key;
+                    var value = tag.Attributes[i].Value;
+                    element.SetAdjustedAttribute(name.AdjustMathMLAttributeName(), value);
+                }
+
+                AddElement(element);
+
+                if (tag.IsSelfClosing)
+                    open.Remove(element);
+            }
+            else if (tagName == Tags.Svg)
+            {
+                var element = new SVGElement(tag.Name) { Owner = doc };
+                ReconstructFormatting();
+
+                for (int i = 0; i < tag.Attributes.Count; i++)
+                {
+                    var name = tag.Attributes[i].Key;
+                    var value = tag.Attributes[i].Value;
+                    element.SetAdjustedAttribute(name.AdjustSvgAttributeName(), value);
+                }
+
+                AddElement(element);
+
+                if (tag.IsSelfClosing)
+                    open.Remove(element);
+            }
+            else if (tagName == Tags.Frameset)
+            {
+                RaiseErrorOccurred(ErrorCode.FramesetMisplaced);
+
+                if (open.Count != 1 && open[1] is HTMLBodyElement && frameset)
+                {
+                    open[1].Parent.RemoveChild(open[1]);
+
+                    while (open.Count > 1)
+                        CloseCurrentNode();
+
+                    AddElement<HTMLFrameSetElement>(tag);
+                    insert = HtmlTreeMode.InFrameset;
+                }
+            }
+            else if (tagName == Tags.Html)
+            {
+                RaiseErrorOccurred(ErrorCode.HtmlTagMisplaced);
+
+                if (templateMode.Count == 0)
+                    open[0].SetAttributes(tag.Attributes);
+            }
+            else if (tagName == Tags.Body)
+            {
+                RaiseErrorOccurred(ErrorCode.BodyTagMisplaced);
+
+                if (templateMode.Count == 0 && open.Count > 1 && open[1] is HTMLBodyElement)
+                {
+                    frameset = false;
+                    open[1].SetAttributes(tag.Attributes);
+                }
+            }
+            else
+            {
+                ReconstructFormatting();
+                AddElement(tag);
+            }
+        }
+
+        void InBodyEndTag(HtmlTagToken tag)
+        {
+            var tagName = tag.Name;
+
+            if (tagName == Tags.P)
+            {
+                InBodyEndTagParagraph();
+            }
+            else if (tagName == Tags.Li)
+            {
+                if (IsInListItemScope())
+                {
+                    GenerateImpliedEndTagsExceptFor(tag.Name);
+
+                    if (CurrentNode is HTMLLIElement == false)
+                        RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
+
+                    ClearStackBackTo<HTMLLIElement>();
+                    CloseCurrentNode();
+                }
+                else
+                    RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
+            }
+            else if (tagName.IsOneOf(Tags.Div, Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset, Tags.Button) ||
+                     tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) ||
+                     tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Listing) ||
+                     tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup) ||
+                     tagName.IsOneOf(Tags.Main, Tags.Pre))
+            {
+                InBodyEndTagBlock(tag.Name);
+            }
+            else if (tagName.IsOneOf(Tags.A, Tags.B, Tags.Strong, Tags.Code) ||
+                     tagName.IsOneOf(Tags.NoBr, Tags.Em, Tags.U, Tags.I) ||
+                     tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
+            {
+                HeisenbergAlgorithm(tag);
+            }
+            else if (tagName == Tags.Form)
+            {
+                var node = form;
+                form = null;
+
+                if (node != null && IsInScope(node.NodeName))
+                {
+                    GenerateImpliedEndTags();
+
+                    if (CurrentNode != node)
+                        RaiseErrorOccurred(ErrorCode.FormClosedWrong);
+
+                    open.Remove(node);
+                }
+                else
+                    RaiseErrorOccurred(ErrorCode.FormNotInScope);
+            }
+            else if (tagName == Tags.Br)
+            {
+                RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                InBodyStartTagBreakrow(HtmlToken.OpenTag(Tags.Br));
+            }
+            else if (tagName.IsOneOf(Tags.H1, Tags.H2, Tags.H3, Tags.H4, Tags.H5, Tags.H6))
+            {
+                if (IsInScope<HTMLHeadingElement>())
+                {
+                    GenerateImpliedEndTags();
+
+                    if (CurrentNode.NodeName != tag.Name)
+                        RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
+
+                    ClearStackBackTo<HTMLHeadingElement>();
+                    CloseCurrentNode();
+                }
+                else
+                    RaiseErrorOccurred(ErrorCode.HeadingNotInScope);
+            }
+            else if (tagName.IsOneOf(Tags.Dd, Tags.Dt))
+            {
+                if (IsInScope(tag.Name))
+                {
+                    GenerateImpliedEndTagsExceptFor(tag.Name);
+
+                    if (CurrentNode.NodeName != tag.Name)
+                        RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
+
+                    ClearStackBackTo(tag.Name);
+                    CloseCurrentNode();
+                }
+                else
+                    RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
+            }
+            else if (tagName.IsOneOf(Tags.Applet, Tags.Marquee, Tags.Object))
+            {
+                if (IsInScope(tag.Name))
+                {
+                    GenerateImpliedEndTags();
+
+                    if (CurrentNode.NodeName != tag.Name)
+                        RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
+
+                    ClearStackBackTo(tag.Name);
+                    CloseCurrentNode();
+                    formatting.ClearFormatting();
+                }
+                else
+                    RaiseErrorOccurred(ErrorCode.ObjectNotInScope);
+            }
+            else if (tagName == Tags.Body)
+            {
+                InBodyEndTagBody();
+            }
+            else if (tagName == Tags.Html)
+            {
+                if (InBodyEndTagBody())
+                    AfterBody(tag);
+            }
+            else if (tagName == Tags.Template)
+            {
+                InHead(tag);
+            }
+            else
+                InBodyEndTagAnythingElse(tag);
+        }
+
         /// <summary>
         /// See 8.2.5.4.7 The "in body" insertion mode.
         /// </summary>
@@ -907,505 +1406,12 @@
                 }
                 case HtmlTokenType.StartTag:
                 {
-                    var tag = token.AsTag();
-                    var tagName = tag.Name;
-
-                    if (tagName == Tags.Html)
-                    {
-                        RaiseErrorOccurred(ErrorCode.HtmlTagMisplaced);
-
-                        if (templateMode.Count == 0)
-                            open[0].SetAttributes(tag.Attributes);
-                    }
-                    else if (tagName == Tags.Body)
-                    {
-                        RaiseErrorOccurred(ErrorCode.BodyTagMisplaced);
-
-                        if (templateMode.Count == 0 && open.Count > 1 && open[1] is HTMLBodyElement)
-                        {
-                            frameset = false;
-                            open[1].SetAttributes(tag.Attributes);
-                        }
-                    }
-                    else if (tagName == Tags.Frameset)
-                    {
-                        RaiseErrorOccurred(ErrorCode.FramesetMisplaced);
-
-                        if (open.Count != 1 && open[1] is HTMLBodyElement && frameset)
-                        {
-                            open[1].Parent.RemoveChild(open[1]);
-
-                            while (open.Count > 1)
-                                CloseCurrentNode();
-
-                            AddElement<HTMLFrameSetElement>(tag);
-                            insert = HtmlTreeMode.InFrameset;
-                        }
-                    }
-                    else if (tagName.IsOneOf(Tags.H1, Tags.H2, Tags.H3, Tags.H4, Tags.H5, Tags.H6))
-                    {
-                        if (IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        if (CurrentNode is HTMLHeadingElement)
-                        {
-                            RaiseErrorOccurred(ErrorCode.HeadingNested);
-                            CloseCurrentNode();
-                        }
-
-                        AddElement(new HTMLHeadingElement(tag.Name) { Owner = doc }, tag);
-                    }
-                    else if (tagName.IsOneOf(Tags.Pre, Tags.Listing))
-                    {
-                        if (IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        AddElement(new HTMLPreElement(tag.Name) { Owner = doc }, tag);
-                        frameset = false;
-                        PreventNewLine();
-                    }
-                    else if (tagName == Tags.Form)
-                    {
-                        if (form == null)
-                        {
-                            if (IsInButtonScope())
-                                InBodyEndTagParagraph();
-
-                            form = AddElement<HTMLFormElement>(tag);
-                        }
-                        else
-                            RaiseErrorOccurred(ErrorCode.FormAlreadyOpen);
-                    }
-                    else if (tagName == Tags.Li)
-                    {
-                        InBodyStartTagListItem(tag);
-                    }
-                    else if (tagName.IsOneOf(Tags.Dd, Tags.Dt))
-                    {
-                        InBodyStartTagDefinitionItem(tag);
-                    }
-                    else if (tagName == Tags.Plaintext)
-                    {
-                        if (IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        AddElement(token.AsTag());
-                        tokenizer.State = HtmlParseMode.Plaintext;
-                    }
-                    else if (tagName == Tags.Button)
-                    {
-                        if (IsInScope<HTMLButtonElement>())
-                        {
-                            RaiseErrorOccurred(ErrorCode.ButtonInScope);
-                            InBodyEndTagBlock(Tags.Button);
-                            InBody(token);
-                        }
-                        else
-                        {
-                            ReconstructFormatting();
-                            AddElement<HTMLButtonElement>(tag);
-                            frameset = false;
-                        }
-                    }
-                    else if (tagName == Tags.A)
-                    {
-                        for (var i = formatting.Count - 1; i >= 0; i--)
-                        {
-                            if (formatting[i] == null)
-                                break;
-
-                            if (formatting[i] is HTMLAnchorElement)
-                            {
-                                var format = formatting[i];
-                                RaiseErrorOccurred(ErrorCode.AnchorNested);
-                                HeisenbergAlgorithm(HtmlToken.CloseTag(Tags.A));
-
-                                if (open.Contains(format))
-                                    open.Remove(format);
-
-                                if (formatting.Contains(format))
-                                    formatting.RemoveAt(i);
-
-                                break;
-                            }
-                        }
-
-                        ReconstructFormatting();
-                        var element = AddElement<HTMLAnchorElement>(tag);
-                        formatting.AddFormatting(element);
-                    }
-                    else if (tagName == Tags.NoBr)
-                    {
-                        ReconstructFormatting();
-
-                        if (IsInScope<HTMLNoNewlineElement>())
-                        {
-                            RaiseErrorOccurred(ErrorCode.NobrInScope);
-                            HeisenbergAlgorithm(tag);
-                            ReconstructFormatting();
-                        }
-
-                        var element = HtmlElementFactory.Create(tag.Name, doc);
-                        AddElement(element, tag);
-                        formatting.AddFormatting(element);
-                    }
-                    else if (tagName.IsOneOf(Tags.Applet, Tags.Marquee, Tags.Object))
-                    {
-                        ReconstructFormatting();
-                        AddElement(tag);
-                        formatting.AddScopeMarker();
-                        frameset = false;
-                    }
-                    else if (tagName == Tags.Table)
-                    {
-                        if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        AddElement<HTMLTableElement>(tag);
-                        frameset = false;
-                        insert = HtmlTreeMode.InTable;
-                    }
-                    else if (tagName.IsOneOf(Tags.Area, Tags.Br, Tags.Embed, Tags.Keygen, Tags.Wbr, Tags.Img))
-                    {
-                        InBodyStartTagBreakrow(tag);
-                    }
-                    else if (tagName == Tags.Image)
-                    {
-                        RaiseErrorOccurred(ErrorCode.ImageTagNamedWrong);
-                        tag.Name = Tags.Img;
-                        InBodyStartTagBreakrow(tag);
-                    }
-                    else if (tagName == Tags.Input)
-                    {
-                        ReconstructFormatting();
-                        AddElement<HTMLInputElement>(tag, true);
-                        CloseCurrentNode();
-
-                        if (!tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
-                            frameset = false;
-                    }
-                    else if (tagName.IsOneOf(Tags.Param, Tags.Source, Tags.Track))
-                    {
-                        AddElement(tag, true);
-                        CloseCurrentNode();
-                    }
-                    else if (tagName == Tags.Hr)
-                    {
-                        if (IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        AddElement<HTMLHRElement>(tag, true);
-                        CloseCurrentNode();
-                        frameset = false;
-                    }
-                    else if (tagName == Tags.IsIndex)
-                    {
-                        RaiseErrorOccurred(ErrorCode.TagInappropriate);
-
-                        if (form == null)
-                        {
-                            InBody(HtmlToken.OpenTag(Tags.Form));
-
-                            if (tag.GetAttribute(AttributeNames.Action) != String.Empty)
-                                form.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
-
-                            InBody(HtmlToken.OpenTag(Tags.Hr));
-                            InBody(HtmlToken.OpenTag(Tags.Label));
-
-                            if (tag.GetAttribute(AttributeNames.Prompt) != String.Empty)
-                                AddCharacters(tag.GetAttribute(AttributeNames.Prompt));
-                            else
-                                AddCharacters("This is a searchable index. Enter search keywords: ");
-
-                            var input = HtmlToken.OpenTag(Tags.Input);
-                            input.AddAttribute(AttributeNames.Name, Tags.IsIndex);
-
-                            for (int i = 0; i < tag.Attributes.Count; i++)
-                            {
-                                if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
-                                    continue;
-
-                                input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
-                            }
-
-                            InBody(input);
-                            InBody(HtmlToken.CloseTag(Tags.Label));
-                            InBody(HtmlToken.OpenTag(Tags.Hr));
-                            InBody(HtmlToken.CloseTag(Tags.Form));
-                        }
-                    }
-                    else if (tagName == Tags.Textarea)
-                    {
-                        AddElement<HTMLTextAreaElement>(tag);
-                        tokenizer.State = HtmlParseMode.RCData;
-                        originalInsert = insert;
-                        frameset = false;
-                        insert = HtmlTreeMode.Text;
-                        PreventNewLine();
-                    }
-                    else if (tagName == Tags.Xmp)
-                    {
-                        if (IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        ReconstructFormatting();
-                        frameset = false;
-                        RawtextAlgorithm(tag);
-                    }
-                    else if (tagName == Tags.Iframe)
-                    {
-                        frameset = false;
-                        RawtextAlgorithm(tag);
-                    }
-                    else if (tagName == Tags.Select)
-                    {
-                        ReconstructFormatting();
-                        AddElement<HTMLSelectElement>(tag);
-                        frameset = false;
-
-                        switch (insert)
-                        {
-                            case HtmlTreeMode.InTable:
-                            case HtmlTreeMode.InCaption:
-                            case HtmlTreeMode.InRow:
-                            case HtmlTreeMode.InCell:
-                                insert = HtmlTreeMode.InSelectInTable;
-                                break;
-
-                            default:
-                                insert = HtmlTreeMode.InSelect;
-                                break;
-                        }
-                    }
-                    else if (tagName.IsOneOf(Tags.Optgroup, Tags.Option))
-                    {
-                        if (CurrentNode is HTMLOptionElement)
-                            InBodyEndTagAnythingElse(HtmlToken.CloseTag(Tags.Option));
-
-                        ReconstructFormatting();
-                        AddElement(tag);
-                    }
-                    else if (tagName.IsOneOf(Tags.Rp, Tags.Rt))
-                    {
-                        if (IsInScope<HTMLRubyElement>())
-                        {
-                            GenerateImpliedEndTags();
-
-                            if (CurrentNode is HTMLRubyElement == false)
-                                RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
-                        }
-
-                        AddElement(tag);
-                    }
-                    else if (tagName == Tags.NoEmbed)
-                    {
-                        RawtextAlgorithm(tag);
-                    }
-                    else if (tagName == Tags.NoScript)
-                    {
-                        if (doc.Options.IsScripting)
-                        {
-                            RawtextAlgorithm(tag);
-                            return;
-                        }
-
-                        ReconstructFormatting();
-                        AddElement(tag);
-                    }
-                    else if (tagName == Tags.Math)
-                    {
-                        var element = new MathElement(tag.Name) { Owner = doc };
-                        ReconstructFormatting();
-
-                        for (int i = 0; i < tag.Attributes.Count; i++)
-                        {
-                            var name = tag.Attributes[i].Key;
-                            var value = tag.Attributes[i].Value;
-                            element.SetAdjustedAttribute(name.AdjustMathMLAttributeName(), value);
-                        }
-
-                        AddElement(element);
-
-                        if (tag.IsSelfClosing)
-                            open.Remove(element);
-                    }
-                    else if (tagName == Tags.Svg)
-                    {
-                        var element = new SVGElement(tag.Name) { Owner = doc };
-                        ReconstructFormatting();
-
-                        for (int i = 0; i < tag.Attributes.Count; i++)
-                        {
-                            var name = tag.Attributes[i].Key;
-                            var value = tag.Attributes[i].Value;
-                            element.SetAdjustedAttribute(name.AdjustSvgAttributeName(), value);
-                        }
-
-                        AddElement(element);
-
-                        if (tag.IsSelfClosing)
-                            open.Remove(element);
-                    }
-                    else if (tagName.IsOneOf(Tags.Div, Tags.P, Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset) || 
-                             tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) || 
-                             tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details) || 
-                             tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup))
-                    {
-                        if (IsInButtonScope())
-                            InBodyEndTagParagraph();
-
-                        AddElement(tag);
-                    }
-                    else if (tagName.IsOneOf(Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I) || 
-                             tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
-                    {
-                        ReconstructFormatting();
-                        var element = HtmlElementFactory.Create(tag.Name, doc);
-                        AddElement(element, tag);
-                        formatting.AddFormatting(element);
-                    }
-                    else if (tagName.IsOneOf(Tags.Caption, Tags.Col, Tags.Colgroup) || 
-                             tagName.IsOneOf(Tags.Frame, Tags.Head) || 
-                             tagName.IsOneOf(Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr))
-                    {
-                        RaiseErrorOccurred(ErrorCode.TagCannotStartHere);
-                    }
-                    else if (tagName.IsOneOf(Tags.Script, Tags.Style, Tags.Link) || 
-                             tagName.IsOneOf(Tags.Meta, Tags.MenuItem, Tags.Title, Tags.NoFrames, Tags.Template, Tags.Html) || 
-                             tagName.IsOneOf(Tags.Base, Tags.BaseFont, Tags.Bgsound))
-                    {
-                        InHead(token);
-                    }
-                    else
-                    {
-                        ReconstructFormatting();
-                        AddElement(tag);
-                    }
-
+                    InBodyStartTag(token.AsTag());
                     return;
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    var tag = token.AsTag();
-                    var tagName = tag.Name;
-
-                    if (tagName == Tags.Body)
-                    {
-                        InBodyEndTagBody();
-                    }
-                    else if (tagName == Tags.Html)
-                    {
-                        if (InBodyEndTagBody())
-                            AfterBody(token);
-                    }
-                    else if (tagName == Tags.Template)
-                    {
-                        InHead(tag);
-                    }
-                    else if (tagName == Tags.Form)
-                    {
-                        var node = form;
-                        form = null;
-
-                        if (node != null && IsInScope(node.NodeName))
-                        {
-                            GenerateImpliedEndTags();
-
-                            if (CurrentNode != node)
-                                RaiseErrorOccurred(ErrorCode.FormClosedWrong);
-
-                            open.Remove(node);
-                        }
-                        else
-                            RaiseErrorOccurred(ErrorCode.FormNotInScope);
-                    }
-                    else if (tagName == Tags.P)
-                    {
-                        InBodyEndTagParagraph();
-                    }
-                    else if (tagName == Tags.Li)
-                    {
-                        if (IsInListItemScope())
-                        {
-                            GenerateImpliedEndTagsExceptFor(tag.Name);
-
-                            if (CurrentNode is HTMLLIElement == false)
-                                RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
-
-                            ClearStackBackTo<HTMLLIElement>();
-                            CloseCurrentNode();
-                        }
-                        else
-                            RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
-                    }
-                    else if (tagName == Tags.Br)
-                    {
-                        RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
-                        InBodyStartTagBreakrow(HtmlToken.OpenTag(Tags.Br));
-                    }
-                    else if (tagName.IsOneOf(Tags.H1, Tags.H2, Tags.H3, Tags.H4, Tags.H5, Tags.H6))
-                    {
-                        if (IsInScope<HTMLHeadingElement>())
-                        {
-                            GenerateImpliedEndTags();
-
-                            if (CurrentNode.NodeName != tag.Name)
-                                RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
-
-                            ClearStackBackTo<HTMLHeadingElement>();
-                            CloseCurrentNode();
-                        }
-                        else
-                            RaiseErrorOccurred(ErrorCode.HeadingNotInScope);
-                    }
-                    else if (tagName.IsOneOf(Tags.Div, Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset, Tags.Button) || 
-                             tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) || 
-                             tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Listing) || 
-                             tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup) ||
-                             tagName.IsOneOf(Tags.Main, Tags.Pre))
-                    {
-                        InBodyEndTagBlock(tag.Name);
-                    }
-                    else if (tagName.IsOneOf(Tags.Dd, Tags.Dt))
-                    {
-                        if (IsInScope(tag.Name))
-                        {
-                            GenerateImpliedEndTagsExceptFor(tag.Name);
-
-                            if (CurrentNode.NodeName != tag.Name)
-                                RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
-
-                            ClearStackBackTo(tag.Name);
-                            CloseCurrentNode();
-                        }
-                        else
-                            RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
-                    }
-                    else if (tagName.IsOneOf(Tags.A, Tags.B, Tags.Strong, Tags.Code) ||
-                             tagName.IsOneOf(Tags.NoBr, Tags.Em, Tags.U, Tags.I) ||
-                             tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
-                    {
-                        HeisenbergAlgorithm(tag);
-                    }
-                    else if (tagName.IsOneOf(Tags.Applet, Tags.Marquee, Tags.Object))
-                    {
-                        if (IsInScope(tag.Name))
-                        {
-                            GenerateImpliedEndTags();
-
-                            if (CurrentNode.NodeName != tag.Name)
-                                RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
-
-                            ClearStackBackTo(tag.Name);
-                            CloseCurrentNode();
-                            formatting.ClearFormatting();
-                        }
-                        else
-                            RaiseErrorOccurred(ErrorCode.ObjectNotInScope);
-                    }
-                    else
-                        InBodyEndTagAnythingElse(tag);
-
+                    InBodyEndTag(token.AsTag());
                     return;
                 }
                 case HtmlTokenType.Comment:
