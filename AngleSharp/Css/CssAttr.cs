@@ -1,16 +1,15 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
-    /// Wraps a string as a CSS url value.
+    /// Wraps a string as a CSS attribute value.
     /// </summary>
-    sealed class CssUrl : ICssObject
+    sealed class CssAttr : ICssObject
     {
         #region Fields
 
-        readonly String _url;
+        readonly String _name;
 
         #endregion
 
@@ -19,10 +18,10 @@
         /// <summary>
         /// Wraps the given string.
         /// </summary>
-        /// <param name="url">The specified url.</param>
-        public CssUrl(String url)
+        /// <param name="name">The name of the attribute to consider.</param>
+        public CssAttr(String name)
         {
-            _url = url;
+            _name = name;
         }
 
         #endregion
@@ -30,23 +29,23 @@
         #region Casts
 
         /// <summary>
-        /// Defines an explicit cast from a string to a CssUrl.
+        /// Defines an explicit cast from a string to a CssAttr.
         /// </summary>
         /// <param name="str">The string to wrap.</param>
         /// <returns>The wrapped string.</returns>
-        public static explicit operator CssUrl(String str)
+        public static explicit operator CssAttr(String str)
         {
-            return new CssUrl(str);
+            return new CssAttr(str);
         }
 
         /// <summary>
-        /// Defines an implicit cast from a CssUrl to a string.
+        /// Defines an implicit cast from a CssAttr to a string.
         /// </summary>
         /// <param name="str">The string to unwrap.</param>
         /// <returns>The original string.</returns>
-        public static implicit operator String(CssUrl str)
+        public static implicit operator String(CssAttr str)
         {
-            return str._url;
+            return str._name;
         }
 
         #endregion
@@ -59,7 +58,7 @@
         /// <returns>A string that contains the CSS code to create the value.</returns>
         public String ToCss()
         {
-            return _url.CssUrl();
+            return FunctionNames.Build(FunctionNames.Attr, _name);
         }
 
         #endregion

@@ -1,15 +1,16 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
-    /// Wraps a string as a CSS string value.
+    /// Wraps a string as a CSS url value.
     /// </summary>
-    sealed class CssString : ICssObject
+    sealed class CssUrl : ICssObject
     {
         #region Fields
 
-        readonly String _value;
+        readonly String _url;
 
         #endregion
 
@@ -18,10 +19,10 @@
         /// <summary>
         /// Wraps the given string.
         /// </summary>
-        /// <param name="value">The value of the string.</param>
-        public CssString(String value)
+        /// <param name="url">The specified url.</param>
+        public CssUrl(String url)
         {
-            _value = value;
+            _url = url;
         }
 
         #endregion
@@ -29,23 +30,23 @@
         #region Casts
 
         /// <summary>
-        /// Defines an explicit cast from a string to a CssString.
+        /// Defines an explicit cast from a string to a CssUrl.
         /// </summary>
         /// <param name="str">The string to wrap.</param>
         /// <returns>The wrapped string.</returns>
-        public static explicit operator CssString(String str)
+        public static explicit operator CssUrl(String str)
         {
-            return new CssString(str);
+            return new CssUrl(str);
         }
 
         /// <summary>
-        /// Defines an implicit cast from a CssString to a string.
+        /// Defines an implicit cast from a CssUrl to a string.
         /// </summary>
         /// <param name="str">The string to unwrap.</param>
         /// <returns>The original string.</returns>
-        public static implicit operator String(CssString str)
+        public static implicit operator String(CssUrl str)
         {
-            return str._value;
+            return str._url;
         }
 
         #endregion
@@ -58,7 +59,7 @@
         /// <returns>A string that contains the CSS code to create the value.</returns>
         public String ToCss()
         {
-            return String.Concat("'", _value, "'");
+            return _url.CssUrl();
         }
 
         #endregion

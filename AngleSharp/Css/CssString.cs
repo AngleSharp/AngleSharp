@@ -1,15 +1,15 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Css
 {
     using System;
 
     /// <summary>
-    /// Wraps a string as a CSS attribute value.
+    /// Wraps a string as a CSS string value.
     /// </summary>
-    sealed class CssAttr : ICssObject
+    sealed class CssString : ICssObject
     {
         #region Fields
 
-        readonly String _name;
+        readonly String _value;
 
         #endregion
 
@@ -18,10 +18,10 @@
         /// <summary>
         /// Wraps the given string.
         /// </summary>
-        /// <param name="name">The name of the attribute to consider.</param>
-        public CssAttr(String name)
+        /// <param name="value">The value of the string.</param>
+        public CssString(String value)
         {
-            _name = name;
+            _value = value;
         }
 
         #endregion
@@ -29,23 +29,23 @@
         #region Casts
 
         /// <summary>
-        /// Defines an explicit cast from a string to a CssAttr.
+        /// Defines an explicit cast from a string to a CssString.
         /// </summary>
         /// <param name="str">The string to wrap.</param>
         /// <returns>The wrapped string.</returns>
-        public static explicit operator CssAttr(String str)
+        public static explicit operator CssString(String str)
         {
-            return new CssAttr(str);
+            return new CssString(str);
         }
 
         /// <summary>
-        /// Defines an implicit cast from a CssAttr to a string.
+        /// Defines an implicit cast from a CssString to a string.
         /// </summary>
         /// <param name="str">The string to unwrap.</param>
         /// <returns>The original string.</returns>
-        public static implicit operator String(CssAttr str)
+        public static implicit operator String(CssString str)
         {
-            return str._name;
+            return str._value;
         }
 
         #endregion
@@ -58,7 +58,7 @@
         /// <returns>A string that contains the CSS code to create the value.</returns>
         public String ToCss()
         {
-            return FunctionNames.Build(FunctionNames.Attr, _name);
+            return String.Concat("'", _value, "'");
         }
 
         #endregion
