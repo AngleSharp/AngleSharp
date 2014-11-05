@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AngleSharp;
 using AngleSharp.DOM;
+using AngleSharp.Extensions;
 
 namespace UnitTests
 {

@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Library

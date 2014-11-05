@@ -81,13 +81,13 @@
             Console.WriteLine("LINQ:");
 
             foreach (var item in blueListItemsLinq)
-                Console.WriteLine(item.ToText());
+                Console.WriteLine(item.Text());
 
             Console.WriteLine();
             Console.WriteLine("CSS:");
 
             foreach (var item in blueListItemsLinq)
-                Console.WriteLine(item.ToText());
+                Console.WriteLine(item.Text());
         }
 
         static void SingleElements()
@@ -101,7 +101,7 @@
             Console.WriteLine("Only from C# / AngleSharp:");
             Console.WriteLine();
             Console.WriteLine(emphasize.ToHtml());   //<em> bold <u>and</u> italic </em>
-            Console.WriteLine(emphasize.ToText());   //boldanditalic
+            Console.WriteLine(emphasize.Text());   //boldanditalic
 
             Console.WriteLine();
             Console.WriteLine("From the DOM:");

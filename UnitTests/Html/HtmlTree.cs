@@ -1,6 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
+using AngleSharp.Extensions;
 using AngleSharp.Parser.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace UnitTests
                     .AppendChild(anchorC)
                         .AppendChild(new TextNode("x")).Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -250,7 +251,7 @@ namespace UnitTests
                         .AppendChild(new HTMLTableSectionElement("tbody"))
                             .AppendChild(new HTMLTableRowElement()).Parent.Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -267,7 +268,7 @@ namespace UnitTests
                         .AppendChild(new HTMLTableSectionElement("tbody"))
                             .AppendChild(new HTMLTableRowElement()).Parent.Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -285,7 +286,7 @@ namespace UnitTests
                             .AppendChild(new HTMLTableRowElement()).Parent
                             .AppendChild(new TextNode(" ")).Parent.Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -308,7 +309,7 @@ namespace UnitTests
                     .AppendChild(new HTMLElement("b"))
                         .AppendChild(new TextNode("ccc")).Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -330,7 +331,7 @@ namespace UnitTests
                             .AppendChild(new TextNode("4")).Parent.Parent
                         .AppendChild(new TextNode("5")).Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -349,7 +350,7 @@ namespace UnitTests
                             .AppendChild(new TextNode("2")).Parent.Parent
                         .AppendChild(new TextNode("3")).Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
@@ -401,7 +402,7 @@ namespace UnitTests
                     .AppendChild(new HTMLParagraphElement())
                         .AppendChild(new TextNode("X")).Parent.Parent.Parent;
 
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.ToHtml());
+            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
         [TestMethod]
