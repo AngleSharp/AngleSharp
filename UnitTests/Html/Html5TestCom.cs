@@ -1,6 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Extensions;
+using AngleSharp.Html;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
