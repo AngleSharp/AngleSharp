@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Css
 {
     using System;
     using System.Runtime.InteropServices;

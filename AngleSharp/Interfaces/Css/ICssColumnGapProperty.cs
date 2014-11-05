@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
+
     /// <summary>
     /// Represents the CSS column-gap property.
     /// </summary>
