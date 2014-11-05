@@ -40,7 +40,7 @@
         {
         }
 
-        public CSSPrimitiveValue(Url url)
+        public CSSPrimitiveValue(CssUrl url)
             : this(UnitType.Uri, url)
         {
         }
@@ -201,7 +201,7 @@
                     _value = new CssAttr(value);
                     break;
                 case UnitType.Uri:
-                    _value = new Url(value);
+                    _value = new CssUrl(value);
                     break;
                 case UnitType.Ident:
                     _value = new CssIdentifier(value);

@@ -329,12 +329,12 @@
             return false;
         }
 
-        public static Url ToUri(this CSSValue value)
+        public static CssUrl ToUri(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
 
             if (primitive != null)
-                return primitive.Value as Url;
+                return primitive.Value as CssUrl;
 
             return null;
         }

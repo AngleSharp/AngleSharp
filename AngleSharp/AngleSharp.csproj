@@ -332,6 +332,7 @@
     <Compile Include="Css\TransitionFunction.cs" />
     <Compile Include="Css\TransformMatrix.cs" />
     <Compile Include="Css\StepsTransitionFunction.cs" />
+    <Compile Include="Foundation\Wrappers\CssUrl.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />

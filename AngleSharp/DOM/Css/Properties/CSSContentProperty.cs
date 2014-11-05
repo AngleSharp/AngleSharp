@@ -84,7 +84,7 @@
                 switch (primitive.Unit)
                 {
                     case UnitType.Uri:
-                        return new UrlContentMode(primitive.ToUri());
+                        return new UrlContentMode(new Url(primitive.ToUri()));
                     case UnitType.String:
                         return new TextContentMode(primitive.GetString());
                     case UnitType.Attr:

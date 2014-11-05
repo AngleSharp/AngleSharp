@@ -8,7 +8,7 @@
     /// Represents an Url class according to RFC3986.
     /// This is the base for all internal Url manipulation.
     /// </summary>
-    public class Url : ICssObject
+    public class Url
     {
         #region Fields
 
@@ -262,15 +262,6 @@
         #endregion
 
         #region Serialization
-
-        /// <summary>
-        /// Returns the CSS representation of the given URL.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
-        {
-            return FunctionNames.Build(FunctionNames.Url, String.Concat("'", Serialize(), "'"));
-        }
 
         /// <summary>
         /// Returns the string representation of the current location.

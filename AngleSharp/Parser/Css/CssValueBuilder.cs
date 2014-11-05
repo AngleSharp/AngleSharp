@@ -253,8 +253,8 @@
                 _values.Add(new CSSPrimitiveValue((Number)obj));
             else if (obj is Percent)
                 _values.Add(new CSSPrimitiveValue((Percent)obj));
-            else if (obj is Url)
-                _values.Add(new CSSPrimitiveValue((Url)obj));
+            else if (obj is CssUrl)
+                _values.Add(new CSSPrimitiveValue((CssUrl)obj));
         }
     }
 }

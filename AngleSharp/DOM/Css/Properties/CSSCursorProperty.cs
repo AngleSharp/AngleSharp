@@ -146,7 +146,7 @@
                     if (location == null || !x.HasValue || !y.HasValue)
                         return false;
 
-                    modes.Add(new CustomCursorMode(location, x, y));
+                    modes.Add(new CustomCursorMode(new Url(location), x, y));
                 }
                 else
                     return false;
@@ -171,7 +171,7 @@
             var location = value.ToUri();
 
             if (location != null)
-                return new CustomCursorMode(location);
+                return new CustomCursorMode(new Url(location));
 
             return null;
         }

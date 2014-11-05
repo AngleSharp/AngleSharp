@@ -232,12 +232,12 @@
                     var s = argument.ToCssString();
 
                     if (s != null)
-                        uri = new Url(s);
+                        uri = new CssUrl(s);
                     else
                         return null;
                 }
 
-                imageList.Add(uri);
+                imageList.Add(new Url(uri));
             }
 
             return new CSSPrimitiveValue(UnitType.ImageList, new CssImages(imageList));
