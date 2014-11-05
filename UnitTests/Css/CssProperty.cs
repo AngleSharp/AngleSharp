@@ -733,7 +733,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('foo.png')", concrete.Value.CssText);
+            Assert.AreEqual("url(\"foo.png\")", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -748,7 +748,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('foo.png') 0 5", concrete.Value.CssText);
+            Assert.AreEqual("url(\"foo.png\") 0 5", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -763,7 +763,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('foo.png'), url('master.png'), url('more.png')", concrete.Value.CssText);
+            Assert.AreEqual("url(\"foo.png\"), url(\"master.png\"), url(\"more.png\")", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -1045,7 +1045,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('test.html')", concrete.Value.CssText);
+            Assert.AreEqual("url(\"test.html\")", concrete.Value.CssText);
         }
 
         [TestMethod]

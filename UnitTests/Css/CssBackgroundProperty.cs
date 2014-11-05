@@ -257,7 +257,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('image.png')", concrete.Value.CssText);
+            Assert.AreEqual("url(\"image.png\")", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -272,7 +272,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('http://www.example.com/images/bck.png')", concrete.Value.CssText);
+            Assert.AreEqual("url(\"http://www.example.com/images/bck.png\")", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -287,7 +287,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('image.png'), url('bla.png')", concrete.Value.CssText);
+            Assert.AreEqual("url(\"image.png\"), url(\"bla.png\")", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -302,7 +302,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('image.png'), none", concrete.Value.CssText);
+            Assert.AreEqual("url(\"image.png\"), none", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -765,7 +765,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("white url('pendant.png')", concrete.Value.CssText);
+            Assert.AreEqual("white url(\"pendant.png\")", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -780,7 +780,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url('topbanner.png') rgba(0, 0, 221, 1) repeat-y fixed", concrete.Value.CssText);
+            Assert.AreEqual("url(\"topbanner.png\") rgba(0, 0, 221, 1) repeat-y fixed", concrete.Value.CssText);
         }
     }
 }
