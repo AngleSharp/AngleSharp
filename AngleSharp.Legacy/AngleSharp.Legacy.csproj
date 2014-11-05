@@ -1581,6 +1581,9 @@
     <Compile Include="..\AngleSharp\Extensions\QueryExtensions.cs">
       <Link>Extensions\QueryExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
+      <Link>Extensions\RequesterExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\StringExtensions.cs">
       <Link>Extensions\StringExtensions.cs</Link>
     </Compile>
@@ -2499,29 +2502,14 @@
     <Compile Include="..\AngleSharp\Media\IVideoInfo.cs">
       <Link>Media\IVideoInfo.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\CorsSetting.cs">
-      <Link>Network\Constants\CorsSetting.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\DefaultPorts.cs">
-      <Link>Network\Constants\DefaultPorts.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\HeaderNames.cs">
-      <Link>Network\Constants\HeaderNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\HttpMethod.cs">
-      <Link>Network\Constants\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\KnownProtocols.cs">
-      <Link>Network\Constants\KnownProtocols.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\MimeTypes.cs">
-      <Link>Network\Constants\MimeTypes.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\Constants\OriginBehavior.cs">
-      <Link>Network\Constants\OriginBehavior.cs</Link>
+    <Compile Include="..\AngleSharp\Network\CorsSetting.cs">
+      <Link>Network\CorsSetting.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultInfo.cs">
       <Link>Network\DefaultInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\DefaultPorts.cs">
+      <Link>Network\DefaultPorts.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
       <Link>Network\DefaultRequest.cs</Link>
@@ -2531,6 +2519,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultResponse.cs">
       <Link>Network\DefaultResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\HeaderNames.cs">
+      <Link>Network\HeaderNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\HttpMethod.cs">
+      <Link>Network\HttpMethod.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IInfo.cs">
       <Link>Network\IInfo.cs</Link>
@@ -2544,8 +2538,14 @@
     <Compile Include="..\AngleSharp\Network\IResponse.cs">
       <Link>Network\IResponse.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\RequesterExtensions.cs">
-      <Link>Network\RequesterExtensions.cs</Link>
+    <Compile Include="..\AngleSharp\Network\KnownProtocols.cs">
+      <Link>Network\KnownProtocols.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\MimeTypes.cs">
+      <Link>Network\MimeTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\OriginBehavior.cs">
+      <Link>Network\OriginBehavior.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
