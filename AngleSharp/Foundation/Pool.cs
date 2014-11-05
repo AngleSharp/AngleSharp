@@ -43,7 +43,7 @@
             lock (_lock)
             {
                 if (_builder.Count == 0)
-                    return new StringBuilder();
+                    return new StringBuilder(1024);
 
                 return _builder.Pop().Clear();
             }

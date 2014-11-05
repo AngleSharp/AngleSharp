@@ -3,6 +3,7 @@
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Useful helpers for the HTML parser.
@@ -17,7 +18,7 @@
         [DebuggerStepThrough]
         public static Boolean IsTableElement(this String tagName)
         {
-            return (tagName.Equals(Tags.Tr) || tagName.Equals(Tags.Table) || tagName.IsTableSectionElement());
+            return (tagName == Tags.Tr || tagName == Tags.Table || tagName.IsTableSectionElement());
         }
 
         /// <summary>
@@ -26,9 +27,10 @@
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsTableSectionElement(this String tagName)
         {
-            return (tagName.Equals(Tags.Tbody) || tagName.Equals(Tags.Tfoot) || tagName.Equals(Tags.Thead));
+            return (tagName == Tags.Tbody || tagName == Tags.Tfoot || tagName == Tags.Thead);
         }
 
         /// <summary>
@@ -37,9 +39,10 @@
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsTableCellElement(this String tagName)
         {
-            return (tagName.Equals(Tags.Td) || tagName.Equals(Tags.Th));
+            return (tagName == Tags.Td || tagName == Tags.Th);
         }
 
         /// <summary>
@@ -51,12 +54,12 @@
         [DebuggerStepThrough]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
-            if (tagName.IsTableSectionElement() || tagName.Equals(Tags.Caption) || tagName.Equals(Tags.Col) || tagName.Equals(Tags.Colgroup))
-                return true;
-            else if (tagName.Equals(Tags.Tr))
+            if (tagName == Tags.Tr)
                 return includeRow;
-            else
-                return false;
+            else if (tagName.IsTableSectionElement() || tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup)
+                return true;
+            
+            return false;
         }
 
         /// <summary>
@@ -68,12 +71,12 @@
         [DebuggerStepThrough]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            if (tagName.IsTableCellElement() || tagName.Equals(Tags.Body) || tagName.Equals(Tags.Html) || tagName.Equals(Tags.Caption) || tagName.Equals(Tags.Col) || tagName.Equals(Tags.Colgroup))
-                return true;
-            else if (tagName.Equals(Tags.Tr))
+            if (tagName == Tags.Tr)
                 return includeRow;
-            else
-                return false;
+            else if (tagName.IsTableCellElement() || tagName == Tags.Body || tagName == Tags.Html || tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup)
+                return true;
+            
+            return false;
         }
     }
 }

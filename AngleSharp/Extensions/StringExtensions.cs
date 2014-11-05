@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
@@ -23,8 +24,10 @@
         public static Boolean Contains(this IEnumerable<Char> list, Char element)
         {
             foreach (var entry in list)
+            {
                 if (entry == element)
                     return true;
+            }
 
             return false;
         }
@@ -150,6 +153,7 @@
         /// <param name="str">The string to examine.</param>
         /// <param name="content">The string to seek.</param>
         /// <returns>True if the value parameter occurs within this string, or if value is the empty string.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean Contains(this String str, String content)
         {
             return str.IndexOf(content) >= 0;
@@ -243,6 +247,7 @@
         /// <param name="item1">The first item to compare to.</param>
         /// <param name="item2">The second item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2)
         {
             return element == item1 || element == item2;
@@ -256,6 +261,7 @@
         /// <param name="item2">The second item to compare to.</param>
         /// <param name="item3">The third item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3)
         {
             return element == item1 || element == item2 || element == item3;
@@ -270,6 +276,7 @@
         /// <param name="item3">The third item to compare to.</param>
         /// <param name="item4">The fourth item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4)
         {
             return element == item1 || element == item2 || element == item3 || element == item4;
@@ -285,6 +292,7 @@
         /// <param name="item4">The fourth item to compare to.</param>
         /// <param name="item5">The fifth item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5)
         {
             return element == item1 || element == item2 || element == item3 || element == item4 || element == item5;
@@ -301,6 +309,7 @@
         /// <param name="item5">The fifth item to compare to.</param>
         /// <param name="item6">The sixth item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6)
         {
             return element == item1 || element == item2 || element == item3 || element == item4 || element == item5 || element == item6;
@@ -318,26 +327,10 @@
         /// <param name="item6">The sixth item to compare to.</param>
         /// <param name="item7">The seventh item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6, String item7)
         {
             return element == item1 || element == item2 || element == item3 || element == item4 || element == item5 || element == item6 || element == item7;
-        }
-
-        /// <summary>
-        /// Examines if the given element is equal to one of the given elements.
-        /// </summary>
-        /// <param name="element">The element to check for equality.</param>
-        /// <param name="elements">The allowed (equal) elements.</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        public static Boolean IsOneOf(this String element, params String[] elements)
-        {
-            for (var i = 0; i != elements.Length; i++)
-            {
-                if (element == elements[i])
-                    return true;
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -372,6 +365,7 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String StripLeadingTailingSpaces(this String str)
         {
             return StripLeadingTailingSpaces(str.ToCharArray());
@@ -382,6 +376,7 @@
         /// </summary>
         /// <param name="array">The array of characters to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String StripLeadingTailingSpaces(this Char[] array)
         {
             var start = 0;
@@ -402,6 +397,7 @@
         /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String[] SplitWithoutTrimming(this String str, Char c)
         {
             return SplitWithoutTrimming(str.ToCharArray(), c);
@@ -440,6 +436,7 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String[] SplitCommas(this String str)
         {
             return str.SplitWithTrimming(',');
@@ -450,6 +447,7 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String[] SplitHyphens(this String str)
         {
             return SplitWithTrimming(str, Specification.Minus);
@@ -559,6 +557,7 @@
         /// </summary>
         /// <param name="s">The hexadecimal representation.</param>
         /// <returns>The integer number.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int32 FromHex(this String s)
         {
             return Int32.Parse(s, NumberStyles.HexNumber);
@@ -569,6 +568,7 @@
         /// </summary>
         /// <param name="s">The decimal representation.</param>
         /// <returns>The integer number.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int32 FromDec(this String s)
         {
             return Int32.Parse(s, NumberStyles.Integer);
@@ -581,6 +581,7 @@
         /// <param name="value">The value to sanatize.</param>
         /// <param name="encoding">The encoding to consider.</param>
         /// <returns>The sanatized value.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String HtmlEncode(this String value, Encoding encoding)
         {
             //TODO Decide if the encoding is sufficient (How?)

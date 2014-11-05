@@ -634,7 +634,7 @@
                         {
                             charset = element.GetAttribute(AttributeNames.HttpEquiv);
 
-                            if (charset != null && charset.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
+                            if (charset != null && charset.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
                             {
                                 charset = element.GetAttribute(AttributeNames.Content) ?? String.Empty;
                                 charset = DocumentEncoding.Extract(charset);
@@ -1886,7 +1886,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (tagName.IsGeneralTableElement(true) || tagName.IsTableCellElement())
+                    if (tagName.IsTableCellElement() || tagName.IsGeneralTableElement(true))
                     {
                         if (IsInTableScope(Tags.Td) || IsInTableScope(Tags.Th))
                         {
@@ -3111,7 +3111,7 @@
 
                         for (int i = open.Count - 1; i > 0; i--)
                         {
-                            if (node.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                            if (node.NodeName == tagName)
                             {
                                 open.RemoveRange(i + 1, open.Count - i - 1);
                                 CloseCurrentNode();
