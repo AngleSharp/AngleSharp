@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
 

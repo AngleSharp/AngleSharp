@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Media;
+    using AngleSharp.Network;
     using System;
     using System.Globalization;
     using System.Threading.Tasks;

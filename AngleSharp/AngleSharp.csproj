@@ -627,9 +627,9 @@
     <Compile Include="Media\IMediaInfo.cs" />
     <Compile Include="Media\IResourceInfo.cs" />
     <Compile Include="Media\IVideoInfo.cs" />
-    <Compile Include="Network\Constants\CorsSetting.cs" />
-    <Compile Include="Network\Constants\DefaultPorts.cs" />
-    <Compile Include="Network\Constants\KnownProtocols.cs" />
+    <Compile Include="Network\CorsSetting.cs" />
+    <Compile Include="Network\DefaultPorts.cs" />
+    <Compile Include="Network\KnownProtocols.cs" />
     <Compile Include="Css\Frequency.cs" />
     <Compile Include="Css\Number.cs" />
     <Compile Include="Css\Percent.cs" />
@@ -638,8 +638,8 @@
     <Compile Include="Css\Length.cs" />
     <Compile Include="Extensions\NodeExtensions.cs" />
     <Compile Include="Extensions\ValueExtensions.cs" />
-    <Compile Include="Network\Constants\OriginBehavior.cs" />
-    <Compile Include="Network\RequesterExtensions.cs" />
+    <Compile Include="Network\OriginBehavior.cs" />
+    <Compile Include="Extensions\RequesterExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
     <Compile Include="DocumentBuilder.cs" />
@@ -655,7 +655,7 @@
     <Compile Include="Html\AttributeNames.cs" />
     <Compile Include="Css\FunctionNames.cs" />
     <Compile Include="Html\EventNames.cs" />
-    <Compile Include="Network\Constants\HeaderNames.cs" />
+    <Compile Include="Network\HeaderNames.cs" />
     <Compile Include="Css\PropertyNames.cs" />
     <Compile Include="Css\RuleNames.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
@@ -723,7 +723,7 @@
     <Compile Include="DOM\Svg\SVGForeignObjectElement.cs" />
     <Compile Include="DOM\Svg\SVGSVGElement.cs" />
     <Compile Include="DOM\Svg\SVGTitleElement.cs" />
-    <Compile Include="Network\Constants\HttpMethod.cs" />
+    <Compile Include="Network\HttpMethod.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElement.cs" />
     <Compile Include="DOM\Html\Forms\HTMLFormControlElementWithState.cs" />
     <Compile Include="DOM\Html\Forms\HTMLOutputElement.cs" />
@@ -748,7 +748,7 @@
     <Compile Include="DOM\Constants\RangePosition.cs" />
     <Compile Include="DOM\Constants\RangeType.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
-    <Compile Include="Network\Constants\MimeTypes.cs" />
+    <Compile Include="Network\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />
     <Compile Include="Foundation\Mutations\MutationObserver.cs" />
     <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />

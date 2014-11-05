@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Xml
 {
+    using AngleSharp.Network;
     using System;
 
     /// <summary>
