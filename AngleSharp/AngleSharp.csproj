@@ -96,7 +96,7 @@
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Css\ITransform.cs" />
-    <Compile Include="Foundation\Setup\Configuration.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />
     <Compile Include="DOM\Collections\SettableTokenList.cs" />
@@ -325,7 +325,7 @@
     <Compile Include="DOM\Xml\XmlElement.cs" />
     <Compile Include="Foundation\Structures\Angle.cs" />
     <Compile Include="Foundation\Constants\FeatureNames.cs" />
-    <Compile Include="Foundation\Setup\CopyConfiguration.cs" />
+    <Compile Include="Foundation\CopyConfiguration.cs" />
     <Compile Include="Foundation\Structures\Priority.cs" />
     <Compile Include="Css\Shape.cs" />
     <Compile Include="Css\CubicBezierTransitionFunction.cs" />
@@ -666,7 +666,7 @@
     <Compile Include="Network\DefaultRequest.cs" />
     <Compile Include="Network\DefaultRequester.cs" />
     <Compile Include="Network\DefaultResponse.cs" />
-    <Compile Include="Foundation\Setup\IConfiguration.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
     <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
