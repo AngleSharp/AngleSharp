@@ -85,6 +85,48 @@
     <Compile Include="..\AngleSharp\ConfigurationExtensions.cs">
       <Link>ConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\ContextExtensions.cs">
+      <Link>ContextExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Counter.cs">
+      <Link>Css\Counter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\CubicBezierTransitionFunction.cs">
+      <Link>Css\CubicBezierTransitionFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\GradientStop.cs">
+      <Link>Css\GradientStop.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ICssObject.cs">
+      <Link>Css\ICssObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\IDistance.cs">
+      <Link>Css\IDistance.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ITransform.cs">
+      <Link>Css\ITransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\LinearGradient.cs">
+      <Link>Css\LinearGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\RadialGradient.cs">
+      <Link>Css\RadialGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Shadow.cs">
+      <Link>Css\Shadow.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Shape.cs">
+      <Link>Css\Shape.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\StepsTransitionFunction.cs">
+      <Link>Css\StepsTransitionFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\TransformMatrix.cs">
+      <Link>Css\TransformMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\TransitionFunction.cs">
+      <Link>Css\TransitionFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Delegates\DomEventHandler.cs">
       <Link>Delegates\DomEventHandler.cs</Link>
     </Compile>
@@ -1513,14 +1555,8 @@
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\IDistance.cs">
-      <Link>Foundation\IDistance.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\ITextSource.cs">
       <Link>Foundation\ITextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\ITransform.cs">
-      <Link>Foundation\ITransform.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
       <Link>Foundation\Mutations\MutationObserver.cs</Link>
@@ -1549,23 +1585,11 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Color.cs">
       <Link>Foundation\Structures\Color.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\Counter.cs">
-      <Link>Foundation\Structures\Counter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\CubicBezierTransitionFunction.cs">
-      <Link>Foundation\Structures\CubicBezierTransitionFunction.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Frequency.cs">
       <Link>Foundation\Structures\Frequency.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\GradientStop.cs">
-      <Link>Foundation\Structures\GradientStop.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Length.cs">
       <Link>Foundation\Structures\Length.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\LinearGradient.cs">
-      <Link>Foundation\Structures\LinearGradient.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Number.cs">
       <Link>Foundation\Structures\Number.cs</Link>
@@ -1579,29 +1603,11 @@
     <Compile Include="..\AngleSharp\Foundation\Structures\Priority.cs">
       <Link>Foundation\Structures\Priority.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\RadialGradient.cs">
-      <Link>Foundation\Structures\RadialGradient.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Resolution.cs">
       <Link>Foundation\Structures\Resolution.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\Shadow.cs">
-      <Link>Foundation\Structures\Shadow.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\Shape.cs">
-      <Link>Foundation\Structures\Shape.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\StepsTransitionFunction.cs">
-      <Link>Foundation\Structures\StepsTransitionFunction.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Time.cs">
       <Link>Foundation\Structures\Time.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\TransformMatrix.cs">
-      <Link>Foundation\Structures\TransformMatrix.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Structures\TransitionFunction.cs">
-      <Link>Foundation\Structures\TransitionFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Structures\Url.cs">
       <Link>Foundation\Structures\Url.cs</Link>
@@ -1620,9 +1626,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Wrappers\CssString.cs">
       <Link>Foundation\Wrappers\CssString.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\ICssObject.cs">
-      <Link>ICssObject.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\BaseOptions.cs">
       <Link>Infrastructure\BaseOptions.cs</Link>
