@@ -1647,6 +1647,9 @@
     <Compile Include="..\AngleSharp\Foundation\Wrappers\CssString.cs">
       <Link>Foundation\Wrappers\CssString.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Wrappers\CssUrl.cs">
+      <Link>Foundation\Wrappers\CssUrl.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
     </Compile>
