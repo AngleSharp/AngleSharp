@@ -13,6 +13,7 @@
         /// Creates a new CSS keyword token.
         /// </summary>
         /// <param name="type">The exact type.</param>
+        /// <param name="data">The data to use.</param>
         CssKeywordToken(CssTokenType type, String data)
             : base(type, data)
         {

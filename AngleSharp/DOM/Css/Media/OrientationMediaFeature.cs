@@ -12,6 +12,8 @@
         public OrientationMediaFeature()
             : base(FeatureNames.Orientation)
         {
+            _portrait = false;
+            _landscape = false;
         }
 
         internal override Boolean TrySetDefaultValue()

@@ -12,6 +12,7 @@
         /// <summary>
         /// Creates a new character token with the given character.
         /// </summary>
+        /// <param name="type">The type of token.</param>
         /// <param name="data">The character.</param>
         public CssCharacterToken(CssTokenType type, Char data)
             : base(type, data.ToString())

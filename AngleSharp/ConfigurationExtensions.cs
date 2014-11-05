@@ -143,9 +143,9 @@
         /// <param name="stream">The stream of chars to use as source code.</param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static Task<ICssStyleSheet> ParseCssAsync(this IConfiguration config, Stream stream, String url = null)
+        public static Task<ICssStyleSheet> ParseCssAsync(this IConfiguration configuration, Stream stream, String url = null)
         {
-            return DocumentBuilder.CssAsync(stream, config, url);
+            return DocumentBuilder.CssAsync(stream, configuration, url);
         }
 
         /// <summary>

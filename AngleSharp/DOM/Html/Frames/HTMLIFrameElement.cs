@@ -88,15 +88,20 @@
             base.Close();
             var src = Source;
 
-            if (src != null)
+            if (src == null)
+                return;
+            
+            var url = HyperRef(src);
+            var requester = Owner.Options.GetRequester(url.Scheme);
+
+            if (requester == null)
+                return;
+
+            requester.LoadAsync(url).ContinueWith(task =>
             {
-                var url = HyperRef(src);
-                Owner.Options.LoadAsync(url).ContinueWith(task =>
-                {
-                    if (!task.IsFaulted && task.Result != null)
-                        _doc.LoadAsync(task.Result, CancellationToken.None);
-                });
-            }
+                if (!task.IsFaulted && task.Result != null)
+                    _doc.LoadAsync(task.Result, CancellationToken.None);
+            });
         }
 
         #endregion

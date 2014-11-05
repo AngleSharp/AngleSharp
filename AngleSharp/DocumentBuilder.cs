@@ -3,6 +3,7 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using System;
@@ -249,7 +250,8 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var response = await configuration.LoadForcedAsync(new Url(url), cancel).ConfigureAwait(false);
+            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
+            var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false);
             var stream = new TextSource(response.Content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
             return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
@@ -391,7 +393,8 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var response = await configuration.LoadForcedAsync(new Url(url), cancel).ConfigureAwait(false);
+            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
+            var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false);
             var source = new TextSource(response.Content, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
             return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);

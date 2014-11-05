@@ -227,7 +227,12 @@
                 }
 
                 var url = HyperRef(src);
-                _load = options.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint);
+                var requester = options.GetRequester(url.Scheme);
+
+                if (requester == null)
+                    return;
+
+                _load = requester.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint);
 
                 if (_parserInserted && !IsAsync)
                 {

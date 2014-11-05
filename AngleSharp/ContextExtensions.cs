@@ -58,7 +58,13 @@
         /// <returns>The task that creates the document.</returns>
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
         {
-            var response = await context.Configuration.LoadAsync(url, cancel).ConfigureAwait(false);
+            var config = context.Configuration;
+            var requester = config.GetRequester(url.Scheme);
+
+            if (requester == null)
+                return null;
+
+            var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false);
             return await context.OpenAsync(response, cancel).ConfigureAwait(false);
         }
 

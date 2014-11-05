@@ -18,6 +18,8 @@
         public ScanMediaFeature()
             : base(FeatureNames.Scan)
         {
+            _progressive = false;
+            _interlace = false;
         }
 
         #endregion
@@ -33,14 +35,14 @@
 
         internal override Boolean TrySetValue(CSSValue value)
         {
-            if (Value.Is("progressive"))
+            if (Value.Is(Keywords.Progressive))
             {
                 Value = value;
                 _progressive = true;
                 _interlace = false;
                 return true;
             }
-            else if (Value.Is("interlace"))
+            else if (Value.Is(Keywords.Interlace))
             {
                 Value = value;
                 _progressive = false;

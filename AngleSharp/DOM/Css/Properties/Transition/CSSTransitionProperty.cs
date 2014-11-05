@@ -63,7 +63,7 @@
         /// <summary>
         /// Gets the properties for the transitions.
         /// </summary>
-        public IEnumerable<String> Properties
+        IEnumerable<String> ICssTransitionPropertyProperty.Properties
         {
             get { return _property.Properties; }
         }

@@ -204,8 +204,13 @@
                 {
                     _buffer = href;
                     TryCancelCurrent();
+                    var url = new Url(href);
+                    var requester = Owner.Options.GetRequester(url.Scheme);
 
-                    _current = Owner.Options.LoadAsync(new Url(href), _cts.Token).ContinueWith(task =>
+                    if (requester == null)
+                        return;
+
+                    _current = requester.LoadAsync(url, _cts.Token).ContinueWith(task =>
                     {
                         if (task.IsCompleted && !task.IsFaulted && task.Result != null)
                         {

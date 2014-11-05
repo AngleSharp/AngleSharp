@@ -441,7 +441,12 @@
                     _cancel = new CancellationTokenSource();
                 }
 
-                var response = await Owner.Options.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false);
+                var requester = Owner.Options.GetRequester(action.Scheme);
+
+                if (requester == null)
+                    return;
+
+                var response = await requester.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false);
                 await Owner.LoadAsync(response, _cancel.Token).ConfigureAwait(false);
             }
         }

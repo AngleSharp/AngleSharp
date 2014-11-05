@@ -51,45 +51,23 @@
         /// <summary>
         /// Loads the given URI by using an asynchronous GET request.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="requester">The requester to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url)
+        public static Task<IResponse> LoadAsync(this IRequester requester, Url url)
         {
-            return configuration.LoadAsync(url, CancellationToken.None);
+            return requester.LoadAsync(url, CancellationToken.None);
         }
 
         /// <summary>
         /// Loads the given URI by using an asynchronous GET request.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="requester">The requester to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> LoadAsync(this IConfiguration configuration, Url url, CancellationToken cancel)
+        public static Task<IResponse> LoadAsync(this IRequester requester, Url url, CancellationToken cancel)
         {
-            var requester = configuration.GetRequester(url.Scheme);
-
-            if (requester == null)
-                return Empty<IResponse>();
-
-            return requester.RequestAsync(new DefaultRequest
-            {
-                Address = url,
-                Method = HttpMethod.Get
-            }, cancel);
-        }
-
-        /// <summary>
-        /// Loads the given URI by using an asynchronous GET request with possibly considering the default requester.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> LoadForcedAsync(this IConfiguration configuration, Url url, CancellationToken cancel)
-        {
-            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
             return requester.RequestAsync(new DefaultRequest
             {
                 Address = url,
@@ -104,34 +82,29 @@
         /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by using an asynchronous GET request.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="requester">The requester to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="cors">The cross origin settings to use.</param>
         /// <param name="origin">The origin of the page that requests the loading.</param>
         /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
+        public static Task<IResponse> LoadWithCorsAsync(this IRequester requester, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior)
         {
-            return configuration.LoadWithCorsAsync(url, cors, origin, defaultBehavior, CancellationToken.None);
+            return requester.LoadWithCorsAsync(url, cors, origin, defaultBehavior, CancellationToken.None);
         }
 
         /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by using an asynchronous GET request.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="requester">The requester to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="cors">The cross origin settings to use.</param>
         /// <param name="origin">The origin of the page that requests the loading.</param>
         /// <param name="defaultBehavior">The default behavior in case it is undefined.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <returns>The task which will eventually return the stream.</returns>
-        public static Task<IResponse> LoadWithCorsAsync(this IConfiguration configuration, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
+        public static Task<IResponse> LoadWithCorsAsync(this IRequester requester, Url url, CorsSetting cors, String origin, OriginBehavior defaultBehavior, CancellationToken cancel)
         {
-            var requester = configuration.GetRequester(url.Scheme);
-
-            if (requester == null)
-                return Empty<IResponse>();
-
             //TODO
             //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
             return requester.RequestAsync(new DefaultRequest
@@ -148,34 +121,29 @@
         /// <summary>
         /// Loads the given URI by using an asynchronous request with the given method and body.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="requester">The requester to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="content">The body that should be used in the request.</param>
         /// <param name="mimeType">The mime-type of the request.</param>
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
+        public static Task<IResponse> SendAsync(this IRequester requester, Url url, Stream content = null, String mimeType = null, HttpMethod method = HttpMethod.Post)
         {
-            return configuration.SendAsync(url, content, mimeType, method, CancellationToken.None);
+            return requester.SendAsync(url, content, mimeType, method, CancellationToken.None);
         }
 
         /// <summary>
         /// Loads the given URI by using an asynchronous request with the given method and body.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="requester">The requester to use.</param>
         /// <param name="url">The url that yields the path to the desired action.</param>
         /// <param name="content">The body that should be used in the request.</param>
         /// <param name="mimeType">The mime-type of the request.</param>
         /// <param name="method">The method that is used for sending the request asynchronously.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> SendAsync(this IConfiguration configuration, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel)
+        public static Task<IResponse> SendAsync(this IRequester requester, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel)
         {
-            var requester = configuration.GetRequester(url.Scheme);
-
-            if (requester == null)
-                return Empty<IResponse>();
-
             var request = new DefaultRequest
             {
                 Address = url,
@@ -264,6 +232,23 @@
         #endregion
 
         #region Resource Services
+
+        /// <summary>
+        /// Tries to get a requester for the given scheme.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="protocol">The scheme to find a requester for.</param>
+        /// <returns>A requester for the scheme or null.</returns>
+        public static IRequester GetRequester(this IConfiguration options, String protocol)
+        {
+            foreach (var requester in options.Requesters)
+            {
+                if (requester.SupportsProtocol(protocol))
+                    return requester;
+            }
+
+            return null;
+        }
         
         /// <summary>
         /// Tries to load an image if a proper image service can be found.
@@ -287,16 +272,21 @@
         public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
             where TResource : IResourceInfo
         {
-            var response = await options.LoadAsync(url, cancel).ConfigureAwait(false);
+            var requester = GetRequester(options, url.Scheme);
 
-            if (response != null)
+            if (requester != null)
             {
-                var imageServices = options.GetServices<IResourceService<TResource>>();
+                var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false);
 
-                foreach (var imageService in imageServices)
+                if (response != null)
                 {
-                    if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                        return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                    var imageServices = options.GetServices<IResourceService<TResource>>();
+
+                    foreach (var imageService in imageServices)
+                    {
+                        if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                            return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                    }
                 }
             }
 
@@ -419,33 +409,6 @@
                 if (engine != null)
                     engine.Evaluate(response, options);
             }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static IRequester GetRequester(this IConfiguration configuration, String protocol)
-        {
-            foreach (var requester in configuration.Requesters)
-            {
-                if (requester.SupportsProtocol(protocol))
-                    return requester;
-            }
-
-            return null;
-        }
-
-        static Task<TResult> Empty<TResult>()
-            where TResult : class
-        {
-#if LEGACY
-            var task = new TaskCompletionSource<TResult>();
-            task.SetResult(null);
-            return task.Task;
-#else
-            return Task.FromResult<TResult>(null);
-#endif
         }
 
         #endregion

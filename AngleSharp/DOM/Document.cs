@@ -1391,7 +1391,13 @@
             }
             else
             {
-                Options.LoadAsync(new Url(e.CurrentLocation)).ContinueWith(m =>
+                var url = new Url(e.CurrentLocation);
+                var requester = _options.GetRequester(url.Scheme);
+
+                if (requester == null)
+                    return;
+
+                requester.LoadAsync(url).ContinueWith(m =>
                 {
                     if (m.IsCompleted && !m.IsFaulted && m.Result != null)
                         LoadAsync(m.Result, CancellationToken.None);

@@ -1126,5 +1126,15 @@
         /// The landscape keyword.
         /// </summary>
         public static readonly String Landscape = "landscape";
+
+        /// <summary>
+        /// The progressive keyword.
+        /// </summary>
+        public static readonly String Progressive = "progressive";
+
+        /// <summary>
+        /// The interlace keyword.
+        /// </summary>
+        public static readonly String Interlace = "interlace";
     }
 }
