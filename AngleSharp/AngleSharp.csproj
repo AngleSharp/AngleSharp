@@ -885,7 +885,7 @@
     <Compile Include="DOM\TextNode.cs" />
     <Compile Include="Parser\Html\HtmlParser.cs" />
     <Compile Include="Network\IResponse.cs" />
-    <Compile Include="PortableExtensions.cs" />
+    <Compile Include="Extensions\PortableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\SourceManager.cs" />
     <Compile Include="Foundation\Constants\Specification.cs" />
