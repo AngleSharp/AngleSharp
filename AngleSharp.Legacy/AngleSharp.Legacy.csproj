@@ -97,6 +97,9 @@
     <Compile Include="..\AngleSharp\Css\Color.cs">
       <Link>Css\Color.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\Colors.cs">
+      <Link>Css\Colors.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Counter.cs">
       <Link>Css\Counter.cs</Link>
       <SubType>
@@ -122,8 +125,14 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\FeatureNames.cs">
+      <Link>Css\FeatureNames.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Frequency.cs">
       <Link>Css\Frequency.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\FunctionNames.cs">
+      <Link>Css\FunctionNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\GradientStop.cs">
       <Link>Css\GradientStop.cs</Link>
@@ -165,6 +174,12 @@
     <Compile Include="..\AngleSharp\Css\Priority.cs">
       <Link>Css\Priority.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\PropertyFlags.cs">
+      <Link>Css\PropertyFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\PropertyNames.cs">
+      <Link>Css\PropertyNames.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\RadialGradient.cs">
       <Link>Css\RadialGradient.cs</Link>
       <SubType>
@@ -172,6 +187,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Resolution.cs">
       <Link>Css\Resolution.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\RuleNames.cs">
+      <Link>Css\RuleNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Shadow.cs">
       <Link>Css\Shadow.cs</Link>
@@ -200,6 +218,9 @@
       <Link>Css\TransitionFunction.cs</Link>
       <SubType>
       </SubType>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Units.cs">
+      <Link>Css\Units.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Delegates\DomEventHandler.cs">
       <Link>Delegates\DomEventHandler.cs</Link>
@@ -1575,65 +1596,20 @@
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\AttributeNames.cs">
-      <Link>Foundation\Constants\AttributeNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Colors.cs">
-      <Link>Foundation\Constants\Colors.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Entities.cs">
-      <Link>Foundation\Constants\Entities.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\ErrorCode.cs">
-      <Link>Foundation\Constants\ErrorCode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\EventFlags.cs">
-      <Link>Foundation\Constants\EventFlags.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\EventNames.cs">
-      <Link>Foundation\Constants\EventNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\FeatureNames.cs">
-      <Link>Foundation\Constants\FeatureNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\FunctionNames.cs">
-      <Link>Foundation\Constants\FunctionNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Keywords.cs">
-      <Link>Foundation\Constants\Keywords.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Namespaces.cs">
-      <Link>Foundation\Constants\Namespaces.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\NodeFlags.cs">
-      <Link>Foundation\Constants\NodeFlags.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\PropertyFlags.cs">
-      <Link>Foundation\Constants\PropertyFlags.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\PropertyNames.cs">
-      <Link>Foundation\Constants\PropertyNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\RuleNames.cs">
-      <Link>Foundation\Constants\RuleNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Specification.cs">
-      <Link>Foundation\Constants\Specification.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Tags.cs">
-      <Link>Foundation\Constants\Tags.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Constants\Units.cs">
-      <Link>Foundation\Constants\Units.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\CopyConfiguration.cs">
       <Link>Foundation\CopyConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
       <Link>Foundation\DocumentEncoding.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\ErrorCode.cs">
+      <Link>Foundation\ErrorCode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\ITextSource.cs">
       <Link>Foundation\ITextSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Keywords.cs">
+      <Link>Foundation\Keywords.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
       <Link>Foundation\Mutations\MutationObserver.cs</Link>
@@ -1647,8 +1623,32 @@
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\Specification.cs">
+      <Link>Foundation\Specification.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
       <Link>Foundation\TextSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
+      <Link>Html\AttributeNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Entities.cs">
+      <Link>Html\Entities.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\EventFlags.cs">
+      <Link>Html\EventFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\EventNames.cs">
+      <Link>Html\EventNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Namespaces.cs">
+      <Link>Html\Namespaces.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\NodeFlags.cs">
+      <Link>Html\NodeFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Tags.cs">
+      <Link>Html\Tags.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
