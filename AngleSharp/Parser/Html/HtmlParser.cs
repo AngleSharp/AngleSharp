@@ -3111,7 +3111,7 @@
 
                         for (int i = open.Count - 1; i > 0; i--)
                         {
-                            if (node.NodeName == tagName)
+                            if (node.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
                             {
                                 open.RemoveRange(i + 1, open.Count - i - 1);
                                 CloseCurrentNode();

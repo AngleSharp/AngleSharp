@@ -3,7 +3,11 @@
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;
+#if LEGACY
+    using AngleSharp.Extensions;
+#else
     using System.Runtime.CompilerServices;
+#endif
 
     /// <summary>
     /// Useful helpers for the HTML parser.
