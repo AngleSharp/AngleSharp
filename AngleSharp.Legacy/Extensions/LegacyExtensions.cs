@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,9 @@
     using System.Reflection;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Extensions for ensuring code portability.
+    /// </summary>
     static class LegacyExtensions
     {
         public static Task InvokeAsync(this Action action)

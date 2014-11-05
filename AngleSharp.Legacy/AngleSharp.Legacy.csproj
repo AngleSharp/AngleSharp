@@ -2638,7 +2638,7 @@
     <Compile Include="..\AngleSharp\Tools\AnalysisWindow.cs">
       <Link>Tools\AnalysisWindow.cs</Link>
     </Compile>
-    <Compile Include="LegacyExtensions.cs" />
+    <Compile Include="Extensions\LegacyExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
