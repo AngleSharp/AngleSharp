@@ -1624,9 +1624,6 @@
     <Compile Include="..\AngleSharp\ICssObject.cs">
       <Link>ICssObject.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\IHtmlObject.cs">
-      <Link>IHtmlObject.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\BaseOptions.cs">
       <Link>Infrastructure\BaseOptions.cs</Link>
     </Compile>
