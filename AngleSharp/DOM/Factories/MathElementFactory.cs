@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Mathml
 {
     using AngleSharp.DOM.Factories;
+    using AngleSharp.Html;
     using System;
 
     /// <summary>

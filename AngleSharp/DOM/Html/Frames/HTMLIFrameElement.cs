@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Html;
     using System;
     using System.Threading;
 

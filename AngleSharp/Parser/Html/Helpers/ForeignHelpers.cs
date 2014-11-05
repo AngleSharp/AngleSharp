@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.DOM;
+    using AngleSharp.Html;
     using System;
 
     /// <summary>
@@ -18,22 +19,22 @@
         {
             if (name.Length > 6 && String.Compare("xlink:", 0, name, 0, 6) == 0)
             {
-                if (String.Compare("actuate", 0, name, 6, 7) == 0 ||
-                    String.Compare("arcrole", 0, name, 6, 7) == 0 ||
-                    String.Compare("href", 0, name, 6, 4) == 0 ||
-                    String.Compare("role", 0, name, 6, 4) == 0 ||
-                    String.Compare("show", 0, name, 6, 4) == 0 ||
-                    String.Compare("type", 0, name, 6, 4) == 0 ||
-                    String.Compare("title", 0, name, 6, 5) == 0)
+                if (String.Compare(AttributeNames.Actuate, 0, name, 6, 7) == 0 ||
+                    String.Compare(AttributeNames.Arcrole, 0, name, 6, 7) == 0 ||
+                    String.Compare(AttributeNames.Href, 0, name, 6, 4) == 0 ||
+                    String.Compare(AttributeNames.Role, 0, name, 6, 4) == 0 ||
+                    String.Compare(AttributeNames.Show, 0, name, 6, 4) == 0 ||
+                    String.Compare(AttributeNames.Type, 0, name, 6, 4) == 0 ||
+                    String.Compare(AttributeNames.Title, 0, name, 6, 5) == 0)
                 {
-                    element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(':') + 1), value);
+                    element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Specification.Colon) + 1), value);
                     return;
                 }
             }
             else if (name.Length > 4)
             {
-                if (String.Compare("xml:", 0, name, 0, 4) == 0 && (String.Compare("base", 0, name, 4, 4) == 0 ||
-                    String.Compare("lang", 0, name, 4, 4) == 0 || String.Compare("space", 0, name, 4, 5) == 0))
+                if (String.Compare("xml:", 0, name, 0, 4) == 0 && (String.Compare(Tags.Base, 0, name, 4, 4) == 0 ||
+                    String.Compare(AttributeNames.Lang, 0, name, 4, 4) == 0 || String.Compare(AttributeNames.Space, 0, name, 4, 5) == 0))
                 {
                     element.SetAttribute(Namespaces.XmlUri, name, value);
                     return;

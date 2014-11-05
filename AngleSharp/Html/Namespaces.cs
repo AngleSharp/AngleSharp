@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Html
 {
     using System;
     using System.Collections.Generic;

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Html;
+
     /// <summary>
     /// The rt element.
     /// </summary>

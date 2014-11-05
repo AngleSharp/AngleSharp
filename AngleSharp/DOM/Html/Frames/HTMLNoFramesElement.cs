@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Html;
+
     /// <summary>
     /// Represents a noframes HTML element.
     /// </summary>

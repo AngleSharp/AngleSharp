@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Html;
+
     /// <summary>
     /// Represents the HTML wbr (word-break-opportunity) element.
     /// This element is used to indicate that the position is a good

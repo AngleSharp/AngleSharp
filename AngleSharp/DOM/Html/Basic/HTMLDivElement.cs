@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Html;
+
     /// <summary>
     /// Represents the HTML div element.
     /// </summary>

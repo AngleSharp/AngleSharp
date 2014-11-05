@@ -5,6 +5,7 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Navigator;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using System;
 
     /// <summary>

@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Mathml
 {
+    using AngleSharp.Html;
+
     /// <summary>
     /// The mn math element.
     /// </summary>

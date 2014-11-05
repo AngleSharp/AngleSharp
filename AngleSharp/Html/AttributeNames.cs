@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Html
 {
     using System;
 
@@ -676,5 +676,30 @@
         /// THe vlink attribute.
         /// </summary>
         public static readonly String Vlink = "vlink";
+
+        /// <summary>
+        /// The show attribute.
+        /// </summary>
+        public static readonly String Show = "show";
+
+        /// <summary>
+        /// The role attribute.
+        /// </summary>
+        public static readonly String Role = "role";
+
+        /// <summary>
+        /// The actuate attribute.
+        /// </summary>
+        public static readonly String Actuate = "actuate";
+
+        /// <summary>
+        /// The arcrole attribute.
+        /// </summary>
+        public static readonly String Arcrole = "arcrole";
+
+        /// <summary>
+        /// The space attribute.
+        /// </summary>
+        public static readonly String Space = "space";
     }
 }

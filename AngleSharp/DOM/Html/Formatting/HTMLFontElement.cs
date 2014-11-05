@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents a font element.

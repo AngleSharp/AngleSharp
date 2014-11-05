@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Svg
 {
+    using AngleSharp.Html;
+
     /// <summary>
     /// Represents the title element of the SVG DOM.
     /// </summary>

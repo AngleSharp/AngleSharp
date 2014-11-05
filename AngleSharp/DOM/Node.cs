@@ -3,6 +3,7 @@
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using System;
 
     /// <summary>

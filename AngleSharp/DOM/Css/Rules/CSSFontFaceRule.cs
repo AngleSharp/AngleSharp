@@ -62,8 +62,8 @@
         /// </summary>
         String ICssFontFaceRule.Source
         {
-            get { return _style.GetPropertyValue(AttributeNames.Src); }
-            set { _style.SetProperty(AttributeNames.Src, value); }
+            get { return _style.GetPropertyValue(PropertyNames.Src); }
+            set { _style.SetProperty(PropertyNames.Src, value); }
         }
 
         /// <summary>

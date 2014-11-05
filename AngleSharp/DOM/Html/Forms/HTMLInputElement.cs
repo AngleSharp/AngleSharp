@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Io;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Media;
     using System;
     using System.Globalization;

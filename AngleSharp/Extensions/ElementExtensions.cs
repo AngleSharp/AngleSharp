@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Html;
+    using AngleSharp.Html;
     using System;
     using System.Diagnostics;
 
