@@ -16,14 +16,14 @@
         /// </summary>
         /// <param name="code">The provided error code.</param>
         /// <param name="msg">The associated error message.</param>
-        /// <param name="line">The line of the error.</param>
-        /// <param name="column">The column of the error.</param>
-        public ParseErrorEventArgs(Int32 code, String msg, Int32 line, Int32 column)
+        /// <param name="start">The start position.</param>
+        /// <param name="end">The end position.</param>
+        public ParseErrorEventArgs(Int32 code, String msg, TextPosition start, TextPosition end)
         {
             ErrorMessage = msg;
             ErrorCode = code;
-            Line = line;
-            Column = column;
+            Start = start;
+            End = end;
         }
 
         #endregion
@@ -31,21 +31,21 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the line within the document.
+        /// Gets the start position of the error.
         /// </summary>
-        public Int32 Line
+        public TextPosition Start
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Gets or sets the column within the document.
+        /// Gets the end position of the error.
         /// </summary>
-        public Int32 Column
+        public TextPosition End
         {
-            private get;
-            set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@
         /// code as well as line and column.</returns>
         public override String ToString()
         {
-            return String.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Line.ToString(), Column.ToString(), ErrorCode.ToString(), ErrorMessage);
+            return String.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Start.Line.ToString(), Start.Column.ToString(), ErrorCode.ToString(), ErrorMessage);
         }
 
         #endregion

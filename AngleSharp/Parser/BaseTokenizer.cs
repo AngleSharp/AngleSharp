@@ -36,6 +36,19 @@
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Gets the current position.
+        /// </summary>
+        /// <returns>A new text position.</returns>
+        public TextPosition GetCurrentPosition()
+        {
+            return new TextPosition(Line, Column, Position);
+        }
+
+        #endregion
+
         #region Event-Helpers
 
         /// <summary>
@@ -46,9 +59,20 @@
         {
             if (ErrorOccurred != null)
             {
-                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), Line, Column);
+                var position = GetCurrentPosition();
+                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position, position);
                 ErrorOccurred(this, errorArguments);
             }
+        }
+
+        /// <summary>
+        /// Fires an error occurred event.
+        /// </summary>
+        /// <param name="args">The arguments to pass on.</param>
+        public void RaiseErrorOccurred(ParseErrorEventArgs args)
+        {
+            if (ErrorOccurred != null)
+                ErrorOccurred(this, args);
         }
 
         #endregion

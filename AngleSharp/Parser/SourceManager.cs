@@ -15,11 +15,11 @@
     {
         #region Fields
 
-        readonly Stack<Int32> _collengths;
+        readonly Stack<UInt16> _collengths;
         readonly ITextSource _reader;
 
-        Int32 _column;
-        Int32 _row;
+        UInt16 _column;
+        UInt16 _row;
         Char _current;
 
         #endregion
@@ -32,7 +32,7 @@
         SourceManager()
         {
             _current = Specification.Null;
-            _collengths = new Stack<Int32>();
+            _collengths = new Stack<UInt16>();
             _column = 0;
             _row = 1;
         }
@@ -87,7 +87,7 @@
         /// <summary>
         /// Gets the current line within the source code.
         /// </summary>
-        public Int32 Line
+        public UInt16 Line
         {
             get { return _row; }
         }
@@ -95,9 +95,17 @@
         /// <summary>
         /// Gets the current column within the source code.
         /// </summary>
-        public Int32 Column
+        public UInt16 Column
         {
             get { return _column; }
+        }
+
+        /// <summary>
+        /// Gets the current position within the source code.
+        /// </summary>
+        public Int32 Position
+        {
+            get { return _reader.Index; }
         }
 
         /// <summary>
@@ -297,7 +305,7 @@
 
             if (_current.IsLineBreak())
             {
-                _column = _collengths.Count != 0 ? _collengths.Pop() : 1;
+                _column = _collengths.Count != 0 ? _collengths.Pop() : (UInt16)1;
                 _row--;
             }
             else

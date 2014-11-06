@@ -333,6 +333,7 @@
     <Compile Include="Css\TransformMatrix.cs" />
     <Compile Include="Css\StepsTransitionFunction.cs" />
     <Compile Include="Css\CssUrl.cs" />
+    <Compile Include="Parser\TextPosition.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
