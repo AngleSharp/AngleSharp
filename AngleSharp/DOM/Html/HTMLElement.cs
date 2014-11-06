@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly CSSStyleDeclaration _style;
+        CSSStyleDeclaration _style;
         StringMap _dataset;
         IHtmlMenuElement _menu;
         ISettableTokenList _dropZone;
@@ -29,8 +29,6 @@
             : base(name, flags | NodeFlags.HtmlMember)
         {
             NamespaceUri = Namespaces.HtmlUri;
-            _style = new CSSStyleDeclaration();
-            _style.Changed += (s, ev) => { SetAttribute(AttributeNames.Style, _style.CssText); };
         }
 
         #endregion
@@ -159,7 +157,16 @@
         /// </summary>
         public CSSStyleDeclaration Style
         {
-            get { return _style; }
+            get 
+            {
+                if (_style == null)
+                {
+                    _style = new CSSStyleDeclaration(GetAttribute(AttributeNames.Style));
+                    _style.Changed += (s, ev) => SetAttribute(AttributeNames.Style, _style.CssText);
+                }
+
+                return _style; ; 
+            }
         }
 
         ICssStyleDeclaration IElementCssInlineStyle.Style
@@ -188,7 +195,7 @@
 
                 if (value == ContentEditableMode.True)
                     return true;
-
+                
                 var parent = ParentElement as IHtmlElement;
 
                 if (value == ContentEditableMode.Inherited && parent != null)
@@ -285,7 +292,8 @@
             if (String.IsNullOrEmpty(value))
                 Attributes.Remove(Attributes.Get(AttributeNames.Style));
 
-            _style.Update(value);
+            if (_style != null)
+                _style.Update(value);
         }
 
         internal override void Close()

@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        readonly HtmlElementCollection _elements;
         readonly List<IAttr> _attributes;
-        readonly Dictionary<String, Action<String>> _attributeHandlers;
 
+        HtmlElementCollection _elements;
+        Dictionary<String, Action<String>> _attributeHandlers;
         String _prefix;
         String _namespace;
         TokenList _classList;
@@ -32,9 +32,7 @@
         internal Element(String name, NodeFlags flags = NodeFlags.None)
             : base(name, NodeType.Element, flags)
         {
-            _elements = new HtmlElementCollection(this, deep: false);
             _attributes = new List<IAttr>();
-            _attributeHandlers = new Dictionary<String, Action<String>>();
         }
 
         #endregion
@@ -182,7 +180,7 @@
         /// </summary>
         public Int32 ChildElementCount
         {
-            get { return _elements.Length; }
+            get { return Children.Length; }
         }
 
         /// <summary>
@@ -190,7 +188,7 @@
         /// </summary>
         public IHtmlCollection Children
         {
-            get { return _elements; }
+            get { return _elements ?? (_elements = new HtmlElementCollection(this, deep: false)); }
         }
 
         /// <summary>
@@ -488,9 +486,8 @@
                     }
                 }
 
-                var attr = new Attr(this, prefix, localName, value, namespaceUri);
-                _attributes.Add(attr);
-                AttributeChanged(attr.LocalName, attr.NamespaceUri, null);
+                _attributes.Add(new Attr(this, prefix, localName, value, namespaceUri));
+                AttributeChanged(localName, namespaceUri, null);
             }
             else
                 RemoveAttribute(namespaceUri, name);
@@ -710,7 +707,7 @@
         {
             Action<String> handler = null;
 
-            if (_attributeHandlers.TryGetValue(localName, out handler))
+            if (_attributeHandlers != null && _attributeHandlers.TryGetValue(localName, out handler))
             {
                 var attr = _attributes.Get(localName);
                 handler(attr != null ? attr.Value : null);
@@ -751,6 +748,9 @@
         protected void RegisterAttributeHandler(String name, Action<String> callback)
         {
             Action<String> handler = null;
+
+            if (_attributeHandlers == null)
+                _attributeHandlers = new Dictionary<String, Action<String>>();
 
             if (_attributeHandlers.TryGetValue(name, out handler))
                 handler += callback;

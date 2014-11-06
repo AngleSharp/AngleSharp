@@ -40,9 +40,11 @@
         /// <summary>
         /// Creates a new CSS style declaration with no parent.
         /// </summary>
-        internal CSSStyleDeclaration()
+        /// <param name="source">The source to start with.</param>
+        internal CSSStyleDeclaration(String source = null)
             : this(false, null)
         {
+            Update(source);
         }
 
         /// <summary>
