@@ -15,9 +15,9 @@
         #region Fields
 
         readonly List<IAttr> _attributes;
+        readonly Dictionary<String, Action<String>> _attributeHandlers;
 
         HtmlElementCollection _elements;
-        Dictionary<String, Action<String>> _attributeHandlers;
         String _prefix;
         String _namespace;
         TokenList _classList;
@@ -33,6 +33,7 @@
             : base(name, NodeType.Element, flags)
         {
             _attributes = new List<IAttr>();
+            _attributeHandlers = new Dictionary<String, Action<String>>();
         }
 
         #endregion
@@ -707,7 +708,7 @@
         {
             Action<String> handler = null;
 
-            if (_attributeHandlers != null && _attributeHandlers.TryGetValue(localName, out handler))
+            if (_attributeHandlers.TryGetValue(localName, out handler))
             {
                 var attr = _attributes.Get(localName);
                 handler(attr != null ? attr.Value : null);
@@ -748,9 +749,6 @@
         protected void RegisterAttributeHandler(String name, Action<String> callback)
         {
             Action<String> handler = null;
-
-            if (_attributeHandlers == null)
-                _attributeHandlers = new Dictionary<String, Action<String>>();
 
             if (_attributeHandlers.TryGetValue(name, out handler))
                 handler += callback;
