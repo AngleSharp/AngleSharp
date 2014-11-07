@@ -47,8 +47,11 @@
                 UrlTest.For("http://www.spiegel.de/").Result
             };
 
+            var statistics = new StatisticParser();
+
             var parsers = new List<IHtmlParser>
             {
+                //statistics
                 new AngleSharpParser(),
                 new CsQueryParser(),
                 new AgilityPackParser()
@@ -70,6 +73,8 @@
             };
 
             testsuite.Run();
+
+            //statistics.Print();
         }
     }
 }
