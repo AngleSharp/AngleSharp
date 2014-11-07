@@ -223,7 +223,16 @@
         /// </summary>
         public ITokenList RelationList
         {
-            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
+            get 
+            { 
+                if (_relList == null)
+                {
+                    _relList = new TokenList(GetAttribute(AttributeNames.Rel));
+                    _relList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Rel, _relList.ToString());
+                }
+
+                return _relList; 
+            }
         }
 
         /// <summary>
@@ -231,7 +240,16 @@
         /// </summary>
         public ISettableTokenList Ping
         {
-            get { return _ping ?? (_ping = new SettableTokenList(this, AttributeNames.Ping)); }
+            get 
+            { 
+                if (_ping == null)
+                {
+                    _ping = new SettableTokenList(GetAttribute(AttributeNames.Ping));
+                    _ping.Changed += (s, ev) => UpdateAttribute(AttributeNames.Ping, _ping.Value);
+                }
+
+                return _ping;
+            }
         }
 
         /// <summary>

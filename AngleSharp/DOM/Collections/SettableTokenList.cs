@@ -12,8 +12,9 @@
         /// <summary>
         /// Creates a new list of tokens.
         /// </summary>
-        internal SettableTokenList(Element parent, String attribute)
-            : base(parent, attribute)
+        /// <param name="value">The initial value, if any.</param>
+        internal SettableTokenList(String value)
+            : base(value)
         {
         }
 

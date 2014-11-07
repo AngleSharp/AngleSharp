@@ -13,7 +13,7 @@
 
         Boolean isDefaultValue;
         String _defaultValue;
-        ISettableTokenList _for;
+        SettableTokenList _for;
 
         #endregion
 
@@ -61,7 +61,16 @@
         /// </summary>
         public ISettableTokenList HtmlFor
         {
-            get { return _for ?? (_for = new SettableTokenList(this, AttributeNames.For)); }
+            get
+            { 
+                if (_for == null)
+                {
+                    _for = new SettableTokenList(GetAttribute(AttributeNames.For));
+                    _for.Changed += (s, ev) => UpdateAttribute(AttributeNames.For, _for.Value);
+                }
+
+                return _for; 
+            }
         }
 
         /// <summary>

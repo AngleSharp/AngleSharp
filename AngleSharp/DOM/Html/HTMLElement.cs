@@ -16,7 +16,7 @@
         CSSStyleDeclaration _style;
         StringMap _dataset;
         IHtmlMenuElement _menu;
-        ISettableTokenList _dropZone;
+        SettableTokenList _dropZone;
 
         #endregion
 
@@ -69,7 +69,16 @@
         /// </summary>
         public ISettableTokenList DropZone
         {
-            get { return _dropZone ?? (_dropZone = new SettableTokenList(this, AttributeNames.DropZone)); }
+            get
+            { 
+                if (_dropZone == null)
+                {
+                    _dropZone = new SettableTokenList(GetAttribute(AttributeNames.DropZone));
+                    _dropZone.Changed += (s, ev) => UpdateAttribute(AttributeNames.DropZone, _dropZone.Value);
+                }
+
+                return _dropZone;
+            }
         }
 
         /// <summary>
@@ -162,7 +171,7 @@
                 if (_style == null)
                 {
                     _style = new CSSStyleDeclaration(GetAttribute(AttributeNames.Style));
-                    _style.Changed += (s, ev) => SetAttribute(AttributeNames.Style, _style.CssText);
+                    _style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);
                 }
 
                 return _style; ; 

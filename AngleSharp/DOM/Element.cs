@@ -92,7 +92,16 @@
         /// </summary>
         public ITokenList ClassList
         {
-            get { return _classList ?? (_classList = new TokenList(this, AttributeNames.Class)); }
+            get 
+            {
+                if (_classList == null)
+                {
+                    _classList = new TokenList(GetAttribute(AttributeNames.Class));
+                    _classList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Class, _classList.ToString());
+                }
+
+                return _classList; 
+            }
         }
 
         /// <summary>
@@ -693,6 +702,19 @@
         #endregion
 
         #region Helpers
+
+        protected void UpdateAttribute(String name, String value)
+        {
+            Action<String> handler = null;
+
+            if (_attributeHandlers.TryGetValue(name, out handler))
+                _attributeHandlers.Remove(name);
+
+            SetAttribute(name, value);
+
+            if (handler != null)
+                _attributeHandlers.Add(name, handler);
+        }
 
         internal override void Close()
         {

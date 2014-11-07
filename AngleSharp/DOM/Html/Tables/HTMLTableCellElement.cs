@@ -144,7 +144,16 @@
         /// </summary>
         public ISettableTokenList Headers
         {
-            get { return _headers ?? (_headers = new SettableTokenList(this, AttributeNames.Headers)); }
+            get
+            { 
+                if (_headers == null)
+                {
+                    _headers = new SettableTokenList(GetAttribute(AttributeNames.Headers));
+                    _headers.Changed += (s, ev) => UpdateAttribute(AttributeNames.Headers, _headers.Value);
+                }
+
+                return _headers; 
+            }
         }
 
         /// <summary>

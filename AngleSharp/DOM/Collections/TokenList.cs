@@ -4,7 +4,6 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// A simple list of tokens that is immutable.
@@ -14,9 +13,12 @@
         #region Fields
 
         readonly List<String> _tokens;
-        readonly Element _parent;
-        readonly String _attribute;
-        Boolean _blocking;
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler Changed;
 
         #endregion
 
@@ -25,13 +27,11 @@
         /// <summary>
         /// Creates a new list of tokens.
         /// </summary>
-        internal TokenList(Element parent, String attribute)
+        /// <param name="value">The initial value, if any.</param>
+        internal TokenList(String value)
         {
-            _attribute = attribute;
-            _parent = parent;
             _tokens = new List<String>();
-            _blocking = false;
-            Update(parent.GetAttribute(attribute));
+            Update(value);
         }
 
         #endregion
@@ -53,12 +53,7 @@
         /// <returns>The token at the specified index.</returns>
         public String this[Int32 index]
         {
-            get
-            {
-                var value = index >= 0 && index < _tokens.Count ? _tokens[index] : null;
-                Debug.Assert(value != null, "The index you specified is out of range!");
-                return value;
-            }
+            get { return index >= 0 && index < _tokens.Count ? _tokens[index] : null; }
         }
 
         #endregion
@@ -72,10 +67,7 @@
         /// <returns>True if the string contained the token, otherwise false.</returns>
         public Boolean Contains(String token)
         {
-            if(_tokens.Contains(token))
-                return true;
-
-            return false;
+            return _tokens.Contains(token);
         }
 
         /// <summary>
@@ -93,7 +85,7 @@
             }
 
             if (changed)
-                Propagate();
+                RaiseChanged();
         }
 
         /// <summary>
@@ -114,7 +106,7 @@
             }
 
             if (changed)
-                Propagate();
+                RaiseChanged();
         }
 
         /// <summary>
@@ -134,7 +126,7 @@
             else
                 _tokens.Add(token);
 
-            Propagate();
+            RaiseChanged();
             return !contains;
         }
 
@@ -148,20 +140,17 @@
         /// <param name="value">The new value.</param>
         internal void Update(String value)
         {
-            if (!_blocking)
+            _tokens.Clear();
+
+            if (String.IsNullOrEmpty(value))
+                return;
+
+            var elements = value.SplitSpaces();
+
+            for (int i = 0; i < elements.Length; i++)
             {
-                _tokens.Clear();
-
-                if (String.IsNullOrEmpty(value))
-                    return;
-
-                var elements = value.SplitSpaces();
-
-                for (int i = 0; i < elements.Length; i++)
-                {
-                    if (!_tokens.Contains(elements[i]))
-                        _tokens.Add(elements[i]);
-                }
+                if (!_tokens.Contains(elements[i]))
+                    _tokens.Add(elements[i]);
             }
         }
 
@@ -172,11 +161,10 @@
         /// <summary>
         /// Sets the current value of the attribute.
         /// </summary>
-        void Propagate()
+        void RaiseChanged()
         {
-            _blocking = true;
-            _parent.SetAttribute(_attribute, ToString());
-            _blocking = false;
+            if (Changed != null)
+                Changed(this, EventArgs.Empty);
         }
 
         #endregion

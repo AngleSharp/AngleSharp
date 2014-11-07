@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        ISettableTokenList _sandbox;
+        SettableTokenList _sandbox;
         Document _doc;
         
         #endregion
@@ -50,7 +50,16 @@
 
         public ISettableTokenList Sandbox
         {
-            get { return _sandbox ?? (_sandbox = new SettableTokenList(this, AttributeNames.Sandbox)); }
+            get
+            { 
+                if (_sandbox == null)
+                {
+                    _sandbox = new SettableTokenList(GetAttribute(AttributeNames.Sandbox));
+                    _sandbox.Changed += (s, ev) => UpdateAttribute(AttributeNames.Sandbox, _sandbox.Value);
+                }
+
+                return _sandbox;
+            }
         }
 
         /// <summary>

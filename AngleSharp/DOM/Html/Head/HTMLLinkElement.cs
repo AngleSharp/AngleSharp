@@ -17,8 +17,8 @@
 
         IStyleSheet _sheet;
         String _buffer;
-        ITokenList _relList;
-        ISettableTokenList _sizes;
+        TokenList _relList;
+        SettableTokenList _sizes;
         Task _current;
         CancellationTokenSource _cts;
 
@@ -102,7 +102,16 @@
         /// </summary>
         public ITokenList RelationList
         {
-            get { return _relList ?? (_relList = new TokenList(this, AttributeNames.Rel)); }
+            get
+            {
+                if (_relList == null)
+                {
+                    _relList = new TokenList(GetAttribute(AttributeNames.Rel));
+                    _relList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Rel, _relList.ToString());
+                }
+
+                return _relList; 
+            }
         }
 
         /// <summary>
@@ -110,7 +119,16 @@
         /// </summary>
         public ISettableTokenList Sizes
         {
-            get { return _sizes ?? (_sizes = new SettableTokenList(this, AttributeNames.Sizes)); }
+            get
+            {
+                if (_sizes == null)
+                {
+                    _sizes = new SettableTokenList(GetAttribute(AttributeNames.Sizes));
+                    _sizes.Changed += (s, ev) => UpdateAttribute(AttributeNames.Sizes, _sizes.Value);
+                }
+
+                return _sizes; 
+            }
         }
 
         /// <summary>
