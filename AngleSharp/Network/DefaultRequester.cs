@@ -122,7 +122,7 @@
             {
                 _request = request;
                 _http = WebRequest.Create(request.Address) as HttpWebRequest;
-                _http.Method = request.Method.ToString();
+                _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
                 _completed = new TaskCompletionSource<Boolean>();
 
