@@ -82,7 +82,7 @@
                     case NodeType.Element:
                         var node = (IElement)child;
 
-                        switch (node.TagName)
+                        switch (node.LocalName)
                         {
                             case "script":
                             case "style":

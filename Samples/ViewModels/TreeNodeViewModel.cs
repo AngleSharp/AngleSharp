@@ -169,13 +169,13 @@
 
         static String OpenTag(IElement element)
         {
-            StartString('<').Append(element.TagName).Append(String.Join(" ", element.Attributes.Select(m => m.ToString()))).Append('>');
+            StartString('<').Append(element.LocalName).Append(String.Join(" ", element.Attributes.Select(m => m.ToString()))).Append('>');
             return ReleaseString();
         }
 
         static String CloseTag(IElement element)
         {
-            StartString("</").Append(element.TagName).Append('>');
+            StartString("</").Append(element.LocalName).Append('>');
             return ReleaseString();
         }
     }

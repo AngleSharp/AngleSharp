@@ -148,10 +148,10 @@
 
         void Inspect(IElement element, Dictionary<String, Int32> elements, Dictionary<String, Int32> classes, Dictionary<String, Int32> attributes)
         {
-            if (elements.ContainsKey(element.TagName))
-                elements[element.TagName]++;
+            if (elements.ContainsKey(element.LocalName))
+                elements[element.LocalName]++;
             else
-                elements.Add(element.TagName, 1);
+                elements.Add(element.LocalName, 1);
 
             foreach (var cls in element.ClassList)
             {
