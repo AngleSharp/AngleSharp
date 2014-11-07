@@ -926,9 +926,25 @@
                 var element = AddElement<HTMLAnchorElement>(tag);
                 formatting.AddFormatting(element);
             }
+            else if (tagName == Tags.Span)
+            {
+                ReconstructFormatting();
+                AddElement(tag);
+            }
             else if (tagName == Tags.Li)
             {
                 InBodyStartTagListItem(tag);
+            }
+            else if (tagName == Tags.Img)
+            {
+                InBodyStartTagBreakrow(tag);
+            }
+            else if (tagName.IsOneOf(Tags.Ul, Tags.P))
+            {
+                if (IsInButtonScope())
+                    InBodyEndTagParagraph();
+
+                AddElement(tag);
             }
             else if (tagName == Tags.Script)
             {
@@ -968,7 +984,7 @@
                 else
                     RaiseErrorOccurred(ErrorCode.FormAlreadyOpen);
             }
-            else if (tagName.IsOneOf(Tags.P, Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset) ||
+            else if (tagName.IsOneOf(Tags.Ol, Tags.Dl, Tags.Fieldset) ||
                      tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) ||
                      tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details) ||
                      tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup))
@@ -1031,7 +1047,7 @@
                 frameset = false;
                 insert = HtmlTreeMode.InTable;
             }
-            else if (tagName.IsOneOf(Tags.Img, Tags.Br, Tags.Area, Tags.Embed, Tags.Keygen, Tags.Wbr))
+            else if (tagName.IsOneOf(Tags.Br, Tags.Area, Tags.Embed, Tags.Keygen, Tags.Wbr))
             {
                 InBodyStartTagBreakrow(tag);
             }
