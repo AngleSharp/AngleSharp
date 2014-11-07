@@ -2661,6 +2661,9 @@
     <Compile Include="..\AngleSharp\Parser\SourceManager.cs">
       <Link>Parser\SourceManager.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\TextPosition.cs">
+      <Link>Parser\TextPosition.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
