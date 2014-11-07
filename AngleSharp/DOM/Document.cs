@@ -19,7 +19,7 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    class Document : Node, IDocument
+    class Document : Node, IDocument, IDisposable
     {
         #region Fields
 
@@ -1379,6 +1379,14 @@
         #endregion
 
         #region Internal methods
+
+        public void Dispose()
+        {
+            _scripts.Clear();
+            _context = null;
+            _source = null;
+            _options = null;
+        }
 
         void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
         {
