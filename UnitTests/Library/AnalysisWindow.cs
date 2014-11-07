@@ -32,7 +32,7 @@ namespace UnitTests.Library
             var element = document.QuerySelector("span.bold");
             Assert.IsNotNull(element);
 
-            Assert.AreEqual("span", element.TagName);
+            Assert.AreEqual("span", element.LocalName);
             Assert.AreEqual("bold", element.ClassName);
 
             var style = window.GetComputedStyle(element);
@@ -71,7 +71,7 @@ namespace UnitTests.Library
             // checks for element with text bold text
             var element = document.QuerySelector("span.bold");
             Assert.IsNotNull(element);
-            Assert.AreEqual("span", element.TagName);
+            Assert.AreEqual("span", element.LocalName);
             Assert.AreEqual("bold", element.ClassName);
 
             var computedStyle = window.GetComputedStyle(element);
@@ -111,7 +111,7 @@ namespace UnitTests.Library
             // checks for element with text prioOne
             var prioOne = document.QuerySelector("#prioOne");
             Assert.IsNotNull(prioOne);
-            Assert.AreEqual("div", prioOne.TagName);
+            Assert.AreEqual("div", prioOne.LocalName);
             Assert.AreEqual("prioOne", prioOne.Id);
 
             var computePrioOneStyle = window.GetComputedStyle(prioOne);
@@ -141,7 +141,7 @@ namespace UnitTests.Library
             // checks for element with text bold text
             var element = document.QuerySelector("p > span");
             Assert.IsNotNull(element);
-            Assert.AreEqual("span", element.TagName);
+            Assert.AreEqual("span", element.LocalName);
 
             var computedStyle = window.GetComputedStyle(element);
             Assert.AreEqual("red", computedStyle.Color);
@@ -176,7 +176,7 @@ em { font-style: italic !important; }
             var element = document.QuerySelector("#text");
             Assert.IsNotNull(element);
 
-            Assert.AreEqual("em", element.TagName);
+            Assert.AreEqual("em", element.LocalName);
             Assert.AreEqual("red", element.ClassName);
             Assert.IsNotNull(element.GetAttribute("style"));
             Assert.AreEqual("text", element.TextContent);

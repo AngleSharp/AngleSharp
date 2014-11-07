@@ -49,7 +49,7 @@ namespace UnitTests
         public void GetElementById()
         {
             var x = document.GetElementById("test");
-            Assert.AreEqual("p", x.TagName);
+            Assert.AreEqual("p", x.LocalName);
             Assert.AreEqual(document, x.Owner);
         }
 
@@ -65,7 +65,7 @@ namespace UnitTests
         {
             var cn = document.GetElementsByClassName("testClass");
             Assert.AreEqual(2, cn.Length);
-            Assert.AreEqual("p", cn[0].TagName);
+            Assert.AreEqual("p", cn[0].LocalName);
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace UnitTests
         {
             var cn = document.GetElementsByClassName("testClass nonsense");
             Assert.AreEqual(1, cn.Length);
-            Assert.AreEqual("p", cn[0].TagName);
+            Assert.AreEqual("p", cn[0].LocalName);
         }
 
         [TestMethod]
