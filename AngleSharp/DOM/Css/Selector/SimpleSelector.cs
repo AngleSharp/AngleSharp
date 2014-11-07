@@ -39,7 +39,7 @@
         /// <param name="match">The type to match.</param>
         public SimpleSelector(String match)
         {
-            _matches = _ => _.TagName.Equals(match, StringComparison.OrdinalIgnoreCase);
+            _matches = _ => _.LocalName.Equals(match, StringComparison.OrdinalIgnoreCase);
             _specifity = Priority.OneTag;
             _code = match;
         }

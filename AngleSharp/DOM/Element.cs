@@ -127,7 +127,7 @@
         /// </summary>
         public String TagName
         {
-            get { return NodeName; }
+            get { return NodeName.ToUpperInvariant(); }
         }
 
         /// <summary>

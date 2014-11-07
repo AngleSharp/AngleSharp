@@ -283,20 +283,20 @@
                     insert = HtmlTreeMode.InRow;
                 else if (tagName.IsOneOf(Tags.Thead, Tags.Tfoot, Tags.Tbody))
                     insert = HtmlTreeMode.InTableBody;
+                else if (tagName == Tags.Body)
+                    insert = HtmlTreeMode.InBody;
+                else if (tagName == Tags.Table)
+                    insert = HtmlTreeMode.InTable;
                 else if (tagName == Tags.Caption)
                     insert = HtmlTreeMode.InCaption;
                 else if (tagName == Tags.Colgroup)
                     insert = HtmlTreeMode.InColumnGroup;
-                else if (tagName == Tags.Table)
-                    insert = HtmlTreeMode.InTable;
                 else if (tagName == Tags.Template)
                     insert = templateMode.Peek();
                 else if (tagName == Tags.Html)
                     insert = HtmlTreeMode.BeforeHead;
                 else if (tagName == Tags.Head)
                     insert = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-                else if (tagName == Tags.Body)
-                    insert = HtmlTreeMode.InBody;
                 else if (tagName == Tags.Frameset)
                     insert = HtmlTreeMode.InFrameset;
                 else if (last)
@@ -3484,7 +3484,7 @@
         {
             for (int i = 0; i < open.Count; i++)
             {
-                if (open[i].TagName == tagName)
+                if (open[i].NodeName == tagName)
                     return true;
             }
 
