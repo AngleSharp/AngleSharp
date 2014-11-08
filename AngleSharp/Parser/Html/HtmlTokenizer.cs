@@ -630,13 +630,17 @@
             var position = GetCurrentPosition();
             var c = Next;
 
-            if (c == Specification.ExclamationMark)
-            {
-                return MarkupDeclaration(position);
-            }
-            else if (c == Specification.Solidus)
+            if (c == Specification.Solidus)
             {
                 return TagEnd(Next, position);
+            }
+            else if (c.IsLowercaseAscii())
+            {
+                var tag = HtmlToken.OpenTag();
+                tag.Start = position;
+                _stringBuffer.Clear()
+                    .Append(c);
+                return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
@@ -646,13 +650,9 @@
                     .Append(Char.ToLower(c));
                 return TagName(tag);
             }
-            else if (c.IsLowercaseAscii())
+            else if (c == Specification.ExclamationMark)
             {
-                var tag = HtmlToken.OpenTag();
-                tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(c);
-                return TagName(tag);
+                return MarkupDeclaration(position);
             }
             else if (c == Specification.QuestionMark)
             {
@@ -673,20 +673,20 @@
         /// <param name="position">The start position.</param>
         HtmlToken TagEnd(Char c, TextPosition position)
         {
-            if (c.IsUppercaseAscii())
-            {
-                var tag = HtmlToken.CloseTag();
-                tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
-                return TagName(tag);
-            }
-            else if (c.IsLowercaseAscii())
+            if (c.IsLowercaseAscii())
             {
                 var tag = HtmlToken.CloseTag();
                 tag.Start = position;
                 _stringBuffer.Clear()
                     .Append(c);
+                return TagName(tag);
+            }
+            else if (c.IsUppercaseAscii())
+            {
+                var tag = HtmlToken.CloseTag();
+                tag.Start = position;
+                _stringBuffer.Clear()
+                    .Append(Char.ToLower(c));
                 return TagName(tag);
             }
             else if (c == Specification.GreaterThan)
@@ -717,10 +717,10 @@
         /// <returns>The emitted token.</returns>
         HtmlToken TagName(HtmlTagToken tag)
         {
-            var c = Next;
-
             while (true)
             {
+                var c = Next;
+
                 if (c.IsSpaceCharacter())
                 {
                     tag.Name = _stringBuffer.ToString();
@@ -750,8 +750,6 @@
                     _stringBuffer.Append(Char.ToLower(c));
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
         }
 
@@ -762,23 +760,18 @@
         /// <returns>The emitted token.</returns>
         HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
-            var c = Next;
-
-            if (c == Specification.GreaterThan)
+            switch (Next)
             {
-                tag.IsSelfClosing = true;
-                return EmitTag(tag);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return HtmlToken.EOF;
-            }
-            else
-            {
-                RaiseErrorOccurred(ErrorCode.ClosingSlashMisplaced);
-                Back();
-                return AttributeBeforeName(tag);
+                case Specification.GreaterThan:
+                    tag.IsSelfClosing = true;
+                    return EmitTag(tag);
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return HtmlToken.EOF;
+                default:
+                    RaiseErrorOccurred(ErrorCode.ClosingSlashMisplaced);
+                    Back();
+                    return AttributeBeforeName(tag);
             }
         }
 
@@ -827,24 +820,26 @@
 
             while(true)
             {
-
-                if (c == Specification.GreaterThan)
-                    break;
-                else if (c == Specification.EndOfFile)
+                switch (c)
                 {
-                    Back();
-                    break;
+                    case Specification.GreaterThan:
+                        break;
+                    case Specification.EndOfFile:
+                        Back();
+                        break;
+                    case Specification.Null:
+                        _stringBuffer.Append(Specification.Replacement);
+                        c = Next;
+                        continue;
+                    default:
+                        _stringBuffer.Append(c);
+                        c = Next;
+                        continue;
                 }
-                else if (c == Specification.Null)
-                    _stringBuffer.Append(Specification.Replacement);
-                else
-                    _stringBuffer.Append(c);
 
-                c = Next;
+                _state = HtmlParseMode.PCData;
+                return EmitComment(position);
             }
-
-            _state = HtmlParseMode.PCData;
-            return EmitComment(position);
         }
 
         /// <summary>
@@ -856,28 +851,25 @@
             var c = Next;
             _stringBuffer.Clear();
 
-            if (c == Specification.Minus)
-                return CommentDashStart(position);
-            else if (c == Specification.Null)
+            switch (c)
             {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Append(Specification.Replacement);
-                return Comment(position);
-            }
-            else if (c == Specification.GreaterThan)
-            {
-                _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                Back();
-            }
-            else
-            {
-                _stringBuffer.Append(c);
-                return Comment(position);
+                case Specification.Minus:
+                    return CommentDashStart(position);
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _stringBuffer.Append(Specification.Replacement);
+                    return Comment(position);
+                case Specification.GreaterThan:
+                    _state = HtmlParseMode.PCData;
+                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    break;
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    Back();
+                    break;
+                default:
+                    _stringBuffer.Append(c);
+                    return Comment(position);
             }
 
             return EmitComment(position);
@@ -891,30 +883,27 @@
         {
             var c = Next;
 
-            if (c == Specification.Minus)
-                return CommentEnd(position);
-            else if (c == Specification.Null)
+            switch (c)
             {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Append(Specification.Minus)
-                    .Append(Specification.Replacement);
-                return Comment(position);
-            }
-            else if (c == Specification.GreaterThan)
-            {
-                _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                Back();
-            }
-            else
-            {
-                _stringBuffer.Append(Specification.Minus)
-                    .Append(c);
-                return Comment(position);
+                case Specification.Minus:
+                    return CommentEnd(position);
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(Specification.Replacement);
+                    return Comment(position);
+                case Specification.GreaterThan:
+                    _state = HtmlParseMode.PCData;
+                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    break;
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    Back();
+                    break;
+                default:
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(c);
+                    return Comment(position);
             }
 
             return EmitComment(position);
@@ -930,30 +919,31 @@
             {
                 var c = Next;
 
-                if (c == Specification.Minus)
+                switch (c)
                 {
-                    var result = CommentDashEnd(position);
+                    case Specification.Minus:
+                        var result = CommentDashEnd(position);
 
-                    if (result != null)
-                        return result;
+                        if (result != null)
+                            return result;
+
+                        continue;
+                    case Specification.EndOfFile:
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        Back();
+                        break;
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        c = Specification.Replacement;
+                        _stringBuffer.Append(c);
+                        continue;
+                    default:
+                        _stringBuffer.Append(c);
+                        continue;
                 }
-                else if (c == Specification.EndOfFile)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    Back();
-                    break;
-                }
-                else if (c == Specification.Null)
-                {
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    c = Specification.Replacement;
-                    _stringBuffer.Append(c);
-                }
-                else
-                    _stringBuffer.Append(c);
+
+                return EmitComment(position);
             }
-
-            return EmitComment(position);
         }
 
         /// <summary>
@@ -964,18 +954,18 @@
         {
             var c = Next;
 
-            if (c == Specification.Minus)
-                return CommentEnd(position);
-            else if (c == Specification.EndOfFile)
+            switch (c)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                Back();
-                return EmitComment(position);
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                c = Specification.Replacement;
+                case Specification.Minus:
+                    return CommentEnd(position);
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    Back();
+                    return EmitComment(position);
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    c = Specification.Replacement;
+                    break;
             }
 
             _stringBuffer.Append(Specification.Minus)
@@ -993,45 +983,37 @@
             {
                 var c = Next;
 
-                if (c == Specification.GreaterThan)
+                switch (c)
                 {
-                    _state = HtmlParseMode.PCData;
-                    break;
+                    case Specification.GreaterThan:
+                        _state = HtmlParseMode.PCData;
+                        break;
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        _stringBuffer.Append(Specification.Minus)
+                            .Append(Specification.Replacement);
+                        return null;
+                    case Specification.ExclamationMark:
+                        RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
+                        return CommentBangEnd(position);
+                    case Specification.Minus:
+                        RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
+                        _stringBuffer.Append(Specification.Minus);
+                        continue;
+                    case Specification.EndOfFile:
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        Back();
+                        break;
+                    default:
+                        RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
+                        _stringBuffer.Append(Specification.Minus)
+                            .Append(Specification.Minus)
+                            .Append(c);
+                        return null;
                 }
-                else if (c == Specification.Null)
-                {
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    _stringBuffer.Append(Specification.Minus)
-                        .Append(Specification.Replacement);
-                    return null;
-                }
-                else if (c == Specification.ExclamationMark)
-                {
-                    RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                    return CommentBangEnd(position);
-                }
-                else if (c == Specification.Minus)
-                {
-                    RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
-                    _stringBuffer.Append(Specification.Minus);
-                }
-                else if (c == Specification.EndOfFile)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    Back();
-                    break;
-                }
-                else
-                {
-                    RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-                    _stringBuffer.Append(Specification.Minus)
-                        .Append(Specification.Minus)
-                        .Append(c);
-                    return null;
-                }
-            }
 
-            return EmitComment(position);
+                return EmitComment(position);
+            }
         }
 
         /// <summary>
@@ -1042,38 +1024,33 @@
         {
             var c = Next;
 
-            if (c == Specification.Minus)
+            switch (c)
             {
-                _stringBuffer.Append(Specification.Minus)
-                    .Append(Specification.Minus)
-                    .Append(Specification.ExclamationMark);
-                return CommentDashEnd(position);
-            }
-            else if (c == Specification.GreaterThan)
-            {
-                _state = HtmlParseMode.PCData;
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Append(Specification.Minus)
-                    .Append(Specification.Minus)
-                    .Append(Specification.ExclamationMark)
-                    .Append(Specification.Replacement);
-                return null;
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                Back();
-            }
-            else
-            {
-                _stringBuffer.Append(Specification.Minus)
-                    .Append(Specification.Minus)
-                    .Append(Specification.ExclamationMark)
-                    .Append(c);
-                return null;
+                case Specification.Minus:
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(Specification.Minus)
+                        .Append(Specification.ExclamationMark);
+                    return CommentDashEnd(position);
+                case Specification.GreaterThan:
+                    _state = HtmlParseMode.PCData;
+                    break;
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(Specification.Minus)
+                        .Append(Specification.ExclamationMark)
+                        .Append(Specification.Replacement);
+                    return null;
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    Back();
+                    break;
+                default:
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(Specification.Minus)
+                        .Append(Specification.ExclamationMark)
+                        .Append(c);
+                    return null;
             }
 
             return EmitComment(position);
