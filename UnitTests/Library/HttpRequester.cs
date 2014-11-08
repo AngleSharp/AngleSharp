@@ -1,9 +1,9 @@
 ﻿using AngleSharp;
 using AngleSharp.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.IO;
 using System.Linq;
+using UnitTests.Mocks;
 
 namespace UnitTests.Library
 {
@@ -21,7 +21,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
@@ -42,7 +42,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
@@ -60,7 +60,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
@@ -78,7 +78,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
@@ -96,7 +96,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
@@ -114,7 +114,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/post");
                 request.Method = HttpMethod.Post;
@@ -140,7 +140,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/put");
                 request.Method = HttpMethod.Put;
@@ -166,7 +166,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/delete");
                 request.Method = HttpMethod.Delete;
@@ -185,7 +185,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/get");
                 request.Method = HttpMethod.Delete;
@@ -204,7 +204,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/get");
                 request.Method = HttpMethod.Put;
@@ -223,7 +223,12 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var info = new DefaultInfo();
+                var info = new CustomInfo
+                {
+                    Agent = "MyAgent",
+                    Version = "1.0"
+                };
+
                 var http = new DefaultRequester(info);
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/user-agent");
@@ -249,7 +254,7 @@ namespace UnitTests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester(new DefaultInfo());
+                var http = new DefaultRequester();
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;

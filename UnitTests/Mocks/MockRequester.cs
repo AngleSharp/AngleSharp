@@ -1,11 +1,11 @@
-﻿using AngleSharp.Network;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace UnitTests.Mocks
+﻿namespace UnitTests.Mocks
 {
+    using AngleSharp.Network;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class MockRequester : IRequester
     {
         public IResponse Request(IRequest request)

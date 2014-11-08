@@ -104,6 +104,7 @@
     <Compile Include="Library\TreeWalker.cs" />
     <Compile Include="Library\NodeIterator.cs" />
     <Compile Include="Library\DOMActions.cs" />
+    <Compile Include="Mocks\CustomInfo.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
     <Compile Include="Mocks\MockRequester.cs" />

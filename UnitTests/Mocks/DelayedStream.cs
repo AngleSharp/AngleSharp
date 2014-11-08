@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace UnitTests.Mocks
+﻿namespace UnitTests.Mocks
 {
+    using System;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     sealed class DelayedStream : Stream
     {
         Stream _stream;

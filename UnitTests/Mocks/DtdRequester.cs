@@ -1,12 +1,12 @@
-﻿using AngleSharp.Network;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace UnitTests
+﻿namespace UnitTests
 {
+    using AngleSharp.Network;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Requests a DTD file from an embedded resource.
     /// </summary>
