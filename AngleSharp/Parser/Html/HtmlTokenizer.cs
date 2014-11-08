@@ -117,6 +117,12 @@
             return token;
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            _buffer.ToPool();
+        }
+
         #endregion
 
         #region General

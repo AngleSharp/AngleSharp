@@ -319,7 +319,7 @@
         /// <summary>
         /// Disposes all disposable objects.
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             var disposable = _reader as IDisposable;
 

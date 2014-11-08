@@ -29,7 +29,6 @@
 		public CssTokenizer(ITextSource source)
             : base(source)
         {
-            _stringBuffer = new StringBuilder();
         }
 
         #endregion

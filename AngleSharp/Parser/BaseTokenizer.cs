@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        protected StringBuilder _stringBuffer;
+        protected readonly StringBuilder _stringBuffer;
 
         #endregion
 
@@ -31,7 +31,7 @@
         public BaseTokenizer(ITextSource source)
             : base(source)
         {
-            _stringBuffer = new StringBuilder();
+            _stringBuffer = Pool.NewStringBuilder();
         }
 
         #endregion
@@ -45,6 +45,12 @@
         public TextPosition GetCurrentPosition()
         {
             return new TextPosition(Line, Column, Position);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _stringBuffer.ToPool();
         }
 
         #endregion
