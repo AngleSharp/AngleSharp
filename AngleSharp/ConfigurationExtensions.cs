@@ -77,7 +77,7 @@
         public static TConfiguration WithDefaultRequester<TConfiguration>(this TConfiguration configuration, IInfo agent = null)
             where TConfiguration : Configuration
         {
-            configuration.Register(new DefaultRequester(agent ?? new DefaultInfo()));
+            configuration.Register(new DefaultRequester(agent ?? DefaultInfo.Instance));
             return configuration;
         }
 

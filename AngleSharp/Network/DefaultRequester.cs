@@ -37,6 +37,15 @@
         }
 
         /// <summary>
+        /// Constructs a default HTTP requester with the default
+        /// user-agent information.
+        /// </summary>
+        public DefaultRequester()
+            : this(DefaultInfo.Instance)
+        {
+        }
+
+        /// <summary>
         /// Constructs a default HTTP requester with the information
         /// presented in the info object.
         /// </summary>

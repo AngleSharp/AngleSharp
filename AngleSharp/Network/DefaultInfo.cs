@@ -14,11 +14,13 @@
         readonly String _version;
         readonly String _agent;
 
+        public static readonly IInfo Instance = new DefaultInfo();
+
         #endregion
 
         #region ctor
 
-        public DefaultInfo()
+        DefaultInfo()
         {
             _version = typeof(DefaultInfo).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
             _agent = "AngleSharp/" + _version;

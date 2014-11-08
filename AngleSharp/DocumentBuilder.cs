@@ -250,7 +250,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
+            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester();
             var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false);
             var stream = new TextSource(response.Content, configuration.DefaultEncoding());
             var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
@@ -393,7 +393,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester(new DefaultInfo());
+            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester();
             var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false);
             var source = new TextSource(response.Content, configuration.DefaultEncoding());
             var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
