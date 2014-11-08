@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AngleSharp</id>
-    <version>0.6.1</version>
+    <version>0.7.0</version>
     <authors>Florian Rappl</authors>
     <owners>Florian Rappl</owners>
     <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,7 +10,7 @@
     <iconUrl>https://raw.github.com/FlorianRappl/AngleSharp/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>AngleSharp is the ultimate angle brackets parser library. It currently parses HTML5 and CSS3 to construct a DOM based on the official W3C specification.</description>
-    <releaseNotes>Configuration improved, some small bugs fixed, parser performance tuned. More on the official project page.</releaseNotes>
+    <releaseNotes>API and Performance update, smaller bug fixes and additional helpers available. Full event model included.</releaseNotes>
     <copyright>Copyright 2014, Florian Rappl.</copyright>
     <tags>html html5 css css3 dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text</tags>
   </metadata>
