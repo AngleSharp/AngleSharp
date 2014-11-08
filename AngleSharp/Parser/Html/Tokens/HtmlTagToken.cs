@@ -42,6 +42,24 @@
         #region Properties
 
         /// <summary>
+        /// Gets or sets the position of the token.
+        /// </summary>
+        public TextPosition Start
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the position of the token.
+        /// </summary>
+        public TextPosition End
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the state of the self-closing flag.
         /// </summary>
         public Boolean IsSelfClosing

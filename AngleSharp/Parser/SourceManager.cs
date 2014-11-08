@@ -153,6 +153,20 @@
         }
 
         /// <summary>
+        /// Advances to the next non-space character.
+        /// </summary>
+        /// <returns>The next non-space character.</returns>
+        protected Char SkipSpaces()
+        {
+            var c = Next;
+
+            while (c.IsSpaceCharacter())
+                c = Next;
+
+            return c;
+        }
+
+        /// <summary>
         /// Advances one character in the source code.
         /// </summary>
         protected void Advance()

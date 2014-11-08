@@ -174,7 +174,7 @@
                         break;
 
                     case Specification.LessThan:
-                        return TagOpen(Next);
+                        return TagOpen();
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -216,7 +216,7 @@
                         break;
 
                     case Specification.LessThan:
-                        return RCDataLT(Next);
+                        return RCDataLT();
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -238,13 +238,15 @@
         /// <summary>
         /// See 8.2.4.11 RCDATA less-than sign state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken RCDataLT(Char c)
+        HtmlToken RCDataLT()
         {
+            var position = GetCurrentPosition();
+            var c = Next;
+
             if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
-                return RCDataEndTag(Next);
+                return RCDataEndTag(position);
             }
 
             _buffer.Append(Specification.LessThan);
@@ -254,67 +256,76 @@
         /// <summary>
         /// See 8.2.4.12 RCDATA end tag open state
         /// </summary>
-        /// <param name="c">The next input character.</param>
+        /// <param name="position">The start position.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken RCDataEndTag(Char c)
+        HtmlToken RCDataEndTag(TextPosition position)
         {
+            var c = Next;
+
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return RCDataNameEndTag(Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return RCDataNameEndTag(Next, HtmlToken.CloseTag());
+            }
+            else
+            {
+                _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+                return RCData(c);
             }
 
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
-            return RCData(c);
+            var tag = HtmlToken.CloseTag();
+            tag.Start = position;
+            return RCDataNameEndTag(tag);
         }
 
         /// <summary>
         /// See 8.2.4.13 RCDATA end tag name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken RCDataNameEndTag(Char c, HtmlTagToken tag)
+        HtmlToken RCDataNameEndTag(HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString();
-            var appropriateTag = name == _lastStartTag;
+            while (true)
+            {
+                var c = Next;
+                var name = _stringBuffer.ToString();
+                var appropriateTag = name == _lastStartTag;
 
-            if (appropriateTag && c.IsSpaceCharacter())
-            {
-                tag.Name = name;
-                return AttributeBeforeName(Next, tag);
+                if (appropriateTag && c.IsSpaceCharacter())
+                {
+                    tag.Name = name;
+                    return AttributeBeforeName(Next, tag);
+                }
+                else if (appropriateTag && c == Specification.Solidus)
+                {
+                    tag.Name = name;
+                    return TagSelfClosing(tag);
+                }
+                else if (appropriateTag && c == Specification.GreaterThan)
+                {
+                    tag.Name = name;
+                    return EmitTag(tag);
+                }
+                else if (c.IsUppercaseAscii())
+                {
+                    _stringBuffer.Append(Char.ToLower(c));
+                }
+                else if (c.IsLowercaseAscii())
+                {
+                    _stringBuffer.Append(c);
+                }
+                else
+                {
+                    _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+                    _buffer.Append(_stringBuffer.ToString());
+                    return RCData(c);
+                }
             }
-            else if (appropriateTag && c == Specification.Solidus)
-            {
-                tag.Name = name;
-                return TagSelfClosing(Next, tag);
-            }
-            else if (appropriateTag && c == Specification.GreaterThan)
-            {
-                tag.Name = name;
-                return EmitTag(tag);
-            }
-            else if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(Char.ToLower(c));
-                return RCDataNameEndTag(Next, tag);
-            }
-            else if (c.IsLowercaseAscii())
-            {
-                _stringBuffer.Append(c);
-                return RCDataNameEndTag(Next, tag);
-            }
-
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
-            _buffer.Append(_stringBuffer.ToString());
-            return RCData(c);
         }
 
         #endregion
@@ -332,7 +343,7 @@
                 switch (c)
                 {
                     case Specification.LessThan:
-                        return RawtextLT(Next);
+                        return RawtextLT();
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -354,13 +365,15 @@
         /// <summary>
         /// See 8.2.4.14 RAWTEXT less-than sign state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken RawtextLT(Char c)
+        HtmlToken RawtextLT()
         {
+            var position = GetCurrentPosition();
+            var c = Next;
+
             if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
-                return RawtextEndTag(Next);
+                return RawtextEndTag(position);
             }
 
             _buffer.Append(Specification.LessThan);
@@ -370,66 +383,75 @@
         /// <summary>
         /// See 8.2.4.15 RAWTEXT end tag open state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken RawtextEndTag(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlToken RawtextEndTag(TextPosition position)
         {
+            var c = Next;
+
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return RawtextNameEndTag(Next, HtmlToken.CloseTag());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return RawtextNameEndTag(Next, HtmlToken.CloseTag());
+            }
+            else
+            {
+                _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+                return Rawtext(c);
             }
 
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
-            return Rawtext(c);
+            var tag = HtmlToken.CloseTag();
+            tag.Start = position;
+            return RawtextNameEndTag(tag);
         }
 
         /// <summary>
         /// See 8.2.4.16 RAWTEXT end tag name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken RawtextNameEndTag(Char c, HtmlTagToken tag)
+        HtmlToken RawtextNameEndTag(HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString();
-            var appropriateTag = name == _lastStartTag;
+            while (true)
+            {
+                var c = Next;
+                var name = _stringBuffer.ToString();
+                var appropriateTag = name == _lastStartTag;
 
-            if (appropriateTag && c.IsSpaceCharacter())
-            {
-                tag.Name = name;
-                return AttributeBeforeName(Next, tag);
+                if (appropriateTag && c.IsSpaceCharacter())
+                {
+                    tag.Name = name;
+                    return AttributeBeforeName(Next, tag);
+                }
+                else if (appropriateTag && c == Specification.Solidus)
+                {
+                    tag.Name = name;
+                    return TagSelfClosing(tag);
+                }
+                else if (appropriateTag && c == Specification.GreaterThan)
+                {
+                    tag.Name = name;
+                    return EmitTag(tag);
+                }
+                else if (c.IsUppercaseAscii())
+                {
+                    _stringBuffer.Append(Char.ToLower(c));
+                }
+                else if (c.IsLowercaseAscii())
+                {
+                    _stringBuffer.Append(c);
+                }
+                else
+                {
+                    _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+                    _buffer.Append(_stringBuffer.ToString());
+                    return Rawtext(c);
+                }
             }
-            else if (appropriateTag && c == Specification.Solidus)
-            {
-                tag.Name = name;
-                return TagSelfClosing(Next, tag);
-            }
-            else if (appropriateTag && c == Specification.GreaterThan)
-            {
-                tag.Name = name;
-                return EmitTag(tag);
-            }
-            else if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(Char.ToLower(c));
-                return RawtextNameEndTag(Next, tag);
-            }
-            else if (c.IsLowercaseAscii())
-            {
-                _stringBuffer.Append(c);
-                return RawtextNameEndTag(Next, tag);
-            }
-
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
-            _buffer.Append(_stringBuffer.ToString());
-            return Rawtext(c);
         }
 
         #endregion
@@ -439,8 +461,9 @@
         /// <summary>
         /// See 8.2.4.68 CDATA section state
         /// </summary>
-        HtmlToken CData(Char c)
+        HtmlToken CData()
         {
+            var c = Next;
             _stringBuffer.Clear();
 
             while (true)
@@ -598,33 +621,39 @@
         /// <summary>
         /// See 8.2.4.8 Tag open state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken TagOpen(Char c)
+        HtmlToken TagOpen()
         {
+            var position = GetCurrentPosition();
+            var c = Next;
+
             if (c == Specification.ExclamationMark)
             {
-                return MarkupDeclaration(Next);
+                return MarkupDeclaration(position);
             }
             else if (c == Specification.Solidus)
             {
-                return TagEnd(Next);
+                return TagEnd(Next, position);
             }
             else if (c.IsUppercaseAscii())
             {
+                var tag = HtmlToken.OpenTag();
+                tag.Start = position;
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return TagName(Next, HtmlToken.OpenTag());
+                return TagName(tag);
             }
             else if (c.IsLowercaseAscii())
             {
+                var tag = HtmlToken.OpenTag();
+                tag.Start = position;
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return TagName(Next, HtmlToken.OpenTag());
+                return TagName(tag);
             }
             else if (c == Specification.QuestionMark)
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
-                return BogusComment(c);
+                return BogusComment(c, position);
             }
 
             _state = HtmlParseMode.PCData;
@@ -637,19 +666,24 @@
         /// See 8.2.4.9 End tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken TagEnd(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlToken TagEnd(Char c, TextPosition position)
         {
             if (c.IsUppercaseAscii())
             {
+                var tag = HtmlToken.CloseTag();
+                tag.Start = position;
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return TagName(Next, HtmlToken.CloseTag());
+                return TagName(tag);
             }
             else if (c.IsLowercaseAscii())
             {
+                var tag = HtmlToken.CloseTag();
+                tag.Start = position;
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return TagName(Next, HtmlToken.CloseTag());
+                return TagName(tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -667,18 +701,19 @@
             else
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
-                return BogusComment(c);
+                return BogusComment(c, position);
             }
         }
 
         /// <summary>
         /// See 8.2.4.10 Tag name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken TagName(Char c, HtmlTagToken tag)
+        HtmlToken TagName(HtmlTagToken tag)
         {
+            var c = Next;
+
             while (true)
             {
                 if (c.IsSpaceCharacter())
@@ -689,7 +724,7 @@
                 else if (c == Specification.Solidus)
                 {
                     tag.Name = _stringBuffer.ToString();
-                    return TagSelfClosing(Next, tag);
+                    return TagSelfClosing(tag);
                 }
                 else if (c == Specification.GreaterThan)
                 {
@@ -718,11 +753,12 @@
         /// <summary>
         /// See 8.2.4.43 Self-closing start tag state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken TagSelfClosing(Char c, HtmlTagToken tag)
+        HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
+            var c = Next;
+
             if (c == Specification.GreaterThan)
             {
                 tag.IsSelfClosing = true;
@@ -743,27 +779,30 @@
         /// <summary>
         /// See 8.2.4.45 Markup declaration open state
         /// </summary>
-        HtmlToken MarkupDeclaration(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlToken MarkupDeclaration(TextPosition position)
         {
+            var c = Next;
+
             if (ContinuesWith("--"))
             {
                 Advance();
-                return CommentStart(Next);
+                return CommentStart(position);
             }
             else if (ContinuesWith(Tags.Doctype))
             {
                 Advance(6);
-                return Doctype(Next);
+                return Doctype(position);
             }
             else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
             {
                 Advance(6);
-                return CData(Next);
+                return CData();
             }
             else
             {
                 RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
-                return BogusComment(c);
+                return BogusComment(c, position);
             }
         }
 
@@ -774,7 +813,9 @@
         /// <summary>
         /// See 8.2.4.44 Bogus comment state
         /// </summary>
-        HtmlToken BogusComment(Char c)
+        /// <param name="c">The current character.</param>
+        /// <param name="position">The start position.</param>
+        HtmlToken BogusComment(Char c, TextPosition position)
         {
             _stringBuffer.Clear();
 
@@ -797,88 +838,95 @@
             }
 
             _state = HtmlParseMode.PCData;
-            return HtmlToken.Comment(_stringBuffer.ToString());
+            return EmitComment(position);
         }
 
         /// <summary>
         /// See 8.2.4.46 Comment start state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlCommentToken CommentStart(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlCommentToken CommentStart(TextPosition position)
         {
+            var c = Next;
             _stringBuffer.Clear();
 
             if (c == Specification.Minus)
-                return CommentDashStart(Next);
+                return CommentDashStart(position);
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Replacement);
-                return Comment(Next);
+                return Comment(position);
             }
             else if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else
             {
                 _stringBuffer.Append(c);
-                return Comment(Next);
+                return Comment(position);
             }
+
+            return EmitComment(position);
         }
 
         /// <summary>
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlCommentToken CommentDashStart(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlCommentToken CommentDashStart(TextPosition position)
         {
+            var c = Next;
+
             if (c == Specification.Minus)
-                return CommentEnd(Next);
+                return CommentEnd(position);
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(Specification.Replacement);
-                return Comment(Next);
+                _stringBuffer.Append(Specification.Minus)
+                    .Append(Specification.Replacement);
+                return Comment(position);
             }
             else if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                return HtmlToken.Comment(_stringBuffer.ToString());
+            }
+            else
+            {
+                _stringBuffer.Append(Specification.Minus)
+                    .Append(c);
+                return Comment(position);
             }
 
-            _stringBuffer.Append(Specification.Minus);
-            _stringBuffer.Append(c);
-            return Comment(Next);
+            return EmitComment(position);
         }
 
         /// <summary>
         /// See 8.2.4.48 Comment state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlCommentToken Comment(Char c)
+        HtmlCommentToken Comment(TextPosition position)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.Minus)
                 {
-                    var result = CommentDashEnd(Next);
+                    var result = CommentDashEnd(position);
 
                     if (result != null)
                         return result;
@@ -887,7 +935,7 @@
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     Back();
-                    return HtmlToken.Comment(_stringBuffer.ToString());
+                    break;
                 }
                 else if (c == Specification.Null)
                 {
@@ -897,24 +945,26 @@
                 }
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
+
+            return EmitComment(position);
         }
 
         /// <summary>
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlCommentToken CommentDashEnd(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlCommentToken CommentDashEnd(TextPosition position)
         {
+            var c = Next;
+
             if (c == Specification.Minus)
-                return CommentEnd(Next);
+                return CommentEnd(position);
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                return HtmlToken.Comment(_stringBuffer.ToString());
+                return EmitComment(position);
             }
             else if (c == Specification.Null)
             {
@@ -922,97 +972,105 @@
                 c = Specification.Replacement;
             }
 
-            _stringBuffer.Append(Specification.Minus);
-            _stringBuffer.Append(c);
+            _stringBuffer.Append(Specification.Minus)
+                .Append(c);
             return null;
         }
 
         /// <summary>
         /// See 8.2.4.50 Comment end state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlCommentToken CommentEnd(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlCommentToken CommentEnd(TextPosition position)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.GreaterThan)
                 {
                     _state = HtmlParseMode.PCData;
-                    return HtmlToken.Comment(_stringBuffer.ToString());
+                    break;
                 }
                 else if (c == Specification.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.Null);
-                    _stringBuffer.Append(Specification.Minus);
-                    _stringBuffer.Append(Specification.Replacement);
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(Specification.Replacement);
                     return null;
                 }
                 else if (c == Specification.ExclamationMark)
                 {
                     RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                    return CommentBangEnd(Next);
+                    return CommentBangEnd(position);
                 }
                 else if (c == Specification.Minus)
                 {
                     RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
                     _stringBuffer.Append(Specification.Minus);
-                    c = Next;
-                    continue;
                 }
                 else if (c == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
                     Back();
-                    return HtmlToken.Comment(_stringBuffer.ToString());
+                    break;
                 }
-
-                RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(c);
-                return null;
+                else
+                {
+                    RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
+                    _stringBuffer.Append(Specification.Minus)
+                        .Append(Specification.Minus)
+                        .Append(c);
+                    return null;
+                }
             }
+
+            return EmitComment(position);
         }
 
         /// <summary>
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlCommentToken CommentBangEnd(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlCommentToken CommentBangEnd(TextPosition position)
         {
+            var c = Next;
+
             if (c == Specification.Minus)
             {
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(Specification.ExclamationMark);
-                return CommentDashEnd(Next);
+                _stringBuffer.Append(Specification.Minus)
+                    .Append(Specification.Minus)
+                    .Append(Specification.ExclamationMark);
+                return CommentDashEnd(position);
             }
             else if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                return HtmlToken.Comment(_stringBuffer.ToString());
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(Specification.Minus);
-                _stringBuffer.Append(Specification.ExclamationMark);
-                _stringBuffer.Append(Specification.Replacement);
+                _stringBuffer.Append(Specification.Minus)
+                    .Append(Specification.Minus)
+                    .Append(Specification.ExclamationMark)
+                    .Append(Specification.Replacement);
                 return null;
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                return HtmlToken.Comment(_stringBuffer.ToString());
+            }
+            else
+            {
+                _stringBuffer.Append(Specification.Minus)
+                    .Append(Specification.Minus)
+                    .Append(Specification.ExclamationMark)
+                    .Append(c);
+                return null;
             }
 
-            _stringBuffer.Append(Specification.Minus);
-            _stringBuffer.Append(Specification.Minus);
-            _stringBuffer.Append(Specification.ExclamationMark);
-            _stringBuffer.Append(c);
-            return null;
+            return EmitComment(position);
         }
 
         #endregion
@@ -1022,83 +1080,104 @@
         /// <summary>
         /// See 8.2.4.52 DOCTYPE state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken Doctype(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlToken Doctype(TextPosition position)
         {
+            var c = Next;
+
             if (c.IsSpaceCharacter())
-                return DoctypeNameBefore(Next);
+                return DoctypeNameBefore(Next, position);
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                return HtmlToken.Doctype(true);
+                var doctype = HtmlToken.Doctype(true);
+                doctype.Start = position;
+                doctype.End = GetCurrentPosition();
+                return doctype;
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
-            return DoctypeNameBefore(c);
+            return DoctypeNameBefore(c, position);
         }
 
         /// <summary>
         /// See 8.2.4.53 Before DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken DoctypeNameBefore(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlToken DoctypeNameBefore(Char c, TextPosition position)
         {
             while (c.IsSpaceCharacter())
                 c = Next;
 
             if (c.IsUppercaseAscii())
             {
+                var doctype = HtmlToken.Doctype(false);
+                doctype.Start = position;
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return DoctypeName(Next, HtmlToken.Doctype(false));
+                return DoctypeName(doctype);
             }
             else if (c == Specification.Null)
             {
+                var doctype = HtmlToken.Doctype(false);
+                doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
-                return DoctypeName(Next, HtmlToken.Doctype(false));
+                return DoctypeName(doctype);
             }
             else if (c == Specification.GreaterThan)
             {
+                var doctype = HtmlToken.Doctype(true);
+                doctype.Start = position;
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return HtmlToken.Doctype(true);
+                doctype.End = GetCurrentPosition();
+                return doctype;
             }
             else if (c == Specification.EndOfFile)
             {
+                var doctype = HtmlToken.Doctype(true);
+                doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                return HtmlToken.Doctype(true);
+                doctype.End = GetCurrentPosition();
+                return doctype;
             }
-
-            _stringBuffer.Clear();
-            _stringBuffer.Append(c);
-            return DoctypeName(Next, HtmlToken.Doctype(false));
+            else
+            {
+                var doctype = HtmlToken.Doctype(false);
+                doctype.Start = position;
+                _stringBuffer.Clear();
+                _stringBuffer.Append(c);
+                return DoctypeName(doctype);
+            }
         }
 
         /// <summary>
         /// See 8.2.4.54 DOCTYPE name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeName(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeName(HtmlDoctypeToken doctype)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c.IsSpaceCharacter())
                 {
                     doctype.Name = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypeNameAfter(Next, doctype);
+                    return DoctypeNameAfter(doctype);
                 }
                 else if (c == Specification.GreaterThan)
                 {
                     _state = HtmlParseMode.PCData;
                     doctype.Name = _stringBuffer.ToString();
-                    return doctype;
+                    break;
                 }
                 else if (c.IsUppercaseAscii())
                     _stringBuffer.Append(Char.ToLower(c));
@@ -1113,106 +1192,116 @@
                     Back();
                     doctype.IsQuirksForced = true;
                     doctype.Name = _stringBuffer.ToString();
-                    return doctype;
+                    break;
                 }
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
+
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.55 After DOCTYPE name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeNameAfter(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeNameAfter(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             while (c.IsSpaceCharacter())
                 c = Next;
 
             if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                return doctype;
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
                 doctype.IsQuirksForced = true;
-                return doctype;
             }
             else if (ContinuesWith("public"))
             {
                 Advance(5);
-                return DoctypePublic(Next, doctype);
+                return DoctypePublic(doctype);
             }
             else if (ContinuesWith("system"))
             {
                 Advance(5);
-                return DoctypeSystem(Next, doctype);
+                return DoctypeSystem(doctype);
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.56 After DOCTYPE public keyword state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypePublic(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypePublic(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             if (c.IsSpaceCharacter())
             {
-                return DoctypePublicIdentifierBefore(Next, doctype);
+                return DoctypePublicIdentifierBefore(doctype);
             }
             else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(Next, doctype);
+                return DoctypePublicIdentifierDoubleQuoted(doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(Next, doctype);
+                return DoctypePublicIdentifierSingleQuoted(doctype);
             }
             else if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                return doctype;
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
-                return doctype;
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.57 Before DOCTYPE public identifier state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypePublicIdentifierBefore(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypePublicIdentifierBefore(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             while (c.IsSpaceCharacter())
                 c = Next;
 
@@ -1220,49 +1309,53 @@
             {
                 _stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(Next, doctype);
+                return DoctypePublicIdentifierDoubleQuoted(doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 _stringBuffer.Clear();
                 doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(Next, doctype);
+                return DoctypePublicIdentifierSingleQuoted(doctype);
             }
             else if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                return doctype;
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
-                return doctype;
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypePublicIdentifierDoubleQuoted(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypePublicIdentifierDoubleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.DoubleQuote)
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypePublicIdentifierAfter(Next, doctype); ;
+                    return DoctypePublicIdentifierAfter(doctype); ;
                 }
                 else if (c == Specification.Null)
                 {
@@ -1275,7 +1368,7 @@
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return doctype;
+                    break;
                 }
                 else if (c == Specification.EndOfFile)
                 {
@@ -1283,30 +1376,32 @@
                     Back();
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return doctype;
+                    break;
                 }
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
+
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.59 DOCTYPE public identifier (single-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypePublicIdentifierSingleQuoted(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypePublicIdentifierSingleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.SingleQuote)
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypePublicIdentifierAfter(Next, doctype);
+                    return DoctypePublicIdentifierAfter(doctype);
                 }
                 else if (c == Specification.Null)
                 {
@@ -1319,7 +1414,7 @@
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
-                    return doctype;
+                    break;
                 }
                 else if (c == Specification.EndOfFile)
                 {
@@ -1327,162 +1422,176 @@
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     Back();
-                    return doctype;
+                    break;
                 }
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
+
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.60 After DOCTYPE public identifier state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypePublicIdentifierAfter(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypePublicIdentifierAfter(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             if (c.IsSpaceCharacter())
             {
                 _stringBuffer.Clear();
-                return DoctypeBetween(Next, doctype);
+                return DoctypeBetween(doctype);
             }
             else if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                return doctype;
             }
             else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(doctype);
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
-                return doctype;
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.61 Between DOCTYPE public and system identifiers state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeBetween(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeBetween(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             while (c.IsSpaceCharacter())
                 c = Next;
 
             if (c == Specification.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                return doctype;
             }
             else if (c == Specification.DoubleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(doctype);
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
-                return doctype;
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.62 After DOCTYPE system keyword state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeSystem(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeSystem(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             if (c.IsSpaceCharacter())
             {
                 _state = HtmlParseMode.PCData;
-                return DoctypeSystemIdentifierBefore(Next, doctype);
+                return DoctypeSystemIdentifierBefore(doctype);
             }
             else if (c == Specification.DoubleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(doctype);
             }
             else if (c == Specification.GreaterThan)
             {
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.SystemIdentifier = _stringBuffer.ToString();
                 doctype.IsQuirksForced = true;
-                return doctype;
             }
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
-                return doctype;
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.63 Before DOCTYPE system identifier state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeSystemIdentifierBefore(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeSystemIdentifierBefore(HtmlDoctypeToken doctype)
         {
+            var c = Next;
+
             while (c.IsSpaceCharacter())
                 c = Next;
 
             if (c == Specification.DoubleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierDoubleQuoted(doctype);
             }
             else if (c == Specification.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(Next, doctype);
+                return DoctypeSystemIdentifierSingleQuoted(doctype);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1490,7 +1599,6 @@
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
-                return doctype;
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1498,29 +1606,34 @@
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
                 Back();
-                return doctype;
+            }
+            else
+            {
+                RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                doctype.IsQuirksForced = true;
+                return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            doctype.IsQuirksForced = true;
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeSystemIdentifierDoubleQuoted(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeSystemIdentifierDoubleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.DoubleQuote)
                 {
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypeSystemIdentifierAfter(Next, doctype);
+                    return DoctypeSystemIdentifierAfter(doctype);
                 }
                 else if (c == Specification.Null)
                 {
@@ -1533,7 +1646,7 @@
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
-                    return doctype;
+                    break;
                 }
                 else if (c == Specification.EndOfFile)
                 {
@@ -1541,109 +1654,110 @@
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     Back();
-                    return doctype;
+                    break;
                 }
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
+
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.65 DOCTYPE system identifier (single-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeSystemIdentifierSingleQuoted(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeSystemIdentifierSingleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
             {
-                if (c == Specification.SingleQuote)
-                {
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return DoctypeSystemIdentifierAfter(Next, doctype);
-                }
-                else if (c == Specification.Null)
-                {
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    _stringBuffer.Append(Specification.Replacement);
-                }
-                else if (c == Specification.GreaterThan)
-                {
-                    _state = HtmlParseMode.PCData;
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                    doctype.IsQuirksForced = true;
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    return doctype;
-                }
-                else if (c == Specification.EndOfFile)
-                {
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    doctype.IsQuirksForced = true;
-                    doctype.SystemIdentifier = _stringBuffer.ToString();
-                    Back();
-                    return doctype;
-                }
-                else
-                    _stringBuffer.Append(c);
+                var c = Next;
 
-                c = Next;
+                switch (c)
+                {
+                    case Specification.SingleQuote:
+                        doctype.SystemIdentifier = _stringBuffer.ToString();
+                        _stringBuffer.Clear();
+                        return DoctypeSystemIdentifierAfter(doctype);
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        _stringBuffer.Append(Specification.Replacement);
+                        continue;
+                    case Specification.GreaterThan:
+                        _state = HtmlParseMode.PCData;
+                        RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                        doctype.IsQuirksForced = true;
+                        doctype.SystemIdentifier = _stringBuffer.ToString();
+                        break;
+                    case Specification.EndOfFile:
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        doctype.IsQuirksForced = true;
+                        doctype.SystemIdentifier = _stringBuffer.ToString();
+                        Back();
+                        break;
+                    default:
+                        _stringBuffer.Append(c);
+                        continue;
+                }
+
+                doctype.End = GetCurrentPosition();
+                return doctype;
             }
         }
 
         /// <summary>
         /// See 8.2.4.66 After DOCTYPE system identifier state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken DoctypeSystemIdentifierAfter(Char c, HtmlDoctypeToken doctype)
+        HtmlToken DoctypeSystemIdentifierAfter(HtmlDoctypeToken doctype)
         {
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
-            if (c == Specification.GreaterThan)
+            switch (c)
             {
-                _state = HtmlParseMode.PCData;
-                return doctype;
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                doctype.IsQuirksForced = true;
-                Back();
-                return doctype;
+                case Specification.GreaterThan:
+                    _state = HtmlParseMode.PCData;
+                    break;
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    doctype.IsQuirksForced = true;
+                    Back();
+                    break;
+                default:
+                    RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                    return BogusDoctype(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
-            return BogusDoctype(Next, doctype);
+            doctype.End = GetCurrentPosition();
+            return doctype;
         }
 
         /// <summary>
         /// See 8.2.4.67 Bogus DOCTYPE state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken BogusDoctype(Char c, HtmlDoctypeToken doctype)
+        HtmlToken BogusDoctype(HtmlDoctypeToken doctype)
         {
             while (true)
             {
-                if (c == Specification.EndOfFile)
+                switch (Next)
                 {
-                    Back();
-                    return doctype;
-                }
-                else if (c == Specification.GreaterThan)
-                {
-                    _state = HtmlParseMode.PCData;
-                    return doctype;
+                    case Specification.GreaterThan:
+                        _state = HtmlParseMode.PCData;
+                        break;
+                    case Specification.EndOfFile:
+                        Back();
+                        break;
+                    default:
+                        continue;
                 }
 
-                c = Next;
+                doctype.End = GetCurrentPosition();
+                return doctype;
             }
         }
 
@@ -1664,7 +1778,7 @@
 
             if (c == Specification.Solidus)
             {
-                return TagSelfClosing(Next, tag);
+                return TagSelfClosing(tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1674,21 +1788,21 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
             else if (c == Specification.SingleQuote || c == Specification.DoubleQuote || c == Specification.Equality || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1698,34 +1812,35 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
         }
 
         /// <summary>
         /// See 8.2.4.35 Attribute name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeName(Char c, HtmlTagToken tag)
+        HtmlToken AttributeName(HtmlTagToken tag)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c.IsSpaceCharacter())
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
-                    return AttributeAfterName(Next, tag);
+                    return AttributeAfterName(tag);
                 }
                 else if (c == Specification.Solidus)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
-                    return TagSelfClosing(Next, tag);
+                    return TagSelfClosing(tag);
                 }
                 else if (c == Specification.Equality)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
-                    return AttributeBeforeValue(Next, tag);
+                    return AttributeBeforeValue(tag);
                 }
                 else if (c == Specification.GreaterThan)
                 {
@@ -1748,29 +1863,28 @@
                 }
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
         }
 
         /// <summary>
         /// See 8.2.4.36 After attribute name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeAfterName(Char c, HtmlTagToken tag)
+        HtmlToken AttributeAfterName(HtmlTagToken tag)
         {
+            var c = Next;
+
             while (c.IsSpaceCharacter())
                 c = Next;
 
             if (c == Specification.Solidus)
             {
-                return TagSelfClosing(Next, tag);
+                return TagSelfClosing(tag);
             }
             else if (c == Specification.Equality)
             {
-                return AttributeBeforeValue(Next, tag);
+                return AttributeBeforeValue(tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1780,21 +1894,21 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Char.ToLower(c));
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Specification.Replacement);
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
             else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1804,25 +1918,26 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(Next, tag);
+                return AttributeName(tag);
             }
         }
 
         /// <summary>
         /// See 8.2.4.37 Before attribute value state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeBeforeValue(Char c, HtmlTagToken tag)
+        HtmlToken AttributeBeforeValue(HtmlTagToken tag)
         {
+            var c = Next;
+
             while (c.IsSpaceCharacter())
                 c = Next;
 
             if (c == Specification.DoubleQuote)
             {
                 _stringBuffer.Clear();
-                return AttributeDoubleQuotedValue(Next, tag);
+                return AttributeDoubleQuotedValue(tag);
             }
             else if (c == Specification.Ampersand)
             {
@@ -1832,7 +1947,7 @@
             else if (c == Specification.SingleQuote)
             {
                 _stringBuffer.Clear();
-                return AttributeSingleQuotedValue(Next, tag);
+                return AttributeSingleQuotedValue(tag);
             }
             else if (c == Specification.Null)
             {
@@ -1865,17 +1980,18 @@
         /// <summary>
         /// See 8.2.4.38 Attribute value (double-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeDoubleQuotedValue(Char c, HtmlTagToken tag)
+        HtmlToken AttributeDoubleQuotedValue(HtmlTagToken tag)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.DoubleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeAfterValue(Next, tag);
+                    return AttributeAfterValue(tag);
                 }
                 else if (c == Specification.Ampersand)
                 {
@@ -1895,25 +2011,24 @@
                     return HtmlToken.EOF;
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
         }
 
         /// <summary>
         /// See 8.2.4.39 Attribute value (single-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeSingleQuotedValue(Char c, HtmlTagToken tag)
+        HtmlToken AttributeSingleQuotedValue(HtmlTagToken tag)
         {
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.SingleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeAfterValue(Next, tag);
+                    return AttributeAfterValue(tag);
                 }
                 else if (c == Specification.Ampersand)
                 {
@@ -1933,8 +2048,6 @@
                     return HtmlToken.EOF;
                 else
                     _stringBuffer.Append(c);
-
-                c = Next;
             }
         }
 
@@ -1989,15 +2102,16 @@
         /// <summary>
         /// See 8.2.4.42 After attribute value (quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeAfterValue(Char c, HtmlTagToken tag)
+        HtmlToken AttributeAfterValue(HtmlTagToken tag)
         {
+            var c = Next;
+
             if (c.IsSpaceCharacter())
                 return AttributeBeforeName(Next, tag);
             else if (c == Specification.Solidus)
-                return TagSelfClosing(Next, tag);
+                return TagSelfClosing(tag);
             else if (c == Specification.GreaterThan)
                 return EmitTag(tag);
             else if (c == Specification.EndOfFile)
@@ -2022,7 +2136,7 @@
                 switch (c)
                 {
                     case Specification.LessThan:
-                        return ScriptDataLT(Next);
+                        return ScriptDataLT();
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -2044,12 +2158,14 @@
         /// <summary>
         /// See 8.2.4.17 Script data less-than sign state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataLT(Char c)
+        HtmlToken ScriptDataLT()
         {
+            var position = GetCurrentPosition();
+            var c = Next;
+
             if (c == Specification.Solidus)
             {
-                return ScriptDataEndTag(Next);
+                return ScriptDataEndTag(position);
             }
             else if (c == Specification.ExclamationMark)
             {
@@ -2064,14 +2180,18 @@
         /// <summary>
         /// See 8.2.4.18 Script data end tag open state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEndTag(Char c)
+        /// <param name="position">The start position.</param>
+        HtmlToken ScriptDataEndTag(TextPosition position)
         {
+            var c = Next;
+
             if (c.IsLetter())
             {
+                var tag = HtmlToken.CloseTag();
+                tag.Start = position;
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return ScriptDataNameEndTag(Next, HtmlToken.CloseTag());
+                return ScriptDataNameEndTag(tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -2081,38 +2201,42 @@
         /// <summary>
         /// See 8.2.4.19 Script data end tag name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken ScriptDataNameEndTag(Char c, HtmlTagToken tag)
+        HtmlToken ScriptDataNameEndTag(HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString().ToLowerInvariant();
-            var appropriateEndTag = name == _lastStartTag;
+            while (true)
+            {
+                var c = Next;
+                var name = _stringBuffer.ToString().ToLowerInvariant();
+                var appropriateEndTag = name == _lastStartTag;
 
-            if (appropriateEndTag && c.IsSpaceCharacter())
-            {
-                tag.Name = name;
-                return AttributeBeforeName(Next, tag);
+                if (appropriateEndTag && c.IsSpaceCharacter())
+                {
+                    tag.Name = name;
+                    return AttributeBeforeName(Next, tag);
+                }
+                else if (appropriateEndTag && c == Specification.Solidus)
+                {
+                    tag.Name = name;
+                    return TagSelfClosing(tag);
+                }
+                else if (appropriateEndTag && c == Specification.GreaterThan)
+                {
+                    tag.Name = name;
+                    return EmitTag(tag);
+                }
+                else if (c.IsLetter())
+                {
+                    _stringBuffer.Append(c);
+                }
+                else
+                {
+                    _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+                    _buffer.Append(_stringBuffer.ToString());
+                    return ScriptData(c);
+                }
             }
-            else if (appropriateEndTag && c == Specification.Solidus)
-            {
-                tag.Name = name;
-                return TagSelfClosing(Next, tag);
-            }
-            else if (appropriateEndTag && c == Specification.GreaterThan)
-            {
-                tag.Name = name;
-                return EmitTag(tag);
-            }
-            else if (c.IsLetter())
-            {
-                _stringBuffer.Append(c);
-                return ScriptDataNameEndTag(Next, tag);
-            }
-
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
-            _buffer.Append(_stringBuffer.ToString());
-            return ScriptData(c);
         }
 
         /// <summary>
@@ -2143,7 +2267,7 @@
             }
             else if (c == Specification.LessThan)
             {
-                return ScriptDataEscapedLT(Next);
+                return ScriptDataEscapedLT();
             }
             else if (c == Specification.Null)
             {
@@ -2187,7 +2311,7 @@
             }
             else if (c == Specification.LessThan)
             {
-                return ScriptDataEscapedLT(Next);
+                return ScriptDataEscapedLT();
             }
             else if (c == Specification.Null)
             {
@@ -2217,7 +2341,7 @@
             }
             else if (c == Specification.LessThan)
             {
-                return ScriptDataEscapedLT(Next);
+                return ScriptDataEscapedLT();
             }
             else if (c == Specification.GreaterThan)
             {
@@ -2242,12 +2366,14 @@
         /// <summary>
         /// See 8.2.4.25 Script data escaped less-than sign state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedLT(Char c)
+        HtmlToken ScriptDataEscapedLT()
         {
+            var position = GetCurrentPosition();
+            var c = Next;
+
             if (c == Specification.Solidus)
             {
-                return ScriptDataEndTag(Next);
+                return ScriptDataEndTag(position);
             }
             else if (c.IsLetter())
             {
@@ -2265,16 +2391,17 @@
         /// <summary>
         /// See 8.2.4.26 Script data escaped end tag open state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken ScriptDataEscapedEndTag(Char c, HtmlTagToken tag)
+        HtmlToken ScriptDataEscapedEndTag(HtmlTagToken tag)
         {
+            var c = Next;
+
             if (c.IsLetter())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return ScriptDataEscapedEndTag(Next, tag);
+                return ScriptDataEscapedNameTag(tag);
             }
 
             _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
@@ -2284,38 +2411,42 @@
         /// <summary>
         /// See 8.2.4.27 Script data escaped end tag name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken ScriptDataEscapedNameTag(Char c, HtmlTagToken tag)
+        HtmlToken ScriptDataEscapedNameTag(HtmlTagToken tag)
         {
-            var name = _stringBuffer.ToString().ToLowerInvariant();
-            var appropriateEndTag = name == _lastStartTag;
+            while (true)
+            {
+                var c = Next;
+                var name = _stringBuffer.ToString().ToLowerInvariant();
+                var appropriateEndTag = name == _lastStartTag;
 
-            if (appropriateEndTag && c.IsSpaceCharacter())
-            {
-                tag.Name = name;
-                return AttributeBeforeName(Next, tag);
+                if (appropriateEndTag && c.IsSpaceCharacter())
+                {
+                    tag.Name = name;
+                    return AttributeBeforeName(Next, tag);
+                }
+                else if (appropriateEndTag && c == Specification.Solidus)
+                {
+                    tag.Name = name;
+                    return TagSelfClosing(tag);
+                }
+                else if (appropriateEndTag && c == Specification.GreaterThan)
+                {
+                    tag.Name = name;
+                    return EmitTag(tag);
+                }
+                else if (c.IsLetter())
+                {
+                    _stringBuffer.Append(c);
+                }
+                else
+                {
+                    _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+                    _buffer.Append(_stringBuffer.ToString());
+                    return ScriptDataEscaped(c);
+                }
             }
-            else if (appropriateEndTag && c == Specification.Solidus)
-            {
-                tag.Name = name;
-                return TagSelfClosing(Next, tag);
-            }
-            else if (appropriateEndTag && c == Specification.GreaterThan)
-            {
-                tag.Name = name;
-                return EmitTag(tag);
-            }
-            else if (c.IsLetter())
-            {
-                _stringBuffer.Append(c);
-                return ScriptDataEscapedNameTag(Next, tag);
-            }
-
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
-            _buffer.Append(_stringBuffer.ToString());
-            return ScriptDataEscaped(c);
         }
 
         /// <summary>
@@ -2488,6 +2619,14 @@
 
         #region Helpers
 
+        HtmlCommentToken EmitComment(TextPosition position)
+        {
+            var comment = HtmlToken.Comment(_stringBuffer.ToString());
+            comment.Start = position;
+            comment.End = GetCurrentPosition();
+            return comment;
+        }
+
         /// <summary>
         /// Emits the current token as a tag token.
         /// </summary>
@@ -2521,6 +2660,7 @@
                     RaiseErrorOccurred(ErrorCode.EndTagCannotHaveAttributes);
             }
 
+            tag.End = GetCurrentPosition();
             return tag;
         }
 

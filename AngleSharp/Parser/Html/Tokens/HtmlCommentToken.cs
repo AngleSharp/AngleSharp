@@ -20,5 +20,27 @@
         }
 
         #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the position of the token.
+        /// </summary>
+        public TextPosition Start
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the position of the token.
+        /// </summary>
+        public TextPosition End
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 }
