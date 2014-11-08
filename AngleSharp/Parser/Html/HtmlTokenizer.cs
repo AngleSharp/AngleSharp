@@ -299,7 +299,7 @@
                 if (appropriateTag && c.IsSpaceCharacter())
                 {
                     tag.Name = name;
-                    return AttributeBeforeName(Next, tag);
+                    return AttributeBeforeName(tag);
                 }
                 else if (appropriateTag && c == Specification.Solidus)
                 {
@@ -425,7 +425,7 @@
                 if (appropriateTag && c.IsSpaceCharacter())
                 {
                     tag.Name = name;
-                    return AttributeBeforeName(Next, tag);
+                    return AttributeBeforeName(tag);
                 }
                 else if (appropriateTag && c == Specification.Solidus)
                 {
@@ -719,7 +719,7 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.Name = _stringBuffer.ToString();
-                    return AttributeBeforeName(Next, tag);
+                    return AttributeBeforeName(tag);
                 }
                 else if (c == Specification.Solidus)
                 {
@@ -772,7 +772,8 @@
             else
             {
                 RaiseErrorOccurred(ErrorCode.ClosingSlashMisplaced);
-                return AttributeBeforeName(c, tag);
+                Back();
+                return AttributeBeforeName(tag);
             }
         }
 
@@ -917,7 +918,7 @@
         /// <summary>
         /// See 8.2.4.48 Comment state
         /// </summary>
-        /// <param name="c">The next input character.</param>
+        /// <param name="position">The start position.</param>
         HtmlCommentToken Comment(TextPosition position)
         {
             while (true)
@@ -1209,10 +1210,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeNameAfter(HtmlDoctypeToken doctype)
         {
-            var c = Next;
-
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.GreaterThan)
             {
@@ -1300,10 +1298,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierBefore(HtmlDoctypeToken doctype)
         {
-            var c = Next;
-
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.DoubleQuote)
             {
@@ -1486,10 +1481,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeBetween(HtmlDoctypeToken doctype)
         {
-            var c = Next;
-
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.GreaterThan)
             {
@@ -1578,10 +1570,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierBefore(HtmlDoctypeToken doctype)
         {
-            var c = Next;
-
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.DoubleQuote)
             {
@@ -1768,13 +1757,11 @@
         /// <summary>
         /// See 8.2.4.34 Before attribute name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken AttributeBeforeName(Char c, HtmlTagToken tag)
+        HtmlToken AttributeBeforeName(HtmlTagToken tag)
         {
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.Solidus)
             {
@@ -1873,10 +1860,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterName(HtmlTagToken tag)
         {
-            var c = Next;
-
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.Solidus)
             {
@@ -1929,10 +1913,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeValue(HtmlTagToken tag)
         {
-            var c = Next;
-
-            while (c.IsSpaceCharacter())
-                c = Next;
+            var c = SkipSpaces();
 
             if (c == Specification.DoubleQuote)
             {
@@ -2064,7 +2045,7 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
-                    return AttributeBeforeName(Next, tag);
+                    return AttributeBeforeName(tag);
                 }
                 else if (c == Specification.Ampersand)
                 {
@@ -2109,7 +2090,7 @@
             var c = Next;
 
             if (c.IsSpaceCharacter())
-                return AttributeBeforeName(Next, tag);
+                return AttributeBeforeName(tag);
             else if (c == Specification.Solidus)
                 return TagSelfClosing(tag);
             else if (c == Specification.GreaterThan)
@@ -2118,7 +2099,8 @@
                 return HtmlTagToken.EOF;
 
             RaiseErrorOccurred(ErrorCode.AttributeNameExpected);
-            return AttributeBeforeName(c, tag);
+            Back();
+            return AttributeBeforeName(tag);
         }
 
         #endregion
@@ -2211,31 +2193,33 @@
                 var name = _stringBuffer.ToString().ToLowerInvariant();
                 var appropriateEndTag = name == _lastStartTag;
 
-                if (appropriateEndTag && c.IsSpaceCharacter())
+                if (appropriateEndTag)
                 {
-                    tag.Name = name;
-                    return AttributeBeforeName(Next, tag);
+                    if (c.IsSpaceCharacter())
+                    {
+                        tag.Name = name;
+                        return AttributeBeforeName(tag);
+                    }
+                    else if (c == Specification.Solidus)
+                    {
+                        tag.Name = name;
+                        return TagSelfClosing(tag);
+                    }
+                    else if (c == Specification.GreaterThan)
+                    {
+                        tag.Name = name;
+                        return EmitTag(tag);
+                    }
                 }
-                else if (appropriateEndTag && c == Specification.Solidus)
-                {
-                    tag.Name = name;
-                    return TagSelfClosing(tag);
-                }
-                else if (appropriateEndTag && c == Specification.GreaterThan)
-                {
-                    tag.Name = name;
-                    return EmitTag(tag);
-                }
-                else if (c.IsLetter())
-                {
-                    _stringBuffer.Append(c);
-                }
-                else
+                
+                if (!c.IsLetter())
                 {
                     _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
                     _buffer.Append(_stringBuffer.ToString());
                     return ScriptData(c);
                 }
+
+                _stringBuffer.Append(c);
             }
         }
 
@@ -2260,27 +2244,22 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscaped(Char c)
         {
-            if (c == Specification.Minus)
+            switch (c)
             {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDash(Next);
+                case Specification.Minus:
+                    _buffer.Append(Specification.Minus);
+                    return ScriptDataEscapedDash();
+                case Specification.LessThan:
+                    return ScriptDataEscapedLT();
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _buffer.Append(Specification.Replacement);
+                    return ScriptDataEscaped(Next);
+                case Specification.EndOfFile:
+                    return HtmlToken.EOF;
+                default:
+                    return ScriptData(c);
             }
-            else if (c == Specification.LessThan)
-            {
-                return ScriptDataEscapedLT();
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _buffer.Append(Specification.Replacement);
-                return ScriptDataEscaped(Next);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                return HtmlToken.EOF;
-            }
-
-            return ScriptData(c);
         }
 
         /// <summary>
@@ -2292,7 +2271,7 @@
             if (c == Specification.Minus)
             {
                 _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash(Next);
+                return ScriptDataEscapedDashDash();
             }
 
             return ScriptData(c);
@@ -2301,66 +2280,59 @@
         /// <summary>
         /// See 8.2.4.23 Script data escaped dash state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDash(Char c)
+        HtmlToken ScriptDataEscapedDash()
         {
-            if (c == Specification.Minus)
-            {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash(Next);
-            }
-            else if (c == Specification.LessThan)
-            {
-                return ScriptDataEscapedLT();
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _buffer.Append(Specification.Replacement);
-                return ScriptDataEscaped(Next);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                return HtmlToken.EOF;
-            }
+            var c = Next;
 
-            _buffer.Append(c);
-            return ScriptDataEscaped(Next);
+            switch (c)
+            {
+                case Specification.Minus:
+                    _buffer.Append(Specification.Minus);
+                    return ScriptDataEscapedDashDash();
+                case Specification.LessThan:
+                    return ScriptDataEscapedLT();
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _buffer.Append(Specification.Replacement);
+                    return ScriptDataEscaped(Next);
+                case Specification.EndOfFile:
+                    return HtmlToken.EOF;
+                default:
+                    _buffer.Append(c);
+                    return ScriptDataEscaped(Next);
+            }
         }
 
         /// <summary>
         /// See 8.2.4.24 Script data escaped dash dash state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDashDash(Char c)
+        HtmlToken ScriptDataEscapedDashDash()
         {
-            if (c == Specification.Minus)
+            while (true)
             {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash(Next);
-            }
-            else if (c == Specification.LessThan)
-            {
-                return ScriptDataEscapedLT();
-            }
-            else if (c == Specification.GreaterThan)
-            {
-                _buffer.Append(Specification.GreaterThan);
-                return ScriptData(Next);
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _buffer.Append(Specification.Replacement);
-                return ScriptDataEscaped(Next);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                return HtmlToken.EOF;
-            }
+                var c = Next;
 
-            _buffer.Append(c);
-            return ScriptDataEscaped(Next);
+                switch (c)
+                {
+                    case Specification.Minus:
+                        _buffer.Append(Specification.Minus);
+                        break;
+                    case Specification.LessThan:
+                        return ScriptDataEscapedLT();
+                    case Specification.GreaterThan:
+                        _buffer.Append(Specification.GreaterThan);
+                        return ScriptData(Next);
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        _buffer.Append(Specification.Replacement);
+                        return ScriptDataEscaped(Next);
+                    case Specification.EndOfFile:
+                        return HtmlToken.EOF;
+                    default:
+                        _buffer.Append(c);
+                        return ScriptDataEscaped(Next);
+                }
+            }
         }
 
         /// <summary>
@@ -2372,16 +2344,15 @@
             var c = Next;
 
             if (c == Specification.Solidus)
-            {
                 return ScriptDataEndTag(position);
-            }
-            else if (c.IsLetter())
+
+            if (c.IsLetter())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
                 _buffer.Append(Specification.LessThan);
                 _buffer.Append(c);
-                return ScriptDataStartDoubleEscape(Next);
+                return ScriptDataStartDoubleEscape();
             }
 
             _buffer.Append(Specification.LessThan);
@@ -2399,12 +2370,13 @@
 
             if (c.IsLetter())
             {
-                _stringBuffer.Clear();
-                _stringBuffer.Append(c);
+                _stringBuffer.Clear()
+                    .Append(c);
                 return ScriptDataEscapedNameTag(tag);
             }
 
-            _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
+            _buffer.Append(Specification.LessThan)
+                .Append(Specification.Solidus);
             return ScriptDataEscaped(c);
         }
 
@@ -2421,57 +2393,62 @@
                 var name = _stringBuffer.ToString().ToLowerInvariant();
                 var appropriateEndTag = name == _lastStartTag;
 
-                if (appropriateEndTag && c.IsSpaceCharacter())
+                if (appropriateEndTag)
                 {
-                    tag.Name = name;
-                    return AttributeBeforeName(Next, tag);
+                    if (c.IsSpaceCharacter())
+                    {
+                        tag.Name = name;
+                        return AttributeBeforeName(tag);
+                    }
+                    else if (c == Specification.Solidus)
+                    {
+                        tag.Name = name;
+                        return TagSelfClosing(tag);
+                    }
+                    else if (c == Specification.GreaterThan)
+                    {
+                        tag.Name = name;
+                        return EmitTag(tag);
+                    }
                 }
-                else if (appropriateEndTag && c == Specification.Solidus)
-                {
-                    tag.Name = name;
-                    return TagSelfClosing(tag);
-                }
-                else if (appropriateEndTag && c == Specification.GreaterThan)
-                {
-                    tag.Name = name;
-                    return EmitTag(tag);
-                }
-                else if (c.IsLetter())
-                {
-                    _stringBuffer.Append(c);
-                }
-                else
+
+                if (!c.IsLetter())
                 {
                     _buffer.Append(Specification.LessThan).Append(Specification.Solidus);
                     _buffer.Append(_stringBuffer.ToString());
                     return ScriptDataEscaped(c);
                 }
+
+                _stringBuffer.Append(c);
             }
         }
 
         /// <summary>
         /// See 8.2.4.28 Script data double escape start state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataStartDoubleEscape(Char c)
+        HtmlToken ScriptDataStartDoubleEscape()
         {
-            if (c.IsSpaceCharacter() || c == Specification.Solidus || c == Specification.GreaterThan)
+            while (true)
             {
-                _buffer.Append(c);
+                var c = Next;
 
-                if (String.Compare(_stringBuffer.ToString(), Tags.Script, StringComparison.OrdinalIgnoreCase) == 0)
-                    return ScriptDataEscapedDouble(Next);
+                if (c == Specification.Solidus || c == Specification.GreaterThan || c.IsSpaceCharacter())
+                {
+                    _buffer.Append(c);
 
-                return ScriptDataEscaped(Next);
+                    if (_stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
+                        return ScriptDataEscapedDouble(Next);
+
+                    return ScriptDataEscaped(Next);
+                }
+                else if (c.IsLetter())
+                {
+                    _stringBuffer.Append(c);
+                    _buffer.Append(c);
+                }
+                else
+                    return ScriptDataEscaped(c);
             }
-            else if (c.IsLetter())
-            {
-                _stringBuffer.Append(c);
-                _buffer.Append(c);
-                return ScriptDataStartDoubleEscape(Next);
-            }
-
-            return ScriptDataEscaped(c);
         }
 
         /// <summary>
@@ -2480,25 +2457,21 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDouble(Char c)
         {
-            if (c == Specification.Minus)
+            switch (c)
             {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDoubleDash(Next);
-            }
-            else if (c == Specification.LessThan)
-            {
-                _buffer.Append(Specification.LessThan);
-                return ScriptDataEscapedDoubleLT(Next);
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _buffer.Append(Specification.Replacement);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return HtmlToken.EOF;
+                case Specification.Minus:
+                    _buffer.Append(Specification.Minus);
+                    return ScriptDataEscapedDoubleDash();
+                case Specification.LessThan:
+                    _buffer.Append(Specification.LessThan);
+                    return ScriptDataEscapedDoubleLT();
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _buffer.Append(Specification.Replacement);
+                    break;
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return HtmlToken.EOF;
             }
 
             _buffer.Append(c);
@@ -2508,83 +2481,77 @@
         /// <summary>
         /// See 8.2.4.30 Script data double escaped dash state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDoubleDash(Char c)
+        HtmlToken ScriptDataEscapedDoubleDash()
         {
-            if (c == Specification.Minus)
-            {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDoubleDashDash(Next);
-            }
-            else if (c == Specification.LessThan)
-            {
-                _buffer.Append(Specification.LessThan);
-                return ScriptDataEscapedDoubleLT(Next);
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _buffer.Append(Specification.Replacement);
-                return ScriptDataEscapedDouble(Next);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return HtmlToken.EOF;
-            }
+            var c = Next;
 
-            _buffer.Append(c);
-            return ScriptDataEscapedDouble(Next);
+            switch (c)
+            {
+                case Specification.Minus:
+                    _buffer.Append(Specification.Minus);
+                    return ScriptDataEscapedDoubleDashDash();
+                case Specification.LessThan:
+                    _buffer.Append(Specification.LessThan);
+                    return ScriptDataEscapedDoubleLT();
+                case Specification.Null:
+                    RaiseErrorOccurred(ErrorCode.Null);
+                    _buffer.Append(Specification.Replacement);
+                    return ScriptDataEscapedDouble(Next);
+                case Specification.EndOfFile:
+                    RaiseErrorOccurred(ErrorCode.EOF);
+                    return HtmlToken.EOF;
+                default:
+                    _buffer.Append(c);
+                    return ScriptDataEscapedDouble(Next);
+            }
         }
 
         /// <summary>
         /// See 8.2.4.31 Script data double escaped dash dash state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDoubleDashDash(Char c)
+        HtmlToken ScriptDataEscapedDoubleDashDash()
         {
-            if (c == Specification.Minus)
+            while (true)
             {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDoubleDashDash(Next);
-            }
-            else if (c == Specification.LessThan)
-            {
-                _buffer.Append(Specification.LessThan);
-                return ScriptDataEscapedDoubleLT(Next);
-            }
-            else if (c == Specification.GreaterThan)
-            {
-                _buffer.Append(Specification.GreaterThan);
-                return ScriptData(Next);
-            }
-            else if (c == Specification.Null)
-            {
-                RaiseErrorOccurred(ErrorCode.Null);
-                _buffer.Append(Specification.Replacement);
-                return ScriptDataEscapedDouble(Next);
-            }
-            else if (c == Specification.EndOfFile)
-            {
-                RaiseErrorOccurred(ErrorCode.EOF);
-                return HtmlToken.EOF;
-            }
+                var c = Next;
 
-            _buffer.Append(c);
-            return ScriptDataEscapedDouble(Next);
+                switch (c)
+                {
+                    case Specification.Minus:
+                        _buffer.Append(Specification.Minus);
+                        break;
+                    case Specification.LessThan:
+                        _buffer.Append(Specification.LessThan);
+                        return ScriptDataEscapedDoubleLT();
+                    case Specification.GreaterThan:
+                        _buffer.Append(Specification.GreaterThan);
+                        return ScriptData(Next);
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        _buffer.Append(Specification.Replacement);
+                        return ScriptDataEscapedDouble(Next);
+                    case Specification.EndOfFile:
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        return HtmlToken.EOF;
+                    default:
+                        _buffer.Append(c);
+                        return ScriptDataEscapedDouble(Next);
+                }
+            }
         }
 
         /// <summary>
         /// See 8.2.4.32 Script data double escaped less-than sign state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDoubleLT(Char c)
+        HtmlToken ScriptDataEscapedDoubleLT()
         {
+            var c = Next;
+
             if (c == Specification.Solidus)
             {
                 _stringBuffer.Clear();
                 _buffer.Append(Specification.Solidus);
-                return ScriptDataEndDoubleEscape(Next);
+                return ScriptDataEndDoubleEscape();
             }
 
             return ScriptDataEscapedDouble(c);
@@ -2593,26 +2560,29 @@
         /// <summary>
         /// See 8.2.4.33 Script data double escape end state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEndDoubleEscape(Char c)
+        HtmlToken ScriptDataEndDoubleEscape()
         {
-            if (c.IsSpaceCharacter() || c == Specification.Solidus || c == Specification.GreaterThan)
+            while (true)
             {
-                _buffer.Append(c);
+                var c = Next;
 
-                if (String.Compare(_stringBuffer.ToString(), Tags.Script, StringComparison.OrdinalIgnoreCase) == 0)
-                    return ScriptDataEscaped(Next);
+                if (c.IsSpaceCharacter() || c == Specification.Solidus || c == Specification.GreaterThan)
+                {
+                    _buffer.Append(c);
 
-                return ScriptDataEscapedDouble(Next);
+                    if (_stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
+                        return ScriptDataEscaped(Next);
+
+                    return ScriptDataEscapedDouble(Next);
+                }
+                else if (c.IsLetter())
+                {
+                    _stringBuffer.Append(c);
+                    _buffer.Append(c);
+                }
+                else
+                    return ScriptDataEscapedDouble(c);
             }
-            else if (c.IsLetter())
-            {
-                _stringBuffer.Append(c);
-                _buffer.Append(c);
-                return ScriptDataEndDoubleEscape(Next);
-            }
-
-            return ScriptDataEscapedDouble(c);
         }
 
         #endregion
