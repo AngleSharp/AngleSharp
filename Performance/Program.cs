@@ -54,7 +54,12 @@
                 UrlTest.For("http://www.ask.com").Result,
                 UrlTest.For("http://www.mail.ru").Result,
                 UrlTest.For("http://www.imdb.com").Result,
-                UrlTest.For("http://www.kickass.to").Result
+                UrlTest.For("http://www.kickass.to").Result,
+                UrlTest.For("http://www.360.cn").Result,
+                UrlTest.For("http://www.163.com").Result,
+                UrlTest.For("http://www.neobux.com").Result,
+                UrlTest.For("http://www.aliexpress.com").Result,
+                UrlTest.For("http://www.netflix.com").Result
             };
 
             var statistics = new StatisticParser();
