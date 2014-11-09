@@ -243,10 +243,8 @@
 
 			state = State.AttributeOperator;
 
-			if (token.Type == CssTokenType.Ident)
+			if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
 				attrName = token.Data;
-            else if (token.Type == CssTokenType.String)
-                attrName = ((CssStringToken)token).Data;
             else
             {
                 state = State.Data;
@@ -293,12 +291,8 @@
 
 			state = State.AttributeEnd;
 
-			if (token.Type == CssTokenType.Ident)
+			if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String || token.Type == CssTokenType.Number)
 				attrValue = token.Data;
-			else if (token.Type == CssTokenType.String)
-				attrValue = ((CssStringToken)token).Data;
-            else if (token.Type == CssTokenType.Number)
-                attrValue = ((CssNumberToken)token).Data.ToString();
             else
             {
                 state = State.Data;
@@ -520,9 +514,7 @@
 				}
 				case pseudoClassFunctionContains:
 				{
-					if (token.Type == CssTokenType.String)
-						attrValue = ((CssStringToken)token).Data;
-					else if (token.Type == CssTokenType.Ident)
+					if (token.Type == CssTokenType.String || token.Type == CssTokenType.Ident)
 						attrValue = token.Data;
 
 					state = State.PseudoClassFunctionEnd;
