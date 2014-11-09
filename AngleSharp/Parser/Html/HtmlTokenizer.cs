@@ -216,7 +216,18 @@
                         break;
 
                     case Specification.LessThan:
-                        return RCDataLT();
+                        // See 8.2.4.11 RCDATA less-than sign state
+                        var position = GetCurrentPosition();
+                        c = Next;
+
+                        if (c == Specification.Solidus)
+                        {
+                            _stringBuffer.Clear();
+                            return RCDataEndTag(position);
+                        }
+
+                        _buffer.Append(Specification.LessThan);
+                        continue;
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -233,24 +244,6 @@
 
                 c = Next;
             }
-        }
-
-        /// <summary>
-        /// See 8.2.4.11 RCDATA less-than sign state
-        /// </summary>
-        HtmlToken RCDataLT()
-        {
-            var position = GetCurrentPosition();
-            var c = Next;
-
-            if (c == Specification.Solidus)
-            {
-                _stringBuffer.Clear();
-                return RCDataEndTag(position);
-            }
-
-            _buffer.Append(Specification.LessThan);
-            return RCData(c);
         }
 
         /// <summary>
