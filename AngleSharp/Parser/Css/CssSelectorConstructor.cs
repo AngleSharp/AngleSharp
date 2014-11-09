@@ -206,12 +206,12 @@
 
 				//Begin of ID #I
 				case CssTokenType.Hash:
-					Insert(SimpleSelector.Id(((CssKeywordToken)token).Data));
+					Insert(SimpleSelector.Id(token.Data));
 					return true;
 
 				//Begin of Type E
 				case CssTokenType.Ident:
-					Insert(SimpleSelector.Type(((CssKeywordToken)token).Data));
+					Insert(SimpleSelector.Type(token.Data));
 					return true;
 
 				//Whitespace could be significant
@@ -244,7 +244,7 @@
 			state = State.AttributeOperator;
 
 			if (token.Type == CssTokenType.Ident)
-				attrName = ((CssKeywordToken)token).Data;
+				attrName = token.Data;
             else if (token.Type == CssTokenType.String)
                 attrName = ((CssStringToken)token).Data;
             else
@@ -294,7 +294,7 @@
 			state = State.AttributeEnd;
 
 			if (token.Type == CssTokenType.Ident)
-				attrValue = ((CssKeywordToken)token).Data;
+				attrValue = token.Data;
 			else if (token.Type == CssTokenType.String)
 				attrValue = ((CssStringToken)token).Data;
             else if (token.Type == CssTokenType.Number)
@@ -372,7 +372,7 @@
             }
             else if (token.Type == CssTokenType.Function)
             {
-                attrName = ((CssKeywordToken)token).Data;
+                attrName = token.Data;
                 attrValue = String.Empty;
                 state = State.PseudoClassFunction;
 
@@ -401,10 +401,12 @@
         /// <param name="token">The token.</param>
         /// <returns>True if no error occurred, otherwise false.</returns>
 		Boolean OnPseudoElement(CssToken token)
-		{
+        {
+            state = State.Data;
+
             if (token.Type == CssTokenType.Ident)
             {
-                var data = ((CssKeywordToken)token).Data;
+                var data = token.Data;
 
                 switch (data)
                 {
@@ -443,7 +445,7 @@
 
             if (token.Type == CssTokenType.Ident)
             {
-                Insert(SimpleSelector.Class(((CssKeywordToken)token).Data));
+                Insert(SimpleSelector.Class(token.Data));
                 return true;
             }
             
@@ -503,7 +505,7 @@
 				case pseudoClassFunctionDir:
 				{
 					if (token.Type == CssTokenType.Ident)
-						attrValue = ((CssKeywordToken)token).Data;
+						attrValue = token.Data;
 
 					state = State.PseudoClassFunctionEnd;
 					return true;
@@ -511,7 +513,7 @@
 				case pseudoClassFunctionLang:
 				{
 					if (token.Type == CssTokenType.Ident)
-						attrValue = ((CssKeywordToken)token).Data;
+						attrValue = token.Data;
 
 					state = State.PseudoClassFunctionEnd;
 					return true;
@@ -521,7 +523,7 @@
 					if (token.Type == CssTokenType.String)
 						attrValue = ((CssStringToken)token).Data;
 					else if (token.Type == CssTokenType.Ident)
-						attrValue = ((CssKeywordToken)token).Data;
+						attrValue = token.Data;
 
 					state = State.PseudoClassFunctionEnd;
 					return true;
@@ -771,7 +773,7 @@
 		/// <returns>The created selector.</returns>
 		ISelector GetPseudoSelector(CssToken token)
 		{
-			switch (((CssKeywordToken)token).Data)
+			switch (token.Data)
 			{
 				case pseudoClassRoot:
 					return SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, pseudoClassRoot);
