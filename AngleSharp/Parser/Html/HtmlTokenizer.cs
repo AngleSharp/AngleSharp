@@ -460,11 +460,12 @@
         /// </summary>
         HtmlToken CData()
         {
-            var c = Next;
             _stringBuffer.Clear();
 
             while (true)
             {
+                var c = Next;
+
                 if (c == Specification.EndOfFile)
                 {
                     Back();
@@ -477,7 +478,6 @@
                 }
 
                 _stringBuffer.Append(c);
-                c = Next;
             }
 
             return HtmlToken.Character(_stringBuffer.ToString());
@@ -2095,7 +2095,36 @@
                 switch (c)
                 {
                     case Specification.LessThan:
-                        return ScriptDataLT();
+                        //See 8.2.4.17 Script data less-than sign state
+                        var position = GetCurrentPosition();
+                        c = Next;
+
+                        if (c == Specification.Solidus)
+                            return ScriptDataEndTag(position);
+
+                        _buffer.Append(Specification.LessThan);
+
+                        if (c == Specification.ExclamationMark)
+                        {
+                            c = Next;
+                            _buffer.Append(Specification.ExclamationMark);
+
+                            //See 8.2.4.20 Script data escape start state
+                            if (c == Specification.Minus)
+                            {
+                                c = Next;
+                                _buffer.Append(Specification.Minus);
+
+                                //See 8.2.4.21 Script data escape start dash state
+                                if (c == Specification.Minus)
+                                {
+                                    _buffer.Append(Specification.Minus);
+                                    return ScriptDataEscapedDashDash();
+                                }
+                            }
+                        }
+
+                        continue;
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
@@ -2112,29 +2141,6 @@
 
                 c = Next;
             }
-        }
-        
-        /// <summary>
-        /// See 8.2.4.17 Script data less-than sign state
-        /// </summary>
-        HtmlToken ScriptDataLT()
-        {
-            var position = GetCurrentPosition();
-            var c = Next;
-
-            if (c == Specification.Solidus)
-            {
-                return ScriptDataEndTag(position);
-            }
-            else if (c == Specification.ExclamationMark)
-            {
-                _buffer.Append(Specification.LessThan)
-                    .Append(Specification.ExclamationMark);
-                return ScriptDataStartEscape(Next);
-            }
-
-            _buffer.Append(Specification.LessThan);
-            return ScriptData(c);
         }
 
         /// <summary>
@@ -2204,82 +2210,52 @@
         }
 
         /// <summary>
-        /// See 8.2.4.20 Script data escape start state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataStartEscape(Char c)
-        {
-            if (c == Specification.Minus)
-            {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataStartEscapeDash(Next);
-            }
-
-            return ScriptData(c);
-        }
-
-        /// <summary>
         /// See 8.2.4.22 Script data escaped state
         /// </summary>
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscaped(Char c)
         {
-            switch (c)
+            while (true)
             {
-                case Specification.Minus:
-                    _buffer.Append(Specification.Minus);
-                    return ScriptDataEscapedDash();
-                case Specification.LessThan:
-                    return ScriptDataEscapedLT();
-                case Specification.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    _buffer.Append(Specification.Replacement);
-                    return ScriptDataEscaped(Next);
-                case Specification.EndOfFile:
-                    return HtmlToken.EOF;
-                default:
-                    return ScriptData(c);
-            }
-        }
+                switch (c)
+                {
+                    case Specification.Minus:
+                        _buffer.Append(Specification.Minus);
+                        c = Next;
 
-        /// <summary>
-        /// See 8.2.4.21 Script data escape start dash state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataStartEscapeDash(Char c)
-        {
-            if (c == Specification.Minus)
-            {
-                _buffer.Append(Specification.Minus);
-                return ScriptDataEscapedDashDash();
-            }
+                        //See 8.2.4.23 Script data escaped dash state
+                        switch (c)
+                        {
+                            case Specification.Minus:
+                                _buffer.Append(Specification.Minus);
+                                return ScriptDataEscapedDashDash();
+                            case Specification.LessThan:
+                                return ScriptDataEscapedLT();
+                            case Specification.Null:
+                                RaiseErrorOccurred(ErrorCode.Null);
+                                _buffer.Append(Specification.Replacement);
+                                break;
+                            case Specification.EndOfFile:
+                                return HtmlToken.EOF;
+                            default:
+                                _buffer.Append(c);
+                                break;
+                        }
 
-            return ScriptData(c);
-        }
+                        break;
+                    case Specification.LessThan:
+                        return ScriptDataEscapedLT();
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        _buffer.Append(Specification.Replacement);
+                        break;
+                    case Specification.EndOfFile:
+                        return HtmlToken.EOF;
+                    default:
+                        return ScriptData(c);
+                }
 
-        /// <summary>
-        /// See 8.2.4.23 Script data escaped dash state
-        /// </summary>
-        HtmlToken ScriptDataEscapedDash()
-        {
-            var c = Next;
-
-            switch (c)
-            {
-                case Specification.Minus:
-                    _buffer.Append(Specification.Minus);
-                    return ScriptDataEscapedDashDash();
-                case Specification.LessThan:
-                    return ScriptDataEscapedLT();
-                case Specification.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    _buffer.Append(Specification.Replacement);
-                    return ScriptDataEscaped(Next);
-                case Specification.EndOfFile:
-                    return HtmlToken.EOF;
-                default:
-                    _buffer.Append(c);
-                    return ScriptDataEscaped(Next);
+                c = Next;
             }
         }
 
@@ -2324,7 +2300,7 @@
             var c = Next;
 
             if (c == Specification.Solidus)
-                return ScriptDataEndTag(position);
+                return ScriptDataEscapedEndTag(position);
 
             if (c.IsLetter())
             {
@@ -2344,12 +2320,14 @@
         /// </summary>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken ScriptDataEscapedEndTag(HtmlTagToken tag)
+        HtmlToken ScriptDataEscapedEndTag(TextPosition position)
         {
             var c = Next;
 
             if (c.IsLetter())
             {
+                var tag = HtmlToken.CloseTag();
+                tag.Start = position;
                 _stringBuffer.Clear()
                     .Append(c);
                 return ScriptDataEscapedNameTag(tag);
