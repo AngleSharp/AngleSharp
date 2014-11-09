@@ -2416,52 +2416,46 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedDouble(Char c)
         {
-            switch (c)
+            while (true)
             {
-                case Specification.Minus:
-                    _buffer.Append(Specification.Minus);
-                    return ScriptDataEscapedDoubleDash();
-                case Specification.LessThan:
-                    _buffer.Append(Specification.LessThan);
-                    return ScriptDataEscapedDoubleLT();
-                case Specification.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    _buffer.Append(Specification.Replacement);
-                    break;
-                case Specification.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    return HtmlToken.EOF;
-            }
+                switch (c)
+                {
+                    case Specification.Minus:
+                        _buffer.Append(Specification.Minus);
+                        //See 8.2.4.30 Script data double escaped dash state
+                        c = Next;
 
-            _buffer.Append(c);
-            return ScriptDataEscapedDouble(Next);
-        }
+                        switch (c)
+                        {
+                            case Specification.Minus:
+                                _buffer.Append(Specification.Minus);
+                                return ScriptDataEscapedDoubleDashDash();
+                            case Specification.LessThan:
+                                _buffer.Append(Specification.LessThan);
+                                return ScriptDataEscapedDoubleLT();
+                            case Specification.Null:
+                                RaiseErrorOccurred(ErrorCode.Null);
+                                c = Specification.Replacement;
+                                break;
+                            case Specification.EndOfFile:
+                                RaiseErrorOccurred(ErrorCode.EOF);
+                                return HtmlToken.EOF;
+                        }
+                        break;
+                    case Specification.LessThan:
+                        _buffer.Append(Specification.LessThan);
+                        return ScriptDataEscapedDoubleLT();
+                    case Specification.Null:
+                        RaiseErrorOccurred(ErrorCode.Null);
+                        _buffer.Append(Specification.Replacement);
+                        break;
+                    case Specification.EndOfFile:
+                        RaiseErrorOccurred(ErrorCode.EOF);
+                        return HtmlToken.EOF;
+                }
 
-        /// <summary>
-        /// See 8.2.4.30 Script data double escaped dash state
-        /// </summary>
-        HtmlToken ScriptDataEscapedDoubleDash()
-        {
-            var c = Next;
-
-            switch (c)
-            {
-                case Specification.Minus:
-                    _buffer.Append(Specification.Minus);
-                    return ScriptDataEscapedDoubleDashDash();
-                case Specification.LessThan:
-                    _buffer.Append(Specification.LessThan);
-                    return ScriptDataEscapedDoubleLT();
-                case Specification.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
-                    _buffer.Append(Specification.Replacement);
-                    return ScriptDataEscapedDouble(Next);
-                case Specification.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
-                    return HtmlToken.EOF;
-                default:
-                    _buffer.Append(c);
-                    return ScriptDataEscapedDouble(Next);
+                _buffer.Append(c);
+                c = Next;
             }
         }
 
