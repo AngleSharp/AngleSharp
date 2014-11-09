@@ -161,19 +161,20 @@
         {
             var requester = GetRequester(options, url.Scheme);
 
-            if (requester != null)
+            if (requester == null)
+                return default(TResource);
+
+            using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
             {
-                var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false);
+                if (response == null)
+                    return default(TResource);
 
-                if (response != null)
+                var imageServices = options.GetServices<IResourceService<TResource>>();
+
+                foreach (var imageService in imageServices)
                 {
-                    var imageServices = options.GetServices<IResourceService<TResource>>();
-
-                    foreach (var imageService in imageServices)
-                    {
-                        if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                            return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
-                    }
+                    if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
                 }
             }
 

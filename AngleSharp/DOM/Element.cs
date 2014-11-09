@@ -484,7 +484,7 @@
                     throw new DomException(ErrorCode.Namespace);
                 else if ((name == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
                     throw new DomException(ErrorCode.Namespace);
-                else if (namespaceUri == Namespaces.XmlNsUri && (name != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix))
+                else if (namespaceUri == Namespaces.XmlNsUri && name != Namespaces.XmlNsPrefix && prefix != Namespaces.XmlNsPrefix)
                     throw new DomException(ErrorCode.Namespace);
 
                 for (int i = 0; i < _attributes.Count; i++)

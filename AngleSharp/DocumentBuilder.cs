@@ -251,10 +251,13 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester();
-            var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false);
-            var stream = new TextSource(response.Content, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
-            return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
+
+            using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
+            {
+                var stream = new TextSource(response.Content, configuration.DefaultEncoding());
+                var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
+                return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
+            }
         }
 
         /// <summary>
@@ -394,10 +397,13 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester();
-            var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false);
-            var source = new TextSource(response.Content, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
-            return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
+            
+            using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
+            {
+                var source = new TextSource(response.Content, configuration.DefaultEncoding());
+                var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
+                return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
+            }
         }
 
         /// <summary>

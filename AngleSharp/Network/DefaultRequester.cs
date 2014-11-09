@@ -93,16 +93,6 @@
         }
 
         /// <summary>
-        /// Performs an asynchronous http request with the given options.
-        /// </summary>
-        /// <param name="request">The options to consider.</param>
-        /// <returns>The task that will eventually give the response data.</returns>
-        public Task<IResponse> RequestAsync(IRequest request)
-        {
-            return RequestAsync(request, CancellationToken.None);
-        }
-
-        /// <summary>
         /// Performs an asynchronous http request that can be cancelled.
         /// </summary>
         /// <param name="request">The options to consider.</param>

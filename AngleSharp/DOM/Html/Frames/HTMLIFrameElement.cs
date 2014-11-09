@@ -109,7 +109,10 @@
             requester.LoadAsync(url).ContinueWith(task =>
             {
                 if (!task.IsFaulted && task.Result != null)
-                    _doc.LoadAsync(task.Result, CancellationToken.None);
+                {
+                    using (var result = task.Result)
+                        _doc.LoadAsync(result, CancellationToken.None).Wait();
+                }
             });
         }
 

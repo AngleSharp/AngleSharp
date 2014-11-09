@@ -446,8 +446,8 @@
                 if (requester == null)
                     return;
 
-                var response = await requester.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false);
-                await Owner.LoadAsync(response, _cancel.Token).ConfigureAwait(false);
+                using (var response = await requester.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false))
+                    await Owner.LoadAsync(response, _cancel.Token).ConfigureAwait(false);
             }
         }
 

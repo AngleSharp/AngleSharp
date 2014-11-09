@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.Extensions;
 using AngleSharp.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;

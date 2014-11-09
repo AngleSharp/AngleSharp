@@ -63,5 +63,16 @@
 
         #endregion
 
+        #region Methods
+
+        public void Dispose()
+        {
+            if (Content != null)
+                Content.Dispose();
+
+            Headers.Clear();
+        }
+
+        #endregion
     }
 }

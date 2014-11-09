@@ -1408,7 +1408,10 @@
                 requester.LoadAsync(url).ContinueWith(m =>
                 {
                     if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                        LoadAsync(m.Result, CancellationToken.None);
+                    {
+                        using (var result = m.Result)
+                            LoadAsync(result, CancellationToken.None);
+                    }
                 });
             }
         }

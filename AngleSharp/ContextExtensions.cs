@@ -64,8 +64,8 @@
             if (requester == null)
                 return null;
 
-            var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false);
-            return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+            using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
+                return await context.OpenAsync(response, cancel).ConfigureAwait(false);
         }
 
         #endregion

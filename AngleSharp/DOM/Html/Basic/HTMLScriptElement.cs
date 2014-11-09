@@ -159,7 +159,9 @@
             if (FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true))
                 return;
 
-            Owner.Options.RunScript(_load.Result, CreateOptions(), ScriptLanguage);
+            using (var result = _load.Result)
+                Owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
+
             FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
 
             if (Source != null)
