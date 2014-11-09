@@ -40,11 +40,21 @@
                 UrlTest.For("http://www.godaddy.com").Result,
                 UrlTest.For("http://www.reddit.com").Result,
                 UrlTest.For("http://www.nytimes.com").Result,
-                UrlTest.For("http://peacekeeper.futuremark.com/").Result,
-                UrlTest.For("http://www.pcmag.com/").Result,
-                UrlTest.For("http://www.sitepoint.com/").Result,
-                UrlTest.For("http://html5test.com/").Result,
-                UrlTest.For("http://www.spiegel.de/").Result
+                UrlTest.For("http://peacekeeper.futuremark.com").Result,
+                UrlTest.For("http://www.pcmag.com").Result,
+                UrlTest.For("http://www.sitepoint.com").Result,
+                UrlTest.For("http://html5test.com").Result,
+                UrlTest.For("http://www.spiegel.de").Result,
+                UrlTest.For("http://www.tmall.com").Result,
+                UrlTest.For("http://www.sohu.com").Result,
+                UrlTest.For("http://www.vk.com").Result,
+                UrlTest.For("http://www.wordpress.com").Result,
+                UrlTest.For("http://www.bing.com").Result,
+                UrlTest.For("http://www.tumblr.com").Result,
+                UrlTest.For("http://www.ask.com").Result,
+                UrlTest.For("http://www.mail.ru").Result,
+                UrlTest.For("http://www.imdb.com").Result,
+                UrlTest.For("http://www.kickass.to").Result
             };
 
             var statistics = new StatisticParser();
