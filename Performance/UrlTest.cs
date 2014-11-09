@@ -32,7 +32,8 @@
 
                 if (!UseBuffer || !File.Exists(fileName))
                 {
-                    source = await http.GetStringAsync(uri);
+                    var content = await http.GetAsync(uri);
+                    source = await content.Content.ReadAsStringAsync();
 
                     if (UseBuffer)
                         File.WriteAllText(fileName, source);
@@ -44,7 +45,7 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error loading \"{0}\": {1}", url, ex.Message);
                 return null;
             }
         }
