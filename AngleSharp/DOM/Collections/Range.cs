@@ -443,7 +443,7 @@
 
             var fragment = ExtractContent();
 
-            while (newParent.HasChilds)
+            while (newParent.HasChildNodes)
                 newParent.RemoveChild(newParent.FirstChild);
 
             Insert(newParent);

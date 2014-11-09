@@ -63,7 +63,7 @@
 
             while (node != null)
             {
-                while (result != FilterResult.Reject && node.HasChilds)
+                while (result != FilterResult.Reject && node.HasChildNodes)
                 {
                     node = node.FirstChild;
                     result = Check(node);
@@ -116,7 +116,7 @@
                     node = sibling;
                     var result = Check(node);
 
-                    while (result != FilterResult.Reject && node.HasChilds)
+                    while (result != FilterResult.Reject && node.HasChildNodes)
                     {
                         node = node.LastChild;
                         result = Check(node);

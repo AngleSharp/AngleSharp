@@ -174,7 +174,7 @@
         /// Gets a Boolean indicating if the element has any child nodes, or not.
         /// </summary>
         [DomName("hasChildNodes")]
-        Boolean HasChilds { get; }
+        Boolean HasChildNodes { get; }
 
         /// <summary>
         /// Inserts a Node as the last child node of this element.

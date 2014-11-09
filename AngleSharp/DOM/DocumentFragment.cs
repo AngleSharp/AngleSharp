@@ -41,7 +41,7 @@
 
             var root = parser.Result.DocumentElement;
 
-            while (root.HasChilds)
+            while (root.HasChildNodes)
             {
                 var child = root.FirstChild;
                 root.RemoveChild(child);

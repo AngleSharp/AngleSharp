@@ -45,7 +45,7 @@
         /// Gets a boolean value indicating whether the current Node 
         /// has child nodes or not.
         /// </summary>
-        public Boolean HasChilds
+        public Boolean HasChildNodes
         {
             get { return _children.Length != 0; }
         }
@@ -448,7 +448,7 @@
                             RemoveChild(_children[j], false);
                     }
                 }
-                else if (_children[i].HasChilds)
+                else if (_children[i].HasChildNodes)
                     _children[i].Normalize();
             }
         }
@@ -640,7 +640,7 @@
             {
                 var start = n;
 
-                while (newElement.HasChilds)
+                while (newElement.HasChildNodes)
                 {
                     var child = newElement.ChildNodes[0];
                     newElement.RemoveChild(child, true);

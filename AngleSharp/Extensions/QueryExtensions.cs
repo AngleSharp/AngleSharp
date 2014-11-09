@@ -146,7 +146,7 @@
                     if (selector.Match(element))
                         return element;
 
-                    if (!element.HasChilds)
+                    if (!element.HasChildNodes)
                         continue;
 
                     element = QuerySelector(element.ChildNodes, selector);
@@ -177,7 +177,7 @@
                     if (selector.Match(element))
                         result.Add(element);
 
-                    if (element.HasChilds)
+                    if (element.HasChildNodes)
                         QuerySelectorAll(element.ChildNodes, selector, result);
                 }
             }

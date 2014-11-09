@@ -38,7 +38,7 @@ namespace UnitTests.Library
             //the clone itself has the correct parent
             Assert.AreEqual(grandparent, clonedParent.Parent);
             //Children on this one
-            Assert.IsTrue(clonedParent.HasChilds);
+            Assert.IsTrue(clonedParent.HasChildNodes);
             //all the children (and grandchildren) of the cloned element have no parent?
             var cloneElement = (IElement)clonedParent;
             Assert.IsNotNull(cloneElement.FirstChild.Parent);
@@ -75,7 +75,7 @@ namespace UnitTests.Library
             //the clone itself has the correct parent
             Assert.AreEqual(grandparent, clonedParent.Parent);
             //No children on this one
-            Assert.IsFalse(clonedParent.HasChilds);
+            Assert.IsFalse(clonedParent.HasChildNodes);
         }
 
         [TestMethod]

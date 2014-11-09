@@ -74,7 +74,7 @@
         {
             base.Close();
 
-            while (HasChilds)
+            while (HasChildNodes)
             {
                 var node = ChildNodes[0];
                 RemoveNode(0, node);
