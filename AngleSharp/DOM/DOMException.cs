@@ -21,15 +21,6 @@
             Name = code.ToString();
         }
 
-        /// <summary>
-        /// Creates a new DOMException.
-        /// </summary>
-        /// <param name="code">The error code.</param>
-        internal DomException(Int32 code)
-            : this((ErrorCode)code)
-        {
-        }
-
         #endregion
 
         #region Properties
