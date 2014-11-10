@@ -257,13 +257,11 @@
 
             if (c.IsUppercaseAscii())
             {
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
             }
             else if (c.IsLowercaseAscii())
             {
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
             }
             else
             {
@@ -385,13 +383,11 @@
 
             if (c.IsUppercaseAscii())
             {
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
             }
             else if (c.IsLowercaseAscii())
             {
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
             }
             else
             {
@@ -631,16 +627,14 @@
             {
                 var tag = HtmlToken.OpenTag();
                 tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
                 var tag = HtmlToken.OpenTag();
                 tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
             else if (c == Specification.ExclamationMark)
@@ -670,16 +664,14 @@
             {
                 var tag = HtmlToken.CloseTag();
                 tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
                 var tag = HtmlToken.CloseTag();
                 tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
             else if (c == Specification.GreaterThan)
@@ -1091,8 +1083,7 @@
             {
                 var doctype = HtmlToken.Doctype(false);
                 doctype.Start = position;
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
                 return DoctypeName(doctype);
             }
             else if (c == Specification.Null)
@@ -1100,8 +1091,7 @@
                 var doctype = HtmlToken.Doctype(false);
                 doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Clear()
-                    .Append(Specification.Replacement);
+                _stringBuffer.Clear().Append(Specification.Replacement);
                 return DoctypeName(doctype);
             }
             else if (c == Specification.GreaterThan)
@@ -1126,8 +1116,7 @@
             {
                 var doctype = HtmlToken.Doctype(false);
                 doctype.Start = position;
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return DoctypeName(doctype);
             }
         }
@@ -1748,22 +1737,19 @@
             }
             else if (c.IsUppercaseAscii())
             {
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
                 return AttributeName(tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Clear()
-                    .Append(Specification.Replacement);
+                _stringBuffer.Clear().Append(Specification.Replacement);
                 return AttributeName(tag);
             }
             else if (c == Specification.SingleQuote || c == Specification.DoubleQuote || c == Specification.Equality || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return AttributeName(tag);
             }
             else if (c == Specification.EndOfFile)
@@ -1772,8 +1758,7 @@
             }
             else
             {
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return AttributeName(tag);
             }
         }
@@ -1851,22 +1836,19 @@
             }
             else if (c.IsUppercaseAscii())
             {
-                _stringBuffer.Clear()
-                    .Append(Char.ToLower(c));
+                _stringBuffer.Clear().Append(Char.ToLower(c));
                 return AttributeName(tag);
             }
             else if (c == Specification.Null)
             {
                 RaiseErrorOccurred(ErrorCode.Null);
-                _stringBuffer.Clear()
-                    .Append(Specification.Replacement);
+                _stringBuffer.Clear().Append(Specification.Replacement);
                 return AttributeName(tag);
             }
             else if (c == Specification.DoubleQuote || c == Specification.SingleQuote || c == Specification.LessThan)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return AttributeName(tag);
             }
             else if (c == Specification.EndOfFile)
@@ -1875,8 +1857,7 @@
             }
             else
             {
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return AttributeName(tag);
             }
         }
@@ -1919,8 +1900,7 @@
             else if (c == Specification.LessThan || c == Specification.Equality || c == Specification.CurvedQuote)
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return AttributeUnquotedValue(Next, tag);
             }
             else if (c == Specification.EndOfFile)
@@ -1929,8 +1909,7 @@
             }
             else
             {
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return AttributeUnquotedValue(Next, tag);
             }
         }
@@ -2100,22 +2079,37 @@
                         c = Next;
 
                         if (c == Specification.Solidus)
-                            return ScriptDataEndTag(position);
+                        {
+                            //See 8.2.4.18 Script data end tag open state
+                            c = Next;
+
+                            if (c.IsLetter())
+                            {
+                                var tag = HtmlToken.CloseTag();
+                                tag.Start = position;
+                                _stringBuffer.Clear().Append(c);
+                                return ScriptDataNameEndTag(tag);
+                            }
+
+                            _buffer.Append(Specification.LessThan)
+                                .Append(Specification.Solidus);
+                            continue;
+                        }
 
                         _buffer.Append(Specification.LessThan);
 
                         if (c == Specification.ExclamationMark)
                         {
+                            //See 8.2.4.20 Script data escape start state
                             c = Next;
                             _buffer.Append(Specification.ExclamationMark);
 
-                            //See 8.2.4.20 Script data escape start state
                             if (c == Specification.Minus)
                             {
+                                //See 8.2.4.21 Script data escape start dash state
                                 c = Next;
                                 _buffer.Append(Specification.Minus);
 
-                                //See 8.2.4.21 Script data escape start dash state
                                 if (c == Specification.Minus)
                                 {
                                     _buffer.Append(Specification.Minus);
@@ -2141,28 +2135,6 @@
 
                 c = Next;
             }
-        }
-
-        /// <summary>
-        /// See 8.2.4.18 Script data end tag open state
-        /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken ScriptDataEndTag(TextPosition position)
-        {
-            var c = Next;
-
-            if (c.IsLetter())
-            {
-                var tag = HtmlToken.CloseTag();
-                tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(c);
-                return ScriptDataNameEndTag(tag);
-            }
-
-            _buffer.Append(Specification.LessThan)
-                .Append(Specification.Solidus);
-            return ScriptData(c);
         }
 
         /// <summary>
@@ -2304,8 +2276,7 @@
 
             if (c.IsLetter())
             {
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 _buffer.Append(Specification.LessThan)
                     .Append(c);
                 return ScriptDataStartDoubleEscape();
@@ -2328,8 +2299,7 @@
             {
                 var tag = HtmlToken.CloseTag();
                 tag.Start = position;
-                _stringBuffer.Clear()
-                    .Append(c);
+                _stringBuffer.Clear().Append(c);
                 return ScriptDataEscapedNameTag(tag);
             }
 
