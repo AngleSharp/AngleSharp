@@ -6,9 +6,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// The CSS tokenizer.
@@ -125,10 +122,10 @@
                     return CssSpecialCharacter.Whitespace;
 
                 case Specification.DoubleQuote:
-                    return StringDQ(Next);
+                    return StringDQ();
 
                 case Specification.Num:
-                    return HashStart(Next);
+                    return HashStart();
 
                 case Specification.Dollar:
                     current = Next;
@@ -139,7 +136,7 @@
                     return CssToken.Delim(Previous);
 
                 case Specification.SingleQuote:
-                    return StringSQ(Next);
+                    return StringSQ();
 
                 case Specification.RoundBracketOpen:
                     return CssBracketToken.OpenRound;
@@ -159,11 +156,7 @@
                 {
                     var c1 = Next;
 
-                    if (c1 == Specification.EndOfFile)
-                    {
-                        Back();
-                    }
-                    else
+                    if (c1 != Specification.EndOfFile)
                     {
                         var c2 = Next;
                         Back(2);
@@ -171,6 +164,8 @@
                         if (c1.IsDigit() || (c1 == Specification.Dot && c2.IsDigit()))
                             return NumberStart(current);
                     }
+                    else
+                        Back();
                         
                     return CssToken.Delim(current);
                 }
@@ -192,11 +187,7 @@
                 {
                     var c1 = Next;
 
-                    if (c1 == Specification.EndOfFile)
-                    {
-                        Back();
-                    }
-                    else
+                    if (c1 != Specification.EndOfFile)
                     {
                         var c2 = Next;
                         Back(2);
@@ -211,12 +202,14 @@
                         {
                             Advance(2);
 
-							if (_ignoreCs)
-								return Data(Next);
+                            if (_ignoreCs)
+                                return Data(Next);
 
                             return CssCommentToken.Close;
                         }
                     }
+                    else
+                        Back();
                         
                     return CssToken.Delim(current);
                 }
@@ -225,7 +218,7 @@
                     current = Next;
 
                     if (current == Specification.Asterisk)
-                        return Comment(Next);
+                        return Comment();
                         
                     return CssToken.Delim(Previous);
 
@@ -274,7 +267,7 @@
                     return CssToken.Delim(Previous);
 
                 case Specification.At:
-                    return AtKeywordStart(Next);
+                    return AtKeywordStart();
 
                 case Specification.SquareBracketOpen:
                     return CssBracketToken.OpenSquare;
@@ -364,10 +357,12 @@
         /// <summary>
         /// 4.4.2. Double quoted string state
         /// </summary>
-        CssToken StringDQ(Char current)
+        CssToken StringDQ()
         {
             while (true)
             {
+                var current = Next;
+
                 switch (current)
                 {
                     case Specification.DoubleQuote:
@@ -400,18 +395,18 @@
                         _stringBuffer.Append(current);
                         break;
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.3. Single quoted string state
         /// </summary>
-        CssToken StringSQ(Char current)
+        CssToken StringSQ()
         {
             while (true)
             {
+                var current = Next;
+
                 switch (current)
                 {
                     case Specification.SingleQuote:
@@ -444,26 +439,26 @@
                         _stringBuffer.Append(current);
                         break;
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.4. Hash state
         /// </summary>
-        CssToken HashStart(Char current)
+        CssToken HashStart()
         {
+            var current = Next;
+
             if (current.IsNameStart())
             {
                 _stringBuffer.Append(current);
-                return HashRest(Next);
+                return HashRest();
             }
             else if (IsValidEscape(current))
             {
                 current = Next;
                 _stringBuffer.Append(ConsumeEscape(current));
-                return HashRest(Next);
+                return HashRest();
             }
             else if (current == Specification.ReverseSolidus)
             {
@@ -481,12 +476,16 @@
         /// <summary>
         /// 4.4.5. Hash-rest state
         /// </summary>
-        CssToken HashRest(Char current)
+        CssToken HashRest()
         {
             while (true)
             {
+                var current = Next;
+
                 if (current.IsName())
+                {
                     _stringBuffer.Append(current);
+                }
                 else if (IsValidEscape(current))
                 {
                     current = Next;
@@ -503,18 +502,18 @@
                     Back();
                     return CssKeywordToken.Hash(FlushBuffer());
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.6. Comment state
         /// </summary>
-        CssToken Comment(Char current)
+        CssToken Comment()
         {
             while (true)
             {
+                var current = Next;
+
                 if (current == Specification.Asterisk)
                 {
                     current = Next;
@@ -527,16 +526,16 @@
                     RaiseErrorOccurred(ErrorCode.EOF);
                     return Data(current);
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.7. At-keyword state
         /// </summary>
-        CssToken AtKeywordStart(Char current)
+        CssToken AtKeywordStart()
         {
+            var current = Next;
+
             if (current == Specification.Minus)
             {
                 current = Next;
@@ -576,7 +575,9 @@
             while (true)
             {
                 if (current.IsName())
+                {
                     _stringBuffer.Append(current);
+                }
                 else if (IsValidEscape(current))
                 {
                     current = Next;
@@ -636,7 +637,9 @@
             while (true)
             {
                 if (current.IsName())
+                {
                     _stringBuffer.Append(current);
+                }
                 else if (IsValidEscape(current))
                 {
                     current = Next;
@@ -649,17 +652,17 @@
                     if (fn == FunctionNames.Url)
                     {
                         _stringBuffer.Clear();
-                        return UrlStart(Next, CssTokenType.Url);
+                        return UrlStart(CssTokenType.Url);
                     }
                     else if (fn == FunctionNames.Domain)
                     {
                         _stringBuffer.Clear();
-                        return UrlStart(Next, CssTokenType.Domain);
+                        return UrlStart(CssTokenType.Domain);
                     }
                     else if (fn == FunctionNames.Url_Prefix)
                     {
                         _stringBuffer.Clear();
-                        return UrlStart(Next, CssTokenType.UrlPrefix);
+                        return UrlStart(CssTokenType.UrlPrefix);
                     }
 
                     return CssKeywordToken.Function(FlushBuffer());
@@ -716,22 +719,22 @@
                     {
                         _stringBuffer.Append(current);
                         _stringBuffer.Append(Next);
-                        return NumberFraction(Next);
+                        return NumberFraction();
                     }
 
                     _stringBuffer.Append(current);
-                    return NumberRest(Next);
+                    return NumberRest();
                 }
                 else if (current == Specification.Dot)
                 {
                     _stringBuffer.Append(current);
                     _stringBuffer.Append(Next);
-                    return NumberFraction(Next);
+                    return NumberFraction();
                 }
                 else if (current.IsDigit())
                 {
                     _stringBuffer.Append(current);
-                    return NumberRest(Next);
+                    return NumberRest();
                 }
 
                 current = Next;
@@ -741,24 +744,29 @@
         /// <summary>
         /// 4.4.13. Number-rest state
         /// </summary>
-        CssToken NumberRest(Char current)
+        CssToken NumberRest()
         {
+            var current = Next;
+
             while (true)
             {
+
                 if (current.IsDigit())
+                {
                     _stringBuffer.Append(current);
+                }
                 else if (current.IsNameStart())
                 {
                     var number = FlushBuffer();
                     _stringBuffer.Append(current);
-                    return Dimension(Next, number);
+                    return Dimension(number);
                 }
                 else if (IsValidEscape(current))
                 {
                     current = Next;
                     var number = FlushBuffer();
                     _stringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(Next, number);
+                    return Dimension(number);
                 }
                 else
                     break;
@@ -774,7 +782,7 @@
                     if (current.IsDigit())
                     {
                         _stringBuffer.Append(Specification.Dot).Append(current);
-                        return NumberFraction(Next);
+                        return NumberFraction();
                     }
 
                     Back();
@@ -785,10 +793,10 @@
 
                 case 'e':
                 case 'E':
-                    return NumberExponential(current);
+                    return NumberExponential();
 
                 case Specification.Minus:
-                    return NumberDash(current);
+                    return NumberDash();
 
                 default:
                     Back();
@@ -799,24 +807,28 @@
         /// <summary>
         /// 4.4.14. Number-fraction state
         /// </summary>
-        CssToken NumberFraction(Char current)
+        CssToken NumberFraction()
         {
+            var current = Next;
+
             while (true)
             {
                 if (current.IsDigit())
+                {
                     _stringBuffer.Append(current);
+                }
                 else if (current.IsNameStart())
                 {
                     var number = FlushBuffer();
                     _stringBuffer.Append(current);
-                    return Dimension(Next, number);
+                    return Dimension(number);
                 }
                 else if (IsValidEscape(current))
                 {
                     current = Next;
                     var number = FlushBuffer();
                     _stringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(Next, number);
+                    return Dimension(number);
                 }
                 else
                     break;
@@ -828,13 +840,13 @@
             {
                 case 'e':
                 case 'E':
-                    return NumberExponential(current);
+                    return NumberExponential();
 
                 case '%':
                     return CssUnitToken.Percentage(FlushBuffer());
 
                 case Specification.Minus:
-                    return NumberDash(current);
+                    return NumberDash();
 
                 default:
                     Back();
@@ -845,12 +857,16 @@
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        CssToken Dimension(Char current, String number)
+        CssToken Dimension(String number)
         {
             while (true)
             {
+                var current = Next;
+
                 if (current.IsName())
+                {
                     _stringBuffer.Append(current);
+                }
                 else if (IsValidEscape(current))
                 {
                     current = Next;
@@ -861,37 +877,36 @@
                     Back();
                     return CssUnitToken.Dimension(number, FlushBuffer());
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.16. SciNotation state
         /// </summary>
-        CssToken SciNotation(Char current)
+        CssToken SciNotation()
         {
             while (true)
             {
+                var current = Next;
+
                 if (current.IsDigit())
+                {
                     _stringBuffer.Append(current);
+                }
                 else
                 {
                     Back();
                     return CssToken.Number(FlushBuffer());
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        CssToken UrlStart(Char current, CssTokenType type)
+        CssToken UrlStart(CssTokenType type)
         {
-            while (current.IsSpaceCharacter())
-                current = Next;
+            var current = SkipSpaces();
 
             switch (current)
             {
@@ -900,10 +915,10 @@
                     return CssStringToken.Url(type, String.Empty, true);
 
                 case Specification.DoubleQuote:
-                    return UrlDQ(Next, type);
+                    return UrlDQ(type);
 
                 case Specification.SingleQuote:
-                    return UrlSQ(Next, type);
+                    return UrlSQ(type);
 
                 case ')':
                     return CssStringToken.Url(type, String.Empty, false);
@@ -916,14 +931,16 @@
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        CssToken UrlDQ(Char current, CssTokenType type)
+        CssToken UrlDQ(CssTokenType type)
         {
             while (true)
             {
+                var current = Next;
+
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    return UrlBad(Next, type);
+                    return UrlBad(type);
                 }
                 else if (Specification.EndOfFile == current)
                 {
@@ -931,7 +948,7 @@
                 }
                 else if (current == Specification.DoubleQuote)
                 {
-                    return UrlEnd(Next, type);
+                    return UrlEnd(type);
                 }
                 else if (current == Specification.ReverseSolidus)
                 {
@@ -950,22 +967,22 @@
                 }
                 else
                     _stringBuffer.Append(current);
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        CssToken UrlSQ(Char current, CssTokenType type)
+        CssToken UrlSQ(CssTokenType type)
         {
             while (true)
             {
+                var current = Next;
+
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(ErrorCode.LineBreakUnexpected);
-                    return UrlBad(Next, type);
+                    return UrlBad(type);
                 }
                 else if (Specification.EndOfFile == current)
                 {
@@ -973,7 +990,7 @@
                 }
                 else if (current == Specification.SingleQuote)
                 {
-                    return UrlEnd(Next, type);
+                    return UrlEnd(type);
                 }
                 else if (current == Specification.ReverseSolidus)
                 {
@@ -992,8 +1009,6 @@
                 }
                 else
                     _stringBuffer.Append(current);
-
-                current = Next;
             }
         }
 
@@ -1006,7 +1021,7 @@
             {
                 if (current.IsSpaceCharacter())
                 {
-                    return UrlEnd(Next, type);
+                    return UrlEnd(type);
                 }
                 else if (current == Specification.RoundBracketClose || current == Specification.EndOfFile)
                 {
@@ -1015,7 +1030,7 @@
                 else if (current == Specification.DoubleQuote || current == Specification.SingleQuote || current == Specification.RoundBracketOpen || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    return UrlBad(Next, type);
+                    return UrlBad(type);
                 }
                 else if (current == Specification.ReverseSolidus)
                 {
@@ -1027,7 +1042,7 @@
                     else
                     {
                         RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                        return UrlBad(Next, type);
+                        return UrlBad(type);
                     }
                 }
                 else
@@ -1040,29 +1055,34 @@
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        CssToken UrlEnd(Char current, CssTokenType type)
+        CssToken UrlEnd(CssTokenType type)
         {
             while (true)
             {
+                var current = Next;
+
                 if (current == Specification.RoundBracketClose)
+                {
                     return CssStringToken.Url(type, FlushBuffer());
+                }
                 else if (!current.IsSpaceCharacter())
                 {
                     RaiseErrorOccurred(ErrorCode.InvalidCharacter);
-                    return UrlBad(current, type);
+                    Back();
+                    return UrlBad(type);
                 }
-
-                current = Next;
             }
         }
 
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        CssToken UrlBad(Char current, CssTokenType type)
+        CssToken UrlBad(CssTokenType type)
         {
             while (true)
             {
+                var current = Next;
+
                 if (current == Specification.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
@@ -1077,8 +1097,6 @@
                     current = Next;
                     _stringBuffer.Append(ConsumeEscape(current));
                 }
-
-                current = Next;
             }
         }
 
@@ -1166,14 +1184,14 @@
         /// <summary>
         /// Substate of several Number states.
         /// </summary>
-        CssToken NumberExponential(Char current)
+        CssToken NumberExponential()
         {
-            current = Next;
+            var current = Next;
 
             if (current.IsDigit())
             {
                 _stringBuffer.Append('e').Append(current);
-                return SciNotation(Next);
+                return SciNotation();
             }
             else if (current == Specification.Plus || current == Specification.Minus)
             {
@@ -1183,7 +1201,7 @@
                 if (current.IsDigit())
                 {
                     _stringBuffer.Append('e').Append(op).Append(current);
-                    return SciNotation(Next);
+                    return SciNotation();
                 }
 
                 Back();
@@ -1192,28 +1210,28 @@
             current = Previous;
             var number = FlushBuffer();
             _stringBuffer.Append(current);
-            return Dimension(Next, number);
+            return Dimension(number);
         }
 
         /// <summary>
         /// Substate of several Number states.
         /// </summary>
-        CssToken NumberDash(Char current)
+        CssToken NumberDash()
         {
-            current = Next;
+            var current = Next;
 
             if (current.IsNameStart())
             {
                 var number = FlushBuffer();
                 _stringBuffer.Append(Specification.Minus).Append(current);
-                return Dimension(Next, number);
+                return Dimension(number);
             }
             else if (IsValidEscape(current))
             {
                 current = Next;
                 var number = FlushBuffer();
                 _stringBuffer.Append(Specification.Minus).Append(ConsumeEscape(current));
-                return Dimension(Next, number);
+                return Dimension(number);
             }
             else
             {
