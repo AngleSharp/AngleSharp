@@ -1384,7 +1384,13 @@
         {
             _scripts.Clear();
             _context = null;
-            _source = null;
+
+            if (_source != null)
+            {
+                _source.Dispose();
+                _source = null;
+            }
+
             _options = null;
         }
 
