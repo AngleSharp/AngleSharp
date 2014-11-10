@@ -8,7 +8,7 @@
     /// <summary>
     /// The interface for streaming through source codes.
     /// </summary>
-    interface ITextSource
+    interface ITextSource : IDisposable
     {
         /// <summary>
         /// Gets or sets the encoding to use.

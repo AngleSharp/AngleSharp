@@ -11,7 +11,7 @@
     /// A stream abstraction to handle encoding and more.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class TextSource : ITextSource, IDisposable
+    sealed class TextSource : ITextSource
     {
         #region Fields
 
@@ -125,8 +125,7 @@
 
         public void Dispose()
         {
-            if (_baseStream != null)
-                _baseStream.Dispose();
+            _content.Clear();
         }
 
         #endregion
