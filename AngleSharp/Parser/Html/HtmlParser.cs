@@ -628,7 +628,6 @@
                     {
                         var element = AddElement<HTMLMetaElement>(token.AsTag(), true);
                         CloseCurrentNode();
-
                         var charset = element.GetAttribute(AttributeNames.Charset);
 
                         if (charset == null || !DocumentEncoding.IsSupported(charset))
@@ -638,14 +637,14 @@
                             if (charset != null && charset.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
                             {
                                 charset = element.GetAttribute(AttributeNames.Content) ?? String.Empty;
-                                charset = DocumentEncoding.Extract(charset);
+                                var encoding = DocumentEncoding.Parse(charset);
 
-                                if (DocumentEncoding.IsSupported(charset))
-                                    SetCharset(charset);
+                                if (encoding != null)
+                                    doc.Source.CurrentEncoding = encoding;
                             }
                         }
                         else
-                            SetCharset(charset);
+                            doc.Source.CurrentEncoding = DocumentEncoding.Resolve(charset);
 
                         return;
                     }
@@ -3537,18 +3536,6 @@
                 temp.RemoveNewLine();
 
             Home(temp);
-        }
-
-        /// <summary>
-        /// Resolves the encoding from the given charset and sets it.
-        /// </summary>
-        /// <param name="charset">The charset string.</param>
-        void SetCharset(String charset)
-        {
-            var enc = DocumentEncoding.Resolve(charset);
-
-            if (enc != null)
-                doc.Source.CurrentEncoding = enc;
         }
 
         /// <summary>

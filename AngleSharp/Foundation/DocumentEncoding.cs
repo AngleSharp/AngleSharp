@@ -14,6 +14,7 @@
         #region Encodings
 
         static readonly Dictionary<String, Encoding> encodings = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Encoding> suggestions = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Gets the UTF-8 encoding.
@@ -109,6 +110,10 @@
         /// Gets the iso-8859-13 encoding.
         /// </summary>
         public static readonly Encoding Latin13 = GetEncoding("iso-8859-13");
+
+        #endregion
+
+        #region Initialization
 
         static DocumentEncoding()
         {
@@ -313,17 +318,49 @@
             var isocn = GetEncoding("iso-2022-cn");
             encodings.Add("iso-2022-cn", isocn);
             encodings.Add("iso-2022-cn-ext", isocn);
+
+            suggestions.Add("ar", UTF8);
+            suggestions.Add("cy", UTF8);
+            suggestions.Add("fa", UTF8);
+            suggestions.Add("hr", UTF8);
+            suggestions.Add("kk", UTF8);
+            suggestions.Add("mk", UTF8);
+            suggestions.Add("or", UTF8);
+            suggestions.Add("ro", UTF8);
+            suggestions.Add("sr", UTF8);
+            suggestions.Add("vi", UTF8);
+            suggestions.Add("be", Latin5);
+            suggestions.Add("bg", Windows1251);
+            suggestions.Add("ru", Windows1251);
+            suggestions.Add("uk", Windows1251);
+            suggestions.Add("cs", Latin2);
+            suggestions.Add("hu", Latin2);
+            suggestions.Add("pl", Latin2);
+            suggestions.Add("sl", Latin2);
+            suggestions.Add("tr", Windows1254);
+            suggestions.Add("ku", Windows1254);
+            suggestions.Add("he", Windows1255);
+            suggestions.Add("lv", Latin13);
+            //  Windows-31J ???? Replaced by something better anyway
+            suggestions.Add("ja", UTF8);
+            suggestions.Add("ko", GetEncoding("ks_c_5601-1987"));
+            suggestions.Add("lt", Windows1257);
+            suggestions.Add("sk", Windows1250);
+            suggestions.Add("th", Windows874);
         }
 
         #endregion
+
+        #region Methods
 
         /// <summary>
         /// Tries to extract the encoding from the given http-equiv content string.
         /// </summary>
         /// <param name="content">The value of the attribute.</param>
-        /// <returns>The extracted encoding or an empty string.</returns>
-        public static String Extract(String content)
+        /// <returns>The extracted encoding or null if the encoding is invalid.</returns>
+        public static Encoding Parse(String content)
         {
+            var encoding = String.Empty;
             var position = 0;
             content = content.ToLowerInvariant();
 
@@ -347,7 +384,7 @@
                 }
 
                 if (content[position] != Specification.Equality)
-                    return Extract(content.Substring(position));
+                    return Parse(content.Substring(position));
 
                 position++;
 
@@ -367,7 +404,7 @@
                         var index = content.IndexOf(Specification.DoubleQuote);
 
                         if (index != -1)
-                            return content.Substring(0, index);
+                            encoding = content.Substring(0, index);
                     }
                     else if (content[position] == Specification.SingleQuote)
                     {
@@ -375,7 +412,7 @@
                         var index = content.IndexOf(Specification.SingleQuote);
 
                         if (index != -1)
-                            return content.Substring(0, index);
+                            encoding = content.Substring(0, index);
                     }
                     else
                     {
@@ -392,12 +429,15 @@
                                 index++;
                         }
 
-                        return content.Substring(0, index);
+                        encoding = content.Substring(0, index);
                     }
                 }
             }
 
-            return String.Empty;
+            if (!IsSupported(encoding))
+                return null;
+
+            return Resolve(encoding);
         }
 
         /// <summary>
@@ -437,60 +477,10 @@
             if (!String.IsNullOrEmpty(local) && local.Length > 1)
             {
                 var firstTwo = local.Substring(0, 2).ToLowerInvariant();
+                Encoding encoding;
 
-                switch (firstTwo)
-                {
-                    case "ar":
-                    case "cy":
-                    case "fa":
-                    case "hr":
-                    case "kk":
-                    case "mk":
-                    case "or":
-                    case "ro":
-                    case "sr":
-                    case "vi":
-                        return UTF8;
-
-                    case "be":
-                        return Latin5;
-
-                    case "bg":
-                    case "ru":
-                    case "uk":
-                        return Windows1251;
-
-                    case "cs":
-                    case "hu":
-                    case "pl":
-                    case "sl":
-                        return Latin2;
-
-                    case "tr":
-                    case "ku":
-                        return Windows1254;
-
-                    case "he":
-                        return Windows1255;
-
-                    case "lv":
-                        return Latin13;
-
-                    case "ja"://  Windows-31J ???? Replaced by something better anyway
-                        return UTF8;
-
-                    case "ko":
-                        return GetEncoding("ks_c_5601-1987");
-
-                    case "lt":
-                        return Windows1257;
-
-                    case "sk":
-                        return Windows1250;
-
-                    case "th":
-                        return Windows874;
-                }
+                if (suggestions.TryGetValue(local.Substring(0, 2), out encoding))
+                    return encoding;
 
                 if (local.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
                     return GB18030;
@@ -521,5 +511,7 @@
                 return Encoding.UTF8;
             }
         }
+
+        #endregion
     }
 }
