@@ -94,7 +94,7 @@
             });
             var lines = _engine.Result.ToString();
 
-            foreach (var line in lines.Split(new [] { Environment.NewLine }, StringSplitOptions.None))
+            foreach (var line in lines.Split(new [] { "\n" }, StringSplitOptions.None))
                 _items.Add(line);
         }
     }
