@@ -32,6 +32,8 @@
 
                 if (!UseBuffer || !File.Exists(fileName))
                 {
+                    http.DefaultRequestHeaders.UserAgent.Clear();
+                    http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36 OPR/26.0.1656.8 (Edition beta)");
                     var content = await http.GetAsync(uri);
                     source = await content.Content.ReadAsStringAsync();
 
