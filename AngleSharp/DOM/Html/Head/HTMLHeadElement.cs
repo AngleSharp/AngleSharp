@@ -15,5 +15,15 @@
         }
 
         #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            Owner.WaitForReady();
+        }
+
+        #endregion
     }
 }
