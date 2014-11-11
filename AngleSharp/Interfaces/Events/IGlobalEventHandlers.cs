@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.DOM.Events
 {
     using AngleSharp.Attributes;
 
@@ -204,12 +204,14 @@
         /// <summary>
         /// Event triggered after mouse enter.
         /// </summary>
+        [DomLenientThis]
         [DomName("onmouseenter")]
         event DomEventHandler MouseEnter;
 
         /// <summary>
         /// Event triggered after mouse leave.
         /// </summary>
+        [DomLenientThis]
         [DomName("onmouseleave")]
         event DomEventHandler MouseLeave;
 

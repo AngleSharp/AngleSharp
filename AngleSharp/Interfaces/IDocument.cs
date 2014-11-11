@@ -259,6 +259,7 @@
         /// <summary>
         /// Gets the current ready state of the document.
         /// </summary>
+        [DomLenientThis]
         [DomName("readyState")]
         DocumentReadyState ReadyState { get; }
 

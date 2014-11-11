@@ -2,7 +2,7 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.DOM.Css;
-    using AngleSharp.DOM.Html;
+    using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Navigator;
     using System;
 
