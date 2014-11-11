@@ -7,9 +7,9 @@
     /// longer be used and are therefore considered deprecated.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Delegate)]
-    public sealed class DomHistorical : Attribute
+    public sealed class DomHistoricalAttribute : Attribute
     {
-        internal DomHistorical()
+        internal DomHistoricalAttribute()
         {
         }
     }
