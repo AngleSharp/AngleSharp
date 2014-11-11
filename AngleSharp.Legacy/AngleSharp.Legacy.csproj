@@ -73,6 +73,9 @@
     <Compile Include="..\AngleSharp\Attributes\DomHistoricalAttribute.cs">
       <Link>Attributes\DomHistoricalAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomLenientThisAttribute.cs">
+      <Link>Attributes\DomLenientThisAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomNameAttribute.cs">
       <Link>Attributes\DomNameAttribute.cs</Link>
     </Compile>
@@ -1668,6 +1671,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\CssStyleEngine.cs">
       <Link>Infrastructure\CssStyleEngine.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\DomTask.cs">
+      <Link>Infrastructure\DomTask.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IAudioService.cs">
       <Link>Infrastructure\IAudioService.cs</Link>
     </Compile>
@@ -1694,6 +1700,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IVideoService.cs">
       <Link>Infrastructure\IVideoService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\MicroDomTask.cs">
+      <Link>Infrastructure\MicroDomTask.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\ScriptOptions.cs">
       <Link>Infrastructure\ScriptOptions.cs</Link>
@@ -2010,6 +2019,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IGlobalEventHandlers.cs">
+      <Link>Interfaces\Events\IGlobalEventHandlers.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Events\IMessagePort.cs">
       <Link>Interfaces\Events\IMessagePort.cs</Link>
     </Compile>
@@ -2019,8 +2031,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Events\ITouchPoint.cs">
       <Link>Interfaces\Events\ITouchPoint.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Html\IGlobalEventHandlers.cs">
-      <Link>Interfaces\Html\IGlobalEventHandlers.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\Events\IWindowEventHandlers.cs">
+      <Link>Interfaces\Events\IWindowEventHandlers.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlAnchorElement.cs">
       <Link>Interfaces\Html\IHtmlAnchorElement.cs</Link>
@@ -2372,9 +2384,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IWindow.cs">
       <Link>Interfaces\IWindow.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IWindowEventHandlers.cs">
-      <Link>Interfaces\IWindowEventHandlers.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IWindowTimers.cs">
       <Link>Interfaces\IWindowTimers.cs</Link>
