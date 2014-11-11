@@ -7,7 +7,7 @@
     /// Represents the interface for the data of a single touch point.
     /// </summary>
     [DomName("Touch")]
-    public interface ITouch
+    public interface ITouchPoint
     {
         /// <summary>
         /// Gets the id of the touch point.

@@ -7,13 +7,17 @@
     /// Represents the event arguments for an input event.
     /// </summary>
     [DomName("InputEvent")]
-    public interface IInputEvent : IEvent
+    public class InputEvent : Event
     {
         /// <summary>
         /// Gets the data that has been entered.
         /// </summary>
         [DomName("data")]
-        String Data { get; }
+        public String Data
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Initializes the input event.
@@ -23,6 +27,10 @@
         /// <param name="cancelable">Determines if the event is cancelable.</param>
         /// <param name="data">Sets the data for the input event.</param>
         [DomName("initInputEvent")]
-        void Init(String type, Boolean bubbles, Boolean cancelable, String data);
+        public void Init(String type, Boolean bubbles, Boolean cancelable, String data)
+        {
+            Init(type, bubbles, cancelable);
+            Data = data;
+        }
     }
 }

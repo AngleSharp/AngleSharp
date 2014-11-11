@@ -22,6 +22,6 @@
         /// <returns>The touch point at the index.</returns>
         [DomAccessor(Accessors.Getter)]
         [DomName("item")]
-        ITouch this[Int32 index] { get; }
+        ITouchPoint this[Int32 index] { get; }
     }
 }

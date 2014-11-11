@@ -38,6 +38,6 @@
         /// <param name="ev">The event to dispatch.</param>
         /// <returns>False if at least one of the event handlers, which handled this event called preventDefault(). Otherwise true.</returns>
         [DomName("dispatchEvent")]
-        Boolean Dispatch(IEvent ev);
+        Boolean Dispatch(Event ev);
     }
 }

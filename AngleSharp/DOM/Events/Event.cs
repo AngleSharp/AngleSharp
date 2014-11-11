@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Events
 {
+    using AngleSharp.Attributes;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
@@ -8,7 +9,8 @@
     /// <summary>
     /// Represents an event argument.
     /// </summary>
-    class Event : IEvent
+    [DomName("Event")]
+    public class Event : EventArgs
     {
         #region Fields
 
@@ -42,7 +44,7 @@
         /// <summary>
         /// Gets the associated flags.
         /// </summary>
-        public EventFlags Flags
+        internal EventFlags Flags
         {
             get { return _flags; }
         }
@@ -50,6 +52,7 @@
         /// <summary>
         /// Gets the type of event.
         /// </summary>
+        [DomName("type")]
         public String Type
         {
             get { return _type; }
@@ -58,6 +61,7 @@
         /// <summary>
         /// Gets the original target of the event.
         /// </summary>
+        [DomName("target")]
         public IEventTarget OriginalTarget
         {
             get { return _target; }
@@ -66,6 +70,7 @@
         /// <summary>
         /// Gets the current target (if bubbled).
         /// </summary>
+        [DomName("currentTarget")]
         public IEventTarget CurrentTarget
         {
             get { return _current; }
@@ -74,6 +79,7 @@
         /// <summary>
         /// Gets the phase of the event.
         /// </summary>
+        [DomName("eventPhase")]
         public EventPhase Phase
         {
             get { return _phase; }
@@ -82,6 +88,7 @@
         /// <summary>
         /// Gets if the event is actually bubbling.
         /// </summary>
+        [DomName("bubbles")]
         public Boolean IsBubbling
         {
             get { return _bubbles; }
@@ -90,6 +97,7 @@
         /// <summary>
         /// Gets if the event is cancelable.
         /// </summary>
+        [DomName("cancelable")]
         public Boolean IsCancelable
         {
             get { return _cancelable; }
@@ -98,6 +106,7 @@
         /// <summary>
         /// Gets if the default behavior has been prevented.
         /// </summary>
+        [DomName("defaultPrevented")]
         public Boolean IsDefaultPrevented
         {
             get { return _flags.HasFlag(EventFlags.Canceled); }
@@ -106,6 +115,7 @@
         /// <summary>
         /// Gets if the event is trusted.
         /// </summary>
+        [DomName("isTrusted")]
         public Boolean IsTrusted
         {
             get;
@@ -115,6 +125,7 @@
         /// <summary>
         /// Gets the originating timestamp.
         /// </summary>
+        [DomName("timeStamp")]
         public DateTime Time
         {
             get { return _time; }
@@ -127,6 +138,7 @@
         /// <summary>
         /// Prevents further propagation of the event.
         /// </summary>
+        [DomName("stopPropagation")]
         public void Stop()
         {
             _flags |= EventFlags.StopPropagation;
@@ -135,6 +147,7 @@
         /// <summary>
         /// Stops the immediate propagation.
         /// </summary>
+        [DomName("stopImmediatePropagation")]
         public void StopImmediately()
         {
             _flags |= EventFlags.StopImmediatePropagation;
@@ -143,6 +156,7 @@
         /// <summary>
         /// Prevents the default behavior.
         /// </summary>
+        [DomName("preventDefault")]
         public void Cancel()
         {
             if (_cancelable)
@@ -155,6 +169,7 @@
         /// <param name="type">The type of the event.</param>
         /// <param name="bubbles">If the event is bubbling.</param>
         /// <param name="cancelable">If the event is cancelable.</param>
+        [DomName("initEvent")]
         public void Init(String type, Boolean bubbles, Boolean cancelable)
         {
             _flags |= EventFlags.Initialized;
@@ -170,7 +185,7 @@
             _cancelable = cancelable;
         }
 
-        public Boolean Dispatch(EventTarget target)
+        internal Boolean Dispatch(EventTarget target)
         {
             _flags |= EventFlags.Dispatch;
             _target = target;

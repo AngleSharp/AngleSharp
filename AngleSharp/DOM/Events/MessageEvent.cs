@@ -7,37 +7,61 @@
     /// Represents the event arguments when receiving a message.
     /// </summary>
     [DomName("MessageEvent")]
-    public interface IMessageEvent : IEvent
+    public class MessageEvent : Event
     {
+        #region Properties
+
         /// <summary>
         /// Gets the data that is carried by the message.
         /// </summary>
         [DomName("data")]
-        Object Data { get; }
+        public Object Data
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the origin of the message.
         /// </summary>
         [DomName("origin")]
-        String Origin { get; }
+        public String Origin
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the id of the last event.
         /// </summary>
         [DomName("lastEventId")]
-        String LastEventId { get; }
+        public String LastEventId
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the source of the message.
         /// </summary>
         [DomName("source")]
-        IWindow Source { get; }
+        public IWindow Source
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the used message ports.
         /// </summary>
         [DomName("ports")]
-        IMessagePort[] Ports { get; }
+        public IMessagePort[] Ports
+        {
+            get;
+            private set;
+        }
+
+        #endregion
 
         /// <summary>
         /// Initializes the message event.
@@ -51,6 +75,14 @@
         /// <param name="source">Sets the source window of the message.</param>
         /// <param name="ports">The message ports to include.</param>
         [DomName("initMessageEvent")]
-        void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source, params IMessagePort[] ports);
+        public void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source, params IMessagePort[] ports)
+        {
+            Init(type, bubbles, cancelable);
+            Data = data;
+            Origin = origin;
+            LastEventId = lastEventId;
+            Source = source;
+            Ports = ports;
+        }
     }
 }

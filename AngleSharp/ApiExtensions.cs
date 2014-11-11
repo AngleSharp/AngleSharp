@@ -60,10 +60,10 @@
         /// <param name="node">The node that fires the event.</param>
         /// <param name="eventName">The name of the event to be awaited.</param>
         /// <returns>The awaitable task returning the event arguments.</returns>
-        public static async Task<IEvent> AwaitEvent<TEventTarget>(this TEventTarget node, String eventName)
+        public static async Task<Event> AwaitEvent<TEventTarget>(this TEventTarget node, String eventName)
             where TEventTarget : IEventTarget
         {
-            var completion = new TaskCompletionSource<IEvent>();
+            var completion = new TaskCompletionSource<Event>();
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 

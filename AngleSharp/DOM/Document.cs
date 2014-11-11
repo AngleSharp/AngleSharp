@@ -970,24 +970,6 @@
             _styleSheets.EnableStyleSheetSet(name);
         }
 
-        public ITouch CreateTouch(IWindow view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY)
-        {
-            return new TouchPoint
-            {
-                Target = target,
-                Id = id,
-                PageX = pageX,
-                PageY = pageY,
-                ScreenX = screenX,
-                ScreenY = screenY
-            };
-        }
-
-        public ITouchList CreateTouchList(params ITouch[] touches)
-        {
-            return new TouchList(touches);
-        }
-
         /// <summary>
         /// Opens a document stream for writing.
         /// </summary>
@@ -1123,7 +1105,7 @@
         /// </summary>
         /// <param name="type">A string that represents the type of event to be created.</param>
         /// <returns>The created Event object.</returns>
-        public IEvent CreateEvent(String type)
+        public Event CreateEvent(String type)
         {
             var ev = EventFactory.Create(type);
 

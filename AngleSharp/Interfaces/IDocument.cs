@@ -150,29 +150,7 @@
         /// <param name="type">Represents the type of event (e.g., uievent, event, customevent, ...) to be created.</param>
         /// <returns>The event.</returns>
         [DomName("createEvent")]
-        IEvent CreateEvent(String type);
-        
-        /// <summary>
-        /// Creates a touch point with the provided data.
-        /// </summary>
-        /// <param name="view">The view that contains the touch point.</param>
-        /// <param name="target">The target that the touch point is over.</param>
-        /// <param name="id">The id of the touch point.</param>
-        /// <param name="pageX">The x-coordinate relative to the page.</param>
-        /// <param name="pageY">The y-coordinate relative to the page.</param>
-        /// <param name="screenX">The x-coordinate relative to the screen.</param>
-        /// <param name="screenY">The y-coordinate relative to the screen.</param>
-        /// <returns>The touch point.</returns>
-        [DomName("createTouch")]
-        ITouch CreateTouch(IWindow view, IEventTarget target, Int32 id, Int32 pageX, Int32 pageY, Int32 screenX, Int32 screenY);
-
-        /// <summary>
-        /// Creates a touch list containing the specified touch points.
-        /// </summary>
-        /// <param name="touches">The list of touch points.</param>
-        /// <returns>The created touch list.</returns>
-        [DomName("createTouchList")]
-        ITouchList CreateTouchList(params ITouch[] touches);
+        Event CreateEvent(String type);
 
         /// <summary>
         /// Creates a new Range object.

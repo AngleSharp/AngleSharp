@@ -7,48 +7,76 @@
     /// Represents the event arguments for a touch event.
     /// </summary>
     [DomName("TouchEvent")]
-    public interface ITouchEvent : IUiEvent
+    public class TouchEvent : UiEvent
     {
         /// <summary>
         /// Gets a list with all active touch points.
         /// </summary>
         [DomName("touches")]
-        ITouchList Touches { get; }
+        public ITouchList Touches
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets a list with touch points over the target.
         /// </summary>
         [DomName("targetTouches")]
-        ITouchList TargetTouches { get; }
+        public ITouchList TargetTouches
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets a list with changed touch points.
         /// </summary>
         [DomName("changedTouches")]
-        ITouchList ChangedTouches { get; }
+        public ITouchList ChangedTouches
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets if the alt key is pressed.
         /// </summary>
         [DomName("altKey")]
-        Boolean IsAltPressed { get; }
+        public Boolean IsAltPressed
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets if the meta key is pressed.
         /// </summary>
         [DomName("metaKey")]
-        Boolean IsMetaPressed { get; }
+        public Boolean IsMetaPressed
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets if the control key is pressed.
         /// </summary>
         [DomName("ctrlKey")]
-        Boolean IsCtrlPressed { get; }
+        public Boolean IsCtrlPressed
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets if the shift key is pressed.
         /// </summary>
         [DomName("shiftKey")]
-        Boolean IsShiftPressed { get; }
+        public Boolean IsShiftPressed
+        {
+            get;
+            private set;
+        }
     }
 }

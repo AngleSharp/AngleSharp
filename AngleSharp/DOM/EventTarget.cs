@@ -102,15 +102,13 @@
         /// </summary>
         /// <param name="ev">The event to dispatch.</param>
         /// <returns>False if at least one of the event handlers, which handled this event called preventDefault(). Otherwise true.</returns>
-        public Boolean Dispatch(IEvent ev)
+        public Boolean Dispatch(Event ev)
         {
-            var impl = ev as Event;
-
-            if (impl == null || impl.Flags.HasFlag(EventFlags.Dispatch) || !impl.Flags.HasFlag(EventFlags.Initialized))
+            if (ev == null || ev.Flags.HasFlag(EventFlags.Dispatch) || !ev.Flags.HasFlag(EventFlags.Initialized))
                 throw new DomException(ErrorCode.InvalidState);
 
-            impl.IsTrusted = false;
-            return impl.Dispatch(this);
+            ev.IsTrusted = false;
+            return ev.Dispatch(this);
         }
 
         #endregion
