@@ -701,5 +701,10 @@
         /// The space attribute.
         /// </summary>
         public static readonly String Space = "space";
+
+        /// <summary>
+        /// The window attribute.
+        /// </summary>
+        public static readonly String Window = "window";
     }
 }

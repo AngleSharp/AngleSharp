@@ -152,22 +152,20 @@
 
             if (_load.Exception != null || _load.IsFaulted)
             {
-                FireSimpleEvent(EventNames.Error);
+                Error();
                 return;
             }
 
-            if (FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true))
+            if (CancelledBeforeScriptExecute())
                 return;
 
             using (var result = _load.Result)
                 Owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
 
-            FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
+            AfterScriptExecute();
 
-            if (Source != null)
-                FireSimpleEvent(EventNames.Load);
-            else
-                Owner.QueueTask(() => FireSimpleEvent(EventNames.Load));
+            if (Source != null) Load();
+            else Owner.QueueTask(Load);
         }
 
         /// <summary>
@@ -214,7 +212,7 @@
                 if (eventAttr.EndsWith("()"))
                     eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
 
-                if (!forAttr.Equals("window", StringComparison.OrdinalIgnoreCase) || !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
+                if (!forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase) || !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
                     return;
             }
 
@@ -224,7 +222,7 @@
             {
                 if (src == String.Empty)
                 {
-                    Owner.QueueTask(() => FireSimpleEvent(EventNames.Error));
+                    Owner.QueueTask(Error);
                     return;
                 }
 
@@ -269,6 +267,26 @@
             {
                 options.RunScript(Text, CreateOptions(), ScriptLanguage);
             }
+        }
+
+        void Load()
+        {
+            FireSimpleEvent(EventNames.Load);
+        }
+
+        void Error()
+        {
+            FireSimpleEvent(EventNames.Error);
+        }
+
+        Boolean CancelledBeforeScriptExecute()
+        {
+            return FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
+        }
+
+        void AfterScriptExecute()
+        {
+            FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
         }
 
         ScriptOptions CreateOptions()
