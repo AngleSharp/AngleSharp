@@ -43,6 +43,21 @@ namespace UnitTests.Library
         }
 
         [TestMethod]
+        public void EventsAwaitedTriggered()
+        {
+            var evName = "click";
+            var element = doc.QuerySelector("img");
+            var ev = doc.CreateEvent("event");
+            ev.Init(evName, true, true);
+            var task = doc.AwaitEvent(evName);
+            Assert.IsFalse(task.IsCompleted);
+            doc.Dispatch(ev);
+            Assert.IsTrue(task.IsCompleted);
+            Assert.IsFalse(task.IsFaulted);
+            Assert.AreEqual(evName, task.Result.Type);
+        }
+
+        [TestMethod]
         public void EventsRemoveHandler()
         {
             var evName = "click";

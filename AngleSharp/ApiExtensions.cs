@@ -2,9 +2,9 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -51,6 +51,24 @@
                 el.Close();
 
             return element;
+        }
+
+        /// <summary>
+        /// Returns a task that is completed once the event is fired.
+        /// </summary>
+        /// <typeparam name="TEventTarget">The event target type.</typeparam>
+        /// <param name="node">The node that fires the event.</param>
+        /// <param name="eventName">The name of the event to be awaited.</param>
+        /// <returns>The awaitable task returning the event arguments.</returns>
+        public static async Task<IEvent> AwaitEvent<TEventTarget>(this TEventTarget node, String eventName)
+            where TEventTarget : IEventTarget
+        {
+            var completion = new TaskCompletionSource<IEvent>();
+            DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
+            node.AddEventListener(eventName, handler);
+
+            try { return await completion.Task; }
+            finally { node.RemoveEventListener(eventName, handler); }
         }
 
         #endregion
