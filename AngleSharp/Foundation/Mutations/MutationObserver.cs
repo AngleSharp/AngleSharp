@@ -59,6 +59,11 @@
             //also empty context object's record queue. 
         }
 
+        internal void TriggerWith(IMutationRecord[] records)
+        {
+            _callback(records, this);
+        }
+
         public void Connect(INode target, IMutationObserverInit options)
         {
             //TODO

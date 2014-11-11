@@ -40,6 +40,7 @@
     <Compile Include="Attributes\Accessors.cs" />
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="Attributes\DomLenientThisAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
@@ -59,6 +60,9 @@
     <Compile Include="DOM\Events\KeyboardEvent.cs" />
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
+    <Compile Include="Foundation\MutationHost.cs" />
+    <Compile Include="Infrastructure\DomTask.cs" />
+    <Compile Include="Infrastructure\MicroDomTask.cs" />
     <Compile Include="Interfaces\Events\ITouchPoint.cs" />
     <Compile Include="DOM\Events\UiEvent.cs" />
     <Compile Include="DOM\Events\WheelEvent.cs" />
@@ -472,7 +476,7 @@
     <Compile Include="Interfaces\INonElementParentNode.cs" />
     <Compile Include="Interfaces\IStyleSheetList.cs" />
     <Compile Include="Interfaces\Css\IStyleUtilities.cs" />
-    <Compile Include="Interfaces\Html\IGlobalEventHandlers.cs" />
+    <Compile Include="Interfaces\Events\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Html\IHtmlAnchorElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlAreaElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlAudioElement.cs" />
@@ -582,7 +586,7 @@
     <Compile Include="Interfaces\Io\IBlob.cs" />
     <Compile Include="Interfaces\Io\IFile.cs" />
     <Compile Include="Interfaces\Io\IFileList.cs" />
-    <Compile Include="Interfaces\IWindowEventHandlers.cs" />
+    <Compile Include="Interfaces\Events\IWindowEventHandlers.cs" />
     <Compile Include="Interfaces\Navigator\INavigator.cs" />
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\INodeIterator.cs" />
@@ -892,7 +896,6 @@
     <Compile Include="Parser\Html\Tokens\HtmlEndOfFileToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlTagToken.cs" />
     <Compile Include="Tools\AnalysisWindow.cs" />
-    <Compile Include="Tools\DefaultEventLoop.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

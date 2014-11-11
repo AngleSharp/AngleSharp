@@ -1447,7 +1447,7 @@
             var eventLoop = Options.GetService<IEventService>();
 
             if (eventLoop != null)
-                eventLoop.Enqueue(action);
+                eventLoop.Enqueue(new MicroDomTask(this, action));
             else
                 action.InvokeAsync();
         }
