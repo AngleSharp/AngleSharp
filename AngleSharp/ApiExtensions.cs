@@ -299,7 +299,7 @@
         public static IEnumerable<TRule> RulesOf<TRule>(this IStyleSheetList sheets)
             where TRule : ICssRule
         {
-            return sheets.OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
+            return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
         }
 
         /// <summary>
