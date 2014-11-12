@@ -21,5 +21,10 @@
         [DomName("style")]
         [DomPutForwards("cssText")]
         ICssStyleDeclaration Style { get; }
+
+        /// <summary>
+        /// Gets or sets the selector for matching elements.
+        /// </summary>
+        ISelector Selector { get; set; }
     }
 }

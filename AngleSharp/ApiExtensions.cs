@@ -71,6 +71,30 @@
             finally { node.RemoveEventListener(eventName, handler); }
         }
 
+        /// <summary>
+        /// Gets the descendent nodes of the given parent.
+        /// </summary>
+        /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendent nodes.</returns>
+        public static IEnumerable<TNode> Descendents<TNode>(this INode parent)
+            where TNode : INode
+        {
+            return parent.GetDescendantsOf().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the ancestor nodes of the given child.
+        /// </summary>
+        /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
+        /// <param name="child">The child of the nodes to gather.</param>
+        /// <returns>The ancestor nodes.</returns>
+        public static IEnumerable<TNode> Ancestors<TNode>(this INode child)
+            where TNode : INode
+        {
+            return child.GetAncestorsOf().OfType<TNode>();
+        }
+
         #endregion
 
         #region jQuery like
@@ -260,6 +284,34 @@
         public static IHtmlCollection QueryXpath(this INodeList nodes, String xpath)
         {
             throw new NotImplementedException("XPath queries will be supported in the future (maybe in v0.7!). Stay tuned!");
+        }
+
+        #endregion
+
+        #region Stylesheets
+
+        /// <summary>
+        /// Gets all rules that are of the provided type.
+        /// </summary>
+        /// <typeparam name="TRule">The type of rules to get.</typeparam>
+        /// <param name="sheets">The list of stylesheets to consider.</param>
+        /// <returns>The list of rules.</returns>
+        public static IEnumerable<TRule> RulesOf<TRule>(this IStyleSheetList sheets)
+            where TRule : ICssRule
+        {
+            return sheets.OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
+        }
+
+        /// <summary>
+        /// Gets all style rules that have the same selector text.
+        /// </summary>
+        /// <param name="sheets">The list of stylesheets to consider.</param>
+        /// <param name="selector">The selector to compare to.</param>
+        /// <returns>The list of style rules.</returns>
+        public static IEnumerable<ICssStyleRule> StylesWith(this IStyleSheetList sheets, ISelector selector)
+        {
+            var selectorText = selector.Text;
+            return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
         }
 
         #endregion

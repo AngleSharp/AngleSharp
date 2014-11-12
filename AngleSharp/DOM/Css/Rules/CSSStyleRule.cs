@@ -33,7 +33,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets the selector for matching elements.
+        /// Gets or sets the selector for matching elements.
         /// </summary>
         public ISelector Selector
         {
