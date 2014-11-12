@@ -84,6 +84,22 @@ namespace UnitTests.Library
         }
 
         [TestMethod]
+        public void DataLocationComplete()
+        {
+            var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
+            var location = new Location(url);
+            Assert.AreEqual("", location.Hash);
+            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("", location.Search);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("data:", location.Protocol);
+            Assert.AreEqual("", location.Host);
+            Assert.AreEqual("", location.HostName);
+            Assert.AreEqual(url, location.Href);
+            Assert.IsFalse(location.IsRelative);
+        }
+
+        [TestMethod]
         public void AbsoluteLocationUsernamePasswordWithPort()
         {
             var url = "http://user:password@example.com:8080";
