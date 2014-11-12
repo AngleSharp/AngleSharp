@@ -16,6 +16,11 @@
         String Type { get; }
 
         /// <summary>
+        /// Gets the default stylesheet, if any.
+        /// </summary>
+        IStyleSheet Default { get; }
+
+        /// <summary>
         /// Creates a style sheet for the given source.
         /// </summary>
         /// <param name="source">The source code describing the style sheet.</param>
