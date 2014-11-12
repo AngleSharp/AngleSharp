@@ -782,5 +782,21 @@ namespace UnitTests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"topbanner.png\") rgba(0, 0, 221, 1) repeat-y fixed", concrete.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssBackgroundImageDataUrlLegal()
+        {
+            var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
+            var snippet = "background-image: url('" + url + "')";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSBackgroundImageProperty));
+            var concrete = (CSSBackgroundImageProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url(\"" + url + "\")", concrete.Value.CssText);
+        }
     }
 }

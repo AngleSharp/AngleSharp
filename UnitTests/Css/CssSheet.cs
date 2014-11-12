@@ -667,5 +667,22 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.Primitive, display.Value.Type);
             Assert.AreEqual("block", display.Value.CssText);
         }
+
+        [TestMethod]
+        public void CssSheetWithDataUrlAsBackgroundImage()
+        {
+            var sheet = CssParser.ParseStyleSheet(".App_Header_ .logo { background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\"); background-size: 71px 28px; background-position: 0 19px; width: 71px; }");
+            Assert.IsNotNull(sheet);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var rule = sheet.Rules[0] as CSSStyleRule;
+            Assert.IsNotNull(rule);
+            Assert.AreEqual(4, rule.Style.Length);
+            Assert.AreEqual(".App_Header_ .logo", rule.SelectorText);
+            var decl = rule.Style as ICssStyleDeclaration;
+            Assert.AreEqual("url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\")", decl.BackgroundImage);
+            Assert.AreEqual("71px 28px", decl.BackgroundSize);
+            Assert.AreEqual("0 19px", decl.BackgroundPosition);
+            Assert.AreEqual("71px", decl.Width);
+        }
     }
 }
