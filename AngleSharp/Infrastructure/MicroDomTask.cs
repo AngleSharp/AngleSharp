@@ -6,18 +6,29 @@
 
     public sealed class MicroDomTask : DomTask
     {
-        readonly Task _task;
+        readonly Func<Task> _taskCreator;
 
         public MicroDomTask(IDocument document, Action action)
+            : this(document, new Task(action))
+        {
+        }
+
+        public MicroDomTask(IDocument document, Task task)
+            : this(document, () => task)
+        {
+        }
+
+        public MicroDomTask(IDocument document, Func<Task> taskCreator)
             : base(document)
         {
-            _task = new Task(action);
+            _taskCreator = taskCreator;
         }
 
         public override Task Run()
         {
-            _task.Start();
-            return _task;
+            var task = _taskCreator();
+            task.Start();
+            return task;
         }
     }
 }

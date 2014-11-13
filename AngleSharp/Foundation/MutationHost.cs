@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Couples the mutation events to mutation observers and the event loop.
@@ -35,36 +36,39 @@
 
         #region Methods
 
-        public void Queue()
+        /// <summary>
+        /// Enqueues the flushing of the mutation observers in the event loop.
+        /// </summary>
+        public void Enqueue()
         {
             if (_queued)
                 return;
 
             _queued = true;
-            _eventLoop.Enqueue(new MicroDomTask(_context.Current.Document, Notify));
+            _eventLoop.Enqueue(new MicroDomTask(_context.Current.Document, (Func<Task>)Notify));
         }
 
-        public void Notify()
+        /// <summary>
+        /// Notifies the registered observers with all registered changes.
+        /// </summary>
+        /// <returns>The awaitable task.</returns>
+        public async Task Notify()
         {
             _queued = false;
             var notifyList = _observers.ToArray();
 
             foreach (var mo in notifyList)
             {
-                var task = _eventLoop.Execute(() =>
+                await _eventLoop.Execute(() =>
                 {
                     var queue = mo.Flush().ToArray();
 
                     //TODO Mutation
                     //Remove all transient registered observers whose observer is mo.
 
-                    if (queue.Length == 0)
-                        return;
-
-                    mo.TriggerWith(queue);
+                    if (queue.Length != 0)
+                        mo.TriggerWith(queue);
                 });
-                //TODO make async
-                task.Wait();
             }
         }
 
