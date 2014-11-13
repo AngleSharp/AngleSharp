@@ -91,6 +91,7 @@
     <Compile Include="Html\FosterParenting.cs" />
     <Compile Include="Html\HtmlFormatting.cs" />
     <Compile Include="Html\HtmlTemplate.cs" />
+    <Compile Include="Library\BasicConfiguration.cs" />
     <Compile Include="Library\DOMEvents.cs" />
     <Compile Include="Library\LiveCollection.cs" />
     <Compile Include="Library\DOMExtensions.cs" />
