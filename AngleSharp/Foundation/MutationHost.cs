@@ -16,20 +16,18 @@
         #region Fields
 
         readonly List<MutationObserver> _observers;
-        readonly IEventService _eventLoop;
-        readonly IBrowsingContext _context;
+        readonly Document _document;
         Boolean _queued;
 
         #endregion
 
         #region ctor
 
-        public MutationHost(IBrowsingContext context)
+        public MutationHost(Document document)
         {
-            _context = context;
-            _eventLoop = context.Configuration.GetService<IEventService>();
             _observers = new List<MutationObserver>();
             _queued = false;
+            _document = document;
         }
 
         #endregion
@@ -44,8 +42,18 @@
             if (_queued)
                 return;
 
+            var context = _document.Context;
+
+            if (context == null)
+                return;
+
+            var eventLoop = context.Configuration.GetService<IEventService>();
+
+            if (eventLoop == null)
+                return;
+
             _queued = true;
-            _eventLoop.Enqueue(new MicroDomTask(_context.Current.Document, (Func<Task>)Notify));
+            eventLoop.Enqueue(new MicroDomTask(_document, (Func<Task>)Notify));
         }
 
         /// <summary>
@@ -54,12 +62,22 @@
         /// <returns>The awaitable task.</returns>
         public async Task Notify()
         {
-            _queued = false;
             var notifyList = _observers.ToArray();
+            var context = _document.Context;
+
+            if (context == null)
+                return;
+
+            var eventLoop = context.Configuration.GetService<IEventService>();
+
+            if (eventLoop == null)
+                return;
+
+            _queued = false;
 
             foreach (var mo in notifyList)
             {
-                await _eventLoop.Execute(() =>
+                await eventLoop.Execute(() =>
                 {
                     var queue = mo.Flush().ToArray();
 
