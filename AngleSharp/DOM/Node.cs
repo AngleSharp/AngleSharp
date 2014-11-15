@@ -519,6 +519,16 @@
         #region Helpers
 
         /// <summary>
+        /// Queues the mutation record in the corresponding observers.
+        /// </summary>
+        /// <param name="record">The record to enqueue.</param>
+        protected void QueueMutationRecord(IMutationRecord record)
+        {
+            //TODO Mutation
+            //Add to list of mutation observers, if any.
+        }
+
+        /// <summary>
         /// Tries to locate the namespace of the given prefix.
         /// </summary>
         /// <param name="prefix">The prefix of the namespace.</param>
@@ -679,9 +689,20 @@
 
             if (!suppressObservers)
             {
-                //TODO Mutation
-                // queue a mutation record of "childList" for parent with removedNodes a list solely containing node, nextSibling node's next sibling, and previousSibling oldPreviousSibling. 
+                var removedNodes = new NodeList();
+                removedNodes.Add(node);
 
+                QueueMutationRecord(new MutationRecord
+                {
+                    Type = "childList",
+                    Target = this,
+                    Removed = removedNodes,
+                    NextSibling = node.NextSibling,
+                    PreviousSibling = oldPreviousSibling
+
+                });
+
+                //TODO Mutation
                 // For each ancestor ancestor of node, if ancestor has any registered observers whose options's subtree is true,
                 // then for each such registered observer registered, append a transient registered observer whose observer and
                 // options are identical to those of registered and source which is registered to node's list of registered observers. 
@@ -741,16 +762,24 @@
                 _owner.AdoptNode(node);
                 RemoveChild(child, true);
                 InsertBefore(node, referenceChild, true);
-                var nodes = new NodeList();
+                var addedNodes = new NodeList();
+                var removedNodes = new NodeList();
+                removedNodes.Add(child);
 
                 if (node._type == NodeType.DocumentFragment)
-                    nodes.AddRange(node._children);
+                    addedNodes.AddRange(node._children);
                 else
-                    nodes.Add(node);
+                    addedNodes.Add(node);
 
-                //TODO Mutation
-                // Queue a mutation record of "childList" for target parent with addedNodes nodes, removedNodes a
-                // list solely containing child, nextSibling reference child, and previousSibling child's previous sibling. 
+                QueueMutationRecord(new MutationRecord
+                {
+                    Type = "childList",
+                    Target = this,
+                    Added = addedNodes,
+                    Removed = removedNodes,
+                    NextSibling = referenceChild,
+                    PreviousSibling = child.PreviousSibling
+                });
 
                 return child;
             }
