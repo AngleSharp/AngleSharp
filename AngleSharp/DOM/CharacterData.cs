@@ -236,11 +236,10 @@
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data).Remove(deleteOffset, count);
 
-            //TODO Range
-            //For each range whose start node is node and start offset is greater than offset but less than or equal to offset plus count, set its start offset to offset. 
-            //For each range whose end node is node and end offset is greater than offset but less than or equal to offset plus count, set its end offset to offset. 
-            //For each range whose start node is node and start offset is greater than offset plus count, increase its start offset by the number of code units in data, then decrease it by count. 
-            //For each range whose end node is node and end offset is greater than offset plus count, increase its end offset by the number of code units in data, then decrease it by count.
+            ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
+            ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
+            ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
+            ForEachRange(m => m.Tail == this && m.End > offset + count, m => m.EndWith(this, m.End + data.Length - count));
         }
 
         /// <summary>
