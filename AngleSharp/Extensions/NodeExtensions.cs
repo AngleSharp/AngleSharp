@@ -115,6 +115,16 @@
         }
 
         /// <summary>
+        /// Gets the index of the provided node in the node's parent's collection.
+        /// </summary>
+        /// <param name="node">The node which needs to know its index.</param>
+        /// <returns>The index of the node or -1 if the node is not a child of a parent.</returns>
+        public static Int32 Index(this INode node)
+        {
+            return node.Parent.IndexOf(node);
+        }
+
+        /// <summary>
         /// Finds the index of the given node of the provided parent node.
         /// </summary>
         /// <param name="parent">The parent of the given node.</param>
@@ -124,12 +134,15 @@
         {
             var i = 0;
 
-            foreach (var child in parent.ChildNodes)
+            if (parent != null)
             {
-                if (Object.ReferenceEquals(child, node))
-                    return i;
+                foreach (var child in parent.ChildNodes)
+                {
+                    if (Object.ReferenceEquals(child, node))
+                        return i;
 
-                i++;
+                    i++;
+                }
             }
 
             return -1;
