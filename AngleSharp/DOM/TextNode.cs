@@ -119,25 +119,25 @@
             var newData = Substring(offset, count);
             var newNode = new TextNode(newData) { Owner = Owner };
             var parent = Parent;
+            var owner = Owner;
 
             if (parent != null)
             {
+                var index = this.Index();
                 parent.InsertBefore(newNode, NextSibling);
 
-                //TODO Range
-                // For each range whose start node is node and start offset is greater than offset, set its start node to new node and decrease its start offset by offset. 
-                // For each range whose end node is node and end offset is greater than offset, set its end node to new node and decrease its end offset by offset. 
-                // For each range whose start node is parent and start offset is equal to the index of node + 1, increase its start offset by one. 
-                // For each range whose end node is parent and end offset is equal to the index of node + 1, increase its end offset by one.
+                owner.ForEachRange(m => m.Head == this && m.Start > offset, m => m.StartWith(newNode, m.Start - offset));
+                owner.ForEachRange(m => m.Tail == this && m.End > offset, m => m.EndWith(newNode, m.End - offset));
+                owner.ForEachRange(m => m.Head == parent && m.Start == index + 1, m => m.StartWith(parent, m.Start + 1));
+                owner.ForEachRange(m => m.Tail == parent && m.End == index + 1, m => m.StartWith(parent, m.End + 1));
             }
 
             Replace(offset, count, String.Empty);
 
             if (parent != null)
             {
-                //TODO Range
-                // For each range whose start node is node and start offset is greater than offset, set its start offset to offset. 
-                // For each range whose end node is node and end offset is greater than offset, set its end offset to offset.
+                owner.ForEachRange(m => m.Head == this && m.Start > offset, m => m.StartWith(this, offset));
+                owner.ForEachRange(m => m.Tail == this && m.End > offset, m => m.EndWith(this, offset));
             }
 
             return newNode;

@@ -433,10 +433,10 @@
                             sb.Append(sibling.Data);
                             end++;
 
-                            ForEachRange(m => m.Head == sibling, m => m.StartWith(text, length));
-                            ForEachRange(m => m.Tail == sibling, m => m.EndWith(text, length));
-                            ForEachRange(m => m.Head == sibling.Parent && m.Start == end, m => m.StartWith(text, length));
-                            ForEachRange(m => m.Tail == sibling.Parent && m.End == end, m => m.EndWith(text, length));
+                            _owner.ForEachRange(m => m.Head == sibling, m => m.StartWith(text, length));
+                            _owner.ForEachRange(m => m.Tail == sibling, m => m.EndWith(text, length));
+                            _owner.ForEachRange(m => m.Head == sibling.Parent && m.Start == end, m => m.StartWith(text, length));
+                            _owner.ForEachRange(m => m.Tail == sibling.Parent && m.End == end, m => m.EndWith(text, length));
 
                             length += sibling.Length;
                         }
@@ -525,24 +525,6 @@
         {
             //TODO Mutation
             //Add to list of mutation observers, if any.
-        }
-
-        /// <summary>
-        /// Iterates over all ranges, applying the provided action when the
-        /// given condition is fulfilled.
-        /// </summary>
-        /// <param name="condition">The condition that needs to be fulfilled.</param>
-        /// <param name="action">The action to apply to the range.</param>
-        protected void ForEachRange(Predicate<Range> condition, Action<Range> action)
-        {
-            if (_owner != null)
-            {
-                foreach (var range in _owner.Ranges)
-                {
-                    if (condition(range))
-                        action(range);
-                }
-            }
         }
 
         /// <summary>
@@ -655,8 +637,8 @@
             if (referenceElement != null)
             {
                 var childIndex = referenceElement.Index();
-                ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
-                ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
+                _owner.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
+                _owner.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
             }
 
             if (newElement is IDocument || newElement.Contains(this))
@@ -700,10 +682,10 @@
         {
             var index = _children.Index(node);
 
-            ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
-            ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
-            ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
-            ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
+            _owner.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
+            _owner.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
+            _owner.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
+            _owner.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 

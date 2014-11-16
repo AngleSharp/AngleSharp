@@ -234,12 +234,13 @@
             });
 
             var deleteOffset = offset + data.Length;
+            var owner = Owner;
             _content = _content.Insert(offset, data).Remove(deleteOffset, count);
 
-            ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
-            ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
-            ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
-            ForEachRange(m => m.Tail == this && m.End > offset + count, m => m.EndWith(this, m.End + data.Length - count));
+            owner.ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
+            owner.ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
+            owner.ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
+            owner.ForEachRange(m => m.Tail == this && m.End > offset + count, m => m.EndWith(this, m.End + data.Length - count));
         }
 
         /// <summary>
