@@ -1575,6 +1575,9 @@
     <Compile Include="..\AngleSharp\Extensions\ConfigurationExtensions.cs">
       <Link>Extensions\ConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\DocumentExtensions.cs">
+      <Link>Extensions\DocumentExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\ElementExtensions.cs">
       <Link>Extensions\ElementExtensions.cs</Link>
     </Compile>
