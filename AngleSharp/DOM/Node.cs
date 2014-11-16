@@ -529,6 +529,24 @@
         }
 
         /// <summary>
+        /// Iterates over all ranges, applying the provided action when the
+        /// given condition is fulfilled.
+        /// </summary>
+        /// <param name="condition">The condition that needs to be fulfilled.</param>
+        /// <param name="action">The action to apply to the range.</param>
+        protected void ForEachRange(Predicate<Range> condition, Action<Range> action)
+        {
+            if (_owner != null)
+            {
+                foreach (var range in _owner.Ranges)
+                {
+                    if (condition(range))
+                        action(range);
+                }
+            }
+        }
+
+        /// <summary>
         /// Tries to locate the namespace of the given prefix.
         /// </summary>
         /// <param name="prefix">The prefix of the namespace.</param>
