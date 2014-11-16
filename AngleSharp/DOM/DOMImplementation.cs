@@ -30,7 +30,7 @@
             AddFeature("UIEvents", "2.0");
             AddFeature("HTMLEvents", "2.0");
             AddFeature("Range", "2.0");
-            //MutationEvents 2.0
+            AddFeature("MutationEvents", "2.0");
         }
 
         static void AddFeature(String feature, params String[] versions)

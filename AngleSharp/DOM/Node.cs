@@ -614,9 +614,13 @@
             for (int i = 0; i < addedNodes.Length; i++)
                 InsertBefore(addedNodes[i], null, true);
 
-            //TODO Mutation
-            // Queue a mutation record of "childList" for parent with
-            // addedNodes and removedNodes.
+            QueueMutationRecord(new MutationRecord
+            {
+                Type = "childList",
+                Target = this,
+                Added = addedNodes,
+                Removed = removedNodes
+            });
         }
 
         /// <summary>
