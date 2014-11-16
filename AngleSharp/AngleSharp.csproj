@@ -60,6 +60,7 @@
     <Compile Include="DOM\Events\KeyboardEvent.cs" />
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
+    <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Foundation\MutationHost.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
     <Compile Include="Infrastructure\MicroDomTask.cs" />
