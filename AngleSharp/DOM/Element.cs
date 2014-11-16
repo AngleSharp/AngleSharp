@@ -736,11 +736,13 @@
                 handler(attr != null ? attr.Value : null);
             }
 
-            //TODO Mutation
-            // Queue a mutation record of "attributes" for element with name attribute's
-            // local name, namespace attribute's namespace, and oldValue attribute's value.
-            // OldValue for new : null
-            // NewValue for deleted : null
+            QueueMutationRecord(new MutationRecord
+            {
+                Type = "attributes",
+                AttributeName = localName,
+                AttributeNamespace = namespaceUri,
+                PreviousValue = oldValue
+            });
         }
 
         protected sealed override String LocateNamespace(String prefix)
