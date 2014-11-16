@@ -7,7 +7,6 @@
     using AngleSharp.DOM.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
     using System;
@@ -1017,13 +1016,13 @@
                 _scripts.Dequeue().Run();
             }
 
-            QueueTask(RaiseDomContentLoaded);
-            QueueTask(RaiseLoadedEvent);
+            this.QueueTask(RaiseDomContentLoaded);
+            this.QueueTask(RaiseLoadedEvent);
 
             if (IsInBrowsingContext)
-                QueueTask(ShowPage);
+                this.QueueTask(ShowPage);
 
-            QueueTask(EmptyAppCache);
+            this.QueueTask(EmptyAppCache);
 
             if (IsToBePrinted)
                 Print();
@@ -1388,34 +1387,6 @@
             _options = null;
         }
 
-        void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
-        {
-            if (e.IsHashChanged)
-            {
-                var ev = new HashChangedEvent();
-                ev.Init(EventNames.HashChange, false, false, e.PreviousLocation, e.CurrentLocation);
-                ev.IsTrusted = true;
-                ev.Dispatch(this);
-            }
-            else
-            {
-                var url = new Url(e.CurrentLocation);
-                var requester = _options.GetRequester(url.Scheme);
-
-                if (requester == null)
-                    return;
-
-                requester.LoadAsync(url).ContinueWith(m =>
-                {
-                    if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                    {
-                        using (var result = m.Result)
-                            LoadAsync(result, CancellationToken.None);
-                    }
-                });
-            }
-        }
-
         internal void PerformMicrotaskCheckpoint()
         {
             //TODO Mutation
@@ -1454,15 +1425,9 @@
             FireSimpleEvent(EventNames.Load);
         }
 
-        internal void QueueTask(Action action)
-        {
-            var eventLoop = Options.GetService<IEventService>();
+        #endregion
 
-            if (eventLoop != null)
-                eventLoop.Enqueue(new MicroDomTask(this, action));
-            else
-                action.InvokeAsync();
-        }
+        #region Helpers
 
         void Print()
         {
@@ -1489,28 +1454,42 @@
             //the networking task source.
         }
 
-        #endregion
+        void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
+        {
+            if (e.IsHashChanged)
+            {
+                var ev = new HashChangedEvent();
+                ev.Init(EventNames.HashChange, false, false, e.PreviousLocation, e.CurrentLocation);
+                ev.IsTrusted = true;
+                ev.Dispatch(this);
+            }
+            else
+            {
+                var url = new Url(e.CurrentLocation);
+                var requester = _options.GetRequester(url.Scheme);
 
-        #region Helpers
+                if (requester == null)
+                    return;
+
+                requester.LoadAsync(url).ContinueWith(m =>
+                {
+                    if (m.IsCompleted && !m.IsFaulted && m.Result != null)
+                    {
+                        using (var result = m.Result)
+                            LoadAsync(result, CancellationToken.None);
+                    }
+                });
+            }
+        }
 
         protected sealed override String LocateNamespace(String prefix)
         {
-            var root = DocumentElement;
-
-            if (root != null)
-                return root.LocateNamespace(prefix);
-
-            return null;
+            return DocumentElement.LocateNamespace(prefix);
         }
 
         protected sealed override String LocatePrefix(String namespaceUri)
         {
-            var root = DocumentElement;
-
-            if (root != null)
-                return root.LocatePrefix(namespaceUri);
-
-            return null;
+            return DocumentElement.LocatePrefix(namespaceUri);
         }
 
         /// <summary>

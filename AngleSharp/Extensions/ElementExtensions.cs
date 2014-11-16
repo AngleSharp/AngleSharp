@@ -20,6 +20,9 @@
         /// <returns>The prefix or null, if the namespace could not be found.</returns>
         public static String LocatePrefix(this IElement element, String namespaceUri)
         {
+            if (element == null)
+                return null;
+
             if (element.NamespaceUri == namespaceUri && element.Prefix != null)
                 return element.Prefix;
 
@@ -29,12 +32,7 @@
                     return attr.LocalName;
             }
 
-            var parent = element.ParentElement;
-
-            if (parent != null)
-                return parent.LocatePrefix(namespaceUri);
-
-            return null;
+            return element.ParentElement.LocatePrefix(namespaceUri);
         }
 
         /// <summary>
@@ -45,6 +43,9 @@
         /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
         public static String LocateNamespace(this IElement element, String prefix)
         {
+            if (element == null)
+                return null;
+
             var ns = element.NamespaceUri;
             var px = element.Prefix;
 
@@ -68,12 +69,7 @@
                 }
             }
 
-            var parent = element.ParentElement;
-
-            if (parent != null)
-                return parent.LocateNamespace(prefix);
-
-            return null;
+            return element.ParentElement.LocateNamespace(prefix);
         }
 
         /// <summary>
