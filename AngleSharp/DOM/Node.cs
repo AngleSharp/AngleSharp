@@ -433,11 +433,10 @@
                             sb.Append(sibling.Data);
                             end++;
 
-                            //TODO Range
-                            // For each range whose start node is sibling, add length to its start offset and set its start node to text. 
-                            // For each range whose end node is sibling, add length to its end offset and set its end node to text. 
-                            // For each range whose start node is sibling's parent and start offset is sibling's index, set its start node to text and its start offset to length. 
-                            // For each range whose end node is sibling's parent and end offset is sibling's index, set its end node to node and its end offset to length. 
+                            ForEachRange(m => m.Head == sibling, m => m.StartWith(text, length));
+                            ForEachRange(m => m.Tail == sibling, m => m.EndWith(text, length));
+                            ForEachRange(m => m.Head == sibling.Parent && m.Start == end, m => m.StartWith(text, length));
+                            ForEachRange(m => m.Tail == sibling.Parent && m.End == end, m => m.EndWith(text, length));
 
                             length += sibling.Length;
                         }
@@ -655,9 +654,9 @@
 
             if (referenceElement != null)
             {
-                //TODO Range
-                // For each range whose start node is parent and start offset is greater than child's index, increase its start offset by count. 
-                // For each range whose end node is parent and end offset is greater than child's index, increase its end offset by count.
+                var childIndex = referenceElement.Index();
+                ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
+                ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
             }
 
             if (newElement is IDocument || newElement.Contains(this))
@@ -701,11 +700,10 @@
         {
             var index = _children.Index(node);
 
-            //TODO Range
-            // For each range whose start node is an inclusive descendant of node, set its start to (parent, index). 
-            // For each range whose end node is an inclusive descendant of node, set its end to (parent, index). 
-            // For each range whose start node is parent and start offset is greater than index, decrease its start offset by one. 
-            // For each range whose end node is parent and end offset is greater than index, decrease its end offset by one. 
+            ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
+            ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
+            ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
+            ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 
