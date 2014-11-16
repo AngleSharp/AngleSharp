@@ -2289,7 +2289,7 @@
         /// <summary>
         /// See 8.2.4.26 Script data escaped end tag open state
         /// </summary>
-        /// <param name="tag">The current tag token.</param>
+        /// <param name="position">The start position.</param>
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedEndTag(TextPosition position)
         {
