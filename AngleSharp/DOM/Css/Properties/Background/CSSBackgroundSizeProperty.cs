@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at:
@@ -13,10 +14,7 @@
     {
         #region Fields
 
-        static readonly CalcSizeMode _default = new CalcSizeMode();
-        static readonly CoverSizeMode _cover = new CoverSizeMode();
-        static readonly ContainSizeMode _contain = new ContainSizeMode();
-        List<SizeMode> _sizes;
+        readonly List<SizeMode> _sizes;
 
         #endregion
 
@@ -31,12 +29,31 @@
 
         #endregion
 
+        #region Properties
+
+        public IEnumerable<Boolean> IsCovered
+        {
+            get { return _sizes.Select(m => m.IsCovered); }
+        }
+
+        public IEnumerable<Boolean> IsContained
+        {
+            get { return _sizes.Select(m => m.IsContained); }
+        }
+
+        public IEnumerable<Point> Sizes
+        {
+            get { return _sizes.Select(m => new Point(m.Width, m.Height)); }
+        }
+
+        #endregion
+
         #region Methods
 
         internal override void Reset()
         {
             _sizes.Clear();
-            _sizes.Add(_default);
+            _sizes.Add(new SizeMode());
         }
 
         /// <summary>
@@ -54,23 +71,23 @@
             return false;
         }
 
-        static SizeMode Check(CSSValue value)
+        static SizeMode? Check(CSSValue value)
         {
             var distance = value.ToDistance();
 
             if (distance != null)
-                return new CalcSizeMode(distance);
+                return new SizeMode { Width = distance };
             else if (value.Is(Keywords.Auto))
-                return _default;
+                return new SizeMode { };
             else if (value.Is(Keywords.Cover))
-                return _cover;
+                return new SizeMode { IsCovered = true };
             else if (value.Is(Keywords.Contain))
-                return _contain;
+                return new SizeMode { IsContained = true };
 
             return null;
         }
 
-        static SizeMode Check(CSSValue horizontal, CSSValue vertical)
+        static SizeMode? Check(CSSValue horizontal, CSSValue vertical)
         {
             var width = horizontal.ToDistance();
             var height = vertical.ToDistance();
@@ -80,7 +97,7 @@
             else if (height == null && !vertical.Is(Keywords.Auto))
                 return null;
 
-            return new CalcSizeMode(width, height);
+            return new SizeMode { Width = width, Height = height };
         }
 
         Boolean CheckSingle(CSSValue value)
@@ -91,7 +108,7 @@
                 return false;
 
             _sizes.Clear();
-            _sizes.Add(size);
+            _sizes.Add(size.Value);
             return true;
         }
 
@@ -110,10 +127,11 @@
                 if (size == null)
                     return false;
 
-                sizes.Add(size);
+                sizes.Add(size.Value);
             }
 
-            _sizes = sizes;
+            _sizes.Clear();
+            _sizes.AddRange(sizes);
             return true;
         }
 
@@ -121,51 +139,12 @@
 
         #region Modes
 
-        abstract class SizeMode
+        struct SizeMode
         {
-            //TODO Add Members that make sense
-        }
-
-        /// <summary>
-        /// A value that scales the background image to the specified value in
-        /// the corresponding dimension. Negative values are not allowed.
-        /// </summary>
-        sealed class CalcSizeMode : SizeMode
-        {
-            readonly IDistance _width;
-            readonly IDistance _height;
-
-            /// <summary>
-            /// The auto keyword that scales the background image in the corresponding
-            /// direction such that its intrinsic proportion is maintained.
-            /// </summary>
-            public CalcSizeMode(IDistance width = null, IDistance height = null)
-            {
-                _width = width;
-                _height = height;
-            }
-        }
-
-        /// <summary>
-        /// This keyword specifies that the background image should be scaled to
-        /// be as small as possible while ensuring both its dimensions are greater
-        /// than or equal to the corresponding dimensions of the background
-        /// positioning area.
-        /// </summary>
-        sealed class CoverSizeMode : SizeMode
-        {
-
-        }
-
-        /// <summary>
-        /// This keyword specifies that the background image should be scaled to
-        /// be as large as possible while ensuring both its dimensions are less
-        /// than or equal to the corresponding dimensions of the background
-        /// positioning area.
-        /// </summary>
-        sealed class ContainSizeMode : SizeMode
-        {
-
+            public Boolean IsCovered;
+            public Boolean IsContained;
+            public IDistance Width;
+            public IDistance Height;
         }
 
         #endregion

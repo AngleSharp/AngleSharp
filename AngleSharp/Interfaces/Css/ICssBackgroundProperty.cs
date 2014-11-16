@@ -92,6 +92,20 @@
     /// </summary>
     public interface ICssBackgroundSizeProperty : ICssProperty
     {
+        /// <summary>
+        /// Gets if the background image should be covered, i.e. min(100%).
+        /// </summary>
+        IEnumerable<Boolean> IsCovered { get; }
+
+        /// <summary>
+        /// Gets if the background image should be contained, i.e. max(100%).
+        /// </summary>
+        IEnumerable<Boolean> IsContained { get; }
+
+        /// <summary>
+        /// Gets the widths and heights of the background image, if specified.
+        /// </summary>
+        IEnumerable<Point> Sizes { get; }
     }
 
     /// <summary>

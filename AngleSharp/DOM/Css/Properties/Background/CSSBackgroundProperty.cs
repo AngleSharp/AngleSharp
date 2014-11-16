@@ -107,6 +107,30 @@
             get { return _color.Color; }
         }
 
+        /// <summary>
+        /// Gets if the background image should be covered, i.e. min(100%).
+        /// </summary>
+        public IEnumerable<Boolean> IsCovered
+        {
+            get { return _size.IsCovered; }
+        }
+
+        /// <summary>
+        /// Gets if the background image should be contained, i.e. max(100%).
+        /// </summary>
+        public IEnumerable<Boolean> IsContained
+        {
+            get { return _size.IsContained; }
+        }
+
+        /// <summary>
+        /// Gets the widths and heights of the background image, if specified.
+        /// </summary>
+        public IEnumerable<Point> Sizes
+        {
+            get { return _size.Sizes; }
+        }
+
         #endregion
 
         #region Methods
