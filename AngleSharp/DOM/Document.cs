@@ -25,6 +25,7 @@
 
         readonly StyleSheetList _styleSheets;
         readonly Queue<HTMLScriptElement> _scripts;
+        readonly List<WeakReference> _ranges;
 
         QuirksMode _quirksMode;
         Boolean _designMode;
@@ -438,6 +439,7 @@
             _location = new Location("about:blank");
             _options = Configuration.Default;
             _location.Changed += LocationChanged;
+            _ranges = new List<WeakReference>();
         }
 
         #endregion
@@ -904,6 +906,14 @@
         #region Internal properties
 
         /// <summary>
+        /// Gets the document's associated ranges.
+        /// </summary>
+        internal IEnumerable<Range> Ranges
+        {
+            get { return _ranges.Where(m => m.IsAlive).Select(m => m.Target).OfType<Range>(); }
+        }
+
+        /// <summary>
         /// Gets the text stream source.
         /// </summary>
         internal ITextSource Source
@@ -1145,7 +1155,9 @@
         /// <returns>The created range object.</returns>
         public IRange CreateRange()
         {
-            return new Range(this);
+            var range = new Range(this);
+            _ranges.Add(new WeakReference(range));
+            return range;
         }
 
         /// <summary>
