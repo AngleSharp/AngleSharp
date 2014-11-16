@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
+
     /// <summary>
     /// A list of possible quirks mode states.
     /// </summary>
@@ -16,6 +18,7 @@
         /// <summary>
         /// The quirks mode is activated.
         /// </summary>
+        [DomDescription("BackCompat")]
         On
     }
 }

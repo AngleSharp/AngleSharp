@@ -38,6 +38,12 @@
         ILocation Location { get; }
 
         /// <summary>
+        /// Gets if the window has been closed.
+        /// </summary>
+        [DomName("closed")]
+        Boolean IsClosed { get; }
+
+        /// <summary>
         /// Gets or sets the status of the window.
         /// </summary>
         [DomName("status")]
@@ -94,6 +100,17 @@
         /// </summary>
         [DomName("close")]
         void Close();
+
+        /// <summary>
+        /// Opens a window to show url, and returns it. If a window exists with
+        /// the provided name already, it is reused.
+        /// </summary>
+        /// <param name="url">The URL to open initially.</param>
+        /// <param name="name">The name of the new window.</param>
+        /// <param name="features">Determines the rendering of the new window.</param>
+        /// <param name="replace">Can be used to remove whatever page is currently open from the session history.</param>
+        /// <returns>The new or reused window.</returns>
+        IWindow Open(String url = "about:blank", String name = null, String features = null, String replace = null);
 
         /// <summary>
         /// Stops the current document from being loaded.

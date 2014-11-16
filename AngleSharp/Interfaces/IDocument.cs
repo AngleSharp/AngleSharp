@@ -73,16 +73,29 @@
         String ContentType { get; }
 
         /// <summary>
-        /// Opens a document stream for writing.
+        /// Causes the Document to be replaced in-place, as if it was a new Document
+        /// object, but reusing the previous object, which is then returned.
         /// </summary>
+        /// <param name="type">The new content type.</param>
+        /// <param name="replace">Special annotation to replace the history.</param>
         [DomName("open")]
-        IDocument OpenNew(String type = "text/html", String replace = null);
+        IDocument Open(String type = "text/html", String replace = null);
+
+        /// <summary>
+        /// Opens another window, i.e. works like the window.open method.
+        /// </summary>
+        /// <param name="url">The URL to open.</param>
+        /// <param name="name">The name of the new window.</param>
+        /// <param name="features">The feature string of the new window.</param>
+        /// <param name="replace">Special annotation to replace the history.</param>
+        [DomName("open")]
+        IWindow OpenNew(String url, String name, String features, String replace = null);
 
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
         [DomName("close")]
-        void CloseCurrent();
+        void Close();
 
         /// <summary>
         /// Writes text to a document.

@@ -1,11 +1,13 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Attributes;
     using AngleSharp.Css;
     using AngleSharp.DOM;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Text;
 
@@ -30,6 +32,21 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Retrieves a string describing the compatibility mode of the given quirksmode.
+        /// </summary>
+        /// <param name="code">A specific error code.</param>
+        /// <returns>The description of the error.</returns>
+        public static String GetCompatiblity(this QuirksMode mode)
+        {
+            var attr = typeof(ErrorCode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
+
+            if (attr != null)
+                return attr.Description;
+
+            return "CSS1Compat";
         }
 
         /// <summary>

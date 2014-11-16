@@ -11,6 +11,11 @@
         IWindow Current { get; }
 
         /// <summary>
+        /// Gets the currently active document.
+        /// </summary>
+        IDocument Active { get; }
+
+        /// <summary>
         /// Gets the session history of the given browsing context.
         /// </summary>
         IHistory SessionHistory { get; }

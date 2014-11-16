@@ -73,6 +73,21 @@
         }
 
         /// <summary>
+        /// Adds a new attribute if the attribute is not yet created.
+        /// Does not fire the changed event.
+        /// </summary>
+        /// <param name="element">The element that gets a new attribute.</param>
+        /// <param name="name">The name of the attribute as a string.</param>
+        /// <param name="value">The desired new value of the attribute.</param>
+        public static void AddAttribute(this Element element, String name, String value)
+        {
+            var attributes = element.Attributes;
+
+            if (!attributes.Has(name))
+                attributes.Add(new Attr(element, name, value));
+        }
+
+        /// <summary>
         /// Checks if the element is currently hovered.
         /// </summary>
         /// <param name="element">The element to check.</param>

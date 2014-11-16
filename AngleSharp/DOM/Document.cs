@@ -682,7 +682,7 @@
         /// </summary>
         public String CompatMode
         {
-            get { return QuirksMode == QuirksMode.On ? "BackCompat" : "CSS1Compat"; }
+            get { return _quirksMode.GetCompatiblity(); }
         }
 
         /// <summary>
@@ -980,22 +980,55 @@
         }
 
         /// <summary>
-        /// Opens a document stream for writing.
+        /// Opens a new window. Basically just uses the current window (if any) to
+        /// open another window.
         /// </summary>
-        public IDocument OpenNew(String type = "text/html", String replace = null)
+        public IWindow OpenNew(String url, String name, String features, String replace = null)
         {
-            if (_contentType == MimeTypes.Xml)
+            var view = DefaultView;
+
+            if (view != null)
+                view = view.Open(url, name, features, replace);
+
+            return view;
+        }
+
+        /// <summary>
+        /// Opens a document stream for writing. For information see:
+        /// http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
+        /// </summary>
+        public IDocument Open(String type = "text/html", String replace = null)
+        {
+            if (_contentType != MimeTypes.Html)
                 throw new DomException(ErrorCode.InvalidState);
+
+            if (_context != null && _context.Active != this)
+                return null;
+
+            var shallReplace = Keywords.Replace.Equals(replace, StringComparison.OrdinalIgnoreCase);
+
+            if (_scripts.Count > 0)
+                return this;
 
             if (IsInBrowsingContext)
             {
                 //If the Document object is not an active document, then abort these steps.
-                //Follow: http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
+                //Follow: 
 
                 //TODO
                 // If the replace argument is present and has the value "replace", the
                 // existing entries in the session history for the Document object are removed.
             }
+
+            if (shallReplace)
+                type = MimeTypes.Html;
+
+            var index = type.IndexOf(Specification.Semicolon);
+
+            if (index >= 0)
+                type = type.Substring(0, index);
+
+            type = type.StripLeadingTailingSpaces();
 
             return new Document(String.Empty) { ContentType = type, BaseUri = BaseUri };
         }
@@ -1003,7 +1036,7 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        public void CloseCurrent()
+        public void Close()
         {
             if (ReadyState != DocumentReadyState.Loading)
                 return;
@@ -1036,7 +1069,7 @@
         {
             if (ReadyState == DocumentReadyState.Complete)
             {
-                var newDoc = OpenNew();
+                var newDoc = Open();
                 newDoc.Write(content);
 
                 if (IsInBrowsingContext)

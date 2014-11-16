@@ -1136,5 +1136,10 @@
         /// The interlace keyword.
         /// </summary>
         public static readonly String Interlace = "interlace";
+
+        /// <summary>
+        /// The replace keyword.
+        /// </summary>
+        public static readonly String Replace = "replace";
     }
 }

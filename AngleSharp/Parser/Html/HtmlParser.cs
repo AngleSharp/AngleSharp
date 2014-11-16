@@ -3546,7 +3546,7 @@
             while (open.Count != 0)
                 CloseCurrentNode();
 
-            doc.CloseCurrent();
+            doc.Close();
         }
 
         #endregion

@@ -3,7 +3,6 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Events;
-    using AngleSharp.DOM.Html;
     using AngleSharp.DOM.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -109,6 +108,15 @@
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets if the window is currently open or already closed.
+        /// </summary>
+        public Boolean IsClosed
+        {
+            get;
+            private set;
         }
 
         #endregion
@@ -584,6 +592,13 @@
         IHistory IWindow.History
         {
             get { return null; }
+        }
+
+        IWindow IWindow.Open(String url, String name, String features, String replace)
+        {
+            var document = new Document();
+            document.Location.Href = url;
+            return new AnalysisWindow(document) { Name = name };
         }
 
         void IWindow.Close()
