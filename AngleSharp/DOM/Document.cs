@@ -987,10 +987,10 @@
         {
             var view = DefaultView;
 
-            if (view != null)
-                view = view.Open(url, name, features, replace);
+            if (view == null)
+                throw new DomException(ErrorCode.InvalidAccess);
 
-            return view;
+            return view.Open(url, name, features, replace);
         }
 
         /// <summary>
@@ -1010,16 +1010,6 @@
             if (_scripts.Count > 0)
                 return this;
 
-            if (IsInBrowsingContext)
-            {
-                //If the Document object is not an active document, then abort these steps.
-                //Follow: 
-
-                //TODO
-                // If the replace argument is present and has the value "replace", the
-                // existing entries in the session history for the Document object are removed.
-            }
-
             if (shallReplace)
                 type = MimeTypes.Html;
 
@@ -1030,13 +1020,14 @@
 
             type = type.StripLeadingTailingSpaces();
 
+            //TODO further steps needed.
             return new Document(String.Empty) { ContentType = type, BaseUri = BaseUri };
         }
 
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        public void Close()
+        public new void Close()
         {
             if (ReadyState != DocumentReadyState.Loading)
                 return;
