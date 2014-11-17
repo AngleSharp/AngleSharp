@@ -208,6 +208,9 @@
         /// <returns>The constructed HTML document.</returns>
         public static IDocument Html(String sourceCode, IConfiguration configuration = null, String url = null)
         {
+            if (sourceCode == null)
+                throw new ArgumentException("The provided argument sourceCode must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -247,6 +250,9 @@
         /// <returns>The task that constructs the HTML document.</returns>
         public static async Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
+            if (url == null)
+                throw new ArgumentException("The provided argument url must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -269,6 +275,9 @@
         /// <returns>The constructed HTML document.</returns>
         public static IDocument Html(Stream content, IConfiguration configuration = null, String url = null)
         {
+            if (content == null)
+                throw new ArgumentException("The provided argument content must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -299,6 +308,9 @@
         /// <returns>The task to construct the HTML document.</returns>
         public static async Task<IDocument> HtmlAsync(Stream content, CancellationToken cancel, IConfiguration configuration = null, String url = null)
         {
+            if (content == null)
+                throw new ArgumentException("The provided argument content must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -317,6 +329,9 @@
         /// <returns>A list of parsed nodes.</returns>
         public static INodeList HtmlFragment(String sourceCode, IElement context = null, IConfiguration configuration = null)
         {
+            if (sourceCode == null)
+                throw new ArgumentException("The provided argument sourceCode must be non-null.");
+
             if (configuration == null)
                 configuration = new Configuration();
             else
@@ -354,6 +369,9 @@
         /// <returns>The constructed CSS stylesheet.</returns>
         public static ICssStyleSheet Css(String sourceCode, IConfiguration configuration = null, String url = null)
         {
+            if (sourceCode == null)
+                throw new ArgumentException("The provided argument sourceCode must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -393,6 +411,9 @@
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static async Task<ICssStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
+            if (url == null)
+                throw new ArgumentException("The provided argument url must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -415,6 +436,9 @@
         /// <returns>The constructed CSS stylesheet.</returns>
         public static ICssStyleSheet Css(Stream stream, IConfiguration configuration = null, String url = null)
         {
+            if (stream == null)
+                throw new ArgumentException("The provided argument stream must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
@@ -445,6 +469,9 @@
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static async Task<ICssStyleSheet> CssAsync(Stream stream, CancellationToken cancel, IConfiguration configuration = null, String url = null)
         {
+            if (stream == null)
+                throw new ArgumentException("The provided argument stream must be non-null.");
+
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
