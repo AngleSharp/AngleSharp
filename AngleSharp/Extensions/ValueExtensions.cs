@@ -34,6 +34,8 @@
         static readonly Dictionary<String, BreakMode> breakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BreakMode> pageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, BreakMode> breakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Single> horizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Single> verticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -167,6 +169,14 @@
             breakInsideModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
             breakInsideModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
             breakInsideModes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
+
+            horizontalModes.Add(Keywords.Left, 0f);
+            horizontalModes.Add(Keywords.Center, 0.5f);
+            horizontalModes.Add(Keywords.Right, 1f);
+
+            verticalModes.Add(Keywords.Top, 0f);
+            verticalModes.Add(Keywords.Center, 0.5f);
+            verticalModes.Add(Keywords.Bottom, 1f);
         }
 
         #endregion
@@ -583,20 +593,33 @@
 
             if (primitive != null)
                 return primitive.Value as Angle?;
-            else if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
 
-                if (values.Length == 2 && values[0].Is(Keywords.To))
+            return null;
+        }
+
+        public static Angle? ToSideOrCorner(this CSSValue value)
+        {
+            var values = value as CSSValueList;
+
+            if (values != null && values.Length > 1 && values[0].Is(Keywords.To))
+            {
+                if (values.Length == 2)
                 {
-                    if (values[1].Is(Keywords.Bottom))
-                        return new Angle(180f, Angle.Unit.Deg);
-                    else if (values[1].Is(Keywords.Right))
-                        return new Angle(90f, Angle.Unit.Deg);
-                    else if (values[1].Is(Keywords.Left))
-                        return new Angle(270f, Angle.Unit.Deg);
-                    else if (values[1].Is(Keywords.Top))
-                        return new Angle(0f, Angle.Unit.Deg);
+                    var val = 0f;
+
+                    if (horizontalModes.TryGetValue(values[1], out val))
+                        return new Angle(270f - val * 180f, Angle.Unit.Deg);
+                    else if (verticalModes.TryGetValue(values[1], out val))
+                        return new Angle(val * 180f, Angle.Unit.Deg);
+                }
+                else if (values.Length == 3)
+                {
+                    var h = 0f;
+                    var v = 0f;
+
+                    if ((horizontalModes.TryGetValue(values[1], out h) && verticalModes.TryGetValue(values[2], out v)) || 
+                        (horizontalModes.TryGetValue(values[2], out h) && verticalModes.TryGetValue(values[1], out v)))
+                        return new Angle((Single)(Math.Atan2(h - 0.5, 0.5 - v) * 180.0 / Math.PI), Angle.Unit.Deg);
                 }
             }
 
@@ -688,6 +711,53 @@
                 return primitive.Value as Time?;
 
             return null;
+        }
+
+        public static GradientStop[] ToGradientStops(this List<CSSValue> values, Int32 offset = 0)
+        {
+            var stops = new GradientStop[values.Count - offset];
+
+            if (stops.Length > 1)
+            {
+                var perStop = 100f / (values.Count - offset - 1);
+
+                for (int i = offset, k = 0; i < values.Count; i++, k++)
+                {
+                    var stop = values[i].ToGradientStop(perStop * k);
+
+                    if (stop == null)
+                        return null;
+
+                    stops[k] = stop.Value;
+                }
+
+                return stops;
+            }
+
+            return null;
+        }
+
+        public static GradientStop? ToGradientStop(this CSSValue value, Single defaultStop = 0f)
+        {
+            var list = value as CSSValueList;
+            Color? color = null;
+            IDistance location = new Percent(defaultStop);
+
+            if (list != null)
+            {
+                if (list.Length != 2)
+                    return null;
+
+                color = list[0].ToColor();
+                location = list[1].ToDistance();
+            }
+            else
+                color = value.ToColor();
+
+            if (color == null || location == null)
+                return null;
+
+            return new GradientStop(color.Value, location);
         }
 
         public static Single? ToAspectRatio(this CSSValue value)
