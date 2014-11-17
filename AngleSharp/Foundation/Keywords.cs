@@ -1141,5 +1141,10 @@
         /// The replace keyword.
         /// </summary>
         public static readonly String Replace = "replace";
+
+        /// <summary>
+        /// The at keyword.
+        /// </summary>
+        public static readonly String At = "at";
     }
 }
