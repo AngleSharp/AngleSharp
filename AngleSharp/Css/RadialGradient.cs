@@ -28,8 +28,8 @@
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
         /// <param name="y">The y-coordinate.</param>
-        /// <param name="width">The width of the ellipse.</param>
-        /// <param name="height">The height of the ellipse.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
         public RadialGradient(IDistance x, IDistance y, IDistance width, IDistance height, GradientStop[] stops, Boolean repeating = false)
@@ -104,9 +104,9 @@
         /// <returns>A string that resembles CSS code.</returns>
         public String ToCss()
         {
-            //TODO
+            var position = new [] { _width.ToCss(), _height.ToCss(), Keywords.At, _x.ToCss(), _y.ToCss() };
             return FunctionNames.Build(_repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient,
-                String.Join(", ", _stops.Select(m => m.ToCss())));
+                String.Join(" ", position), String.Join(", ", _stops.Select(m => m.ToCss())));
         }
 
         #endregion

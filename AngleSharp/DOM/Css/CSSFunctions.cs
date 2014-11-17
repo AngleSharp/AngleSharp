@@ -145,51 +145,19 @@
             return GeneralLinearGradient(arguments, true);
         }
 
+        /// <summary>
+        /// More information on the linear-gradient:
+        /// https://developer.mozilla.org/de/docs/Web/CSS/linear-gradient
+        /// </summary>
         static CSSPrimitiveValue GeneralLinearGradient(List<CSSValue> arguments, Boolean repeating)
         {
             if (arguments.Count > 1)
             {
-                var direction = Angle.Zero;
-                var angle = arguments[0].ToAngle();
-                var offset = 0;
+                var angle = arguments[0].ToAngle() ?? arguments[0].ToSideOrCorner();
+                var stops = arguments.ToGradientStops(angle.HasValue ? 1 : 0);
 
-                if (angle.HasValue)
-                {
-                    direction = angle.Value;
-                    offset++;
-                }
-
-                var stops = new GradientStop[arguments.Count - offset];
-
-                if (stops.Length > 1)
-                {
-                    var perStop = 100f / (arguments.Count - offset - 1);
-
-                    for (int i = offset, k = 0; i < arguments.Count; i++, k++)
-                    {
-                        var list = arguments[i] as CSSValueList;
-                        Color? color = null;
-                        IDistance location = new Percent(perStop * k);
-
-                        if (list != null)
-                        {
-                            if (list.Length != 2)
-                                return null;
-
-                            color = list[0].ToColor();
-                            location = list[1].ToDistance();
-                        }
-                        else
-                            color = arguments[i].ToColor();
-
-                        if (color == null || location == null)
-                            return null;
-
-                        stops[k] = new GradientStop(color.Value, location);
-                    }
-
-                    return new CSSPrimitiveValue(UnitType.Gradient, new LinearGradient(direction, stops, repeating));
-                }
+                if (stops != null)
+                    return new CSSPrimitiveValue(UnitType.Gradient, new LinearGradient(angle ?? Angle.Zero, stops, repeating));
             }
 
             return null;
@@ -205,12 +173,29 @@
             return GeneralRadialGradient(arguments, true);
         }
 
+        /// <summary>
+        /// More information on the radial-gradient:
+        /// https://developer.mozilla.org/de/docs/Web/CSS/radial-gradient
+        /// </summary>
         static CSSPrimitiveValue GeneralRadialGradient(List<CSSValue> arguments, Boolean repeating)
         {
             if (arguments.Count > 1)
             {
+                IDistance left = null, top = null, width = null, height = null;
+                var offset = 0;
+
                 //TODO
-                //CSSImageValue.FromRadialGradient(CSSCalcValue.Center, CSSCalcValue.Center, repeating);
+                //Determine first argument (if any):
+                // [ <ending-shape> || <size> ]? [ at <position> ]?
+                //where:
+                // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
+                // <ending-shape> = [ ellipse | circle ]
+                // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
+
+                var stops = arguments.ToGradientStops(offset);
+
+                if (stops != null)
+                    return new CSSPrimitiveValue(UnitType.Gradient, new RadialGradient(left ?? Percent.Fifty, top ?? Percent.Fifty, width ?? Percent.Hundred, height ?? Percent.Hundred, stops, repeating));
             }
 
             return null;
