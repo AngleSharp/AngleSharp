@@ -19,6 +19,7 @@
             ExtendedScriptingSample();
             CustomEventScriptingExample();
             LegacyEventScriptingExample();
+            GatherDataFromRssFeed();
         }
 
         static void ErrorHandling()
@@ -314,6 +315,21 @@ console.log('After setting the handler via onload!');
 
             //HTML should be output in the end
             Console.WriteLine(document.DocumentElement.OuterHtml);
+        }
+
+        static void GatherDataFromRssFeed()
+        {
+            var feed = DocumentBuilder.Html(new Uri("http://www.florian-rappl.de/RSS"));
+            var items = feed.QuerySelectorAll("item").Select(m => new 
+            { 
+                Updated = DateTime.Parse(m.GetElementsByTagName("a10:updated").First().TextContent),
+                Title = m.QuerySelector("title").TextContent
+            });
+
+            Console.WriteLine("Available titles:");
+
+            foreach (var item in items)
+                Console.WriteLine("- {0} ({1})", item.Title, item.Updated);
         }
     }
 }
