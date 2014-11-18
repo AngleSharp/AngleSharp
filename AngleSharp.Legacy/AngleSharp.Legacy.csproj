@@ -1626,6 +1626,9 @@
     <Compile Include="..\AngleSharp\Foundation\Keywords.cs">
       <Link>Foundation\Keywords.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\MutationHost.cs">
+      <Link>Foundation\MutationHost.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
       <Link>Foundation\Mutations\MutationObserver.cs</Link>
     </Compile>
