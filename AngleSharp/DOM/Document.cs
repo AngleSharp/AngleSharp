@@ -25,6 +25,7 @@
         readonly StyleSheetList _styleSheets;
         readonly Queue<HTMLScriptElement> _scripts;
         readonly List<WeakReference> _ranges;
+        readonly MutationHost _mutations;
 
         QuirksMode _quirksMode;
         Boolean _designMode;
@@ -431,6 +432,7 @@
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _styleSheets = new StyleSheetList(this);
+            _mutations = new MutationHost(this);
             _preferredStyleSheetSet = String.Empty;
             _scripts = new Queue<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
@@ -1413,14 +1415,7 @@
 
         internal void PerformMicrotaskCheckpoint()
         {
-            //TODO Mutation
-            //IF RUNNING MUTATION OBSERVERS == false
-            //1. Let the running mutation observers flag be true.
-            //2. Sort the tables with pending sorts.
-            //3. Invoke MutationObserver objects for the unit of related similar-origin browsing contexts to which the script's browsing context belongs.
-            //   ( Note: This will typically invoke scripted callbacks, which calls the jump to a code entry-point algorithm, which calls this perform a )
-            //   ( microtask checkpoint algorithm again, which is why we use the running mutation observers flag to avoid reentrancy.                    )
-            //4. Let the running mutation observers flag be false.
+            _mutations.Enqueue();
         }
 
         internal void ProvideStableState()

@@ -53,7 +53,8 @@
                 return;
 
             _queued = true;
-            eventLoop.Enqueue(new MicroDomTask(_document, (Func<Task>)Notify));
+            Func<Task> task = Notify;
+            eventLoop.Enqueue(new MicroDomTask(_document, task));
         }
 
         /// <summary>
