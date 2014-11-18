@@ -174,7 +174,7 @@
         /// </summary>
         internal void Prepare()
         {
-            var options = Owner.Options ?? Configuration.Default;
+            var options = Owner.Options;
 
             if (_started)
                 return;
