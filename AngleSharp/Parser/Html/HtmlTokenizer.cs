@@ -1314,7 +1314,7 @@
                 {
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     _stringBuffer.Clear();
-                    return DoctypePublicIdentifierAfter(doctype); ;
+                    return DoctypePublicIdentifierAfter(doctype);
                 }
                 else if (c == Specification.Null)
                 {
