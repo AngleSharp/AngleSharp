@@ -1134,6 +1134,9 @@
     <Compile Include="..\AngleSharp\DOM\Events\MouseEvent.cs">
       <Link>DOM\Events\MouseEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Events\PageTransitionEvent.cs">
+      <Link>DOM\Events\PageTransitionEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Events\TouchEvent.cs">
       <Link>DOM\Events\TouchEvent.cs</Link>
     </Compile>
@@ -1583,6 +1586,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\ErrorExtensions.cs">
       <Link>Extensions\ErrorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\EventTargetExtensions.cs">
+      <Link>Extensions\EventTargetExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\NodeExtensions.cs">
       <Link>Extensions\NodeExtensions.cs</Link>
