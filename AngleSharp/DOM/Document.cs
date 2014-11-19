@@ -31,6 +31,7 @@
 
         QuirksMode _quirksMode;
         Boolean _designMode;
+        Boolean _shown;
         DocumentReadyState _ready;
         IConfiguration _options;
         ITextSource _source;
@@ -40,6 +41,7 @@
         String _preferredStyleSheetSet;
         Location _location;
         IBrowsingContext _context;
+        IWindow _view;
 
         #endregion
 
@@ -585,7 +587,7 @@
             internal set
             {
                 _ready = value;
-                FireSimpleEvent(EventNames.ReadyStateChanged);
+                this.FireSimpleEvent(EventNames.ReadyStateChanged);
             }
         }
 
@@ -642,8 +644,7 @@
         /// </summary>
         public IWindow DefaultView 
         {
-            get; //TODO
-            internal set; 
+            get { return _view; }
         }
 
         /// <summary>
@@ -1023,9 +1024,10 @@
                 type = type.Substring(0, index);
 
             type = type.StripLeadingTailingSpaces();
-
             //TODO further steps needed.
-            return new Document(String.Empty) { ContentType = type, BaseUri = BaseUri };
+            _contentType = type;
+            ReplaceAll(null, false);
+            return this;
         }
 
         /// <summary>
@@ -1432,13 +1434,13 @@
 
         void RaiseDomContentLoaded()
         {
-            FireSimpleEvent(EventNames.DomContentLoaded);
+            this.FireSimpleEvent(EventNames.DomContentLoaded);
         }
 
         void RaiseLoadedEvent()
         {
             ReadyState = DocumentReadyState.Complete;
-            FireSimpleEvent(EventNames.Load);
+            this.FireSimpleEvent(EventNames.Load);
         }
 
         #endregion
@@ -1447,19 +1449,18 @@
 
         void Print()
         {
-            FireSimpleEvent(EventNames.BeforePrint);
+            this.FireSimpleEvent(EventNames.BeforePrint);
             //TODO
             //Run the printing steps.
         }
 
         void ShowPage()
         {
-            //TODO
-            //1. If the Document's page showing flag is true, then abort this task (i.e. don't fire the event below).
-            //2. Set the Document's page showing flag to true.
-            //3. Fire a trusted event with the name pageshow at the Window object of the Document, but with its target set to the Document object (and the currentTarget set
-            //   to the Window object), using the PageTransitionEvent interface, with the persisted attribute initialized to false. This event must not bubble, must not be
-            //   cancelable, and has no default action.
+            if (_shown || _view == null)
+                return;
+            
+            _shown = true;
+            this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
         }
 
         void EmptyAppCache()
@@ -1516,11 +1517,11 @@
         /// <returns>The task that builds the document.</returns>
         internal Task<IDocument> LoadAsync(IResponse response, CancellationToken cancelToken)
         {
+            _contentType = MimeTypes.Html;
+            Open(response.Headers[HeaderNames.ContentType]);
             DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
-            //TODO Should reset complete doc. incl. event-handlers?
-            ReplaceAll(null, false);
             var parser = new HtmlParser(this);
             return parser.ParseAsync(cancelToken);
         }

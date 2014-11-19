@@ -190,7 +190,7 @@
             _flags |= EventFlags.Dispatch;
             _target = target;
 
-            var eventPath = new List<Node>();
+            var eventPath = new List<EventTarget>();
             var parent = target as Node;
 
             if (parent != null)
@@ -200,7 +200,7 @@
             }
 
             _phase = EventPhase.Capturing;
-            DispatchAt(eventPath.Reverse<Node>());
+            DispatchAt(eventPath.Reverse<EventTarget>());
             _phase = EventPhase.AtTarget;
 
             if (!_flags.HasFlag(EventFlags.StopPropagation))
@@ -224,7 +224,7 @@
             target.CallEventListener(this);
         }
 
-        void DispatchAt(IEnumerable<Node> targets)
+        void DispatchAt(IEnumerable<EventTarget> targets)
         {
             foreach (var target in targets)
             {

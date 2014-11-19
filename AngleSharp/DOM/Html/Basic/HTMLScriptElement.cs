@@ -271,22 +271,22 @@
 
         void Load()
         {
-            FireSimpleEvent(EventNames.Load);
+            this.FireSimpleEvent(EventNames.Load);
         }
 
         void Error()
         {
-            FireSimpleEvent(EventNames.Error);
+            this.FireSimpleEvent(EventNames.Error);
         }
 
         Boolean CancelledBeforeScriptExecute()
         {
-            return FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
+            return this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
         }
 
         void AfterScriptExecute()
         {
-            FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
+            this.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
         }
 
         ScriptOptions CreateOptions()

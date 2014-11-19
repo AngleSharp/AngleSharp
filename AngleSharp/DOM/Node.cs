@@ -810,24 +810,6 @@
         }
 
         /// <summary>
-        /// Firing a simple event named e means that a trusted event with the name e,
-        /// which does not bubble (except where otherwise stated) and is not cancelable
-        /// (except where otherwise stated), and which uses the Event interface, must
-        /// be created and dispatched at the given target.
-        /// </summary>
-        /// <param name="eventName">The name of the event to be fired.</param>
-        /// <param name="bubble">Optional parameter to enable bubbling.</param>
-        /// <param name="cancelable">Optional parameter to make it cancelable.</param>
-        /// <returns>True if the element was cancelled, otherwise false.</returns>
-        protected Boolean FireSimpleEvent(String eventName, Boolean bubble = false, Boolean cancelable = false)
-        {
-            var ev = new Event();
-            ev.Init(eventName, bubble, cancelable);
-            ev.IsTrusted = true;
-            return ev.Dispatch(this);
-        }
-
-        /// <summary>
         /// Gets the hyperreference of the given URL -
         /// transforming the given (relative) URL to an absolute URL
         /// if required.

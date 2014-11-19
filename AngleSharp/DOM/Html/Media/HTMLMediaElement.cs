@@ -445,7 +445,7 @@
                     if (_.Result == null)
                         _network = MediaNetworkState.NoSource;
 
-                    FireSimpleEvent(EventNames.Load);
+                    this.FireSimpleEvent(EventNames.Load);
                 });
             }
         }

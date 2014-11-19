@@ -241,7 +241,7 @@
             {
                 if (!CheckValidity())
                 {
-                    FireSimpleEvent(EventNames.Invalid);
+                    this.FireSimpleEvent(EventNames.Invalid);
                     return;
                 }
             }

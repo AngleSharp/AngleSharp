@@ -445,10 +445,7 @@
                 {
                     var url = HyperRef(src);
                     _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
-                    _imageTask.ContinueWith(task =>
-                    {
-                        FireSimpleEvent(EventNames.Load);
-                    });
+                    _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
                 }
             }      
         }

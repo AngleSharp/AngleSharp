@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -66,7 +67,7 @@
         /// </summary>
         public void Start()
         {
-            FireSimpleEvent(EventNames.Play);
+            this.FireSimpleEvent(EventNames.Play);
         }
 
         /// <summary>
@@ -74,7 +75,7 @@
         /// </summary>
         public void Stop()
         {
-            FireSimpleEvent(EventNames.Pause);
+            this.FireSimpleEvent(EventNames.Pause);
         }
 
         #endregion
