@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Html;
     using AngleSharp.Infrastructure;
     using System;
     using System.Diagnostics;
@@ -44,6 +45,33 @@
                 eventLoop.Enqueue(new MicroDomTask(document, action));
             else
                 action.InvokeAsync();
+        }
+
+        /// <summary>
+        /// Applies the manifest to the given document.
+        /// </summary>
+        /// <param name="document">The document to modify.</param>
+        public static void ApplyManifest(this Document document, HTMLHtmlElement root)
+        {
+            if (!document.IsInBrowsingContext)
+                return;
+
+            var manifest = root.Manifest;
+            //TODO
+            //Replace by algorithm to resolve the value of that attribute to an absolute URL,
+            //relative to the newly created element.
+            Predicate<String> CanResolve = str => false;
+
+            if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
+            {
+                //Run the application cache selection algorithm with the result of applying the URL serializer
+                //algorithm to the resulting parsed URL with the exclude fragment flag set.
+            }
+            else
+            {
+                //Run the application cache selection algorithm with no manifest.
+                //The algorithm must be passed the Document object.
+            }
         }
     }
 }

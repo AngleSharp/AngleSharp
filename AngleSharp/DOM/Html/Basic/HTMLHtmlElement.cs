@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.Html;
+    using System;
     
     /// <summary>
     /// Represents the HTML html element.
@@ -19,18 +20,15 @@
 
         #endregion
 
-        #region Internal Methods
+        #region Properties
 
-        internal void ApplyManifest()
+        /// <summary>
+        /// Gets or sets the value of the manifest attribute.
+        /// </summary>
+        public String Manifest 
         {
-            //TODO
-            //If the Document is being loaded as part of navigation of a browsing context, then:
-            //  if the newly created element has a manifest attribute whose value is not the empty string,
-            //    then resolve the value of that attribute to an absolute URL, relative to the newly created element,
-            //    and if that is successful, run the application cache selection algorithm with the result of applying
-            //    the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set;
-            //  otherwise, if there is no such attribute, or its value is the empty string, or resolving its value fails,
-            //    run the application cache selection algorithm with no manifest. The algorithm must be passed the Document object.
+            get { return GetAttribute(AttributeNames.Manifest); }
+            set { SetAttribute(AttributeNames.Manifest, value); }
         }
 
         #endregion

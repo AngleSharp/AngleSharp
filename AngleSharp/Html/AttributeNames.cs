@@ -706,5 +706,10 @@
         /// The window attribute.
         /// </summary>
         public static readonly String Window = "window";
+
+        /// <summary>
+        /// The manifest attribute.
+        /// </summary>
+        public static readonly String Manifest = "manifest";
     }
 }

@@ -952,16 +952,26 @@
             set { _quirksMode = value; }
         }
 
+        /// <summary>
+        /// Adds a script to the queue of scripts to be run.
+        /// </summary>
+        /// <param name="script"></param>
         internal void AddScript(HTMLScriptElement script)
         {
             _scripts.Enqueue(script);
         }
 
+        /// <summary>
+        /// Gets if a browsing context is available.
+        /// </summary>
         internal Boolean IsInBrowsingContext
         {
             get { return _context != null; }
         }
 
+        /// <summary>
+        /// Gets if the document is about to be printed.
+        /// </summary>
         internal Boolean IsToBePrinted
         {
             get { return false; }
@@ -1447,6 +1457,15 @@
 
         #region Helpers
 
+        void EmptyAppCache()
+        {
+            //TODO
+            //If the Document has any pending application cache download process tasks, then queue each such
+            //task in the order they were added to the list of pending application cache download process tasks,
+            //and then empty the list of pending application cache download process tasks. The task source for
+            //these tasks is the networking task source.
+        }
+
         void Print()
         {
             this.FireSimpleEvent(EventNames.BeforePrint);
@@ -1461,14 +1480,6 @@
             
             _shown = true;
             this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
-        }
-
-        void EmptyAppCache()
-        {
-            //TODO
-            //If the Document has any pending application cache download process tasks, then queue each such task in the order they were added to the list of pending
-            //application cache download process tasks, and then empty the list of pending application cache download process tasks. The task source for these tasks is
-            //the networking task source.
         }
 
         void LocationChanged(Object sender, Location.LocationChangedEventArgs e)

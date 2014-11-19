@@ -3578,7 +3578,7 @@
             SetupElement(element, tag, false);
             open.Add(element);
             tokenizer.IsAcceptingCharacterData = false;
-            element.ApplyManifest();
+            doc.ApplyManifest(element);
         }
 
         /// <summary>
