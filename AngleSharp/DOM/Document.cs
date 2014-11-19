@@ -22,6 +22,8 @@
     {
         #region Fields
 
+        static readonly String AboutBlank = "about:blank";
+
         readonly StyleSheetList _styleSheets;
         readonly Queue<HTMLScriptElement> _scripts;
         readonly List<WeakReference> _ranges;
@@ -437,7 +439,7 @@
             _scripts = new Queue<HTMLScriptElement>();
             _quirksMode = QuirksMode.Off;
             _designMode = false;
-            _location = new Location("about:blank");
+            _location = new Location(AboutBlank);
             _options = Configuration.Default;
             _location.Changed += LocationChanged;
             _ranges = new List<WeakReference>();
@@ -1064,11 +1066,6 @@
             {
                 var newDoc = Open();
                 newDoc.Write(content);
-
-                if (IsInBrowsingContext)
-                {
-                    //TODO place newDoc as active document to session manager
-                }
             }
             else
                 _source.InsertText(content);
@@ -1376,7 +1373,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Document(String.Empty);//TODO
+            var node = new Document(Source.Text);
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;

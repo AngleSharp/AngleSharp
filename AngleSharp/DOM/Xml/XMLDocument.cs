@@ -24,6 +24,14 @@
         {
         }
 
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new XmlDocument(Source.Text);
+            CopyProperties(this, node, deep);
+            CopyDocumentProperties(this, node, deep);
+            return node;
+        }
+
         public void LoadXml(String url)
         {
             Location.Href = url;

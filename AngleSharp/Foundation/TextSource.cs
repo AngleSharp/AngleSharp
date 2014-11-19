@@ -44,10 +44,10 @@
         /// </summary>
         /// <param name="source">The data source.</param>
         public TextSource(String source)
-            : this(Encoding.UTF8)
+            : this(null, Encoding.UTF8)
         {
             _finished = true;
-            _content = new StringBuilder(source.Replace("\r\n", "\n"));
+            _content.Append(source.Replace("\r\n", "\n"));
         }
 
         /// <summary>
@@ -60,12 +60,20 @@
             : this(encoding)
         {
             _baseStream = baseStream;
-            _content = new StringBuilder();
+            _content = Pool.NewStringBuilder();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the full text buffer.
+        /// </summary>
+        public String Text
+        {
+            get { return _content.ToString(); }
+        }
 
         /// <summary>
         /// Gets the character at the given position in the text buffer.
@@ -125,7 +133,7 @@
 
         public void Dispose()
         {
-            _content.Clear();
+            _content.Clear().ToPool();
         }
 
         #endregion

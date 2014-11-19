@@ -21,6 +21,11 @@
         Int32 Index { get; set; }
 
         /// <summary>
+        /// Gets the full text buffer.
+        /// </summary>
+        String Text { get; }
+
+        /// <summary>
         /// Gets the length of the text buffer.
         /// </summary>
         Int32 Length { get; }
