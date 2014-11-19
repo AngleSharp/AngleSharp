@@ -67,6 +67,7 @@
     <Compile Include="Foundation\MutationHost.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
     <Compile Include="Infrastructure\MicroDomTask.cs" />
+    <Compile Include="Infrastructure\IRenderingService.cs" />
     <Compile Include="Interfaces\Events\ITouchPoint.cs" />
     <Compile Include="DOM\Events\UiEvent.cs" />
     <Compile Include="DOM\Events\WheelEvent.cs" />
