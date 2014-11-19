@@ -96,7 +96,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Concat(_selector.Text, " { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
+            return String.Concat(_selector.Text, " ", _style.ToCssBlock());
         }
 
         #endregion

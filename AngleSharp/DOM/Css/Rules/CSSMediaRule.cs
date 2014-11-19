@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -82,7 +83,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@media {0} {{{1}{2}}}", _media.MediaText, Environment.NewLine, Rules.ToCss());
+            return String.Concat("@media ", _media.MediaText, " ", Rules.ToCssBlock());
         }
 
         #endregion

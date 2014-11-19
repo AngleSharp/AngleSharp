@@ -77,7 +77,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return _keyText + " {" + Environment.NewLine + _style.ToCss() + "}";
+            return String.Concat(_keyText, " { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
         }
 
         #endregion

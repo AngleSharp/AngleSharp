@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -35,39 +36,17 @@
         {
             get 
             {
-                var sb = Pool.NewStringBuilder();
-                var co = false;
+                var entries = new String[_conditions.Count];
 
-                foreach (var condition in _conditions)
-                {
-                    if (co)
-                        sb.Append(',');
+                for (int i = 0; i < entries.Length; i++)
+			    {
+                    var condition = _conditions[i];
+                    var name = GetFunctionName(condition.Item1);
+                    var value = condition.Item2.CssString();
+                    entries[i] = String.Concat(name, "(", value, ")");
+			    }
 
-                    switch (condition.Item1)
-                    {
-                        case DocumentFunction.Url:
-                            sb.Append(FunctionNames.Url);
-                            break;
-                        case DocumentFunction.UrlPrefix:
-                            sb.Append(FunctionNames.Url_Prefix);
-                            break;
-                        case DocumentFunction.Domain:
-                            sb.Append(FunctionNames.Domain);
-                            break;
-                        case DocumentFunction.RegExp:
-                            sb.Append(FunctionNames.Regexp);
-                            break;
-                    }
-
-                    sb.Append(Specification.RoundBracketOpen);
-                    sb.Append(Specification.DoubleQuote);
-                    sb.Append(condition.Item2);
-                    sb.Append(Specification.DoubleQuote);
-                    sb.Append(Specification.RoundBracketClose);
-                    co = true;
-                }
-
-                return sb.ToPool(); 
+                return String.Join(", ", entries); 
             }
             set
             {
@@ -109,12 +88,29 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return "@document " + ConditionText + " {" + Environment.NewLine + Rules.ToCss() + "}";
+            return String.Concat("@document ", ConditionText, " ", Rules.ToCssBlock());
         }
 
         #endregion
 
         #region Enum
+
+        static String GetFunctionName(DocumentFunction function)
+        {
+            switch (function)
+            {
+                case DocumentFunction.Url:
+                    return FunctionNames.Url;
+                case DocumentFunction.UrlPrefix:
+                    return FunctionNames.Url_Prefix;
+                case DocumentFunction.Domain:
+                    return FunctionNames.Domain;
+                case DocumentFunction.RegExp:
+                    return FunctionNames.Regexp;
+            }
+
+            return String.Empty;
+        }
 
         /// <summary>
         /// An enumeration over possible functions.

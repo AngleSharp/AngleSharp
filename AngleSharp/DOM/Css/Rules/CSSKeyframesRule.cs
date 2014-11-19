@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Linq;
@@ -120,7 +121,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Format("@keyframes {0} {{{1}{2}}}", _name, Environment.NewLine, _rules.ToCss());
+            return String.Concat("@keyframes ", _name, " ", _rules.ToCssBlock());
         }
 
         #endregion

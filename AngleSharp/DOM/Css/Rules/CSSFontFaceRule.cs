@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -140,7 +141,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Concat("@font-face { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
+            return String.Concat("@font-face ", _style.ToCssBlock());
         }
 
         #endregion

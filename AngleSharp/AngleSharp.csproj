@@ -63,6 +63,7 @@
     <Compile Include="DOM\Events\PageTransitionEvent.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\EventTargetExtensions.cs" />
+    <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Foundation\MutationHost.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
     <Compile Include="Infrastructure\MicroDomTask.cs" />
