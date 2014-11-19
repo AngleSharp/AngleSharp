@@ -3,6 +3,8 @@ using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
 
 namespace UnitTests
 {
@@ -683,6 +685,46 @@ h1 { color: blue }");
             Assert.AreEqual("71px 28px", decl.BackgroundSize);
             Assert.AreEqual("0 19px", decl.BackgroundPosition);
             Assert.AreEqual("71px", decl.Width);
+        }
+
+        [TestMethod]
+        public void CssSheetFromStreamWeirdBytesLeadingToInfiniteLoop()
+        {
+            var bs = new Byte[8];
+            bs[0] = 239;
+            bs[1] = 187;
+            bs[2] = 191;
+            bs[3] = 117;
+            bs[4] = 43;
+            bs[5] = 63;
+            bs[6] = 63;
+            bs[7] = 63;
+
+            using (var memoryStream = new MemoryStream(bs, false))
+            {
+                var sheet = DocumentBuilder.Css(memoryStream);
+            }
+        }
+
+        [TestMethod]
+        public void CssSheetFromStreamOnlyZerosAvailable()
+        {
+            var bs = new Byte[7180];
+
+            using (var memoryStream = new MemoryStream(bs, false))
+            {
+                var sheet = DocumentBuilder.Css(memoryStream);
+                Assert.IsNotNull(sheet);
+                Assert.AreEqual(0, sheet.Rules.Length);
+            }
+        }
+
+        [TestMethod]
+        public void CssSheetFromStringWithQuestionMarksLeadingToInfiniteLoop()
+        {
+            var sheet = DocumentBuilder.Css("U+???\0");
+            Assert.IsNotNull(sheet);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
     }
 }

@@ -2,6 +2,8 @@
 using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Extensions;
+using System;
+using System.IO;
 
 namespace UnitTests
 {
@@ -900,6 +902,18 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             var text5 = dochtmlbodydiv.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, text5.NodeType);
             Assert.AreEqual("\n\n", text5.TextContent);
+        }
+
+        [TestMethod]
+        public void HtmlDomConsturctionFromBytesOnlyZerosLeadsToInfiniteLoop()
+        {
+            var bs = new Byte[5509];
+
+            using (var memoryStream = new MemoryStream(bs, false))
+            {
+                var document = DocumentBuilder.Html(memoryStream, null, "");
+                Assert.IsNotNull(document);
+            }
         }
     }
 }
