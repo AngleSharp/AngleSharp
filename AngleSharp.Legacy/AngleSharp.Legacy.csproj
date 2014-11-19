@@ -1701,6 +1701,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
       <Link>Infrastructure\IImageService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IRenderingService.cs">
+      <Link>Infrastructure\IRenderingService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IResourceService.cs">
       <Link>Infrastructure\IResourceService.cs</Link>
     </Compile>
