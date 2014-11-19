@@ -9,6 +9,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -1412,6 +1413,17 @@
         #endregion
 
         #region Internal static methods
+
+        internal static IEnumerable<Tuple<CSSDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(source, configuration);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (!tokens.MoveNext())
+                return Enumerable.Empty<Tuple<CSSDocumentRule.DocumentFunction, String>>();
+
+            return parser.InDocumentFunctions(tokens);
+        }
 
         /// <summary>
         /// Takes a string and transforms it into a list of CSS values.

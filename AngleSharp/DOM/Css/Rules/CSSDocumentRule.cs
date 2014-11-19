@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
 
@@ -50,7 +51,13 @@
             }
             set
             {
-                //TODO How to parse?
+                var conditions = CssParser.ParseDocumentRules(value);
+
+                if (conditions == null)
+                    return;
+
+                _conditions.Clear();
+                _conditions.AddRange(conditions);
             }
         }
 
