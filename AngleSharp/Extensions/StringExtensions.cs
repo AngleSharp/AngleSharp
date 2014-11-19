@@ -37,8 +37,8 @@
         /// <summary>
         /// Retrieves a string describing the compatibility mode of the given quirksmode.
         /// </summary>
-        /// <param name="code">A specific error code.</param>
-        /// <returns>The description of the error.</returns>
+        /// <param name="mode">A specific quriks mode.</param>
+        /// <returns>The compatibility string.</returns>
         public static String GetCompatiblity(this QuirksMode mode)
         {
             var attr = typeof(ErrorCode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
