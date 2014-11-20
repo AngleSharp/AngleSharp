@@ -1713,6 +1713,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\IService.cs">
       <Link>Infrastructure\IService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\ISpellCheckService.cs">
+      <Link>Infrastructure\ISpellCheckService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
       <Link>Infrastructure\IStyleEngine.cs</Link>
     </Compile>
