@@ -918,6 +918,14 @@
         }
 
         /// <summary>
+        /// Gets the mutation host.
+        /// </summary>
+        internal MutationHost Mutations
+        {
+            get { return _mutations; }
+        }
+
+        /// <summary>
         /// Gets the text stream source.
         /// </summary>
         internal ITextSource Source
@@ -981,6 +989,20 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            _scripts.Clear();
+            _context = null;
+
+            if (_source != null)
+            {
+                _source.Dispose();
+                _source = null;
+            }
+
+            _options = null;
+        }
+
         /// <summary>
         /// Enables the stylesheets matching the specified name in the current stylesheet set,
         /// and disables all other stylesheets (except those without a title, which are always enabled).
@@ -1043,29 +1065,10 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        public new void Close()
+        void IDocument.Close()
         {
-            if (ReadyState != DocumentReadyState.Loading)
-                return;
-
-            ReadyState = DocumentReadyState.Interactive;
-
-            while (_scripts.Count > 0)
-            {
-                WaitForReady();
-                _scripts.Dequeue().Run();
-            }
-
-            this.QueueTask(RaiseDomContentLoaded);
-            this.QueueTask(RaiseLoadedEvent);
-
-            if (IsInBrowsingContext)
-                this.QueueTask(ShowPage);
-
-            this.QueueTask(EmptyAppCache);
-
-            if (IsToBePrinted)
-                Print();
+            if (ReadyState == DocumentReadyState.Loading)
+                FinishLoading();
         }
 
         /// <summary>
@@ -1408,39 +1411,51 @@
 
         #region Internal methods
 
-        public void Dispose()
+        /// <summary>
+        /// Finishes writing to a document.
+        /// </summary>
+        internal void FinishLoading()
         {
-            _scripts.Clear();
-            _context = null;
+            ReadyState = DocumentReadyState.Interactive;
 
-            if (_source != null)
+            while (_scripts.Count > 0)
             {
-                _source.Dispose();
-                _source = null;
+                this.WaitForReady();
+                _scripts.Dequeue().Run();
             }
 
-            _options = null;
+            this.QueueTask(RaiseDomContentLoaded);
+            this.QueueTask(RaiseLoadedEvent);
+
+            if (IsInBrowsingContext)
+                this.QueueTask(ShowPage);
+
+            this.QueueTask(EmptyAppCache);
+
+            if (IsToBePrinted)
+                Print();
         }
 
-        internal void PerformMicrotaskCheckpoint()
+        /// <summary>
+        /// (Re-)loads the document with the given response.
+        /// </summary>
+        /// <param name="response">The response to consider.</param>
+        /// <param name="cancelToken">Token for cancellation.</param>
+        /// <returns>The task that builds the document.</returns>
+        internal Task<IDocument> LoadAsync(IResponse response, CancellationToken cancelToken)
         {
-            _mutations.Enqueue();
+            _contentType = MimeTypes.Html;
+            Open(response.Headers[HeaderNames.ContentType]);
+            DocumentUri = response.Address.Href;
+            ReadyState = DocumentReadyState.Loading;
+            _source = new TextSource(response.Content, Options.DefaultEncoding());
+            var parser = new HtmlParser(this);
+            return parser.ParseAsync(cancelToken);
         }
 
-        internal void ProvideStableState()
-        {
-            //TODO
-            //When the user agent is to provide a stable state, if any asynchronously-running algorithms are awaiting a stable state, then
-            //the user agent must run their synchronous section and then resume running their asynchronous algorithm (if appropriate).
-        }
+        #endregion
 
-        internal void WaitForReady()
-        {
-            //TODO
-            //If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed"
-            //flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and
-            //the script's "ready to be parser-executed" flag is set.
-        }
+        #region Helpers
 
         void RaiseDomContentLoaded()
         {
@@ -1452,10 +1467,6 @@
             ReadyState = DocumentReadyState.Complete;
             this.FireSimpleEvent(EventNames.Load);
         }
-
-        #endregion
-
-        #region Helpers
 
         void EmptyAppCache()
         {
@@ -1518,23 +1529,6 @@
         protected sealed override String LocatePrefix(String namespaceUri)
         {
             return DocumentElement.LocatePrefix(namespaceUri);
-        }
-
-        /// <summary>
-        /// (Re-)loads the document with the given response.
-        /// </summary>
-        /// <param name="response">The response to consider.</param>
-        /// <param name="cancelToken">Token for cancellation.</param>
-        /// <returns>The task that builds the document.</returns>
-        internal Task<IDocument> LoadAsync(IResponse response, CancellationToken cancelToken)
-        {
-            _contentType = MimeTypes.Html;
-            Open(response.Headers[HeaderNames.ContentType]);
-            DocumentUri = response.Address.Href;
-            ReadyState = DocumentReadyState.Loading;
-            _source = new TextSource(response.Content, Options.DefaultEncoding());
-            var parser = new HtmlParser(this);
-            return parser.ParseAsync(cancelToken);
         }
 
         /// <summary>

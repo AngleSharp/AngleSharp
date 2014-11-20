@@ -73,5 +73,37 @@
                 //The algorithm must be passed the Document object.
             }
         }
+
+        /// <summary>
+        /// Performs a microtask checkpoint using the mutations host.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        public static void PerformMicrotaskCheckpoint(this Document document)
+        {
+            document.Mutations.Enqueue();
+        }
+
+        /// <summary>
+        /// Provides a stable state by running the synchronous sections of asynchronously-running
+        /// algorithms until the asynchronous algorithm can be resumed (if appropriate).
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        public static void ProvideStableState(this Document document)
+        {
+            //TODO
+        }
+
+        /// <summary>
+        /// Spins the event loop until all stylesheets are downloaded (if required) and all
+        /// scripts are ready to be parser executed.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        public static void WaitForReady(this Document document)
+        {
+            //TODO
+            //If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed"
+            //flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and
+            //the script's "ready to be parser-executed" flag is set.
+        }
     }
 }

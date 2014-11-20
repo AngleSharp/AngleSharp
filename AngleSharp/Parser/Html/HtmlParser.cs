@@ -3546,7 +3546,8 @@
             while (open.Count != 0)
                 CloseCurrentNode();
 
-            doc.Close();
+            if (doc.ReadyState == DocumentReadyState.Loading)
+                doc.FinishLoading();
         }
 
         #endregion
