@@ -229,7 +229,15 @@
 
         public void DoSpellCheck()
         {
-            //TODO Perform spellcheck on the element.
+            var spellcheck = Owner.Options.GetSpellCheck(Language);
+
+            if (spellcheck == null)
+                return;
+
+            //TODO
+            //Go through all elements, finding single text nodes, then split on word boundaries etc.
+            //Finally check the single words, one by one.
+            //Provide additional information on the Text Nodes which words (if any) have errors.
         }
 
         public void DoClick()

@@ -7,7 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
+    using System.Globalization;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -34,14 +34,48 @@
             return DocumentEncoding.Suggest(configuration.GetLanguage());
         }
 
+        #endregion
+
+        #region Languages
+
+        /// <summary>
+        /// Gets the provided current culture.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <returns>The culture information.</returns>
+        public static CultureInfo GetCulture(this IConfiguration options)
+        {
+            return options.Culture ?? CultureInfo.CurrentUICulture;
+        }
+
+        /// <summary>
+        /// Gets the culture from the given language string or falls back to the
+        /// default culture of the provided configuration (if any). Last resort
+        /// is to use the current UI culture.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="language">The language string, e.g. en-US.</param>
+        /// <returns>The culture information.</returns>
+        public static CultureInfo GetCultureFromLanguage(this IConfiguration options, String language)
+        {
+            try
+            {
+                return new CultureInfo(language);
+            }
+            catch (CultureNotFoundException)
+            {
+                return options.GetCulture();
+            }
+        }
+
         /// <summary>
         /// Gets the provided current language.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="options">The configuration to use.</param>
         /// <returns>The language string, e.g. en-US.</returns>
-        public static String GetLanguage(this IConfiguration configuration)
+        public static String GetLanguage(this IConfiguration options)
         {
-            return (configuration.Culture ?? System.Globalization.CultureInfo.CurrentUICulture).Name;
+            return options.GetCulture().Name;
         }
 
         #endregion
@@ -114,6 +148,32 @@
 
             if (service != null)
                 service[origin] = value;
+        }
+
+        #endregion
+
+        #region Spell Check
+
+        /// <summary>
+        /// Gets a spellchecker for the given language.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="language">The language to consider.</param>
+        /// <returns>The spellchecker or null, if there is none.</returns>
+        public static ISpellCheckService GetSpellCheck(this IConfiguration options, String language)
+        {
+            ISpellCheckService substitute = null;
+            var culture = options.GetCultureFromLanguage(language);
+
+            foreach (var spellchecker in options.GetServices<ISpellCheckService>())
+            {
+                if (spellchecker.Culture.Equals(culture))
+                    return spellchecker;
+                else if (spellchecker.Culture.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName)
+                    substitute = spellchecker;
+            }
+
+            return substitute;
         }
 
         #endregion
