@@ -1146,5 +1146,15 @@
         /// The at keyword.
         /// </summary>
         public static readonly String At = "at";
+
+        /// <summary>
+        /// The yes keyword.
+        /// </summary>
+        public static readonly String Yes = "yes";
+
+        /// <summary>
+        /// The no keyword.
+        /// </summary>
+        public static readonly String No = "no";
     }
 }

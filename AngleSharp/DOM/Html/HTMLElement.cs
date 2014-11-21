@@ -220,7 +220,7 @@
         public Boolean IsTranslated
         {
             get { return GetAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
-            set { SetAttribute(AttributeNames.Translate, value ? "yes" : "no"); }
+            set { SetAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
         }
 
         #endregion
