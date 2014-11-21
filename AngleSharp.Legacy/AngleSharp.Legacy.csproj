@@ -1689,41 +1689,11 @@
     <Compile Include="..\AngleSharp\Infrastructure\DomTask.cs">
       <Link>Infrastructure\DomTask.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IAudioService.cs">
-      <Link>Infrastructure\IAudioService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\ICookieService.cs">
-      <Link>Infrastructure\ICookieService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IEventService.cs">
-      <Link>Infrastructure\IEventService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
-      <Link>Infrastructure\IImageService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IObjectService.cs">
-      <Link>Infrastructure\IObjectService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IRenderingService.cs">
-      <Link>Infrastructure\IRenderingService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IResourceService.cs">
-      <Link>Infrastructure\IResourceService.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IScriptEngine.cs">
       <Link>Infrastructure\IScriptEngine.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IService.cs">
-      <Link>Infrastructure\IService.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\ISpellCheckService.cs">
-      <Link>Infrastructure\ISpellCheckService.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IStyleEngine.cs">
       <Link>Infrastructure\IStyleEngine.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Infrastructure\IVideoService.cs">
-      <Link>Infrastructure\IVideoService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\MicroDomTask.cs">
       <Link>Infrastructure\MicroDomTask.cs</Link>
@@ -2487,24 +2457,6 @@
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Media\IAudioInfo.cs">
-      <Link>Media\IAudioInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Media\IImageInfo.cs">
-      <Link>Media\IImageInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Media\IMediaInfo.cs">
-      <Link>Media\IMediaInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Media\IObjectInfo.cs">
-      <Link>Media\IObjectInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Media\IResourceInfo.cs">
-      <Link>Media\IResourceInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Media\IVideoInfo.cs">
-      <Link>Media\IVideoInfo.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Network\CorsSetting.cs">
       <Link>Network\CorsSetting.cs</Link>
     </Compile>
@@ -2669,6 +2621,57 @@
     </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IAudioService.cs">
+      <Link>Services\IAudioService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\ICookieService.cs">
+      <Link>Services\ICookieService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IEventService.cs">
+      <Link>Services\IEventService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IExtensionService.cs">
+      <Link>Services\IExtensionService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IImageService.cs">
+      <Link>Services\IImageService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IObjectService.cs">
+      <Link>Services\IObjectService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IRenderingService.cs">
+      <Link>Services\IRenderingService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IResourceService.cs">
+      <Link>Services\IResourceService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IService.cs">
+      <Link>Services\IService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\ISpellCheckService.cs">
+      <Link>Services\ISpellCheckService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IVideoService.cs">
+      <Link>Services\IVideoService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Media\IAudioInfo.cs">
+      <Link>Services\Media\IAudioInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Media\IImageInfo.cs">
+      <Link>Services\Media\IImageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Media\IMediaInfo.cs">
+      <Link>Services\Media\IMediaInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Media\IObjectInfo.cs">
+      <Link>Services\Media\IObjectInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Media\IResourceInfo.cs">
+      <Link>Services\Media\IResourceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Media\IVideoInfo.cs">
+      <Link>Services\Media\IVideoInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Tools\AnalysisWindow.cs">
       <Link>Tools\AnalysisWindow.cs</Link>
