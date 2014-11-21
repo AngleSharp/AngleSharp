@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -10,7 +12,7 @@
         #region Fields
 
         readonly CSSStyleDeclaration _style;
-        String _keyText;
+        IKeyframeSelector _selector;
 
         #endregion
 
@@ -35,12 +37,25 @@
         /// </summary>
         public String KeyText
         {
-            get { return _keyText; }
+            get { return _selector.Text; }
             set
-            { 
-                //If keyText is updated with an invalid keyframe selector, a SyntaxError exception must be thrown.
-                _keyText = value; 
+            {
+                var selector = CssParser.ParseKeyText(value);
+
+                if (selector == null)
+                    throw new DomException(ErrorCode.Syntax);
+
+                _selector = selector;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the selector for matching elements.
+        /// </summary>
+        public IKeyframeSelector Key
+        {
+            get { return _selector; }
+            set { _selector = value; }
         }
 
         /// <summary>
@@ -63,7 +78,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CSSKeyframeRule;
-            _keyText = newRule._keyText;
+            _selector = newRule._selector;
             _style.TakeFrom(newRule._style);
         }
 
@@ -77,7 +92,7 @@
         /// <returns>A string that contains the code.</returns>
         public override String ToCss()
         {
-            return String.Concat(_keyText, " { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
+            return String.Concat(KeyText, " ", _style.ToCssBlock());
         }
 
         #endregion

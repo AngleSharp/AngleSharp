@@ -33,6 +33,11 @@
         public static readonly String Auto = "auto";
 
         /// <summary>
+        /// The from keyword.
+        /// </summary>
+        public static readonly String From = "from";
+
+        /// <summary>
         /// The to keyword.
         /// </summary>
         public static readonly String To = "to";

@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -632,9 +632,17 @@
         /// <returns>The generated keyframe data.</returns>
         CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
+            var key = InKeyframeText(tokens);
+
+            if (key == null)
+            {
+                SkipUnknownRule(tokens);
+                return null;
+            }
+
             var rule = new CSSKeyframeRule();
-            rule.KeyText = InKeyframeText(tokens);
             FillDeclarations(rule.Style, tokens);
+            rule.Key = key;
             return rule;
         }
 
@@ -643,25 +651,35 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The text of the keyframe.</returns>
-        String InKeyframeText(IEnumerator<CssToken> tokens)
+        KeyframeSelector InKeyframeText(IEnumerator<CssToken> tokens)
         {
-            var buffer = Pool.NewStringBuilder();
-
-            //TODO
-            // Check agains official syntax:
-            //  [ from | to | <percentage> ] [, from | to | <percentage> ]*
+            var keys = new List<Percent>();
 
             do
             {
                 var token = tokens.Current;
 
-                if (token.Type == CssTokenType.CurlyBracketOpen)
-                    break;
+                if (keys.Count > 0)
+                {
+                    if (token.Type == CssTokenType.CurlyBracketOpen)
+                        break;
+                    else if (token.Type != CssTokenType.Comma || !tokens.MoveNext())
+                        return null;
 
-                buffer.Append(token.ToValue());
+                    token = tokens.Current;
+                }
+
+                if (token.Type == CssTokenType.Percentage)
+                    keys.Add(new Percent(((CssUnitToken)token).Value));
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.From))
+                    keys.Add(Percent.Zero);
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.To))
+                    keys.Add(Percent.Hundred);
+                else
+                    return null;
             } while (tokens.MoveNext());
 
-            return buffer.ToPool();
+            return new KeyframeSelector(keys);
         }
 
         #endregion
@@ -1304,6 +1322,23 @@
             }
 
             return creator.ToPool();
+        }
+
+        /// <summary>
+        /// Takes a string and transforms it into a selector object.
+        /// </summary>
+        /// <param name="selector">The string to parse.</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <returns>The Selector object.</returns>
+        public static IKeyframeSelector ParseKeyText(String keyText, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(keyText, configuration ?? Configuration.Default);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (!tokens.MoveNext())
+                return null;
+
+            return parser.InKeyframeText(tokens);
         }
 
         /// <summary>

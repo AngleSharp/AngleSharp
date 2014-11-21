@@ -20,5 +20,10 @@
         /// </summary>
         [DomName("style")]
         ICssStyleDeclaration Style { get; }
+
+        /// <summary>
+        /// Gets or sets the selector for setting the keyframe position.
+        /// </summary>
+        IKeyframeSelector Key { get; set; }
     }
 }
