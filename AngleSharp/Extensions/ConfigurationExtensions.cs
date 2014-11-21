@@ -229,12 +229,12 @@
                 if (response == null)
                     return default(TResource);
 
-                var imageServices = options.GetServices<IResourceService<TResource>>();
+                var resourceServices = options.GetServices<IResourceService<TResource>>();
 
-                foreach (var imageService in imageServices)
+                foreach (var resourceService in resourceServices)
                 {
-                    if (imageService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                        return await imageService.CreateAsync(response, cancel).ConfigureAwait(false);
+                    if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
                 }
             }
 
