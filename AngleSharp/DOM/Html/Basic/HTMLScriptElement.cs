@@ -226,7 +226,7 @@
                     return;
                 }
 
-                var url = HyperRef(src);
+                var url = this.HyperRef(src);
                 var requester = options.GetRequester(url.Scheme);
 
                 if (requester == null)

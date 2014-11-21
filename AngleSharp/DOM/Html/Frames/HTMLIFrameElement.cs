@@ -100,7 +100,7 @@
             if (src == null)
                 return;
             
-            var url = HyperRef(src);
+            var url = this.HyperRef(src);
             var requester = Owner.Options.GetRequester(url.Scheme);
 
             if (requester == null)

@@ -26,6 +26,19 @@
 
             return node.Parent.GetRoot();
         }
+        
+        /// <summary>
+        /// Gets the hyperreference of the given URL - transforming the given
+        /// (relative) URL to an absolute URL if required.
+        /// </summary>
+        /// <param name="node">The node that spawns the hyper reference.</param>
+        /// <param name="url">The given URL.</param>
+        /// <returns>The absolute URL.</returns>
+        public static Url HyperRef(this INode node, String url)
+        {
+            var baseUrl = new Url(node.BaseUri);
+            return new Url(baseUrl, url ?? String.Empty);
+        }
 
         /// <summary>
         /// Checks if the node is an descendant of the given parent.

@@ -443,7 +443,7 @@
 
                 if (src != null)
                 {
-                    var url = HyperRef(src);
+                    var url = this.HyperRef(src);
                     _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
                     _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
                 }

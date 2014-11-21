@@ -437,7 +437,7 @@
             if (src != null)
             {
                 _network = MediaNetworkState.Idle;
-                var url = HyperRef(src);
+                var url = this.HyperRef(src);
                 _resourceTask = Owner.Options.LoadResource<TResource>(url);
                 _network = MediaNetworkState.Loading;
                 _resourceTask.ContinueWith(_ =>

@@ -810,19 +810,6 @@
         }
 
         /// <summary>
-        /// Gets the hyperreference of the given URL -
-        /// transforming the given (relative) URL to an absolute URL
-        /// if required.
-        /// </summary>
-        /// <param name="url">The given URL.</param>
-        /// <returns>The absolute URL.</returns>
-        protected Url HyperRef(String url)
-        {
-            var baseUrl = new Url(BaseUri);
-            return new Url(baseUrl, url ?? String.Empty);
-        }
-
-        /// <summary>
         /// Copies all (Node) properties of the source to the target.
         /// </summary>
         /// <param name="source">The source node.</param>

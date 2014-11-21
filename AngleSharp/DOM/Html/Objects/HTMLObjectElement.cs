@@ -132,7 +132,7 @@
 
             if (src != null)
             {
-                var url = HyperRef(src);
+                var url = this.HyperRef(src);
                 _resourceTask = Owner.Options.LoadResource<IObjectInfo>(url);
                 _resourceTask.ContinueWith(_ => this.FireSimpleEvent(EventNames.Load));
             }

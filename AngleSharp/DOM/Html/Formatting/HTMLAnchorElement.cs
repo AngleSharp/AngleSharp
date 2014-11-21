@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -55,7 +56,7 @@
         /// </summary>
         public String Href
         {
-            get { return HyperRef(GetAttribute(AttributeNames.Href)).Href; }
+            get { return this.HyperRef(GetAttribute(AttributeNames.Href)).Href; }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 
