@@ -66,6 +66,7 @@
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Foundation\MutationHost.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
+    <Compile Include="Infrastructure\IObjectService.cs" />
     <Compile Include="Infrastructure\ISpellCheckService.cs" />
     <Compile Include="Infrastructure\MicroDomTask.cs" />
     <Compile Include="Infrastructure\IRenderingService.cs" />
@@ -342,6 +343,7 @@
     <Compile Include="Css\TransformMatrix.cs" />
     <Compile Include="Css\StepsTransitionFunction.cs" />
     <Compile Include="Css\CssUrl.cs" />
+    <Compile Include="Media\IObjectInfo.cs" />
     <Compile Include="Parser\TextPosition.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="Extensions\StyleExtensions.cs" />

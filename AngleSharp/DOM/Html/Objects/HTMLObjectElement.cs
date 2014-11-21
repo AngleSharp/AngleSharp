@@ -2,7 +2,9 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
@@ -13,8 +15,7 @@
 
         IDocument _contentDocument;
         IWindow _contentWindow;
-        Int32 _objWidth;
-        Int32 _objHeight;
+        Task<IObjectInfo> _resourceTask;
 
         #endregion
 
@@ -25,10 +26,6 @@
         {
             _contentDocument = null;
             _contentWindow = null;
-
-            //TODO
-            _objHeight = 0;
-            _objWidth = 0;
         }
 
         #endregion
@@ -78,7 +75,7 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(_objWidth); }
+            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
             set { SetAttribute(AttributeNames.Width, value.ToString()); }
         }
 
@@ -87,8 +84,24 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(_objHeight); }
+            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
             set { SetAttribute(AttributeNames.Height, value.ToString()); }
+        }
+
+        /// <summary>
+        /// Gets the original width of the object.
+        /// </summary>
+        public Int32 OriginalWidth
+        {
+            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Width : 0) : 0; }
+        }
+
+        /// <summary>
+        /// Gets the original height of the object.
+        /// </summary>
+        public Int32 OriginalHeight
+        {
+            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Height : 0) : 0; }
         }
 
         /// <summary>
@@ -106,6 +119,23 @@
         public IWindow ContentWindow
         {
             get { return _contentWindow; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            var src = Source;
+
+            if (src != null)
+            {
+                var url = HyperRef(src);
+                _resourceTask = Owner.Options.LoadResource<IObjectInfo>(url);
+                _resourceTask.ContinueWith(_ => this.FireSimpleEvent(EventNames.Load));
+            }
         }
 
         #endregion
