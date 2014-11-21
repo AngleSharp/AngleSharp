@@ -603,13 +603,10 @@
             for (int i = 0; i < addedNodes.Length; i++)
                 InsertBefore(addedNodes[i], null, true);
 
-            _owner.QueueMutation(new MutationRecord
-            {
-                Type = "childList",
-                Target = this,
-                Added = addedNodes,
-                Removed = removedNodes
-            });
+            _owner.QueueMutation(MutationRecord.ChildList(
+                target: this,
+                addedNodes: addedNodes,
+                removedNodes: removedNodes));
         }
 
         /// <summary>
@@ -684,15 +681,11 @@
                 var removedNodes = new NodeList();
                 removedNodes.Add(node);
 
-                _owner.QueueMutation(new MutationRecord
-                {
-                    Type = "childList",
-                    Target = this,
-                    Removed = removedNodes,
-                    NextSibling = node.NextSibling,
-                    PreviousSibling = oldPreviousSibling
-
-                });
+                _owner.QueueMutation(MutationRecord.ChildList(
+                    target: this, 
+                    removedNodes: removedNodes, 
+                    previousSibling: oldPreviousSibling, 
+                    nextSibling: node.NextSibling));
 
                 //TODO Mutation
                 // For each ancestor ancestor of node, if ancestor has any registered observers whose options's subtree is true,
@@ -763,15 +756,13 @@
                 else
                     addedNodes.Add(node);
 
-                _owner.QueueMutation(new MutationRecord
-                {
-                    Type = "childList",
-                    Target = this,
-                    Added = addedNodes,
-                    Removed = removedNodes,
-                    NextSibling = referenceChild,
-                    PreviousSibling = child.PreviousSibling
-                });
+                _owner.QueueMutation(MutationRecord.ChildList(
+                    target: this, 
+                    addedNodes: addedNodes, 
+                    removedNodes: removedNodes, 
+                    previousSibling: 
+                    child.PreviousSibling, 
+                    nextSibling: referenceChild));
 
                 return child;
             }

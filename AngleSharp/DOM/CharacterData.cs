@@ -227,12 +227,7 @@
             if (offset + count > length)
                 count = length - offset;
             
-            owner.QueueMutation(new MutationRecord
-            {
-                Type = "characterData",
-                Target = this,
-                PreviousValue = _content
-            });
+            owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: _content));
 
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data).Remove(deleteOffset, count);

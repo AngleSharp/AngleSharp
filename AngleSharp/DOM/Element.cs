@@ -736,13 +736,11 @@
                 handler(attr != null ? attr.Value : null);
             }
 
-            Owner.QueueMutation(new MutationRecord
-            {
-                Type = "attributes",
-                AttributeName = localName,
-                AttributeNamespace = namespaceUri,
-                PreviousValue = oldValue
-            });
+            Owner.QueueMutation(MutationRecord.Attributes(
+                target: this,
+                attributeName: localName,
+                attributeNamespace: namespaceUri,
+                previousValue: oldValue));
         }
 
         protected sealed override String LocateNamespace(String prefix)
