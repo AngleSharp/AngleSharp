@@ -218,6 +218,7 @@
         /// <param name="data">The data to insert at the replacement.</param>
         public void Replace(Int32 offset, Int32 count, String data)
         {
+            var owner = Owner;
             var length = _content.Length;
 
             if (offset > length)
@@ -226,7 +227,7 @@
             if (offset + count > length)
                 count = length - offset;
             
-            QueueMutationRecord(new MutationRecord
+            owner.QueueMutation(new MutationRecord
             {
                 Type = "characterData",
                 Target = this,
@@ -234,7 +235,6 @@
             });
 
             var deleteOffset = offset + data.Length;
-            var owner = Owner;
             _content = _content.Insert(offset, data).Remove(deleteOffset, count);
 
             owner.ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));

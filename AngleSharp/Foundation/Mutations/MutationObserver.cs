@@ -27,7 +27,7 @@
 
         public void Enqueue(MutationRecord record)
         {
-            //TODO
+            //TODO Mutation
             //1. Let interested observers be an initially empty set of MutationObserver objects optionally paired with a string. 
             //2. Let nodes be the inclusive ancestors of target. 
             //3. Then, for each node in nodes, and then for each registered observer (with registered observer's options as options) in node's list of registered observers: 
@@ -52,7 +52,7 @@
 
         public void Disconnect()
         {
-            //TODO
+            //TODO Mutation
             
             //The disconnect() method must, for each node node in the context object's list of nodes,
             //remove any registered observer on node for which the context object is the observer, and
@@ -66,7 +66,7 @@
 
         public void Connect(INode target, IMutationObserverInit options)
         {
-            //TODO
+            //TODO Mutation
 
             if (options.StorePreviousDataValue.HasValue == false)
                 options.StorePreviousDataValue = false;

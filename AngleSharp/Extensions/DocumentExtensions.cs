@@ -49,6 +49,17 @@
         }
 
         /// <summary>
+        /// Queues a mutation record for the corresponding observers.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <param name="record">The record to enqueue.</param>
+        public static void QueueMutation(this Document document, IMutationRecord record)
+        {
+            //TODO Mutation
+            //Add to list of mutation observers, if any.
+        }
+
+        /// <summary>
         /// Applies the manifest to the given document.
         /// </summary>
         /// <param name="document">The document to modify.</param>

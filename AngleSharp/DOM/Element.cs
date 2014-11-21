@@ -736,7 +736,7 @@
                 handler(attr != null ? attr.Value : null);
             }
 
-            QueueMutationRecord(new MutationRecord
+            Owner.QueueMutation(new MutationRecord
             {
                 Type = "attributes",
                 AttributeName = localName,

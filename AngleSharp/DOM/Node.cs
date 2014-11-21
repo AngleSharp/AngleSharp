@@ -518,16 +518,6 @@
         #region Helpers
 
         /// <summary>
-        /// Queues the mutation record in the corresponding observers.
-        /// </summary>
-        /// <param name="record">The record to enqueue.</param>
-        protected void QueueMutationRecord(IMutationRecord record)
-        {
-            //TODO Mutation
-            //Add to list of mutation observers, if any.
-        }
-
-        /// <summary>
         /// Tries to locate the namespace of the given prefix.
         /// </summary>
         /// <param name="prefix">The prefix of the namespace.</param>
@@ -613,7 +603,7 @@
             for (int i = 0; i < addedNodes.Length; i++)
                 InsertBefore(addedNodes[i], null, true);
 
-            QueueMutationRecord(new MutationRecord
+            _owner.QueueMutation(new MutationRecord
             {
                 Type = "childList",
                 Target = this,
@@ -694,7 +684,7 @@
                 var removedNodes = new NodeList();
                 removedNodes.Add(node);
 
-                QueueMutationRecord(new MutationRecord
+                _owner.QueueMutation(new MutationRecord
                 {
                     Type = "childList",
                     Target = this,
@@ -773,7 +763,7 @@
                 else
                     addedNodes.Add(node);
 
-                QueueMutationRecord(new MutationRecord
+                _owner.QueueMutation(new MutationRecord
                 {
                     Type = "childList",
                     Target = this,
