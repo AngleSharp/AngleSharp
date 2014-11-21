@@ -258,7 +258,7 @@
         /// Checks the form control for validity.
         /// </summary>
         /// <param name="state">The element's validity state tracker.</param>
-        protected override void Check(IValidityState state)
+        protected override void Check(ValidityState state)
         {
             //TODO
         }

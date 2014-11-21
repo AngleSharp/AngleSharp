@@ -154,7 +154,7 @@
         /// Checks the form control for validity.
         /// </summary>
         /// <param name="state">The element's validity state tracker.</param>
-        protected virtual void Check(IValidityState state)
+        protected virtual void Check(ValidityState state)
         { }
 
         #endregion
