@@ -4,6 +4,7 @@
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Html;
     using AngleSharp.Infrastructure;
+    using AngleSharp.Services;
     using System;
     using System.Diagnostics;
 

@@ -2,7 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Media;
+    using AngleSharp.Services.Media;
     using System;
     using System.Threading.Tasks;
 

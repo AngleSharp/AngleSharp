@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.Infrastructure
+﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Media;
+    using AngleSharp.Services.Media;
 
     /// <summary>
     /// Repesents a service to create a sound player.

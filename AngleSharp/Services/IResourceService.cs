@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.Infrastructure
+﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Media;
+    using AngleSharp.Services.Media;
     using AngleSharp.Network;
     using System;
     using System.Threading;

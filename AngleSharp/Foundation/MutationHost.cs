@@ -3,6 +3,7 @@
     using AngleSharp.DOM;
     using AngleSharp.Extensions;
     using AngleSharp.Infrastructure;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;

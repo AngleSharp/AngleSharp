@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Infrastructure
+﻿namespace AngleSharp.Services
 {
+    using AngleSharp.Infrastructure;
     using System;
     using System.Threading.Tasks;
 

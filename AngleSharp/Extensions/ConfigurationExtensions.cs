@@ -2,8 +2,9 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.Infrastructure;
-    using AngleSharp.Media;
     using AngleSharp.Network;
+    using AngleSharp.Services;
+    using AngleSharp.Services.Media;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

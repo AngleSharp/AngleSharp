@@ -1,19 +1,19 @@
-﻿namespace AngleSharp.Media
+﻿namespace AngleSharp.Services.Media
 {
     using System;
 
     /// <summary>
-    /// Contains information about an image file.
+    /// Contains information about a video file.
     /// </summary>
-    public interface IImageInfo : IResourceInfo
+    public interface IVideoInfo : IMediaInfo
     {
         /// <summary>
-        /// Gets the width of the image.
+        /// Gets the width of the video.
         /// </summary>
         Int32 Width { get; }
 
         /// <summary>
-        /// Gets the height of the image.
+        /// Gets the height of the video.
         /// </summary>
         Int32 Height { get; }
     }

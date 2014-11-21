@@ -3,6 +3,7 @@
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using AngleSharp.Parser;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

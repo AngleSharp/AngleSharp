@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Infrastructure
+﻿namespace AngleSharp.Services
 {
     /// <summary>
     /// Defines the basic interface for a common service.

@@ -3,7 +3,7 @@
     using AngleSharp.DOM.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Media;
+    using AngleSharp.Services.Media;
     using AngleSharp.Network;
     using System;
     using System.Globalization;

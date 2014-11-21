@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Media
+﻿namespace AngleSharp.Services.Media
 {
     /// <summary>
     /// Contains information about a sound file.

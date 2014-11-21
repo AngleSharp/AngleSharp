@@ -2,7 +2,7 @@
 {
     using AngleSharp.DOM.Media;
     using AngleSharp.Html;
-    using AngleSharp.Media;
+    using AngleSharp.Services.Media;
 
     /// <summary>
     /// Represents the HTML audio element.

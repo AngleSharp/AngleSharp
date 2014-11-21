@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Media
+﻿namespace AngleSharp.Services.Media
 {
     using System;
 
