@@ -1701,6 +1701,9 @@
     <Compile Include="..\AngleSharp\Infrastructure\IImageService.cs">
       <Link>Infrastructure\IImageService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Infrastructure\IObjectService.cs">
+      <Link>Infrastructure\IObjectService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Infrastructure\IRenderingService.cs">
       <Link>Infrastructure\IRenderingService.cs</Link>
     </Compile>
@@ -2492,6 +2495,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Media\IMediaInfo.cs">
       <Link>Media\IMediaInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Media\IObjectInfo.cs">
+      <Link>Media\IObjectInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Media\IResourceInfo.cs">
       <Link>Media\IResourceInfo.cs</Link>
