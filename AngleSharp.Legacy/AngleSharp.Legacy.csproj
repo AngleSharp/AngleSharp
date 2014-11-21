@@ -1056,6 +1056,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\CompoundSelector.cs">
       <Link>DOM\Css\Selector\CompoundSelector.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Selector\KeyframeSelector.cs">
+      <Link>DOM\Css\Selector\KeyframeSelector.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Selector\ListSelector.cs">
       <Link>DOM\Css\Selector\ListSelector.cs</Link>
     </Compile>
@@ -2003,6 +2006,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
       <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IKeyframeSelector.cs">
+      <Link>Interfaces\Css\IKeyframeSelector.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
       <Link>Interfaces\Css\IMediaList.cs</Link>
