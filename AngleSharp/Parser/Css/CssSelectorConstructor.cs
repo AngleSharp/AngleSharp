@@ -925,8 +925,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchBefore(IElement element)
         {
-            //TODO Pseudo
-            return true;
+            return element.PreviousElementSibling.IsPseudo(element);
         }
 
         /// <summary>
@@ -936,8 +935,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchAfter(IElement element)
         {
-            //TODO Pseudo
-            return true;
+            return element.NextElementSibling.IsPseudo(element);
         }
 
         /// <summary>
@@ -947,8 +945,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchFirstLine(IElement element)
         {
-            //TODO Pseudo
-            return true;
+            return element.HasChildNodes && element.ChildNodes[0].NodeType == NodeType.Text;
         }
 
         /// <summary>
@@ -958,8 +955,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchFirstLetter(IElement element)
         {
-            //TODO Pseudo
-            return true;
+            return element.HasChildNodes && element.ChildNodes[0].NodeType == NodeType.Text && element.ChildNodes[0].TextContent.Length > 0;
         }
 
         #endregion

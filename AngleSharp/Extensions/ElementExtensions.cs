@@ -196,6 +196,18 @@
         }
 
         /// <summary>
+        /// Checks if the element is a pseudo element (before or after) of the given parent.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <param name="parent">The pseudo element's parent.</param>
+        /// <returns>True if the elemnent is a pseudo element, otherwise false.</returns>
+        public static Boolean IsPseudo(this IElement element, IElement parent)
+        {
+            //TODO
+            return false;
+        }
+
+        /// <summary>
         /// Checks if the element is currently checked.
         /// </summary>
         /// <param name="element">The element to check.</param>
