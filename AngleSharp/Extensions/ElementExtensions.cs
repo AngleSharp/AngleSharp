@@ -204,7 +204,7 @@
         public static Boolean IsPseudo(this IElement element, IElement parent)
         {
             //TODO
-            return false;
+            return true;
         }
 
         /// <summary>
