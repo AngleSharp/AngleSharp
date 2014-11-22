@@ -1,6 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
+using AngleSharp.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
