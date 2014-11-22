@@ -68,6 +68,9 @@
     <Compile Include="Foundation\MutationHost.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
     <Compile Include="Interfaces\Css\IKeyframeSelector.cs" />
+    <Compile Include="Linq\ElementExtensions.cs" />
+    <Compile Include="Linq\NodeExtensions.cs" />
+    <Compile Include="Linq\StyleSheetExtensions.cs" />
     <Compile Include="Services\IObjectService.cs" />
     <Compile Include="Services\ISpellCheckService.cs" />
     <Compile Include="Infrastructure\MicroDomTask.cs" />

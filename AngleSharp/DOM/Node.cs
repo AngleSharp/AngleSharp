@@ -4,6 +4,7 @@
     using AngleSharp.DOM.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Linq;
     using System;
 
     /// <summary>
