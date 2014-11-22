@@ -41,7 +41,7 @@
         /// <returns>The compatibility string.</returns>
         public static String GetCompatiblity(this QuirksMode mode)
         {
-            var attr = typeof(ErrorCode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
+            var attr = typeof(QuirksMode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
 
             if (attr != null)
                 return attr.Description;
