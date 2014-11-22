@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Html;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -31,6 +32,41 @@
         }
 
         /// <summary>
+        /// Sets the specified attribute name to the specified value for all
+        /// elements in the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="attributes">An enumeration of attributes in form of key-value pairs.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Attr<T>(this T elements, IEnumerable<KeyValuePair<String, String>> attributes)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                foreach (var attribute in attributes)
+                    element.SetAttribute(attribute.Key, attribute.Value);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Sets the specified attribute name to the specified value for all
+        /// elements in the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="attributes">An enumeration of attributes in form of an anonymous object, that carries key-value pairs.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Attr<T>(this T elements, Object attributes)
+            where T : IEnumerable<IElement>
+        {
+            var realAttributes = attributes.ToDictionary();
+            return elements.Attr(realAttributes);
+        }
+
+        /// <summary>
         /// Empties all provided elements.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
@@ -50,20 +86,49 @@
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="declarations">The declarations to apply in the inline CSS.</param>
+        /// <param name="propertyName">The name of the property to set.</param>
+        /// <param name="propertyValue">The value of the property to set.</param>
         /// <returns>The collection itself.</returns>
-        public static T Css<T>(this T elements, String declarations)
+        public static T Css<T>(this T elements, String propertyName, String propertyValue)
             where T : IEnumerable<IElement>
         {
-            var decls = CssParser.ParseDeclarations(declarations);
+            foreach (var element in elements.OfType<IHtmlElement>())
+                element.Style.SetProperty(propertyName, propertyValue);
 
+            return elements;
+        }
+
+        /// <summary>
+        /// Extends the CSS of the given elements with the specified declarations.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="properties">An enumeration of properties in form of key-value pairs.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Css<T>(this T elements, IEnumerable<KeyValuePair<String, String>> properties)
+            where T : IEnumerable<IElement>
+        {
             foreach (var element in elements.OfType<IHtmlElement>())
             {
-                foreach (var decl in decls)
-                    element.Style.SetProperty(decl.Name, decl.Value.CssText);
+                foreach (var property in properties)
+                    element.Style.SetProperty(property.Key, property.Value);
             }
 
             return elements;
+        }
+
+        /// <summary>
+        /// Extends the CSS of the given elements with the specified declarations.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="properties">An enumeration of properties in form of an anonymous object, that carries key-value pairs.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Css<T>(this T elements, Object properties)
+            where T : IEnumerable<IElement>
+        {
+            var realProperties = properties.ToDictionary();
+            return elements.Css(realProperties);
         }
 
         /// <summary>
