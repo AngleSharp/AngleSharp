@@ -34,6 +34,31 @@ namespace UnitTests.Library
         }
 
         [TestMethod]
+        public void ExtensionAttrWithOneElementButMultipleAttributes()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element");
+            var elements = document.QuerySelectorAll("li").Attr(new
+            {
+                test1 = "test",
+                test2 = "test",
+                test3 = string.Empty,
+                test4 = 9,
+                test5 = true
+            });
+            Assert.AreEqual(1, elements.Count());
+
+            var attr = elements[0].Attributes;
+            Assert.AreEqual(5, attr.Count());
+
+            var element = elements[0];
+            Assert.AreEqual("test", element.GetAttribute("test1"));
+            Assert.AreEqual("test", element.GetAttribute("test2"));
+            Assert.AreEqual("", element.GetAttribute("test3"));
+            Assert.AreEqual("9", element.GetAttribute("test4"));
+            Assert.AreEqual("True", element.GetAttribute("test5"));
+        }
+
+        [TestMethod]
         public void ExtensionAttrWithMultipleElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
@@ -77,7 +102,7 @@ namespace UnitTests.Library
         public void ExtensionCssWithEmptyListAndEmptyDeclaration()
         {
             var document = DocumentBuilder.Html("");
-            var elements = document.QuerySelectorAll("li").Css("");
+            var elements = document.QuerySelectorAll("li").Css(new { });
             Assert.AreEqual(0, elements.Count());
         }
 
@@ -85,7 +110,7 @@ namespace UnitTests.Library
         public void ExtensionCssWithEmptyListOnly()
         {
             var document = DocumentBuilder.Html("");
-            var elements = document.QuerySelectorAll("li").Css("color:red");
+            var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(0, elements.Count());
         }
 
@@ -93,7 +118,7 @@ namespace UnitTests.Library
         public void ExtensionCssWithOneElement()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
-            var elements = document.QuerySelectorAll("li").Css("color:red");
+            var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(1, elements.Count());
 
             var style = (elements[0] as IHtmlElement).Style;
@@ -104,10 +129,32 @@ namespace UnitTests.Library
         }
 
         [TestMethod]
+        public void ExtensionCssWithOneElementButMultipleCssRules()
+        {
+            var document = DocumentBuilder.Html("<ul><li>First element");
+            var elements = document.QuerySelectorAll("li").Css(new
+            {
+                color = "red",
+                background = "green",
+                font = "10px 'Tahoma'",
+                opacity = "0.5"
+            });
+            Assert.AreEqual(1, elements.Count());
+
+            var style = (elements[0] as IHtmlElement).Style;
+
+            Assert.AreEqual("red", style.Color);
+            Assert.AreEqual("green", style.BackgroundColor);
+            Assert.AreEqual("'Tahoma'", style.FontFamily);
+            Assert.AreEqual("10px", style.FontSize);
+            Assert.AreEqual("0.5", style.Opacity);
+        }
+
+        [TestMethod]
         public void ExtensionCssWithMultipleElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
-            var elements = document.QuerySelectorAll("li").Css("color:red");
+            var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(4, elements.Count());
 
             var style1 = (elements[0] as IHtmlElement).Style;
