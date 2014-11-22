@@ -1596,6 +1596,9 @@
     <Compile Include="..\AngleSharp\Extensions\NodeExtensions.cs">
       <Link>Extensions\NodeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ObjectExtensions.cs">
+      <Link>Extensions\ObjectExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\ParentNodeExtensions.cs">
       <Link>Extensions\ParentNodeExtensions.cs</Link>
     </Compile>
