@@ -158,5 +158,95 @@
 
             return elements;
         }
+
+        /// <summary>
+        /// Adds the specified class name(s) for all elements in the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="className">The name(s) of the class(es).</param>
+        /// <returns>The collection itself.</returns>
+        public static T AddClass<T>(this T elements, String className)
+            where T : IEnumerable<IElement>
+        {
+            var classes = className.Split(' ');
+
+            foreach (var element in elements)
+                element.ClassList.Add(classes);
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Removes the specified class name(s) for all elements in the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="className">The name(s) of the class(es).</param>
+        /// <returns>The collection itself.</returns>
+        public static T RemoveClass<T>(this T elements, String className)
+            where T : IEnumerable<IElement>
+        {
+            var classes = className.Split(' ');
+
+            foreach (var element in elements)
+                element.ClassList.Remove(classes);
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Toggles the specified class name(s) for all elements in the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="className">The name(s) of the class(es).</param>
+        /// <returns>The collection itself.</returns>
+        public static T ToggleClass<T>(this T elements, String className)
+            where T : IEnumerable<IElement>
+        {
+            var classes = className.Split(' ');
+
+            foreach (var element in elements)
+            {
+                foreach (var @class in classes)
+                    element.ClassList.Toggle(@class);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Checks if any element in the given collection has the given class(es).
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="className">The name(s) of the class(es).</param>
+        /// <returns>True if any element has the class(es), otherwise false.</returns>
+        public static Boolean HasClass<T>(this T elements, String className)
+            where T : IEnumerable<IElement>
+        {
+            var found = false;
+            var classes = className.Split(' ');
+
+            foreach (var element in elements)
+            {
+                found = true;
+
+                foreach (var @class in classes)
+                {
+                    if (!element.ClassList.Contains(@class))
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (found)
+                    break;
+            }
+
+            return found;
+        }
     }
 }
