@@ -88,7 +88,16 @@
                 var names = method.GetCustomAttributes<DomNameAttribute>();
 
                 foreach (var name in names.Select(m => m.OfficialName))
+                {
+                    //TODO
+                    // If it already has a property with the given name (usually another method),
+                    // then convert that method to a two-layer method, which decides which one
+                    // to pick depending on the number (and probably types) of arguments.
+                    if (HasProperty(name))
+                        continue;
+
                     FastAddProperty(name, new DomFunctionInstance(this, method), false, false, false);
+                }
             }
         }
 
