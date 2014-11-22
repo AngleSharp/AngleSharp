@@ -3,6 +3,7 @@
     using AngleSharp;
     using AngleSharp.DOM.Html;
     using AngleSharp.Scripting;
+    using AngleSharp.Linq;
     using System;
     using System.Linq;
 
