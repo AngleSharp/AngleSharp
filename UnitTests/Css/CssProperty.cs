@@ -1184,6 +1184,85 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssUnicodeBidiEmbedLegal()
+        {
+            var snippet = "unicode-BIDI: Embed";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("unicode-bidi", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSUnicodeBidiProperty));
+            var concrete = (CSSUnicodeBidiProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(UnicodeMode.Embed, concrete.State);
+            Assert.AreEqual("embed", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssUnicodeBidiIsolateLegal()
+        {
+            var snippet = "unicode-Bidi: isolate";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("unicode-bidi", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSUnicodeBidiProperty));
+            var concrete = (CSSUnicodeBidiProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(UnicodeMode.Isolate, concrete.State);
+            Assert.AreEqual("isolate", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssUnicodeBidiBidiOverrideLegal()
+        {
+            var snippet = "unicode-Bidi: Bidi-Override";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("unicode-bidi", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSUnicodeBidiProperty));
+            var concrete = (CSSUnicodeBidiProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(UnicodeMode.BidiOverride, concrete.State);
+            Assert.AreEqual("bidi-override", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssUnicodeBidiPlaintextLegal()
+        {
+            var snippet = "unicode-Bidi: PLAINTEXT";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("unicode-bidi", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSUnicodeBidiProperty));
+            var concrete = (CSSUnicodeBidiProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(UnicodeMode.Plaintext, concrete.State);
+            Assert.AreEqual("plaintext", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssUnicodeBidiIllegal()
+        {
+            var snippet = "unicode-bidi: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("unicode-bidi", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSUnicodeBidiProperty));
+            var concrete = (CSSUnicodeBidiProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+            Assert.AreEqual(UnicodeMode.Normal, concrete.State);
+        }
+
+        [TestMethod]
         public void CssPropertyFactoryCalls()
         {
             var decl = new CSSStyleDeclaration();
