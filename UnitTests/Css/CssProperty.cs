@@ -1137,6 +1137,53 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssWidowsZeroLegal()
+        {
+            var snippet = "widows: 0";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("widows", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSWidowsProperty));
+            var concrete = (CSSWidowsProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(0, concrete.Count);
+            Assert.AreEqual("0", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssWidowsThreeLegal()
+        {
+            var snippet = "widows: 3";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("widows", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSWidowsProperty));
+            var concrete = (CSSWidowsProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(3, concrete.Count);
+            Assert.AreEqual("3", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssWidowsLengthIllegal()
+        {
+            var snippet = "widows: 5px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("widows", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSWidowsProperty));
+            var concrete = (CSSWidowsProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+            Assert.AreEqual(2, concrete.Count);
+        }
+
+        [TestMethod]
         public void CssPropertyFactoryCalls()
         {
             var decl = new CSSStyleDeclaration();
