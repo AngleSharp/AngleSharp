@@ -722,7 +722,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssCursorUrlLegal()
+        public void CssCursorUrlNoFallbackIllegal()
         {
             var snippet = "cursor  : url(foo.png)";
             var property = CssParser.ParseDeclaration(snippet);
@@ -730,14 +730,43 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
             var concrete = (CSSCursorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
+        public void CssCursorUrlLegal()
+        {
+            var snippet = "cursor  : url(foo.png), default";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"foo.png\")", concrete.Value.CssText);
+            Assert.AreEqual("url(\"foo.png\"), default", concrete.Value.CssText);
         }
 
         [TestMethod]
         public void CssCursorUrlShiftedLegal()
+        {
+            var snippet = "cursor  : url(foo.png) 0 5, auto";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("cursor", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
+            var concrete = (CSSCursorProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url(\"foo.png\") 0 5, auto", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssCursorUrlShiftedNoFallbackIllegal()
         {
             var snippet = "cursor  : url(foo.png) 0 5";
             var property = CssParser.ParseDeclaration(snippet);
@@ -745,16 +774,15 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSCursorProperty));
             var concrete = (CSSCursorProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"foo.png\") 0 5", concrete.Value.CssText);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
         public void CssCursorUrlsLegal()
         {
-            var snippet = "cursor  : url(foo.png), url(master.png), url(more.png)";
+            var snippet = "cursor  : url(foo.png), url(master.png), url(more.png), wait";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
@@ -763,7 +791,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("url(\"foo.png\"), url(\"master.png\"), url(\"more.png\")", concrete.Value.CssText);
+            Assert.AreEqual("url(\"foo.png\"), url(\"master.png\"), url(\"more.png\"), wait", concrete.Value.CssText);
         }
 
         [TestMethod]
