@@ -6,6 +6,10 @@
     public enum SystemCursor : ushort
     {
         /// <summary>
+        /// Automatically determined.
+        /// </summary>
+        Auto,
+        /// <summary>
         /// Default cursor, typically an arrow.
         /// </summary>
         Default,
