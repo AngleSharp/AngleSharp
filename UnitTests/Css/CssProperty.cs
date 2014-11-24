@@ -1121,6 +1121,20 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssQuoteStringsIllegal()
+        {
+            var snippet = "quotes : \"'\"";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
         public void CssQuoteStringsMultipleLegal()
         {
             var snippet = "quotes : '\"' '\"' '`' '´' ";
@@ -1136,6 +1150,20 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
+        public void CssQuoteStringsMultipleIllegal()
+        {
+            var snippet = "quotes : '\"' '\"' '`' ";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
+        }
+
+        [TestMethod]
         public void CssQuoteNoneLegal()
         {
             var snippet = "quotes : none";
@@ -1148,6 +1176,20 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [TestMethod]
+        public void CssQuoteNoneStringIllegal()
+        {
+            var snippet = "quotes : 'none'";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("quotes", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOfType(property, typeof(CSSQuotesProperty));
+            var concrete = (CSSQuotesProperty)property;
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
