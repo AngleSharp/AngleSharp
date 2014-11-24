@@ -121,50 +121,21 @@
             {
                 switch (_unit)
                 {
-                    case Unit.Px:
-                        return Units.Px;
-
-                    case Unit.Em:
-                        return Units.Em;
-
-                    case Unit.Ex:
-                        return Units.Ex;
-
-                    case Unit.Cm:
-                        return Units.Cm;
-
-                    case Unit.Mm:
-                        return Units.Mm;
-
-                    case Unit.In:
-                        return Units.In;
-
-                    case Unit.Pt:
-                        return Units.Pt;
-
-                    case Unit.Pc:
-                        return Units.Pc;
-
-                    case Unit.Ch:
-                        return Units.Ch;
-
-                    case Unit.Rem:
-                        return Units.Rem;
-
-                    case Unit.Vw:
-                        return Units.Vw;
-
-                    case Unit.Vh:
-                        return Units.Vh;
-
-                    case Unit.Vmin:
-                        return Units.Vmin;
-
-                    case Unit.Vmax:
-                        return Units.Vmax;
-
-                    default:
-                        return String.Empty;
+                    case Unit.Px: return Units.Px;
+                    case Unit.Em: return Units.Em;
+                    case Unit.Ex: return Units.Ex;
+                    case Unit.Cm: return Units.Cm;
+                    case Unit.Mm: return Units.Mm;
+                    case Unit.In: return Units.In;
+                    case Unit.Pt: return Units.Pt;
+                    case Unit.Pc: return Units.Pc;
+                    case Unit.Ch: return Units.Ch;
+                    case Unit.Rem: return Units.Rem;
+                    case Unit.Vw: return Units.Vw;
+                    case Unit.Vh: return Units.Vh;
+                    case Unit.Vmin: return Units.Vmin;
+                    case Unit.Vmax: return Units.Vmax;
+                    default: return String.Empty;
                 }
             }
         }
@@ -209,7 +180,7 @@
         {
             var value = ToPixel();
 
-            switch(unit)
+            switch (unit)
             {
                 case Unit.In: // 1 in = 2.54 cm
                     return value / 96f;
