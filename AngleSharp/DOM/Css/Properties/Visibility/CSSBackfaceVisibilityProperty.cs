@@ -42,6 +42,11 @@
 
         #region Methods
 
+        public void SetVisible(Boolean visible)
+        {
+            _visible = visible;
+        }
+
         internal override void Reset()
         {
             _visible = true;
@@ -54,14 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Visible))
-                _visible = true;
-            else if (value.Is(Keywords.Hidden))
-                _visible = false;
-            else
-                return false;
-
-            return true;
+            return this.Toggle(Keywords.Visible, Keywords.Hidden).TryConvert(value, SetVisible);
         }
 
         #endregion

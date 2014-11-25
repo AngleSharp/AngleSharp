@@ -59,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeOne(Keywords.Show, true).Or(this.TakeOne(Keywords.Hide, false)).TryConvert(value, SetVisible);
+            return this.Toggle(Keywords.Show, Keywords.Hide).TryConvert(value, SetVisible);
         }
 
         #endregion

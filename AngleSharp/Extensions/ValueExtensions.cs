@@ -1352,6 +1352,11 @@
                        p.WithAngle().To(m => (ITransform)new SkewYTransform(m))));
         }
 
+        public static IValueConverter<Boolean> Toggle(this CSSProperty property, String on, String off)
+        {
+            return property.TakeOne(on, true).Or(property.TakeOne(off, false));
+        }
+
         public static IValueConverter<Tuple<Length, LineStyle, Color>> ValidateBorderPart(this CSSProperty property)
         {
             return property.WithOptions(property.WithBorderWidth(), property.WithLineStyle(), property.WithColor(), Tuple.Create(Length.Medium, LineStyle.None, Color.Transparent));
