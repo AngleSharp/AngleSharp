@@ -17,7 +17,7 @@
         /// on the top of a new page. If the value is not positive,
         /// the declaration is invalid.
         /// </summary>
-        Int32 _value;
+        Int32 _count;
 
         #endregion
 
@@ -39,7 +39,7 @@
         /// </summary>
         public Int32 Count
         {
-            get { return _value; }
+            get { return _count; }
         }
 
         #endregion
@@ -48,12 +48,12 @@
 
         public void SetCount(Int32 value)
         {
-            _value = value;
+            _count = value;
         }
 
         internal override void Reset()
         {
-            _value = 2;
+            _count = 2;
         }
 
         /// <summary>
