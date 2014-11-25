@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetIndent(IDistance indent)
+        {
+            _indent = indent;
+        }
+
         internal override void Reset()
         {
             _indent = Percent.Zero;
@@ -53,15 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var indent = value.ToDistance();
-
-            if (indent != null)
-            {
-                _indent = indent;
-                return true;
-            }
-            
-            return false;
+            return this.WithDistance().TryConvert(value, SetIndent);
         }
 
         #endregion

@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetDecorationStyle(TextDecorationStyle style)
+        {
+            _style = style;
+        }
+
         internal override void Reset()
         {
             _style = TextDecorationStyle.Solid;
@@ -53,15 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var style = value.ToDecorationStyle();
-
-            if (style.HasValue)
-            {
-                _style = style.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithDecorationStyle().TryConvert(value, SetDecorationStyle);
         }
 
         #endregion

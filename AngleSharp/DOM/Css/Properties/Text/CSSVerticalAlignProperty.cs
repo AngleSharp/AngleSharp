@@ -65,6 +65,18 @@
 
         #region Methods
 
+        public void SetAlignment(IDistance shift)
+        {
+            _shift = shift;
+            _mode = VerticalAlignment.Baseline;
+        }
+
+        public void SetAlignment(VerticalAlignment mode)
+        {
+            _mode = mode;
+            _shift = Percent.Zero;
+        }
+
         internal override void Reset()
         {
             _mode = VerticalAlignment.Baseline;
@@ -78,23 +90,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            VerticalAlignment mode;
-            var distance = value.ToDistance();
-
-            if (distance != null)
-            {
-                _shift = distance;
-                _mode = VerticalAlignment.Baseline;
-            }
-            else if (modes.TryGetValue(value, out mode))
-            {
-                _shift = Percent.Zero;
-                _mode = mode;
-            }
-            else 
-                return false;
-
-            return true;
+            return this.WithDistance().TryConvert(value, SetAlignment) || 
+                   this.From(modes).TryConvert(value, SetAlignment);
         }
 
         #endregion

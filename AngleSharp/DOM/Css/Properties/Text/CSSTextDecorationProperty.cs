@@ -44,9 +44,9 @@
         /// <summary>
         /// Gets the value of the line property.
         /// </summary>
-        public IEnumerable<TextDecorationLine> Line
+        public IEnumerable<TextDecorationLine> Lines
         {
-            get { return _line.Line; }
+            get { return _line.Lines; }
         }
 
         /// <summary>
@@ -68,22 +68,13 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            var line = new CSSValueList();
-            CSSValue color = null, style = null;
-
-            if (list.Length > 3)
-                return false;
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (_line.CanTake(list[i]))
-                    line.Add(list[i]);
-                else if (!_color.CanStore(list[i], ref color) && !_style.CanStore(list[i], ref style))
-                    return false;
-            }
-
-            return _line.TrySetValue(line.Reduce()) && _color.TrySetValue(color) && _style.TrySetValue(style);
+            return this.WithOptions(this.WithColor(), this.WithDecorationStyle(), this.TakeMany(this.WithDecorationLine()),
+                Tuple.Create(Color.Black, TextDecorationStyle.Solid, new TextDecorationLine[0])).TryConvert(value, m =>
+                {
+                    _color.SetColor(m.Item1);
+                    _style.SetDecorationStyle(m.Item2);
+                    _line.SetLines(m.Item3);
+                });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

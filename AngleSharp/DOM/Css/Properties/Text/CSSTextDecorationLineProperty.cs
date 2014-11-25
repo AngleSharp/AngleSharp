@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        List<TextDecorationLine> _line;
+        readonly List<TextDecorationLine> _lines;
 
         #endregion
 
@@ -22,7 +22,7 @@
         internal CSSTextDecorationLineProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.TextDecorationLine, rule)
         {
-            _line = new List<TextDecorationLine>();
+            _lines = new List<TextDecorationLine>();
         }
 
         #endregion
@@ -33,18 +33,24 @@
         /// Gets the enumeration over all selected styles
         /// for text decoration lines.
         /// </summary>
-        public IEnumerable<TextDecorationLine> Line
+        public IEnumerable<TextDecorationLine> Lines
         {
-            get { return _line; }
+            get { return _lines; }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetLines(IEnumerable<TextDecorationLine> lines)
+        {
+            _lines.Clear();
+            _lines.AddRange(lines);
+        }
+
         internal override void Reset()
         {
-            _line.Clear();
+            _lines.Clear();
         }
 
         /// <summary>
@@ -54,38 +60,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = value.ToDecorationLine();
-
-            if (mode.HasValue)
-            {
-                _line.Clear();
-                _line.Add(mode.Value);
-            }
-            else if (value.Is(Keywords.None))
-            {
-                _line.Clear();
-            }
-            else if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
-                var list = new List<TextDecorationLine>();
-
-                foreach (var item in values)
-                {
-                    mode = item.ToDecorationLine();
-
-                    if (mode == null)
-                        return false;
-
-                    list.Add(mode.Value);
-                }
-
-                _line = list;
-            }
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.None, new TextDecorationLine[0]).Or(
+                this.TakeMany(this.WithDecorationLine())).TryConvert(value, SetLines);
         }
 
         #endregion

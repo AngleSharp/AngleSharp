@@ -41,6 +41,12 @@
 
         #region Methods
 
+        public void SetShadows(IEnumerable<Shadow> shadows)
+        {
+            _shadows.Clear();
+            _shadows.AddRange(shadows);
+        }
+
         internal override void Reset()
         {
             _shadows.Clear();
@@ -53,34 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.None))
-                _shadows.Clear();
-            else if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-            else
-                return false;
-
-            return true;
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            var shadows = new List<Shadow>();
-            var items = values.ToList();
-
-            foreach (var item in items)
-            {
-                var shadow = item.ToShadow();
-
-                if (shadow == null)
-                    return false;
-
-                shadows.Add(shadow);
-            }
-
-            _shadows.Clear();
-            _shadows.AddRange(shadows);
-            return true;
+            return this.TakeOne(Keywords.None, new Shadow[0]).Or(this.TakeList(this.WithShadow())).TryConvert(value, SetShadows);
         }
 
         #endregion

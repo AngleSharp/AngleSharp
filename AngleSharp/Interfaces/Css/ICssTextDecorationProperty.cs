@@ -12,7 +12,7 @@
         /// Gets the enumeration over all selected styles
         /// for text decoration lines.
         /// </summary>
-        IEnumerable<TextDecorationLine> Line { get; }
+        IEnumerable<TextDecorationLine> Lines { get; }
     }
 
     /// <summary>

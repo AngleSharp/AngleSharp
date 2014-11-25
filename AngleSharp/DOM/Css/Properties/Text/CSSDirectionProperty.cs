@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetState(DirectionMode mode)
+        {
+            _mode = mode;
+        }
+
         internal override void Reset()
         {
             _mode = DirectionMode.Ltr;
@@ -53,14 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Ltr))
-                _mode = DirectionMode.Ltr;
-            else if (value.Is(Keywords.Rtl))
-                _mode = DirectionMode.Rtl;
-            else
-                return false;
-            
-            return true;
+            return this.Toggle(Keywords.Ltr, Keywords.Rtl).TryConvert(value, m => SetState(m ? DirectionMode.Ltr : DirectionMode.Rtl));
         }
 
         #endregion
