@@ -956,9 +956,11 @@
             return null;
         }
 
-        public static Shadow ToShadow(this CSSValueList item)
+        public static Shadow ToShadow(this CSSValue value)
         {
-            if (item.Length < 2)
+            var item = value as CSSValueList;
+
+            if (item == null || item.Length < 2)
                 return null;
 
             var inset = item[0].Is(Keywords.Inset);
@@ -1133,6 +1135,11 @@
         public static IValueConverter<IDistance> WithDistance(this CSSProperty property)
         {
             return new ClassValueConverter<IDistance>(ToDistance);
+        }
+
+        public static IValueConverter<Shadow> WithShadow(this CSSProperty property)
+        {
+            return new ClassValueConverter<Shadow>(ToShadow);
         }
 
         public static IValueConverter<CssUrl> WithUrl(this CSSProperty property)
@@ -1375,9 +1382,9 @@
             return new OneOrMoreValueConverter<T>(converter);
         }
 
-        public static IValueConverter<T[]> TakeList<T>(this CSSProperty property, params IValueConverter<T>[] converters)
+        public static IValueConverter<T[]> TakeList<T>(this CSSProperty property, IValueConverter<T> converter)
         {
-            return new ListValueConverter<T>(converters);
+            return new ListValueConverter<T>(converter);
         }
 
         #endregion
