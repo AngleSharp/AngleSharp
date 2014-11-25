@@ -42,6 +42,11 @@
 
         #region Methods
 
+        public void SetClip(Shape shape)
+        {
+            _shape = shape;
+        }
+
         internal override void Reset()
         {
             _shape = null;
@@ -54,16 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var shape = value.ToShape();
-
-            if (shape != null)
-                _shape = shape;
-            else if (value.Is(Keywords.Auto))
-                _shape = null;
-            else
-                return false;
-
-            return true;
+            return this.WithShape().Or(this.TakeOne(Keywords.Auto, (Shape)null)).TryConvert(value, SetClip);
         }
 
         #endregion

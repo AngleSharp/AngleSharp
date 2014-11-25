@@ -493,44 +493,6 @@
             }
         }
 
-        public static Shape ToShape(this CSSValue value)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null && primitive.Unit == UnitType.Rect)
-                return primitive.Value as Shape;
-
-            return null;
-        }
-
-        public static LinearGradient ToLinearGradient(this CSSValue value)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as LinearGradient;
-
-            return null;
-        }
-
-        public static RadialGradient ToRadialGradient(this CSSValue value)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as RadialGradient;
-
-            return null;
-        }
-
-        public static ICssObject ToImage(this CSSValue value)
-        {
-            if (value.Is(Keywords.None))
-                return Color.Transparent;
-
-            return value.ToUri() ?? value.ToLinearGradient() ?? value.ToRadialGradient() as ICssObject;
-        }
-
         public static Percent? ToPercent(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
@@ -1121,6 +1083,11 @@
         public static IValueConverter<LineStyle> WithLineStyle(this CSSProperty property)
         {
             return new DictionaryValueConverter<LineStyle>(lineStyles);
+        }
+
+        public static IValueConverter<Visibility> WithVisibility(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<Visibility>(visibilities);
         }
 
         public static IValueConverter<UnicodeMode> WithUnicodeMode(this CSSProperty property)

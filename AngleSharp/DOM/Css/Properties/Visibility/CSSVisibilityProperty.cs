@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        Visibility _mode;
+        Visibility _visiblity;
 
         #endregion
 
@@ -33,16 +33,21 @@
         /// </summary>
         public Visibility Visibility
         {
-            get { return _mode; }
+            get { return _visiblity; }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetVisibility(Visibility visibility)
+        {
+            _visiblity = visibility;
+        }
+
         internal override void Reset()
         {
-            _mode = Visibility.Visible;
+            _visiblity = Visibility.Visible;
         }
 
         /// <summary>
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = value.ToVisibility();
-
-            if (mode.HasValue)
-            {
-                _mode = mode.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithVisibility().TryConvert(value, SetVisibility);
         }
 
         #endregion

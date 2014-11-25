@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        Single _value;
+        Single _opacity;
 
         #endregion
 
@@ -33,16 +33,21 @@
         /// </summary>
         public Single Opacity
         {
-            get { return _value; }
+            get { return _opacity; }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetOpacity(Single opacity)
+        {
+            _opacity = opacity;
+        }
+
         internal override void Reset()
         {
-            _value = 1f;
+            _opacity = 1f;
         }
 
         /// <summary>
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var num = value.ToSingle();
-
-            if (num.HasValue)
-            {
-                _value = num.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithNumber().TryConvert(value, SetOpacity);
         }
 
         #endregion
