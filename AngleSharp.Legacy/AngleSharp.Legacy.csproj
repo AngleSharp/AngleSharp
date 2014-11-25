@@ -462,8 +462,53 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
       <Link>DOM\Css\Constants\Whitespace.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CSSFunctions.cs">
-      <Link>DOM\Css\CSSFunctions.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\AndValueConverter.cs">
+      <Link>DOM\Css\Converters\AndValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\ArgumentsValueConverter.cs">
+      <Link>DOM\Css\Converters\ArgumentsValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\ClassValueConverter.cs">
+      <Link>DOM\Css\Converters\ClassValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\ConstraintValueConverter.cs">
+      <Link>DOM\Css\Converters\ConstraintValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\DictionaryValueConverter.cs">
+      <Link>DOM\Css\Converters\DictionaryValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\EndListValueConverter.cs">
+      <Link>DOM\Css\Converters\EndListValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\FunctionValueConverter.cs">
+      <Link>DOM\Css\Converters\FunctionValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\IdentifierValueConverter.cs">
+      <Link>DOM\Css\Converters\IdentifierValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\IValueConverter.cs">
+      <Link>DOM\Css\Converters\IValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\ListValueConverter.cs">
+      <Link>DOM\Css\Converters\ListValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\OneOrMoreValueConverter.cs">
+      <Link>DOM\Css\Converters\OneOrMoreValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\OptionsValueConverter.cs">
+      <Link>DOM\Css\Converters\OptionsValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\OrValueConverter.cs">
+      <Link>DOM\Css\Converters\OrValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\StructValueConverter.cs">
+      <Link>DOM\Css\Converters\StructValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\SubsetValueConverter.cs">
+      <Link>DOM\Css\Converters\SubsetValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\ToValueConverter.cs">
+      <Link>DOM\Css\Converters\ToValueConverter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
@@ -1068,6 +1113,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
       <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFunction.cs">
+      <Link>DOM\Css\Values\CSSFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
       <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
     </Compile>
@@ -1619,6 +1667,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\UnitExtensions.cs">
       <Link>Extensions\UnitExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ValueConverterExtensions.cs">
+      <Link>Extensions\ValueConverterExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\ValueExtensions.cs">
       <Link>Extensions\ValueExtensions.cs</Link>
