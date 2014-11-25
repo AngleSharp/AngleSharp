@@ -41,6 +41,12 @@
 
         #region Methods
 
+        public void SetTransforms(IEnumerable<ITransform> transforms)
+        {
+            _transforms.Clear();
+            _transforms.AddRange(transforms);
+        }
+
         internal override void Reset()
         {
             _transforms.Clear();
@@ -53,41 +59,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.None))
-            {
-                _transforms.Clear();
-                return true;
-            }
-
-            var transform = value.ToTransform();
-
-            if (transform != null)
-            {
-                _transforms.Clear();
-                _transforms.Add(transform);
-                return true;
-            }
-
-            var list = value as CSSValueList;
-
-            if (list != null)
-            {
-                var transforms = new ITransform[list.Length];
-
-                for (int i = 0; i < transforms.Length; i++)
-                {
-                    transforms[i] = list[i].ToTransform();
-
-                    if (transforms[i] == null)
-                        return false;
-                }
-
-                _transforms.Clear();
-                _transforms.AddRange(transforms);
-                return true;
-            }
-            
-            return false;
+            return this.TakeOne(Keywords.None, new ITransform[0]).Or(
+                   this.TakeList(this.WithTransform())).TryConvert(value, SetTransforms);
         }
 
         #endregion

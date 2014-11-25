@@ -42,6 +42,11 @@
 
         #region Methods
 
+        public void SetFlat(Boolean flat)
+        {
+            _flat = flat;
+        }
+
         internal override void Reset()
         {
             _flat = true;
@@ -54,14 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Flat))
-                _flat = true;
-            else if (value.Is(Keywords.Preserve3d))
-                _flat = false;
-            else
-                return false;
-
-            return true;
+            return this.Toggle(Keywords.Flat, Keywords.Preserve3d).TryConvert(value, SetFlat);
         }
 
         #endregion

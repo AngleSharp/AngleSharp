@@ -20,6 +20,6 @@
         /// <summary>
         /// Gets how far from the user eye the z = 0 origin is set.
         /// </summary>
-        IDistance Z { get; }
+        Length Z { get; }
     }
 }
