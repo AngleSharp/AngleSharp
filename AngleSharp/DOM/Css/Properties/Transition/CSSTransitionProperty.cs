@@ -85,7 +85,7 @@
                     this.WithTime(), 
                     this.WithTransition(), 
                     this.WithTime(), 
-                Tuple.Create(Keywords.All, Time.Zero, TransitionFunction.Ease, Time.Zero), m => m)).TryConvert(value, t =>
+                Tuple.Create(Keywords.All, Time.Zero, TransitionFunction.Ease, Time.Zero))).TryConvert(value, t =>
             {
                 _property.SetProperties(t.Select(m => m.Item1));
                 _duration.SetDurations(t.Select(m => m.Item2));

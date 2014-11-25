@@ -1203,9 +1203,14 @@
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
         }
 
-        public static IValueConverter<T> WithOptions<T1, T2, T3, T4, T>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Tuple<T1, T2, T3, T4> defaults, Func<Tuple<T1, T2, T3, T4>, T> converter)
+        public static IValueConverter<Tuple<T1, T2, T3>> WithOptions<T1, T2, T3>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Tuple<T1, T2, T3> defaults)
         {
-            return new OptionsValueConverter<T1, T2, T3, T4>(first, second, third, fourth, defaults).To(converter);
+            return new OptionsValueConverter<T1, T2, T3>(first, second, third, defaults);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3, T4>> WithOptions<T1, T2, T3, T4>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Tuple<T1, T2, T3, T4> defaults)
+        {
+            return new OptionsValueConverter<T1, T2, T3, T4>(first, second, third, fourth, defaults);
         }
 
         public static IValueConverter<TransitionFunction> WithTransition(this CSSProperty p)
@@ -1345,6 +1350,11 @@
                         p.WithAngle().To(m => (ITransform)new SkewXTransform(m)))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.SkewY,
                        p.WithAngle().To(m => (ITransform)new SkewYTransform(m))));
+        }
+
+        public static IValueConverter<Tuple<Length, LineStyle, Color>> ValidateBorderPart(this CSSProperty property)
+        {
+            return property.WithOptions(property.WithBorderWidth(), property.WithLineStyle(), property.WithColor(), Tuple.Create(Length.Medium, LineStyle.None, Color.Transparent));
         }
 
         public static IValueConverter<Shape> WithShape(this CSSProperty p)
