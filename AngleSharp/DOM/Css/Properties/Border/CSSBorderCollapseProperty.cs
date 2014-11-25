@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetSeparated(Boolean separate)
+        {
+            _separate = separate;
+        }
+
         internal override void Reset()
         {
             _separate = true;
@@ -53,14 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Separate))
-                _separate = true;
-            else if (value.Is(Keywords.Collapse))
-                _separate = false;
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.Separate, true).Or(this.TakeOne(Keywords.Collapse, false)).TryConvert(value, SetSeparated);
         }
 
         #endregion

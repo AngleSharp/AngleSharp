@@ -51,6 +51,12 @@
 
         #region Methods
 
+        public void SetSpacing(Length horizontal, Length vertical)
+        {
+            _h = horizontal;
+            _v = vertical;
+        }
+
         internal override void Reset()
         {
             _h = Length.Zero;
@@ -64,30 +70,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-                _h = _v = length.Value;
-            else if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
-
-                if (values.Length != 2)
-                    return false;
-
-                var h = values[0].ToLength();
-                var v = values[1].ToLength();
-
-                if (!h.HasValue || !v.HasValue)
-                    return false;
-
-                _h = h.Value;
-                _v = v.Value;
-            }
-            else
-                return false;
-
-            return true;
+            return this.TakeMany(this.WithLength()).Constraint(m => m.Length < 3).TryConvert(value, m => SetSpacing(m[0], m.Length == 2 ? m[1] : m[0]));
         }
 
         #endregion

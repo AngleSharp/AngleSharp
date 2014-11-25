@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -62,19 +63,12 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue width = null, color = null, style = null;
-
-            if (list.Length > 3)
-                return false;
-
-            for (int i = 0; i < list.Length; i++)
+            return this.ValidateBorderPart().TryConvert(value, m =>
             {
-                if (!_width.CanStore(list[i], ref width) && !_style.CanStore(list[i], ref style) && !_color.CanStore(list[i], ref color))
-                    return false;
-            }
-
-            return _width.TrySetValue(width) && _color.TrySetValue(color) && _style.TrySetValue(style);
+                _width.SetWidth(m.Item1);
+                _style.SetStyle(m.Item2);
+                _color.SetColor(m.Item3);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
