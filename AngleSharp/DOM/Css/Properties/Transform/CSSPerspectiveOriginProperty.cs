@@ -49,6 +49,12 @@
 
         #region Methods
 
+        public void SetPosition(IDistance x, IDistance y)
+        {
+            _x = x;
+            _y = y;
+        }
+
         internal override void Reset()
         {
             _x = Percent.Fifty;
@@ -62,110 +68,17 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSValueList)
-                return SetXY((CSSValueList)value);
-            
-            return SetSingle(value);
-        }
-
-        Boolean SetSingle(CSSValue value)
-        {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-            {
-                _x = distance;
-                _y = distance;
-                return true;
-            }
-
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null && primitive.Unit == UnitType.Ident)
-            {
-                var ident = primitive.GetString();
-
-                if (ident.Equals(Keywords.Left, StringComparison.OrdinalIgnoreCase))
-                {
-                    _x = Percent.Zero;
-                    _y = Percent.Fifty;
-                    return true;
-                }
-                else if (ident.Equals(Keywords.Right, StringComparison.OrdinalIgnoreCase))
-                {
-                    _x = Percent.Hundred;
-                    _y = Percent.Fifty;
-                    return true;
-                }
-                else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
-                {
-                    _x = Percent.Fifty;
-                    _y = Percent.Fifty;
-                    return true;
-                }
-                else if (ident.Equals(Keywords.Top, StringComparison.OrdinalIgnoreCase))
-                {
-                    _x = Percent.Fifty;
-                    _y = Percent.Zero;
-                    return true;
-                }
-                else if (ident.Equals(Keywords.Bottom, StringComparison.OrdinalIgnoreCase))
-                {
-                    _x = Percent.Fifty;
-                    _y = Percent.Hundred;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        Boolean SetXY(CSSValueList list)
-        {
-            if (list.Length == 2)
-            {
-                var x = GetMode(list[0], Keywords.Left, Keywords.Right);
-                var y = GetMode(list[1], Keywords.Top, Keywords.Bottom);
-
-                if (y == null || x == null)
-                {
-                    x = GetMode(list[1], Keywords.Left, Keywords.Right);
-                    y = GetMode(list[0], Keywords.Top, Keywords.Bottom);
-                }
-
-                if (x != null && y != null)
-                {
-                    _x = x;
-                    _y = y;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        static IDistance GetMode(CSSValue value, String minIdentifier, String maxIdentifier)
-        {
-            var calc = value.ToDistance();
-
-            if (calc == null && value is CSSPrimitiveValue)
-            {
-                var primitive = (CSSPrimitiveValue)value;
-
-                if (primitive.Unit == UnitType.Ident)
-                {
-                    var ident = primitive.GetString();
-
-                    if (ident.Equals(minIdentifier, StringComparison.OrdinalIgnoreCase))
-                        calc = Percent.Zero;
-                    else if (ident.Equals(maxIdentifier, StringComparison.OrdinalIgnoreCase))
-                        calc = Percent.Hundred;
-                    else if (ident.Equals(Keywords.Center, StringComparison.OrdinalIgnoreCase))
-                        calc = Percent.Fifty;
-                }
-            }
-
-            return calc;
+            return this.WithDistance().To(m => new Point(m, m)).Or(
+                    this.TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
+                    this.TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
+                    this.TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
+                    this.TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
+                    this.TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
+                this.WithOptions(
+                    this.WithDistance().Or(this.TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(this.TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(this.TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                    this.WithDistance().Or(this.TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(this.TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(this.TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                    Tuple.Create((IDistance)Percent.Fifty, (IDistance)Percent.Fifty)).To(m => new Point(m.Item1, m.Item2))
+                ).TryConvert(value, m => SetPosition(m.X, m.Y));
         }
 
         #endregion

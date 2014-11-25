@@ -43,6 +43,11 @@
 
         #region Methods
 
+        public void SetDistance(Length distance)
+        {
+            _distance = distance;
+        }
+
         internal override void Reset()
         {
             _distance = Length.Zero;
@@ -55,17 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToLength();
-
-            if (distance.HasValue)
-                _distance = distance.Value;
-            //Is a keyword indicating that no perspective transform has to be applied.
-            else if (value.Is(Keywords.None))
-                _distance = Length.Zero;
-            else
-                return false;
-
-            return true;
+            return this.WithLength().Or(this.TakeOne(Keywords.None, Length.Zero)).TryConvert(value, SetDistance);
         }
 
         #endregion
