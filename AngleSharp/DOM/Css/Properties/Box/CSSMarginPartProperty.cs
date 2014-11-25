@@ -48,6 +48,16 @@
 
         #region Methods
 
+        public void SetMargin(IDistance margin)
+        {
+            _margin = margin;
+
+            if (margin is Length)
+                _value = new CSSPrimitiveValue((Length)margin);
+            else if (margin is Percent)
+                _value = new CSSPrimitiveValue((Percent)margin);
+        }
+
         internal override void Reset()
         {
             _margin = Percent.Zero;
@@ -60,16 +70,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-                _margin = distance;
-            else if (value.Is(Keywords.Auto))
-                _margin = null;
-            else
-                return false;
-
-            return true;
+            return this.WithDistance().Or(this.TakeOne(Keywords.Auto, (IDistance)null)).TryConvert(value, SetMargin);
         }
 
         #endregion

@@ -13,8 +13,9 @@
     {
         #region Fields
 
-        static readonly Tuple<String, String> _default = new Tuple<String, String>("«", "»");
-        List<Tuple<String, String>> _quotes;
+        static readonly Tuple<String, String>[] _default = new Tuple<String, String>[] { Tuple.Create("«", "»") };
+        static readonly Tuple<String, String>[] _none = new Tuple<String, String>[0];
+        Tuple<String, String>[] _quotes;
 
         #endregion
 
@@ -23,7 +24,6 @@
         internal CSSQuotesProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Quotes, rule, PropertyFlags.Inherited)
         {
-            _quotes = new List<Tuple<String, String>>();
             Reset();
         }
 
@@ -46,10 +46,24 @@
 
         #region Methods
 
+        public void SetQuotes(Tuple<String, String>[] quotes)
+        {
+            _quotes = quotes;
+        }
+
         internal override void Reset()
         {
-            _quotes.Clear();
-            _quotes.Add(_default);
+            _quotes = _default;
+        }
+
+        Tuple<String, String>[] CreateArrays(String[] arrays)
+        {
+            var tuples = new Tuple<String, String>[arrays.Length / 2];
+
+            for (int i = 0, k = 0; i < arrays.Length; i+=2, k++)
+                tuples[k] = Tuple.Create(arrays[i], arrays[i + 1]);
+
+            return tuples;
         }
 
         /// <summary>
@@ -59,34 +73,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.None))
-                _quotes.Clear();
-            else if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
-
-                if (values.Length % 2 != 0)
-                    return false;
-
-                var quotes = new List<Tuple<String, String>>();
-
-                for (int i = 0; i < values.Length; i += 2)
-                {
-                    var open = values[i].ToCssString();
-                    var close = values[i + 1].ToCssString();
-
-                    if (open == null || close == null)
-                        return false;
-
-                    quotes.Add(Tuple.Create(open, close));
-                }
-
-                _quotes = quotes;
-            }
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.None, _none).Or(
+                this.TakeMany(this.WithString()).Constraint(m => m.Length % 2 == 0).To(CreateArrays)).TryConvert(value, SetQuotes);
         }
 
         #endregion

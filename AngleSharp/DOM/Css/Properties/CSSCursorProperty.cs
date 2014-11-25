@@ -13,9 +13,9 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, CursorMode> modes = new Dictionary<String, CursorMode>(StringComparer.OrdinalIgnoreCase);
-        static readonly AutoCursorMode _auto = new AutoCursorMode();
-        CursorMode _mode;
+        static readonly Dictionary<String, SystemCursor> modes = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
+        CustomCursor[] _customs;
+        SystemCursor _system;
 
         #endregion
 
@@ -23,41 +23,42 @@
 
         static CSSCursorProperty()
         {
-            modes.Add(Keywords.Default, new SystemCursorMode(SystemCursor.Default));
-            modes.Add(Keywords.None, new SystemCursorMode(SystemCursor.None));
-            modes.Add(Keywords.ContextMenu, new SystemCursorMode(SystemCursor.ContextMenu));
-            modes.Add(Keywords.Help, new SystemCursorMode(SystemCursor.Help));
-            modes.Add(Keywords.Pointer, new SystemCursorMode(SystemCursor.Pointer));
-            modes.Add(Keywords.Progress, new SystemCursorMode(SystemCursor.Progress));
-            modes.Add(Keywords.Wait, new SystemCursorMode(SystemCursor.Wait));
-            modes.Add(Keywords.Cell, new SystemCursorMode(SystemCursor.Cell));
-            modes.Add(Keywords.Crosshair, new SystemCursorMode(SystemCursor.Crosshair));
-            modes.Add(Keywords.Text, new SystemCursorMode(SystemCursor.Text));
-            modes.Add(Keywords.VerticalText, new SystemCursorMode(SystemCursor.VerticalText));
-            modes.Add(Keywords.Alias, new SystemCursorMode(SystemCursor.Alias));
-            modes.Add(Keywords.Copy, new SystemCursorMode(SystemCursor.Copy));
-            modes.Add(Keywords.Move, new SystemCursorMode(SystemCursor.Move));
-            modes.Add(Keywords.NoDrop, new SystemCursorMode(SystemCursor.NoDrop));
-            modes.Add(Keywords.NotAllowed, new SystemCursorMode(SystemCursor.NotAllowed));
-            modes.Add(Keywords.EastResize, new SystemCursorMode(SystemCursor.EResize));
-            modes.Add(Keywords.NorthResize, new SystemCursorMode(SystemCursor.NResize));
-            modes.Add(Keywords.NorthEastResize, new SystemCursorMode(SystemCursor.NeResize));
-            modes.Add(Keywords.NorthWestResize, new SystemCursorMode(SystemCursor.NwResize));
-            modes.Add(Keywords.SouthResize, new SystemCursorMode(SystemCursor.SResize));
-            modes.Add(Keywords.SouthEastResize, new SystemCursorMode(SystemCursor.SeResize));
-            modes.Add(Keywords.SouthWestResize, new SystemCursorMode(SystemCursor.WResize));
-            modes.Add(Keywords.WestResize, new SystemCursorMode(SystemCursor.WResize));
-            modes.Add(Keywords.EastWestResize, new SystemCursorMode(SystemCursor.EwResize));
-            modes.Add(Keywords.NorthSouthResize, new SystemCursorMode(SystemCursor.NsResize));
-            modes.Add(Keywords.NorthEastSouthWestResize, new SystemCursorMode(SystemCursor.NeswResize));
-            modes.Add(Keywords.NorthWestSouthEastResize, new SystemCursorMode(SystemCursor.NwseResize));
-            modes.Add(Keywords.ColResize, new SystemCursorMode(SystemCursor.ColResize));
-            modes.Add(Keywords.RowResize, new SystemCursorMode(SystemCursor.RowResize));
-            modes.Add(Keywords.AllScroll, new SystemCursorMode(SystemCursor.AllScroll));
-            modes.Add(Keywords.ZoomIn, new SystemCursorMode(SystemCursor.ZoomIn));
-            modes.Add(Keywords.ZoomOut, new SystemCursorMode(SystemCursor.ZoomOut));
-            modes.Add(Keywords.Grab, new SystemCursorMode(SystemCursor.Grab));
-            modes.Add(Keywords.Grabbing, new SystemCursorMode(SystemCursor.Grabbing));
+            modes.Add(Keywords.Auto, SystemCursor.Auto);
+            modes.Add(Keywords.Default, SystemCursor.Default);
+            modes.Add(Keywords.None, SystemCursor.None);
+            modes.Add(Keywords.ContextMenu, SystemCursor.ContextMenu);
+            modes.Add(Keywords.Help, SystemCursor.Help);
+            modes.Add(Keywords.Pointer, SystemCursor.Pointer);
+            modes.Add(Keywords.Progress, SystemCursor.Progress);
+            modes.Add(Keywords.Wait, SystemCursor.Wait);
+            modes.Add(Keywords.Cell, SystemCursor.Cell);
+            modes.Add(Keywords.Crosshair, SystemCursor.Crosshair);
+            modes.Add(Keywords.Text, SystemCursor.Text);
+            modes.Add(Keywords.VerticalText, SystemCursor.VerticalText);
+            modes.Add(Keywords.Alias, SystemCursor.Alias);
+            modes.Add(Keywords.Copy, SystemCursor.Copy);
+            modes.Add(Keywords.Move, SystemCursor.Move);
+            modes.Add(Keywords.NoDrop, SystemCursor.NoDrop);
+            modes.Add(Keywords.NotAllowed, SystemCursor.NotAllowed);
+            modes.Add(Keywords.EastResize, SystemCursor.EResize);
+            modes.Add(Keywords.NorthResize, SystemCursor.NResize);
+            modes.Add(Keywords.NorthEastResize, SystemCursor.NeResize);
+            modes.Add(Keywords.NorthWestResize, SystemCursor.NwResize);
+            modes.Add(Keywords.SouthResize, SystemCursor.SResize);
+            modes.Add(Keywords.SouthEastResize, SystemCursor.SeResize);
+            modes.Add(Keywords.SouthWestResize, SystemCursor.WResize);
+            modes.Add(Keywords.WestResize, SystemCursor.WResize);
+            modes.Add(Keywords.EastWestResize, SystemCursor.EwResize);
+            modes.Add(Keywords.NorthSouthResize, SystemCursor.NsResize);
+            modes.Add(Keywords.NorthEastSouthWestResize, SystemCursor.NeswResize);
+            modes.Add(Keywords.NorthWestSouthEastResize, SystemCursor.NwseResize);
+            modes.Add(Keywords.ColResize, SystemCursor.ColResize);
+            modes.Add(Keywords.RowResize, SystemCursor.RowResize);
+            modes.Add(Keywords.AllScroll, SystemCursor.AllScroll);
+            modes.Add(Keywords.ZoomIn, SystemCursor.ZoomIn);
+            modes.Add(Keywords.ZoomOut, SystemCursor.ZoomOut);
+            modes.Add(Keywords.Grab, SystemCursor.Grab);
+            modes.Add(Keywords.Grabbing, SystemCursor.Grabbing);
         }
 
         internal CSSCursorProperty(CSSStyleDeclaration rule)
@@ -75,13 +76,7 @@
         /// </summary>
         public SystemCursor Cursor
         {
-            get
-            {
-                if (_mode is SystemCursorMode)
-                    return ((SystemCursorMode)_mode).Cursor;
-
-                return SystemCursor.None;
-            }
+            get { return _system; }
         }
 
         #endregion
@@ -90,7 +85,14 @@
 
         internal override void Reset()
         {
-            _mode = _auto;
+            _customs = new CustomCursor[0];
+            _system = SystemCursor.Auto;
+        }
+
+        void SetCursor(CustomCursor[] customs, SystemCursor system)
+        {
+            _customs = customs;
+            _system = system;
         }
 
         /// <summary>
@@ -100,145 +102,24 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Auto))
-                _mode = _auto;
-            else if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-            else
-            {
-                var mode = Evaluate(value);
-
-                if (mode == null)
-                    return false;
-
-                _mode = mode;
-            }
-
-            return true;
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            var modes = new List<CursorMode>();
-            var entries = values.ToList();
-            var acceptMore = true;
-
-            foreach (var entry in entries)
-            {
-                if (!acceptMore || entry.Length == 0)
-                    return false;
-
-                if (entry.Length == 1)
-                {
-                    var item = Evaluate(entry[0]);
-
-                    if (item == null)
-                        return false;
-
-                    acceptMore = item is CustomCursorMode;
-                    modes.Add(item);
-                }
-                else if(entry.Length == 3)
-                {
-                    var location = entry[0].ToUri();
-                    var x = entry[1].ToSingle();
-                    var y = entry[2].ToSingle();
-
-                    if (location == null || !x.HasValue || !y.HasValue)
-                        return false;
-
-                    modes.Add(new CustomCursorMode(new Url(location), x, y));
-                }
-                else
-                    return false;
-            }
-
-            if (modes.Count == 1)
-                _mode = modes[0];
-            else if (modes.Count == 0)
-                return false;
-
-            _mode = new MultiCursorMode(modes);
-            return true;
-        }
-
-        static CursorMode Evaluate(CSSValue value)
-        {
-            CursorMode mode;
-
-            if (modes.TryGetValue(value, out mode))
-                return mode;
-
-            var location = value.ToUri();
-
-            if (location != null)
-                return new CustomCursorMode(new Url(location));
-
-            return null;
+            return this.TakeList(
+                       this.WithUrl().To(m => new CustomCursor { Url = new Url(m) }),
+                       this.WithArgs(this.WithUrl(), this.WithNumber(), this.WithNumber(), v => new CustomCursor { Url = new Url(v.Item1), X = v.Item2, Y = v.Item3 })
+                   ).RequiresEnd(this.From(modes)).TryConvert(value, nv => SetCursor(nv.Item1, nv.Item2));
         }
 
         #endregion
 
-        #region Modes
-        
-        abstract class CursorMode
-        {
-            //TODO Add members that make sense
-        }
-
-        /// <summary>
-        /// The browser determines the cursor to display based on the current context.
-        /// </summary>
-        sealed class AutoCursorMode : CursorMode
-        {
-        }
+        #region Custom Cursor
 
         /// <summary>
         /// A url pointing to an image file.
         /// </summary>
-        sealed class CustomCursorMode : CursorMode
+        struct CustomCursor
         {
-            readonly Url _url;
-            readonly Single _x;
-            readonly Single _y;
-
-            public CustomCursorMode(Url url, Single? x = null, Single? y = null)
-            {
-                _url = url;
-                _x = x ?? 0f;
-                _y = y ?? 0f;
-            }
-        }
-
-        /// <summary>
-        /// A list of urls pointing to an image files, giving the fallback order.
-        /// </summary>
-        sealed class MultiCursorMode : CursorMode
-        {
-            readonly List<CursorMode> _preferences;
-
-            public MultiCursorMode(List<CursorMode> preferences)
-            {
-                _preferences = preferences;
-            }
-        }
-
-        /// <summary>
-        /// Sets the cursor from a predefined list of cursors.
-        /// </summary>
-        sealed class SystemCursorMode : CursorMode
-        {
-            readonly SystemCursor _cursor;
-
-            public SystemCursorMode(SystemCursor cursor)
-            {
-                _cursor = cursor;
-            }
-
-            public SystemCursor Cursor
-            {
-                get { return _cursor; }
-            }
+            public Url Url;
+            public Single X;
+            public Single Y;
         }
 
         #endregion

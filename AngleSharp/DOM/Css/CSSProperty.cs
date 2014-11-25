@@ -14,8 +14,8 @@
         readonly PropertyFlags _flags;
         readonly String _name;
         readonly CSSStyleDeclaration _rule;
+        protected CSSValue _value;
 
-        CSSValue _value;
         Boolean _important;
 
         #endregion

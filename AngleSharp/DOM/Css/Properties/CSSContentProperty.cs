@@ -4,7 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-
+    
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content
@@ -14,8 +14,9 @@
         #region Fields
 
         static readonly Dictionary<String, ContentMode> modes = new Dictionary<String,ContentMode>(StringComparer.OrdinalIgnoreCase);
-        static readonly NormalContentMode _normal = new NormalContentMode();
-        ContentMode _mode;
+        static readonly ContentMode[] _normal = new[] { new NormalContentMode() };
+        static readonly ContentMode[] _none = new ContentMode[0];
+        IEnumerable<ContentMode> _mode;
 
         #endregion
 
@@ -44,6 +45,11 @@
             _mode = _normal;
         }
 
+        void SetMode(ContentMode[] mode)
+        {
+            _mode = mode;
+        }
+
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -51,74 +57,15 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Normal))
-                _mode = _normal;
-            else if (value.Is(Keywords.None))
-                _mode = null;
-            else if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-            else
-            {
-                var mode = Evaluate(value);
-
-                if (mode == null)
-                    return false;
-
-                _mode = mode;
-            }
-
-            return true;
-        }
-
-        static ContentMode Evaluate(CSSValue value)
-        {
-            ContentMode mode = null;
-
-            if (modes.TryGetValue(value, out mode))
-                return mode;
-
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-            {
-                switch (primitive.Unit)
-                {
-                    case UnitType.Uri:
-                        return new UrlContentMode(new Url(primitive.ToUri()));
-                    case UnitType.String:
-                        return new TextContentMode(primitive.GetString());
-                    case UnitType.Attr:
-                        return new AttributeContentMode(primitive.GetString());
-                    case UnitType.Counter:
-                        return new CounterContentMode((Counter)primitive.Value);
-                }
-            }
-
-            return null;
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            var items = new List<ContentMode>();
-
-            foreach (var value in values)
-            {
-                var item = Evaluate(value);
-
-                if (item == null)
-                    return false;
-
-                items.Add(item);
-            }
-
-            if (items.Count == 0)
-                return false;
-            else if (items.Count == 1)
-                _mode = items[0];
-            else
-                _mode = new MultiContentMode(items);
-
-            return true;
+            return this.TakeOne(Keywords.Normal, _normal).Or(
+                   this.TakeOne(Keywords.None, _none)).Or(
+                   this.TakeMany(
+                       this.From(modes),
+                       this.WithUrl().To(url => (ContentMode)new UrlContentMode(new Url(url))),
+                       this.WithString().To(str => (ContentMode)new TextContentMode(str)),
+                       this.WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr)),
+                       this.WithCounter().To(counter => (ContentMode)new CounterContentMode(counter))
+                    )).TryConvert(value, SetMode);
         }
 
         #endregion
@@ -220,20 +167,6 @@
             {
                 _url = url;
             }
-        }
-
-        /// <summary>
-        /// A combination of other modes which are concatenated.
-        /// </summary>
-        sealed class MultiContentMode : ContentMode
-        {
-            List<ContentMode> _contents;
-
-            public MultiContentMode(List<ContentMode> contents)
-            {
-                _contents = contents;
-            }
-
         }
 
         #endregion

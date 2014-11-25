@@ -13,22 +13,11 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, UnicodeMode> modes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
         UnicodeMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSUnicodeBidiProperty()
-        {
-            modes.Add(Keywords.Normal, UnicodeMode.Normal);
-            modes.Add(Keywords.Embed, UnicodeMode.Embed);
-            modes.Add(Keywords.Isolate, UnicodeMode.Isolate);
-            modes.Add(Keywords.IsolateOverride, UnicodeMode.IsolateOverride);
-            modes.Add(Keywords.BidiOverride, UnicodeMode.BidiOverride);
-            modes.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
-        }
 
         internal CSSUnicodeBidiProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.UnicodeBidi, rule)
@@ -52,6 +41,11 @@
 
         #region Methods
 
+        public void SetState(UnicodeMode mode)
+        {
+            _mode = mode;
+        }
+
         internal override void Reset()
         {
             _mode = UnicodeMode.Normal;
@@ -64,15 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            UnicodeMode mode;
-
-            if (modes.TryGetValue(value, out mode))
-            {
-                _mode = mode;
-                return true;
-            }
-            
-            return false;
+            return this.WithUnicodeMode().TryConvert(value, SetState);
         }
 
         #endregion

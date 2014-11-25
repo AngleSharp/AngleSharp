@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetMode(Boolean onTop)
+        {
+            _top = onTop;
+        }
+
         internal override void Reset()
         {
             _top = true;
@@ -53,14 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Top))
-                _top = true;
-            else if (value.Is(Keywords.Bottom))
-                _top = false;
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.Top, true).Or(this.TakeOne(Keywords.Bottom, false)).TryConvert(value, SetMode);
         }
 
         #endregion

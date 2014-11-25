@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetTimingFunctions(IEnumerable<TransitionFunction> functions)
+        {
+            _functions.Clear();
+            _functions.AddRange(functions);
+        }
+
         internal override void Reset()
         {
             _functions.Clear();
@@ -55,16 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var functions = value.AsList(ValueExtensions.ToTimingFunction);
-
-            if (functions != null)
-            {
-                _functions.Clear();
-                _functions.AddRange(functions);
-                return true;
-            }
-            
-            return false;
+            return this.TakeList(this.WithTransition()).TryConvert(value, SetTimingFunctions);
         }
 
         #endregion

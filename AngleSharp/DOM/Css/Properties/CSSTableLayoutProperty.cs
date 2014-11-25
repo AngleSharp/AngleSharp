@@ -45,6 +45,11 @@
 
         #region Methods
 
+        public void SetFixed(Boolean @fixed)
+        {
+            _fixed = @fixed;
+        }
+
         internal override void Reset()
         {
             _fixed = false;
@@ -57,14 +62,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Fixed))
-                _fixed = true;
-            else if (value.Is(Keywords.Auto))
-                _fixed = false;
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.Fixed, true).Or(
+                   this.TakeOne(Keywords.Auto, false)).TryConvert(value, SetFixed);
         }
 
         #endregion

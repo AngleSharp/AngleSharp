@@ -41,6 +41,12 @@
 
         #region Methods
 
+        public void SetProperties(IEnumerable<String> properties)
+        {
+            _properties.Clear();
+            _properties.AddRange(properties);
+        }
+
         internal override void Reset()
         {
             _properties.Clear();
@@ -54,32 +60,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.None))
-                _properties.Clear();
-            else if (value is CSSPrimitiveValue)
-            {
-                var property = value.ToAnimatableIdentifier();
-
-                if (property == null)
-                    return false;
-
-                _properties.Clear();
-                _properties.Add(property);
-            }
-            else if (value is CSSValueList)
-            {
-                var properties = value.AsList(ValueExtensions.ToAnimatableIdentifier);
-
-                if (properties == null)
-                    return false;
-
-                _properties.Clear();
-                _properties.AddRange(properties);
-            }
-            else 
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.None, new String[0]).Or(
+                   this.TakeList(this.WithAnimatableIdentifier())).TryConvert(value, SetProperties);
         }
 
         #endregion

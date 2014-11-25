@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetPadding(IDistance padding)
+        {
+            _padding = padding;
+        }
+
         internal override void Reset()
         {
             _padding = Percent.Zero;
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-            {
-                _padding = distance;
-                return true;
-            }
-            
-            return false;
+            return this.WithDistance().TryConvert(value, SetPadding);
         }
 
         #endregion

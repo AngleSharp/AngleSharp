@@ -79,42 +79,19 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
-            var delays = new CSSValueList();
-            var durations = new CSSValueList();
-            var timingFunctions = new CSSValueList();
-            var properties = new CSSValueList();
-
-            foreach (var list in items)
+            return this.TakeList(
+                this.WithOptions(
+                    this.WithAnimatableIdentifier(), 
+                    this.WithTime(), 
+                    this.WithTransition(), 
+                    this.WithTime(), 
+                Tuple.Create(Keywords.All, Time.Zero, TransitionFunction.Ease, Time.Zero), m => m)).TryConvert(value, t =>
             {
-                if (list.Length > 8)
-                    return false;
-
-                if (delays.Length != 0)
-                {
-                    delays.Add(CSSValue.Separator);
-                    durations.Add(CSSValue.Separator);
-                    timingFunctions.Add(CSSValue.Separator);
-                    properties.Add(CSSValue.Separator);
-                }
-
-                CSSValue delay = null, duration = null, timingFunction = null, property = null;
-
-                foreach (var item in list)
-                {
-                    if (!_property.CanStore(item, ref property) && !_duration.CanStore(item, ref duration) &&
-                        !_timingFunction.CanStore(item, ref timingFunction) && !_delay.CanStore(item, ref delay))
-                        return false;
-                }
-
-                delays.Add(delay ?? new CSSPrimitiveValue(Time.Zero));
-                durations.Add(duration ?? new CSSPrimitiveValue(Time.Zero));
-                timingFunctions.Add(timingFunction ?? new CSSPrimitiveValue(TransitionFunction.Ease));
-                properties.Add(property ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.All)));
-            }
-
-            return _property.TrySetValue(properties.Reduce()) && _delay.TrySetValue(delays.Reduce()) &&
-                   _duration.TrySetValue(durations.Reduce()) && _timingFunction.TrySetValue(timingFunctions.Reduce());
+                _property.SetProperties(t.Select(m => m.Item1));
+                _duration.SetDurations(t.Select(m => m.Item2));
+                _timingFunction.SetTimingFunctions(t.Select(m => m.Item3));
+                _delay.SetDelays(t.Select(m => m.Item4));
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
