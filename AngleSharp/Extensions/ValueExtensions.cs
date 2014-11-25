@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
 
     /// <summary>
     /// A bunch of useful extension methods.
@@ -36,6 +37,7 @@
         static readonly Dictionary<String, BreakMode> breakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Single> horizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Single> verticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, UnicodeMode> unicodeBidis = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -177,6 +179,13 @@
             verticalModes.Add(Keywords.Top, 0f);
             verticalModes.Add(Keywords.Center, 0.5f);
             verticalModes.Add(Keywords.Bottom, 1f);
+
+            unicodeBidis.Add(Keywords.Normal, UnicodeMode.Normal);
+            unicodeBidis.Add(Keywords.Embed, UnicodeMode.Embed);
+            unicodeBidis.Add(Keywords.Isolate, UnicodeMode.Isolate);
+            unicodeBidis.Add(Keywords.IsolateOverride, UnicodeMode.IsolateOverride);
+            unicodeBidis.Add(Keywords.BidiOverride, UnicodeMode.BidiOverride);
+            unicodeBidis.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
         }
 
         #endregion
@@ -186,6 +195,11 @@
         public static AnimationDirection? ToDirection(this CSSValue value)
         {
             return directions.GetValueOrDefault(value);
+        }
+
+        public static UnicodeMode? ToUnicodeBidi(this CSSValue value)
+        {
+            return unicodeBidis.GetValueOrDefault(value);
         }
 
         public static TextDecorationStyle? ToDecorationStyle(this CSSValue value)
@@ -713,28 +727,28 @@
             return null;
         }
 
-        public static GradientStop[] ToGradientStops(this List<CSSValue> values, Int32 offset = 0)
+        public static GradientStop[] ToGradientStops(this CSSValue value)
         {
-            var stops = new GradientStop[values.Count - offset];
+            var values = value as CSSValueList;
 
-            if (stops.Length > 1)
+            if (value == null || values.Length < 2)
+                return null;
+
+            var stops = new GradientStop[values.Length];
+
+            var perStop = 100f / (values.Length - 1);
+
+            for (int i = 0, k = 0; i < values.Length; i++, k++)
             {
-                var perStop = 100f / (values.Count - offset - 1);
+                var stop = values[i].ToGradientStop(perStop * k);
 
-                for (int i = offset, k = 0; i < values.Count; i++, k++)
-                {
-                    var stop = values[i].ToGradientStop(perStop * k);
+                if (stop == null)
+                    return null;
 
-                    if (stop == null)
-                        return null;
-
-                    stops[k] = stop.Value;
-                }
-
-                return stops;
+                stops[k] = stop.Value;
             }
 
-            return null;
+            return stops;
         }
 
         public static GradientStop? ToGradientStop(this CSSValue value, Single defaultStop = 0f)
@@ -1040,6 +1054,22 @@
             return new Shadow(inset, offsetX.Value, offsetY.Value, blurRadius, spreadRadius, color);
         }
 
+        public static CSSValueList ToSeparatedList(this List<CSSValueList> list)
+        {
+            var values = new CSSValueList();
+
+            if (list.Count > 0)
+                values.Add(list[0].Reduce());
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                values.Add(CSSValue.Separator);
+                values.Add(list[i].Reduce());
+            }
+
+            return values;
+        }
+
         #endregion
 
         #region Value Calculation
@@ -1081,6 +1111,885 @@
                 }
 
                 return 0f;
+            }
+        }
+
+        #endregion
+
+        #region Value Converters
+
+        public static IValueConverter<LineStyle> WithLineStyle(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<LineStyle>(lineStyles);
+        }
+
+        public static IValueConverter<UnicodeMode> WithUnicodeMode(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<UnicodeMode>(unicodeBidis);
+        }
+
+        public static IValueConverter<T> From<T>(this CSSProperty property, Dictionary<String, T> values)
+        {
+            return new DictionaryValueConverter<T>(values);
+        }
+
+        public static IValueConverter<Angle> WithSideOrCorner(this CSSProperty property)
+        {
+            return new StructValueConverter<Angle>(ToSideOrCorner);
+        }
+
+        public static IValueConverter<Length> WithLength(this CSSProperty property)
+        {
+            return new StructValueConverter<Length>(ToLength);
+        }
+
+        public static IValueConverter<Time> WithTime(this CSSProperty property)
+        {
+            return new StructValueConverter<Time>(ToTime);
+        }
+
+        public static IValueConverter<IDistance> WithDistance(this CSSProperty property)
+        {
+            return new ClassValueConverter<IDistance>(ToDistance);
+        }
+
+        public static IValueConverter<CssUrl> WithUrl(this CSSProperty property)
+        {
+            return new ClassValueConverter<CssUrl>(ToUri);
+        }
+
+        public static IValueConverter<String> WithString(this CSSProperty property)
+        {
+            return new ClassValueConverter<String>(ToCssString);
+        }
+
+        public static IValueConverter<String> WithIdentifier(this CSSProperty property)
+        {
+            return new ClassValueConverter<String>(ToIdentifier);
+        }
+
+        public static IValueConverter<String> WithAnimatableIdentifier(this CSSProperty property)
+        {
+            return new ClassValueConverter<String>(ToAnimatableIdentifier);
+        }
+
+        public static IValueConverter<CssAttr> WithAttr(this CSSProperty property)
+        {
+            return new FunctionValueConverter<CssAttr>(FunctionNames.Attr, property.WithString().Or(property.WithIdentifier()).To(m => new CssAttr(m)));
+        }
+
+        public static IValueConverter<T> WithArgs<T1, T>(this CSSProperty property, IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
+        {
+            return new ArgumentsValueConverter<T1>(first, arguments).To(converter);
+        }
+
+        public static IValueConverter<T> WithArgs<T1, T2, T>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2>(first, second).To(converter);
+        }
+
+        public static IValueConverter<T> WithArgs<T1, T2, T3, T>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Func<Tuple<T1, T2, T3>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2, T3>(first, second, third).To(converter);
+        }
+
+        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
+        }
+
+        public static IValueConverter<T> WithOptions<T1, T2, T3, T4, T>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Tuple<T1, T2, T3, T4> defaults, Func<Tuple<T1, T2, T3, T4>, T> converter)
+        {
+            return new OptionsValueConverter<T1, T2, T3, T4>(first, second, third, fourth, defaults).To(converter);
+        }
+
+        public static IValueConverter<TransitionFunction> WithTransition(this CSSProperty p)
+        {
+            return new DictionaryValueConverter<TransitionFunction>(timingFunctions).
+                Or(new FunctionValueConverter<TransitionFunction>(FunctionNames.Steps,
+                        p.WithInteger().To(m => (TransitionFunction)new StepsTransitionFunction(m)).Or(
+                        p.WithArgs(p.WithInteger(), p.TakeOne(Keywords.Start, true).Or(p.TakeOne(Keywords.End, false)), m => (TransitionFunction)new StepsTransitionFunction(m.Item1, m.Item2))))).
+                Or(new FunctionValueConverter<TransitionFunction>(FunctionNames.CubicBezier,
+                        p.WithArgs(p.WithNumber(), p.WithNumber(), p.WithNumber(), p.WithNumber(), m => (TransitionFunction)new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4))));
+        }
+
+        public static IValueConverter<Counter> WithCounter(this CSSProperty p)
+        {
+            return new FunctionValueConverter<Counter>(FunctionNames.Counter,
+                        p.WithIdentifier().To(m => new Counter(m, Keywords.Decimal, null)).Or(
+                        p.WithArgs(p.WithIdentifier(), p.WithIdentifier(), m => new Counter(m.Item1, m.Item2, null)))).
+                Or(new FunctionValueConverter<Counter>(FunctionNames.Counters,
+                        p.WithArgs(p.WithIdentifier(), p.WithString(), m => new Counter(m.Item1, Keywords.Decimal, m.Item2)).Or(
+                        p.WithArgs(p.WithIdentifier(), p.WithString(), p.WithIdentifier(), m => new Counter(m.Item1, m.Item3, m.Item2)))));
+        }
+
+        public static IValueConverter<Int32> WithInteger(this CSSProperty property)
+        {
+            return new StructValueConverter<Int32>(ToInteger);
+        }
+
+        public static IValueConverter<Byte> WithByte(this CSSProperty property)
+        {
+            return new StructValueConverter<Byte>(ToByte);
+        }
+
+        public static IValueConverter<GradientStop[]> WithGradientStops(this CSSProperty property)
+        {
+            return new ClassValueConverter<GradientStop[]>(ToGradientStops);
+        }
+
+        public static IValueConverter<T> FirstArg<T>(this CSSProperty property, IValueConverter<T> converter)
+        {
+            return new SubsetValueConverter<T>(converter, 0, 1);
+        }
+
+        public static IValueConverter<T> RestArgs<T>(this CSSProperty property, IValueConverter<T> converter, Int32 start)
+        {
+            return new SubsetValueConverter<T>(converter, start, Int32.MaxValue);
+        }
+
+        public static IValueConverter<LinearGradient> WithLinearGradient(this CSSProperty p)
+        {
+            var args = p.FirstArg(p.WithAngle()).And(p.RestArgs(p.WithGradientStops(), 1)).
+               Or(p.WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
+
+            return new FunctionValueConverter<LinearGradient>(FunctionNames.LinearGradient,
+                        args.To(m => new LinearGradient(m.Item1, m.Item2, false))).
+                Or(new FunctionValueConverter<LinearGradient>(FunctionNames.RepeatingLinearGradient,
+                        args.To(m => new LinearGradient(m.Item1, m.Item2, true))));
+        }
+
+        public static IValueConverter<RadialGradient> WithRadialGradient(this CSSProperty p)
+        {
+            //TODO
+            //Determine first argument (if any):
+            // [ <ending-shape> || <size> ]? [ at <position> ]?
+            //where:
+            // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
+            // <ending-shape> = [ ellipse | circle ]
+            // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
+            var args = p.FirstArg(p.WithAngle()).And(p.RestArgs(p.WithGradientStops(), 1)).
+               Or(p.WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
+
+            return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
+                        args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, false))).
+                Or(new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
+                        args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, true))));
+        }
+
+        public static IValueConverter<CssImages> WithImages(this CSSProperty property)
+        {
+            return new FunctionValueConverter<CssImages>(FunctionNames.Image,
+                        property.TakeList(property.WithUrl().To(m => new Url(m))).To(m => new CssImages(m)));
+        }
+
+        public static IValueConverter<Color> WithColor(this CSSProperty p)
+        {
+            const Single hnorm = 1f / 360f;
+
+            return new StructValueConverter<Color>(ToColor).
+                Or(new FunctionValueConverter<Color>(FunctionNames.Rgb,
+                        p.WithArgs(p.WithByte(), p.WithByte(), p.WithByte(), m => new Color(m.Item1, m.Item2, m.Item3)))).
+                Or(new FunctionValueConverter<Color>(FunctionNames.Rgba,
+                        p.WithArgs(p.WithByte(), p.WithByte(), p.WithByte(), p.WithNumber().Constraint(m => m >= 0f && m <= 1f), m => new Color(m.Item1, m.Item2, m.Item3, m.Item4)))).
+                Or(new FunctionValueConverter<Color>(FunctionNames.Hsl,
+                        p.WithArgs(p.WithNumber(), p.WithPercent(), p.WithPercent(), m => Color.FromHsl(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue)))).
+                Or(new FunctionValueConverter<Color>(FunctionNames.Hsla,
+                        p.WithArgs(p.WithNumber(), p.WithPercent(), p.WithPercent(), p.WithNumber().Constraint(m => m >= 0f && m <= 1f), m => Color.FromHsla(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue, m.Item4))));
+        }
+
+        public static IValueConverter<ITransform> WithTransform(this CSSProperty p)
+        {
+            return new FunctionValueConverter<ITransform>(FunctionNames.Matrix,
+                        p.WithArgs(p.WithNumber(), 6, m => (ITransform)new MatrixTransform(m[0], m[1], m[2], m[3], m[4], m[5]))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Matrix3d,
+                        p.WithArgs(p.WithNumber(), 12, m => (ITransform)new Matrix3DTransform(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate, //TODO 2nd arg. optional => Length.Zero
+                        p.WithArgs(p.WithDistance(), 2, m => (ITransform)new TranslateTransform(m[0], m[1])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate3d, //TODO 2nd and 3rd arg. optional => Length.Zero
+                        p.WithArgs(p.WithDistance(), 3, m => (ITransform)new Translate3DTransform(m[0], m[1], m[2])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateX,
+                        p.WithDistance().To(m => (ITransform)new TranslateXTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateY,
+                        p.WithDistance().To(m => (ITransform)new TranslateYTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateZ,
+                        p.WithDistance().To(m => (ITransform)new TranslateZTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale, //TODO 2nd arg. optional => same as 1st
+                        p.WithArgs(p.WithNumber(), 2, m => (ITransform)new ScaleTransform(m[0], m[1])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale3d, //TODO if only 1 arg. => all three same
+                        p.WithArgs(p.WithNumber(), 3, m => (ITransform)new Scale3DTransform(m[0], m[1], m[2])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleX,
+                        p.WithNumber().To(m => (ITransform)new ScaleXTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleY,
+                        p.WithNumber().To(m => (ITransform)new ScaleYTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleZ,
+                        p.WithNumber().To(m => (ITransform)new ScaleZTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Rotate,
+                        p.WithAngle().To(m => (ITransform)new RotateTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Rotate3d,
+                        p.WithArgs(p.WithNumber(), p.WithNumber(), p.WithNumber(), p.WithAngle(), m => (ITransform)new Rotate3DTransform(m.Item1, m.Item2, m.Item3, m.Item4)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.RotateX,
+                        p.WithAngle().To(m => (ITransform)Rotate3DTransform.RotateX(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.RotateY,
+                        p.WithAngle().To(m => (ITransform)Rotate3DTransform.RotateY(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.RotateZ,
+                        p.WithAngle().To(m => (ITransform)Rotate3DTransform.RotateZ(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Skew,
+                        p.WithArgs(p.WithAngle(), 2, m => (ITransform)new SkewTransform(m[0], m[1])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.SkewX,
+                        p.WithAngle().To(m => (ITransform)new SkewXTransform(m)))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.SkewY,
+                       p.WithAngle().To(m => (ITransform)new SkewYTransform(m))));
+        }
+
+        public static IValueConverter<Shape> WithShape(this CSSProperty p)
+        {
+            return new FunctionValueConverter<Shape>(FunctionNames.Rect,
+                       p.WithArgs(p.WithLength(), p.WithLength(), p.WithLength(), p.WithLength(), m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)));
+        }
+
+        public static IValueConverter<Angle> WithAngle(this CSSProperty property)
+        {
+            return new StructValueConverter<Angle>(ToAngle);
+        }
+
+        public static IValueConverter<Single> WithNumber(this CSSProperty property)
+        {
+            return new StructValueConverter<Single>(ToSingle);
+        }
+
+        public static IValueConverter<Percent> WithPercent(this CSSProperty property)
+        {
+            return new StructValueConverter<Percent>(ToPercent);
+        }
+
+        public static IValueConverter<T> TakeOne<T>(this CSSProperty property, String identifier, T result)
+        {
+            return new IdentifierValueConverter<T>(identifier, result);
+        }
+
+        public static IValueConverter<T[]> TakeMany<T>(this CSSProperty property, params IValueConverter<T>[] converters)
+        {
+            return new OneOrMoreValueConverter<T>(converters);
+        }
+
+        public static IValueConverter<T[]> TakeList<T>(this CSSProperty property, params IValueConverter<T>[] converters)
+        {
+            return new ListValueConverter<T>(converters);
+        }
+
+        #endregion
+
+        #region Transformation Classes
+
+        /// <summary>
+        /// Represents the matrix transformation.
+        /// </summary>
+        sealed class MatrixTransform : ITransform, ICssObject
+        {
+            readonly TransformMatrix _matrix;
+
+            internal MatrixTransform(Single m11, Single m12, Single m21, Single m22, Single tx, Single ty)
+            {
+                _matrix = new TransformMatrix(m11, m12, 0f, m21, m22, 0f, 0f, 0f, 1f, tx, ty, 0f);
+            }
+
+            /// <summary>
+            /// Returns the matrix transformation.
+            /// </summary>
+            /// <returns>The stored matrix.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return _matrix;
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Matrix, _matrix.M11.ToString(CultureInfo.InvariantCulture), _matrix.M12.ToString(CultureInfo.InvariantCulture), _matrix.M21.ToString(CultureInfo.InvariantCulture), _matrix.M22.ToString(CultureInfo.InvariantCulture), _matrix.Tx.ToString(CultureInfo.InvariantCulture), _matrix.Ty.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        /// <summary>
+        /// Represents the matrix3d transformation.
+        /// </summary>
+        sealed class Matrix3DTransform : ITransform, ICssObject
+        {
+            readonly TransformMatrix _matrix;
+
+            internal Matrix3DTransform(Single m11, Single m12, Single m13, Single m21, Single m22, Single m23, Single m31, Single m32, Single m33, Single tx, Single ty, Single tz)
+            {
+                _matrix = new TransformMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33, tx, ty, tz);
+            }
+
+            /// <summary>
+            /// Returns the stored matrix.
+            /// </summary>
+            /// <returns>The current transformation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return _matrix;
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return _matrix.ToCss();
+            }
+        }
+
+        /// <summary>
+        /// Represents the translate transformation.
+        /// </summary>
+        sealed class TranslateTransform : ITransform, ICssObject
+        {
+            readonly IDistance _y;
+            readonly IDistance _x;
+
+            internal TranslateTransform(IDistance x, IDistance y)
+            {
+                _x = x;
+                _y = y;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var dx = _x.ToPixel();
+                var dy = _y.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Translate, _x.ToCss(), _y.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the translate-x transformation.
+        /// </summary>
+        sealed class TranslateXTransform : ITransform, ICssObject
+        {
+            readonly IDistance _x;
+
+            internal TranslateXTransform(IDistance x)
+            {
+                _x = x;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var dx = _x.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.TranslateX, _x.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the translate-y transformation.
+        /// </summary>
+        sealed class TranslateYTransform : ITransform, ICssObject
+        {
+            readonly IDistance _y;
+
+            internal TranslateYTransform(IDistance y)
+            {
+                _y = y;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var dy = _y.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, dy, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.TranslateY, _y.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the translate-z transformation.
+        /// </summary>
+        sealed class TranslateZTransform : ITransform, ICssObject
+        {
+            readonly IDistance _z;
+
+            internal TranslateZTransform(IDistance z)
+            {
+                _z = z;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var dz = _z.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, dz);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.TranslateZ, _z.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the translate3d transformation.
+        /// </summary>
+        sealed class Translate3DTransform : ITransform, ICssObject
+        {
+            readonly IDistance _x;
+            readonly IDistance _y;
+            readonly IDistance _z;
+
+            internal Translate3DTransform(IDistance x, IDistance y, IDistance z)
+            {
+                _x = x;
+                _y = y;
+                _z = z;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var dx = _x.ToPixel();
+                var dy = _y.ToPixel();
+                var dz = _z.ToPixel();
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Translate3d, _x.ToCss(), _y.ToCss(), _z.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the rotate transformation.
+        /// </summary>
+        sealed class RotateTransform : ITransform, ICssObject
+        {
+            readonly Angle _angle;
+
+            internal RotateTransform(Angle angle)
+            {
+                _angle = angle;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var sina = _angle.Sin();
+                var cosa = _angle.Cos();
+                return new TransformMatrix(cosa, sina, 0f, -sina, cosa, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Rotate, _angle.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the rotate3d transformation.
+        /// </summary>
+        sealed class Rotate3DTransform : ITransform, ICssObject
+        {
+            readonly Single _x;
+            readonly Single _y;
+            readonly Single _z;
+            readonly Angle _angle;
+
+            internal Rotate3DTransform(Single x, Single y, Single z, Angle angle)
+            {
+                _x = x;
+                _y = y;
+                _z = z;
+                _angle = angle;
+            }
+
+            /// <summary>
+            /// Constructs a rotate 3D transformation around the x-axis.
+            /// </summary>
+            /// <param name="angle">The angle to rotate.</param>
+            /// <returns>The rotate 3D transformation.</returns>
+            public static Rotate3DTransform RotateX(Angle angle)
+            {
+                return new Rotate3DTransform(1f, 0f, 0f, angle);
+            }
+
+            /// <summary>
+            /// Constructs a rotate 3D transformation around the y-axis.
+            /// </summary>
+            /// <param name="angle">The angle to rotate.</param>
+            /// <returns>The rotate 3D transformation.</returns>
+            public static Rotate3DTransform RotateY(Angle angle)
+            {
+                return new Rotate3DTransform(0f, 1f, 0f, angle);
+            }
+
+            /// <summary>
+            /// Constructs a rotate 3D transformation around the z-axis.
+            /// </summary>
+            /// <param name="angle">The angle to rotate.</param>
+            /// <returns>The rotate 3D transformation.</returns>
+            public static Rotate3DTransform RotateZ(Angle angle)
+            {
+                return new Rotate3DTransform(0f, 0f, 1f, angle);
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var norm = 1f / (Single)Math.Sqrt(_x * _x + _y * _y + _z * _z);
+                var sina = _angle.Sin();
+                var cosa = _angle.Cos();
+                var l = _x * norm;
+                var m = _y * norm;
+                var n = _z * norm;
+                var omc = (1f - cosa);
+                return new TransformMatrix(
+                    l * l * omc + cosa, m * l * omc - n * sina, n * l * omc + m * sina,
+                    l * m * omc + n * sina, m * m * omc + cosa, n * m * omc - l * sina,
+                    l * n * omc - m * sina, m * n * omc + l * sina, n * n * omc + cosa,
+                    0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), _angle.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the scale transformation.
+        /// </summary>
+        sealed class ScaleTransform : ITransform, ICssObject
+        {
+            readonly Single _sx;
+            readonly Single _sy;
+
+            internal ScaleTransform(Single scale)
+            {
+                _sx = scale;
+                _sy = scale;
+            }
+
+            internal ScaleTransform(Single sx, Single sy)
+            {
+                _sx = sx;
+                _sy = sy;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                if (_sx == _sy)
+                    return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture));
+
+                return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        /// <summary>
+        /// Represents the scale-x transformation.
+        /// </summary>
+        sealed class ScaleXTransform : ITransform, ICssObject
+        {
+            readonly Single _scale;
+
+            internal ScaleXTransform(Single scale)
+            {
+                _scale = scale;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(_scale, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.ScaleX, _scale.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        /// <summary>
+        /// Represents the scale-y transformation.
+        /// </summary>
+        sealed class ScaleYTransform : ITransform, ICssObject
+        {
+            readonly Single _scale;
+
+            internal ScaleYTransform(Single scale)
+            {
+                _scale = scale;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(1f, 0f, 0f, 0f, _scale, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.ScaleY, _scale.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        /// <summary>
+        /// Represents the scale-z transformation.
+        /// </summary>
+        sealed class ScaleZTransform : ITransform, ICssObject
+        {
+            readonly Single _scale;
+
+            internal ScaleZTransform(Single scale)
+            {
+                _scale = scale;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, _scale, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.ScaleZ, _scale.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        /// <summary>
+        /// Represents the scale3d transformation.
+        /// </summary>
+        sealed class Scale3DTransform : ITransform, ICssObject
+        {
+            readonly Single _sx;
+            readonly Single _sy;
+            readonly Single _sz;
+
+            internal Scale3DTransform(Single sx, Single sy, Single sz)
+            {
+                _sx = sx;
+                _sy = sy;
+                _sz = sz;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Scale3d, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture), _sz.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        /// <summary>
+        /// Represents the skew transformation.
+        /// </summary>
+        sealed class SkewTransform : ITransform, ICssObject
+        {
+            readonly Angle _alpha;
+            readonly Angle _beta;
+
+            internal SkewTransform(Angle alpha, Angle beta)
+            {
+                _alpha = alpha;
+                _beta = beta;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var a = _alpha.Tan();
+                var b = _beta.Tan();
+                return new TransformMatrix(1f, a, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.Skew, _alpha.ToCss(), _beta.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the skew-x transformation.
+        /// </summary>
+        sealed class SkewXTransform : ITransform, ICssObject
+        {
+            readonly Angle _angle;
+
+            internal SkewXTransform(Angle alpha)
+            {
+                _angle = alpha;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var a = _angle.Tan();
+                return new TransformMatrix(1f, a, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.SkewX, _angle.ToCss());
+            }
+        }
+
+        /// <summary>
+        /// Represents the skew-y transformation.
+        /// </summary>
+        sealed class SkewYTransform : ITransform, ICssObject
+        {
+            readonly Angle _angle;
+
+            internal SkewYTransform(Angle beta)
+            {
+                _angle = beta;
+            }
+
+            /// <summary>
+            /// Computes the matrix for the given transformation.
+            /// </summary>
+            /// <returns>The transformation matrix representation.</returns>
+            public TransformMatrix ComputeMatrix()
+            {
+                var b = _angle.Tan();
+                return new TransformMatrix(1f, 0f, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+            }
+
+            /// <summary>
+            /// Returns a CSS representation of the transformation.
+            /// </summary>
+            /// <returns>The CSS value string.</returns>
+            public String ToCss()
+            {
+                return FunctionNames.Build(FunctionNames.SkewY, _angle.ToCss());
             }
         }
 

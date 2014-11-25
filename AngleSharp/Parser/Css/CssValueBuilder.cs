@@ -181,8 +181,8 @@
         {
             #region Fields
 
-            String _name;
-            List<CSSValue> _arguments;
+            readonly String _name;
+            readonly List<CSSValue> _arguments;
 
             #endregion
 
@@ -215,7 +215,7 @@
 
             public CSSValue ToValue()
             {
-                return CSSFunctions.Create(_name, _arguments);
+                return new CSSFunction(_name, _arguments);
             }
 
             #endregion
