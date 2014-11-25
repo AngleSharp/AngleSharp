@@ -2,6 +2,75 @@
 {
     using System;
 
+    sealed class OptionsValueConverter<T1, T2> : IValueConverter<Tuple<T1, T2>>
+    {
+        readonly IValueConverter<T1> _first;
+        readonly IValueConverter<T2> _second;
+        readonly Tuple<T1, T2> _defaults;
+
+        public OptionsValueConverter(IValueConverter<T1> first, IValueConverter<T2> second, Tuple<T1, T2> defaults)
+        {
+            _first = first;
+            _second = second;
+            _defaults = defaults;
+        }
+
+        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2>> setResult)
+        {
+            var items = value as CSSValueList ?? new CSSValueList(value);
+
+            if (items.Length > 2)
+                return false;
+
+            var t1 = TryAll(items, _first, _defaults.Item1);
+            var t2 = TryAll(items, _second, _defaults.Item2);
+
+            if (items.Length > 0)
+                return false;
+
+            setResult(Tuple.Create(t1, t2));
+            return true;
+        }
+
+        static T TryAll<T>(CSSValueList list, IValueConverter<T> converter, T defaultValue)
+        {
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
+                {
+                    list.Remove(list[i]);
+                    break;
+                }
+            }
+
+            return defaultValue;
+        }
+
+        public Boolean Validate(CSSValue value)
+        {
+            var items = value as CSSValueList ?? new CSSValueList(value);
+
+            if (items.Length > 2)
+                return false;
+
+            var validators = new IValueConverter[] { _first, _second };
+
+            for (int i = 0; i < validators.Length; i++)
+            {
+                for (int j = 0; j < items.Length; j++)
+                {
+                    if (validators[i].Validate(items[j]))
+                    {
+                        items.Remove(items[j]);
+                        break;
+                    }
+                }
+            }
+
+            return items.Length == 0;
+        }
+    }
+
     sealed class OptionsValueConverter<T1, T2, T3> : IValueConverter<Tuple<T1, T2, T3>>
     {
         readonly IValueConverter<T1> _first;

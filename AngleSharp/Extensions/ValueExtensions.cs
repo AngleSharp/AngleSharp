@@ -1170,6 +1170,11 @@
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
         }
 
+        public static IValueConverter<Tuple<T1, T2>> WithOptions<T1, T2>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, Tuple<T1, T2> defaults)
+        {
+            return new OptionsValueConverter<T1, T2>(first, second, defaults);
+        }
+
         public static IValueConverter<Tuple<T1, T2, T3>> WithOptions<T1, T2, T3>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Tuple<T1, T2, T3> defaults)
         {
             return new OptionsValueConverter<T1, T2, T3>(first, second, third, defaults);
