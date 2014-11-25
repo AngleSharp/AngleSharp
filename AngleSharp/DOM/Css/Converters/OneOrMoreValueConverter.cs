@@ -6,11 +6,11 @@
 
     sealed class OneOrMoreValueConverter<T> : IValueConverter<T[]>
     {
-        readonly IValueConverter<T>[] _converters;
+        readonly IValueConverter<T> _converter;
 
-        public OneOrMoreValueConverter(IValueConverter<T>[] converters)
+        public OneOrMoreValueConverter(IValueConverter<T> converter)
         {
-            _converters = converters;
+            _converter = converter;
         }
 
         public Boolean TryConvert(CSSValue value, Action<T[]> setResult)
@@ -20,18 +20,7 @@
 
             for (var i = 0; i < items.Length; i++)
             {
-                var invalid = true;
-
-                foreach (var converter in _converters)
-                {
-                    if (converter.TryConvert(items[i], nv => targets[i] = nv))
-                    {
-                        invalid = false;
-                        break;
-                    }
-                }
-
-                if (invalid)
+                if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
                     return false;
             }
 
@@ -45,18 +34,7 @@
 
             foreach (var item in items)
             {
-                var invalid = true;
-
-                foreach (var converter in _converters)
-                {
-                    if (converter.Validate(item))
-                    {
-                        invalid = false;
-                        break;
-                    }
-                }
-
-                if (invalid)
+                if (!_converter.Validate(item))
                     return false;
             }
 

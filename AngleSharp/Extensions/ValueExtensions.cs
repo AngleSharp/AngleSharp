@@ -1085,6 +1085,16 @@
             return new DictionaryValueConverter<LineStyle>(lineStyles);
         }
 
+        public static IValueConverter<TextDecorationStyle> WithDecorationStyle(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<TextDecorationStyle>(decorationStyles);
+        }
+
+        public static IValueConverter<TextDecorationLine> WithDecorationLine(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<TextDecorationLine>(decorationLines);
+        }
+
         public static IValueConverter<Visibility> WithVisibility(this CSSProperty property)
         {
             return new DictionaryValueConverter<Visibility>(visibilities);
@@ -1360,9 +1370,9 @@
             return new IdentifierValueConverter<T>(identifier, result);
         }
 
-        public static IValueConverter<T[]> TakeMany<T>(this CSSProperty property, params IValueConverter<T>[] converters)
+        public static IValueConverter<T[]> TakeMany<T>(this CSSProperty property, IValueConverter<T> converter)
         {
-            return new OneOrMoreValueConverter<T>(converters);
+            return new OneOrMoreValueConverter<T>(converter);
         }
 
         public static IValueConverter<T[]> TakeList<T>(this CSSProperty property, params IValueConverter<T>[] converters)
