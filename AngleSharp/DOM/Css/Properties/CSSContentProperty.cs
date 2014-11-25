@@ -117,7 +117,7 @@
         /// </summary>
         sealed class TextContentMode : ContentMode
         {
-            String _text;
+            readonly String _text;
 
             public TextContentMode(String text)
             {
@@ -132,7 +132,7 @@
         /// </summary>
         sealed class CounterContentMode : ContentMode
         {
-            Counter _counter;
+            readonly Counter _counter;
 
             public CounterContentMode(Counter counter)
             {
@@ -146,7 +146,7 @@
         /// </summary>
         sealed class AttributeContentMode : ContentMode
         {
-            String _attribute;
+            readonly String _attribute;
 
             public AttributeContentMode(String attribute)
             {
