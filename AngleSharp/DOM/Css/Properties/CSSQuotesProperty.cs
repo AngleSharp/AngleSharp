@@ -56,16 +56,6 @@
             _quotes = _default;
         }
 
-        Tuple<String, String>[] CreateArrays(String[] arrays)
-        {
-            var tuples = new Tuple<String, String>[arrays.Length / 2];
-
-            for (int i = 0, k = 0; i < arrays.Length; i+=2, k++)
-                tuples[k] = Tuple.Create(arrays[i], arrays[i + 1]);
-
-            return tuples;
-        }
-
         /// <summary>
         /// Determines if the given value represents a valid state of this property.
         /// </summary>
@@ -74,7 +64,21 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.TakeOne(Keywords.None, _none).Or(
-                this.TakeMany(this.WithString()).Constraint(m => m.Length % 2 == 0).To(CreateArrays)).TryConvert(value, SetQuotes);
+                this.TakeMany(this.WithString()).Constraint(m => m.Length % 2 == 0).To(TransformArray)).TryConvert(value, SetQuotes);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static Tuple<String, String>[] TransformArray(String[] arrays)
+        {
+            var tuples = new Tuple<String, String>[arrays.Length / 2];
+
+            for (int i = 0, k = 0; i < arrays.Length; i += 2, k++)
+                tuples[k] = Tuple.Create(arrays[i], arrays[i + 1]);
+
+            return tuples;
         }
 
         #endregion
