@@ -22,31 +22,31 @@
         /// <summary>
         /// Gets the pre-defined ease function.
         /// </summary>
-        public static readonly CubicBezierTransitionFunction Ease = new CubicBezierTransitionFunction(0.25f, 0.1f, 0.25f, 1f);
+        public static readonly TransitionFunction Ease = new CubicBezierTransitionFunction(0.25f, 0.1f, 0.25f, 1f);
         /// <summary>
         /// Gets the pre-defined ease-in function.
         /// </summary>
-        public static readonly CubicBezierTransitionFunction EaseIn = new CubicBezierTransitionFunction(0.42f, 0f, 1f, 1f);
+        public static readonly TransitionFunction EaseIn = new CubicBezierTransitionFunction(0.42f, 0f, 1f, 1f);
         /// <summary>
         /// Gets the pre-defined ease-in-out function.
         /// </summary>
-        public static readonly CubicBezierTransitionFunction EaseInOut = new CubicBezierTransitionFunction(0.42f, 0f, 0.58f, 1f);
+        public static readonly TransitionFunction EaseInOut = new CubicBezierTransitionFunction(0.42f, 0f, 0.58f, 1f);
         /// <summary>
         /// Gets the pre-defined ease-out function.
         /// </summary>
-        public static readonly CubicBezierTransitionFunction EaseOut = new CubicBezierTransitionFunction(0f, 0f, 0.58f, 1f);
+        public static readonly TransitionFunction EaseOut = new CubicBezierTransitionFunction(0f, 0f, 0.58f, 1f);
         /// <summary>
         /// Gets the pre-defined linear function.
         /// </summary>
-        public static readonly CubicBezierTransitionFunction Linear = new CubicBezierTransitionFunction(0f, 0f, 1f, 1f);
+        public static readonly TransitionFunction Linear = new CubicBezierTransitionFunction(0f, 0f, 1f, 1f);
         /// <summary>
         /// Gets the pre-defined step-start function.
         /// </summary>
-        public static readonly StepsTransitionFunction StepStart = new StepsTransitionFunction(1, true);
+        public static readonly TransitionFunction StepStart = new StepsTransitionFunction(1, true);
         /// <summary>
         /// Gets the pre-defined step-end function.
         /// </summary>
-        public static readonly StepsTransitionFunction StepEnd = new StepsTransitionFunction(1, false);
+        public static readonly TransitionFunction StepEnd = new StepsTransitionFunction(1, false);
 
         #endregion
     }
