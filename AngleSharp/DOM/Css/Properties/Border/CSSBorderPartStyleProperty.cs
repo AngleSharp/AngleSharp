@@ -37,6 +37,11 @@
 
         #region Methods
 
+        public void SetStyle(LineStyle style)
+        {
+            _style = style;
+        }
+
         internal override void Reset()
         {
             _style = LineStyle.None;
@@ -49,15 +54,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var style = value.ToLineStyle();
-
-            if (style.HasValue)
-            {
-                _style = style.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithLineStyle().TryConvert(value, SetStyle);
         }
 
         #endregion

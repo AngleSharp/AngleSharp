@@ -54,29 +54,6 @@
             return true;
         }
 
-        protected static Boolean ValidatePeriodic(CSSValue v, CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
-        {
-            var values = v as CSSValueList ?? new CSSValueList(v);
-            CSSValue top = null;
-            CSSValue right = null;
-            CSSValue bottom = null;
-            CSSValue left = null;
-
-            if (values.Length > 4)
-                return false;
-
-            foreach (var value in values)
-            {
-                if (!t.CanStore(value, ref top) && !r.CanStore(value, ref right) && !b.CanStore(value, ref bottom) && !l.CanStore(value, ref left))
-                    return false;
-            }
-
-            right = right ?? top;
-            bottom = bottom ?? top;
-            left = left ?? right;
-            return t.TrySetValue(top) && r.TrySetValue(right) && b.TrySetValue(bottom) && l.TrySetValue(left);
-        }
-
         protected static Boolean ExpandPeriodic(CSSValueList list)
         {
             if (list.Length == 0 || list.Length > 4)

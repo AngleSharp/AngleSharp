@@ -1138,6 +1138,11 @@
             return new StructValueConverter<Angle>(ToSideOrCorner);
         }
 
+        public static IValueConverter<Length> WithBorderWidth(this CSSProperty property)
+        {
+            return new StructValueConverter<Length>(ToBorderWidth);
+        }
+
         public static IValueConverter<Length> WithLength(this CSSProperty property)
         {
             return new StructValueConverter<Length>(ToLength);

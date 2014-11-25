@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -77,7 +78,13 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return ValidatePeriodic(value, _top, _right, _bottom, _left);
+            return this.WithBorderWidth().Periodic().TryConvert(value, m =>
+            {
+                _top.SetWidth(m.Item1);
+                _right.SetWidth(m.Item2);
+                _bottom.SetWidth(m.Item3);
+                _left.SetWidth(m.Item4);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
