@@ -45,6 +45,11 @@
 
         #region Methods
 
+        public void SetSpanning(Boolean span)
+        {
+            _span = span;
+        }
+
         internal override void Reset()
         {
             _span = false;
@@ -57,16 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //The element does not span multiple columns.
-            if (value.Is(Keywords.None))
-                _span = false;
-            //The element spans across all columns.
-            else if (value.Is(Keywords.All))
-                _span = true;
-            else
-                return false;
-
-            return true;
+            return this.Toggle(Keywords.All, Keywords.None).TryConvert(value, SetSpanning);
         }
 
         #endregion

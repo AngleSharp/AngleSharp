@@ -43,6 +43,11 @@
 
         #region Methods
 
+        public void SetCount(Int32? count)
+        {
+            _count = count;
+        }
+
         internal override void Reset()
         {
             _count = null;
@@ -55,16 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var count = value.ToInteger();
-
-            if (count.HasValue)
-                _count = count.Value;
-            else if (value.Is(Keywords.Auto))
-                _count = null;
-            else 
-                return false;
-
-            return true;
+            return this.WithInteger().OrNullDefault().TryConvert(value, SetCount);
         }
 
         #endregion

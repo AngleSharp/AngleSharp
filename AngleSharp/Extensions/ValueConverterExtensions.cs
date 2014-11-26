@@ -33,6 +33,23 @@
             return new OrValueConverter<T>(primary, secondary);
         }
 
+        public static IValueConverter<Nullable<T>> ToNullable<T>(this IValueConverter<T> primary)
+            where T : struct
+        {
+            return primary.To(m => new T?(m));
+        }
+
+        public static IValueConverter<T> OrDefault<T>(this IValueConverter<T> primary)
+        {
+            return primary.Or(new IdentifierValueConverter<T>(Keywords.Auto, default(T)));
+        }
+
+        public static IValueConverter<Nullable<T>> OrNullDefault<T>(this IValueConverter<T> primary)
+            where T : struct
+        {
+            return primary.ToNullable().OrDefault();
+        }
+
         public static IValueConverter<T> Constraint<T>(this IValueConverter<T> primary, Predicate<T> constraint)
         {
             return new ConstraintValueConverter<T>(primary, constraint);

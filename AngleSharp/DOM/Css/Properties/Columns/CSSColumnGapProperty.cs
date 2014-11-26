@@ -46,6 +46,11 @@
 
         #region Methods
 
+        public void SetGap(Length gap)
+        {
+            _gap = gap;
+        }
+
         internal override void Reset()
         {
             _gap = _normal;
@@ -58,16 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var gap = value.ToLength();
-
-            if (gap.HasValue)
-                _gap = gap.Value;
-            else if (value.Is(Keywords.Normal))
-                _gap = _normal;
-            else
-                return false;
-
-            return true;
+            return this.WithLength().Or(this.TakeOne(Keywords.Normal, _normal)).TryConvert(value, SetGap);
         }
 
         #endregion

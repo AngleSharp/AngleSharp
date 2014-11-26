@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetBalanced(Boolean balanced)
+        {
+            _balanced = balanced;
+        }
+
         internal override void Reset()
         {
             _balanced = true;
@@ -52,16 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //Is a keyword indicating that columns are filled sequentially.
-            if (value.Is(Keywords.Auto))
-                _balanced = false;
-            //Is a keyword indicating that content is equally divided between columns.
-            else if (value.Is(Keywords.Balance))
-                _balanced = true;
-            else
-                return false;
-
-            return true;
+            return this.Toggle(Keywords.Balance, Keywords.Auto).TryConvert(value, SetBalanced);
         }
 
         #endregion

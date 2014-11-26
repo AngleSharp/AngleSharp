@@ -43,6 +43,11 @@
 
         #region Methods
 
+        public void SetWidth(Length? width)
+        {
+            _width = width;
+        }
+
         internal override void Reset()
         {
             _width = null;
@@ -55,16 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var width = value.ToLength();
-
-            if (width.HasValue)
-                _width = width.Value;
-            else if (value.Is(Keywords.Auto))
-                _width = null;
-            else
-                return false;
-
-            return true;
+            return this.WithLength().OrNullDefault().TryConvert(value, SetWidth);
         }
 
         #endregion
