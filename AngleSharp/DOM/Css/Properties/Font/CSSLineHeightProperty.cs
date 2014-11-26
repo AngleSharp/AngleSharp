@@ -37,6 +37,11 @@
 
         #region Methods
 
+        public void SetHeight(IDistance height)
+        {
+            _height = height;
+        }
+
         internal override void Reset()
         {
             _height = new Percent(120f);
@@ -49,15 +54,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToLineHeight();
-
-            if (distance != null)
-            {
-                _height = distance;
-                return true;
-            }
-
-            return false;
+            return this.WithLineHeight().TryConvert(value, SetHeight);
         }
 
         #endregion

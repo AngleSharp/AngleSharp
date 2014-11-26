@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetStretch(FontStretch stretch)
+        {
+            _stretch = stretch;
+        }
+
         internal override void Reset()
         {
             _stretch = FontStretch.Normal;
@@ -53,15 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var stretch = value.ToFontStretch();
-
-            if (stretch.HasValue)
-            {
-                _stretch = stretch.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithFontStretch().TryConvert(value, SetStretch);
         }
 
         #endregion

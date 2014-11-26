@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetStyle(FontStyle style)
+        {
+            _style = style;
+        }
+
         internal override void Reset()
         {
             _style = FontStyle.Normal;
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var style = value.ToFontStyle();
-
-            if (style.HasValue)
-            {
-                _style = style.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithFontStyle().TryConvert(value, SetStyle);
         }
 
         #endregion

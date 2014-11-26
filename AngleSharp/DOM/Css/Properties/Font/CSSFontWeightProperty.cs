@@ -52,6 +52,16 @@
 
         #region Methods
 
+        public void SetWeight(Int32 weight)
+        {
+            SetExplicitWeight(new FontWeight { IsRelative = false, Value = weight });
+        }
+
+        void SetExplicitWeight(FontWeight weight)
+        {
+            _weight = weight;
+        }
+
         internal override void Reset()
         {
             _weight = _weights[Keywords.Normal];
@@ -64,25 +74,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            FontWeight weight;
-
-            if (_weights.TryGetValue(value, out weight))
-            {
-                _weight = weight;
-                return true;
-            }
-            else
-            {
-                var val = value.ToInteger();
-
-                if (val.HasValue && val.Value >= 100 && val.Value <= 900)
-                {
-                    _weight = new FontWeight { IsRelative = false, Value = val.Value };   
-                    return true;
-                }
-            }
-
-            return false;
+            return this.WithInteger().Constraint(m => m >= 100 && m <= 900).To(m => new FontWeight { IsRelative = false, Value = m }).Or(
+                   this.From(_weights)).TryConvert(value, SetExplicitWeight);
         }
 
         struct FontWeight

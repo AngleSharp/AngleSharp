@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetVariant(FontVariant variant)
+        {
+            _variant = variant;
+        }
+
         internal override void Reset()
         {
             _variant = FontVariant.Normal;
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var variant = value.ToFontVariant();
-
-            if (variant.HasValue)
-            {
-                _variant = variant.Value;
-                return true;
-            }
-
-            return false;
+            return this.Toggle(Keywords.Normal, Keywords.SmallCaps).To(m => m ? FontVariant.Normal : FontVariant.SmallCaps).TryConvert(value, SetVariant);
         }
 
         #endregion

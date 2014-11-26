@@ -42,6 +42,12 @@
 
         #region Methods
 
+        private void SetFamilies(IEnumerable<String> families)
+        {
+            _families.Clear();
+            _families.AddRange(families);
+        }
+
         internal override void Reset()
         {
             _families.Clear();
@@ -55,37 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSPrimitiveValue)
-            {
-                _families.Clear();
-                _families.Add(value.ToFontFamily());
-            }
-            else if (value is CSSValueList)
-                return SetFamilies((CSSValueList)value);
-            else
-                return false;
-
-            return true;
-        }
-
-        Boolean SetFamilies(CSSValueList values)
-        {
-            var families = new List<String>();
-            var items = values.ToList();
-
-            foreach (var item in items)
-            {
-                var family = (item.Length == 1 ? item[0] : item).ToFontFamily();
-
-                if (family == null)
-                    return false;
-
-                families.Add(family);
-            }
-
-            _families.Clear();
-            _families.AddRange(families);
-            return true;
+            return this.TakeList(this.WithFontFamily()).TryConvert(value, SetFamilies);
         }
 
         #endregion

@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetAspectValue(Single? aspectValue)
+        {
+            _aspectValue = aspectValue;
+        }
+
         internal override void Reset()
         {
             _aspectValue = null;
@@ -52,16 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var aspectValue = value.ToSingle();
-
-            if (aspectValue.HasValue)
-                _aspectValue = aspectValue;
-            else if (value.Is(Keywords.None))
-                _aspectValue = null;
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.None, (Single?)null).Or(this.WithNumber().To(m => new Single?(m))).TryConvert(value, SetAspectValue);
         }
 
         #endregion

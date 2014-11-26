@@ -49,6 +49,18 @@
 
         #region Methods
 
+        public void SetSize(FontSize mode)
+        {
+            _size = mode.ToDistance();
+            _mode = mode;
+        }
+
+        public void SetSize(IDistance distance)
+        {
+            _size = distance;
+            _mode = FontSize.Custom;
+        }
+
         internal override void Reset()
         {
             _mode = FontSize.Medium;
@@ -62,24 +74,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            FontSize? size;
-            var distance = value.ToDistance();
-
-            if (distance != null)
-            {
-                _size = distance;
-                _mode = FontSize.Custom;
-            }
-            else if ((size = value.ToFontSize()).HasValue)
-            {
-                var mode = size.Value;
-                _size = mode.ToDistance();
-                _mode = mode;
-            }
-            else
-                return false;
-
-            return true;
+            return this.WithDistance().TryConvert(value, SetSize) ||
+                   this.WithFontSize().TryConvert(value, SetSize);
         }
 
         #endregion

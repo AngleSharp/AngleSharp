@@ -49,6 +49,11 @@
 
         #region Methods
 
+        public void SetSpacing(Length? spacing)
+        {
+            _spacing = spacing;
+        }
+
         internal override void Reset()
         {
             _spacing = null;
@@ -61,14 +66,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Normal))
-                _spacing = null;
-            else if (value.ToLength().HasValue)
-                _spacing = value.ToLength();
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.Normal, (Length?)null).Or(this.WithLength().To(m => new Length?(m))).TryConvert(value, SetSpacing);
         }
 
         #endregion
