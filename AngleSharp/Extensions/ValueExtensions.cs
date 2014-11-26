@@ -1132,6 +1132,11 @@
             return new DictionaryValueConverter<FontSize>(fontSizes);
         }
 
+        public static IValueConverter<BorderRepeat> WithBorderRepeat(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<BorderRepeat>(borderRepeatModes);
+        }
+
         public static IValueConverter<T> From<T>(this CSSProperty property, Dictionary<String, T> values)
         {
             return new DictionaryValueConverter<T>(values);
@@ -1150,6 +1155,16 @@
         public static IValueConverter<IDistance> WithLineHeight(this CSSProperty property)
         {
             return new ClassValueConverter<IDistance>(ToLineHeight);
+        }
+
+        public static IValueConverter<IDistance> WithBorderSlice(this CSSProperty property)
+        {
+            return new ClassValueConverter<IDistance>(ToBorderSlice);
+        }
+
+        public static IValueConverter<IDistance> WithImageBorderWidth(this CSSProperty property)
+        {
+            return new ClassValueConverter<IDistance>(ToImageBorderWidth);
         }
 
         public static IValueConverter<Length> WithLength(this CSSProperty property)

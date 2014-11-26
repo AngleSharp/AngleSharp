@@ -23,6 +23,11 @@
             return new EndListValueConverter<T, U>(listConverter, endConverter);
         }
 
+        public static IValueConverter<Tuple<T, U>> Optional<T, U>(this IValueConverter<T> listConverter, IValueConverter<U> optionConverter, U defaultValue)
+        {
+            return new OptionalValueConverter<T, U>(listConverter, optionConverter, defaultValue);
+        }
+
         public static IValueConverter<Tuple<T1, T2>> And<T1, T2>(this IValueConverter<T1> primary, IValueConverter<T2> secondary)
         {
             return new AndValueConverter<T1, T2>(primary, secondary);

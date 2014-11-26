@@ -61,6 +61,7 @@
     <Compile Include="DOM\Css\Constants\UnitType.cs" />
     <Compile Include="DOM\Css\Converters\ListValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OneOrMoreValueConverter.cs" />
+    <Compile Include="DOM\Css\Converters\OptionalValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OptionsValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OrValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\StructValueConverter.cs" />
