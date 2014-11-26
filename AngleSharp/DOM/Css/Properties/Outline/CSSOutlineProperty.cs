@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -56,6 +57,14 @@
             get { return _color.Color; }
         }
 
+        /// <summary>
+        /// Gets if the color should be inverted.
+        /// </summary>
+        public Boolean IsInverted
+        {
+            get { return _color.IsInverted; }
+        }
+
         #endregion
 
         #region Methods
@@ -67,23 +76,19 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue style = null;
-            CSSValue width = null;
-            CSSValue color = null;
+            var invert = Tuple.Create(Color.Transparent, true);
 
-            if (list.Length > 3)
-                return false;
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (!_style.CanStore(list[i], ref style) &&
-                    !_width.CanStore(list[i], ref width) &&
-                    !_color.CanStore(list[i], ref color))
-                    return false;
-            }
-
-            return _style.TrySetValue(style) && _width.TrySetValue(width) && _color.TrySetValue(color);
+            return this.WithOptions(
+                    this.WithBorderWidth(), 
+                    this.WithLineStyle(), 
+                    this.WithColor().To(m => Tuple.Create(m, false)).Or(this.TakeOne(Keywords.Invert, invert)),
+                Tuple.Create(Length.Medium, LineStyle.None, invert)).TryConvert(value, m =>
+                {
+                    _width.SetWidth(m.Item1);
+                    _style.SetStyle(m.Item2);
+                    _color.SetColor(m.Item3.Item1);
+                    _color.SetInverted(m.Item3.Item2);
+                });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

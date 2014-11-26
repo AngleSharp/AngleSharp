@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using System;
 
     /// <summary>
     /// Represents the CSS outline-width property.
@@ -33,6 +34,11 @@
         /// Gets the color of the outline.
         /// </summary>
         Color Color { get; }
+
+        /// <summary>
+        /// Gets if the color is inverted.
+        /// </summary>
+        Boolean IsInverted { get; }
     }
 
     /// <summary>

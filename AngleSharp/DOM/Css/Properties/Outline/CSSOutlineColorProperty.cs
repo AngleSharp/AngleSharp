@@ -12,7 +12,8 @@
     {
         #region Fields
 
-        ICssObject _mode;
+        Color _color;
+        Boolean _inverted;
 
         #endregion
 
@@ -33,16 +34,36 @@
         /// </summary>
         public Color Color
         {
-            get { return _mode is Color ? (Color)_mode : Color.Transparent; }
+            get { return _color; }
+        }
+
+        /// <summary>
+        /// Gets if the color is inverted.
+        /// </summary>
+        public Boolean IsInverted
+        {
+            get { return _inverted; }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetColor(Color color)
+        {
+            _color = color;
+            _inverted = false;
+        }
+
+        public void SetInverted(Boolean active)
+        {
+            _inverted = active;
+        }
+
         internal override void Reset()
         {
-            _mode = Colors.Invert;
+            _color = Color.Transparent;
+            _inverted = true;
         }
 
         /// <summary>
@@ -52,16 +73,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var color = value.ToColor();
-
-            if (color.HasValue)
-                _mode = color.Value;
-            else if (value.Is(Keywords.Invert))
-                _mode = Colors.Invert;
-            else
-                return false;
-
-            return true;
+            return this.WithColor().TryConvert(value, SetColor) || 
+                   this.TakeOne(Keywords.Invert, true).TryConvert(value, SetInverted);
         }
 
         #endregion
