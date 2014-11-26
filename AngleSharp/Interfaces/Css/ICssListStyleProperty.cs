@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS list-style-type property.
@@ -32,7 +33,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        Object Image { get; }
+        IEnumerable<Url> Images { get; }
     }
 
     /// <summary>
