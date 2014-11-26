@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        IDistance _value;
+        IDistance _distance;
 
         #endregion
 
@@ -33,7 +33,7 @@
         /// </summary>
         public Boolean IsAuto
         {
-            get { return _value == null; }
+            get { return _distance == null; }
         }
 
         /// <summary>
@@ -41,16 +41,21 @@
         /// </summary>
         public IDistance Position
         {
-            get { return _value; }
+            get { return _distance; }
         }
 
         #endregion
 
         #region Methods
 
+        public void SetPosition(IDistance distance)
+        {
+            _distance = distance;
+        }
+
         internal override void Reset()
         {
-            _value = null;
+            _distance = null;
         }
 
         /// <summary>
@@ -60,16 +65,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-                _value = distance;
-            else if (value.Is(Keywords.Auto))
-                _value = null;
-            else
-                return false;
-
-            return true;
+            return this.WithDistance().Or(this.TakeOne(Keywords.Auto, (IDistance)null)).TryConvert(value, SetPosition);
         }
 
         #endregion

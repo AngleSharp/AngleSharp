@@ -46,6 +46,11 @@
 
         #region Methods
 
+        public void SetLimit(IDistance mode)
+        {
+            _mode = mode;
+        }
+
         internal override void Reset()
         {
             _mode = null;
@@ -58,16 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-                _mode = distance;
-            else if (value.Is(Keywords.None))
-                _mode = null;
-            else
-                return false;
-
-            return true;
+            return this.WithDistance().Or(this.TakeOne(Keywords.None, (IDistance)null)).TryConvert(value, SetLimit);
         }
 
         #endregion
