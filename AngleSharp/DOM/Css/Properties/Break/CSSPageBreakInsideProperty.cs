@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetState(BreakMode mode)
+        {
+            _mode = mode;
+        }
+
         internal override void Reset()
         {
             _mode = BreakMode.Auto;
@@ -53,14 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Auto))
-                _mode = BreakMode.Auto;
-            else if (value.Is(Keywords.Avoid))
-                _mode = BreakMode.Avoid;
-            else
-                return false;
-
-            return true;
+            return this.Toggle(Keywords.Auto, Keywords.Avoid).To(m => m ? BreakMode.Auto : BreakMode.Avoid).TryConvert(value, SetState);
         }
 
         #endregion

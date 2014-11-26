@@ -292,21 +292,6 @@
             return fontStyles.GetValueOrDefault(value);
         }
 
-        public static FontStretch? ToFontStretch(this CSSValue value)
-        {
-            return fontStretches.GetValueOrDefault(value);
-        }
-
-        public static FontVariant? ToFontVariant(this CSSValue value)
-        {
-            if (value.Is(Keywords.Normal))
-                return FontVariant.Normal;
-            else if (value.Is(Keywords.SmallCaps))
-                return FontVariant.SmallCaps;
-
-            return null;
-        }
-
         #endregion
 
         #region Transformers
@@ -1087,6 +1072,41 @@
             return new DictionaryValueConverter<LineStyle>(lineStyles);
         }
 
+        public static IValueConverter<ListPosition> WithListPosition(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<ListPosition>(listPositions);
+        }
+
+        public static IValueConverter<BreakMode> WithBreakMode(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<BreakMode>(breakModes);
+        }
+
+        public static IValueConverter<BreakMode> WithPageBreakMode(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<BreakMode>(pageBreakModes);
+        }
+
+        public static IValueConverter<BreakMode> WithBreakInsideMode(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<BreakMode>(breakInsideModes);
+        }
+
+        public static IValueConverter<ListStyle> WithListStyle(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<ListStyle>(listStyles);
+        }
+
+        public static IValueConverter<FontStyle> WithFontStyle(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<FontStyle>(fontStyles);
+        }
+
+        public static IValueConverter<FontStretch> WithFontStretch(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<FontStretch>(fontStretches);
+        }
+
         public static IValueConverter<TextDecorationStyle> WithDecorationStyle(this CSSProperty property)
         {
             return new DictionaryValueConverter<TextDecorationStyle>(decorationStyles);
@@ -1107,6 +1127,11 @@
             return new DictionaryValueConverter<UnicodeMode>(unicodeBidis);
         }
 
+        public static IValueConverter<FontSize> WithFontSize(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<FontSize>(fontSizes);
+        }
+
         public static IValueConverter<T> From<T>(this CSSProperty property, Dictionary<String, T> values)
         {
             return new DictionaryValueConverter<T>(values);
@@ -1122,6 +1147,11 @@
             return new StructValueConverter<Length>(ToBorderWidth);
         }
 
+        public static IValueConverter<IDistance> WithLineHeight(this CSSProperty property)
+        {
+            return new ClassValueConverter<IDistance>(ToLineHeight);
+        }
+
         public static IValueConverter<Length> WithLength(this CSSProperty property)
         {
             return new StructValueConverter<Length>(ToLength);
@@ -1130,6 +1160,11 @@
         public static IValueConverter<Time> WithTime(this CSSProperty property)
         {
             return new StructValueConverter<Time>(ToTime);
+        }
+
+        public static IValueConverter<String> WithFontFamily(this CSSProperty property)
+        {
+            return new ClassValueConverter<String>(ToFontFamily);
         }
 
         public static IValueConverter<IDistance> WithDistance(this CSSProperty property)

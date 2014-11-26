@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetState(BreakMode mode)
+        {
+            _mode = mode;
+        }
+
         internal override void Reset()
         {
             _mode = BreakMode.Auto;
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = value.ToPageBreakMode();
-
-            if (mode.HasValue)
-            {
-                _mode = mode.Value;
-                return true;
-            }
-
-            return false;
+            return this.WithPageBreakMode().TryConvert(value, SetState);
         }
 
         #endregion
