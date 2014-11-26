@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetStyle(ListStyle style)
+        {
+            _style = style;
+        }
+
         internal override void Reset()
         {
             _style = ListStyle.Disc;
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var position = value.ToListStyle();
-
-            if (position.HasValue)
-            {
-                _style = position.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithListStyle().TryConvert(value, SetStyle);
         }
 
         #endregion

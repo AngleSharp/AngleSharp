@@ -40,6 +40,11 @@
 
         #region Methods
 
+        public void SetPosition(ListPosition position)
+        {
+            _position = position;
+        }
+
         internal override void Reset()
         {
             _position = ListPosition.Outside;
@@ -52,15 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var position = value.ToListPosition();
-
-            if (position.HasValue)
-            {
-                _position = position.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithListPosition().TryConvert(value, SetPosition);
         }
 
         #endregion

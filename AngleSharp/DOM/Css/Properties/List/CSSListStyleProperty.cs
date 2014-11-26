@@ -1,8 +1,11 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+
 
     /// <summary>
     /// More information available at
@@ -43,9 +46,9 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        public Object Image
+        public IEnumerable<Url> Images
         {
-            get { return _image.Image; }
+            get { return _image.Images; }
         }
 
         /// <summary>
@@ -67,23 +70,17 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue type = null;
-            CSSValue image = null;
-            CSSValue position = null;
-
-            if (list.Length > 3)
-                return false;
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (!_type.CanStore(list[i], ref type) &&
-                    !_image.CanStore(list[i], ref image) &&
-                    !_position.CanStore(list[i], ref position))
-                    return false;
-            }
-
-            return _type.TrySetValue(type) && _image.TrySetValue(image) && _position.TrySetValue(position);
+            return this.WithOptions(
+                        this.WithListStyle(),
+                        this.WithListPosition(),
+                        this.WithImages().To(m => m.Urls),
+                    Tuple.Create(ListStyle.Disc, ListPosition.Outside, Enumerable.Empty<Url>())
+                ).TryConvert(value, m =>
+                {
+                    _type.SetStyle(m.Item1);
+                    _position.SetPosition(m.Item2);
+                    _image.SetImages(m.Item3);
+                });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
