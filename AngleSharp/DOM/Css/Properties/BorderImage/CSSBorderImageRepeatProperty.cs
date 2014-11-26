@@ -48,6 +48,12 @@
 
         #region Methods
 
+        public void SetRepeat(BorderRepeat horizontal, BorderRepeat vertical)
+        {
+            _horizontal = horizontal;
+            _vertical = vertical;
+        }
+
         internal override void Reset()
         {
             _horizontal = BorderRepeat.Stretch;
@@ -61,38 +67,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = value.ToBorderRepeat();
-
-            if (mode != null)
-                _horizontal = _vertical = mode.Value;
-            else if (value is CSSValueList)
-            {
-                var list = (CSSValueList)value;
-                BorderRepeat? horizontal = null;
-                BorderRepeat? vertical = null;
-
-                if (list.Length > 2)
-                    return false;
-
-                foreach (var entry in list)
-                {
-                    mode = entry.ToBorderRepeat();
-
-                    if (mode == null)
-                        return false;
-                    else if (horizontal == null)
-                        horizontal = mode;
-                    else
-                        vertical = mode;
-                }
-
-                _horizontal = horizontal.Value;
-                _vertical = vertical.Value;               
-            }
-            else
-                return false;
-
-            return true;
+            return this.TakeMany(this.WithBorderRepeat()).Constraint(m => m.Length < 3).TryConvert(value, m => SetRepeat(m[0], m.Length == 2 ? m[1] : m[0]));
         }
 
         #endregion

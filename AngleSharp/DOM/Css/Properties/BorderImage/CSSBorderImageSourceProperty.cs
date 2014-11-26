@@ -51,13 +51,13 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var image = value.ToImage();
+            //var image = value.ToImage();
 
-            if (image != null)
-            {
-                _image = image;
-                return true;
-            }
+            //if (image != null)
+            //{
+            //    _image = image;
+            //    return true;
+            //}
             
             return false;
         }

@@ -79,6 +79,15 @@
 
         #region Methods
 
+        public void SetSlice(IDistance top, IDistance right, IDistance bottom, IDistance left, Boolean fill = false)
+        {
+            _top = top;
+            _right = right;
+            _bottom = bottom;
+            _left = left;
+            _fill = fill;
+        }
+
         internal override void Reset()
         {
             _top = Percent.Hundred;
@@ -95,56 +104,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = value.ToBorderSlice();
-
-            if (mode != null)
-                _top = _left = _bottom = _right = mode;
-            else if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-            else
-                return false;
-
-            return true;
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            if (values.Length > 5)
-                return false;
-
-            var fill = false;
-            var modes = new List<IDistance>(values.Length);
-
-            foreach (var value in values)
-            {
-                if (!fill && value.Is(Keywords.Fill))
-                    fill = true;
-                else if (value.ToBorderSlice() == null)
-                    return false;
-                else
-                    modes.Add(value.ToBorderSlice());
-            }
-
-            if (modes.Count == 5 || modes.Count == 0)
-                return false;
-
-            _fill = fill;
-            _bottom = _left = _right = _top = modes[0];
-
-            if (modes.Count > 1)
-            {
-                _left = _right = modes[1];
-
-                if (modes.Count > 2)
-                {
-                    _bottom = modes[2];
-
-                    if (modes.Count > 3)
-                        _left = modes[3];
-                }
-            }
-
-            return true;
+            return this.WithBorderSlice().Periodic().Optional(this.TakeOne(Keywords.Fill, true), false).TryConvert(
+                value, m => SetSlice(m.Item1.Item1, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2));
         }
 
         #endregion

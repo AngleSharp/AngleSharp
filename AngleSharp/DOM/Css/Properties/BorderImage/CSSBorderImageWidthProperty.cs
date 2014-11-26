@@ -78,6 +78,14 @@
 
         #region Methods
 
+        public void SetWidth(IDistance top, IDistance right, IDistance bottom, IDistance left)
+        {
+            _top = top;
+            _right = right;
+            _bottom = bottom;
+            _left = left;
+        }
+
         internal override void Reset()
         {
             _top = Percent.Hundred;
@@ -93,50 +101,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var mode = value.ToImageBorderWidth();
-
-            if (mode != null)
-                _top = _right = _left = _bottom = mode;
-            else if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-            else
-                return false;
-
-            return true;
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            if (values.Length > 4)
-                return false;
-
-            IDistance top = null;
-            IDistance right = null;
-            IDistance bottom = null;
-            IDistance left = null;
-
-            foreach (var value in values)
-            {
-                var width = value.ToImageBorderWidth();
-
-                if (width == null)
-                    return false;
-
-                if (top == null)
-                    top = width;
-                else if (right == null)
-                    right = width;
-                else if (bottom == null)
-                    bottom = width;
-                else if (left == null)
-                    left = width;
-            }
-
-            _top = top;
-            _right = right ?? _top;
-            _bottom = bottom ?? _top;
-            _left = left ?? _right;
-            return true;
+            return this.WithImageBorderWidth().Periodic().TryConvert(value, m => SetWidth(m.Item1, m.Item2, m.Item3, m.Item4));
         }
 
         #endregion

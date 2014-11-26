@@ -66,6 +66,14 @@
 
         #region Methods
 
+        public void SetOutset(IDistance top, IDistance right, IDistance bottom, IDistance left)
+        {
+            _top = top;
+            _right = right;
+            _bottom = bottom;
+            _left = left;
+        }
+
         internal override void Reset()
         {
             _top = Percent.Zero;
@@ -81,50 +89,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var calc = value.ToDistance();
-
-            if (calc != null)
-                _top = _bottom = _right = _left = calc;
-            else if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-            else
-                return false;
-
-            return true;
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            if (values.Length > 4)
-                return false;
-
-            IDistance top = null;
-            IDistance right = null;
-            IDistance bottom = null;
-            IDistance left = null;
-
-            foreach (var value in values)
-            {
-                var width = value.ToDistance();
-
-                if (width == null)
-                    return false;
-
-                if (top == null)
-                    top = width;
-                else if (right == null)
-                    right = width;
-                else if (bottom == null)
-                    bottom = width;
-                else if (left == null)
-                    left = width;
-            }
-
-            _top = top;
-            _right = right ?? _top;
-            _bottom = bottom ?? _top;
-            _left = left ?? _right;
-            return true;
+            return this.WithDistance().Periodic().TryConvert(value, m => SetOutset(m.Item1, m.Item2, m.Item3, m.Item4));
         }
 
         #endregion
