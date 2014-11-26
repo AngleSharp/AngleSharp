@@ -51,11 +51,6 @@
         public void SetMargin(IDistance margin)
         {
             _margin = margin;
-
-            if (margin is Length)
-                _value = new CSSPrimitiveValue((Length)margin);
-            else if (margin is Percent)
-                _value = new CSSPrimitiveValue((Percent)margin);
         }
 
         internal override void Reset()

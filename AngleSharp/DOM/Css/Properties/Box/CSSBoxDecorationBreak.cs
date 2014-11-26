@@ -42,6 +42,11 @@
 
         #region Methods
 
+        public void SetCloned(Boolean clone)
+        {
+            _clone = clone;
+        }
+
         internal override void Reset()
         {
             _clone = false;
@@ -54,14 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.Slice))
-                _clone = false;
-            else if (value.Is(Keywords.Clone))
-                _clone = true;
-            else
-                return false;
-
-            return true;
+            return this.Toggle(Keywords.Clone, Keywords.Slice).TryConvert(value, SetCloned);
         }
 
         #endregion

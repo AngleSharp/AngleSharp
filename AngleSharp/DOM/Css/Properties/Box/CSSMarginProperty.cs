@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().Or(this.TakeOne(Keywords.Auto, (IDistance)null)).Periodic().TryConvert(value, m =>
+            return this.WithDistance().OrDefault().Periodic().TryConvert(value, m =>
             {
                 _top.SetMargin(m.Item1);
                 _right.SetMargin(m.Item2);
