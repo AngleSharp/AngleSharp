@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        Int32? _value;
+        Int32? _index;
 
         #endregion
 
@@ -33,7 +33,12 @@
         /// </summary>
         public Int32? Index
         {
-            get { return _value; }
+            get { return _index; }
+        }
+
+        public void SetIndex(Int32? index)
+        {
+            _index = index;
         }
 
         #endregion
@@ -42,7 +47,7 @@
 
         internal override void Reset()
         {
-            _value = null;
+            _index = null;
         }
 
         /// <summary>
@@ -52,16 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var number = value.ToInteger();
-
-            if (number != null)
-                _value = number.Value;
-            else if (value.Is(Keywords.Auto))
-                _value = null;
-            else
-                return false;
-
-            return true;
+            return this.WithInteger().To(m => new Int32?(m)).Or(this.TakeOne(Keywords.Auto, (Int32?)null)).TryConvert(value, SetIndex);
         }
 
         #endregion

@@ -49,6 +49,11 @@
 
         #region Methods
 
+        public void SetState(Floating mode)
+        {
+            _mode = mode;
+        }
+
         internal override void Reset()
         {
             _mode = Floating.None;
@@ -61,15 +66,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            Floating mode;
-
-            if (modes.TryGetValue(value, out mode))
-            {
-                _mode = mode;
-                return true;
-            }
-            
-            return false;
+            return this.From(modes).TryConvert(value, SetState);
         }
 
         #endregion
