@@ -64,6 +64,7 @@
     <Compile Include="DOM\Css\Converters\OptionalValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OptionsValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OrValueConverter.cs" />
+    <Compile Include="DOM\Css\Converters\SplitValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\StructValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\SubsetValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ToValueConverter.cs" />

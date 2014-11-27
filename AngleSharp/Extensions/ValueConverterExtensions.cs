@@ -55,6 +55,11 @@
             return primary.ToNullable().OrDefault();
         }
 
+        public static IValueConverter<U[]> Split<T, U>(this IValueConverter<T> condition, IValueConverter<U> converter)
+        {
+            return new SplitValueConverter<T, U>(condition, converter);
+        }
+
         public static IValueConverter<T> Constraint<T>(this IValueConverter<T> primary, Predicate<T> constraint)
         {
             return new ConstraintValueConverter<T>(primary, constraint);
