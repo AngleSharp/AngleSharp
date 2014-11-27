@@ -814,11 +814,12 @@
             return list;
         }
 
-        public static Point ToPoint(this CSSValueList values)
+        public static Point ToPoint(this CSSValue value)
         {
-            if (values.Length == 1)
+            var values = value as CSSValueList;
+
+            if (values == null || values.Length == 1)
             {
-                var value = values[0];
                 var calc = value.ToDistance();
 
                 if (calc != null)
@@ -890,7 +891,7 @@
                 IDistance horizontal = Percent.Fifty;
                 IDistance vertical = Percent.Fifty;
                 var index = 0;
-                var value = values[index];
+                value = values[index];
 
                 if (value.Is(Keywords.Left))
                 {
@@ -1107,6 +1108,16 @@
             return new DictionaryValueConverter<ListStyle>(listStyles);
         }
 
+        public static IValueConverter<BackgroundAttachment> WithBackgroundAttachment(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<BackgroundAttachment>(backgroundAttachments);
+        }
+
+        public static IValueConverter<BoxModel> WithBoxModel(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<BoxModel>(boxModels);
+        }
+
         public static IValueConverter<FontStyle> WithFontStyle(this CSSProperty property)
         {
             return new DictionaryValueConverter<FontStyle>(fontStyles);
@@ -1170,6 +1181,11 @@
         public static IValueConverter<IDistance> WithBorderSlice(this CSSProperty property)
         {
             return new ClassValueConverter<IDistance>(ToBorderSlice);
+        }
+
+        public static IValueConverter<Point> WithPoint(this CSSProperty property)
+        {
+            return new ClassValueConverter<Point>(ToPoint);
         }
 
         public static IValueConverter<IDistance> WithImageBorderWidth(this CSSProperty property)
