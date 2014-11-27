@@ -1087,6 +1087,16 @@
             return new DictionaryValueConverter<BreakMode>(pageBreakModes);
         }
 
+        public static IValueConverter<AnimationDirection> WithDirection(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<AnimationDirection>(directions);
+        }
+
+        public static IValueConverter<AnimationFillStyle> WithFillMode(this CSSProperty property)
+        {
+            return new DictionaryValueConverter<AnimationFillStyle>(fillModes);
+        }
+
         public static IValueConverter<BreakMode> WithBreakInsideMode(this CSSProperty property)
         {
             return new DictionaryValueConverter<BreakMode>(breakInsideModes);
@@ -1250,6 +1260,11 @@
         public static IValueConverter<Tuple<T1, T2, T3, T4>> WithOptions<T1, T2, T3, T4>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Tuple<T1, T2, T3, T4> defaults)
         {
             return new OptionsValueConverter<T1, T2, T3, T4>(first, second, third, fourth, defaults);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>> WithOptions<T1, T2, T3, T4, T5, T6, T7, T8>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<T1, T2, T3, T4, T5, T6, T7, T8> defaults)
+        {
+            return new OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth, defaults);
         }
 
         public static IValueConverter<TransitionFunction> WithTransition(this CSSProperty p)
