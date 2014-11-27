@@ -41,6 +41,12 @@
 
         #region Methods
 
+        public void SetNames(IEnumerable<String> names)
+        {
+            _names.Clear();
+            _names.AddRange(names);
+        }
+
         internal override void Reset()
         {
             _names.Clear();
@@ -53,32 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value.Is(Keywords.None))
-                _names.Clear();
-            else if (value is CSSPrimitiveValue)
-            {
-                var name = value.ToIdentifier();
-
-                if (name == null)
-                    return false;
-
-                _names.Clear();
-                _names.Add(name);
-            }
-            else if (value is CSSValueList)
-            {
-                var names = value.AsList(ValueExtensions.ToIdentifier);
-
-                if (names == null)
-                    return false;
-
-                _names.Clear();
-                _names.AddRange(names);
-            }
-            else
-                return false;
-
-            return true;
+            return this.TakeOne(Keywords.None, new String[0]).Or(this.TakeList(this.WithIdentifier())).TryConvert(value, SetNames);
         }
 
         #endregion

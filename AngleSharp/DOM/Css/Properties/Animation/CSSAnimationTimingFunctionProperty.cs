@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetTimingFunctions(TransitionFunction[] functions)
+        public void SetTimingFunctions(IEnumerable<TransitionFunction> functions)
         {
             _functions.Clear();
             _functions.AddRange(functions);

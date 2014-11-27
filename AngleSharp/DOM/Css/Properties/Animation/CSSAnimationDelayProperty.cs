@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetDelays(IEnumerable<Time> times)
+        {
+            _times.Clear();
+            _times.AddRange(times);
+        }
+
         internal override void Reset()
         {
             _times.Clear();
@@ -55,28 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList<CSSPrimitiveValue>();
-
-            if (values != null)
-            {
-                var times = new List<Time>();
-
-                foreach (var v in values)
-                {
-                    var time = v.ToTime();
-
-                    if (time == null)
-                        return false;
-
-                    times.Add(time.Value);
-                }
-
-                _times.Clear();
-                _times.AddRange(times);
-                return true;
-            }
-            
-            return false;
+            return this.TakeList(this.WithTime()).TryConvert(value, SetDelays);
         }
 
         #endregion

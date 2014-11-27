@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetFillModes(IEnumerable<AnimationFillStyle> fillModes)
+        {
+            _fillModes.Clear();
+            _fillModes.AddRange(fillModes);
+        }
+
         internal override void Reset()
         {
             _fillModes.Clear();
@@ -55,28 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList<CSSPrimitiveValue>();
-
-            if (values != null)
-            {
-                var fillModes = new List<AnimationFillStyle>();
-
-                foreach (var item in values)
-                {
-                    var mode = item.ToFillMode();
-
-                    if (mode == null)
-                        return false;
-
-                    fillModes.Add(mode.Value);
-                }
-
-                _fillModes.Clear();
-                _fillModes.AddRange(fillModes);
-                return true;
-            }
-            
-            return false;
+            return this.TakeList(this.WithFillMode()).TryConvert(value, SetFillModes);
         }
 
         #endregion

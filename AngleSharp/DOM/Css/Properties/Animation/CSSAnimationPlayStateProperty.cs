@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetStates(IEnumerable<PlayState> states)
+        {
+            _states.Clear();
+            _states.AddRange(states);
+        }
+
         internal override void Reset()
         {
             _states.Clear();
@@ -55,28 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList<CSSPrimitiveValue>();
-
-            if (values != null)
-            {
-                var states = new List<PlayState>();
-
-                foreach (var item in values)
-                {
-                    if (item.Is(Keywords.Running))
-                        states.Add(PlayState.Running);
-                    else if (item.Is(Keywords.Paused))
-                        states.Add(PlayState.Paused);
-                    else
-                        return false;
-                }
-
-                _states.Clear();
-                _states.AddRange(states);
-                return true;
-            }
-            
-            return false;
+            return this.TakeList(this.Toggle(Keywords.Running, Keywords.Paused).To(m => m ? PlayState.Running : PlayState.Paused)).TryConvert(value, SetStates);
         }
 
         #endregion

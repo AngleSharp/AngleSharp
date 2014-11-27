@@ -116,59 +116,27 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
-            var delays = new CSSValueList();
-            var directions = new CSSValueList();
-            var durations = new CSSValueList();
-            var fillModes = new CSSValueList();
-            var iterationCounts = new CSSValueList();
-            var names = new CSSValueList();
-            var timingFunctions = new CSSValueList();
-            var playStates = new CSSValueList();
-
-            foreach (var list in items)
-            {
-                if (list.Length > 8)
-                    return false;
-
-                if (delays.Length != 0)
+            return this.TakeList(
+                this.WithOptions(
+                    this.WithTime(),
+                    this.WithTransition(),
+                    this.WithTime(),
+                    this.WithInteger().Constraint(m => m >= 0).Or(this.TakeOne(Keywords.Infinite, -1)),
+                    this.WithDirection(),
+                    this.WithFillMode(),
+                    this.Toggle(Keywords.Running, Keywords.Paused),
+                    this.WithIdentifier(),
+                new Tuple<Time, TransitionFunction, Time, Int32, AnimationDirection, AnimationFillStyle, Boolean, String>(Time.Zero, TransitionFunction.Ease, Time.Zero, 1, AnimationDirection.Normal, AnimationFillStyle.None, true, String.Empty))).TryConvert(value, t =>
                 {
-                    delays.Add(CSSValue.Separator); 
-                    durations.Add(CSSValue.Separator);
-                    timingFunctions.Add(CSSValue.Separator);
-                    iterationCounts.Add(CSSValue.Separator);
-                    directions.Add(CSSValue.Separator);
-                    fillModes.Add(CSSValue.Separator);
-                    names.Add(CSSValue.Separator);
-                    playStates.Add(CSSValue.Separator);
-                }
-
-                CSSValue delay = null, direction = null, duration = null, fillMode = null,
-                         iterationCount = null, name = null, timingFunction = null, playState = null;
-
-                foreach (var item in list)
-                {
-                    if (!_duration.CanStore(item, ref duration) && !_timingFunction.CanStore(item, ref timingFunction) &&
-                        !_delay.CanStore(item, ref delay) && !_iterationCount.CanStore(item, ref iterationCount) &&
-                        !_direction.CanStore(item, ref direction) && !_fillMode.CanStore(item, ref fillMode) &&
-                        !_playState.CanStore(item, ref playState) && !_name.CanStore(item, ref name))
-                        return false;
-                }
-
-                delays.Add(delay ?? new CSSPrimitiveValue(Time.Zero));
-                durations.Add(duration ?? new CSSPrimitiveValue(Time.Zero));
-                timingFunctions.Add(timingFunction ?? new CSSPrimitiveValue(TransitionFunction.Ease));
-                iterationCounts.Add(iterationCount ?? new CSSPrimitiveValue(Number.One));
-                directions.Add(direction ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Normal)));
-                fillModes.Add(fillMode ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.None)));
-                names.Add(name ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.None)));
-                playStates.Add(playState ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Running)));
-            }
-
-            return _name.TrySetValue(names.Reduce()) && _delay.TrySetValue(delays.Reduce()) && 
-                   _direction.TrySetValue(directions.Reduce()) && _duration.TrySetValue(durations.Reduce()) && 
-                   _fillMode.TrySetValue(fillModes.Reduce()) && _iterationCount.TrySetValue(iterationCounts.Reduce()) &&
-                   _timingFunction.TrySetValue(timingFunctions.Reduce()) && _playState.TrySetValue(playStates.Reduce());
+                    _duration.SetDurations(t.Select(m => m.Item1));
+                    _timingFunction.SetTimingFunctions(t.Select(m => m.Item2));
+                    _delay.SetDelays(t.Select(m => m.Item3));
+                    _iterationCount.SetIterations(t.Select(m => m.Item4));
+                    _direction.SetDirections(t.Select(m => m.Item5));
+                    _fillMode.SetFillModes(t.Select(m => m.Item6));
+                    _playState.SetStates(t.Select(m => m.Item7 ? PlayState.Running : PlayState.Paused));
+                    _name.SetNames(t.Select(m => m.Rest));
+                });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

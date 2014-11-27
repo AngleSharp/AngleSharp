@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetDirections(IEnumerable<AnimationDirection> directions)
+        {
+            _directions.Clear();
+            _directions.AddRange(directions);
+        }
+
         internal override void Reset()
         {
             _directions.Clear();
@@ -55,28 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value.AsList<CSSPrimitiveValue>();
-
-            if (values != null)
-            {
-                var fillModes = new List<AnimationDirection>();
-
-                foreach (var item in values)
-                {
-                    var direction = item.ToDirection();
-
-                    if (direction == null)
-                        return false;
-
-                    fillModes.Add(direction.Value);
-                }
-
-                _directions.Clear();
-                _directions.AddRange(fillModes);
-                return true;
-            }
-            
-            return false;
+            return this.TakeList(this.WithDirection()).TryConvert(value, SetDirections);
         }
 
         #endregion
