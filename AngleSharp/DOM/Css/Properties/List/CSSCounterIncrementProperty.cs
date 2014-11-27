@@ -51,6 +51,14 @@
 
         #region Methods
 
+        public void SetCounters(IEnumerable<KeyValuePair<String, Int32>> counters)
+        {
+            _increments.Clear();
+
+            foreach (var counter in counters)
+                _increments[counter.Key] = counter.Value;
+        }
+
         internal override void Reset()
         {
             _increments.Clear();
@@ -63,61 +71,12 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSValueList)
-                return CheckList((CSSValueList)value);
-
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null && primitive.Unit == UnitType.Ident)
-                return CheckIdentifier(primitive);
-
-            return false;
-        }
-
-        Boolean CheckIdentifier(CSSPrimitiveValue ident)
-        {
-            _increments.Clear();
-
-            if (!ident.Is(Keywords.None))
-                _increments.Add(ident.GetString(), 1);
-
-            return true;
-        }
-
-        Boolean CheckList(CSSValueList list)
-        {
-            var entries = new List<KeyValuePair<String, Int32>>();
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                var primitive = list[i] as CSSPrimitiveValue;
-
-                if (primitive == null || primitive.Unit != UnitType.Ident)
-                    return false;
-
-                var ident = primitive.GetString();
-                var num = 1;
-
-                if (i + 1 < list.Length)
-                {
-                    var number = list[i + 1].ToInteger();
-
-                    if (number.HasValue)
-                    {
-                        i++;
-                        num = number.Value;
-                    }
-                }
-
-                entries.Add(new KeyValuePair<String, Int32>(ident, num));
-            }
-
-            _increments.Clear();
-
-            foreach (var entry in entries)
-                _increments[entry.Key] = entry.Value;
-
-            return true;
+            return this.WithIdentifier().Split(
+                        this.WithIdentifier().To(m => new KeyValuePair<String, Int32>(m, 1)).Or(
+                        this.WithArgs(
+                            this.WithIdentifier(), 
+                            this.WithInteger(), 
+                        m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)))).TryConvert(value, SetCounters);
         }
 
         #endregion
