@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        List<BoxModel> _clips;
+        readonly List<BoxModel> _clips;
 
         #endregion
 
@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetClips(IEnumerable<BoxModel> clips)
+        {
+            _clips.Clear();
+            _clips.AddRange(clips);
+        }
+
         internal override void Reset()
         {
             _clips.Clear();
@@ -55,24 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            var clips = new List<BoxModel>();
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                var clip = list[i].ToBoxModel();
-
-                if (!clip.HasValue)
-                    return false;
-
-                clips.Add(clip.Value);
-
-                if (++i < list.Length && list[i] != CSSValue.Separator)
-                    return false;
-            }
-
-            _clips = clips;
-            return true;
+            return this.TakeList(this.WithBoxModel()).TryConvert(value, SetClips);
         }
 
         #endregion

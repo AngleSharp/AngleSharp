@@ -41,6 +41,11 @@
 
         #region Methods
 
+        public void SetColor(Color color)
+        {
+            _color = color;
+        }
+
         internal override void Reset()
         {
             _color = Color.Transparent;
@@ -53,15 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var color = value.ToColor();
-
-            if (color.HasValue)
-            {
-                _color = color.Value;
-                return true;
-            }
-            
-            return false;
+            return this.WithColor().TryConvert(value, SetColor);
         }
 
         #endregion

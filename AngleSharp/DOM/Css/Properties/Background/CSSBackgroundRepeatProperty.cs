@@ -14,8 +14,10 @@
     {
         #region Fields
 
+        static readonly Repeat RepeatX = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat };
+        static readonly Repeat RepeatY = new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat };
         static readonly Dictionary<String, BackgroundRepeat> _modes = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
-        List<Repeat> _repeats;
+        readonly List<Repeat> _repeats;
 
         #endregion
 
@@ -60,6 +62,12 @@
 
         #region Methods
 
+        private void SetRepeats(IEnumerable<Repeat> repeats)
+        {
+            _repeats.Clear();
+            _repeats.AddRange(repeats);
+        }
+
         internal override void Reset()
         {
             _repeats.Clear();
@@ -73,47 +81,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value as CSSValueList ?? new CSSValueList(value);
-            var repeats = new List<Repeat>();
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                var primitive = values[i] as CSSPrimitiveValue;
-
-                if (primitive == null || primitive.Unit != UnitType.Ident)
-                    return false;
-
-                var ident = primitive.GetString();
-                var repeat = new Repeat();
-
-                if (ident.Equals(Keywords.RepeatX, StringComparison.OrdinalIgnoreCase))
-                {
-                    repeat.Horizontal = BackgroundRepeat.Repeat;
-                    repeat.Vertical = BackgroundRepeat.NoRepeat;
-                }
-                else if (ident.Equals(Keywords.RepeatY, StringComparison.OrdinalIgnoreCase))
-                {
-                    repeat.Horizontal = BackgroundRepeat.NoRepeat;
-                    repeat.Vertical = BackgroundRepeat.Repeat;
-                }
-                else if (_modes.TryGetValue(ident, out repeat.Horizontal))
-                {
-                    if (i + 1 < values.Length && _modes.TryGetValue(values[i + 1], out repeat.Vertical))
-                        i++;
-                    else
-                        repeat.Vertical = repeat.Horizontal;
-                }
-                else
-                    return false;
-
-                if (++i < values.Length && values[i] != CSSValue.Separator)
-                    return false;
-
-                repeats.Add(repeat);
-            }
-
-            _repeats = repeats;
-            return true;
+            return this.TakeList(this.From(_modes).To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
+                   this.TakeOne(Keywords.RepeatX, RepeatX)).Or(
+                   this.TakeOne(Keywords.RepeatY, RepeatY))).TryConvert(value, SetRepeats);
         }
 
         #endregion

@@ -53,33 +53,33 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var image = value.ToImage();
+            //var image = value.ToImage();
 
-            if (image != null)
-            {
-                _images.Clear();
-                _images.Add(image);
-            }
-            else if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
-                var images = new List<ICssObject>();
+            //if (image != null)
+            //{
+            //    _images.Clear();
+            //    _images.Add(image);
+            //}
+            //else if (value is CSSValueList)
+            //{
+            //    var values = (CSSValueList)value;
+            //    var images = new List<ICssObject>();
 
-                for (int i = 0; i < values.Length; i++)
-                {
-                    image = values[i].ToImage();
+            //    for (int i = 0; i < values.Length; i++)
+            //    {
+            //        image = values[i].ToImage();
 
-                    if (image == null || (++i < values.Length && values[i] != CSSValue.Separator))
-                        return false;
+            //        if (image == null || (++i < values.Length && values[i] != CSSValue.Separator))
+            //            return false;
 
-                    images.Add(image);
-                }
+            //        images.Add(image);
+            //    }
 
-                _images.Clear();
-                _images.AddRange(images);
-            }
-            else
-                return false;
+            //    _images.Clear();
+            //    _images.AddRange(images);
+            //}
+            //else
+            //    return false;
 
             return true;
         }

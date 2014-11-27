@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        List<BackgroundAttachment> _attachments;
+        readonly List<BackgroundAttachment> _attachments;
 
         #endregion
 
@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetAttachments(IEnumerable<BackgroundAttachment> attachments)
+        {
+            _attachments.Clear();
+            _attachments.AddRange(attachments);
+        }
+
         internal override void Reset()
         {
             _attachments.Clear();
@@ -55,24 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            var attachments = new List<BackgroundAttachment>();
-
-            for (int i = 0; i < list.Length; i++)
-            {
-                var attachment = list[i].ToBackgroundAttachment();
-
-                if (attachment == null)
-                    return false;
-
-                attachments.Add(attachment.Value);
-
-                if (++i < list.Length && list[i] != CSSValue.Separator)
-                    return false;
-            }
-
-            _attachments = attachments;
-            return true;
+            return this.TakeList(this.WithBackgroundAttachment()).TryConvert(value, SetAttachments);
         }
 
         #endregion

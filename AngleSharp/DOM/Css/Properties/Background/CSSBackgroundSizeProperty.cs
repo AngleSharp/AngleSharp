@@ -14,6 +14,9 @@
     {
         #region Fields
 
+        static readonly SizeMode Auto = new SizeMode { };
+        static readonly SizeMode Cover = new SizeMode { IsCovered = true };
+        static readonly SizeMode Contain = new SizeMode { IsContained = true };
         readonly List<SizeMode> _sizes;
 
         #endregion
@@ -50,6 +53,12 @@
 
         #region Methods
 
+        private void SetSizes(IEnumerable<SizeMode> sizes)
+        {
+            _sizes.Clear();
+            _sizes.AddRange(sizes);
+        }
+
         internal override void Reset()
         {
             _sizes.Clear();
@@ -63,76 +72,13 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            if (value is CSSValueList)
-                return CheckList((CSSValueList)value);
-            else if (CheckSingle(value))
-                return true;
-
-            return false;
-        }
-
-        static SizeMode? Check(CSSValue value)
-        {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-                return new SizeMode { Width = distance };
-            else if (value.Is(Keywords.Auto))
-                return new SizeMode { };
-            else if (value.Is(Keywords.Cover))
-                return new SizeMode { IsCovered = true };
-            else if (value.Is(Keywords.Contain))
-                return new SizeMode { IsContained = true };
-
-            return null;
-        }
-
-        static SizeMode? Check(CSSValue horizontal, CSSValue vertical)
-        {
-            var width = horizontal.ToDistance();
-            var height = vertical.ToDistance();
-
-            if (width == null && !horizontal.Is(Keywords.Auto))
-                return null;
-            else if (height == null && !vertical.Is(Keywords.Auto))
-                return null;
-
-            return new SizeMode { Width = width, Height = height };
-        }
-
-        Boolean CheckSingle(CSSValue value)
-        {
-            var size = Check(value);
-
-            if (size == null)
-                return false;
-
-            _sizes.Clear();
-            _sizes.Add(size.Value);
-            return true;
-        }
-
-        Boolean CheckList(CSSValueList values)
-        {
-            var sizes = new List<SizeMode>();
-            var list = values.ToList();
-
-            foreach (var entry in list)
-            {
-                while (entry.Length == 0 || entry.Length > 2)
-                    return false;
-
-                var size = entry.Length == 1 ? Check(entry[0]) : Check(entry[0], entry[1]);
-
-                if (size == null)
-                    return false;
-
-                sizes.Add(size.Value);
-            }
-
-            _sizes.Clear();
-            _sizes.AddRange(sizes);
-            return true;
+            return this.TakeList(
+                    this.WithDistance().To(m => new SizeMode { Width = m }).Or(
+                    this.TakeOne(Keywords.Auto, Auto)).Or(
+                    this.TakeOne(Keywords.Cover, Cover)).Or(
+                    this.TakeOne(Keywords.Contain, Contain)).Or(
+                    this.WithArgs(this.WithDistance(), this.WithDistance(), pt => new SizeMode { Width = pt.Item1, Height = pt.Item2 }))
+                ).TryConvert(value, SetSizes);
         }
 
         #endregion

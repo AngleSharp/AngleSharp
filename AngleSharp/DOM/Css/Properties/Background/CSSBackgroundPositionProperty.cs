@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        List<Point> _positions;
+        readonly List<Point> _positions;
 
         #endregion
 
@@ -42,6 +42,12 @@
 
         #region Methods
 
+        public void SetPositions(IEnumerable<Point> positions)
+        {
+            _positions.Clear();
+            _positions.AddRange(positions);
+        }
+
         internal override void Reset()
         {
             _positions.Clear();
@@ -55,25 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var values = value as CSSValueList ?? new CSSValueList(value);
-            var list = values.ToList();
-            var positions = new List<Point>();
-
-            foreach (var entry in list)
-            {
-                if (entry.Length == 0 || entry.Length > 4)
-                    return false;
-
-                var position = entry.ToPoint();
-
-                if (position == null)
-                    return false;
-
-                positions.Add(position);
-            }
-
-            _positions = positions;
-            return true;
+            return this.TakeList(this.WithPoint()).TryConvert(value, SetPositions);
         }
 
         #endregion
