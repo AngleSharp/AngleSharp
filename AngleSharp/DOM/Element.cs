@@ -677,9 +677,15 @@
             foreach (var attribute in _attributes)
                 sb.Append(Specification.Space).Append(attribute.ToString());
 
+            bool isSelfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
+            if (isSelfClosing)
+            {
+                sb.Append(Specification.Solidus);
+            }
+
             sb.Append(Specification.GreaterThan);
 
-            if (!Flags.HasFlag(NodeFlags.SelfClosing))
+            if (!isSelfClosing)
             {
                 if (Flags.HasFlag(NodeFlags.LineTolerance) && FirstChild is IText)
                 {
