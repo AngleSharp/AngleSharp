@@ -3,6 +3,9 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
 
     /// <summary>
     /// More information available at:
@@ -12,7 +15,7 @@
     {
         #region Fields
 
-        ICssObject _image;
+        readonly List<Url> _images;
 
         #endregion
 
@@ -21,6 +24,7 @@
         internal CSSBorderImageSourceProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BorderImageSource, rule)
         {
+            _images = new List<Url>();
         }
 
         #endregion
@@ -30,18 +34,24 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        public Object Image
+        public IEnumerable<Url> Images
         {
-            get { return _image; }
+            get { return _images; }
         }
 
         #endregion
 
         #region Methods
 
+        private void SetImages(IEnumerable<Url> urls)
+        {
+            _images.Clear();
+            _images.AddRange(urls);
+        }
+
         internal override void Reset()
         {
-            _image = Color.Transparent;
+            _images.Clear();
         }
 
         /// <summary>
@@ -51,15 +61,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //var image = value.ToImage();
-
-            //if (image != null)
-            //{
-            //    _image = image;
-            //    return true;
-            //}
-            
-            return false;
+            return this.TakeOne(Keywords.None, Enumerable.Empty<Url>()).Or(
+                   this.WithImages().To(m => m.Urls)).TryConvert(value, SetImages);
         }
 
         #endregion

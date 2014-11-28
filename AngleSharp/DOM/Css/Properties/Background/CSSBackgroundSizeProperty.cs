@@ -14,7 +14,6 @@
     {
         #region Fields
 
-        static readonly SizeMode Auto = new SizeMode { };
         static readonly SizeMode Cover = new SizeMode { IsCovered = true };
         static readonly SizeMode Contain = new SizeMode { IsContained = true };
         readonly List<SizeMode> _sizes;
@@ -73,11 +72,10 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.TakeList(
-                    this.WithDistance().To(m => new SizeMode { Width = m }).Or(
-                    this.TakeOne(Keywords.Auto, Auto)).Or(
+                    this.WithDistance().OrDefault().To(m => new SizeMode { Width = m }).Or(
                     this.TakeOne(Keywords.Cover, Cover)).Or(
                     this.TakeOne(Keywords.Contain, Contain)).Or(
-                    this.WithArgs(this.WithDistance(), this.WithDistance(), pt => new SizeMode { Width = pt.Item1, Height = pt.Item2 }))
+                    this.WithArgs(this.WithDistance().OrDefault(), this.WithDistance().OrDefault(), pt => new SizeMode { Width = pt.Item1, Height = pt.Item2 }))
                 ).TryConvert(value, SetSizes);
         }
 

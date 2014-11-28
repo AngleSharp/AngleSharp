@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS border-image-width property.
@@ -37,7 +38,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        Object Image { get; }
+        IEnumerable<Url> Images { get; }
     }
 
     /// <summary>

@@ -129,9 +129,9 @@
         /// <summary>
         /// Gets the image source of the border-image.
         /// </summary>
-        public Object Image
+        public IEnumerable<Url> Images
         {
-            get { return _source.Image; }
+            get { return _source.Images; }
         }
 
         public IDistance WidthTop
@@ -165,6 +165,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
+            //Required: SOurce, Slice and Repeat
             if (value is CSSValueList)
                 return Evaluate((CSSValueList)value);
 
