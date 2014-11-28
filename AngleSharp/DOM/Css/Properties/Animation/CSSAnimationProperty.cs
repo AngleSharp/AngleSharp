@@ -126,16 +126,16 @@
                     this.WithFillMode(),
                     this.Toggle(Keywords.Running, Keywords.Paused),
                     this.WithIdentifier(),
-                new Tuple<Time, TransitionFunction, Time, Int32, AnimationDirection, AnimationFillStyle, Boolean, String>(Time.Zero, TransitionFunction.Ease, Time.Zero, 1, AnimationDirection.Normal, AnimationFillStyle.None, true, String.Empty))).TryConvert(value, t =>
+                Tuple.Create(Tuple.Create(Time.Zero, TransitionFunction.Ease, Time.Zero, 1), Tuple.Create(AnimationDirection.Normal, AnimationFillStyle.None, true, String.Empty)))).TryConvert(value, t =>
                 {
-                    _duration.SetDurations(t.Select(m => m.Item1));
-                    _timingFunction.SetTimingFunctions(t.Select(m => m.Item2));
-                    _delay.SetDelays(t.Select(m => m.Item3));
-                    _iterationCount.SetIterations(t.Select(m => m.Item4));
-                    _direction.SetDirections(t.Select(m => m.Item5));
-                    _fillMode.SetFillModes(t.Select(m => m.Item6));
-                    _playState.SetStates(t.Select(m => m.Item7 ? PlayState.Running : PlayState.Paused));
-                    _name.SetNames(t.Select(m => m.Rest));
+                    _duration.SetDurations(t.Select(m => m.Item1.Item1));
+                    _timingFunction.SetTimingFunctions(t.Select(m => m.Item1.Item2));
+                    _delay.SetDelays(t.Select(m => m.Item1.Item3));
+                    _iterationCount.SetIterations(t.Select(m => m.Item1.Item4));
+                    _direction.SetDirections(t.Select(m => m.Item2.Item1));
+                    _fillMode.SetFillModes(t.Select(m => m.Item2.Item2));
+                    _playState.SetStates(t.Select(m => m.Item2.Item3 ? PlayState.Running : PlayState.Paused));
+                    _name.SetNames(t.Select(m => m.Item2.Item4));
                 });
         }
 

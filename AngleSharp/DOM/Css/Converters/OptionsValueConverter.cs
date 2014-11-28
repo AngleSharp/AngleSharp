@@ -218,7 +218,7 @@
         }
     }
 
-    sealed class OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8> : IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>>
+    sealed class OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8> : IValueConverter<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>>
     {
         readonly IValueConverter<T1> _first;
         readonly IValueConverter<T2> _second;
@@ -228,9 +228,9 @@
         readonly IValueConverter<T6> _sixth;
         readonly IValueConverter<T7> _seventh;
         readonly IValueConverter<T8> _eigth;
-        readonly Tuple<T1, T2, T3, T4, T5, T6, T7, T8> _defaults;
+        readonly Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>> _defaults;
 
-        public OptionsValueConverter(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<T1, T2, T3, T4, T5, T6, T7, T8> defaults)
+        public OptionsValueConverter(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>> defaults)
         {
             _first = first;
             _second = second;
@@ -243,26 +243,26 @@
             _defaults = defaults;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>> setResult)
+        public Boolean TryConvert(CSSValue value, Action<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> setResult)
         {
             var items = value as CSSValueList ?? new CSSValueList(value);
 
             if (items.Length > 8)
                 return false;
 
-            var t1 = TryAll(items, _first, _defaults.Item1);
-            var t2 = TryAll(items, _second, _defaults.Item2);
-            var t3 = TryAll(items, _third, _defaults.Item3);
-            var t4 = TryAll(items, _fourth, _defaults.Item4);
-            var t5 = TryAll(items, _fifth, _defaults.Item5);
-            var t6 = TryAll(items, _sixth, _defaults.Item6);
-            var t7 = TryAll(items, _seventh, _defaults.Item7);
-            var t8 = TryAll(items, _eigth, _defaults.Rest);
+            var t1 = TryAll(items, _first, _defaults.Item1.Item1);
+            var t2 = TryAll(items, _second, _defaults.Item1.Item2);
+            var t3 = TryAll(items, _third, _defaults.Item1.Item3);
+            var t4 = TryAll(items, _fourth, _defaults.Item1.Item4);
+            var t5 = TryAll(items, _fifth, _defaults.Item2.Item1);
+            var t6 = TryAll(items, _sixth, _defaults.Item2.Item2);
+            var t7 = TryAll(items, _seventh, _defaults.Item2.Item3);
+            var t8 = TryAll(items, _eigth, _defaults.Item2.Item4);
 
             if (items.Length > 0)
                 return false;
 
-            setResult(new Tuple<T1, T2, T3, T4, T5, T6, T7, T8>(t1, t2, t3, t4, t5, t6, t7, t8));
+            setResult(Tuple.Create(Tuple.Create(t1, t2, t3, t4), Tuple.Create(t5, t6, t7, t8)));
             return true;
         }
 

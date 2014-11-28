@@ -1278,7 +1278,7 @@
             return new OptionsValueConverter<T1, T2, T3, T4>(first, second, third, fourth, defaults);
         }
 
-        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>> WithOptions<T1, T2, T3, T4, T5, T6, T7, T8>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<T1, T2, T3, T4, T5, T6, T7, T8> defaults)
+        public static IValueConverter<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> WithOptions<T1, T2, T3, T4, T5, T6, T7, T8>(this CSSProperty property, IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>> defaults)
         {
             return new OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth, defaults);
         }
@@ -1348,12 +1348,12 @@
             // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
             // <ending-shape> = [ ellipse | circle ]
             // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
-            var args = p.FirstArg(p.WithAngle()).And(p.RestArgs(p.WithGradientStops(), 1)).
-               Or(p.WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
+            var args = p.FirstArg(p.WithAngle()).And(p.RestArgs(p.WithGradientStops(), 1)).Or(
+                       p.WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
-                        args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, false))).
-                Or(new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
+                        args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, false))).Or(
+                   new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
                         args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, true))));
         }
 
@@ -1367,14 +1367,14 @@
         {
             const Single hnorm = 1f / 360f;
 
-            return new StructValueConverter<Color>(ToColor).
-                Or(new FunctionValueConverter<Color>(FunctionNames.Rgb,
-                        p.WithArgs(p.WithByte(), p.WithByte(), p.WithByte(), m => new Color(m.Item1, m.Item2, m.Item3)))).
-                Or(new FunctionValueConverter<Color>(FunctionNames.Rgba,
-                        p.WithArgs(p.WithByte(), p.WithByte(), p.WithByte(), p.WithNumber().Constraint(m => m >= 0f && m <= 1f), m => new Color(m.Item1, m.Item2, m.Item3, m.Item4)))).
-                Or(new FunctionValueConverter<Color>(FunctionNames.Hsl,
-                        p.WithArgs(p.WithNumber(), p.WithPercent(), p.WithPercent(), m => Color.FromHsl(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue)))).
-                Or(new FunctionValueConverter<Color>(FunctionNames.Hsla,
+            return new StructValueConverter<Color>(ToColor).Or(
+                   new FunctionValueConverter<Color>(FunctionNames.Rgb,
+                        p.WithArgs(p.WithByte(), p.WithByte(), p.WithByte(), m => new Color(m.Item1, m.Item2, m.Item3)))).Or(
+                   new FunctionValueConverter<Color>(FunctionNames.Rgba, 
+                        p.WithArgs(p.WithByte(), p.WithByte(), p.WithByte(), p.WithNumber(), m => new Color(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
+                   new FunctionValueConverter<Color>(FunctionNames.Hsl,
+                        p.WithArgs(p.WithNumber(), p.WithPercent(), p.WithPercent(), m => Color.FromHsl(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue)))).Or(
+                   new FunctionValueConverter<Color>(FunctionNames.Hsla,
                         p.WithArgs(p.WithNumber(), p.WithPercent(), p.WithPercent(), p.WithNumber().Constraint(m => m >= 0f && m <= 1f), m => Color.FromHsla(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue, m.Item4))));
         }
 
