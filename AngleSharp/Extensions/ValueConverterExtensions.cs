@@ -28,6 +28,16 @@
             return new OptionalValueConverter<T, U>(listConverter, optionConverter, defaultValue);
         }
 
+        public static IValueConverter<T> Required<T>(this IValueConverter<T> converter)
+        {
+            return new RequiredValueConverter<T>(converter);
+        }
+
+        public static IValueConverter<T> Option<T>(this IValueConverter<T> converter, T defaultValue)
+        {
+            return new OptionValueConverter<T>(converter, defaultValue);
+        }
+
         public static IValueConverter<Tuple<T1, T2>> And<T1, T2>(this IValueConverter<T1> primary, IValueConverter<T2> secondary)
         {
             return new AndValueConverter<T1, T2>(primary, secondary);

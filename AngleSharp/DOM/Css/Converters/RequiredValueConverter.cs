@@ -1,0 +1,31 @@
+﻿namespace AngleSharp.DOM.Css
+{
+    using System;
+
+    sealed class RequiredValueConverter<T> : IValueConverter<T>
+    {
+        readonly IValueConverter<T> _converter;
+        readonly T _default;
+
+        public RequiredValueConverter(IValueConverter<T> converter)
+        {
+            _converter = converter;
+        }
+
+        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        {
+            if (value == null)
+                return false;
+
+            return _converter.TryConvert(value, setResult);
+        }
+
+        public Boolean Validate(CSSValue value)
+        {
+            if (value == null)
+                return false;
+
+            return _converter.Validate(value);
+        }
+    }
+}
