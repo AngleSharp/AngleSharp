@@ -57,7 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithPageBreakMode().TryConvert(value, SetState);
+            return this.From(Map.PageBreakModes).TryConvert(value, SetState);
         }
 
         #endregion

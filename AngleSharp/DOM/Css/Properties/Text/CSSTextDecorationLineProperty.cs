@@ -61,7 +61,7 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.TakeOne(Keywords.None, new TextDecorationLine[0]).Or(
-                this.TakeMany(this.WithDecorationLine())).TryConvert(value, SetLines);
+                this.TakeMany(this.From(Map.TextDecorationLines))).TryConvert(value, SetLines);
         }
 
         #endregion

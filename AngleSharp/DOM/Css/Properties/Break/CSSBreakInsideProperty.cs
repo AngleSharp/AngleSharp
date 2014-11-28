@@ -60,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithBreakInsideMode().TryConvert(value, SetState);
+            return this.From(Map.BreakInsideModes).TryConvert(value, SetState);
         }
 
         #endregion

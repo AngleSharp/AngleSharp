@@ -71,7 +71,7 @@
             return this.WithOptions(
                     this.WithColor(),
                     this.WithBorderWidth(),
-                    this.WithLineStyle(),
+                    this.From(Map.LineStyles),
                 Tuple.Create(Color.Transparent, Length.Medium, LineStyle.None)
                 ).TryConvert(value, m =>
                 {

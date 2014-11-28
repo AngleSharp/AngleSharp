@@ -46,9 +46,9 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        public IEnumerable<Url> Images
+        public Url Image
         {
-            get { return _image.Images; }
+            get { return _image.Image; }
         }
 
         /// <summary>
@@ -71,15 +71,14 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.WithOptions(
-                        this.WithListStyle(),
-                        this.WithListPosition(),
-                        this.WithImages().To(m => m.Urls),
-                    Tuple.Create(ListStyle.Disc, ListPosition.Outside, Enumerable.Empty<Url>())
-                ).TryConvert(value, m =>
+                        this.From(Map.ListStyles),
+                        this.From(Map.ListPositions),
+                        this.WithUrl().To(m => new Url(m)),
+                    Tuple.Create(ListStyle.Disc, ListPosition.Outside, (Url)null)).TryConvert(value, m =>
                 {
                     _type.SetStyle(m.Item1);
                     _position.SetPosition(m.Item2);
-                    _image.SetImages(m.Item3);
+                    _image.SetImage(m.Item3);
                 });
         }
 

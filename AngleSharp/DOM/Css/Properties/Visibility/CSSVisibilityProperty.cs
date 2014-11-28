@@ -57,7 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithVisibility().TryConvert(value, SetVisibility);
+            return this.From(Map.Visibilities).TryConvert(value, SetVisibility);
         }
 
         #endregion

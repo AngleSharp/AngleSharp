@@ -722,96 +722,6 @@
 
         #region Value Converters
 
-        public static IValueConverter<LineStyle> WithLineStyle(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<LineStyle>(Map.LineStyles);
-        }
-
-        public static IValueConverter<ListPosition> WithListPosition(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<ListPosition>(Map.ListPositions);
-        }
-
-        public static IValueConverter<BreakMode> WithBreakMode(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<BreakMode>(Map.BreakModes);
-        }
-
-        public static IValueConverter<BreakMode> WithPageBreakMode(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<BreakMode>(Map.PageBreakModes);
-        }
-
-        public static IValueConverter<AnimationDirection> WithDirection(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<AnimationDirection>(Map.AnimationDirections);
-        }
-
-        public static IValueConverter<AnimationFillStyle> WithFillMode(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<AnimationFillStyle>(Map.AnimationFillStyles);
-        }
-
-        public static IValueConverter<BreakMode> WithBreakInsideMode(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<BreakMode>(Map.BreakInsideModes);
-        }
-
-        public static IValueConverter<ListStyle> WithListStyle(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<ListStyle>(Map.ListStyles);
-        }
-
-        public static IValueConverter<BackgroundAttachment> WithBackgroundAttachment(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<BackgroundAttachment>(Map.BackgroundAttachments);
-        }
-
-        public static IValueConverter<BoxModel> WithBoxModel(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<BoxModel>(Map.BoxModels);
-        }
-
-        public static IValueConverter<FontStyle> WithFontStyle(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<FontStyle>(Map.FontStyles);
-        }
-
-        public static IValueConverter<FontStretch> WithFontStretch(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<FontStretch>(Map.FontStretches);
-        }
-
-        public static IValueConverter<TextDecorationStyle> WithDecorationStyle(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<TextDecorationStyle>(Map.TextDecorationStyles);
-        }
-
-        public static IValueConverter<TextDecorationLine> WithDecorationLine(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<TextDecorationLine>(Map.TextDecorationLines);
-        }
-
-        public static IValueConverter<Visibility> WithVisibility(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<Visibility>(Map.Visibilities);
-        }
-
-        public static IValueConverter<UnicodeMode> WithUnicodeMode(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<UnicodeMode>(Map.UnicodeModes);
-        }
-
-        public static IValueConverter<FontSize> WithFontSize(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<FontSize>(Map.FontSizes);
-        }
-
-        public static IValueConverter<BorderRepeat> WithBorderRepeat(this CSSProperty property)
-        {
-            return new DictionaryValueConverter<BorderRepeat>(Map.BorderRepeatModes);
-        }
-
         public static IValueConverter<T> From<T>(this CSSProperty property, Dictionary<String, T> values)
         {
             return new DictionaryValueConverter<T>(values);
@@ -1083,7 +993,7 @@
 
         public static IValueConverter<Tuple<Length, LineStyle, Color>> ValidateBorderPart(this CSSProperty property)
         {
-            return property.WithOptions(property.WithBorderWidth(), property.WithLineStyle(), property.WithColor(), Tuple.Create(Length.Medium, LineStyle.None, Color.Transparent));
+            return property.WithOptions(property.WithBorderWidth(), property.From(Map.LineStyles), property.WithColor(), Tuple.Create(Length.Medium, LineStyle.None, Color.Transparent));
         }
 
         public static IValueConverter<Shape> WithShape(this CSSProperty p)

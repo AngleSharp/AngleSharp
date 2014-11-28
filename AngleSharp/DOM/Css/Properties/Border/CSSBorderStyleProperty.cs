@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithLineStyle().Periodic().TryConvert(value, m =>
+            return this.From(Map.LineStyles).Periodic().TryConvert(value, m =>
             {
                 _top.SetStyle(m.Item1);
                 _right.SetStyle(m.Item2);

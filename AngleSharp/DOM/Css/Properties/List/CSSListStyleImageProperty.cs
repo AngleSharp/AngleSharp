@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at
@@ -13,7 +14,7 @@
     {
         #region Fields
 
-        readonly List<Url> _images;
+        Url _image;
 
         #endregion
 
@@ -22,7 +23,6 @@
         internal CSSListStyleImageProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.ListStyleImage, rule, PropertyFlags.Inherited)
         {
-            _images = new List<Url>();
             Reset();
         }
 
@@ -33,24 +33,23 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        public IEnumerable<Url> Images
+        public Url Image
         {
-            get { return _images; }
+            get { return _image; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetImages(IEnumerable<Url> images)
+        public void SetImage(Url image)
         {
-            _images.Clear();
-            _images.AddRange(images);
+            _image = image;
         }
 
         internal override void Reset()
         {
-            _images.Clear();
+            _image = null;
         }
 
         /// <summary>
@@ -60,7 +59,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithImages().To(m => m.Urls).TryConvert(value, SetImages);
+            return this.TakeOne(Keywords.None, (Url)null).Or(
+                   this.WithUrl().To(m => new Url(m))).TryConvert(value, SetImage);
         }
 
         #endregion

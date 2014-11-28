@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithUnicodeMode().TryConvert(value, SetState);
+            return this.From(Map.UnicodeModes).TryConvert(value, SetState);
         }
 
         #endregion

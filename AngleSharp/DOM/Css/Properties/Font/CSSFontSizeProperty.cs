@@ -75,7 +75,7 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.WithDistance().TryConvert(value, SetSize) ||
-                   this.WithFontSize().TryConvert(value, SetSize);
+                   this.From(Map.FontSizes).TryConvert(value, SetSize);
         }
 
         #endregion

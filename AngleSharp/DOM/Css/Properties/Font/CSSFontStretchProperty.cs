@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithFontStretch().TryConvert(value, SetStretch);
+            return this.From(Map.FontStretches).TryConvert(value, SetStretch);
         }
 
         #endregion

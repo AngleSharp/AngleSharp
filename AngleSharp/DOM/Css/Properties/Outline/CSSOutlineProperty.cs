@@ -80,7 +80,7 @@
 
             return this.WithOptions(
                     this.WithBorderWidth(), 
-                    this.WithLineStyle(), 
+                    this.From(Map.LineStyles), 
                     this.WithColor().To(m => Tuple.Create(m, false)).Or(this.TakeOne(Keywords.Invert, invert)),
                 Tuple.Create(Length.Medium, LineStyle.None, invert)).TryConvert(value, m =>
                 {

@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        IEnumerable<Url> Images { get; }
+        Url Image { get; }
     }
 
     /// <summary>

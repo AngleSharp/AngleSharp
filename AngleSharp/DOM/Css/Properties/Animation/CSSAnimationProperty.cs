@@ -122,8 +122,8 @@
                     this.WithTransition(),
                     this.WithTime(),
                     this.WithInteger().Constraint(m => m >= 0).Or(this.TakeOne(Keywords.Infinite, -1)),
-                    this.WithDirection(),
-                    this.WithFillMode(),
+                    this.From(Map.AnimationDirections),
+                    this.From(Map.AnimationFillStyles),
                     this.Toggle(Keywords.Running, Keywords.Paused),
                     this.WithIdentifier(),
                 Tuple.Create(Tuple.Create(Time.Zero, TransitionFunction.Ease, Time.Zero, 1), Tuple.Create(AnimationDirection.Normal, AnimationFillStyle.None, true, String.Empty)))).TryConvert(value, t =>
