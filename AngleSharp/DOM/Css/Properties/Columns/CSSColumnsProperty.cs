@@ -59,8 +59,8 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.WithOptions(
-                    this.WithLength().ToNullable(),
-                    this.WithInteger().ToNullable(),
+                    this.WithLength().OrNullDefault(),
+                    this.WithInteger().OrNullDefault(),
                     Tuple.Create((Length?)null, (Int32?)null)
                 ).TryConvert(value, m =>
                 {
