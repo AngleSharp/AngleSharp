@@ -165,6 +165,9 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\Map.cs">
+      <Link>Css\Map.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Number.cs">
       <Link>Css\Number.cs</Link>
     </Compile>
