@@ -71,7 +71,7 @@ namespace UnitTests.Css
         [TestMethod]
         public void CssOutlineColorHslLegal()
         {
-            var snippet = "outline-color :  hsl(320, 80%, 50%) ";
+            var snippet = "outline-color :  hsl(320, 80%, 50%) ";//equivalent to rgba(229, 26, 161, 1)
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
@@ -80,7 +80,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(229, 26, 161, 1)", concrete.Value.CssText);
+            Assert.AreEqual("hsl(320, 80%, 50%)", concrete.Value.CssText);
         }
 
         [TestMethod]

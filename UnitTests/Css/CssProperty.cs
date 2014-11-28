@@ -616,7 +616,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value.CssText);
+            Assert.AreEqual("rect(2px 3em 1in 0)", concrete.Value.CssText);
         }
 
         [TestMethod]
