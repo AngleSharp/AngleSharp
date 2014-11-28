@@ -63,6 +63,7 @@
         /// Applies the manifest to the given document.
         /// </summary>
         /// <param name="document">The document to modify.</param>
+        /// <param name="root">The document's element.</param>
         public static void ApplyManifest(this Document document, HTMLHtmlElement root)
         {
             if (!document.IsInBrowsingContext)
