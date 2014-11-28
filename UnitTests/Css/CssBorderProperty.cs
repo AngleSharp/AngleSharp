@@ -185,7 +185,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red rgba(0, 0, 0, 1)", concrete.Value.CssText);
+            Assert.AreEqual("red rgb(0, 0, 0)", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -634,7 +634,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(255, 100, 0, 1)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(255, 100, 0)", concrete.Value.CssText);
             Assert.AreEqual(Length.Medium, concrete.Width);
             Assert.AreEqual(Color.FromRgb(255, 100, 0), concrete.Color);
             Assert.AreEqual(LineStyle.None, concrete.Style);
@@ -652,7 +652,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("groove rgba(255, 100, 0, 1)", concrete.Value.CssText);
+            Assert.AreEqual("groove rgb(255, 100, 0)", concrete.Value.CssText);
             Assert.AreEqual(Length.Medium, concrete.Width);
             Assert.AreEqual(Color.FromRgb(255, 100, 0), concrete.Color);
             Assert.AreEqual(LineStyle.Groove, concrete.Style);

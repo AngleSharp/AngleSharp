@@ -168,13 +168,13 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(255, 255, 128, 1)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(255, 255, 128)", concrete.Value.CssText);
         }
 
         [TestMethod]
         public void CssBackgroundColorHslaLegal()
         {
-            var snippet = "background-color : hsla(50, 33%, 25%, 0.75)";
+            var snippet = "background-color : hsla(50, 33%, 25%, 0.75)";//equal to rgba(85, 78, 43, 0.75)
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
@@ -183,7 +183,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgba(85, 78, 43, 0.75)", concrete.Value.CssText);
+            Assert.AreEqual("hsla(50, 33%, 25%, 0.75)", concrete.Value.CssText);
         }
 
         [TestMethod]
