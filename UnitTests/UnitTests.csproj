@@ -74,6 +74,7 @@
     <Compile Include="Css\CssMediaList.cs" />
     <Compile Include="Css\FontFace.cs" />
     <Compile Include="Css\CssKeyframeRule.cs" />
+    <Compile Include="Library\DocumentEncoding.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
