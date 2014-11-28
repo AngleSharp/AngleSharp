@@ -60,7 +60,7 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return this.TakeOne(Keywords.None, new ITransform[0]).Or(
-                   this.TakeList(this.WithTransform())).TryConvert(value, SetTransforms);
+                   this.TakeMany(this.WithTransform())).TryConvert(value, SetTransforms);
         }
 
         #endregion
