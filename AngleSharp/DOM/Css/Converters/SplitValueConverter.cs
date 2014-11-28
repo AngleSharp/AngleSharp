@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -29,7 +30,7 @@
             {
                 if (_condition.Validate(values[i]))
                 {
-                    if (!_converter.TryConvert(list, m => results.Add(m)))
+                    if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
                         return false;
 
                     list = new CSSValueList();
@@ -38,7 +39,7 @@
                 list.Add(values[i]);
             }
 
-            if (!_converter.TryConvert(list, m => results.Add(m)))
+            if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
                 return false;
 
             setResult(results.ToArray());
@@ -59,7 +60,7 @@
             {
                 if (_condition.Validate(values[i]))
                 {
-                    if (!_converter.Validate(list))
+                    if (!_converter.Validate(list.Reduce()))
                         return false;
 
                     list = new CSSValueList();
@@ -68,7 +69,7 @@
                 list.Add(values[i]);
             }
 
-            return _converter.Validate(list);
+            return _converter.Validate(list.Reduce());
         }
     }
 }
