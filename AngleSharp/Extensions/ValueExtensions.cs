@@ -14,286 +14,6 @@
     [DebuggerStepThrough]
     static class ValueExtensions
     {
-        #region Dictionaries
-
-        static readonly Dictionary<String, LineStyle> lineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, BoxModel> boxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, TransitionFunction> timingFunctions = new Dictionary<String, TransitionFunction>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, AnimationFillStyle> fillModes = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, AnimationDirection> directions = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, Visibility> visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, ListStyle> listStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, ListPosition> listPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, FontSize> fontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, TextDecorationStyle> decorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, TextDecorationLine> decorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, BorderRepeat> borderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, String> defaultfamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, BackgroundAttachment> backgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, FontStyle> fontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, FontStretch> fontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, BreakMode> breakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, BreakMode> pageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, BreakMode> breakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, Single> horizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, Single> verticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, UnicodeMode> unicodeBidis = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
-
-        #endregion
-
-        #region Initial Population
-
-        static ValueExtensions()
-        {
-            lineStyles.Add(Keywords.None, LineStyle.None);
-            lineStyles.Add(Keywords.Solid, LineStyle.Solid);
-            lineStyles.Add(Keywords.Double, LineStyle.Double);
-            lineStyles.Add(Keywords.Dotted, LineStyle.Dotted);
-            lineStyles.Add(Keywords.Dashed, LineStyle.Dashed);
-            lineStyles.Add(Keywords.Inset, LineStyle.Inset);
-            lineStyles.Add(Keywords.Outset, LineStyle.Outset);
-            lineStyles.Add(Keywords.Ridge, LineStyle.Ridge);
-            lineStyles.Add(Keywords.Groove, LineStyle.Groove);
-            lineStyles.Add(Keywords.Hidden, LineStyle.Hidden);
-
-            boxModels.Add(Keywords.BorderBox, BoxModel.BorderBox);
-            boxModels.Add(Keywords.PaddingBox, BoxModel.PaddingBox);
-            boxModels.Add(Keywords.ContentBox, BoxModel.ContentBox);
-
-            timingFunctions.Add(Keywords.Ease, TransitionFunction.Ease);
-            timingFunctions.Add(Keywords.EaseIn, TransitionFunction.EaseIn);
-            timingFunctions.Add(Keywords.EaseOut, TransitionFunction.EaseOut);
-            timingFunctions.Add(Keywords.EaseInOut, TransitionFunction.EaseInOut);
-            timingFunctions.Add(Keywords.Linear, TransitionFunction.Linear);
-            timingFunctions.Add(Keywords.StepStart, TransitionFunction.StepStart);
-            timingFunctions.Add(Keywords.StepEnd, TransitionFunction.StepEnd);
-
-            fillModes.Add(Keywords.None, AnimationFillStyle.None);
-            fillModes.Add(Keywords.Forwards, AnimationFillStyle.Forwards);
-            fillModes.Add(Keywords.Backwards, AnimationFillStyle.Backwards);
-            fillModes.Add(Keywords.Both, AnimationFillStyle.Both);
-
-            directions.Add(Keywords.Normal, AnimationDirection.Normal);
-            directions.Add(Keywords.Reverse, AnimationDirection.Reverse);
-            directions.Add(Keywords.Alternate, AnimationDirection.Alternate);
-            directions.Add(Keywords.AlternateReverse, AnimationDirection.AlternateReverse);
-
-            visibilities.Add(Keywords.Visible, Visibility.Visible);
-            visibilities.Add(Keywords.Hidden, Visibility.Hidden);
-            visibilities.Add(Keywords.Collapse, Visibility.Collapse);
-
-            listStyles.Add(Keywords.Disc, ListStyle.Disc);
-            listStyles.Add(Keywords.Circle, ListStyle.Circle);
-            listStyles.Add(Keywords.Square, ListStyle.Square);
-            listStyles.Add(Keywords.Decimal, ListStyle.Decimal);
-            listStyles.Add(Keywords.DecimalLeadingZero, ListStyle.DecimalLeadingZero);
-            listStyles.Add(Keywords.LowerRoman, ListStyle.LowerRoman);
-            listStyles.Add(Keywords.UpperRoman, ListStyle.UpperRoman);
-            listStyles.Add(Keywords.LowerGreek, ListStyle.LowerGreek);
-            listStyles.Add(Keywords.LowerLatin, ListStyle.LowerLatin);
-            listStyles.Add(Keywords.UpperLatin, ListStyle.UpperLatin);
-            listStyles.Add(Keywords.Armenian, ListStyle.Armenian);
-            listStyles.Add(Keywords.Georgian, ListStyle.Georgian);
-            listStyles.Add(Keywords.LowerAlpha, ListStyle.LowerLatin);
-            listStyles.Add(Keywords.UpperAlpha, ListStyle.UpperLatin);
-            listStyles.Add(Keywords.None, ListStyle.None);
-
-            listPositions.Add(Keywords.Inside, ListPosition.Inside);
-            listPositions.Add(Keywords.Outside, ListPosition.Outside);
-
-            fontSizes.Add(Keywords.XxSmall, FontSize.Tiny);
-            fontSizes.Add(Keywords.XSmall, FontSize.Little);
-            fontSizes.Add(Keywords.Small, FontSize.Small);
-            fontSizes.Add(Keywords.Medium, FontSize.Medium);
-            fontSizes.Add(Keywords.Large, FontSize.Large);
-            fontSizes.Add(Keywords.XLarge, FontSize.Big);
-            fontSizes.Add(Keywords.XxLarge, FontSize.Huge);
-            fontSizes.Add(Keywords.Larger, FontSize.Smaller);
-            fontSizes.Add(Keywords.Smaller, FontSize.Larger);
-
-            decorationStyles.Add(Keywords.Solid, TextDecorationStyle.Solid);
-            decorationStyles.Add(Keywords.Double, TextDecorationStyle.Double);
-            decorationStyles.Add(Keywords.Dotted, TextDecorationStyle.Dotted);
-            decorationStyles.Add(Keywords.Dashed, TextDecorationStyle.Dashed);
-            decorationStyles.Add(Keywords.Wavy, TextDecorationStyle.Wavy);
-
-            decorationLines.Add(Keywords.Underline, TextDecorationLine.Underline);
-            decorationLines.Add(Keywords.Overline, TextDecorationLine.Overline);
-            decorationLines.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
-            decorationLines.Add(Keywords.Blink, TextDecorationLine.Blink);
-
-            borderRepeatModes.Add(Keywords.Stretch, BorderRepeat.Stretch);
-            borderRepeatModes.Add(Keywords.Repeat, BorderRepeat.Repeat);
-            borderRepeatModes.Add(Keywords.Round, BorderRepeat.Round);
-
-            defaultfamilies.Add(Keywords.Serif, "Times New Roman");
-            defaultfamilies.Add(Keywords.SansSerif, "Arial");
-            defaultfamilies.Add(Keywords.Monospace, "Consolas");
-            defaultfamilies.Add(Keywords.Cursive, "Cursive");
-            defaultfamilies.Add(Keywords.Fantasy, "Comic Sans");
-
-            backgroundAttachments.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
-            backgroundAttachments.Add(Keywords.Local, BackgroundAttachment.Local);
-            backgroundAttachments.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
-
-            fontStyles.Add(Keywords.Normal, FontStyle.Normal);
-            fontStyles.Add(Keywords.Italic, FontStyle.Italic);
-            fontStyles.Add(Keywords.Oblique, FontStyle.Oblique);
-
-            fontStretches.Add(Keywords.Normal, FontStretch.Normal);
-            fontStretches.Add(Keywords.UltraCondensed, FontStretch.UltraCondensed);
-            fontStretches.Add(Keywords.ExtraCondensed, FontStretch.ExtraCondensed);
-            fontStretches.Add(Keywords.Condensed, FontStretch.Condensed);
-            fontStretches.Add(Keywords.SemiCondensed, FontStretch.SemiCondensed);
-            fontStretches.Add(Keywords.SemiExpanded, FontStretch.SemiExpanded);
-            fontStretches.Add(Keywords.Expanded, FontStretch.Expanded);
-            fontStretches.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
-            fontStretches.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
-
-            breakModes.Add(Keywords.Auto, BreakMode.Auto);
-            breakModes.Add(Keywords.Always, BreakMode.Always);
-            breakModes.Add(Keywords.Avoid, BreakMode.Avoid);
-            breakModes.Add(Keywords.Left, BreakMode.Left);
-            breakModes.Add(Keywords.Right, BreakMode.Right);
-            breakModes.Add(Keywords.Page, BreakMode.Page);
-            breakModes.Add(Keywords.Column, BreakMode.Column);
-            breakModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
-            breakModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
-
-            pageBreakModes.Add(Keywords.Auto, BreakMode.Auto);
-            pageBreakModes.Add(Keywords.Always, BreakMode.Always);
-            pageBreakModes.Add(Keywords.Avoid, BreakMode.Avoid);
-            pageBreakModes.Add(Keywords.Left, BreakMode.Left);
-            pageBreakModes.Add(Keywords.Right, BreakMode.Right);
-
-            breakInsideModes.Add(Keywords.Auto, BreakMode.Auto);
-            breakInsideModes.Add(Keywords.Avoid, BreakMode.Avoid);
-            breakInsideModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
-            breakInsideModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
-            breakInsideModes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
-
-            horizontalModes.Add(Keywords.Left, 0f);
-            horizontalModes.Add(Keywords.Center, 0.5f);
-            horizontalModes.Add(Keywords.Right, 1f);
-
-            verticalModes.Add(Keywords.Top, 0f);
-            verticalModes.Add(Keywords.Center, 0.5f);
-            verticalModes.Add(Keywords.Bottom, 1f);
-
-            unicodeBidis.Add(Keywords.Normal, UnicodeMode.Normal);
-            unicodeBidis.Add(Keywords.Embed, UnicodeMode.Embed);
-            unicodeBidis.Add(Keywords.Isolate, UnicodeMode.Isolate);
-            unicodeBidis.Add(Keywords.IsolateOverride, UnicodeMode.IsolateOverride);
-            unicodeBidis.Add(Keywords.BidiOverride, UnicodeMode.BidiOverride);
-            unicodeBidis.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
-        }
-
-        #endregion
-
-        #region Dictionary Lookups
-
-        public static AnimationDirection? ToDirection(this CSSValue value)
-        {
-            return directions.GetValueOrDefault(value);
-        }
-
-        public static UnicodeMode? ToUnicodeBidi(this CSSValue value)
-        {
-            return unicodeBidis.GetValueOrDefault(value);
-        }
-
-        public static TextDecorationStyle? ToDecorationStyle(this CSSValue value)
-        {
-            return decorationStyles.GetValueOrDefault(value);
-        }
-
-        public static TextDecorationLine? ToDecorationLine(this CSSValue value)
-        {
-            return decorationLines.GetValueOrDefault(value);
-        }
-
-        public static BorderRepeat? ToBorderRepeat(this CSSValue value)
-        {
-            return borderRepeatModes.GetValueOrDefault(value);
-        }
-
-        public static AnimationFillStyle? ToFillMode(this CSSValue value)
-        {
-            return fillModes.GetValueOrDefault(value);
-        }
-
-        public static LineStyle? ToLineStyle(this CSSValue value)
-        {
-            return lineStyles.GetValueOrDefault(value);
-        }
-
-        public static Visibility? ToVisibility(this CSSValue value)
-        {
-            return visibilities.GetValueOrDefault(value);
-        }
-
-        public static BreakMode? ToBreakMode(this CSSValue value)
-        {
-            return breakModes.GetValueOrDefault(value);
-        }
-
-        public static BreakMode? ToBreakInsideMode(this CSSValue value)
-        {
-            return breakInsideModes.GetValueOrDefault(value);
-        }
-
-        public static BreakMode? ToPageBreakMode(this CSSValue value)
-        {
-            return pageBreakModes.GetValueOrDefault(value);
-        }
-
-        public static TransitionFunction ToTimingFunction(this CSSValue value)
-        {
-            TransitionFunction function;
-
-            if (timingFunctions.TryGetValue(value, out function))
-                return function;
-
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null && primitive.Unit == UnitType.Transition)
-                return primitive.Value as TransitionFunction;
-
-            return null;
-        }
-
-        public static BoxModel? ToBoxModel(this CSSValue value)
-        {
-            return boxModels.GetValueOrDefault(value);
-        }
-
-        public static ListStyle? ToListStyle(this CSSValue value)
-        {
-            return listStyles.GetValueOrDefault(value);
-        }
-
-        public static ListPosition? ToListPosition(this CSSValue value)
-        {
-            return listPositions.GetValueOrDefault(value);
-        }
-
-        public static BackgroundAttachment? ToBackgroundAttachment(this CSSValue value)
-        {
-            return backgroundAttachments.GetValueOrDefault(value);
-        }
-
-        public static FontSize? ToFontSize(this CSSValue value)
-        {
-            return fontSizes.GetValueOrDefault(value);
-        }
-
-        public static FontStyle? ToFontStyle(this CSSValue value)
-        {
-            return fontStyles.GetValueOrDefault(value);
-        }
-
-        #endregion
-
         #region Transformers
 
         public static Boolean Is(this CSSValue value, String identifier)
@@ -307,35 +27,6 @@
             var primitive = value as CSSPrimitiveValue;
             mode = default(T);
             return primitive != null && primitive.Unit == UnitType.Ident && obj.TryGetValue(primitive.GetString(), out mode);
-        }
-
-        public static T? GetValueOrDefault<T>(this Dictionary<String, T> obj, CSSValue value)
-            where T : struct
-        {
-            T member;
-
-            if (obj.TryGetValue(value, out member))
-                return member;
-
-            return null;
-        }
-
-        public static Boolean IsOneOf(this CSSValue value, params String[] identifiers)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null && primitive.Unit == UnitType.Ident)
-            {
-                var ident = primitive.GetString();
-
-                foreach (var identifier in identifiers)
-                {
-                    if (ident.Equals(identifier, StringComparison.OrdinalIgnoreCase))
-                        return true;
-                }
-            }
-
-            return false;
         }
 
         public static CssUrl ToUri(this CSSValue value)
@@ -364,46 +55,6 @@
                 return list[0];
 
             return list;
-        }
-
-        public static List<T> AsList<T>(this CSSValue value, Func<CSSValue, T> transformer = null)
-            where T : class
-        {
-            transformer = transformer ?? (v => v as T);
-
-            if (value is CSSValueList)
-            {
-                var values = (CSSValueList)value;
-                var list = new List<T>();
-
-                for (int i = 0; i < values.Length; i++)
-                {
-                    var item = transformer(values[i++]);
-
-                    if (item == null)
-                        return null;
-
-                    list.Add(item);
-
-                    if (i < values.Length && values[i] != CSSValue.Separator)
-                        return null;
-                }
-
-                return list;
-            }
-            else
-            {
-                var item = transformer(value);
-
-                if (item != null)
-                {
-                    var list = new List<T>();
-                    list.Add(item);
-                    return list;
-                }
-            }
-
-            return null;
         }
 
         public static IDistance ToBorderSlice(this CSSValue value)
@@ -564,6 +215,9 @@
 
             if (values != null && values.Length > 1 && values[0].Is(Keywords.To))
             {
+                var horizontalModes = Map.HorizontalModes;
+                var verticalModes = Map.VerticalModes;
+
                 if (values.Length == 2)
                 {
                     var val = 0f;
@@ -598,7 +252,7 @@
                     String family;
                     var name = primitive.GetString();
 
-                    if (defaultfamilies.TryGetValue(name, out family))
+                    if (Map.DefaultFontFamilies.TryGetValue(name, out family))
                         return family;
 
                     return name;
@@ -1070,92 +724,92 @@
 
         public static IValueConverter<LineStyle> WithLineStyle(this CSSProperty property)
         {
-            return new DictionaryValueConverter<LineStyle>(lineStyles);
+            return new DictionaryValueConverter<LineStyle>(Map.LineStyles);
         }
 
         public static IValueConverter<ListPosition> WithListPosition(this CSSProperty property)
         {
-            return new DictionaryValueConverter<ListPosition>(listPositions);
+            return new DictionaryValueConverter<ListPosition>(Map.ListPositions);
         }
 
         public static IValueConverter<BreakMode> WithBreakMode(this CSSProperty property)
         {
-            return new DictionaryValueConverter<BreakMode>(breakModes);
+            return new DictionaryValueConverter<BreakMode>(Map.BreakModes);
         }
 
         public static IValueConverter<BreakMode> WithPageBreakMode(this CSSProperty property)
         {
-            return new DictionaryValueConverter<BreakMode>(pageBreakModes);
+            return new DictionaryValueConverter<BreakMode>(Map.PageBreakModes);
         }
 
         public static IValueConverter<AnimationDirection> WithDirection(this CSSProperty property)
         {
-            return new DictionaryValueConverter<AnimationDirection>(directions);
+            return new DictionaryValueConverter<AnimationDirection>(Map.AnimationDirections);
         }
 
         public static IValueConverter<AnimationFillStyle> WithFillMode(this CSSProperty property)
         {
-            return new DictionaryValueConverter<AnimationFillStyle>(fillModes);
+            return new DictionaryValueConverter<AnimationFillStyle>(Map.AnimationFillStyles);
         }
 
         public static IValueConverter<BreakMode> WithBreakInsideMode(this CSSProperty property)
         {
-            return new DictionaryValueConverter<BreakMode>(breakInsideModes);
+            return new DictionaryValueConverter<BreakMode>(Map.BreakInsideModes);
         }
 
         public static IValueConverter<ListStyle> WithListStyle(this CSSProperty property)
         {
-            return new DictionaryValueConverter<ListStyle>(listStyles);
+            return new DictionaryValueConverter<ListStyle>(Map.ListStyles);
         }
 
         public static IValueConverter<BackgroundAttachment> WithBackgroundAttachment(this CSSProperty property)
         {
-            return new DictionaryValueConverter<BackgroundAttachment>(backgroundAttachments);
+            return new DictionaryValueConverter<BackgroundAttachment>(Map.BackgroundAttachments);
         }
 
         public static IValueConverter<BoxModel> WithBoxModel(this CSSProperty property)
         {
-            return new DictionaryValueConverter<BoxModel>(boxModels);
+            return new DictionaryValueConverter<BoxModel>(Map.BoxModels);
         }
 
         public static IValueConverter<FontStyle> WithFontStyle(this CSSProperty property)
         {
-            return new DictionaryValueConverter<FontStyle>(fontStyles);
+            return new DictionaryValueConverter<FontStyle>(Map.FontStyles);
         }
 
         public static IValueConverter<FontStretch> WithFontStretch(this CSSProperty property)
         {
-            return new DictionaryValueConverter<FontStretch>(fontStretches);
+            return new DictionaryValueConverter<FontStretch>(Map.FontStretches);
         }
 
         public static IValueConverter<TextDecorationStyle> WithDecorationStyle(this CSSProperty property)
         {
-            return new DictionaryValueConverter<TextDecorationStyle>(decorationStyles);
+            return new DictionaryValueConverter<TextDecorationStyle>(Map.TextDecorationStyles);
         }
 
         public static IValueConverter<TextDecorationLine> WithDecorationLine(this CSSProperty property)
         {
-            return new DictionaryValueConverter<TextDecorationLine>(decorationLines);
+            return new DictionaryValueConverter<TextDecorationLine>(Map.TextDecorationLines);
         }
 
         public static IValueConverter<Visibility> WithVisibility(this CSSProperty property)
         {
-            return new DictionaryValueConverter<Visibility>(visibilities);
+            return new DictionaryValueConverter<Visibility>(Map.Visibilities);
         }
 
         public static IValueConverter<UnicodeMode> WithUnicodeMode(this CSSProperty property)
         {
-            return new DictionaryValueConverter<UnicodeMode>(unicodeBidis);
+            return new DictionaryValueConverter<UnicodeMode>(Map.UnicodeModes);
         }
 
         public static IValueConverter<FontSize> WithFontSize(this CSSProperty property)
         {
-            return new DictionaryValueConverter<FontSize>(fontSizes);
+            return new DictionaryValueConverter<FontSize>(Map.FontSizes);
         }
 
         public static IValueConverter<BorderRepeat> WithBorderRepeat(this CSSProperty property)
         {
-            return new DictionaryValueConverter<BorderRepeat>(borderRepeatModes);
+            return new DictionaryValueConverter<BorderRepeat>(Map.BorderRepeatModes);
         }
 
         public static IValueConverter<T> From<T>(this CSSProperty property, Dictionary<String, T> values)
@@ -1285,7 +939,7 @@
 
         public static IValueConverter<TransitionFunction> WithTransition(this CSSProperty p)
         {
-            return new DictionaryValueConverter<TransitionFunction>(timingFunctions).
+            return new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).
                 Or(new FunctionValueConverter<TransitionFunction>(FunctionNames.Steps,
                         p.WithInteger().To(m => (TransitionFunction)new StepsTransitionFunction(m)).Or(
                         p.WithArgs(p.WithInteger(), p.TakeOne(Keywords.Start, true).Or(p.TakeOne(Keywords.End, false)), m => (TransitionFunction)new StepsTransitionFunction(m.Item1, m.Item2))))).
