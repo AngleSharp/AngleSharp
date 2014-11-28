@@ -41,6 +41,12 @@
 
         #region Methods
 
+        public void SetImages(IEnumerable<ICssObject> images)
+        {
+            _images.Clear();
+            _images.AddRange(images);
+        }
+
         internal override void Reset()
         {
             _images.Clear();
@@ -53,35 +59,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            //var image = value.ToImage();
-
-            //if (image != null)
-            //{
-            //    _images.Clear();
-            //    _images.Add(image);
-            //}
-            //else if (value is CSSValueList)
-            //{
-            //    var values = (CSSValueList)value;
-            //    var images = new List<ICssObject>();
-
-            //    for (int i = 0; i < values.Length; i++)
-            //    {
-            //        image = values[i].ToImage();
-
-            //        if (image == null || (++i < values.Length && values[i] != CSSValue.Separator))
-            //            return false;
-
-            //        images.Add(image);
-            //    }
-
-            //    _images.Clear();
-            //    _images.AddRange(images);
-            //}
-            //else
-            //    return false;
-
-            return true;
+            return this.TakeList(
+                        this.WithUrl().To(m => (ICssObject)m).Or(
+                        this.WithLinearGradient().To(m => (ICssObject)m)).Or(
+                        this.WithRadialGradient().To(m => (ICssObject)m))).TryConvert(value, SetImages);
         }
 
         #endregion
