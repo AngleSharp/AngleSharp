@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Shape> Converter = WithShape().OrDefault();
+        internal static readonly Shape Default = null;
         Shape _shape;
 
         #endregion
@@ -50,7 +51,7 @@
 
         internal override void Reset()
         {
-            _shape = null;
+            _shape = Default;
         }
 
         /// <summary>

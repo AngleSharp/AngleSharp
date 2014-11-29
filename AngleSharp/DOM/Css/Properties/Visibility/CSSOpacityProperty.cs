@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Single> Converter = WithNumber();
+        internal static readonly Single Default = 1f;
         Single _opacity;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _opacity = 1f;
+            _opacity = Default;
         }
 
         /// <summary>

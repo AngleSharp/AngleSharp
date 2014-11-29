@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Visible, Keywords.Hidden);
+        internal static readonly Boolean Default = true;
         Boolean _visible;
 
         #endregion
@@ -50,7 +51,7 @@
 
         internal override void Reset()
         {
-            _visible = true;
+            _visible = Default;
         }
 
         /// <summary>

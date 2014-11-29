@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Visibility> Converter = From(Map.Visibilities);
+        internal static readonly Visibility Default = Visibility.Visible;
         Visibility _visiblity;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _visiblity = Visibility.Visible;
+            _visiblity = Default;
         }
 
         /// <summary>
