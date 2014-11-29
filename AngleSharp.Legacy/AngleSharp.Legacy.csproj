@@ -131,6 +131,9 @@
     <Compile Include="..\AngleSharp\Css\FeatureNames.cs">
       <Link>Css\FeatureNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\FontWeight.cs">
+      <Link>Css\FontWeight.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Frequency.cs">
       <Link>Css\Frequency.cs</Link>
     </Compile>
