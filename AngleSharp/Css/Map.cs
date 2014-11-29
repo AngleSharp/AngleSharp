@@ -40,6 +40,7 @@
         public static readonly Dictionary<String, Single> VerticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -251,6 +252,11 @@
             HorizontalAlignments.Add(Keywords.Right, HorizontalAlignment.Right);
             HorizontalAlignments.Add(Keywords.Center, HorizontalAlignment.Center);
             HorizontalAlignments.Add(Keywords.Justify, HorizontalAlignment.Justify);
+
+            FontWeights.Add(Keywords.Normal, new FontWeight { IsRelative = false, Value = 400 });
+            FontWeights.Add(Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 });
+            FontWeights.Add(Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 });
+            FontWeights.Add(Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 });
         }
 
         #endregion

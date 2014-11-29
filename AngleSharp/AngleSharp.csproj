@@ -45,6 +45,7 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ContextExtensions.cs" />
+    <Compile Include="Css\FontWeight.cs" />
     <Compile Include="Css\Map.cs" />
     <Compile Include="DOM\Css\Converters\AndValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ArgumentsValueConverter.cs" />
