@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<Color, Color, Color, Color>> Converter = CSSBorderPartColorProperty.Converter.Periodic();
         readonly CSSBorderTopColorProperty _top;
         readonly CSSBorderRightColorProperty _right;
         readonly CSSBorderBottomColorProperty _bottom;
@@ -78,7 +79,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithColor().Periodic().TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
             {
                 _top.SetColor(m.Item1);
                 _right.SetColor(m.Item2);

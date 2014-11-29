@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly Boolean Default = true;
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Separate, Keywords.Collapse);
         Boolean _separate;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _separate = true;
+            _separate = Default;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.Separate, true).Or(TakeOne(Keywords.Collapse, false)).TryConvert(value, SetSeparated);
+            return Converter.TryConvert(value, SetSeparated);
         }
 
         #endregion

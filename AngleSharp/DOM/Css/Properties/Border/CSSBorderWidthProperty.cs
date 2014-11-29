@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> Converter = CSSBorderPartWidthProperty.Converter.Periodic();
         readonly CSSBorderTopWidthProperty _top;
         readonly CSSBorderRightWidthProperty _right;
         readonly CSSBorderBottomWidthProperty _bottom;
@@ -78,7 +79,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithBorderWidth().Periodic().TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
             {
                 _top.SetWidth(m.Item1);
                 _right.SetWidth(m.Item2);

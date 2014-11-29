@@ -12,6 +12,12 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color>> Converter = WithOptions(
+            CSSBorderPartWidthProperty.Converter,
+            CSSBorderPartStyleProperty.Converter,
+            CSSBorderPartColorProperty.Converter,
+            Tuple.Create(CSSBorderPartWidthProperty.Default, CSSBorderPartStyleProperty.Default, CSSBorderPartColorProperty.Default));
+
         readonly CSSBorderTopColorProperty _topColor;
         readonly CSSBorderTopStyleProperty _topStyle;
         readonly CSSBorderTopWidthProperty _topWidth;
@@ -80,22 +86,21 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            var list = value as CSSValueList ?? new CSSValueList(value);
-            CSSValue width = null, color = null, style = null;
-
-            if (list.Length > 3)
-                return false;
-
-            for (int i = 0; i < list.Length; i++)
+            return Converter.TryConvert(value, m =>
             {
-                if (!_topWidth.CanStore(list[i], ref width) && !_topStyle.CanStore(list[i], ref style) && !_topColor.CanStore(list[i], ref color))
-                    return false;
-            }
-
-            return _topWidth.TrySetValue(width) && _topColor.TrySetValue(color) && _topStyle.TrySetValue(style) &&
-                   _leftWidth.TrySetValue(width) && _leftColor.TrySetValue(color) && _leftStyle.TrySetValue(style) &&
-                   _rightWidth.TrySetValue(width) && _rightColor.TrySetValue(color) && _rightStyle.TrySetValue(style) &&
-                   _bottomWidth.TrySetValue(width) && _bottomColor.TrySetValue(color) && _bottomStyle.TrySetValue(style);
+                _topWidth.SetWidth(m.Item1);
+                _topStyle.SetStyle(m.Item2);
+                _topColor.SetColor(m.Item3);
+                _leftWidth.SetWidth(m.Item1);
+                _leftStyle.SetStyle(m.Item2);
+                _leftColor.SetColor(m.Item3);
+                _rightWidth.SetWidth(m.Item1);
+                _rightStyle.SetStyle(m.Item2);
+                _rightColor.SetColor(m.Item3);
+                _bottomWidth.SetWidth(m.Item1);
+                _bottomStyle.SetStyle(m.Item2);
+                _bottomColor.SetColor(m.Item3);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<LineStyle, LineStyle, LineStyle, LineStyle>> Converter = CSSBorderPartStyleProperty.Converter.Periodic();
         readonly CSSBorderTopStyleProperty _top;
         readonly CSSBorderRightStyleProperty _right;
         readonly CSSBorderBottomStyleProperty _bottom;
@@ -78,7 +79,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.LineStyles).Periodic().TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
             {
                 _top.SetStyle(m.Item1);
                 _right.SetStyle(m.Item2);

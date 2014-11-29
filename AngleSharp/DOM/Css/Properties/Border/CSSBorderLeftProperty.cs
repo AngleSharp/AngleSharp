@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color>> Converter = CSSBorderProperty.Converter;
         readonly CSSBorderLeftColorProperty _color;
         readonly CSSBorderLeftStyleProperty _style;
         readonly CSSBorderLeftWidthProperty _width;
@@ -63,7 +63,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return ValidateBorderPart().TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
             {
                 _width.SetWidth(m.Item1);
                 _style.SetStyle(m.Item2);
