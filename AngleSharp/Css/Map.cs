@@ -4,6 +4,7 @@
     using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
+    using VerticalAlignment = AngleSharp.DOM.Css.VerticalAlignment;
 
     /// <summary>
     /// A collection of mappings for CSS (keywords to constants).
@@ -12,6 +13,10 @@
     {
         #region Dictionaries
 
+        public static readonly Dictionary<String, Whitespace> WhitespaceModes = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, TextTransform> TextTransforms = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, VerticalAlignment> VerticalAlignments = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, LineStyle> LineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, BoxModel> BoxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, TransitionFunction> TransitionFunctions = new Dictionary<String, TransitionFunction>(StringComparer.OrdinalIgnoreCase);
@@ -220,6 +225,32 @@
             Cursors.Add(Keywords.ZoomOut, SystemCursor.ZoomOut);
             Cursors.Add(Keywords.Grab, SystemCursor.Grab);
             Cursors.Add(Keywords.Grabbing, SystemCursor.Grabbing);
+
+            VerticalAlignments.Add(Keywords.Baseline, VerticalAlignment.Baseline);
+            VerticalAlignments.Add(Keywords.Sub, VerticalAlignment.Sub);
+            VerticalAlignments.Add(Keywords.Super, VerticalAlignment.Super);
+            VerticalAlignments.Add(Keywords.TextTop, VerticalAlignment.TextTop);
+            VerticalAlignments.Add(Keywords.TextBottom, VerticalAlignment.TextBottom);
+            VerticalAlignments.Add(Keywords.Middle, VerticalAlignment.Middle);
+            VerticalAlignments.Add(Keywords.Top, VerticalAlignment.Top);
+            VerticalAlignments.Add(Keywords.Bottom, VerticalAlignment.Bottom);
+
+            TextTransforms.Add(Keywords.None, TextTransform.None);
+            TextTransforms.Add(Keywords.Capitalize, TextTransform.Capitalize);
+            TextTransforms.Add(Keywords.Uppercase, TextTransform.Uppercase);
+            TextTransforms.Add(Keywords.Lowercase, TextTransform.Lowercase);
+            TextTransforms.Add(Keywords.FullWidth, TextTransform.FullWidth);
+
+            WhitespaceModes.Add(Keywords.Normal, Whitespace.Normal);
+            WhitespaceModes.Add(Keywords.Pre, Whitespace.Pre);
+            WhitespaceModes.Add(Keywords.Nowrap, Whitespace.NoWrap);
+            WhitespaceModes.Add(Keywords.PreWrap, Whitespace.PreWrap);
+            WhitespaceModes.Add(Keywords.PreLine, Whitespace.PreLine);
+
+            HorizontalAlignments.Add(Keywords.Left, HorizontalAlignment.Left);
+            HorizontalAlignments.Add(Keywords.Right, HorizontalAlignment.Right);
+            HorizontalAlignments.Add(Keywords.Center, HorizontalAlignment.Center);
+            HorizontalAlignments.Add(Keywords.Justify, HorizontalAlignment.Justify);
         }
 
         #endregion
