@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Int32> Converter = WithInteger();
+
         /// <summary>
         /// Denotes the minimum amount of lines that can stay alone
         /// on the top of a new page. If the value is not positive,
@@ -63,7 +65,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithInteger().TryConvert(value, SetCount);
+            return Converter.TryConvert(value, SetCount);
         }
 
         #endregion

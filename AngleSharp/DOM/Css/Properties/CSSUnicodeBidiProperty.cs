@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<UnicodeMode> Converter = From(Map.UnicodeModes);
         UnicodeMode _mode;
 
         #endregion
@@ -58,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.UnicodeModes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

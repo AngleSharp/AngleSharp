@@ -13,8 +13,11 @@
     {
         #region Fields
 
-        static readonly Tuple<String, String>[] _default = new Tuple<String, String>[] { Tuple.Create("«", "»") };
-        static readonly Tuple<String, String>[] _none = new Tuple<String, String>[0];
+        internal static readonly IValueConverter<Tuple<String, String>[]> Converter = 
+                   TakeOne(Keywords.None, new Tuple<String, String>[0]).Or(
+                   TakeMany(WithString()).Constraint(m => m.Length % 2 == 0).To(TransformArray));
+
+        static readonly Tuple<String, String>[] Default = new Tuple<String, String>[] { Tuple.Create("«", "»") };
         Tuple<String, String>[] _quotes;
 
         #endregion
@@ -53,7 +56,7 @@
 
         internal override void Reset()
         {
-            _quotes = _default;
+            _quotes = Default;
         }
 
         /// <summary>
@@ -63,8 +66,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, _none).Or(
-                   TakeMany(WithString()).Constraint(m => m.Length % 2 == 0).To(TransformArray)).TryConvert(value, SetQuotes);
+            return Converter.TryConvert(value, SetQuotes);
         }
 
         #endregion

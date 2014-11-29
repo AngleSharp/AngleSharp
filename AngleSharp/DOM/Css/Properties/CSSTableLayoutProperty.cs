@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Fixed, Keywords.Auto);
         Boolean _fixed;
 
         #endregion
@@ -62,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Fixed, Keywords.Auto).TryConvert(value, SetFixed);
+            return Converter.TryConvert(value, SetFixed);
         }
 
         #endregion

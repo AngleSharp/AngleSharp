@@ -13,9 +13,10 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, ContentMode> modes = new Dictionary<String,ContentMode>(StringComparer.OrdinalIgnoreCase);
-        static readonly ContentMode[] _normal = new[] { new NormalContentMode() };
-        static readonly ContentMode[] _none = new ContentMode[0];
+        static readonly IValueConverter<ContentMode[]> Converter;
+        static readonly ContentMode[] Normal;
+        static readonly Dictionary<String, ContentMode> ContentModes;
+
         IEnumerable<ContentMode> _mode;
 
         #endregion
@@ -24,10 +25,24 @@
 
         static CSSContentProperty()
         {
-            modes.Add(Keywords.OpenQuote, new OpenQuoteContentMode());
-            modes.Add(Keywords.NoOpenQuote, new NoOpenQuoteContentMode());
-            modes.Add(Keywords.CloseQuote, new CloseQuoteContentMode());
-            modes.Add(Keywords.NoCloseQuote, new NoCloseQuoteContentMode());
+            ContentModes = new Dictionary<String, ContentMode>(StringComparer.OrdinalIgnoreCase);
+            ContentModes.Add(Keywords.OpenQuote, new OpenQuoteContentMode());
+            ContentModes.Add(Keywords.NoOpenQuote, new NoOpenQuoteContentMode());
+            ContentModes.Add(Keywords.CloseQuote, new CloseQuoteContentMode());
+            ContentModes.Add(Keywords.NoCloseQuote, new NoCloseQuoteContentMode());
+
+            Normal = new[] { new NormalContentMode() };
+
+            Converter = 
+                TakeOne(Keywords.Normal, Normal).Or(
+                TakeOne(Keywords.None, new ContentMode[0])).Or(
+                TakeMany(
+                    From(ContentModes).Or(
+                    WithUrl().To(url => (ContentMode)new UrlContentMode(new Url(url)))).Or(
+                    WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
+                    WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr))).Or(
+                    WithCounter().To(counter => (ContentMode)new CounterContentMode(counter)))
+                ));
         }
 
         internal CSSContentProperty(CSSStyleDeclaration rule)
@@ -42,7 +57,7 @@
 
         internal override void Reset()
         {
-            _mode = _normal;
+            _mode = Normal;
         }
 
         void SetMode(ContentMode[] mode)
@@ -57,15 +72,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.Normal, _normal).Or(
-                   TakeOne(Keywords.None, _none)).Or(
-                   TakeMany(
-                       From(modes).Or(
-                       WithUrl().To(url => (ContentMode)new UrlContentMode(new Url(url)))).Or(
-                       WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
-                       WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr))).Or(
-                       WithCounter().To(counter => (ContentMode)new CounterContentMode(counter)))
-                    )).TryConvert(value, SetMode);
+            return Converter.TryConvert(value, SetMode);
         }
 
         #endregion

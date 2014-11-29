@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Int32> Converter = WithInteger().Constraint(m => m >= 0);
         Int32 _count;
 
         #endregion
@@ -59,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithInteger().Constraint(m => m >= 0).TryConvert(value, SetCount);
+            return Converter.TryConvert(value, SetCount);
         }
 
         #endregion

@@ -34,6 +34,7 @@
         public static readonly Dictionary<String, Single> HorizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, Single> VerticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -182,6 +183,43 @@
             UnicodeModes.Add(Keywords.IsolateOverride, UnicodeMode.IsolateOverride);
             UnicodeModes.Add(Keywords.BidiOverride, UnicodeMode.BidiOverride);
             UnicodeModes.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
+
+            Cursors.Add(Keywords.Auto, SystemCursor.Auto);
+            Cursors.Add(Keywords.Default, SystemCursor.Default);
+            Cursors.Add(Keywords.None, SystemCursor.None);
+            Cursors.Add(Keywords.ContextMenu, SystemCursor.ContextMenu);
+            Cursors.Add(Keywords.Help, SystemCursor.Help);
+            Cursors.Add(Keywords.Pointer, SystemCursor.Pointer);
+            Cursors.Add(Keywords.Progress, SystemCursor.Progress);
+            Cursors.Add(Keywords.Wait, SystemCursor.Wait);
+            Cursors.Add(Keywords.Cell, SystemCursor.Cell);
+            Cursors.Add(Keywords.Crosshair, SystemCursor.Crosshair);
+            Cursors.Add(Keywords.Text, SystemCursor.Text);
+            Cursors.Add(Keywords.VerticalText, SystemCursor.VerticalText);
+            Cursors.Add(Keywords.Alias, SystemCursor.Alias);
+            Cursors.Add(Keywords.Copy, SystemCursor.Copy);
+            Cursors.Add(Keywords.Move, SystemCursor.Move);
+            Cursors.Add(Keywords.NoDrop, SystemCursor.NoDrop);
+            Cursors.Add(Keywords.NotAllowed, SystemCursor.NotAllowed);
+            Cursors.Add(Keywords.EastResize, SystemCursor.EResize);
+            Cursors.Add(Keywords.NorthResize, SystemCursor.NResize);
+            Cursors.Add(Keywords.NorthEastResize, SystemCursor.NeResize);
+            Cursors.Add(Keywords.NorthWestResize, SystemCursor.NwResize);
+            Cursors.Add(Keywords.SouthResize, SystemCursor.SResize);
+            Cursors.Add(Keywords.SouthEastResize, SystemCursor.SeResize);
+            Cursors.Add(Keywords.SouthWestResize, SystemCursor.WResize);
+            Cursors.Add(Keywords.WestResize, SystemCursor.WResize);
+            Cursors.Add(Keywords.EastWestResize, SystemCursor.EwResize);
+            Cursors.Add(Keywords.NorthSouthResize, SystemCursor.NsResize);
+            Cursors.Add(Keywords.NorthEastSouthWestResize, SystemCursor.NeswResize);
+            Cursors.Add(Keywords.NorthWestSouthEastResize, SystemCursor.NwseResize);
+            Cursors.Add(Keywords.ColResize, SystemCursor.ColResize);
+            Cursors.Add(Keywords.RowResize, SystemCursor.RowResize);
+            Cursors.Add(Keywords.AllScroll, SystemCursor.AllScroll);
+            Cursors.Add(Keywords.ZoomIn, SystemCursor.ZoomIn);
+            Cursors.Add(Keywords.ZoomOut, SystemCursor.ZoomOut);
+            Cursors.Add(Keywords.Grab, SystemCursor.Grab);
+            Cursors.Add(Keywords.Grabbing, SystemCursor.Grabbing);
         }
 
         #endregion
