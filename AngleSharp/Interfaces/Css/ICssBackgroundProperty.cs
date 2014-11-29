@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        IEnumerable<Object> Images { get; }
+        IEnumerable<IImageSource> Images { get; }
     }
 
     /// <summary>

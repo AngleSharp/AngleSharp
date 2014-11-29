@@ -13,12 +13,10 @@
     {
         #region Fields
 
-        internal static readonly ICssObject[] Default = new ICssObject[0];
-        internal static readonly IValueConverter<ICssObject> SingleConverter = WithUrl().To(m => (ICssObject)m).Or(
-            WithLinearGradient().To(m => (ICssObject)m)).Or(
-            WithRadialGradient().To(m => (ICssObject)m));
-        internal static readonly IValueConverter<ICssObject[]> Converter = TakeOne(Keywords.None, Default).Or(TakeList(SingleConverter));
-        readonly List<ICssObject> _images;
+        internal static readonly IImageSource[] Default = new IImageSource[0];
+        internal static readonly IValueConverter<IImageSource> SingleConverter = WithImageSource();
+        internal static readonly IValueConverter<IImageSource[]> Converter = TakeOne(Keywords.None, Default).Or(TakeList(SingleConverter));
+        readonly List<IImageSource> _images;
 
         #endregion
 
@@ -27,7 +25,7 @@
         internal CSSBackgroundImageProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BackgroundImage, rule)
         {
-            _images = new List<ICssObject>();
+            _images = new List<IImageSource>();
         }
 
         #endregion
@@ -37,7 +35,7 @@
         /// <summary>
         /// Gets the enumeration of all images.
         /// </summary>
-        public IEnumerable<Object> Images
+        public IEnumerable<IImageSource> Images
         {
             get { return _images; }
         }
@@ -46,7 +44,7 @@
 
         #region Methods
 
-        public void SetImages(IEnumerable<ICssObject> images)
+        public void SetImages(IEnumerable<IImageSource> images)
         {
             _images.Clear();
             _images.AddRange(images);

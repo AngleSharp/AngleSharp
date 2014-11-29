@@ -47,6 +47,8 @@
     <Compile Include="ContextExtensions.cs" />
     <Compile Include="Css\BackgroundSize.cs" />
     <Compile Include="Css\FontWeight.cs" />
+    <Compile Include="Css\IImageSource.cs" />
+    <Compile Include="Css\ImageUrl.cs" />
     <Compile Include="Css\Map.cs" />
     <Compile Include="Css\Repeat.cs" />
     <Compile Include="DOM\Css\Converters\AndValueConverter.cs" />

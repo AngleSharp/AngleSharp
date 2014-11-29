@@ -14,9 +14,9 @@
     {
         #region Fields
 
-        internal static readonly Url[] Default = new Url[0];
-        internal static readonly IValueConverter<Url[]> Converter = TakeOne(Keywords.None, Default).Or(WithImages().To(m => m.Urls.ToArray()));
-        readonly List<Url> _images;
+        internal static readonly IImageSource Default = null;
+        internal static readonly IValueConverter<IImageSource> Converter = TakeOne(Keywords.None, Default).Or(WithImageSource());
+        IImageSource _image;
 
         #endregion
 
@@ -25,7 +25,7 @@
         internal CSSBorderImageSourceProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BorderImageSource, rule)
         {
-            _images = new List<Url>();
+            Reset();
         }
 
         #endregion
@@ -35,25 +35,23 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        public IEnumerable<Url> Images
+        public IImageSource Image
         {
-            get { return _images; }
+            get { return _image; }
         }
 
         #endregion
 
         #region Methods
 
-        private void SetImages(IEnumerable<Url> urls)
+        private void SetImages(IImageSource image)
         {
-            _images.Clear();
-            _images.AddRange(urls);
+            _image = image;
         }
 
         internal override void Reset()
         {
-            _images.Clear();
-            _images.AddRange(Default);
+            _image = Default;
         }
 
         /// <summary>

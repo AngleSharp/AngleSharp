@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, Url>> Converter = WithOptions(
+        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = WithOptions(
                 CSSListStyleTypeProperty.Converter,
                 CSSListStylePositionProperty.Converter,
                 CSSListStyleImageProperty.Converter,
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        public Url Image
+        public IImageSource Image
         {
             get { return _image.Image; }
         }

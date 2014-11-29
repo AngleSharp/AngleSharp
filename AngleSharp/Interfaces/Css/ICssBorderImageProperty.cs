@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        IEnumerable<Url> Images { get; }
+        IImageSource Image { get; }
     }
 
     /// <summary>

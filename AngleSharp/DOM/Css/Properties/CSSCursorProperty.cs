@@ -13,8 +13,8 @@
         #region Fields
 
         static readonly IValueConverter<Tuple<CustomCursor[], SystemCursor>> Converter = TakeList(
-                       WithUrl().To(m => new CustomCursor { Url = new Url(m) }).Or(
-                       WithArgs(WithUrl(), WithNumber(), WithNumber(), v => new CustomCursor { Url = new Url(v.Item1), X = v.Item2, Y = v.Item3 }))
+                       WithImageSource().To(m => new CustomCursor { Image = m }).Or(
+                       WithArgs(WithImageSource(), WithNumber(), WithNumber(), v => new CustomCursor { Image = v.Item1, X = v.Item2, Y = v.Item3 }))
                    ).RequiresEnd(From(Map.Cursors));
         static readonly SystemCursor Default = SystemCursor.Auto;
 
@@ -78,7 +78,7 @@
         /// </summary>
         struct CustomCursor
         {
-            public Url Url;
+            public IImageSource Image;
             public Single X;
             public Single Y;
         }

@@ -443,6 +443,18 @@
                         args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, true))));
         }
 
+        /// <summary>
+        /// Represents an image source object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
+        /// </summary>
+        /// <returns></returns>
+        public static IValueConverter<IImageSource> WithImageSource()
+        {
+            return WithUrl().To(m => (IImageSource)new ImageUrl(m)).Or(
+                   WithLinearGradient().To(m => (IImageSource)m)).Or(
+                   WithRadialGradient().To(m => (IImageSource)m));
+        }
+
         public static IValueConverter<CssImages> WithImages()
         {
             return new FunctionValueConverter<CssImages>(FunctionNames.Image,

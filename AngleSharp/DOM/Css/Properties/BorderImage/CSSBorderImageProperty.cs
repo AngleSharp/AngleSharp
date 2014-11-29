@@ -129,9 +129,9 @@
         /// <summary>
         /// Gets the image source of the border-image.
         /// </summary>
-        public IEnumerable<Url> Images
+        public IImageSource Image
         {
-            get { return _source.Images; }
+            get { return _source.Image; }
         }
 
         public IDistance WidthTop

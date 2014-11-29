@@ -8,7 +8,7 @@
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    public sealed class RadialGradient : ICssObject
+    public sealed class RadialGradient : IImageSource
     {
         #region Fields
 

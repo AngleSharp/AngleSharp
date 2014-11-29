@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
 
@@ -33,7 +34,7 @@
         /// <summary>
         /// Gets the selected image for the list.
         /// </summary>
-        Url Image { get; }
+        IImageSource Image { get; }
     }
 
     /// <summary>

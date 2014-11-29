@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        internal static readonly Url Default = null;
-        internal static readonly IValueConverter<Url> Converter = TakeOne(Keywords.None, Default).Or(WithUrl().To(m => new Url(m)));
-        Url _image;
+        internal static readonly IImageSource Default = null;
+        internal static readonly IValueConverter<IImageSource> Converter = TakeOne(Keywords.None, Default).Or(WithImageSource());
+        IImageSource _image;
 
         #endregion
 
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the selected image.
         /// </summary>
-        public Url Image
+        public IImageSource Image
         {
             get { return _image; }
         }
@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetImage(Url image)
+        public void SetImage(IImageSource image)
         {
             _image = image;
         }
