@@ -1,11 +1,8 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
 
     /// <summary>
     /// More information available at
@@ -14,6 +11,15 @@
     sealed class CSSListStyleProperty : CSSShorthandProperty, ICssListStyleProperty
     {
         #region Fields
+
+        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, Url>> Converter = WithOptions(
+                CSSListStyleTypeProperty.Converter,
+                CSSListStylePositionProperty.Converter,
+                CSSListStyleImageProperty.Converter,
+            Tuple.Create(
+                CSSListStyleTypeProperty.Default,
+                CSSListStylePositionProperty.Default,
+                CSSListStyleImageProperty.Default));
 
         readonly CSSListStyleTypeProperty _type;
         readonly CSSListStyleImageProperty _image;
@@ -70,11 +76,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithOptions(
-                        From(Map.ListStyles),
-                        From(Map.ListPositions),
-                        WithUrl().To(m => new Url(m)),
-                    Tuple.Create(ListStyle.Disc, ListPosition.Outside, (Url)null)).TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
                 {
                     _type.SetStyle(m.Item1);
                     _position.SetPosition(m.Item2);

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly ListPosition Default = ListPosition.Outside;
+        internal static readonly IValueConverter<ListPosition> Converter = From(Map.ListPositions);
         ListPosition _position;
 
         #endregion
@@ -47,7 +48,7 @@
 
         internal override void Reset()
         {
-            _position = ListPosition.Outside;
+            _position = Default;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.ListPositions).TryConvert(value, SetPosition);
+            return Converter.TryConvert(value, SetPosition);
         }
 
         #endregion

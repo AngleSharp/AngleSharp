@@ -3,8 +3,6 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// More information available at
@@ -14,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Url Default = null;
+        internal static readonly IValueConverter<Url> Converter = TakeOne(Keywords.None, Default).Or(WithUrl().To(m => new Url(m)));
         Url _image;
 
         #endregion
@@ -49,7 +49,7 @@
 
         internal override void Reset()
         {
-            _image = null;
+            _image = Default;
         }
 
         /// <summary>
@@ -59,8 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, (Url)null).Or(
-                   WithUrl().To(m => new Url(m))).TryConvert(value, SetImage);
+            return Converter.TryConvert(value, SetImage);
         }
 
         #endregion
