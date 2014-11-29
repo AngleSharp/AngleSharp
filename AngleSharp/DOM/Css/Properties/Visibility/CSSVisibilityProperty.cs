@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Visibility> Converter = From(Map.Visibilities);
         Visibility _visiblity;
 
         #endregion
@@ -57,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.Visibilities).TryConvert(value, SetVisibility);
+            return Converter.TryConvert(value, SetVisibility);
         }
 
         #endregion

@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Visible, Keywords.Hidden);
         Boolean _visible;
 
         #endregion
@@ -59,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Visible, Keywords.Hidden).TryConvert(value, SetVisible);
+            return Converter.TryConvert(value, SetVisible);
         }
 
         #endregion

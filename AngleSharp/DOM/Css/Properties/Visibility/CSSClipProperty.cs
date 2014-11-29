@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Shape> Converter = WithShape().OrDefault();
         Shape _shape;
 
         #endregion
@@ -59,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithShape().Or(TakeOne(Keywords.Auto, (Shape)null)).TryConvert(value, SetClip);
+            return Converter.TryConvert(value, SetClip);
         }
 
         #endregion

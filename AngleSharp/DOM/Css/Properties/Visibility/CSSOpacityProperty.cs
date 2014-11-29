@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Single> Converter = WithNumber();
         Single _opacity;
 
         #endregion
@@ -57,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithNumber().TryConvert(value, SetOpacity);
+            return Converter.TryConvert(value, SetOpacity);
         }
 
         #endregion
