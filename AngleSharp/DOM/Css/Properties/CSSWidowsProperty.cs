@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Int32> Converter = WithInteger();
+        internal static readonly Int32 Default = 2;
 
         /// <summary>
         /// Denotes the minimum amount of lines that can stay alone
@@ -55,7 +56,7 @@
 
         internal override void Reset()
         {
-            _count = 2;
+            _count = Default;
         }
 
         /// <summary>

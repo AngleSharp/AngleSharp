@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Int32> Converter = WithInteger().Constraint(m => m >= 0);
+        internal static readonly Int32 Default = 2;
         Int32 _count;
 
         #endregion
@@ -50,7 +51,7 @@
 
         internal override void Reset()
         {
-            _count = 2;
+            _count = Default;
         }
 
         /// <summary>

@@ -13,6 +13,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Fixed, Keywords.Auto);
+        internal static readonly Boolean Default = false;
         Boolean _fixed;
 
         #endregion
@@ -53,7 +54,7 @@
 
         internal override void Reset()
         {
-            _fixed = false;
+            _fixed = Default;
         }
 
         /// <summary>

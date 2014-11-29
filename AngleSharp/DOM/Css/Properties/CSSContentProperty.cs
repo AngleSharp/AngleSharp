@@ -14,7 +14,7 @@
         #region Fields
 
         static readonly IValueConverter<ContentMode[]> Converter;
-        static readonly ContentMode[] Normal;
+        static readonly ContentMode[] Default;
         static readonly Dictionary<String, ContentMode> ContentModes;
 
         IEnumerable<ContentMode> _mode;
@@ -31,10 +31,10 @@
             ContentModes.Add(Keywords.CloseQuote, new CloseQuoteContentMode());
             ContentModes.Add(Keywords.NoCloseQuote, new NoCloseQuoteContentMode());
 
-            Normal = new[] { new NormalContentMode() };
+            Default = new[] { new NormalContentMode() };
 
             Converter = 
-                TakeOne(Keywords.Normal, Normal).Or(
+                TakeOne(Keywords.Normal, Default).Or(
                 TakeOne(Keywords.None, new ContentMode[0])).Or(
                 TakeMany(
                     From(ContentModes).Or(
@@ -57,7 +57,7 @@
 
         internal override void Reset()
         {
-            _mode = Normal;
+            _mode = Default;
         }
 
         void SetMode(ContentMode[] mode)

@@ -12,6 +12,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Top, Keywords.Bottom);
+        internal static readonly Boolean Default = true;
         Boolean _top;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _top = true;
+            _top = Default;
         }
 
         /// <summary>

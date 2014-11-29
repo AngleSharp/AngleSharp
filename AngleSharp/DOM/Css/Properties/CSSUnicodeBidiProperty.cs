@@ -14,6 +14,7 @@
         #region Fields
 
         internal static readonly IValueConverter<UnicodeMode> Converter = From(Map.UnicodeModes);
+        internal static readonly UnicodeMode Default = UnicodeMode.Normal;
         UnicodeMode _mode;
 
         #endregion
@@ -49,7 +50,7 @@
 
         internal override void Reset()
         {
-            _mode = UnicodeMode.Normal;
+            _mode = Default;
         }
 
         /// <summary>

@@ -16,6 +16,7 @@
                        WithUrl().To(m => new CustomCursor { Url = new Url(m) }).Or(
                        WithArgs(WithUrl(), WithNumber(), WithNumber(), v => new CustomCursor { Url = new Url(v.Item1), X = v.Item2, Y = v.Item3 }))
                    ).RequiresEnd(From(Map.Cursors));
+        static readonly SystemCursor Default = SystemCursor.Auto;
 
         CustomCursor[] _customs;
         SystemCursor _system;
@@ -49,7 +50,7 @@
         internal override void Reset()
         {
             _customs = new CustomCursor[0];
-            _system = SystemCursor.Auto;
+            _system = Default;
         }
 
         void SetCursor(CustomCursor[] customs, SystemCursor system)
