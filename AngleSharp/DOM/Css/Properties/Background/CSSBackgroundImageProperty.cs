@@ -17,7 +17,7 @@
         internal static readonly IValueConverter<ICssObject> SingleConverter = WithUrl().To(m => (ICssObject)m).Or(
             WithLinearGradient().To(m => (ICssObject)m)).Or(
             WithRadialGradient().To(m => (ICssObject)m));
-        internal static readonly IValueConverter<ICssObject[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<ICssObject[]> Converter = TakeOne(Keywords.None, Default).Or(TakeList(SingleConverter));
         readonly List<ICssObject> _images;
 
         #endregion
