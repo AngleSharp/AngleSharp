@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = null;
+        internal static readonly IValueConverter<IDistance> Converter = WithDistance().Or(TakeOne(Keywords.None, Default));
         /// <summary>
         /// The width has no maximum value if _mode == null.
         /// </summary>
@@ -51,7 +53,7 @@
 
         internal override void Reset()
         {
-            _mode = null;
+            _mode = Default;
         }
 
         /// <summary>
@@ -61,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().Or(TakeOne(Keywords.None, (IDistance)null)).TryConvert(value, SetLimit);
+            return Converter.TryConvert(value, SetLimit);
         }
 
         #endregion
