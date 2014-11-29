@@ -513,11 +513,6 @@
             return TakeOne(on, true).Or(TakeOne(off, false));
         }
 
-        public static IValueConverter<Tuple<Length, LineStyle, Color>> ValidateBorderPart()
-        {
-            return WithOptions(WithBorderWidth(), From(Map.LineStyles), WithColor(), Tuple.Create(Length.Medium, LineStyle.None, Color.Transparent));
-        }
-
         public static IValueConverter<Shape> WithShape()
         {
             return new FunctionValueConverter<Shape>(FunctionNames.Rect,
