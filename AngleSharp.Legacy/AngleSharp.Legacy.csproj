@@ -158,6 +158,12 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\IImageSource.cs">
+      <Link>Css\IImageSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ImageUrl.cs">
+      <Link>Css\ImageUrl.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\ITransform.cs">
       <Link>Css\ITransform.cs</Link>
       <SubType>
