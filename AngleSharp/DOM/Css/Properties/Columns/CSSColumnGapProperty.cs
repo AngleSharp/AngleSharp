@@ -12,12 +12,8 @@
     {
         #region Fields
 
-        static readonly Length _normal = new Length(1f, Length.Unit.Em);
-
-        /// <summary>
-        /// Defines the size of the gap between columns. It must not
-        /// be negative, but may be equal to 0.
-        /// </summary>
+        internal static readonly Length Default = new Length(1f, Length.Unit.Em);
+        internal static readonly IValueConverter<Length> Converter = WithLength().Or(TakeOne(Keywords.Normal, Default));
         Length _gap;
 
         #endregion
@@ -46,6 +42,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Sets the size of the gap between columns. It must not
+        /// be negative, but may be equal to 0.
+        /// </summary>
+        /// <param name="gap">The size between the gaps.</param>
         public void SetGap(Length gap)
         {
             _gap = gap;
@@ -53,7 +54,7 @@
 
         internal override void Reset()
         {
-            _gap = _normal;
+            _gap = Default;
         }
 
         /// <summary>
@@ -63,7 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithLength().Or(TakeOne(Keywords.Normal, _normal)).TryConvert(value, SetGap);
+            return Converter.TryConvert(value, SetGap);
         }
 
         #endregion

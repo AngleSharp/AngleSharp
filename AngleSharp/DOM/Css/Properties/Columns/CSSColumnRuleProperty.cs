@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -12,6 +11,12 @@
     sealed class CSSColumnRuleProperty : CSSShorthandProperty, ICssColumnRuleProperty
     {
         #region Fields
+
+        internal static readonly IValueConverter<Tuple<Color, Length, LineStyle>> Converter = WithOptions(
+                CSSColumnRuleColorProperty.Converter,
+                CSSColumnRuleWidthProperty.Converter,
+                CSSColumnRuleStyleProperty.Converter,
+            Tuple.Create(CSSColumnRuleColorProperty.Default, CSSColumnRuleWidthProperty.Default, CSSColumnRuleStyleProperty.Default));
 
         readonly CSSColumnRuleColorProperty _color;
         readonly CSSColumnRuleStyleProperty _style;
@@ -68,17 +73,12 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithOptions(
-                    WithColor(),
-                    WithBorderWidth(),
-                    From(Map.LineStyles),
-                Tuple.Create(Color.Transparent, Length.Medium, LineStyle.None)
-                ).TryConvert(value, m =>
-                {
-                    _color.SetColor(m.Item1);
-                    _width.SetWidth(m.Item2);
-                    _style.SetStyle(m.Item3);
-                });
+            return Converter.TryConvert(value, m =>
+            {
+                _color.SetColor(m.Item1);
+                _width.SetWidth(m.Item2);
+                _style.SetStyle(m.Item3);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

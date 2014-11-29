@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Int32? Default = null;
+        internal static readonly IValueConverter<Int32?> Converter = WithInteger().OrNullDefault();
         /// <summary>
         /// Null indicates that other properties (column-width) should be considered.
         /// </summary>
@@ -50,7 +52,7 @@
 
         internal override void Reset()
         {
-            _count = null;
+            _count = Default;
         }
 
         /// <summary>
@@ -60,7 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithInteger().OrNullDefault().TryConvert(value, SetCount);
+            return Converter.TryConvert(value, SetCount);
         }
 
         #endregion

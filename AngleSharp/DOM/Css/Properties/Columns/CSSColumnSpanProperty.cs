@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,11 +11,8 @@
     {
         #region Fields
 
-        /// <summary>
-        /// Content in the normal flow that appears before the element is automatically
-        /// balanced across all columns before the element appears. The element
-        /// establishes a new block formatting context.
-        /// </summary>
+        internal static readonly Boolean Default = false;
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.All, Keywords.None);
         Boolean _span;
 
         #endregion
@@ -45,6 +41,12 @@
 
         #region Methods
 
+        /// <summary>
+        /// Sets if content in the normal flow that appears before the element
+        /// is automatically balanced across all columns before the element appears. The
+        /// element establishes a new block formatting context.
+        /// </summary>
+        /// <param name="span">Switches spanning on or off.</param>
         public void SetSpanning(Boolean span)
         {
             _span = span;
@@ -52,7 +54,7 @@
 
         internal override void Reset()
         {
-            _span = false;
+            _span = Default;
         }
 
         /// <summary>
@@ -62,7 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.All, Keywords.None).TryConvert(value, SetSpanning);
+            return Converter.TryConvert(value, SetSpanning);
         }
 
         #endregion

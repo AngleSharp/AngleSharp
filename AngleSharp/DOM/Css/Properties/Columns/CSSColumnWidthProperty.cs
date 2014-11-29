@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Length? Default = null;
+        internal static readonly IValueConverter<Length?> Converter = WithLength().OrNullDefault();
         /// <summary>
         /// Null indicates that other properties (column-count) should be considered.
         /// </summary>
@@ -50,7 +52,7 @@
 
         internal override void Reset()
         {
-            _width = null;
+            _width = Default;
         }
 
         /// <summary>
@@ -60,7 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithLength().OrNullDefault().TryConvert(value, SetWidth);
+            return Converter.TryConvert(value, SetWidth);
         }
 
         #endregion
