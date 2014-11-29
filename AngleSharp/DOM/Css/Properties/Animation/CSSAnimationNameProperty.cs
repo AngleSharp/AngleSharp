@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<String> SingleConverter = WithIdentifier();
+        internal static readonly IValueConverter<String[]> Converter = TakeOne(Keywords.None, new String[0]).Or(TakeList(SingleConverter));
+        internal static readonly String Default = String.Empty;
         readonly List<String> _names;
 
         #endregion
@@ -59,7 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, new String[0]).Or(TakeList(WithIdentifier())).TryConvert(value, SetNames);
+            return Converter.TryConvert(value, SetNames);
         }
 
         #endregion

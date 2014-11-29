@@ -14,6 +14,26 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<Tuple<Time, TransitionFunction, Time, Int32>, Tuple<AnimationDirection, AnimationFillStyle, PlayState, String>>[]> Converter = TakeList(
+            WithOptions(
+                CSSAnimationDurationProperty.SingleConverter,
+                CSSAnimationTimingFunctionProperty.SingleConverter,
+                CSSAnimationDelayProperty.SingleConverter,
+                CSSAnimationIterationCountProperty.SingleConverter,
+                CSSAnimationDirectionProperty.SingleConverter,
+                CSSAnimationFillModeProperty.SingleConverter,
+                CSSAnimationPlayStateProperty.SingleConverter,
+                CSSAnimationNameProperty.SingleConverter,
+            Tuple.Create(Tuple.Create(
+                CSSAnimationDurationProperty.Default, 
+                CSSAnimationTimingFunctionProperty.Default, 
+                CSSAnimationDelayProperty.Default, 
+                CSSAnimationIterationCountProperty.Default), Tuple.Create(
+                CSSAnimationDirectionProperty.Default, 
+                CSSAnimationFillModeProperty.Default, 
+                CSSAnimationPlayStateProperty.Default, 
+                CSSAnimationNameProperty.Default))));
+
         readonly CSSAnimationDelayProperty _delay;
         readonly CSSAnimationDirectionProperty _direction;
         readonly CSSAnimationDurationProperty _duration;
@@ -116,17 +136,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(
-                    WithOptions(
-                        WithTime(),
-                        WithTransition(),
-                        WithTime(),
-                        WithInteger().Constraint(m => m >= 0).Or(TakeOne(Keywords.Infinite, -1)),
-                        From(Map.AnimationDirections),
-                        From(Map.AnimationFillStyles),
-                        Toggle(Keywords.Running, Keywords.Paused),
-                        WithIdentifier(),
-                Tuple.Create(Tuple.Create(Time.Zero, TransitionFunction.Ease, Time.Zero, 1), Tuple.Create(AnimationDirection.Normal, AnimationFillStyle.None, true, String.Empty)))).TryConvert(value, t =>
+            return Converter.TryConvert(value, t =>
                 {
                     _duration.SetDurations(t.Select(m => m.Item1.Item1));
                     _timingFunction.SetTimingFunctions(t.Select(m => m.Item1.Item2));
@@ -134,7 +144,7 @@
                     _iterationCount.SetIterations(t.Select(m => m.Item1.Item4));
                     _direction.SetDirections(t.Select(m => m.Item2.Item1));
                     _fillMode.SetFillModes(t.Select(m => m.Item2.Item2));
-                    _playState.SetStates(t.Select(m => m.Item2.Item3 ? PlayState.Running : PlayState.Paused));
+                    _playState.SetStates(t.Select(m => m.Item2.Item3));
                     _name.SetNames(t.Select(m => m.Item2.Item4));
                 });
         }

@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Int32> SingleConverter = WithInteger().Constraint(m => m >= 0).Or(TakeOne(Keywords.Infinite, -1));
+        internal static readonly IValueConverter<Int32[]> Converter = TakeList(SingleConverter);
+        internal static readonly Int32 Default = 1;
         readonly List<Int32> _iterations;
 
         #endregion
@@ -51,7 +54,7 @@
         internal override void Reset()
         {
             _iterations.Clear();
-            _iterations.Add(1);
+            _iterations.Add(Default);
         }
 
         /// <summary>
@@ -61,8 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(WithInteger().Constraint(m => m >= 0).Or(
-                   TakeOne(Keywords.Infinite, -1))).TryConvert(value, SetIterations);
+            return Converter.TryConvert(value, SetIterations);
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,6 +12,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<AnimationFillStyle> SingleConverter = From(Map.AnimationFillStyles);
+        internal static readonly IValueConverter<AnimationFillStyle[]> Converter = TakeList(SingleConverter);
+        internal static readonly AnimationFillStyle Default = AnimationFillStyle.None;
         readonly List<AnimationFillStyle> _fillModes;
 
         #endregion
@@ -51,7 +53,7 @@
         internal override void Reset()
         {
             _fillModes.Clear();
-            _fillModes.Add(AnimationFillStyle.None);
+            _fillModes.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(From(Map.AnimationFillStyles)).TryConvert(value, SetFillModes);
+            return Converter.TryConvert(value, SetFillModes);
         }
 
         #endregion

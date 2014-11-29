@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<PlayState> SingleConverter = Toggle(Keywords.Running, Keywords.Paused).To(m => m ? PlayState.Running : PlayState.Paused);
+        internal static readonly IValueConverter<PlayState[]> Converter = TakeList(SingleConverter);
+        internal static readonly PlayState Default = PlayState.Running;
         readonly List<PlayState> _states;
 
         #endregion
@@ -51,7 +54,7 @@
         internal override void Reset()
         {
             _states.Clear();
-            _states.Add(PlayState.Running);
+            _states.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(Toggle(Keywords.Running, Keywords.Paused).To(m => m ? PlayState.Running : PlayState.Paused)).TryConvert(value, SetStates);
+            return Converter.TryConvert(value, SetStates);
         }
 
         #endregion
