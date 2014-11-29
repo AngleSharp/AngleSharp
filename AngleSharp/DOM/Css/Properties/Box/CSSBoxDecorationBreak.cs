@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -13,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Boolean Default = false;
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Clone, Keywords.Slice);
         Boolean _clone;
 
         #endregion
@@ -49,7 +50,7 @@
 
         internal override void Reset()
         {
-            _clone = false;
+            _clone = Default;
         }
 
         /// <summary>
@@ -59,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Clone, Keywords.Slice).TryConvert(value, SetCloned);
+            return Converter.TryConvert(value, SetCloned);
         }
 
         #endregion

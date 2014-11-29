@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = CSSPaddingPartProperty.Converter.Periodic();
         readonly CSSPaddingTopProperty _top;
         readonly CSSPaddingRightProperty _right;
         readonly CSSPaddingBottomProperty _bottom;
@@ -78,7 +79,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().Periodic().TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
             {
                 _top.SetPadding(m.Item1);
                 _right.SetPadding(m.Item2);

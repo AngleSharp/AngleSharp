@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = CSSMarginPartProperty.Converter.Periodic();
         readonly CSSMarginTopProperty _top;
         readonly CSSMarginRightProperty _right;
         readonly CSSMarginBottomProperty _bottom;
@@ -78,7 +79,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().OrDefault().Periodic().TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
             {
                 _top.SetMargin(m.Item1);
                 _right.SetMargin(m.Item2);

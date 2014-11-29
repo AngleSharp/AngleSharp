@@ -11,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = Percent.Zero;
+        internal static readonly IValueConverter<IDistance> Converter = WithDistance().OrDefault();
         IDistance _margin;
 
         #endregion
@@ -55,7 +57,7 @@
 
         internal override void Reset()
         {
-            _margin = Percent.Zero;
+            _margin = Default;
         }
 
         /// <summary>
@@ -65,7 +67,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().Or(TakeOne(Keywords.Auto, (IDistance)null)).TryConvert(value, SetMargin);
+            return Converter.TryConvert(value, SetMargin);
         }
 
         #endregion
