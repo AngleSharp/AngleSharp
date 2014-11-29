@@ -13,6 +13,8 @@
     {
         #region Fields
 
+        internal static readonly Shadow[] Default = new Shadow[0];
+        internal static readonly IValueConverter<Shadow[]> Converter = TakeOne(Keywords.None, Default).Or(TakeList(WithShadow()));
         readonly List<Shadow> _shadows;
 
         #endregion
@@ -50,6 +52,7 @@
         internal override void Reset()
         {
             _shadows.Clear();
+            _shadows.AddRange(Default);
         }
 
         /// <summary>
@@ -59,7 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, new Shadow[0]).Or(TakeList(WithShadow())).TryConvert(value, SetShadows);
+            return Converter.TryConvert(value, SetShadows);
         }
 
         #endregion

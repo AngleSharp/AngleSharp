@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly TextDecorationLine[] Default = new TextDecorationLine[0];
+        internal static readonly IValueConverter<TextDecorationLine[]> SingleConverter = TakeMany(From(Map.TextDecorationLines));
+        internal static readonly IValueConverter<TextDecorationLine[]> Converter = TakeOne(Keywords.None, Default).Or(SingleConverter);
         readonly List<TextDecorationLine> _lines;
 
         #endregion
@@ -51,6 +54,7 @@
         internal override void Reset()
         {
             _lines.Clear();
+            _lines.AddRange(Default);
         }
 
         /// <summary>
@@ -60,8 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, new TextDecorationLine[0]).Or(
-                   TakeMany(From(Map.TextDecorationLines))).TryConvert(value, SetLines);
+            return Converter.TryConvert(value, SetLines);
         }
 
         #endregion

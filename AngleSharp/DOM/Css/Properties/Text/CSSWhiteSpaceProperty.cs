@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,21 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Whitespace> modes = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly Whitespace Default = Whitespace.Normal;
+        internal static readonly IValueConverter<Whitespace> Converter = From(Map.WhitespaceModes);
         Whitespace _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSWhiteSpaceProperty()
-        {
-            modes.Add(Keywords.Normal, Whitespace.Normal);
-            modes.Add(Keywords.Pre, Whitespace.Pre);
-            modes.Add(Keywords.Nowrap, Whitespace.NoWrap);
-            modes.Add(Keywords.PreWrap, Whitespace.PreWrap);
-            modes.Add(Keywords.PreLine, Whitespace.PreLine);
-        }
 
         internal CSSWhiteSpaceProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.WhiteSpace, rule, PropertyFlags.Inherited)
@@ -58,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = Whitespace.Normal;
+            _mode = Default;
         }
 
         /// <summary>
@@ -68,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

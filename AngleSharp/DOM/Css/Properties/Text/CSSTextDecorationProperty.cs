@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -12,6 +11,15 @@
     sealed class CSSTextDecorationProperty : CSSShorthandProperty, ICssTextDecorationProperty
     {
         #region Fields
+
+        internal static readonly IValueConverter<Tuple<Color, TextDecorationStyle, TextDecorationLine[]>> Converter = WithOptions(
+                CSSTextDecorationColorProperty.Converter,
+                CSSTextDecorationStyleProperty.Converter, 
+                CSSTextDecorationLineProperty.SingleConverter,
+            Tuple.Create(
+                CSSTextDecorationColorProperty.Default,
+                CSSTextDecorationStyleProperty.Default,
+                CSSTextDecorationLineProperty.Default));
 
         readonly CSSTextDecorationColorProperty _color;
         readonly CSSTextDecorationLineProperty _line;
@@ -68,8 +76,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithOptions(WithColor(), From(Map.TextDecorationStyles), TakeMany(From(Map.TextDecorationLines)),
-                Tuple.Create(Color.Black, TextDecorationStyle.Solid, new TextDecorationLine[0])).TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
                 {
                     _color.SetColor(m.Item1);
                     _style.SetDecorationStyle(m.Item2);

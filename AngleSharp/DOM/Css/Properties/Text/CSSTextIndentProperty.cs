@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = Percent.Zero;
+        internal static readonly IValueConverter<IDistance> Converter = WithDistance();
         IDistance _indent;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _indent = Percent.Zero;
+            _indent = Default;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().TryConvert(value, SetIndent);
+            return Converter.TryConvert(value, SetIndent);
         }
 
         #endregion

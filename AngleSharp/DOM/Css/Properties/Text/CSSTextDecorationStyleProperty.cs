@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -13,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly TextDecorationStyle Default = TextDecorationStyle.Solid;
+        internal static readonly IValueConverter<TextDecorationStyle> Converter = From(Map.TextDecorationStyles);
         TextDecorationStyle _style;
 
         #endregion
@@ -48,7 +48,7 @@
 
         internal override void Reset()
         {
-            _style = TextDecorationStyle.Solid;
+            _style = Default;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.TextDecorationStyles).TryConvert(value, SetDecorationStyle);
+            return Converter.TryConvert(value, SetDecorationStyle);
         }
 
         #endregion

@@ -13,20 +13,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, HorizontalAlignment> modes = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly HorizontalAlignment Default = HorizontalAlignment.Left;
+        internal static readonly IValueConverter<HorizontalAlignment> Converter = From(Map.HorizontalAlignments);
         HorizontalAlignment _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSTextAlignProperty()
-        {
-            modes.Add(Keywords.Left, HorizontalAlignment.Left);
-            modes.Add(Keywords.Right, HorizontalAlignment.Right);
-            modes.Add(Keywords.Center, HorizontalAlignment.Center);
-            modes.Add(Keywords.Justify, HorizontalAlignment.Justify);
-        }
 
         internal CSSTextAlignProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.TextAlign, rule, PropertyFlags.Inherited)
@@ -57,7 +50,7 @@
 
         internal override void Reset()
         {
-            _mode = HorizontalAlignment.Left;
+            _mode = Default;
         }
 
         /// <summary>
@@ -67,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

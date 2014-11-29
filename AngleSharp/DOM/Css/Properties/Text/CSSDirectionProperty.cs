@@ -3,7 +3,6 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly DirectionMode Default = DirectionMode.Ltr;
+        internal static readonly IValueConverter<DirectionMode> Converter = Toggle(Keywords.Ltr, Keywords.Rtl).To(m => m ? DirectionMode.Ltr : DirectionMode.Rtl);
         DirectionMode _mode;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _mode = DirectionMode.Ltr;
+            _mode = Default;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Ltr, Keywords.Rtl).TryConvert(value, m => SetState(m ? DirectionMode.Ltr : DirectionMode.Rtl));
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

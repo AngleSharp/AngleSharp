@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,21 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, TextTransform> modes = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly TextTransform Default = TextTransform.None;
+        internal static readonly IValueConverter<TextTransform> Converter = From(Map.TextTransforms);
         TextTransform _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSTextTransformProperty()
-        {
-            modes.Add(Keywords.None, TextTransform.None);
-            modes.Add(Keywords.Capitalize, TextTransform.Capitalize);
-            modes.Add(Keywords.Uppercase, TextTransform.Uppercase);
-            modes.Add(Keywords.Lowercase, TextTransform.Lowercase);
-            modes.Add(Keywords.FullWidth, TextTransform.FullWidth);
-        }
 
         internal CSSTextTransformProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.TextTransform, rule, PropertyFlags.Inherited)
@@ -58,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = TextTransform.None;
+            _mode = Default;
         }
 
         /// <summary>
@@ -68,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetTransform);
+            return Converter.TryConvert(value, SetTransform);
         }
 
         #endregion

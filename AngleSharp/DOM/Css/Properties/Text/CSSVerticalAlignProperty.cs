@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,25 +11,14 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, VerticalAlignment> modes = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly VerticalAlignment Default = VerticalAlignment.Baseline;
+        internal static readonly IValueConverter<VerticalAlignment> Converter = From(Map.VerticalAlignments);
         VerticalAlignment _mode;
         IDistance _shift;
 
         #endregion
 
         #region ctor
-
-        static CSSVerticalAlignProperty()
-        {
-            modes.Add(Keywords.Baseline, VerticalAlignment.Baseline);
-            modes.Add(Keywords.Sub, VerticalAlignment.Sub);
-            modes.Add(Keywords.Super, VerticalAlignment.Super);
-            modes.Add(Keywords.TextTop, VerticalAlignment.TextTop);
-            modes.Add(Keywords.TextBottom, VerticalAlignment.TextBottom);
-            modes.Add(Keywords.Middle, VerticalAlignment.Middle);
-            modes.Add(Keywords.Top, VerticalAlignment.Top);
-            modes.Add(Keywords.Bottom, VerticalAlignment.Bottom);
-        }
 
         internal CSSVerticalAlignProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.VerticalAlign, rule, PropertyFlags.Animatable)
@@ -79,7 +66,7 @@
 
         internal override void Reset()
         {
-            _mode = VerticalAlignment.Baseline;
+            _mode = Default;
             _shift = Percent.Zero;
         }
 
@@ -90,8 +77,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().TryConvert(value, SetAlignment) || 
-                   From(modes).TryConvert(value, SetAlignment);
+            return WithDistance().TryConvert(value, SetAlignment) || Converter.TryConvert(value, SetAlignment);
         }
 
         #endregion
