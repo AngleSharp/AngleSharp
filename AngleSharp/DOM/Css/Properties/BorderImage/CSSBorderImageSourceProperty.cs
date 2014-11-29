@@ -6,7 +6,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-source
@@ -15,6 +14,8 @@
     {
         #region Fields
 
+        internal static readonly Url[] Default = new Url[0];
+        internal static readonly IValueConverter<Url[]> Converter = TakeOne(Keywords.None, Default).Or(WithImages().To(m => m.Urls.ToArray()));
         readonly List<Url> _images;
 
         #endregion
@@ -52,6 +53,7 @@
         internal override void Reset()
         {
             _images.Clear();
+            _images.AddRange(Default);
         }
 
         /// <summary>
@@ -61,8 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, Enumerable.Empty<Url>()).Or(
-                   WithImages().To(m => m.Urls)).TryConvert(value, SetImages);
+            return Converter.TryConvert(value, SetImages);
         }
 
         #endregion

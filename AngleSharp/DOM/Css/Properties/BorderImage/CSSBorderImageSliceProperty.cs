@@ -3,7 +3,6 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
@@ -15,6 +14,9 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = Percent.Hundred;
+        internal static readonly IValueConverter<Tuple<Tuple<IDistance, IDistance, IDistance, IDistance>, Boolean>> Converter = 
+            WithBorderSlice().Periodic().Optional(TakeOne(Keywords.Fill, true), false);
         IDistance _top;
         IDistance _right;
         IDistance _bottom;
@@ -90,10 +92,10 @@
 
         internal override void Reset()
         {
-            _top = Percent.Hundred;
-            _right = Percent.Hundred;
-            _bottom = Percent.Hundred;
-            _left = Percent.Hundred;
+            _top = Default;
+            _right = Default;
+            _bottom = Default;
+            _left = Default;
             _fill = false;
         }
 
@@ -104,8 +106,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithBorderSlice().Periodic().Optional(TakeOne(Keywords.Fill, true), false).TryConvert(
-                value, m => SetSlice(m.Item1.Item1, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2));
+            return Converter.TryConvert(value, m => SetSlice(m.Item1.Item1, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2));
         }
 
         #endregion

@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly BorderRepeat Default = BorderRepeat.Stretch;
+        internal static readonly IValueConverter<BorderRepeat[]> Converter = TakeMany(From(Map.BorderRepeatModes)).Constraint(m => m.Length < 3);
         BorderRepeat _horizontal;
         BorderRepeat _vertical;
 
@@ -56,8 +58,8 @@
 
         internal override void Reset()
         {
-            _horizontal = BorderRepeat.Stretch;
-            _vertical = BorderRepeat.Stretch;
+            _horizontal = Default;
+            _vertical = Default;
         }
 
         /// <summary>
@@ -67,7 +69,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeMany(From(Map.BorderRepeatModes)).Constraint(m => m.Length < 3).TryConvert(value, m => SetRepeat(m[0], m.Length == 2 ? m[1] : m[0]));
+            return Converter.TryConvert(value, m => SetRepeat(m[0], m.Length == 2 ? m[1] : m[0]));
         }
 
         #endregion

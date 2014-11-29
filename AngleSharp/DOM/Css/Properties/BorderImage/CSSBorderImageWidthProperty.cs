@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = Percent.Hundred;
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = WithImageBorderWidth().Periodic();
         IDistance _top;
         IDistance _right;
         IDistance _bottom;
@@ -88,10 +90,10 @@
 
         internal override void Reset()
         {
-            _top = Percent.Hundred;
-            _right = Percent.Hundred;
-            _bottom = Percent.Hundred;
-            _left = Percent.Hundred;
+            _top = Default;
+            _right = Default;
+            _bottom = Default;
+            _left = Default;
         }
 
         /// <summary>
@@ -101,7 +103,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithImageBorderWidth().Periodic().TryConvert(value, m => SetWidth(m.Item1, m.Item2, m.Item3, m.Item4));
+            return Converter.TryConvert(value, m => SetWidth(m.Item1, m.Item2, m.Item3, m.Item4));
         }
 
         #endregion
