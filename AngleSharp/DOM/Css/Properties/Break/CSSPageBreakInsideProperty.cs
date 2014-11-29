@@ -3,7 +3,6 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly BreakMode Default = BreakMode.Auto;
+        internal static readonly IValueConverter<BreakMode> Converter = Toggle(Keywords.Auto, Keywords.Avoid).To(m => m ? BreakMode.Auto : BreakMode.Avoid);
         BreakMode _mode;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _mode = BreakMode.Auto;
+            _mode = Default;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Auto, Keywords.Avoid).To(m => m ? BreakMode.Auto : BreakMode.Avoid).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

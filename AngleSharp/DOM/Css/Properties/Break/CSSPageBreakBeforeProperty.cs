@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly BreakMode Default = BreakMode.Auto;
+        internal static readonly IValueConverter<BreakMode> Converter = From(Map.PageBreakModes);
         BreakMode _mode;
 
         #endregion
@@ -47,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = BreakMode.Auto;
+            _mode = Default;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.PageBreakModes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion
