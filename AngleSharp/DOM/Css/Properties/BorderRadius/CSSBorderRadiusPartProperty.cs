@@ -11,6 +11,9 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = Percent.Zero;
+        internal static readonly IValueConverter<IDistance> SingleConverter = WithDistance();
+        internal static readonly IValueConverter<IDistance[]> Converter = TakeMany(SingleConverter).Constraint(m => m.Length < 3);
         IDistance _horizontal;
         IDistance _vertical;
 
@@ -64,8 +67,8 @@
 
         internal override void Reset()
         {
-            _horizontal = Percent.Zero;
-            _vertical = Percent.Zero;
+            _horizontal = Default;
+            _vertical = Default;
         }
 
         /// <summary>
@@ -75,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeMany(WithDistance()).Constraint(m => m.Length < 3).TryConvert(value, m => SetRadius(m[0], m.Length == 2 ? m[1] : m[0]));
+            return Converter.TryConvert(value, m => SetRadius(m[0], m.Length == 2 ? m[1] : m[0]));
         }
 
         #endregion
