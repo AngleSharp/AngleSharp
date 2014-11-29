@@ -12,7 +12,8 @@
     {
         #region Fields
 
-        FontSize _mode;
+        internal static readonly IDistance Default = FontSize.Medium.ToDistance();
+        internal static readonly IValueConverter<IDistance> Converter = WithDistance().Or(From(Map.FontSizes).To(m => m.ToDistance()));
         IDistance _size;
 
         #endregion
@@ -30,41 +31,25 @@
         #region Properties
 
         /// <summary>
-        /// Gets the custom set font-size, if any.
+        /// Gets the selected font-size.
         /// </summary>
         public IDistance Size
         {
             get { return _size; }
         }
 
-        /// <summary>
-        /// Gets the font-size mode.
-        /// </summary>
-        public FontSize SizingMode
-        {
-            get { return _mode; }
-        }
-
         #endregion
 
         #region Methods
 
-        public void SetSize(FontSize mode)
+        public void SetSize(IDistance size)
         {
-            _size = mode.ToDistance();
-            _mode = mode;
-        }
-
-        public void SetSize(IDistance distance)
-        {
-            _size = distance;
-            _mode = FontSize.Custom;
+            _size = size;
         }
 
         internal override void Reset()
         {
-            _mode = FontSize.Medium;
-            _size = _mode.ToDistance();
+            _size = Default;
         }
 
         /// <summary>
@@ -74,8 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().TryConvert(value, SetSize) ||
-                   From(Map.FontSizes).TryConvert(value, SetSize);
+            return Converter.TryConvert(value, SetSize);
         }
 
         #endregion

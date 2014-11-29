@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Length? Default = null;
+        internal static readonly IValueConverter<Length?> Converter = TakeOne(Keywords.Normal, Default).Or(WithLength().ToNullable());
         Length? _spacing;
 
         #endregion
@@ -56,7 +58,7 @@
 
         internal override void Reset()
         {
-            _spacing = null;
+            _spacing = Default;
         }
 
         /// <summary>
@@ -66,7 +68,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.Normal, (Length?)null).Or(WithLength().To(m => new Length?(m))).TryConvert(value, SetSpacing);
+            return Converter.TryConvert(value, SetSpacing);
         }
 
         #endregion

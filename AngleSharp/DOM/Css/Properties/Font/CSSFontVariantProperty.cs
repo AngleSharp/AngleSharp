@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly FontVariant Default = FontVariant.Normal;
+        internal static readonly IValueConverter<FontVariant> Converter = Toggle(Keywords.Normal, Keywords.SmallCaps).To(m => m ? FontVariant.Normal : FontVariant.SmallCaps);
         FontVariant _variant;
 
         #endregion
@@ -47,7 +49,7 @@
 
         internal override void Reset()
         {
-            _variant = FontVariant.Normal;
+            _variant = Default;
         }
 
         /// <summary>
@@ -57,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Normal, Keywords.SmallCaps).To(m => m ? FontVariant.Normal : FontVariant.SmallCaps).TryConvert(value, SetVariant);
+            return Converter.TryConvert(value, SetVariant);
         }
 
         #endregion

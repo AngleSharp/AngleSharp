@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Single? Default = null;
+        internal static readonly IValueConverter<Single?> Converter = TakeOne(Keywords.None, Default).Or(WithNumber().ToNullable());
         Single? _aspectValue;
 
         #endregion
@@ -47,7 +49,7 @@
 
         internal override void Reset()
         {
-            _aspectValue = null;
+            _aspectValue = Default;
         }
 
         /// <summary>
@@ -57,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, (Single?)null).Or(WithNumber().To(m => new Single?(m))).TryConvert(value, SetAspectValue);
+            return Converter.TryConvert(value, SetAspectValue);
         }
 
         #endregion

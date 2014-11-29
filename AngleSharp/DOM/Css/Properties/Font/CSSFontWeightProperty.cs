@@ -3,7 +3,6 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -13,21 +12,15 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, FontWeight> _weights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly FontWeight Default = Map.FontWeights[Keywords.Normal];
+        internal static readonly IValueConverter<FontWeight> Converter = From(Map.FontWeights).Or(
+            WithInteger().Constraint(m => m >= 100 && m <= 900).To(m => new FontWeight { IsRelative = false, Value = m }));
         FontWeight _weight;
 
         #endregion
 
         #region ctor
-
-        static CSSFontWeightProperty()
-        {
-            _weights.Add(Keywords.Normal, new FontWeight { IsRelative = false, Value = 400 });
-            _weights.Add(Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 });
-            _weights.Add(Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 });
-            _weights.Add(Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 });
-        }
-
+        
         internal CSSFontWeightProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.FontWeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
@@ -52,19 +45,14 @@
 
         #region Methods
 
-        public void SetWeight(Int32 weight)
-        {
-            SetExplicitWeight(new FontWeight { IsRelative = false, Value = weight });
-        }
-
-        void SetExplicitWeight(FontWeight weight)
+        public void SetWeight(FontWeight weight)
         {
             _weight = weight;
         }
 
         internal override void Reset()
         {
-            _weight = _weights[Keywords.Normal];
+            _weight = Default;
         }
 
         /// <summary>
@@ -74,14 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithInteger().Constraint(m => m >= 100 && m <= 900).To(m => new FontWeight { IsRelative = false, Value = m }).Or(
-                   From(_weights)).TryConvert(value, SetExplicitWeight);
-        }
-
-        struct FontWeight
-        {
-            public Boolean IsRelative;
-            public Int32 Value;
+            return Converter.TryConvert(value, SetWeight);
         }
 
         #endregion

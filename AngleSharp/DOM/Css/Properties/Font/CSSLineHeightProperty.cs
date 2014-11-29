@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly IDistance Default = new Percent(120f);
+        internal static readonly IValueConverter<IDistance> Converter = WithLineHeight();
         IDistance _height;
 
         #endregion
@@ -44,7 +45,7 @@
 
         internal override void Reset()
         {
-            _height = new Percent(120f);
+            _height = Default;
         }
 
         /// <summary>
@@ -54,7 +55,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithLineHeight().TryConvert(value, SetHeight);
+            return Converter.TryConvert(value, SetHeight);
         }
 
         #endregion

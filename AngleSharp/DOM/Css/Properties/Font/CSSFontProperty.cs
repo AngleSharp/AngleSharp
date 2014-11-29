@@ -88,14 +88,6 @@
         }
 
         /// <summary>
-        /// Gets the mode of the font-size property.
-        /// </summary>
-        public FontSize SizingMode
-        {
-            get { return _size.SizingMode; }
-        }
-
-        /// <summary>
         /// Gets the custom set size of the font, if any.
         /// </summary>
         public IDistance Size

@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -13,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly FontStretch Default = FontStretch.Normal;
+        internal static readonly IValueConverter<FontStretch> Converter = From(Map.FontStretches);
         FontStretch _stretch;
 
         #endregion
@@ -48,7 +48,7 @@
 
         internal override void Reset()
         {
-            _stretch = FontStretch.Normal;
+            _stretch = Default;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.FontStretches).TryConvert(value, SetStretch);
+            return Converter.TryConvert(value, SetStretch);
         }
 
         #endregion

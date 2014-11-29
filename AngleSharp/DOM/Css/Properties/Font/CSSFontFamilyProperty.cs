@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly String[] Default = new [] { "Times New Roman" };
+        internal static readonly IValueConverter<String[]> Converter = TakeList(WithFontFamily());
         readonly List<String> _families;
 
         #endregion
@@ -51,7 +52,7 @@
         internal override void Reset()
         {
             _families.Clear();
-            _families.Add("Times New Roman");
+            _families.AddRange(Default);
         }
 
         /// <summary>
@@ -61,7 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(WithFontFamily()).TryConvert(value, SetFamilies);
+            return Converter.TryConvert(value, SetFamilies);
         }
 
         #endregion
