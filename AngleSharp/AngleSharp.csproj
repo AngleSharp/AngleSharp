@@ -75,6 +75,7 @@
     <Compile Include="DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSSrcProperty.cs" />
+    <Compile Include="DOM\Css\Properties\List\CSSCounterProperty.cs" />
     <Compile Include="DOM\Css\Selector\KeyframeSelector.cs" />
     <Compile Include="DOM\Css\Values\CSSFunction.cs" />
     <Compile Include="DOM\Events\ErrorEvent.cs" />
