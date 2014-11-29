@@ -13,6 +13,12 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color?>> Converter = WithOptions(
+                CSSOutlineWidthProperty.Converter,
+                CSSOutlineStyleProperty.Converter,
+                CSSOutlineColorProperty.Converter,
+            Tuple.Create(CSSOutlineWidthProperty.Default, CSSOutlineStyleProperty.Default, CSSOutlineColorProperty.Default));
+
         readonly CSSOutlineStyleProperty _style;
         readonly CSSOutlineWidthProperty _width;
         readonly CSSOutlineColorProperty _color;
@@ -76,18 +82,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var invert = Tuple.Create(Color.Transparent, true);
-
-            return WithOptions(
-                    WithBorderWidth(), 
-                    From(Map.LineStyles), 
-                    WithColor().To(m => Tuple.Create(m, false)).Or(TakeOne(Keywords.Invert, invert)),
-                Tuple.Create(Length.Medium, LineStyle.None, invert)).TryConvert(value, m =>
+            return Converter.TryConvert(value, m =>
                 {
                     _width.SetWidth(m.Item1);
                     _style.SetStyle(m.Item2);
-                    _color.SetColor(m.Item3.Item1);
-                    _color.SetInverted(m.Item3.Item2);
+                    _color.SetColor(m.Item3);
                 });
         }
 

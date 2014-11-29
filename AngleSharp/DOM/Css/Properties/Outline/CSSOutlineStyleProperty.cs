@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly LineStyle Default = LineStyle.None;
+        internal static readonly IValueConverter<LineStyle> Converter = From(Map.LineStyles);
         LineStyle _style;
 
         #endregion
@@ -47,7 +48,7 @@
 
         internal override void Reset()
         {
-            _style = LineStyle.None;
+            _style = Default;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(Map.LineStyles).TryConvert(value, SetStyle);
+            return Converter.TryConvert(value, SetStyle);
         }
 
         #endregion

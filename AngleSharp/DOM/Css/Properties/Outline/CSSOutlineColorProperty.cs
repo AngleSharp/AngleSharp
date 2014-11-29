@@ -12,8 +12,9 @@
     {
         #region Fields
 
-        Color _color;
-        Boolean _inverted;
+        internal static readonly Color? Default = null;
+        internal static readonly IValueConverter<Color?> Converter = WithColor().ToNullable().Or(TakeOne(Keywords.Invert, Default));
+        Color? _color;
 
         #endregion
 
@@ -34,7 +35,7 @@
         /// </summary>
         public Color Color
         {
-            get { return _color; }
+            get { return _color.HasValue ? _color.Value : Color.Transparent; }
         }
 
         /// <summary>
@@ -42,28 +43,21 @@
         /// </summary>
         public Boolean IsInverted
         {
-            get { return _inverted; }
+            get { return !_color.HasValue; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetColor(Color color)
+        public void SetColor(Color? color)
         {
             _color = color;
-            _inverted = false;
-        }
-
-        public void SetInverted(Boolean active)
-        {
-            _inverted = active;
         }
 
         internal override void Reset()
         {
-            _color = Color.Transparent;
-            _inverted = true;
+            _color = Default;
         }
 
         /// <summary>
@@ -73,8 +67,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithColor().TryConvert(value, SetColor) || 
-                   TakeOne(Keywords.Invert, true).TryConvert(value, SetInverted);
+            return Converter.TryConvert(value, SetColor);
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly Length Default = Length.Medium;
+        internal static readonly IValueConverter<Length> Converter = WithBorderWidth();
         Length _width;
 
         #endregion
@@ -59,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithBorderWidth().TryConvert(value, SetWidth);
+            return Converter.TryConvert(value, SetWidth);
         }
 
         #endregion
