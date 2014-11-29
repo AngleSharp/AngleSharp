@@ -97,6 +97,9 @@
     <Compile Include="..\AngleSharp\Css\Angle.cs">
       <Link>Css\Angle.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\BackgroundSize.cs">
+      <Link>Css\BackgroundSize.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Color.cs">
       <Link>Css\Color.cs</Link>
     </Compile>
@@ -193,6 +196,9 @@
       <Link>Css\RadialGradient.cs</Link>
       <SubType>
       </SubType>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Repeat.cs">
+      <Link>Css\Repeat.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Resolution.cs">
       <Link>Css\Resolution.cs</Link>
