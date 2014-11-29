@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,20 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, OverflowMode> modes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly OverflowMode Default = OverflowMode.Visible;
+        internal static readonly IValueConverter<OverflowMode> Converter = From(Map.OverflowModes);
         OverflowMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSOverflowProperty()
-        {
-            modes.Add(Keywords.Visible, OverflowMode.Visible);
-            modes.Add(Keywords.Hidden, OverflowMode.Hidden);
-            modes.Add(Keywords.Scroll, OverflowMode.Scroll);
-            modes.Add(Keywords.Auto, OverflowMode.Auto);
-        }
 
         internal CSSOverflowProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Overflow, rule)
@@ -54,7 +45,7 @@
 
         internal override void Reset()
         {
-            _mode = OverflowMode.Visible;
+            _mode = Default;
         }
 
         /// <summary>
@@ -64,7 +55,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

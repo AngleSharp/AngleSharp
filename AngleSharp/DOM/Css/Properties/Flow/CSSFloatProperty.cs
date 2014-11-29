@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,19 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Floating> modes = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly Floating Default = Floating.None;
+        internal static readonly IValueConverter<Floating> Converter = From(Map.FloatingModes);
         Floating _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSFloatProperty()
-        {
-            modes.Add(Keywords.None, Floating.None);
-            modes.Add(Keywords.Left, Floating.Left);
-            modes.Add(Keywords.Right, Floating.Right);
-        }
 
         internal CSSFloatProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Float, rule)
@@ -56,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = Floating.None;
+            _mode = Default;
         }
 
         /// <summary>
@@ -66,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

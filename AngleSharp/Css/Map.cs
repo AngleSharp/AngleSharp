@@ -41,6 +41,11 @@
         public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, PositionMode> PositionModes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, OverflowMode> OverflowModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, Floating> FloatingModes = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, DisplayMode> DisplayModes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ClearMode> ClearModes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -257,6 +262,46 @@
             FontWeights.Add(Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 });
             FontWeights.Add(Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 });
             FontWeights.Add(Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 });
+
+            PositionModes.Add(Keywords.Static, PositionMode.Static);
+            PositionModes.Add(Keywords.Relative, PositionMode.Relative);
+            PositionModes.Add(Keywords.Absolute, PositionMode.Absolute);
+            PositionModes.Add(Keywords.Sticky, PositionMode.Sticky);
+            PositionModes.Add(Keywords.Fixed, PositionMode.Fixed);
+
+            OverflowModes.Add(Keywords.Visible, OverflowMode.Visible);
+            OverflowModes.Add(Keywords.Hidden, OverflowMode.Hidden);
+            OverflowModes.Add(Keywords.Scroll, OverflowMode.Scroll);
+            OverflowModes.Add(Keywords.Auto, OverflowMode.Auto);
+
+            FloatingModes.Add(Keywords.None, Floating.None);
+            FloatingModes.Add(Keywords.Left, Floating.Left);
+            FloatingModes.Add(Keywords.Right, Floating.Right);
+
+            DisplayModes.Add(Keywords.None, DisplayMode.None);
+            DisplayModes.Add(Keywords.Inline, DisplayMode.Inline);
+            DisplayModes.Add(Keywords.Block, DisplayMode.Block);
+            DisplayModes.Add(Keywords.InlineBlock, DisplayMode.InlineBlock);
+            DisplayModes.Add(Keywords.ListItem, DisplayMode.ListItem);
+            DisplayModes.Add(Keywords.InlineTable, DisplayMode.InlineTable);
+            DisplayModes.Add(Keywords.Table, DisplayMode.Table);
+            DisplayModes.Add(Keywords.TableCaption, DisplayMode.TableCaption);
+            DisplayModes.Add(Keywords.TableCell, DisplayMode.TableCell);
+            DisplayModes.Add(Keywords.TableColumn, DisplayMode.TableColumn);
+            DisplayModes.Add(Keywords.TableColumnGroup, DisplayMode.TableColumnGroup);
+            DisplayModes.Add(Keywords.TableFooterGroup, DisplayMode.TableFooterGroup);
+            DisplayModes.Add(Keywords.TableHeaderGroup, DisplayMode.TableHeaderGroup);
+            DisplayModes.Add(Keywords.TableRow, DisplayMode.TableRow);
+            DisplayModes.Add(Keywords.TableRowGroup, DisplayMode.TableRowGroup);
+            DisplayModes.Add(Keywords.Flex, DisplayMode.Flex);
+            DisplayModes.Add(Keywords.InlineFlex, DisplayMode.InlineFlex);
+            DisplayModes.Add(Keywords.Grid, DisplayMode.Grid);
+            DisplayModes.Add(Keywords.InlineGrid, DisplayMode.InlineGrid);
+
+            ClearModes.Add(Keywords.None, ClearMode.None);
+            ClearModes.Add(Keywords.Left, ClearMode.Left);
+            ClearModes.Add(Keywords.Right, ClearMode.Right);
+            ClearModes.Add(Keywords.Both, ClearMode.Both);
         }
 
         #endregion

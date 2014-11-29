@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,20 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, ClearMode> modes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly ClearMode Default = ClearMode.None;
+        internal static readonly IValueConverter<ClearMode> Converter = From(Map.ClearModes);
         ClearMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSClearProperty()
-        {
-            modes.Add(Keywords.None, ClearMode.None);
-            modes.Add(Keywords.Left, ClearMode.Left);
-            modes.Add(Keywords.Right, ClearMode.Right);
-            modes.Add(Keywords.Both, ClearMode.Both);
-        }
 
         internal CSSClearProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Clear, rule)
@@ -57,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = ClearMode.None;
+            _mode = Default;
         }
 
         /// <summary>
@@ -67,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

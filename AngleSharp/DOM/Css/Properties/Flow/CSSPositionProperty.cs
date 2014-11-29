@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,21 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, PositionMode> modes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly PositionMode Default = PositionMode.Static;
+        internal static readonly IValueConverter<PositionMode> Converter = From(Map.PositionModes);
         PositionMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSPositionProperty()
-        {
-            modes.Add(Keywords.Static, PositionMode.Static);
-            modes.Add(Keywords.Relative, PositionMode.Relative);
-            modes.Add(Keywords.Absolute, PositionMode.Absolute);
-            modes.Add(Keywords.Sticky, PositionMode.Sticky);
-            modes.Add(Keywords.Fixed, PositionMode.Fixed);
-        }
 
         internal CSSPositionProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Position, rule)
@@ -58,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = PositionMode.Static;
+            _mode = Default;
         }
 
         /// <summary>
@@ -68,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion

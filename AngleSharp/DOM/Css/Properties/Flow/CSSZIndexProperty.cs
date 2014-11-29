@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Int32? Default = null;
+        internal static readonly IValueConverter<Int32?> Converter = WithInteger().OrNullDefault();
         Int32? _index;
 
         #endregion
@@ -47,7 +49,7 @@
 
         internal override void Reset()
         {
-            _index = null;
+            _index = Default;
         }
 
         /// <summary>
@@ -57,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithInteger().To(m => new Int32?(m)).Or(TakeOne(Keywords.Auto, (Int32?)null)).TryConvert(value, SetIndex);
+            return Converter.TryConvert(value, SetIndex);
         }
 
         #endregion

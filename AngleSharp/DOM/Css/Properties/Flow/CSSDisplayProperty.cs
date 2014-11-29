@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -13,35 +11,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, DisplayMode> modes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly DisplayMode Default = DisplayMode.Inline;
+        internal static readonly IValueConverter<DisplayMode> Converter = From(Map.DisplayModes);
         DisplayMode _mode;
 
         #endregion
 
         #region ctor
-
-        static CSSDisplayProperty()
-        {
-            modes.Add(Keywords.None, DisplayMode.None);
-            modes.Add(Keywords.Inline, DisplayMode.Inline);
-            modes.Add(Keywords.Block, DisplayMode.Block);
-            modes.Add(Keywords.InlineBlock, DisplayMode.InlineBlock);
-            modes.Add(Keywords.ListItem, DisplayMode.ListItem);
-            modes.Add(Keywords.InlineTable, DisplayMode.InlineTable);
-            modes.Add(Keywords.Table, DisplayMode.Table);
-            modes.Add(Keywords.TableCaption, DisplayMode.TableCaption);
-            modes.Add(Keywords.TableCell, DisplayMode.TableCell);
-            modes.Add(Keywords.TableColumn, DisplayMode.TableColumn);
-            modes.Add(Keywords.TableColumnGroup, DisplayMode.TableColumnGroup);
-            modes.Add(Keywords.TableFooterGroup, DisplayMode.TableFooterGroup);
-            modes.Add(Keywords.TableHeaderGroup, DisplayMode.TableHeaderGroup);
-            modes.Add(Keywords.TableRow, DisplayMode.TableRow);
-            modes.Add(Keywords.TableRowGroup, DisplayMode.TableRowGroup);
-            modes.Add(Keywords.Flex, DisplayMode.Flex);
-            modes.Add(Keywords.InlineFlex, DisplayMode.InlineFlex);
-            modes.Add(Keywords.Grid, DisplayMode.Grid);
-            modes.Add(Keywords.InlineGrid, DisplayMode.InlineGrid);
-        }
 
         internal CSSDisplayProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.Display, rule)
@@ -72,7 +48,7 @@
 
         internal override void Reset()
         {
-            _mode = DisplayMode.Inline;
+            _mode = Default;
         }
 
         /// <summary>
@@ -82,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return From(modes).TryConvert(value, SetState);
+            return Converter.TryConvert(value, SetState);
         }
 
         #endregion
