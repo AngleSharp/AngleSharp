@@ -8,11 +8,13 @@
     {
         readonly IValueConverter<T> _condition;
         readonly IValueConverter<U> _converter;
+        readonly Boolean _include;
 
-        public SplitValueConverter(IValueConverter<T> condition, IValueConverter<U> converter)
+        public SplitValueConverter(IValueConverter<T> condition, IValueConverter<U> converter, Boolean include = true)
         {
             _condition = condition;
             _converter = converter;
+            _include = include;
         }
 
         public Boolean TryConvert(CSSValue value, Action<U[]> setResult)
@@ -34,6 +36,9 @@
                         return false;
 
                     list = new CSSValueList();
+
+                    if (!_include)
+                        continue;
                 }
 
                 list.Add(values[i]);
@@ -64,6 +69,9 @@
                         return false;
 
                     list = new CSSValueList();
+
+                    if (!_include)
+                        continue;
                 }
 
                 list.Add(values[i]);

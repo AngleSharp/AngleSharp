@@ -74,5 +74,11 @@
         {
             return new ConstraintValueConverter<T>(primary, constraint);
         }
+
+        public static IValueConverter<T[]> OptionalSplit<T>(this IValueConverter<T> primary)
+        {
+            var condition = new StructValueConverter<Boolean>(m => m == CSSValue.Delimiter ? (Boolean?)true : null);
+            return new SplitValueConverter<Boolean, T>(condition, primary, false);
+        }
     }
 }

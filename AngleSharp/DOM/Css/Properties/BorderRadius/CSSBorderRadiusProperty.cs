@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -11,6 +12,9 @@
     sealed class CSSBorderRadiusProperty : CSSShorthandProperty, ICssBorderRadiusProperty
     {
         #region Fields
+
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>[]> Converter = 
+            CSSBorderRadiusPartProperty.SingleConverter.Periodic().OptionalSplit().Constraint(m => m != null && m.Length < 3);
 
         readonly CSSBorderTopLeftRadiusProperty _topLeft;
         readonly CSSBorderTopRightRadiusProperty _topRight;
@@ -107,41 +111,18 @@
         /// </summary>
         /// <param name="v">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue v)
+        protected override Boolean IsValid(CSSValue value)
         {
-            var values = v as CSSValueList ?? new CSSValueList(v);
-            var horizontal = new CSSValueList();
-            var vertical = new CSSValueList();
-            var uv = false;
-
-            if (values.Length > 9)
-                return false;
-
-            foreach (var value in values)
+            return Converter.TryConvert(value, m =>
             {
-                if (value == CSSValue.Delimiter && uv)
-                    return false;
-                else if (value == CSSValue.Delimiter)
-                    uv = true;
-                else if (!_topLeft.CanTake(value))
-                    return false;
-                else if (uv)
-                    vertical.Add(value);
-                else
-                    horizontal.Add(value);
-            }
-
-            if (!ExpandPeriodic(horizontal))
-                return false;
-
-            if (uv)
-            {
-                return ExpandPeriodic(vertical) && _topLeft.TrySetValue(Combine(horizontal, vertical, 0)) && _topRight.TrySetValue(Combine(horizontal, vertical, 1)) &&
-                       _bottomRight.TrySetValue(Combine(horizontal, vertical, 2)) && _bottomLeft.TrySetValue(Combine(horizontal, vertical, 3));
-            }
-
-            return _topLeft.TrySetValue(horizontal[0]) && _topRight.TrySetValue(horizontal[1]) && 
-                   _bottomRight.TrySetValue(horizontal[2]) && _bottomLeft.TrySetValue(horizontal[3]);
+                var elliptic = m.Length == 2;
+                var h = m[0];
+                var v = m[elliptic ? 1 : 0];
+                _topLeft.SetRadius(h.Item1, v.Item1);
+                _topRight.SetRadius(h.Item2, v.Item2);
+                _bottomRight.SetRadius(h.Item3, v.Item3);
+                _bottomLeft.SetRadius(h.Item4, v.Item4);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
@@ -156,18 +137,6 @@
 
             var vertical = SerializePeriodic(_topLeft.VerticalRadius, _topRight.VerticalRadius, _bottomRight.VerticalRadius, _bottomLeft.VerticalRadius);
             return horizontal + " / " + vertical;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static CSSValueList Combine(CSSValueList h, CSSValueList v, Int32 index)
-        {
-            var list = new CSSValueList();
-            list.Add(h[index]);
-            list.Add(v[index]);
-            return list;
         }
 
         #endregion
