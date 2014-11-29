@@ -13,39 +13,174 @@
     {
         #region Dictionaries
 
+        /// <summary>
+        /// Contains the string-Whitespace mapping.
+        /// </summary>
         public static readonly Dictionary<String, Whitespace> WhitespaceModes = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-TextTransform mapping.
+        /// </summary>
         public static readonly Dictionary<String, TextTransform> TextTransforms = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-HorizontalAlignment mapping.
+        /// </summary>
         public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-VerticalAlignment mapping.
+        /// </summary>
         public static readonly Dictionary<String, VerticalAlignment> VerticalAlignments = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-LineStyle mapping.
+        /// </summary>
         public static readonly Dictionary<String, LineStyle> LineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BoxModel mapping.
+        /// </summary>
         public static readonly Dictionary<String, BoxModel> BoxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-TransitionFunction mapping.
+        /// </summary>
         public static readonly Dictionary<String, TransitionFunction> TransitionFunctions = new Dictionary<String, TransitionFunction>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-AnimationFillStyle mapping.
+        /// </summary>
         public static readonly Dictionary<String, AnimationFillStyle> AnimationFillStyles = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-AnimationDirection mapping.
+        /// </summary>
         public static readonly Dictionary<String, AnimationDirection> AnimationDirections = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-Visibility mapping.
+        /// </summary>
         public static readonly Dictionary<String, Visibility> Visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-ListStyle mapping.
+        /// </summary>
         public static readonly Dictionary<String, ListStyle> ListStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-ListPosition mapping.
+        /// </summary>
         public static readonly Dictionary<String, ListPosition> ListPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-whitespace mapping.
+        /// </summary>
         public static readonly Dictionary<String, FontSize> FontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-TextDecorationStyle mapping.
+        /// </summary>
         public static readonly Dictionary<String, TextDecorationStyle> TextDecorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-TextDecorationLine mapping.
+        /// </summary>
         public static readonly Dictionary<String, TextDecorationLine> TextDecorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BorderRepeat mapping.
+        /// </summary>
         public static readonly Dictionary<String, BorderRepeat> BorderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-whitespace mapping.
+        /// </summary>
         public static readonly Dictionary<String, String> DefaultFontFamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BackgroundAttachment mapping.
+        /// </summary>
         public static readonly Dictionary<String, BackgroundAttachment> BackgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-FontStyle mapping.
+        /// </summary>
         public static readonly Dictionary<String, FontStyle> FontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-FontStretch mapping.
+        /// </summary>
         public static readonly Dictionary<String, FontStretch> FontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BreakMode (general) mapping.
+        /// </summary>
         public static readonly Dictionary<String, BreakMode> BreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BreakMode (page) mapping.
+        /// </summary>
         public static readonly Dictionary<String, BreakMode> PageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BreakMode (inside) mapping.
+        /// </summary>
         public static readonly Dictionary<String, BreakMode> BreakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-horizontal modes mapping.
+        /// </summary>
         public static readonly Dictionary<String, Single> HorizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-vertical modes mapping.
+        /// </summary>
         public static readonly Dictionary<String, Single> VerticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-UnicodeMode mapping.
+        /// </summary>
         public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-whitespace mapping.
+        /// </summary>
         public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-FontWeight mapping.
+        /// </summary>
         public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-PositionMode mapping.
+        /// </summary>
         public static readonly Dictionary<String, PositionMode> PositionModes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-OverflowMode mapping.
+        /// </summary>
         public static readonly Dictionary<String, OverflowMode> OverflowModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-Floating mapping.
+        /// </summary>
         public static readonly Dictionary<String, Floating> FloatingModes = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-DisplayMode mapping.
+        /// </summary>
         public static readonly Dictionary<String, DisplayMode> DisplayModes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-ClearMode mapping.
+        /// </summary>
         public static readonly Dictionary<String, ClearMode> ClearModes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-BackgroundRepeat mapping.
+        /// </summary>
         public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
