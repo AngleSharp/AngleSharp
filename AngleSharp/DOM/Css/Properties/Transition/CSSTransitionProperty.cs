@@ -14,6 +14,18 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Tuple<String, Time, TransitionFunction, Time>[]> Converter = TakeList(
+                WithOptions(
+                    CSSTransitionPropertyProperty.SingleConverter,
+                    CSSTransitionDurationProperty.SingleConverter,
+                    CSSTransitionTimingFunctionProperty.SingleConverter,
+                    CSSTransitionDelayProperty.SingleConverter,
+                Tuple.Create(
+                    CSSTransitionPropertyProperty.Default, 
+                    CSSTransitionDurationProperty.Default, 
+                    CSSTransitionTimingFunctionProperty.Default, 
+                    CSSTransitionDelayProperty.Default)));
+
         readonly CSSTransitionDelayProperty _delay;
         readonly CSSTransitionDurationProperty _duration;
         readonly CSSTransitionTimingFunctionProperty _timingFunction;
@@ -79,13 +91,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(
-                WithOptions(
-                    WithAnimatableIdentifier(), 
-                    WithTime(), 
-                    WithTransition(), 
-                    WithTime(), 
-                Tuple.Create(Keywords.All, Time.Zero, TransitionFunction.Ease, Time.Zero))).TryConvert(value, t =>
+            return Converter.TryConvert(value, t =>
             {
                 _property.SetProperties(t.Select(m => m.Item1));
                 _duration.SetDurations(t.Select(m => m.Item2));

@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Time> SingleConverter = WithTime();
+        internal static readonly IValueConverter<Time[]> Converter = TakeList(SingleConverter);
+        internal static readonly Time Default = Time.Zero;
         readonly List<Time> _times;
 
         #endregion
@@ -51,7 +54,7 @@
         internal override void Reset()
         {
             _times.Clear();
-            _times.Add(Time.Zero);
+            _times.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(WithTime()).TryConvert(value, SetDurations);
+            return Converter.TryConvert(value, SetDurations);
         }
 
         #endregion

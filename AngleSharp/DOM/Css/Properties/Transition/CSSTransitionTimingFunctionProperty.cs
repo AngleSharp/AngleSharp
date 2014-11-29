@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<TransitionFunction> SingleConverter = WithTransition();
+        internal static readonly IValueConverter<TransitionFunction[]> Converter = TakeList(SingleConverter);
+        internal static readonly TransitionFunction Default = TransitionFunction.Ease;
         readonly List<TransitionFunction> _functions;
 
         #endregion
@@ -51,7 +54,7 @@
         internal override void Reset()
         {
             _functions.Clear();
-            _functions.Add(TransitionFunction.Ease);
+            _functions.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +64,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(WithTransition()).TryConvert(value, SetTimingFunctions);
+            return Converter.TryConvert(value, SetTimingFunctions);
         }
 
         #endregion

@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<String> SingleConverter = WithAnimatableIdentifier();
+        internal static readonly IValueConverter<String[]> Converter = TakeOne(Keywords.None, new String[0]).Or(TakeList(SingleConverter));
+        internal static readonly String Default = Keywords.All;
         readonly List<String> _properties;
         
         #endregion
@@ -50,7 +53,7 @@
         internal override void Reset()
         {
             _properties.Clear();
-            _properties.Add(Keywords.All);
+            _properties.Add(Default);
         }
 
         /// <summary>
@@ -60,8 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, new String[0]).Or(
-                   TakeList(WithAnimatableIdentifier())).TryConvert(value, SetProperties);
+            return Converter.TryConvert(value, SetProperties);
         }
 
         #endregion
