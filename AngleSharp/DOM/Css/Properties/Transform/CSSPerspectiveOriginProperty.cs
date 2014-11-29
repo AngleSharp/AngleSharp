@@ -12,6 +12,18 @@
     {
         #region Fields
 
+        internal static readonly Point Default = Point.Centered;
+        internal static readonly IValueConverter<Point> Converter = WithDistance().To(m => new Point(m, m)).Or(
+                TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
+                TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
+                TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
+                TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
+                TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
+            WithOptions(
+                WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                Tuple.Create<IDistance, IDistance>(Percent.Fifty, Percent.Fifty)).To(m => new Point(m.Item1, m.Item2))
+            );
         IDistance _x;
         IDistance _y;
 
@@ -49,16 +61,16 @@
 
         #region Methods
 
-        public void SetPosition(IDistance x, IDistance y)
+        public void SetPosition(Point pt)
         {
-            _x = x;
-            _y = y;
+            _x = pt.X;
+            _y = pt.Y;
         }
 
         internal override void Reset()
         {
-            _x = Percent.Fifty;
-            _y = Percent.Fifty;
+            _x = Default.X;
+            _y = Default.Y;
         }
 
         /// <summary>
@@ -68,17 +80,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithDistance().To(m => new Point(m, m)).Or(
-                    TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
-                    TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
-                    TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
-                    TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
-                    TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
-                WithOptions(
-                    WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                    WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                    Tuple.Create((IDistance)Percent.Fifty, (IDistance)Percent.Fifty)).To(m => new Point(m.Item1, m.Item2))
-                ).TryConvert(value, m => SetPosition(m.X, m.Y));
+            return Converter.TryConvert(value, SetPosition);
         }
 
         #endregion

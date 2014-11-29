@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Flat, Keywords.Preserve3d);
+        internal static readonly Boolean Default = true;
         Boolean _flat;
 
         #endregion
@@ -49,7 +51,7 @@
 
         internal override void Reset()
         {
-            _flat = true;
+            _flat = Default;
         }
 
         /// <summary>
@@ -59,7 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Toggle(Keywords.Flat, Keywords.Preserve3d).TryConvert(value, SetFlat);
+            return Converter.TryConvert(value, SetFlat);
         }
 
         #endregion

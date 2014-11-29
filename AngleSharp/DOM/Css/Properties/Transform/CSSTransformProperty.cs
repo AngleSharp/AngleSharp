@@ -13,6 +13,8 @@
     {
         #region Fields
 
+        internal static readonly ITransform[] Default = new ITransform[0];
+        internal static readonly IValueConverter<ITransform[]> Converter = TakeOne(Keywords.None, Default).Or(TakeMany(WithTransform()));
         readonly List<ITransform> _transforms;
 
         #endregion
@@ -50,6 +52,7 @@
         internal override void Reset()
         {
             _transforms.Clear();
+            _transforms.AddRange(Default);
         }
 
         /// <summary>
@@ -59,8 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeOne(Keywords.None, new ITransform[0]).Or(
-                   TakeMany(WithTransform())).TryConvert(value, SetTransforms);
+            return Converter.TryConvert(value, SetTransforms);
         }
 
         #endregion

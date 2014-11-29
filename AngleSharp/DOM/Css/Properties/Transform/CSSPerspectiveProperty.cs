@@ -12,6 +12,8 @@
     {
         #region Fields
 
+        internal static readonly Length Default = Length.Zero;
+        internal static readonly IValueConverter<Length> Converter = WithLength().Or(TakeOne(Keywords.None, Default));
         Length _distance;
 
         #endregion
@@ -50,7 +52,7 @@
 
         internal override void Reset()
         {
-            _distance = Length.Zero;
+            _distance = Default;
         }
 
         /// <summary>
@@ -60,7 +62,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithLength().Or(TakeOne(Keywords.None, Length.Zero)).TryConvert(value, SetDistance);
+            return Converter.TryConvert(value, SetDistance);
         }
 
         #endregion
