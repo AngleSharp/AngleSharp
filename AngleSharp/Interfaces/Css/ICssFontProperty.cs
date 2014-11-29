@@ -54,12 +54,7 @@
     public interface ICssFontSizeProperty : ICssProperty
     {
         /// <summary>
-        /// Gets the set font-size mode.
-        /// </summary>
-        FontSize SizingMode { get; }
-
-        /// <summary>
-        /// Gets the font-size.
+        /// Gets the selected font-size.
         /// </summary>
         IDistance Size { get; }
     }
