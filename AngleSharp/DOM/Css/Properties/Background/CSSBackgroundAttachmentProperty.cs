@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,6 +12,9 @@
     {
         #region Fields
 
+        internal static readonly BackgroundAttachment Default = BackgroundAttachment.Scroll;
+        internal static readonly IValueConverter<BackgroundAttachment> SingleConverter = From(Map.BackgroundAttachments);
+        internal static readonly IValueConverter<BackgroundAttachment[]> Converter = TakeList(SingleConverter);
         readonly List<BackgroundAttachment> _attachments;
 
         #endregion
@@ -51,7 +53,7 @@
         internal override void Reset()
         {
             _attachments.Clear();
-            _attachments.Add(BackgroundAttachment.Scroll);
+            _attachments.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(From(Map.BackgroundAttachments)).TryConvert(value, SetAttachments);
+            return Converter.TryConvert(value, SetAttachments);
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,6 +12,9 @@
     {
         #region Fields
 
+        internal static readonly BoxModel Default = BoxModel.PaddingBox;
+        internal static readonly IValueConverter<BoxModel> SingleConverter = From(Map.BoxModels);
+        internal static readonly IValueConverter<BoxModel[]> Converter = TakeList(SingleConverter);
         readonly List<BoxModel> _origins;
 
         #endregion
@@ -51,7 +53,7 @@
         internal override void Reset()
         {
             _origins.Clear();
-            _origins.Add(BoxModel.PaddingBox);
+            _origins.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(From(Map.BoxModels)).TryConvert(value, SetOrigins);
+            return Converter.TryConvert(value, SetOrigins);
         }
 
         #endregion

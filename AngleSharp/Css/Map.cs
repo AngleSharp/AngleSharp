@@ -46,6 +46,7 @@
         public static readonly Dictionary<String, Floating> FloatingModes = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, DisplayMode> DisplayModes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase);
         public static readonly Dictionary<String, ClearMode> ClearModes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -302,6 +303,11 @@
             ClearModes.Add(Keywords.Left, ClearMode.Left);
             ClearModes.Add(Keywords.Right, ClearMode.Right);
             ClearModes.Add(Keywords.Both, ClearMode.Both);
+
+            BackgroundRepeats.Add(Keywords.NoRepeat, BackgroundRepeat.NoRepeat);
+            BackgroundRepeats.Add(Keywords.Repeat, BackgroundRepeat.Repeat);
+            BackgroundRepeats.Add(Keywords.Round, BackgroundRepeat.Round);
+            BackgroundRepeats.Add(Keywords.Space, BackgroundRepeat.Space);
         }
 
         #endregion

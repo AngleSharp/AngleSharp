@@ -16,20 +16,15 @@
 
         static readonly Repeat RepeatX = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat };
         static readonly Repeat RepeatY = new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat };
-        static readonly Dictionary<String, BackgroundRepeat> _modes = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
+        internal static readonly Repeat Default = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
+        internal static readonly IValueConverter<Repeat> SingleConverter = From(Map.BackgroundRepeats).To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
+                   TakeOne(Keywords.RepeatX, RepeatX)).Or(TakeOne(Keywords.RepeatY, RepeatY)).Or(WithArgs(From(Map.BackgroundRepeats), From(Map.BackgroundRepeats), m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
+        internal static readonly IValueConverter<Repeat[]> Converter = TakeList(SingleConverter);
         readonly List<Repeat> _repeats;
 
         #endregion
 
         #region ctor
-
-        static CSSBackgroundRepeatProperty()
-        {
-            _modes.Add(Keywords.NoRepeat, BackgroundRepeat.NoRepeat);
-            _modes.Add(Keywords.Repeat, BackgroundRepeat.Repeat);
-            _modes.Add(Keywords.Round, BackgroundRepeat.Round);
-            _modes.Add(Keywords.Space, BackgroundRepeat.Space);
-        }
 
         internal CSSBackgroundRepeatProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BackgroundRepeat, rule)
@@ -71,7 +66,7 @@
         internal override void Reset()
         {
             _repeats.Clear();
-            _repeats.Add(new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat });
+            _repeats.Add(Default);
         }
 
         /// <summary>
@@ -81,24 +76,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var ModeConverter = From(_modes);
-            return TakeList(ModeConverter.To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
-                   TakeOne(Keywords.RepeatX, RepeatX)).Or(
-                   TakeOne(Keywords.RepeatY, RepeatY)).Or(
-                   WithArgs(
-                       ModeConverter, 
-                       ModeConverter, 
-                       m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }))).TryConvert(value, SetRepeats);
-        }
-
-        #endregion
-
-        #region Repeat Structure
-
-        struct Repeat
-        {
-            public BackgroundRepeat Horizontal;
-            public BackgroundRepeat Vertical;
+            return Converter.TryConvert(value, SetRepeats);
         }
 
         #endregion

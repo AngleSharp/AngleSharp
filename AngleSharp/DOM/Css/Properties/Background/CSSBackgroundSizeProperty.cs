@@ -14,9 +14,15 @@
     {
         #region Fields
 
-        static readonly SizeMode Cover = new SizeMode { IsCovered = true };
-        static readonly SizeMode Contain = new SizeMode { IsContained = true };
-        readonly List<SizeMode> _sizes;
+        internal static readonly BackgroundSize Cover = new BackgroundSize { IsCovered = true };
+        internal static readonly BackgroundSize Contain = new BackgroundSize { IsContained = true };
+        internal static readonly BackgroundSize Default = new BackgroundSize();
+        internal static readonly IValueConverter<BackgroundSize> SingleConverter = WithDistance().OrDefault().To(m => new BackgroundSize { Width = m }).Or(
+            TakeOne(Keywords.Cover, Cover)).Or(
+            TakeOne(Keywords.Contain, Contain)).Or(
+            WithArgs(WithDistance().OrDefault(), WithDistance().OrDefault(), pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
+        internal static readonly IValueConverter<BackgroundSize[]> Converter = TakeList(SingleConverter);
+        readonly List<BackgroundSize> _sizes;
 
         #endregion
 
@@ -25,7 +31,7 @@
         internal CSSBackgroundSizeProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.BackgroundSize, rule, PropertyFlags.Animatable)
         {
-            _sizes = new List<SizeMode>();
+            _sizes = new List<BackgroundSize>();
             Reset();
         }
 
@@ -52,7 +58,7 @@
 
         #region Methods
 
-        private void SetSizes(IEnumerable<SizeMode> sizes)
+        public void SetSizes(IEnumerable<BackgroundSize> sizes)
         {
             _sizes.Clear();
             _sizes.AddRange(sizes);
@@ -61,7 +67,7 @@
         internal override void Reset()
         {
             _sizes.Clear();
-            _sizes.Add(new SizeMode());
+            _sizes.Add(Default);
         }
 
         /// <summary>
@@ -71,24 +77,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(
-                        WithDistance().OrDefault().To(m => new SizeMode { Width = m }).Or(
-                        TakeOne(Keywords.Cover, Cover)).Or(
-                        TakeOne(Keywords.Contain, Contain)).Or(
-                        WithArgs(WithDistance().OrDefault(), WithDistance().OrDefault(), pt => new SizeMode { Width = pt.Item1, Height = pt.Item2 }))
-                ).TryConvert(value, SetSizes);
-        }
-
-        #endregion
-
-        #region Modes
-
-        struct SizeMode
-        {
-            public Boolean IsCovered;
-            public Boolean IsContained;
-            public IDistance Width;
-            public IDistance Height;
+            return Converter.TryConvert(value, SetSizes);
         }
 
         #endregion

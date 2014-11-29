@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,8 @@
     {
         #region Fields
 
+        internal static readonly Color Default = Color.Transparent;
+        internal static readonly IValueConverter<Color> Converter = WithColor();
         Color _color;
 
         #endregion
@@ -48,7 +49,7 @@
 
         internal override void Reset()
         {
-            _color = Color.Transparent;
+            _color = Default;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return WithColor().TryConvert(value, SetColor);
+            return Converter.TryConvert(value, SetColor);
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,6 +12,9 @@
     {
         #region Fields
 
+        internal static readonly Point Default = Point.Centered;
+        internal static readonly IValueConverter<Point> SingleConverter = WithPoint();
+        internal static readonly IValueConverter<Point[]> Converter = TakeList(SingleConverter);
         readonly List<Point> _positions;
 
         #endregion
@@ -51,7 +53,7 @@
         internal override void Reset()
         {
             _positions.Clear();
-            _positions.Add(Point.Centered);
+            _positions.Add(Default);
         }
 
         /// <summary>
@@ -61,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(WithPoint()).TryConvert(value, SetPositions);
+            return Converter.TryConvert(value, SetPositions);
         }
 
         #endregion

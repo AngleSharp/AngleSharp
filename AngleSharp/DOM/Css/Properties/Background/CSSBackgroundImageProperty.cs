@@ -13,6 +13,11 @@
     {
         #region Fields
 
+        internal static readonly ICssObject[] Default = new ICssObject[0];
+        internal static readonly IValueConverter<ICssObject> SingleConverter = WithUrl().To(m => (ICssObject)m).Or(
+            WithLinearGradient().To(m => (ICssObject)m)).Or(
+            WithRadialGradient().To(m => (ICssObject)m));
+        internal static readonly IValueConverter<ICssObject[]> Converter = TakeList(SingleConverter);
         readonly List<ICssObject> _images;
 
         #endregion
@@ -50,6 +55,7 @@
         internal override void Reset()
         {
             _images.Clear();
+            _images.AddRange(Default);
         }
 
         /// <summary>
@@ -59,10 +65,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return TakeList(
-                        WithUrl().To(m => (ICssObject)m).Or(
-                        WithLinearGradient().To(m => (ICssObject)m)).Or(
-                        WithRadialGradient().To(m => (ICssObject)m))).TryConvert(value, SetImages);
+            return Converter.TryConvert(value, SetImages);
         }
 
         #endregion
