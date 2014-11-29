@@ -59,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithInteger().Constraint(m => m >= 0).TryConvert(value, SetCount);
+            return WithInteger().Constraint(m => m >= 0).TryConvert(value, SetCount);
         }
 
         #endregion

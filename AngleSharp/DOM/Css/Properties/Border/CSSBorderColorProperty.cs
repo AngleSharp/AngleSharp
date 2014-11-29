@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithColor().Periodic().TryConvert(value, m =>
+            return WithColor().Periodic().TryConvert(value, m =>
             {
                 _top.SetColor(m.Item1);
                 _right.SetColor(m.Item2);

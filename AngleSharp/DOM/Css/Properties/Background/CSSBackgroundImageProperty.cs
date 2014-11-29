@@ -59,10 +59,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(
-                        this.WithUrl().To(m => (ICssObject)m).Or(
-                        this.WithLinearGradient().To(m => (ICssObject)m)).Or(
-                        this.WithRadialGradient().To(m => (ICssObject)m))).TryConvert(value, SetImages);
+            return TakeList(
+                        WithUrl().To(m => (ICssObject)m).Or(
+                        WithLinearGradient().To(m => (ICssObject)m)).Or(
+                        WithRadialGradient().To(m => (ICssObject)m))).TryConvert(value, SetImages);
         }
 
         #endregion

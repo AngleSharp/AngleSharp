@@ -74,8 +74,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithInteger().Constraint(m => m >= 100 && m <= 900).To(m => new FontWeight { IsRelative = false, Value = m }).Or(
-                   this.From(_weights)).TryConvert(value, SetExplicitWeight);
+            return WithInteger().Constraint(m => m >= 100 && m <= 900).To(m => new FontWeight { IsRelative = false, Value = m }).Or(
+                   From(_weights)).TryConvert(value, SetExplicitWeight);
         }
 
         struct FontWeight

@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.Toggle(Keywords.Auto, Keywords.Avoid).To(m => m ? BreakMode.Auto : BreakMode.Avoid).TryConvert(value, SetState);
+            return Toggle(Keywords.Auto, Keywords.Avoid).To(m => m ? BreakMode.Auto : BreakMode.Avoid).TryConvert(value, SetState);
         }
 
         #endregion

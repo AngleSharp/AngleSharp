@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().Periodic().TryConvert(value, m =>
+            return WithDistance().Periodic().TryConvert(value, m =>
             {
                 _top.SetPadding(m.Item1);
                 _right.SetPadding(m.Item2);

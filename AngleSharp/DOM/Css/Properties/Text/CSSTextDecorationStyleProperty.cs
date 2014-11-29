@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.From(Map.TextDecorationStyles).TryConvert(value, SetDecorationStyle);
+            return From(Map.TextDecorationStyles).TryConvert(value, SetDecorationStyle);
         }
 
         #endregion

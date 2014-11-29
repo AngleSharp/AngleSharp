@@ -81,11 +81,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            var ModeConverter = this.From(_modes);
-            return this.TakeList(ModeConverter.To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
-                   this.TakeOne(Keywords.RepeatX, RepeatX)).Or(
-                   this.TakeOne(Keywords.RepeatY, RepeatY)).Or(
-                   this.WithArgs(
+            var ModeConverter = From(_modes);
+            return TakeList(ModeConverter.To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
+                   TakeOne(Keywords.RepeatX, RepeatX)).Or(
+                   TakeOne(Keywords.RepeatY, RepeatY)).Or(
+                   WithArgs(
                        ModeConverter, 
                        ModeConverter, 
                        m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }))).TryConvert(value, SetRepeats);

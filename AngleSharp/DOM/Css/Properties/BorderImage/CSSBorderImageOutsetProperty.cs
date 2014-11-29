@@ -89,7 +89,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().Periodic().TryConvert(value, m => SetOutset(m.Item1, m.Item2, m.Item3, m.Item4));
+            return WithDistance().Periodic().TryConvert(value, m => SetOutset(m.Item1, m.Item2, m.Item3, m.Item4));
         }
 
         #endregion

@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithBorderWidth().Periodic().TryConvert(value, m =>
+            return WithBorderWidth().Periodic().TryConvert(value, m =>
             {
                 _top.SetWidth(m.Item1);
                 _right.SetWidth(m.Item2);

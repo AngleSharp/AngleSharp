@@ -102,10 +102,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(
-                       this.WithUrl().To(m => new CustomCursor { Url = new Url(m) }).Or(
-                       this.WithArgs(this.WithUrl(), this.WithNumber(), this.WithNumber(), v => new CustomCursor { Url = new Url(v.Item1), X = v.Item2, Y = v.Item3 }))
-                   ).RequiresEnd(this.From(modes)).TryConvert(value, nv => SetCursor(nv.Item1, nv.Item2));
+            return TakeList(
+                       WithUrl().To(m => new CustomCursor { Url = new Url(m) }).Or(
+                       WithArgs(WithUrl(), WithNumber(), WithNumber(), v => new CustomCursor { Url = new Url(v.Item1), X = v.Item2, Y = v.Item3 }))
+                   ).RequiresEnd(From(modes)).TryConvert(value, nv => SetCursor(nv.Item1, nv.Item2));
         }
 
         #endregion

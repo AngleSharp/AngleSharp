@@ -68,15 +68,15 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().To(m => new Point(m, m)).Or(
-                    this.TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
-                    this.TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
-                    this.TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
-                    this.TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
-                    this.TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
-                this.WithOptions(
-                    this.WithDistance().Or(this.TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(this.TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(this.TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                    this.WithDistance().Or(this.TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(this.TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(this.TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+            return WithDistance().To(m => new Point(m, m)).Or(
+                    TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
+                    TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
+                    TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
+                    TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
+                    TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
+                WithOptions(
+                    WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                    WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
                     Tuple.Create((IDistance)Percent.Fifty, (IDistance)Percent.Fifty)).To(m => new Point(m.Item1, m.Item2))
                 ).TryConvert(value, m => SetPosition(m.X, m.Y));
         }

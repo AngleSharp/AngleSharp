@@ -65,7 +65,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().Or(this.TakeOne(Keywords.Auto, (IDistance)null)).TryConvert(value, SetPosition);
+            return WithDistance().Or(TakeOne(Keywords.Auto, (IDistance)null)).TryConvert(value, SetPosition);
         }
 
         #endregion

@@ -79,16 +79,16 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().To(m => Tuple.Create(m, m, Length.Zero)).Or(
-                    this.TakeOne(Keywords.Left, Tuple.Create<IDistance, IDistance, Length>(Percent.Zero, Percent.Fifty, Length.Zero)).Or(
-                    this.TakeOne(Keywords.Center, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Fifty, Length.Zero))).Or(
-                    this.TakeOne(Keywords.Right, Tuple.Create<IDistance, IDistance, Length>(Percent.Hundred, Percent.Fifty, Length.Zero))).Or(
-                    this.TakeOne(Keywords.Top, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Zero, Length.Zero))).Or(
-                    this.TakeOne(Keywords.Bottom, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Hundred, Length.Zero)))).Or(
-                this.WithOptions(
-                    this.WithDistance().Or(this.TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(this.TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(this.TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                    this.WithDistance().Or(this.TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(this.TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(this.TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                    this.WithLength(),
+            return WithDistance().To(m => Tuple.Create(m, m, Length.Zero)).Or(
+                    TakeOne(Keywords.Left, Tuple.Create<IDistance, IDistance, Length>(Percent.Zero, Percent.Fifty, Length.Zero)).Or(
+                    TakeOne(Keywords.Center, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Fifty, Length.Zero))).Or(
+                    TakeOne(Keywords.Right, Tuple.Create<IDistance, IDistance, Length>(Percent.Hundred, Percent.Fifty, Length.Zero))).Or(
+                    TakeOne(Keywords.Top, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Zero, Length.Zero))).Or(
+                    TakeOne(Keywords.Bottom, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Hundred, Length.Zero)))).Or(
+                WithOptions(
+                    WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                    WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
+                    WithLength(),
                     Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Fifty, Length.Zero))
                 ).TryConvert(value, m => SetPosition(m.Item1, m.Item2, m.Item3));
         }

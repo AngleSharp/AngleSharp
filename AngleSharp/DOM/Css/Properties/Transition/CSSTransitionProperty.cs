@@ -79,12 +79,12 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(
-                this.WithOptions(
-                    this.WithAnimatableIdentifier(), 
-                    this.WithTime(), 
-                    this.WithTransition(), 
-                    this.WithTime(), 
+            return TakeList(
+                WithOptions(
+                    WithAnimatableIdentifier(), 
+                    WithTime(), 
+                    WithTransition(), 
+                    WithTime(), 
                 Tuple.Create(Keywords.All, Time.Zero, TransitionFunction.Ease, Time.Zero))).TryConvert(value, t =>
             {
                 _property.SetProperties(t.Select(m => m.Item1));

@@ -59,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.Toggle(Keywords.Clone, Keywords.Slice).TryConvert(value, SetCloned);
+            return Toggle(Keywords.Clone, Keywords.Slice).TryConvert(value, SetCloned);
         }
 
         #endregion

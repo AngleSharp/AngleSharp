@@ -58,9 +58,9 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithOptions(
-                    this.WithLength().OrNullDefault(),
-                    this.WithInteger().OrNullDefault(),
+            return WithOptions(
+                        WithLength().OrNullDefault(),
+                        WithInteger().OrNullDefault(),
                     Tuple.Create((Length?)null, (Int32?)null)
                 ).TryConvert(value, m =>
                 {

@@ -59,8 +59,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeOne(Keywords.None, (Url)null).Or(
-                   this.WithUrl().To(m => new Url(m))).TryConvert(value, SetImage);
+            return TakeOne(Keywords.None, (Url)null).Or(
+                   WithUrl().To(m => new Url(m))).TryConvert(value, SetImage);
         }
 
         #endregion

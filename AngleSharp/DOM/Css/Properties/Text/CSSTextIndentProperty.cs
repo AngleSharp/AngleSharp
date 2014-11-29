@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().TryConvert(value, SetIndent);
+            return WithDistance().TryConvert(value, SetIndent);
         }
 
         #endregion

@@ -61,7 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(this.From(Map.AnimationDirections)).TryConvert(value, SetDirections);
+            return TakeList(From(Map.AnimationDirections)).TryConvert(value, SetDirections);
         }
 
         #endregion

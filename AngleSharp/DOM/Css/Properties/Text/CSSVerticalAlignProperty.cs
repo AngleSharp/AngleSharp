@@ -90,8 +90,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().TryConvert(value, SetAlignment) || 
-                   this.From(modes).TryConvert(value, SetAlignment);
+            return WithDistance().TryConvert(value, SetAlignment) || 
+                   From(modes).TryConvert(value, SetAlignment);
         }
 
         #endregion

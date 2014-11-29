@@ -57,7 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.Toggle(Keywords.Normal, Keywords.SmallCaps).To(m => m ? FontVariant.Normal : FontVariant.SmallCaps).TryConvert(value, SetVariant);
+            return Toggle(Keywords.Normal, Keywords.SmallCaps).To(m => m ? FontVariant.Normal : FontVariant.SmallCaps).TryConvert(value, SetVariant);
         }
 
         #endregion

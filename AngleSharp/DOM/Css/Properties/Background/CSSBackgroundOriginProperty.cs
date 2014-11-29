@@ -61,7 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(this.From(Map.BoxModels)).TryConvert(value, SetOrigins);
+            return TakeList(From(Map.BoxModels)).TryConvert(value, SetOrigins);
         }
 
         #endregion

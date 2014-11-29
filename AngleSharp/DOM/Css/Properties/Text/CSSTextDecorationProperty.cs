@@ -68,7 +68,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithOptions(this.WithColor(), this.From(Map.TextDecorationStyles), this.TakeMany(this.From(Map.TextDecorationLines)),
+            return WithOptions(WithColor(), From(Map.TextDecorationStyles), TakeMany(From(Map.TextDecorationLines)),
                 Tuple.Create(Color.Black, TextDecorationStyle.Solid, new TextDecorationLine[0])).TryConvert(value, m =>
                 {
                     _color.SetColor(m.Item1);

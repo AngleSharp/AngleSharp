@@ -61,7 +61,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(this.WithPoint()).TryConvert(value, SetPositions);
+            return TakeList(WithPoint()).TryConvert(value, SetPositions);
         }
 
         #endregion

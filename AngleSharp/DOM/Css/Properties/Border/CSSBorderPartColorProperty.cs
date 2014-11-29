@@ -56,7 +56,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithColor().TryConvert(value, SetColor);
+            return WithColor().TryConvert(value, SetColor);
         }
 
         #endregion

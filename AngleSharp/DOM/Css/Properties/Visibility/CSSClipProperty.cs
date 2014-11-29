@@ -59,7 +59,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithShape().Or(this.TakeOne(Keywords.Auto, (Shape)null)).TryConvert(value, SetClip);
+            return WithShape().Or(TakeOne(Keywords.Auto, (Shape)null)).TryConvert(value, SetClip);
         }
 
         #endregion

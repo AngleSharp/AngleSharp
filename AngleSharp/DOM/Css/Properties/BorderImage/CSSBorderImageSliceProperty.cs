@@ -104,7 +104,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithBorderSlice().Periodic().Optional(this.TakeOne(Keywords.Fill, true), false).TryConvert(
+            return WithBorderSlice().Periodic().Optional(TakeOne(Keywords.Fill, true), false).TryConvert(
                 value, m => SetSlice(m.Item1.Item1, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2));
         }
 

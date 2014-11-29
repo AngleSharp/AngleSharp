@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,6 +11,7 @@
     {
         #region Fields
 
+        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Top, Keywords.Bottom);
         Boolean _top;
 
         #endregion
@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.Toggle(Keywords.Top, Keywords.Bottom).TryConvert(value, SetMode);
+            return Converter.TryConvert(value, SetMode);
         }
 
         #endregion

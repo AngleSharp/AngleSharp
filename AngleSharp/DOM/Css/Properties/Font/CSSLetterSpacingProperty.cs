@@ -70,7 +70,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeOne(Keywords.Normal, (Length?)null).Or(this.WithLength().To(m => new Length?(m))).TryConvert(value, SetSpacing);
+            return TakeOne(Keywords.Normal, (Length?)null).Or(WithLength().To(m => new Length?(m))).TryConvert(value, SetSpacing);
         }
 
         #endregion

@@ -67,7 +67,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeMany(this.From(Map.BorderRepeatModes)).Constraint(m => m.Length < 3).TryConvert(value, m => SetRepeat(m[0], m.Length == 2 ? m[1] : m[0]));
+            return TakeMany(From(Map.BorderRepeatModes)).Constraint(m => m.Length < 3).TryConvert(value, m => SetRepeat(m[0], m.Length == 2 ? m[1] : m[0]));
         }
 
         #endregion

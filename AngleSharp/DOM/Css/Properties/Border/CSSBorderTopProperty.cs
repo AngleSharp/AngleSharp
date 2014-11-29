@@ -63,7 +63,7 @@
 
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.ValidateBorderPart().TryConvert(value, m =>
+            return ValidateBorderPart().TryConvert(value, m =>
             {
                 _width.SetWidth(m.Item1);
                 _style.SetStyle(m.Item2);

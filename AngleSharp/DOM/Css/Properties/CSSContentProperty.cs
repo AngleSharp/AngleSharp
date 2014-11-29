@@ -57,14 +57,14 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeOne(Keywords.Normal, _normal).Or(
-                   this.TakeOne(Keywords.None, _none)).Or(
-                   this.TakeMany(
-                       this.From(modes).Or(
-                       this.WithUrl().To(url => (ContentMode)new UrlContentMode(new Url(url)))).Or(
-                       this.WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
-                       this.WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr))).Or(
-                       this.WithCounter().To(counter => (ContentMode)new CounterContentMode(counter)))
+            return TakeOne(Keywords.Normal, _normal).Or(
+                   TakeOne(Keywords.None, _none)).Or(
+                   TakeMany(
+                       From(modes).Or(
+                       WithUrl().To(url => (ContentMode)new UrlContentMode(new Url(url)))).Or(
+                       WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
+                       WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr))).Or(
+                       WithCounter().To(counter => (ContentMode)new CounterContentMode(counter)))
                     )).TryConvert(value, SetMode);
         }
 

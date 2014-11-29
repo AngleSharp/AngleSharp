@@ -61,8 +61,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(this.WithInteger().Constraint(m => m >= 0).Or(
-                   this.TakeOne(Keywords.Infinite, -1))).TryConvert(value, SetIterations);
+            return TakeList(WithInteger().Constraint(m => m >= 0).Or(
+                   TakeOne(Keywords.Infinite, -1))).TryConvert(value, SetIterations);
         }
 
         #endregion

@@ -58,7 +58,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.Toggle(Keywords.Ltr, Keywords.Rtl).TryConvert(value, m => SetState(m ? DirectionMode.Ltr : DirectionMode.Rtl));
+            return Toggle(Keywords.Ltr, Keywords.Rtl).TryConvert(value, m => SetState(m ? DirectionMode.Ltr : DirectionMode.Rtl));
         }
 
         #endregion

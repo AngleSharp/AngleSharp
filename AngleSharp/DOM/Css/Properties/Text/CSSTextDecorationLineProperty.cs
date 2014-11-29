@@ -60,8 +60,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeOne(Keywords.None, new TextDecorationLine[0]).Or(
-                this.TakeMany(this.From(Map.TextDecorationLines))).TryConvert(value, SetLines);
+            return TakeOne(Keywords.None, new TextDecorationLine[0]).Or(
+                   TakeMany(From(Map.TextDecorationLines))).TryConvert(value, SetLines);
         }
 
         #endregion

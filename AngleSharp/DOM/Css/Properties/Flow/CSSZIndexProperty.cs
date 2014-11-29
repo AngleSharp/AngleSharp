@@ -57,7 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithInteger().To(m => new Int32?(m)).Or(this.TakeOne(Keywords.Auto, (Int32?)null)).TryConvert(value, SetIndex);
+            return WithInteger().To(m => new Int32?(m)).Or(TakeOne(Keywords.Auto, (Int32?)null)).TryConvert(value, SetIndex);
         }
 
         #endregion

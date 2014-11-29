@@ -70,10 +70,10 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithOptions(
-                        this.From(Map.ListStyles),
-                        this.From(Map.ListPositions),
-                        this.WithUrl().To(m => new Url(m)),
+            return WithOptions(
+                        From(Map.ListStyles),
+                        From(Map.ListPositions),
+                        WithUrl().To(m => new Url(m)),
                     Tuple.Create(ListStyle.Disc, ListPosition.Outside, (Url)null)).TryConvert(value, m =>
                 {
                     _type.SetStyle(m.Item1);

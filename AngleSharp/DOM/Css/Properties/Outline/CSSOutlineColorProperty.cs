@@ -73,8 +73,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithColor().TryConvert(value, SetColor) || 
-                   this.TakeOne(Keywords.Invert, true).TryConvert(value, SetInverted);
+            return WithColor().TryConvert(value, SetColor) || 
+                   TakeOne(Keywords.Invert, true).TryConvert(value, SetInverted);
         }
 
         #endregion

@@ -70,7 +70,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeMany(this.WithLength()).Constraint(m => m.Length < 3).TryConvert(value, m => SetSpacing(m[0], m.Length == 2 ? m[1] : m[0]));
+            return TakeMany(WithLength()).Constraint(m => m.Length < 3).TryConvert(value, m => SetSpacing(m[0], m.Length == 2 ? m[1] : m[0]));
         }
 
         #endregion

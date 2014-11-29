@@ -71,11 +71,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(
-                    this.WithDistance().OrDefault().To(m => new SizeMode { Width = m }).Or(
-                    this.TakeOne(Keywords.Cover, Cover)).Or(
-                    this.TakeOne(Keywords.Contain, Contain)).Or(
-                    this.WithArgs(this.WithDistance().OrDefault(), this.WithDistance().OrDefault(), pt => new SizeMode { Width = pt.Item1, Height = pt.Item2 }))
+            return TakeList(
+                        WithDistance().OrDefault().To(m => new SizeMode { Width = m }).Or(
+                        TakeOne(Keywords.Cover, Cover)).Or(
+                        TakeOne(Keywords.Contain, Contain)).Or(
+                        WithArgs(WithDistance().OrDefault(), WithDistance().OrDefault(), pt => new SizeMode { Width = pt.Item1, Height = pt.Item2 }))
                 ).TryConvert(value, SetSizes);
         }
 

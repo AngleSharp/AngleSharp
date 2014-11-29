@@ -78,10 +78,10 @@
         {
             var invert = Tuple.Create(Color.Transparent, true);
 
-            return this.WithOptions(
-                    this.WithBorderWidth(), 
-                    this.From(Map.LineStyles), 
-                    this.WithColor().To(m => Tuple.Create(m, false)).Or(this.TakeOne(Keywords.Invert, invert)),
+            return WithOptions(
+                    WithBorderWidth(), 
+                    From(Map.LineStyles), 
+                    WithColor().To(m => Tuple.Create(m, false)).Or(TakeOne(Keywords.Invert, invert)),
                 Tuple.Create(Length.Medium, LineStyle.None, invert)).TryConvert(value, m =>
                 {
                     _width.SetWidth(m.Item1);

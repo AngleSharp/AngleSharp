@@ -57,7 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.Toggle(Keywords.Balance, Keywords.Auto).TryConvert(value, SetBalanced);
+            return Toggle(Keywords.Balance, Keywords.Auto).TryConvert(value, SetBalanced);
         }
 
         #endregion

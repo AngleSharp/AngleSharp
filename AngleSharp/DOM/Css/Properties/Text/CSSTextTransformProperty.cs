@@ -68,7 +68,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.From(modes).TryConvert(value, SetTransform);
+            return From(modes).TryConvert(value, SetTransform);
         }
 
         #endregion

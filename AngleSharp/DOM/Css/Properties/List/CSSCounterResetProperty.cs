@@ -71,11 +71,11 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithIdentifier().Split(
-                        this.WithIdentifier().To(m => new KeyValuePair<String, Int32>(m, 0)).Or(
-                        this.WithArgs(
-                            this.WithIdentifier(),
-                            this.WithInteger(),
+            return WithIdentifier().Split(
+                        WithIdentifier().To(m => new KeyValuePair<String, Int32>(m, 0)).Or(
+                        WithArgs(
+                            WithIdentifier(),
+                            WithInteger(),
                         m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)))).TryConvert(value, SetCounters);
         }
 

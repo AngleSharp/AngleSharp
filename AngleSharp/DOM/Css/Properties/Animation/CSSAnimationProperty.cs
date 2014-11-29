@@ -116,16 +116,16 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeList(
-                this.WithOptions(
-                    this.WithTime(),
-                    this.WithTransition(),
-                    this.WithTime(),
-                    this.WithInteger().Constraint(m => m >= 0).Or(this.TakeOne(Keywords.Infinite, -1)),
-                    this.From(Map.AnimationDirections),
-                    this.From(Map.AnimationFillStyles),
-                    this.Toggle(Keywords.Running, Keywords.Paused),
-                    this.WithIdentifier(),
+            return TakeList(
+                    WithOptions(
+                        WithTime(),
+                        WithTransition(),
+                        WithTime(),
+                        WithInteger().Constraint(m => m >= 0).Or(TakeOne(Keywords.Infinite, -1)),
+                        From(Map.AnimationDirections),
+                        From(Map.AnimationFillStyles),
+                        Toggle(Keywords.Running, Keywords.Paused),
+                        WithIdentifier(),
                 Tuple.Create(Tuple.Create(Time.Zero, TransitionFunction.Ease, Time.Zero, 1), Tuple.Create(AnimationDirection.Normal, AnimationFillStyle.None, true, String.Empty)))).TryConvert(value, t =>
                 {
                     _duration.SetDurations(t.Select(m => m.Item1.Item1));

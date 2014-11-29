@@ -74,8 +74,8 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithDistance().TryConvert(value, SetSize) ||
-                   this.From(Map.FontSizes).TryConvert(value, SetSize);
+            return WithDistance().TryConvert(value, SetSize) ||
+                   From(Map.FontSizes).TryConvert(value, SetSize);
         }
 
         #endregion

@@ -57,7 +57,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.TakeOne(Keywords.None, (Single?)null).Or(this.WithNumber().To(m => new Single?(m))).TryConvert(value, SetAspectValue);
+            return TakeOne(Keywords.None, (Single?)null).Or(WithNumber().To(m => new Single?(m))).TryConvert(value, SetAspectValue);
         }
 
         #endregion

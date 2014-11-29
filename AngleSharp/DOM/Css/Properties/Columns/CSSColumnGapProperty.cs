@@ -63,7 +63,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return this.WithLength().Or(this.TakeOne(Keywords.Normal, _normal)).TryConvert(value, SetGap);
+            return WithLength().Or(TakeOne(Keywords.Normal, _normal)).TryConvert(value, SetGap);
         }
 
         #endregion
