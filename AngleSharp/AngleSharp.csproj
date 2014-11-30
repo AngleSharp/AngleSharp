@@ -51,6 +51,7 @@
     <Compile Include="Css\ImageUrl.cs" />
     <Compile Include="Css\Map.cs" />
     <Compile Include="Css\Repeat.cs" />
+    <Compile Include="DOM\Css\Constants\BlendMode.cs" />
     <Compile Include="DOM\Css\Converters\AndValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ArgumentsValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ClassValueConverter.cs" />

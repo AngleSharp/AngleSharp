@@ -183,6 +183,11 @@
         /// </summary>
         public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-BlendMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, BlendMode> BlendModes = new Dictionary<String, BlendMode>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -443,6 +448,23 @@
             BackgroundRepeats.Add(Keywords.Repeat, BackgroundRepeat.Repeat);
             BackgroundRepeats.Add(Keywords.Round, BackgroundRepeat.Round);
             BackgroundRepeats.Add(Keywords.Space, BackgroundRepeat.Space);
+
+            BlendModes.Add(Keywords.Color, BlendMode.Color);
+            BlendModes.Add(Keywords.ColorBurn, BlendMode.ColorBurn);
+            BlendModes.Add(Keywords.ColorDodge, BlendMode.ColorDodge);
+            BlendModes.Add(Keywords.Darken, BlendMode.Darken);
+            BlendModes.Add(Keywords.Difference, BlendMode.Difference);
+            BlendModes.Add(Keywords.Exclusion, BlendMode.Exclusion);
+            BlendModes.Add(Keywords.HardLight, BlendMode.HardLight);
+            BlendModes.Add(Keywords.Hue, BlendMode.Hue);
+            BlendModes.Add(Keywords.Lighten, BlendMode.Lighten);
+            BlendModes.Add(Keywords.Luminosity, BlendMode.Luminosity);
+            BlendModes.Add(Keywords.Multiply, BlendMode.Multiply);
+            BlendModes.Add(Keywords.Normal, BlendMode.Normal);
+            BlendModes.Add(Keywords.Overlay, BlendMode.Overlay);
+            BlendModes.Add(Keywords.Saturation, BlendMode.Saturation);
+            BlendModes.Add(Keywords.Screen, BlendMode.Screen);
+            BlendModes.Add(Keywords.SoftLight, BlendMode.SoftLight);
         }
 
         #endregion

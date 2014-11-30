@@ -1161,5 +1161,75 @@
         /// The no keyword.
         /// </summary>
         public static readonly String No = "no";
+
+        /// <summary>
+        /// The color keyword.
+        /// </summary>
+        public static readonly String Color = "color";
+
+        /// <summary>
+        /// The color-burn keyword.
+        /// </summary>
+        public static readonly String ColorBurn = "color-burn";
+
+        /// <summary>
+        /// The color-dodge keyword.
+        /// </summary>
+        public static readonly String ColorDodge = "color-dodge";
+
+        /// <summary>
+        /// The darken keyword.
+        /// </summary>
+        public static readonly String Darken = "darken";
+
+        /// <summary>
+        /// The difference keyword.
+        /// </summary>
+        public static readonly String Difference = "difference";
+
+        /// <summary>
+        /// The exclusion keyword.
+        /// </summary>
+        public static readonly String Exclusion = "exclusion";
+
+        /// <summary>
+        /// The hard-light keyword.
+        /// </summary>
+        public static readonly String HardLight = "hard-light";
+
+        /// <summary>
+        /// The hue keyword.
+        /// </summary>
+        public static readonly String Hue = "hue";
+
+        /// <summary>
+        /// The lighten keyword.
+        /// </summary>
+        public static readonly String Lighten = "lighten";
+
+        /// <summary>
+        /// The luminosity keyword.
+        /// </summary>
+        public static readonly String Luminosity = "luminosity";
+
+        /// <summary>
+        /// The multiply keyword.
+        /// </summary>
+        public static readonly String Multiply = "multiply";
+
+        /// <summary>
+        /// The overlay keyword.
+        /// </summary>
+        public static readonly String Overlay = "overlay";
+
+        /// <summary>
+        /// The saturation keyword.
+        /// </summary>
+        public static readonly String Saturation = "saturation";
+
+        /// <summary>
+        /// The soft-light keyword.
+        /// </summary>
+        public static readonly String SoftLight = "soft-light";
     }
 }
