@@ -13,18 +13,79 @@
     {
         #region Fields
 
-        readonly IStyleSheet _default;
+        IStyleSheet _default;
 
         #endregion
 
-        #region ctor
+        #region Properties
 
         /// <summary>
-        /// Creates a new instance, parsing the default stylesheet.
+        /// Gets the type for the CSS style engine.
         /// </summary>
-        public CssStyleEngine()
+        public String Type
         {
-            _default = CssParser.ParseStyleSheet(@"
+            get { return MimeTypes.Css; }
+        }
+
+        /// <summary>
+        /// Gets the default stylesheet as specified by the W3C:
+        /// http://www.w3.org/TR/CSS21/sample.html
+        /// </summary>
+        public IStyleSheet Default
+        {
+            get { return _default ?? (_default = SetupDefault()); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Creates a style sheet for the given source.
+        /// </summary>
+        /// <param name="source">The source code describing the style sheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
+        /// <returns>The created style sheet.</returns>
+        public IStyleSheet Parse(String source, StyleOptions options)
+        {
+            var style = new CSSStyleSheet(source) 
+            {
+                OwnerNode = options.Element,
+                IsDisabled = options.IsDisabled,
+                Title = options.Title
+            };
+            var parser = new CssParser(style);
+            parser.Parse();
+            return style;
+        }
+
+        /// <summary>
+        /// Creates a style sheet for the given response from a request.
+        /// </summary>
+        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
+        /// <param name="options">The options with the parameters for evaluating the style.</param>
+        /// <returns>The created style sheet.</returns>
+        public IStyleSheet Parse(IResponse response, StyleOptions options)
+        {
+            var style = new CSSStyleSheet(new TextSource(response.Content)) 
+            { 
+                Href = response.Address.Href, 
+                OwnerNode = options.Element,
+                IsDisabled = options.IsDisabled,
+                Title = options.Title
+            };
+            var parser = new CssParser(style);
+            parser.Parse();
+            return style;
+        }
+
+        #endregion
+
+        #region Default Stylesheet
+
+        static IStyleSheet SetupDefault()
+        {
+            return CssParser.ParseStyleSheet(@"
 html, address,
 blockquote,
 body, dd, div,
@@ -103,70 +164,6 @@ BDO[DIR='rtl']  { direction: rtl; unicode-bidi: bidi-override }
   h4, h5, h6    { page-break-after: avoid }
   ul, ol, dl    { page-break-before: avoid }
 }");
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the type for the CSS style engine.
-        /// </summary>
-        public String Type
-        {
-            get { return MimeTypes.Css; }
-        }
-
-        /// <summary>
-        /// Gets the default stylesheet as specified by the W3C:
-        /// http://www.w3.org/TR/CSS21/sample.html
-        /// </summary>
-        public IStyleSheet Default
-        {
-            get { return _default; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Creates a style sheet for the given source.
-        /// </summary>
-        /// <param name="source">The source code describing the style sheet.</param>
-        /// <param name="options">The options with the parameters for evaluating the style.</param>
-        /// <returns>The created style sheet.</returns>
-        public IStyleSheet Parse(String source, StyleOptions options)
-        {
-            var style = new CSSStyleSheet(source) 
-            {
-                OwnerNode = options.Element,
-                IsDisabled = options.IsDisabled,
-                Title = options.Title
-            };
-            var parser = new CssParser(style);
-            parser.Parse();
-            return style;
-        }
-
-        /// <summary>
-        /// Creates a style sheet for the given response from a request.
-        /// </summary>
-        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
-        /// <param name="options">The options with the parameters for evaluating the style.</param>
-        /// <returns>The created style sheet.</returns>
-        public IStyleSheet Parse(IResponse response, StyleOptions options)
-        {
-            var style = new CSSStyleSheet(new TextSource(response.Content)) 
-            { 
-                Href = response.Address.Href, 
-                OwnerNode = options.Element,
-                IsDisabled = options.IsDisabled,
-                Title = options.Title
-            };
-            var parser = new CssParser(style);
-            parser.Parse();
-            return style;
         }
 
         #endregion
