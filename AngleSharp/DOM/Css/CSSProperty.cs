@@ -608,26 +608,36 @@
                         WithArgs(WithNumber(), WithPercent(), WithPercent(), WithNumber().Constraint(m => m >= 0f && m <= 1f), m => Color.FromHsla(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue, m.Item4))));
         }
 
+        /// <summary>
+        /// Represents a transform function.
+        /// http://dev.w3.org/csswg/css-transforms/#two-d-transform-functions
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<ITransform> WithTransform()
         {
             return new FunctionValueConverter<ITransform>(FunctionNames.Matrix,
                         WithArgs(WithNumber(), 6, m => (ITransform)new MatrixTransform(m[0], m[1], m[2], m[3], m[4], m[5]))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.Matrix3d,
                         WithArgs(WithNumber(), 12, m => (ITransform)new Matrix3DTransform(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11])))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate, //TODO 2nd arg. optional => Length.Zero
-                        WithArgs(WithDistance(), 2, m => (ITransform)new TranslateTransform(m[0], m[1])))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate3d, //TODO 2nd and 3rd arg. optional => Length.Zero
-                        WithArgs(WithDistance(), 3, m => (ITransform)new Translate3DTransform(m[0], m[1], m[2])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate,
+                        WithDistance().To(m => (ITransform)new TranslateTransform(m, Length.Zero)).Or(
+                        WithArgs(WithDistance(), 2, m => (ITransform)new TranslateTransform(m[0], m[1]))))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate3d,
+                        WithDistance().To(m => (ITransform)new Translate3DTransform(m, Length.Zero, Length.Zero)).Or(
+                        WithArgs(WithDistance(), 2, m => (ITransform)new Translate3DTransform(m[0], m[1], Length.Zero))).Or(
+                        WithArgs(WithDistance(), 3, m => (ITransform)new Translate3DTransform(m[0], m[1], m[2]))))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateX,
                         WithDistance().To(m => (ITransform)new TranslateXTransform(m)))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateY,
                         WithDistance().To(m => (ITransform)new TranslateYTransform(m)))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateZ,
                         WithDistance().To(m => (ITransform)new TranslateZTransform(m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale, //TODO 2nd arg. optional => same as 1st
-                        WithArgs(WithNumber(), 2, m => (ITransform)new ScaleTransform(m[0], m[1])))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale3d, //TODO if only 1 arg. => all three same
-                        WithArgs(WithNumber(), 3, m => (ITransform)new Scale3DTransform(m[0], m[1], m[2])))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale,
+                        WithNumber().To(m => (ITransform)new ScaleTransform(m, m)).Or(
+                        WithArgs(WithNumber(), 2, m => (ITransform)new ScaleTransform(m[0], m[1]))))).
+                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale3d,
+                        WithNumber().To(m => (ITransform)new Scale3DTransform(m, m, m)).Or(
+                        WithArgs(WithNumber(), 3, m => (ITransform)new Scale3DTransform(m[0], m[1], m[2]))))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleX,
                         WithNumber().To(m => (ITransform)new ScaleXTransform(m)))).
                 Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleY,
