@@ -251,7 +251,8 @@
 
         public static IValueConverter<Angle> WithSideOrCorner()
         {
-            return new StructValueConverter<Angle>(ValueExtensions.ToSideOrCorner);
+            return WithOptions(TakeOne(Keywords.Left, -1).Or(TakeOne(Keywords.Right, 1)), TakeOne(Keywords.Top, -1).Or(TakeOne(Keywords.Bottom, 1)), Tuple.Create(0, 0)).
+                   To(m => new Angle((Single)(Math.Atan2(m.Item1 - 0.5, 0.5 - m.Item2) * 180.0 / Math.PI), Angle.Unit.Deg));
         }
 
         public static IValueConverter<Length> WithBorderWidth()
@@ -522,20 +523,32 @@
 
         public static IValueConverter<T> RestArgs<T>(IValueConverter<T> converter, Int32 start)
         {
-            return new SubsetValueConverter<T>(converter, start, Int32.MaxValue);
+            return new SubsetValueConverter<T>(converter, start, -1);
         }
 
+        /// <summary>
+        /// Represents a linear-gradient object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
+        /// </summary>
+        /// <returns>The value converter.</returns>
         static IValueConverter<LinearGradient> WithLinearGradient()
         {
-            var args = FirstArg(WithAngle()).And(RestArgs(WithGradientStops(), 1)).
-               Or(WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
+            var side = FirstArg(TakeOne(Keywords.To, true)).And(RestArgs(WithSideOrCorner(), 1)).To(m => m.Item2);
+            var angle = FirstArg(WithAngle().Or(side));
+            var stops = RestArgs(WithGradientStops(), 1);
+            var args = angle.And(stops).Or(WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
 
             return new FunctionValueConverter<LinearGradient>(FunctionNames.LinearGradient,
-                        args.To(m => new LinearGradient(m.Item1, m.Item2, false))).
-                Or(new FunctionValueConverter<LinearGradient>(FunctionNames.RepeatingLinearGradient,
+                        args.To(m => new LinearGradient(m.Item1, m.Item2, false))).Or(
+                   new FunctionValueConverter<LinearGradient>(FunctionNames.RepeatingLinearGradient,
                         args.To(m => new LinearGradient(m.Item1, m.Item2, true))));
         }
-
+        
+        /// <summary>
+        /// Represents a radial-gradient object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
+        /// </summary>
+        /// <returns>The value converter.</returns>
         static IValueConverter<RadialGradient> WithRadialGradient()
         {
             //TODO
@@ -573,12 +586,6 @@
         public static IValueConverter<IImageSource> WithImageSource()
         {
             return WithUrl().To(m => (IImageSource)new ImageUrl(m)).Or(WithGradient());
-        }
-
-        public static IValueConverter<CssImages> WithImages()
-        {
-            return new FunctionValueConverter<CssImages>(FunctionNames.Image,
-                        TakeList(WithUrl().To(m => new Url(m))).To(m => new CssImages(m)));
         }
 
         /// <summary>

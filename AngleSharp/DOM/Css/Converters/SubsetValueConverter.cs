@@ -9,7 +9,7 @@
         readonly Int32 _start;
         readonly Int32 _end;
 
-        public SubsetValueConverter(IValueConverter<T> converter, Int32 start = 0, Int32 end = Int32.MaxValue)
+        public SubsetValueConverter(IValueConverter<T> converter, Int32 start = 0, Int32 end = -1)
         {
             _converter = converter;
             _start = start;
@@ -20,7 +20,7 @@
         {
             var items = value as CSSValueList;
 
-            if (items == null || items.Length < _start || items.Length > _end)
+            if (items == null || items.Length < _start || items.Length < _end)
                 return false;
 
             return _converter.TryConvert(items.Subset(_start, _end).Reduce(), setResult);

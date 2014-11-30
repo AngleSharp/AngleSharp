@@ -207,38 +207,6 @@
             return null;
         }
 
-        public static Angle? ToSideOrCorner(this CSSValue value)
-        {
-            var values = value as CSSValueList;
-
-            if (values != null && values.Length > 1 && values[0].Is(Keywords.To))
-            {
-                var horizontalModes = Map.HorizontalModes;
-                var verticalModes = Map.VerticalModes;
-
-                if (values.Length == 2)
-                {
-                    var val = 0f;
-
-                    if (horizontalModes.TryGetValue(values[1], out val))
-                        return new Angle(270f - val * 180f, Angle.Unit.Deg);
-                    else if (verticalModes.TryGetValue(values[1], out val))
-                        return new Angle(val * 180f, Angle.Unit.Deg);
-                }
-                else if (values.Length == 3)
-                {
-                    var h = 0f;
-                    var v = 0f;
-
-                    if ((horizontalModes.TryGetValue(values[1], out h) && verticalModes.TryGetValue(values[2], out v)) || 
-                        (horizontalModes.TryGetValue(values[2], out h) && verticalModes.TryGetValue(values[1], out v)))
-                        return new Angle((Single)(Math.Atan2(h - 0.5, 0.5 - v) * 180.0 / Math.PI), Angle.Unit.Deg);
-                }
-            }
-
-            return null;
-        }
-
         public static String ToFontFamily(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
