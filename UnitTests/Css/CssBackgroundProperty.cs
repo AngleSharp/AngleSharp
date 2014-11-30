@@ -300,7 +300,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSBackgroundImageProperty));
             var concrete = (CSSBackgroundImageProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
-            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 

@@ -49,7 +49,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("linear-gradient(0deg, rgba(255, 0, 0, 1) 0%, rgba(255, 255, 0, 1) 100%)", concrete.Value.CssText);
+            Assert.AreEqual("linear-gradient(to top, red, yellow)", concrete.Value.CssText);
         }
 
         [TestMethod]
