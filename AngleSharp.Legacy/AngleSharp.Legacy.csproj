@@ -117,9 +117,6 @@
     <Compile Include="..\AngleSharp\Css\CssIdentifier.cs">
       <Link>Css\CssIdentifier.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\CssImages.cs">
-      <Link>Css\CssImages.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\CssString.cs">
       <Link>Css\CssString.cs</Link>
     </Compile>
