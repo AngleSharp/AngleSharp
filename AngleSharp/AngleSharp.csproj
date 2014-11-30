@@ -386,7 +386,6 @@
     <Compile Include="Foundation\TextSource.cs" />
     <Compile Include="Css\CssAttr.cs" />
     <Compile Include="Css\CssIdentifier.cs" />
-    <Compile Include="Css\CssImages.cs" />
     <Compile Include="Css\CssString.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Infrastructure\BaseOptions.cs" />
