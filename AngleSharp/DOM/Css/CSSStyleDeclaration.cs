@@ -2477,8 +2477,10 @@
 
         void SetShorthand(CSSShorthandProperty shorthand)
         {
-            foreach (var property in shorthand.Properties)
-                SetLonghand(property);
+            var properties = shorthand.Properties;
+
+            for (int i = 0; i < properties.Length; i++)
+                SetLonghand(properties[i]);
         }
 
         void RaiseChanged()

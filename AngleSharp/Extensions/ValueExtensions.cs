@@ -17,14 +17,33 @@
         public static Boolean Is(this CSSValue value, String identifier)
         {
             var primitive = value as CSSPrimitiveValue;
-            return primitive != null && primitive.Unit == UnitType.Ident && primitive.GetString().Equals(identifier, StringComparison.OrdinalIgnoreCase);
+            return primitive != null && (primitive.Value as CssIdentifier).GetString().Equals(identifier, StringComparison.OrdinalIgnoreCase);
+        }
+
+        static String GetString(this CssIdentifier identifier)
+        {
+            if (identifier == null)
+                return String.Empty;
+
+            return identifier;
         }
 
         public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, CSSValue value, out T mode)
         {
             var primitive = value as CSSPrimitiveValue;
             mode = default(T);
-            return primitive != null && primitive.Unit == UnitType.Ident && obj.TryGetValue(primitive.GetString(), out mode);
+            return primitive != null && obj.TryGetValue((primitive.Value as CssIdentifier).GetString(), out mode);
+        }
+
+        public static CssIdentifier GetIdentifier<T>(this Dictionary<String, T> obj, T value)
+        {
+            foreach (var pair in obj)
+            {
+                if (pair.Value.Equals(value))
+                    return new CssIdentifier(pair.Key);
+            }
+
+            return null;
         }
 
         public static CssUrl ToUri(this CSSValue value)
@@ -93,7 +112,9 @@
 
             if (primitive != null)
             {
-                if (primitive.Unit == UnitType.Number && primitive.ToSingle() == 0f)
+                var number = primitive.Value as Number?;
+
+                if (number.HasValue && number.Value == Number.Zero)
                     return Length.Zero;
 
                 return primitive.Value as IDistance;
@@ -141,8 +162,8 @@
         {
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.String)
-                return primitive.GetString();
+            if (primitive != null && primitive.Value is CssString)
+                return (CssString)primitive.Value;
 
             return null;
         }
@@ -151,8 +172,8 @@
         {
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.Ident)
-                return primitive.GetString();
+            if (primitive != null && primitive.Value is CssIdentifier)
+                return (CssIdentifier)primitive.Value;
 
             return null;
         }
@@ -171,28 +192,28 @@
         {
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.Number)
-                return primitive.GetNumber(UnitType.Number);
+            if (primitive != null && primitive.Value is Number)
+                return ((Number)primitive.Value).Value;
 
             return null;
         }
 
         public static Int32? ToInteger(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var val = value.ToSingle();
 
-            if (primitive != null && primitive.Unit == UnitType.Number)
-                return (Int32)primitive.GetNumber(UnitType.Number);
+            if (val.HasValue)
+                return (Int32)val.Value;
 
             return null;
         }
 
         public static Byte? ToByte(this CSSValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var val = value.ToInteger();
 
-            if (primitive != null && primitive.Unit == UnitType.Number)
-                return (Byte)Math.Min(Math.Max((Int32)primitive.GetNumber(UnitType.Number), 0), 255);
+            if (val.HasValue)
+                return (Byte)Math.Min(Math.Max(val.Value, 0), 255);
 
             return null;
         }
@@ -213,19 +234,21 @@
 
             if (primitive != null)
             {
-                if (primitive.Unit == UnitType.Ident)
+                var ident = primitive.Value as CssIdentifier;
+
+                if (ident != null)
                 {
                     String family;
-                    var name = primitive.GetString();
 
-                    if (Map.DefaultFontFamilies.TryGetValue(name, out family))
+                    if (Map.DefaultFontFamilies.TryGetValue(ident, out family))
                         return family;
 
-                    return name;
+                    return ident;
                 }
-                else if (primitive.Unit == UnitType.String)
+
+                else if (primitive.Value is CssString)
                 {
-                    return primitive.GetString();
+                    return (CssString)primitive.Value;
                 }
             }
             else if (value is CSSValueList)
@@ -237,10 +260,8 @@
                 {
                     var ident = values[i] as CSSPrimitiveValue;
 
-                    if (ident == null || ident.Unit != UnitType.Ident)
+                    if (ident == null || String.IsNullOrEmpty(names[i] = (ident.Value as CssIdentifier).GetString()))
                         return null;
-
-                    names[i] = ident.GetString();
                 }
 
                 return String.Join(" ", names);
@@ -265,7 +286,9 @@
 
             if (primitive != null)
             {
-                if (primitive.Unit == UnitType.Number && primitive.ToSingle() == 0f)
+                var number = primitive.Value as Number?;
+
+                if (number.HasValue && number.Value == Number.Zero)
                     return Length.Zero;
 
                 return primitive.Value as Length?;
@@ -288,8 +311,8 @@
         {
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.Transform)
-                return (ITransform)primitive.Value;
+            if (primitive != null)
+                return primitive.Value as ITransform;
 
             return null;
         }
@@ -400,10 +423,10 @@
         {
             var primitive = value as CSSPrimitiveValue;
 
-            if (primitive != null && primitive.Unit == UnitType.RgbColor)
-                return primitive.GetColor();
-            else if (primitive != null && primitive.Unit == UnitType.Ident)
-                return Color.FromName(primitive.GetString());
+            if (primitive != null && primitive.Value is Color)
+                return (Color)primitive.Value;
+            else if (primitive != null)
+                return Color.FromName((primitive.Value as CssIdentifier).GetString());
 
             return null;
         }

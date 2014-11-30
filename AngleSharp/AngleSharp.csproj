@@ -65,7 +65,6 @@
     <Compile Include="DOM\Constants\CacheStatus.cs" />
     <Compile Include="DOM\Css\Constants\OverflowMode.cs" />
     <Compile Include="DOM\Css\Constants\PositionMode.cs" />
-    <Compile Include="DOM\Css\Constants\UnitType.cs" />
     <Compile Include="DOM\Css\Converters\ListValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OneOrMoreValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OptionalValueConverter.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="DOM\Html\Tables\HTMLTableColgroupElement.cs" />
     <Compile Include="Html\EventFlags.cs" />
     <Compile Include="Html\NodeFlags.cs" />
-    <Compile Include="Extensions\UnitExtensions.cs" />
     <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="DOM\Css\CssPropertyBag.cs" />
     <Compile Include="Css\ITransform.cs" />
