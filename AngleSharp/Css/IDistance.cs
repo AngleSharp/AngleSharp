@@ -5,14 +5,8 @@
     /// <summary>
     /// Functionality for length computation.
     /// </summary>
-    public interface IDistance
+    public interface IDistance : ICssObject
     {
-        /// <summary>
-        /// Returns the CSS representation of the object.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        String ToCss();
-
         /// <summary>
         /// Converts the value to pixels.
         /// </summary>
