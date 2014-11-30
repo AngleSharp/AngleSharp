@@ -281,6 +281,16 @@
             return null;
         }
 
+        public static Frequency? ToFrequency(this CSSValue value)
+        {
+            var primitive = value as CSSPrimitiveValue;
+
+            if (primitive != null)
+                return primitive.Value as Frequency?;
+
+            return null;
+        }
+
         public static Length? ToLength(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
