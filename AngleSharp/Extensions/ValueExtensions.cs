@@ -322,16 +322,6 @@
             return null;
         }
 
-        public static ITransform ToTransform(this CSSValue value)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as ITransform;
-
-            return null;
-        }
-
         public static Time? ToTime(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;
@@ -657,13 +647,11 @@
 
             if (item.Length > offset)
             {
-                var col = item[offset].ToColor();
-
-                if (col.HasValue)
+                CSSProperty.WithColor().TryConvert(item[offset], v => 
                 {
-                    color = col.Value;
+                    color = v;
                     offset++;
-                }
+                });
             }
 
             if (item.Length > offset)
