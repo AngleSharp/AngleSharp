@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -12,14 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Color, TextDecorationStyle, TextDecorationLine[]>> Converter = WithOptions(
-                CSSTextDecorationColorProperty.Converter,
-                CSSTextDecorationStyleProperty.Converter, 
-                CSSTextDecorationLineProperty.SingleConverter,
-            Tuple.Create(
-                CSSTextDecorationColorProperty.Default,
-                CSSTextDecorationStyleProperty.Default,
-                CSSTextDecorationLineProperty.Default));
+        internal static readonly IValueConverter<Tuple<Color, TextDecorationStyle, TextDecorationLine[]>> Converter = CSSTextDecorationLineProperty.Converter.
+            Optional(CSSTextDecorationColorProperty.Converter, CSSTextDecorationColorProperty.Default).
+            Optional(CSSTextDecorationStyleProperty.Converter, CSSTextDecorationStyleProperty.Default).
+            To(m => Tuple.Create(m.Item1.Item2, m.Item2, m.Item1.Item1));
 
         readonly CSSTextDecorationColorProperty _color;
         readonly CSSTextDecorationLineProperty _line;
