@@ -389,11 +389,11 @@
 
             if (values != null && values.Length == 3 && values[1] == CSSValueList.Delimiter)
             {
-                var w = values[0].ToSingle();
-                var h = values[2].ToSingle();
+                var w = values[0].ToInteger();
+                var h = values[2].ToInteger();
 
-                if (w.HasValue && h.HasValue)
-                    return w.Value / h.Value;
+                if (w.HasValue && h.HasValue && w.Value > 0 && h.Value > 0)
+                    return (Single)w.Value / (Single)h.Value;
             }
 
             return null;

@@ -280,6 +280,16 @@
         }
 
         /// <summary>
+        /// Represents a ratio object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Single> WithRatio()
+        {
+            return new StructValueConverter<Single>(ValueExtensions.ToAspectRatio);
+        }
+
+        /// <summary>
         /// Represents a length object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
         /// </summary>
@@ -287,6 +297,16 @@
         public static IValueConverter<Length> WithLength()
         {
             return new StructValueConverter<Length>(ValueExtensions.ToLength);
+        }
+
+        /// <summary>
+        /// Represents a resolution object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Resolution> WithResolution()
+        {
+            return new StructValueConverter<Resolution>(ValueExtensions.ToResolution);
         }
 
         /// <summary>
@@ -334,11 +354,21 @@
             return new ClassValueConverter<CssUrl>(ValueExtensions.ToUri);
         }
 
+        /// <summary>
+        /// Represents a string object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<String> WithString()
         {
             return new ClassValueConverter<String>(ValueExtensions.ToCssString);
         }
 
+        /// <summary>
+        /// Represents an identifier object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<String> WithIdentifier()
         {
             return new ClassValueConverter<String>(ValueExtensions.ToIdentifier);
