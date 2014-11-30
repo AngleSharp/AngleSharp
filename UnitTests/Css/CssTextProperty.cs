@@ -209,10 +209,10 @@ namespace UnitTests.Css
             var snippet = "text-decoration:  underline  overline";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration", property.Name);
+            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationProperty));
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTextDecorationProperty));
             var concrete = (CSSTextDecorationProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.AreEqual("underline overline", concrete.Value.CssText);
