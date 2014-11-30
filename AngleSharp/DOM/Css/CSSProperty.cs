@@ -279,11 +279,31 @@
             return new ClassValueConverter<IDistance>(ValueExtensions.ToImageBorderWidth);
         }
 
+        /// <summary>
+        /// Represents a length object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<Length> WithLength()
         {
             return new StructValueConverter<Length>(ValueExtensions.ToLength);
         }
 
+        /// <summary>
+        /// Represents a frequency object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/frequency
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Frequency> WithFrequency()
+        {
+            return new StructValueConverter<Frequency>(ValueExtensions.ToFrequency);
+        }
+
+        /// <summary>
+        /// Represents a time object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<Time> WithTime()
         {
             return new StructValueConverter<Time>(ValueExtensions.ToTime);
@@ -304,6 +324,11 @@
             return new ClassValueConverter<Shadow>(ValueExtensions.ToShadow);
         }
 
+        /// <summary>
+        /// Represents an URL object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<CssUrl> WithUrl()
         {
             return new ClassValueConverter<CssUrl>(ValueExtensions.ToUri);
@@ -369,6 +394,11 @@
             return new OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth, defaults);
         }
 
+        /// <summary>
+        /// Represents a timing-function object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<TransitionFunction> WithTransition()
         {
             return new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).
@@ -389,11 +419,62 @@
                         WithArgs(WithIdentifier(), WithString(), WithIdentifier(), m => new Counter(m.Item1, m.Item3, m.Item2)))));
         }
 
+        /// <summary>
+        /// Represents an integer object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<Int32> WithInteger()
         {
             return new StructValueConverter<Int32>(ValueExtensions.ToInteger);
         }
 
+        /// <summary>
+        /// Represents a shape object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Shape> WithShape()
+        {
+            return new FunctionValueConverter<Shape>(FunctionNames.Rect,
+                       WithArgs(WithLength(), WithLength(), WithLength(), WithLength(), m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)));
+        }
+
+        /// <summary>
+        /// Represents an angle object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Angle> WithAngle()
+        {
+            return new StructValueConverter<Angle>(ValueExtensions.ToAngle);
+        }
+
+        /// <summary>
+        /// Represents a number object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Single> WithNumber()
+        {
+            return new StructValueConverter<Single>(ValueExtensions.ToSingle);
+        }
+
+        /// <summary>
+        /// Represents a percentage object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<Percent> WithPercent()
+        {
+            return new StructValueConverter<Percent>(ValueExtensions.ToPercent);
+        }
+
+        /// <summary>
+        /// Represents an integer object reduced to [0, 255].
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<Byte> WithByte()
         {
             return new StructValueConverter<Byte>(ValueExtensions.ToByte);
@@ -414,7 +495,7 @@
             return new SubsetValueConverter<T>(converter, start, Int32.MaxValue);
         }
 
-        public static IValueConverter<LinearGradient> WithLinearGradient()
+        static IValueConverter<LinearGradient> WithLinearGradient()
         {
             var args = FirstArg(WithAngle()).And(RestArgs(WithGradientStops(), 1)).
                Or(WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
@@ -425,7 +506,7 @@
                         args.To(m => new LinearGradient(m.Item1, m.Item2, true))));
         }
 
-        public static IValueConverter<RadialGradient> WithRadialGradient()
+        static IValueConverter<RadialGradient> WithRadialGradient()
         {
             //TODO
             //Determine first argument (if any):
@@ -444,15 +525,24 @@
         }
 
         /// <summary>
+        /// Represents a gradient object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
+        /// </summary>
+        /// <returns>The value converter.</returns>
+        public static IValueConverter<IImageSource> WithGradient()
+        {
+            return WithLinearGradient().To(m => (IImageSource)m).Or(
+                   WithRadialGradient().To(m => (IImageSource)m));
+        }
+
+        /// <summary>
         /// Represents an image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<IImageSource> WithImageSource()
         {
-            return WithUrl().To(m => (IImageSource)new ImageUrl(m)).Or(
-                   WithLinearGradient().To(m => (IImageSource)m)).Or(
-                   WithRadialGradient().To(m => (IImageSource)m));
+            return WithUrl().To(m => (IImageSource)new ImageUrl(m)).Or(WithGradient());
         }
 
         public static IValueConverter<CssImages> WithImages()
@@ -461,6 +551,11 @@
                         TakeList(WithUrl().To(m => new Url(m))).To(m => new CssImages(m)));
         }
 
+        /// <summary>
+        /// Represents a color object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+        /// </summary>
+        /// <returns>The value converter.</returns>
         public static IValueConverter<Color> WithColor()
         {
             const Single hnorm = 1f / 360f;
@@ -523,27 +618,6 @@
         public static IValueConverter<Boolean> Toggle(String on, String off)
         {
             return TakeOne(on, true).Or(TakeOne(off, false));
-        }
-
-        public static IValueConverter<Shape> WithShape()
-        {
-            return new FunctionValueConverter<Shape>(FunctionNames.Rect,
-                       WithArgs(WithLength(), WithLength(), WithLength(), WithLength(), m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)));
-        }
-
-        public static IValueConverter<Angle> WithAngle()
-        {
-            return new StructValueConverter<Angle>(ValueExtensions.ToAngle);
-        }
-
-        public static IValueConverter<Single> WithNumber()
-        {
-            return new StructValueConverter<Single>(ValueExtensions.ToSingle);
-        }
-
-        public static IValueConverter<Percent> WithPercent()
-        {
-            return new StructValueConverter<Percent>(ValueExtensions.ToPercent);
         }
 
         public static IValueConverter<T> TakeOne<T>(String identifier, T result)
