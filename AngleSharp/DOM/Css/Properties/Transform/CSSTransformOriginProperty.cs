@@ -13,16 +13,13 @@
         #region Fields
 
         internal static readonly Point Default = Point.Centered;
-        internal static IValueConverter<Tuple<Point, Length>> Converter = WithDistance().To(m => new Point(m, m)).Or(
-                TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
-                TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
-                TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
-                TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
-                TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
-            WithArgs(
+        internal static IValueConverter<Tuple<Point, Length>> Converter = WithDistance().To(m => new Point(m, m)).Or(TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
+            WithOptions(
                 WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
                 WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                m => new Point(m.Item1, m.Item2))).Optional(WithLength(), Length.Zero);
+                Tuple.Create<IDistance, IDistance>(Percent.Fifty, Percent.Fifty)).
+            To(m => new Point(m.Item1, m.Item2))).Optional(WithLength(), Length.Zero);
+
         IDistance _x;
         IDistance _y;
         Length _z;
