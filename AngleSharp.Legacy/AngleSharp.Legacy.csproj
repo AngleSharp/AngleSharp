@@ -408,6 +408,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\BackgroundRepeat.cs">
       <Link>DOM\Css\Constants\BackgroundRepeat.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\BlendMode.cs">
+      <Link>DOM\Css\Constants\BlendMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\BorderRepeat.cs">
       <Link>DOM\Css\Constants\BorderRepeat.cs</Link>
     </Compile>
