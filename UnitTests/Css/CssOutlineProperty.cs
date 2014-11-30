@@ -216,7 +216,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("dotted 0.3em rgba(255, 255, 255, 1)", concrete.Value.CssText);
+            Assert.AreEqual("dotted 0.3em rgb(255, 255, 255)", concrete.Value.CssText);
         }
 
         [TestMethod]
