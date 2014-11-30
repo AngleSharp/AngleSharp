@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class OptionalValueConverter<T, U> : IValueConverter<Tuple<T, U>>
@@ -27,7 +28,7 @@
                 {
                     if (_optionConverter.TryConvert(values[i], m => v2 = m))
                     {
-                        value = CopyExcept(values, i);
+                        value = CopyExcept(values, i).Reduce();
                         break;
                     }
                 }

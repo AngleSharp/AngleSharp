@@ -20,31 +20,33 @@
         public Boolean TryConvert(CSSValue value, Action<U[]> setResult)
         {
             var values = value as CSSValueList;
-
-            if (values == null)
-                return _converter.Validate(value);
-
             var results = new List<U>();
-            var list = new CSSValueList();
-            list.Add(values[0]);
 
-            for (int i = 1; i < values.Length; i++)
+            if (values != null)
             {
-                if (_condition.Validate(values[i]))
+                var list = new CSSValueList();
+                list.Add(values[0]);
+
+                for (int i = 1; i < values.Length; i++)
                 {
-                    if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
-                        return false;
+                    if (_condition.Validate(values[i]))
+                    {
+                        if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
+                            return false;
 
-                    list = new CSSValueList();
+                        list = new CSSValueList();
 
-                    if (!_include)
-                        continue;
+                        if (!_include)
+                            continue;
+                    }
+
+                    list.Add(values[i]);
                 }
 
-                list.Add(values[i]);
+                value = list.Reduce();
             }
 
-            if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
+            if (!_converter.TryConvert(value, m => results.Add(m)))
                 return false;
 
             setResult(results.ToArray());
