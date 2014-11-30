@@ -46,6 +46,21 @@
             return null;
         }
 
+        public static CSSValueList CopyToList(this CSSValue value)
+        {
+            var original = value as CSSValueList;
+
+            if (original == null)
+                return new CSSValueList(value);
+
+            var newList = new CSSValueList();
+
+            foreach (var item in original)
+                newList.Add(item);
+
+            return newList;
+        }
+
         public static CssUrl ToUri(this CSSValue value)
         {
             var primitive = value as CSSPrimitiveValue;

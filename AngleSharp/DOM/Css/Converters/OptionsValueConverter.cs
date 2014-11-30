@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class OptionsValueConverter<T1, T2> : IValueConverter<Tuple<T1, T2>>
@@ -17,13 +18,13 @@
 
         public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2>> setResult)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 2)
                 return false;
 
-            var t1 = TryAll(items, _first, _defaults.Item1);
-            var t2 = TryAll(items, _second, _defaults.Item2);
+            var t1 = _first.TryAll(items, _defaults.Item1);
+            var t2 = _second.TryAll(items, _defaults.Item2);
 
             if (items.Length > 0)
                 return false;
@@ -48,7 +49,7 @@
 
         public Boolean Validate(CSSValue value)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 2)
                 return false;
@@ -88,14 +89,14 @@
 
         public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3>> setResult)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 3)
                 return false;
 
-            var t1 = TryAll(items, _first, _defaults.Item1);
-            var t2 = TryAll(items, _second, _defaults.Item2);
-            var t3 = TryAll(items, _third, _defaults.Item3);
+            var t1 = _first.TryAll(items, _defaults.Item1);
+            var t2 = _second.TryAll(items, _defaults.Item2);
+            var t3 = _third.TryAll(items, _defaults.Item3);
 
             if (items.Length > 0)
                 return false;
@@ -104,23 +105,9 @@
             return true;
         }
 
-        static T TryAll<T>(CSSValueList list, IValueConverter<T> converter, T defaultValue)
-        {
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
-                {
-                    list.Remove(list[i]);
-                    break;
-                }
-            }
-
-            return defaultValue;
-        }
-
         public Boolean Validate(CSSValue value)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 3)
                 return false;
@@ -162,15 +149,15 @@
 
         public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 4)
                 return false;
 
-            var t1 = TryAll(items, _first, _defaults.Item1);
-            var t2 = TryAll(items, _second, _defaults.Item2);
-            var t3 = TryAll(items, _third, _defaults.Item3);
-            var t4 = TryAll(items, _fourth, _defaults.Item4);
+            var t1 = _first.TryAll(items, _defaults.Item1);
+            var t2 = _second.TryAll(items, _defaults.Item2);
+            var t3 = _third.TryAll(items, _defaults.Item3);
+            var t4 = _fourth.TryAll(items, _defaults.Item4);
 
             if (items.Length > 0)
                 return false;
@@ -179,23 +166,9 @@
             return true;
         }
 
-        static T TryAll<T>(CSSValueList list, IValueConverter<T> converter, T defaultValue)
-        {
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
-                {
-                    list.Remove(list[i]);
-                    break;
-                }
-            }
-
-            return defaultValue;
-        }
-
         public Boolean Validate(CSSValue value)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 4)
                 return false;
@@ -245,19 +218,19 @@
 
         public Boolean TryConvert(CSSValue value, Action<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> setResult)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 8)
                 return false;
 
-            var t1 = TryAll(items, _first, _defaults.Item1.Item1);
-            var t2 = TryAll(items, _second, _defaults.Item1.Item2);
-            var t3 = TryAll(items, _third, _defaults.Item1.Item3);
-            var t4 = TryAll(items, _fourth, _defaults.Item1.Item4);
-            var t5 = TryAll(items, _fifth, _defaults.Item2.Item1);
-            var t6 = TryAll(items, _sixth, _defaults.Item2.Item2);
-            var t7 = TryAll(items, _seventh, _defaults.Item2.Item3);
-            var t8 = TryAll(items, _eigth, _defaults.Item2.Item4);
+            var t1 = _first.TryAll(items, _defaults.Item1.Item1);
+            var t2 = _second.TryAll(items, _defaults.Item1.Item2);
+            var t3 = _third.TryAll(items, _defaults.Item1.Item3);
+            var t4 = _fourth.TryAll(items, _defaults.Item1.Item4);
+            var t5 = _fifth.TryAll(items, _defaults.Item2.Item1);
+            var t6 = _sixth.TryAll(items, _defaults.Item2.Item2);
+            var t7 = _seventh.TryAll(items, _defaults.Item2.Item3);
+            var t8 = _eigth.TryAll(items, _defaults.Item2.Item4);
 
             if (items.Length > 0)
                 return false;
@@ -266,23 +239,9 @@
             return true;
         }
 
-        static T TryAll<T>(CSSValueList list, IValueConverter<T> converter, T defaultValue)
-        {
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
-                {
-                    list.Remove(list[i]);
-                    break;
-                }
-            }
-
-            return defaultValue;
-        }
-
         public Boolean Validate(CSSValue value)
         {
-            var items = value as CSSValueList ?? new CSSValueList(value);
+            var items = value.CopyToList();
 
             if (items.Length > 8)
                 return false;

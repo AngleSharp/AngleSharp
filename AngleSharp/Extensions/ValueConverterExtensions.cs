@@ -5,6 +5,20 @@
 
     static class ValueConverterExtensions
     {
+        public static T TryAll<T>(this IValueConverter<T> converter, CSSValueList list, T defaultValue)
+        {
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
+                {
+                    list.Remove(list[i]);
+                    break;
+                }
+            }
+
+            return defaultValue;
+        }
+
         public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)
         {
             return new ToValueConverter<T, U>(converter, result);
