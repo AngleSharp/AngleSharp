@@ -13,18 +13,16 @@
         #region Fields
 
         internal static readonly Point Default = Point.Centered;
-        internal static IValueConverter<Tuple<IDistance, IDistance, Length>> Converter = WithDistance().To(m => Tuple.Create(m, m, Length.Zero)).Or(
-                TakeOne(Keywords.Left, Tuple.Create<IDistance, IDistance, Length>(Percent.Zero, Percent.Fifty, Length.Zero)).Or(
-                TakeOne(Keywords.Center, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Fifty, Length.Zero))).Or(
-                TakeOne(Keywords.Right, Tuple.Create<IDistance, IDistance, Length>(Percent.Hundred, Percent.Fifty, Length.Zero))).Or(
-                TakeOne(Keywords.Top, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Zero, Length.Zero))).Or(
-                TakeOne(Keywords.Bottom, Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Hundred, Length.Zero)))).Or(
-            WithOptions(
+        internal static IValueConverter<Tuple<Point, Length>> Converter = WithDistance().To(m => new Point(m, m)).Or(
+                TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
+                TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
+                TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
+                TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
+                TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
+            WithArgs(
                 WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
                 WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)),
-                WithLength(),
-                Tuple.Create<IDistance, IDistance, Length>(Percent.Fifty, Percent.Fifty, Length.Zero))
-            );
+                m => new Point(m.Item1, m.Item2))).Optional(WithLength(), Length.Zero);
         IDistance _x;
         IDistance _y;
         Length _z;
@@ -71,10 +69,10 @@
 
         #region Methods
 
-        public void SetPosition(IDistance x, IDistance y, Length z)
+        public void SetPosition(Point pt, Length z)
         {
-            _x = x;
-            _y = y;
+            _x = pt.X;
+            _y = pt.Y;
             _z = z;
         }
 
@@ -92,7 +90,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(CSSValue value)
         {
-            return Converter.TryConvert(value, m => SetPosition(m.Item1, m.Item2, m.Item3));
+            return Converter.TryConvert(value, m => SetPosition(m.Item1, m.Item2));
         }
 
         #endregion
