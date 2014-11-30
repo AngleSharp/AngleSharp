@@ -53,6 +53,7 @@
         public void SetMargin(IDistance margin)
         {
             _margin = margin;
+            _value = new CSSPrimitiveValue(margin ?? (ICssObject)new CssIdentifier(Keywords.Auto));
         }
 
         internal override void Reset()

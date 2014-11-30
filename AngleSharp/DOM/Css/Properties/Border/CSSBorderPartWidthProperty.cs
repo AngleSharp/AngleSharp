@@ -43,6 +43,7 @@
         public void SetWidth(Length width)
         {
             _width = width;
+            _value = new CSSPrimitiveValue(Serialize(width));
         }
 
         internal override void Reset()
@@ -58,6 +59,22 @@
         protected override Boolean IsValid(CSSValue value)
         {
             return Converter.TryConvert(value, SetWidth);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static ICssObject Serialize(Length width)
+        {
+            if (width == Length.Thin)
+                return new CssIdentifier(Keywords.Thin);
+            else if (width == Length.Medium)
+                return new CssIdentifier(Keywords.Medium);
+            else if (width == Length.Thick)
+                return new CssIdentifier(Keywords.Thick);
+
+            return width;
         }
 
         #endregion

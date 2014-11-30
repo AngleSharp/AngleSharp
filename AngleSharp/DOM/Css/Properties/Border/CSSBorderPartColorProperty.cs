@@ -43,6 +43,7 @@
         public void SetColor(Color color)
         {
             _color = color;
+            _value = new CSSPrimitiveValue(color);
         }
 
         internal override void Reset()

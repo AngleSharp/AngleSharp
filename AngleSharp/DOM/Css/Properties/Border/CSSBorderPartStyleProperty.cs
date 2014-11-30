@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -42,6 +43,7 @@
         public void SetStyle(LineStyle style)
         {
             _style = style;
+            _value = new CSSPrimitiveValue(Map.LineStyles.GetIdentifier(style));
         }
 
         internal override void Reset()

@@ -44,6 +44,7 @@
         public void SetPadding(IDistance padding)
         {
             _padding = padding;
+            _value = new CSSPrimitiveValue(padding);
         }
 
         internal override void Reset()
