@@ -338,8 +338,8 @@ h1 { color: blue }");
             Assert.AreEqual("verdana 12pt italic", list[1].CssText);
             Assert.AreEqual(CssValueType.List, list[0].Type);
             Assert.AreEqual(CssValueType.List, list[1].Type);
-            Assert.AreEqual(3, ((CSSValueList)list[0]).Length);
-            Assert.AreEqual(3, ((CSSValueList)list[1]).Length);
+            Assert.AreEqual(3, ((CssValueList)list[0]).Length);
+            Assert.AreEqual(3, ((CssValueList)list[1]).Length);
         }
 
         [TestMethod]
@@ -487,9 +487,9 @@ h1 { color: blue }");
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual(CssValueType.List, prop.Value.Type);
 
-            var value = prop.Value as CSSValueList;
+            var value = prop.Value as CssValueList;
             Assert.AreEqual(7, value.Length);
-            Assert.AreEqual("\"Helvetica Neue\", helvetica, arial, sans-serif", value.ToCss());
+            Assert.AreEqual("\"Helvetica Neue\", helvetica, arial, sans-serif", value.CssText);
         }
 
         [TestMethod]

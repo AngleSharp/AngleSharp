@@ -143,7 +143,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBreakBeforeProperty));
             var concrete = (CSSBreakBeforeProperty)property;
-            Assert.AreEqual(CSSValue.Initial, concrete.Value);
+            Assert.AreEqual(CssValue.Initial, concrete.Value);
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBreakInsideProperty));
             var concrete = (CSSBreakInsideProperty)property;
-            Assert.AreEqual(CSSValue.Initial, concrete.Value);
+            Assert.AreEqual(CssValue.Initial, concrete.Value);
         }
 
         [TestMethod]
@@ -250,7 +250,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSClearProperty));
             var concrete = (CSSClearProperty)property;
-            Assert.AreEqual(CSSValue.Inherit, concrete.Value);
+            Assert.AreEqual(CssValue.Inherit, concrete.Value);
         }
 
         [TestMethod]
@@ -263,7 +263,7 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSClearProperty));
             var concrete = (CSSClearProperty)property;
-            Assert.AreEqual(CSSValue.Initial, concrete.Value);
+            Assert.AreEqual(CssValue.Initial, concrete.Value);
         }
 
         [TestMethod]

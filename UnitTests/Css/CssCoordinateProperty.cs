@@ -122,7 +122,7 @@ namespace UnitTests.Css
             Assert.IsInstanceOfType(property, typeof(CSSWidthProperty));
             var concrete = (CSSWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CSSValue.Initial, concrete.Value);
+            Assert.AreEqual(CssValue.Initial, concrete.Value);
         }
 
         [TestMethod]
