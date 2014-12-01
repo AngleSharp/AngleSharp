@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css
 {
     using System;
 

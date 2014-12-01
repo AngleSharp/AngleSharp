@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css
 {
     using AngleSharp.Css;
     using System;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a transformation matrix value.
     /// </summary>
-    public struct TransformMatrix : IEquatable<TransformMatrix>, ICssValue
+    public struct TransformMatrix : IEquatable<TransformMatrix>
     {
         #region Fields
 
@@ -21,18 +21,18 @@
         /// </summary>
         public static readonly TransformMatrix One = new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
 
-        Single _m11;
-        Single _m12;
-        Single _m13;
-        Single _m21;
-        Single _m22;
-        Single _m23;
-        Single _m31;
-        Single _m32;
-        Single _m33;
-        Single _tx;
-        Single _ty;
-        Single _tz;
+        readonly Single _m11;
+        readonly Single _m12;
+        readonly Single _m13;
+        readonly Single _m21;
+        readonly Single _m22;
+        readonly Single _m23;
+        readonly Single _m31;
+        readonly Single _m32;
+        readonly Single _m33;
+        readonly Single _tx;
+        readonly Single _ty;
+        readonly Single _tz;
 
         #endregion
 
@@ -240,18 +240,21 @@
             return (Int32)(_m11 + _m12 + _m13 + _m21 + _m22 + _m23 + _m31 + _m32 + _m33 + _tx + _ty + _tz);
         }
 
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
+        /// <summary>
+        /// Returns a string representation of the contents of the matrix.
+        /// </summary>
+        /// <returns>The comma separated list of values.</returns>
+        public override String ToString()
         {
-            get { return CssValueType.Primitive; }
-        }
+            var cells = new[]
+            {
+                _m11.ToString(CultureInfo.InvariantCulture), _m12.ToString(CultureInfo.InvariantCulture), _m13.ToString(CultureInfo.InvariantCulture),
+                _m21.ToString(CultureInfo.InvariantCulture), _m22.ToString(CultureInfo.InvariantCulture), _m23.ToString(CultureInfo.InvariantCulture),
+                _m31.ToString(CultureInfo.InvariantCulture), _m32.ToString(CultureInfo.InvariantCulture), _m33.ToString(CultureInfo.InvariantCulture),
+                _tx.ToString(CultureInfo.InvariantCulture), _ty.ToString(CultureInfo.InvariantCulture), _tz.ToString(CultureInfo.InvariantCulture)
+            };
 
-        String ICssValue.CssText
-        {
-            get { return FunctionNames.Build(FunctionNames.Matrix3d, _m11.ToString(CultureInfo.InvariantCulture), _m12.ToString(CultureInfo.InvariantCulture), _m13.ToString(CultureInfo.InvariantCulture), _m21.ToString(CultureInfo.InvariantCulture), _m22.ToString(CultureInfo.InvariantCulture), _m23.ToString(CultureInfo.InvariantCulture), _m31.ToString(CultureInfo.InvariantCulture), _m32.ToString(CultureInfo.InvariantCulture), _m33.ToString(CultureInfo.InvariantCulture), _tx.ToString(CultureInfo.InvariantCulture), _ty.ToString(CultureInfo.InvariantCulture), _tz.ToString(CultureInfo.InvariantCulture)); }
+            return String.Format(", ", cells);
         }
 
         #endregion
