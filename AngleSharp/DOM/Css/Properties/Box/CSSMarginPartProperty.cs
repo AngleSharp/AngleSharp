@@ -53,7 +53,7 @@
         public void SetMargin(IDistance margin)
         {
             _margin = margin;
-            _value = new CSSPrimitiveValue(margin ?? (ICssObject)new CssIdentifier(Keywords.Auto));
+            _value = (ICssValue)margin ?? new CssIdentifier(Keywords.Auto);
         }
 
         internal override void Reset()
@@ -66,7 +66,7 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetMargin);
         }

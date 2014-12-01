@@ -43,7 +43,7 @@
         public void SetWidth(Length width)
         {
             _width = width;
-            _value = new CSSPrimitiveValue(Serialize(width));
+            _value = Serialize(width);
         }
 
         internal override void Reset()
@@ -56,7 +56,7 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetWidth);
         }
@@ -65,7 +65,7 @@
 
         #region Helpers
 
-        static ICssObject Serialize(Length width)
+        static ICssValue Serialize(Length width)
         {
             if (width == Length.Thin)
                 return new CssIdentifier(Keywords.Thin);

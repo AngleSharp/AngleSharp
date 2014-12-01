@@ -18,7 +18,7 @@
         {
         }
 
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             return true;
         }

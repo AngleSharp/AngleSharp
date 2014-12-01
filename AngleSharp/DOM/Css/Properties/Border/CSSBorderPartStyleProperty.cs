@@ -43,7 +43,7 @@
         public void SetStyle(LineStyle style)
         {
             _style = style;
-            _value = new CSSPrimitiveValue(Map.LineStyles.GetIdentifier(style));
+            _value = new CssIdentifier(Map.LineStyles.GetIdentifier(style));
         }
 
         internal override void Reset()
@@ -56,7 +56,7 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetStyle);
         }

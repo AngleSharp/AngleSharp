@@ -140,7 +140,7 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
             var images = new CSSValueList();
@@ -150,11 +150,11 @@
             var attachments = new CSSValueList();
             var origins = new CSSValueList();
             var clips = new CSSValueList();
-            CSSValue color = null;
+            ICssValue color = null;
 
             foreach (var list in items)
             {
-                CSSValue image = null, position = null, size = null, repeat = null,
+                ICssValue image = null, position = null, size = null, repeat = null,
                          attachment = null, origin = null, clip = null;
 
                 if (color != null)
@@ -233,13 +233,13 @@
                         return false;
                 }
 
-                images.Add(image ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.None)));
-                positions.Add(position ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Center)));
-                sizes.Add(size ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Auto)));
-                repeats.Add(repeat ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Repeat)));
-                attachments.Add(attachment ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.Scroll)));
-                origins.Add(origin ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.BorderBox)));
-                clips.Add(clip ?? new CSSPrimitiveValue(new CssIdentifier(Keywords.BorderBox)));
+                images.Add(image ?? new CssIdentifier(Keywords.None));
+                positions.Add(position ?? new CssIdentifier(Keywords.Center));
+                sizes.Add(size ?? new CssIdentifier(Keywords.Auto));
+                repeats.Add(repeat ?? new CssIdentifier(Keywords.Repeat));
+                attachments.Add(attachment ?? new CssIdentifier(Keywords.Scroll));
+                origins.Add(origin ?? new CssIdentifier(Keywords.BorderBox));
+                clips.Add(clip ?? new CssIdentifier(Keywords.BorderBox));
             }
 
             return _image.TrySetValue(images.Reduce()) && _position.TrySetValue(positions.Reduce()) &&

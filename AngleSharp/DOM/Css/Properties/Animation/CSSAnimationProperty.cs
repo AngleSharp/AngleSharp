@@ -134,19 +134,19 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, t =>
-                {
-                    _duration.SetDurations(t.Select(m => m.Item1.Item1));
-                    _timingFunction.SetTimingFunctions(t.Select(m => m.Item1.Item2));
-                    _delay.SetDelays(t.Select(m => m.Item1.Item3));
-                    _iterationCount.SetIterations(t.Select(m => m.Item1.Item4));
-                    _direction.SetDirections(t.Select(m => m.Item2.Item1));
-                    _fillMode.SetFillModes(t.Select(m => m.Item2.Item2));
-                    _playState.SetStates(t.Select(m => m.Item2.Item3));
-                    _name.SetNames(t.Select(m => m.Item2.Item4));
-                });
+            {
+                _duration.SetDurations(t.Select(m => m.Item1.Item1));
+                _timingFunction.SetTimingFunctions(t.Select(m => m.Item1.Item2));
+                _delay.SetDelays(t.Select(m => m.Item1.Item3));
+                _iterationCount.SetIterations(t.Select(m => m.Item1.Item4));
+                _direction.SetDirections(t.Select(m => m.Item2.Item1));
+                _fillMode.SetFillModes(t.Select(m => m.Item2.Item2));
+                _playState.SetStates(t.Select(m => m.Item2.Item3));
+                _name.SetNames(t.Select(m => m.Item2.Item4));
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

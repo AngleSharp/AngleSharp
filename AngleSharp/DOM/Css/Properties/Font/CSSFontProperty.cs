@@ -120,7 +120,7 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             SystemFont setting;
 
@@ -128,7 +128,7 @@
             {
                 var entries = value as CSSValueList ?? new CSSValueList(value);
                 var allowDelim = false;
-                CSSValue weight = null, style = null, variant = null, stretch = null, size = null, height = null;
+                ICssValue weight = null, style = null, variant = null, stretch = null, size = null, height = null;
 
                 for (var i = 0; i < entries.Length; i++)
                 {

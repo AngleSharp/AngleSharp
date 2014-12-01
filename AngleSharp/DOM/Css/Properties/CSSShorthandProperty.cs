@@ -82,10 +82,10 @@
 
         protected static String SerializePeriodic(IDistance t, IDistance r, IDistance b, IDistance l)
         {
-            var top = t.ToCss();
-            var right = r.ToCss();
-            var bottom = b.ToCss();
-            var left = l.ToCss();
+            var top = t.CssText;
+            var right = r.CssText;
+            var bottom = b.CssText;
+            var left = l.CssText;
             return SerializePeriodic(top, right, bottom, left);
         }
 

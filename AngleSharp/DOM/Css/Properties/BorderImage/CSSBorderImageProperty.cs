@@ -163,109 +163,20 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
+            //<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-width'>? / <'border-image-outset'> ]? || <'border-image-repeat'>
+
+            //return WithOptions(
+            //            CSSBorderImageSourceProperty.Converter,
+            //            CSSBorderImageSliceProperty.Converter.OptionalSlash(CSSBorderImageWidthProperty.Converter.OptionalSlash(, CSSBorderImageWidthProperty.Default),
+            //            CSSBorderImageRepeatProperty.Converter).TryConvert(value, m =>
+            //            {
+
+            //            });
+            
             //Required: SOurce, Slice and Repeat
-            if (value is CSSValueList)
-                return Evaluate((CSSValueList)value);
-
-            return Evaluate(new CSSValueList(value));
-        }
-
-        Boolean Evaluate(CSSValueList values)
-        {
-            CSSValue source = null;
-            var slice = new CSSValueList();
-            var outset = new CSSValueList();
-            var repeat = new CSSValueList();
-            var width = new CSSValueList();
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                var value = values[i];
-
-                if (_source.CanStore(value, ref source))
-                    continue;
-                else if (repeat.Length == 0 && _repeat.CanTake(value))
-                {
-                    repeat.Add(value);
-
-                    if (i + 1 < values.Length)
-                    {
-                        repeat.Add(values[++i]);
-
-                        if (!_repeat.CanTake(repeat))
-                            repeat.Remove(values[i--]);
-                    }
-
-                    continue;
-                }
-                else if (slice.Length == 0 && _slice.CanTake(value))
-                {
-                    slice.Add(value);
-
-                    while (i + 1 < values.Length)
-                    {
-                        slice.Add(values[++i]);
-
-                        if (!_slice.CanTake(slice))
-                        {
-                            slice.Remove(values[i--]);
-                            break;
-                        }
-                    }
-
-                    continue;
-                }
-                else if (value == CSSValue.Delimiter)
-                {
-                    if (++i == values.Length)
-                        return false;
-
-                    while (i + 1 < values.Length)
-                    {
-                        value = values[++i];
-
-                        if (value == CSSValueList.Delimiter)
-                        {
-                            if (++i == values.Length)
-                                return false;
-
-                            while (i + 1 < values.Length)
-                            {
-                                outset.Add(values[++i]);
-
-                                if (!_outset.CanTake(outset))
-                                {
-                                    outset.Remove(values[i--]);
-                                    break;
-                                }
-                            }
-
-                            if (outset.Length == 0)
-                                return false;
-
-                            break;
-                        }
-
-                        width.Add(value);
-
-                        if (!_width.CanTake(width))
-                        {
-                            width.Remove(values[i--]);
-                            break;
-                        }
-                    }
-
-                    continue;
-                }
-
-                return false;
-            }
-
-            return _width.TrySetValue(width.Reduce()) && _source.TrySetValue(source) &&
-                   _outset.TrySetValue(outset.Reduce()) && _repeat.TrySetValue(repeat.Reduce()) &&
-                   _slice.TrySetValue(slice.Reduce());
+            return false;
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

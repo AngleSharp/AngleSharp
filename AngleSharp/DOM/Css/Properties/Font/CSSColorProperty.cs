@@ -44,6 +44,7 @@
         public void SetColor(Color color)
         {
             _color = color;
+            _value = color;
         }
 
         internal override void Reset()
@@ -56,7 +57,7 @@
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
-        protected override Boolean IsValid(CSSValue value)
+        protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetColor);
         }
