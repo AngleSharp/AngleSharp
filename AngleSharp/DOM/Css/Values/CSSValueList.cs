@@ -7,11 +7,11 @@
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    sealed class CSSValueList : CSSValue, ICollection<CSSValue>
+    sealed class CSSValueList : CSSValue, IEnumerable<ICssValue>
     {
         #region Fields
 
-        readonly List<CSSValue> _items;
+        readonly List<ICssValue> _items;
 
         #endregion
 
@@ -23,14 +23,14 @@
         internal CSSValueList()
             : base(CssValueType.List)
         {
-            _items = new List<CSSValue>();
+            _items = new List<ICssValue>();
         }
 
         /// <summary>
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="item">The first item to add.</param>
-        internal CSSValueList(CSSValue item)
+        internal CSSValueList(ICssValue item)
 			: this()
         {
 			_items.Add(item);
@@ -40,7 +40,7 @@
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="items">The items to use.</param>
-        internal CSSValueList(List<CSSValue> items)
+        internal CSSValueList(List<ICssValue> items)
             : base(CssValueType.List)
         {
             _items = items;
@@ -63,7 +63,7 @@
         /// </summary>
         /// <param name="index">If index is greater than or equal to the number of values in the list, this returns null.</param>
         /// <returns>The value at the given index or null.</returns>
-        public CSSValue this[Int32 index]
+        public ICssValue this[Int32 index]
         {
             get { return index >= 0 && index < _items.Count ? _items[index] : null; }
         }
@@ -82,7 +82,7 @@
 
             if (_items.Count > 0)
             {
-                builder.Append(_items[0].ToCss());
+                builder.Append(_items[0].CssText);
 
                 for (int i = 1; i < _items.Count; i++)
                 {
@@ -96,11 +96,7 @@
             return builder.ToPool();
         }
 
-        #endregion
-
-        #region ICollection
-
-        public void Add(CSSValue item)
+        public void Add(ICssValue item)
         {
             _items.Add(item);
         }
@@ -110,36 +106,16 @@
             _items.Clear();
         }
 
-        public Boolean Contains(CSSValue item)
+        public void RemoveAt(Int32 index)
         {
-            return _items.Contains(item);
-        }
-
-        void ICollection<CSSValue>.CopyTo(CSSValue[] array, Int32 arrayIndex)
-        {
-            _items.CopyTo(array, arrayIndex);
-        }
-
-        Int32 ICollection<CSSValue>.Count
-        {
-            get { return _items.Count; }
-        }
-
-        Boolean ICollection<CSSValue>.IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public Boolean Remove(CSSValue item)
-        {
-            return _items.Remove(item);
+            _items.RemoveAt(index);
         }
 
         #endregion
 
         #region IEnumerable
 
-        public IEnumerator<CSSValue> GetEnumerator()
+        public IEnumerator<ICssValue> GetEnumerator()
         {
             return _items.GetEnumerator();
         }

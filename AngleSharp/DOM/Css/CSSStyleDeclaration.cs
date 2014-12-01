@@ -2572,7 +2572,7 @@
                 if (serialized.Contains(property))
                     continue;
 
-                list.Add(declaration.ToCss());
+                list.Add(declaration.CssText);
                 serialized.Add(property);
             }
 

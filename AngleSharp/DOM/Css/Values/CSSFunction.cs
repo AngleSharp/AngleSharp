@@ -7,7 +7,7 @@
 
     sealed class CSSFunction : CSSValue
     {
-        public CSSFunction(String name, List<CSSValue> arguments)
+        public CSSFunction(String name, List<ICssValue> arguments)
             : base(CssValueType.Primitive)
         {
             Name = name;
@@ -20,7 +20,7 @@
             private set;
         }
 
-        public List<CSSValue> Arguments
+        public List<ICssValue> Arguments
         {
             get;
             private set;

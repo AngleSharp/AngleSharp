@@ -721,7 +721,6 @@
     <Compile Include="DOM\Css\Rules\CSSStyleRule.cs" />
     <Compile Include="DOM\Css\Rules\CSSSupportsRule.cs" />
     <Compile Include="DOM\Css\Selector\Selectors.cs" />
-    <Compile Include="DOM\Css\Values\CSSPrimitiveValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValue.cs" />
     <Compile Include="DOM\Css\Values\CSSValueList.cs" />
     <Compile Include="DOM\Constants\DirectionMode.cs" />
