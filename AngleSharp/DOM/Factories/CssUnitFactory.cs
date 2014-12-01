@@ -9,7 +9,7 @@
     /// </summary>
     static class CssUnitFactory
     {
-        static readonly Dictionary<String, Func<Single, ICssObject>> values = new Dictionary<String, Func<Single, ICssObject>>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Func<Single, ICssValue>> values = new Dictionary<String, Func<Single, ICssValue>>(StringComparer.OrdinalIgnoreCase);
 
         static CssUnitFactory()
         {
@@ -46,9 +46,9 @@
         /// <param name="unit">The unit of the value.</param>
         /// <param name="data">The data of the value.</param>
         /// <returns>The created value.</returns>
-        public static ICssObject Create(String unit, Single data)
+        public static ICssValue Create(String unit, Single data)
         {
-            Func<Single, ICssObject> valueCreator;
+            Func<Single, ICssValue> valueCreator;
 
             if (values.TryGetValue(unit, out valueCreator))
                 return valueCreator(data);

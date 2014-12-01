@@ -14,39 +14,31 @@
     {
         #region Transformers
 
-        public static Boolean Is(this CSSValue value, String identifier)
+        public static Boolean Is(this ICssValue value, String identifier)
         {
-            var primitive = value as CSSPrimitiveValue;
-            return primitive != null && (primitive.Value as CssIdentifier).GetString().Equals(identifier, StringComparison.OrdinalIgnoreCase);
+            var primitive = value as CssIdentifier;
+            return primitive != null && ((String)primitive).Equals(identifier, StringComparison.OrdinalIgnoreCase);
         }
 
-        static String GetString(this CssIdentifier identifier)
+        public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, ICssValue value, out T mode)
         {
-            if (identifier == null)
-                return String.Empty;
-
-            return identifier;
-        }
-
-        public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, CSSValue value, out T mode)
-        {
-            var primitive = value as CSSPrimitiveValue;
+            var primitive = value as CssIdentifier;
             mode = default(T);
-            return primitive != null && obj.TryGetValue((primitive.Value as CssIdentifier).GetString(), out mode);
+            return primitive != null && obj.TryGetValue(primitive, out mode);
         }
 
-        public static CssIdentifier GetIdentifier<T>(this Dictionary<String, T> obj, T value)
+        public static String GetIdentifier<T>(this Dictionary<String, T> obj, T value)
         {
             foreach (var pair in obj)
             {
                 if (pair.Value.Equals(value))
-                    return new CssIdentifier(pair.Key);
+                    return pair.Key;
             }
 
             return null;
         }
 
-        public static CSSValueList CopyToList(this CSSValue value)
+        public static CSSValueList CopyToList(this ICssValue value)
         {
             var original = value as CSSValueList;
 
@@ -61,25 +53,22 @@
             return newList;
         }
 
-        public static CssUrl ToUri(this CSSValue value)
+        public static CssUrl ToUri(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as CssUrl;
-
-            return null;
+            return value as CssUrl;
         }
 
-        public static IEnumerable<CSSValue> AsEnumeration(this CSSValue value)
+        public static IEnumerable<ICssValue> AsEnumeration(this ICssValue value)
         {
-            if (value.Type == CssValueType.List)
-                return (CSSValueList)value;
+            var list = value as CSSValueList;
 
-            return new CSSValue[1] { value };
+            if (list != null)
+                return list;
+
+            return new ICssValue[1] { value };
         }
 
-        public static CSSValue Reduce(this CSSValueList list)
+        public static ICssValue Reduce(this CSSValueList list)
         {
             if (list.Length == 0)
                 return null;
@@ -89,7 +78,7 @@
             return list;
         }
 
-        public static IDistance ToBorderSlice(this CSSValue value)
+        public static IDistance ToBorderSlice(this ICssValue value)
         {
             var percent = value.ToPercent();
 
@@ -104,7 +93,7 @@
             return null;
         }
 
-        public static IDistance ToLineHeight(this CSSValue value)
+        public static IDistance ToLineHeight(this ICssValue value)
         {
             var distance = value.ToDistance();
 
@@ -121,21 +110,19 @@
             return null;
         }
 
-        public static IDistance ToDistance(this CSSValue value)
+        public static IDistance ToDistance(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var primitive = value as IDistance;
 
-            if (primitive != null)
+            if (primitive == null)
             {
-                var number = primitive.Value as Number?;
+                var number = value as Number?;
 
                 if (number.HasValue && number.Value == Number.Zero)
                     return Length.Zero;
-
-                return primitive.Value as IDistance;
             }
 
-            return null;
+            return primitive;
         }
 
         public static IDistance ToDistance(this FontSize fontSize)
@@ -163,37 +150,32 @@
             }
         }
 
-        public static Percent? ToPercent(this CSSValue value)
+        public static Percent? ToPercent(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            return value as Percent?;
+        }
+
+        public static String ToCssString(this ICssValue value)
+        {
+            var primitive = value as CssString;
 
             if (primitive != null)
-                return primitive.Value as Percent?;
+                return (String)primitive;
 
             return null;
         }
 
-        public static String ToCssString(this CSSValue value)
+        public static String ToIdentifier(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var primitive = value as CssIdentifier;
 
-            if (primitive != null && primitive.Value is CssString)
-                return (CssString)primitive.Value;
-
-            return null;
-        }
-
-        public static String ToIdentifier(this CSSValue value)
-        {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null && primitive.Value is CssIdentifier)
-                return (CssIdentifier)primitive.Value;
+            if (primitive != null)
+                return (String)primitive;
 
             return null;
         }
 
-        public static String ToAnimatableIdentifier(this CSSValue value)
+        public static String ToAnimatableIdentifier(this ICssValue value)
         {
             var identifier = value.ToIdentifier();
 
@@ -203,17 +185,17 @@
             return null;
         }
 
-        public static Single? ToSingle(this CSSValue value)
+        public static Single? ToSingle(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var primitive = value as Number?;
 
-            if (primitive != null && primitive.Value is Number)
-                return ((Number)primitive.Value).Value;
+            if (primitive != null)
+                return primitive.Value.Value;
 
             return null;
         }
 
-        public static Int32? ToInteger(this CSSValue value)
+        public static Int32? ToInteger(this ICssValue value)
         {
             var val = value.ToSingle();
 
@@ -223,7 +205,7 @@
             return null;
         }
 
-        public static Byte? ToByte(this CSSValue value)
+        public static Byte? ToByte(this ICssValue value)
         {
             var val = value.ToInteger();
 
@@ -233,23 +215,18 @@
             return null;
         }
 
-        public static Angle? ToAngle(this CSSValue value)
+        public static Angle? ToAngle(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as Angle?;
-
-            return null;
+            return value as Angle?;
         }
 
-        public static String ToFontFamily(this CSSValue value)
+        public static String ToFontFamily(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var values = value as CSSValueList;
 
-            if (primitive != null)
+            if (values == null)
             {
-                var ident = primitive.Value as CssIdentifier;
+                var ident = value as CssIdentifier;
 
                 if (ident != null)
                 {
@@ -261,22 +238,23 @@
                     return ident;
                 }
 
-                else if (primitive.Value is CssString)
-                {
-                    return (CssString)primitive.Value;
-                }
+                var str = value as CssString;
+
+                if (str != null)
+                    return str;
             }
-            else if (value is CSSValueList)
+            else
             {
-                var values = (CSSValueList)value;
                 var names = new String[values.Length];
 
                 for (var i = 0; i < names.Length; i++)
                 {
-                    var ident = values[i] as CSSPrimitiveValue;
+                    var ident = values[i] as CssIdentifier;
 
-                    if (ident == null || String.IsNullOrEmpty(names[i] = (ident.Value as CssIdentifier).GetString()))
+                    if (ident == null)
                         return null;
+
+                    names[i] = ident;
                 }
 
                 return String.Join(" ", names);
@@ -285,54 +263,37 @@
             return null;
         }
 
-        public static Frequency? ToFrequency(this CSSValue value)
+        public static Frequency? ToFrequency(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as Frequency?;
-
-            return null;
+            return value as Frequency?;
         }
 
-        public static Length? ToLength(this CSSValue value)
+        public static Length? ToLength(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var primitive = value as Length?;
 
-            if (primitive != null)
+            if (primitive == null)
             {
-                var number = primitive.Value as Number?;
+                var number = value as Number?;
 
                 if (number.HasValue && number.Value == Number.Zero)
                     return Length.Zero;
-
-                return primitive.Value as Length?;
             }
 
-            return null;
+            return primitive;
         }
 
-        public static Resolution? ToResolution(this CSSValue value)
+        public static Resolution? ToResolution(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as Resolution?;
-
-            return null;
+            return value as Resolution?;
         }
 
-        public static Time? ToTime(this CSSValue value)
+        public static Time? ToTime(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
-
-            if (primitive != null)
-                return primitive.Value as Time?;
-
-            return null;
+            return value as Time?;
         }
 
-        public static GradientStop[] ToGradientStops(this CSSValue value)
+        public static GradientStop[] ToGradientStops(this ICssValue value)
         {
             var values = value as CSSValueList;
 
@@ -356,7 +317,7 @@
             return stops;
         }
 
-        public static GradientStop? ToGradientStop(this CSSValue value, Single defaultStop = 0f)
+        public static GradientStop? ToGradientStop(this ICssValue value, Single defaultStop = 0f)
         {
             var list = value as CSSValueList;
             Color? color = null;
@@ -379,7 +340,7 @@
             return new GradientStop(color.Value, location);
         }
 
-        public static Single? ToAspectRatio(this CSSValue value)
+        public static Single? ToAspectRatio(this ICssValue value)
         {
             var values = value as CSSValueList;
 
@@ -395,7 +356,7 @@
             return null;
         }
 
-        public static IDistance ToImageBorderWidth(this CSSValue value)
+        public static IDistance ToImageBorderWidth(this ICssValue value)
         {
             if (value.Is(Keywords.Auto))
                 return Percent.Hundred;
@@ -408,7 +369,7 @@
             return value.ToDistance();
         }
 
-        public static Length? ToBorderWidth(this CSSValue value)
+        public static Length? ToBorderWidth(this ICssValue value)
         {
             var length = value.ToLength();
 
@@ -421,19 +382,22 @@
             else if (value.Is(Keywords.Thick))
                 return Length.Thick;
 
-            return null;
+            return length;
         }
 
-        public static Color? ToColor(this CSSValue value)
+        public static Color? ToColor(this ICssValue value)
         {
-            var primitive = value as CSSPrimitiveValue;
+            var primitive = value as Color?;
 
-            if (primitive != null && primitive.Value is Color)
-                return (Color)primitive.Value;
-            else if (primitive != null)
-                return Color.FromName((primitive.Value as CssIdentifier).GetString());
+            if (primitive == null)
+            {
+                var colorName = value.ToIdentifier();
 
-            return null;
+                if (colorName != null)
+                    return Color.FromName(colorName);
+            }
+
+            return primitive;
         }
 
         public static CSSValueList Subset(this CSSValueList values, Int32 start = 0, Int32 end = -1)
@@ -441,7 +405,7 @@
             if (end == -1)
                 end = values.Length;
 
-            var list = new List<CSSValue>();
+            var list = new List<ICssValue>();
 
             for (var i = start; i < end; i++)
                 list.Add(values[i]);
@@ -472,7 +436,7 @@
             return list;
         }
 
-        public static Point ToPoint(this CSSValue value)
+        public static Point ToPoint(this ICssValue value)
         {
             var values = value as CSSValueList;
 
@@ -600,7 +564,7 @@
             return null;
         }
 
-        public static Shadow ToShadow(this CSSValue value)
+        public static Shadow ToShadow(this ICssValue value)
         {
             var item = value as CSSValueList;
 
@@ -698,11 +662,6 @@
                 _op = op;
             }
 
-            public String ToCss()
-            {
-                return String.Concat(_left.ToCss(), _op.ToString(), _right.ToCss());
-            }
-
             public Single ToPixel()
             {
                 var left = _left.ToPixel();
@@ -717,6 +676,16 @@
                 }
 
                 return 0f;
+            }
+
+            public CssValueType Type
+            {
+                get { return CssValueType.Primitive; }
+            }
+
+            public String CssText
+            {
+                get { return String.Concat(_left.CssText, _op.ToString(), _right.CssText); }
             }
         }
 

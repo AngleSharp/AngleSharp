@@ -10,14 +10,14 @@
     /// Fore more information about CSS properties see:
     /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    abstract class CSSProperty : ICssProperty, ICssObject
+    abstract class CSSProperty : ICssProperty
     {
         #region Fields
 
         readonly PropertyFlags _flags;
         readonly String _name;
         readonly CSSStyleDeclaration _rule;
-        protected CSSValue _value;
+        protected ICssValue _value;
 
         Boolean _important;
 
@@ -85,7 +85,7 @@
         /// <summary>
         /// Gets the value of the property.
         /// </summary>
-        internal CSSValue Value
+        internal ICssValue Value
         {
             get { return _value ?? CSSValue.Initial; }
         }
@@ -140,6 +140,14 @@
             set { _important = value; }
         }
 
+        /// <summary>
+        /// Gets a CSS code representation of the property.
+        /// </summary>
+        public String CssText
+        {
+            get { return Serialize(_name, SerializeValue(), _important); }
+        }
+
         #endregion
 
         #region Internal Methods
@@ -149,7 +157,7 @@
         /// </summary>
         /// <param name="value">The value that should be set.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        internal Boolean TrySetValue(CSSValue value)
+        internal Boolean TrySetValue(ICssValue value)
         {
             if (value == CSSValue.Inherit || value == CSSValue.Initial || value == null)
             {
@@ -175,7 +183,7 @@
 
         #region Methods
 
-        internal Boolean CanTake(CSSValue value)
+        internal Boolean CanTake(ICssValue value)
         {
             var current = _value;
 
@@ -188,7 +196,7 @@
             return false;
         }
 
-        internal Boolean CanStore(CSSValue value, ref CSSValue storagePosition)
+        internal Boolean CanStore(ICssValue value, ref ICssValue storagePosition)
         {
             if (storagePosition == null && CanTake(value))
             {
@@ -204,20 +212,11 @@
         /// </summary>
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        protected abstract Boolean IsValid(CSSValue value);
+        protected abstract Boolean IsValid(ICssValue value);
 
         #endregion
 
         #region String representation
-
-        /// <summary>
-        /// Returns a CSS code representation of the property.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public String ToCss()
-        {
-            return Serialize(_name, SerializeValue(), _important);
-        }
 
         /// <summary>
         /// Serializes the current value of the CSS property.
@@ -225,7 +224,7 @@
         /// <returns></returns>
         internal virtual String SerializeValue()
         {
-            return Value.ToCss();
+            return Value.CssText;
         }
 
         /// <summary>
@@ -558,8 +557,13 @@
             // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
             // <ending-shape> = [ ellipse | circle ]
             // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
-            var args = FirstArg(WithAngle()).And(RestArgs(WithGradientStops(), 1)).Or(
-                       WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
+
+            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => new Point(Percent.Zero, Percent.Zero));
+            var predefinedSize = WithIdentifier().Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
+            var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance(), WithDistance(), m => new Point(m.Item1, m.Item2)));
+            var position = FirstArg(TakeOne(Keywords.At, true)).And(RestArgs(WithPoint(), 1)).To(m => m.Item2);
+            var first = endingShape.Or(size);
+            var args = FirstArg(first).And(RestArgs(WithGradientStops(), 1));
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
                         args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, false))).Or(
@@ -689,7 +693,7 @@
         /// <summary>
         /// Represents the matrix transformation.
         /// </summary>
-        sealed class MatrixTransform : ITransform, ICssObject
+        sealed class MatrixTransform : ITransform
         {
             readonly TransformMatrix _matrix;
 
@@ -707,20 +711,21 @@
                 return _matrix;
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Matrix, _matrix.M11.ToString(CultureInfo.InvariantCulture), _matrix.M12.ToString(CultureInfo.InvariantCulture), _matrix.M21.ToString(CultureInfo.InvariantCulture), _matrix.M22.ToString(CultureInfo.InvariantCulture), _matrix.Tx.ToString(CultureInfo.InvariantCulture), _matrix.Ty.ToString(CultureInfo.InvariantCulture));
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Matrix, _matrix.M11.ToString(CultureInfo.InvariantCulture), _matrix.M12.ToString(CultureInfo.InvariantCulture), _matrix.M21.ToString(CultureInfo.InvariantCulture), _matrix.M22.ToString(CultureInfo.InvariantCulture), _matrix.Tx.ToString(CultureInfo.InvariantCulture), _matrix.Ty.ToString(CultureInfo.InvariantCulture)); }
             }
         }
 
         /// <summary>
         /// Represents the matrix3d transformation.
         /// </summary>
-        sealed class Matrix3DTransform : ITransform, ICssObject
+        sealed class Matrix3DTransform : ITransform
         {
             readonly TransformMatrix _matrix;
 
@@ -738,20 +743,21 @@
                 return _matrix;
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return _matrix.ToCss();
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return _matrix.ToCss(); }
             }
         }
 
         /// <summary>
         /// Represents the translate transformation.
         /// </summary>
-        sealed class TranslateTransform : ITransform, ICssObject
+        sealed class TranslateTransform : ITransform
         {
             readonly IDistance _y;
             readonly IDistance _x;
@@ -773,20 +779,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Translate, _x.ToCss(), _y.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Translate, _x.ToCss(), _y.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the translate-x transformation.
         /// </summary>
-        sealed class TranslateXTransform : ITransform, ICssObject
+        sealed class TranslateXTransform : ITransform
         {
             readonly IDistance _x;
 
@@ -805,20 +812,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.TranslateX, _x.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.TranslateX, _x.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the translate-y transformation.
         /// </summary>
-        sealed class TranslateYTransform : ITransform, ICssObject
+        sealed class TranslateYTransform : ITransform
         {
             readonly IDistance _y;
 
@@ -837,20 +845,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, dy, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.TranslateY, _y.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.TranslateY, _y.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the translate-z transformation.
         /// </summary>
-        sealed class TranslateZTransform : ITransform, ICssObject
+        sealed class TranslateZTransform : ITransform
         {
             readonly IDistance _z;
 
@@ -869,20 +878,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, dz);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.TranslateZ, _z.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.TranslateZ, _z.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the translate3d transformation.
         /// </summary>
-        sealed class Translate3DTransform : ITransform, ICssObject
+        sealed class Translate3DTransform : ITransform
         {
             readonly IDistance _x;
             readonly IDistance _y;
@@ -907,20 +917,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Translate3d, _x.ToCss(), _y.ToCss(), _z.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Translate3d, _x.ToCss(), _y.ToCss(), _z.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the rotate transformation.
         /// </summary>
-        sealed class RotateTransform : ITransform, ICssObject
+        sealed class RotateTransform : ITransform
         {
             readonly Angle _angle;
 
@@ -940,20 +951,21 @@
                 return new TransformMatrix(cosa, sina, 0f, -sina, cosa, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Rotate, _angle.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Rotate, _angle.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the rotate3d transformation.
         /// </summary>
-        sealed class Rotate3DTransform : ITransform, ICssObject
+        sealed class Rotate3DTransform : ITransform
         {
             readonly Single _x;
             readonly Single _y;
@@ -1018,20 +1030,21 @@
                     0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), _angle.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), _angle.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the scale transformation.
         /// </summary>
-        sealed class ScaleTransform : ITransform, ICssObject
+        sealed class ScaleTransform : ITransform
         {
             readonly Single _sx;
             readonly Single _sy;
@@ -1057,23 +1070,27 @@
                 return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                if (_sx == _sy)
-                    return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture));
+                get { return CssValueType.Primitive; }
+            }
 
-                return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture));
+            String ICssValue.CssText
+            {
+                get
+                {
+                    if (_sx == _sy)
+                        return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture));
+
+                    return FunctionNames.Build(FunctionNames.Scale, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture));
+                }
             }
         }
 
         /// <summary>
         /// Represents the scale-x transformation.
         /// </summary>
-        sealed class ScaleXTransform : ITransform, ICssObject
+        sealed class ScaleXTransform : ITransform
         {
             readonly Single _scale;
 
@@ -1091,20 +1108,21 @@
                 return new TransformMatrix(_scale, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.ScaleX, _scale.ToString(CultureInfo.InvariantCulture));
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.ScaleX, _scale.ToString(CultureInfo.InvariantCulture)); }
             }
         }
 
         /// <summary>
         /// Represents the scale-y transformation.
         /// </summary>
-        sealed class ScaleYTransform : ITransform, ICssObject
+        sealed class ScaleYTransform : ITransform
         {
             readonly Single _scale;
 
@@ -1122,20 +1140,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, _scale, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.ScaleY, _scale.ToString(CultureInfo.InvariantCulture));
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.ScaleY, _scale.ToString(CultureInfo.InvariantCulture)); }
             }
         }
 
         /// <summary>
         /// Represents the scale-z transformation.
         /// </summary>
-        sealed class ScaleZTransform : ITransform, ICssObject
+        sealed class ScaleZTransform : ITransform
         {
             readonly Single _scale;
 
@@ -1153,20 +1172,21 @@
                 return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, _scale, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.ScaleZ, _scale.ToString(CultureInfo.InvariantCulture));
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.ScaleZ, _scale.ToString(CultureInfo.InvariantCulture)); }
             }
         }
 
         /// <summary>
         /// Represents the scale3d transformation.
         /// </summary>
-        sealed class Scale3DTransform : ITransform, ICssObject
+        sealed class Scale3DTransform : ITransform
         {
             readonly Single _sx;
             readonly Single _sy;
@@ -1188,20 +1208,21 @@
                 return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Scale3d, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture), _sz.ToString(CultureInfo.InvariantCulture));
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Scale3d, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture), _sz.ToString(CultureInfo.InvariantCulture)); }
             }
         }
 
         /// <summary>
         /// Represents the skew transformation.
         /// </summary>
-        sealed class SkewTransform : ITransform, ICssObject
+        sealed class SkewTransform : ITransform
         {
             readonly Angle _alpha;
             readonly Angle _beta;
@@ -1223,20 +1244,21 @@
                 return new TransformMatrix(1f, a, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.Skew, _alpha.ToCss(), _beta.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.Skew, _alpha.ToCss(), _beta.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the skew-x transformation.
         /// </summary>
-        sealed class SkewXTransform : ITransform, ICssObject
+        sealed class SkewXTransform : ITransform
         {
             readonly Angle _angle;
 
@@ -1255,20 +1277,21 @@
                 return new TransformMatrix(1f, a, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.SkewX, _angle.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.SkewX, _angle.ToCss()); }
             }
         }
 
         /// <summary>
         /// Represents the skew-y transformation.
         /// </summary>
-        sealed class SkewYTransform : ITransform, ICssObject
+        sealed class SkewYTransform : ITransform
         {
             readonly Angle _angle;
 
@@ -1287,13 +1310,14 @@
                 return new TransformMatrix(1f, 0f, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
             }
 
-            /// <summary>
-            /// Returns a CSS representation of the transformation.
-            /// </summary>
-            /// <returns>The CSS value string.</returns>
-            public String ToCss()
+            CssValueType ICssValue.Type
             {
-                return FunctionNames.Build(FunctionNames.SkewY, _angle.ToCss());
+                get { return CssValueType.Primitive; }
+            }
+
+            String ICssValue.CssText
+            {
+                get { return FunctionNames.Build(FunctionNames.SkewY, _angle.ToCss()); }
             }
         }
 

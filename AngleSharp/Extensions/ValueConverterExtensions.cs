@@ -11,7 +11,7 @@
             {
                 if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
                 {
-                    list.Remove(list[i]);
+                    list.RemoveAt(i);
                     break;
                 }
             }
