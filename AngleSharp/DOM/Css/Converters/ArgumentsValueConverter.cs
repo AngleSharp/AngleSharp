@@ -13,7 +13,7 @@
             _arguments = arguments;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T[]> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
         {
             var items = value as CSSValueList;
 
@@ -32,7 +32,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value as CSSValueList;
 
@@ -60,7 +60,7 @@
             _second = second;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2>> setResult)
         {
             var items = value as CSSValueList;
 
@@ -77,7 +77,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value as CSSValueList;
 
@@ -101,7 +101,7 @@
             _third = third;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3>> setResult)
         {
             var items = value as CSSValueList;
 
@@ -119,7 +119,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value as CSSValueList;
 
@@ -145,7 +145,7 @@
             _fourth = fourth;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
         {
             var items = value as CSSValueList;
 
@@ -165,7 +165,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value as CSSValueList;
 

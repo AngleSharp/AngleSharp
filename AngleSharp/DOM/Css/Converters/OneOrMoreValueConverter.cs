@@ -13,7 +13,7 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T[]> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
         {
             var items = value.AsEnumeration().ToArray();
             var targets = new T[items.Length];
@@ -28,7 +28,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value.AsEnumeration();
 

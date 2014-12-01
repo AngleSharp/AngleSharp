@@ -13,7 +13,7 @@
             _constraint = constraint;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             var t = default(T);
 
@@ -24,7 +24,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             return _primary.Validate(value);
         }

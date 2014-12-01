@@ -14,7 +14,7 @@
             _arguments = arguments;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             var f = value as CSSFunction;
 
@@ -24,13 +24,13 @@
             return _arguments.TryConvert(Transform(f.Arguments), setResult);
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var f = value as CSSFunction;
             return f != null && f.Name.Equals(_name, StringComparison.OrdinalIgnoreCase) && _arguments.Validate(Transform(f.Arguments));
         }
 
-        static CSSValue Transform(List<CSSValue> arguments)
+        static ICssValue Transform(List<ICssValue> arguments)
         {
             return arguments.Count == 1 ? arguments[0] : new CSSValueList(arguments);
         }

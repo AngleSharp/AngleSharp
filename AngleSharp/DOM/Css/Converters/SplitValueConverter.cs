@@ -17,7 +17,7 @@
             _include = include;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<U[]> setResult)
+        public Boolean TryConvert(ICssValue value, Action<U[]> setResult)
         {
             var values = value as CSSValueList;
             var results = new List<U>();
@@ -53,7 +53,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var values = value as CSSValueList;
 

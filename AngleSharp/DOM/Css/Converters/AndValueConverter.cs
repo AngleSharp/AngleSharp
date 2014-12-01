@@ -13,7 +13,7 @@
             _next = next;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2>> setResult)
         {
             var a = default(T1);
             var b = default(T2);
@@ -27,7 +27,7 @@
             return false;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             return _previous.Validate(value) || _next.Validate(value);
         }

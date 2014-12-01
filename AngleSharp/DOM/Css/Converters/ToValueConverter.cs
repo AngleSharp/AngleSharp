@@ -13,12 +13,12 @@
             _next = next;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<U> setResult)
+        public Boolean TryConvert(ICssValue value, Action<U> setResult)
         {
             return _converter.TryConvert(value, item => setResult(_next(item)));
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             return _converter.Validate(value);
         }

@@ -5,14 +5,14 @@
     sealed class ClassValueConverter<T> : IValueConverter<T>
         where T : class
     {
-        readonly Func<CSSValue, T> _converter;
+        readonly Func<ICssValue, T> _converter;
 
-        public ClassValueConverter(Func<CSSValue, T> converter)
+        public ClassValueConverter(Func<ICssValue, T> converter)
         {
             _converter = converter;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             var result = _converter(value);
 
@@ -23,7 +23,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             return _converter(value) != null;
         }

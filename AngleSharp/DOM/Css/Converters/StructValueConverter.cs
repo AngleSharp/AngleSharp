@@ -5,14 +5,14 @@
     sealed class StructValueConverter<T> : IValueConverter<T>
         where T : struct
     {
-        readonly Func<CSSValue, T?> _converter;
+        readonly Func<ICssValue, T?> _converter;
 
-        public StructValueConverter(Func<CSSValue, T?> converter)
+        public StructValueConverter(Func<ICssValue, T?> converter)
         {
             _converter = converter;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             var result = _converter(value);
 
@@ -23,7 +23,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             return _converter(value).HasValue;
         }

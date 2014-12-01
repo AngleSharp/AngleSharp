@@ -13,7 +13,7 @@
             _values = values;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             var temp = default(T);
 
@@ -24,7 +24,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var mode = default(T);
             return _values.TryGetValue(value, out mode);

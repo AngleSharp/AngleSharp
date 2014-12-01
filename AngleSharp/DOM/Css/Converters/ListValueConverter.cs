@@ -13,7 +13,7 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T[]> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
         {
             var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
             var targets = new T[items.Count];
@@ -28,7 +28,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
 

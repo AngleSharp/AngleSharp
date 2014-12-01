@@ -4,11 +4,11 @@
 
     interface IValueConverter
     {
-        Boolean Validate(CSSValue value);
+        Boolean Validate(ICssValue value);
     }
 
     interface IValueConverter<T> : IValueConverter
     {
-        Boolean TryConvert(CSSValue value, Action<T> setResult);
+        Boolean TryConvert(ICssValue value, Action<T> setResult);
     }
 }

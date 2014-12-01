@@ -16,7 +16,7 @@
             _defaults = defaults;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2>> setResult)
         {
             var items = value.CopyToList();
 
@@ -33,21 +33,7 @@
             return true;
         }
 
-        static T TryAll<T>(CSSValueList list, IValueConverter<T> converter, T defaultValue)
-        {
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
-                {
-                    list.Remove(list[i]);
-                    break;
-                }
-            }
-
-            return defaultValue;
-        }
-
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value.CopyToList();
 
@@ -62,7 +48,7 @@
                 {
                     if (validators[i].Validate(items[j]))
                     {
-                        items.Remove(items[j]);
+                        items.RemoveAt(j);
                         break;
                     }
                 }
@@ -87,7 +73,7 @@
             _defaults = defaults;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3>> setResult)
         {
             var items = value.CopyToList();
 
@@ -105,7 +91,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value.CopyToList();
 
@@ -120,7 +106,7 @@
                 {
                     if (validators[i].Validate(items[j]))
                     {
-                        items.Remove(items[j]);
+                        items.RemoveAt(j);
                         break;
                     }
                 }
@@ -147,7 +133,7 @@
             _defaults = defaults;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
         {
             var items = value.CopyToList();
 
@@ -166,7 +152,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value.CopyToList();
 
@@ -181,7 +167,7 @@
                 {
                     if (validators[i].Validate(items[j]))
                     {
-                        items.Remove(items[j]);
+                        items.RemoveAt(j);
                         break;
                     }
                 }
@@ -216,7 +202,7 @@
             _defaults = defaults;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> setResult)
         {
             var items = value.CopyToList();
 
@@ -239,7 +225,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var items = value.CopyToList();
 
@@ -254,7 +240,7 @@
                 {
                     if (validators[i].Validate(items[j]))
                     {
-                        items.Remove(items[j]);
+                        items.RemoveAt(j);
                         break;
                     }
                 }

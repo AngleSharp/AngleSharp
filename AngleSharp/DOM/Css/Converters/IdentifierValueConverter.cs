@@ -14,7 +14,7 @@
             _result = result;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             if (!value.Is(_identifier))
                 return false;
@@ -23,7 +23,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             return value.Is(_identifier);
         }

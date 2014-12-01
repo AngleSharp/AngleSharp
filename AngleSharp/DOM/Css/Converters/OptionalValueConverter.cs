@@ -16,7 +16,7 @@
             _defaultValue = defaultValue;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<Tuple<T, U>> setResult)
+        public Boolean TryConvert(ICssValue value, Action<Tuple<T, U>> setResult)
         {
             var values = value as CSSValueList;
             var v1 = default(T);
@@ -41,7 +41,7 @@
             return true;
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             var values = value as CSSValueList;
 

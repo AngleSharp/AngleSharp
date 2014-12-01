@@ -12,7 +12,7 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(CSSValue value, Action<T> setResult)
+        public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
             if (value == null)
                 return false;
@@ -20,7 +20,7 @@
             return _converter.TryConvert(value, setResult);
         }
 
-        public Boolean Validate(CSSValue value)
+        public Boolean Validate(ICssValue value)
         {
             if (value == null)
                 return false;
