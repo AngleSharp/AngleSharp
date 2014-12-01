@@ -145,7 +145,7 @@ namespace UnitTests.Library
 
             Assert.AreEqual("red", style.Color);
             Assert.AreEqual("green", style.BackgroundColor);
-            Assert.AreEqual("'Tahoma'", style.FontFamily);
+            Assert.AreEqual("\"Tahoma\"", style.FontFamily);
             Assert.AreEqual("10px", style.FontSize);
             Assert.AreEqual("0.5", style.Opacity);
         }

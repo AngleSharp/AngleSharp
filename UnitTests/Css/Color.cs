@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
+﻿using AngleSharp.DOM.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests

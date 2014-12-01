@@ -65,7 +65,7 @@ h1 {
             Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
             var id = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("#something", id.SelectorText);
-            Assert.AreEqual("'hi there'", id.Style.Content);
+            Assert.AreEqual("\"hi there\"", id.Style.Content);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ h1 {
             Assert.IsInstanceOfType(media.Rules[0], typeof(CSSStyleRule));
             var p = media.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p:before", p.SelectorText);
-            Assert.AreEqual("'Hello'", p.Style.Content);
+            Assert.AreEqual("\"Hello\"", p.Style.Content);
         }
 
         [TestMethod]
@@ -385,7 +385,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue)value).Value;
+            var color = (Color)value;
             Assert.AreEqual(new Color(0, 0, 0), color);
         }
 
@@ -396,7 +396,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue)value).Value;
+            var color = (Color)value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
@@ -407,7 +407,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue)value).Value;
+            var color = (Color)value;
             Assert.AreEqual(new Color(0, 119, 204), color);
         }
 
@@ -418,7 +418,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue)value).Value;
+            var color = (Color)value;
             Assert.AreEqual(new Color(0, 0, 255), color);
         }
 
@@ -429,7 +429,7 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            var color = ((CSSPrimitiveValue)value).Value;
+            var color = (Color)value;
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
@@ -450,7 +450,7 @@ h1 { color: blue }");
                 Assert.IsFalse(decl.IsImportant);
                 Assert.AreEqual(CssValueType.Primitive, decl.Value.Type);
 
-                var color = ((CSSPrimitiveValue)decl.Value).Value;
+                var color = (Color)decl.Value;
                 Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
             }
         }
@@ -489,7 +489,7 @@ h1 { color: blue }");
 
             var value = prop.Value as CSSValueList;
             Assert.AreEqual(7, value.Length);
-            Assert.AreEqual("'Helvetica Neue', helvetica, arial, sans-serif", value.ToCss());
+            Assert.AreEqual("\"Helvetica Neue\", helvetica, arial, sans-serif", value.ToCss());
         }
 
         [TestMethod]
@@ -505,7 +505,7 @@ h1 { color: blue }");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             Assert.AreEqual(CssValueType.List, content.Value.Type);
-            Assert.AreEqual("' (' attr(href) ')'", content.Value.CssText);
+            Assert.AreEqual("\" (\" attr(href) \")\"", content.Value.CssText);
         }
 
         [TestMethod]

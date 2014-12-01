@@ -84,7 +84,6 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("justify", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]
@@ -101,12 +100,12 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("justify", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
-            concrete.TrySetValue(new CSSPrimitiveValue(new CssIdentifier("left")));
+            Assert.IsInstanceOfType(value, typeof(CssIdentifier));
+            concrete.TrySetValue(new CssIdentifier("left"));
             value = concrete.Value;
             Assert.AreEqual("left", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
-            concrete.TrySetValue(new CSSPrimitiveValue(new CssIdentifier("whatever")));
+            Assert.IsInstanceOfType(value, typeof(CssIdentifier));
+            concrete.TrySetValue(new CssIdentifier("whatever"));
             Assert.AreEqual(value, concrete.Value);
         }
 
@@ -124,7 +123,6 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("3em", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]
@@ -141,7 +139,6 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("0", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]
@@ -158,7 +155,6 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("10%", value.CssText);
-            Assert.IsInstanceOfType(value, typeof(CSSPrimitiveValue));
         }
 
         [TestMethod]

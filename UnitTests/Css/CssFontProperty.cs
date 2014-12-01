@@ -52,7 +52,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("courier, 'Lucida Console', monospace", concrete.Value.CssText);
+            Assert.AreEqual("courier, \"Lucida Console\", monospace", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("'Goudy Bookletter 1911', sans-serif", concrete.Value.CssText);
+            Assert.AreEqual("\"Goudy Bookletter 1911\", sans-serif", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -729,7 +729,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("x-large / 110% 'new century schoolbook', serif", concrete.Value.CssText);
+            Assert.AreEqual("x-large / 110% \"new century schoolbook\", serif", concrete.Value.CssText);
         }
 
         [TestMethod]
@@ -774,7 +774,7 @@ namespace UnitTests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("condensed oblique 12pt 'Helvetica Neue', serif", concrete.Value.CssText);
+            Assert.AreEqual("condensed oblique 12pt \"Helvetica Neue\", serif", concrete.Value.CssText);
         }
 
         [TestMethod]
