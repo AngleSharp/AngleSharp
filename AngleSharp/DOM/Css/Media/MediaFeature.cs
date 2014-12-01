@@ -11,7 +11,7 @@
         #region Fields
 
         String _name;
-        CSSValue _value;
+        ICssValue _value;
 
         #endregion
 
@@ -37,7 +37,7 @@
         /// <summary>
         /// Gets the value of the feature.
         /// </summary>
-        internal CSSValue Value
+        internal ICssValue Value
         {
             get { return _value; }
             set { _value = value; }
@@ -58,7 +58,7 @@
         /// </summary>
         /// <param name="value">The value that should be used.</param>
         /// <returns>True if the given value is valid, otherwise false.</returns>
-        internal abstract Boolean TrySetValue(CSSValue value);
+        internal abstract Boolean TrySetValue(ICssValue value);
 
         /// <summary>
         /// Validates the given feature.
@@ -76,7 +76,7 @@
             if (_value == null)
                 return String.Concat("(", _name, ")");
 
-            return String.Concat("(", _name, ": ", _value.ToCss(), ")");
+            return String.Concat("(", _name, ": ", _value.CssText, ")");
         }
 
         #endregion

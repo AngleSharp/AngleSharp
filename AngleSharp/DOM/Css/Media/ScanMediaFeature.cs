@@ -33,7 +33,7 @@
             return true;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             if (Value.Is(Keywords.Progressive))
             {

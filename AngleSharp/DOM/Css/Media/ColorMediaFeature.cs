@@ -18,7 +18,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var color = value.ToInteger();
 
@@ -52,7 +52,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var color = value.ToInteger();
 
@@ -87,7 +87,7 @@
             return true;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var color = value.ToInteger();
 

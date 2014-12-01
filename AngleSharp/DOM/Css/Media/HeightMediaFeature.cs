@@ -18,7 +18,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var length = value.ToLength();
 
@@ -52,7 +52,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var length = value.ToLength();
 
@@ -86,7 +86,7 @@
             return true;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var length = value.ToLength();
 

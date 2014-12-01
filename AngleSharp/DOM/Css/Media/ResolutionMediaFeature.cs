@@ -18,7 +18,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var res = value.ToResolution();
 
@@ -52,7 +52,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var res = value.ToResolution();
 
@@ -87,7 +87,7 @@
             return true;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var res = value.ToResolution();
 

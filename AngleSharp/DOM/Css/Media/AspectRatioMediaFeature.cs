@@ -18,7 +18,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var ratio = value.ToAspectRatio();
 
@@ -52,7 +52,7 @@
             return false;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var ratio = value.ToAspectRatio();
 
@@ -87,7 +87,7 @@
             return true;
         }
 
-        internal override Boolean TrySetValue(CSSValue value)
+        internal override Boolean TrySetValue(ICssValue value)
         {
             var ratio = value.ToAspectRatio();
 
