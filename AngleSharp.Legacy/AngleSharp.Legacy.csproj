@@ -1146,9 +1146,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFunction.cs">
       <Link>DOM\Css\Values\CSSFunction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSPrimitiveValue.cs">
-      <Link>DOM\Css\Values\CSSPrimitiveValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\CSSUnknownValue.cs">
       <Link>DOM\Css\Values\CSSUnknownValue.cs</Link>
     </Compile>
