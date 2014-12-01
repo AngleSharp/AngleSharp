@@ -16,7 +16,7 @@
         #region Fields
 
         readonly Stack<FunctionBuffer> _functions;
-        readonly List<CSSValue> _values;
+        readonly List<ICssValue> _values;
 
         Boolean _error;
 
@@ -30,7 +30,7 @@
         public CssValueBuilder()
         {
             _functions = new Stack<FunctionBuffer>();
-            _values = new List<CSSValue>();
+            _values = new List<ICssValue>();
             Reset();
         }
 
@@ -122,7 +122,7 @@
         /// Converts the current stage to a CSSValue.
         /// </summary>
         /// <returns>The instance of a value.</returns>
-        public CSSValue ToValue()
+        public ICssValue ToValue()
         {
             if (!_error)
             {
@@ -144,7 +144,7 @@
         /// </summary>
         /// <param name="start">The inclusive start index.</param>
         /// <returns>The created value (primitive or list).</returns>
-        CSSValue Create(Int32 start = 0)
+        ICssValue Create(Int32 start = 0)
         {
             return Create(start, _values.Count);
         }
@@ -155,7 +155,7 @@
         /// <param name="start">The inclusive start index.</param>
         /// <param name="end">The exclusive end index.</param>
         /// <returns>The created value (primitive or list).</returns>
-        CSSValue Create(Int32 start, Int32 end)
+        ICssValue Create(Int32 start, Int32 end)
         {
             if (end - start != 1)
             {
@@ -182,7 +182,7 @@
             #region Fields
 
             readonly String _name;
-            readonly List<CSSValue> _arguments;
+            readonly List<ICssValue> _arguments;
 
             #endregion
 
@@ -190,7 +190,7 @@
 
             public FunctionBuffer(String name)
             {
-                _arguments = new List<CSSValue>();
+                _arguments = new List<ICssValue>();
                 _name = name;
             }
 
@@ -204,7 +204,7 @@
                 set;
             }
 
-            public List<CSSValue> Arguments
+            public List<ICssValue> Arguments
             {
                 get { return _arguments; }
             }
@@ -227,34 +227,9 @@
         /// TODO: Temporary method that will be removed when CSSValue is removed.
         /// </summary>
         /// <param name="obj"></param>
-        internal void AddValue(ICssObject obj)
+        internal void AddValue(ICssValue obj)
         {
-            if (obj is CSSValue)
-                _values.Add((CSSValue)obj);
-            else if (obj is CssIdentifier)
-                _values.Add(new CSSPrimitiveValue((CssIdentifier)obj));
-            else if (obj is Color)
-                _values.Add(new CSSPrimitiveValue((Color)obj));
-            else if (obj is Length)
-                _values.Add(new CSSPrimitiveValue((Length)obj));
-            else if (obj is Percent)
-                _values.Add(new CSSPrimitiveValue((Percent)obj));
-            else if (obj is Angle)
-                _values.Add(new CSSPrimitiveValue((Angle)obj));
-            else if (obj is Time)
-                _values.Add(new CSSPrimitiveValue((Time)obj));
-            else if (obj is Frequency)
-                _values.Add(new CSSPrimitiveValue((Frequency)obj));
-            else if (obj is Resolution)
-                _values.Add(new CSSPrimitiveValue((Resolution)obj));
-            else if (obj is CssString)
-                _values.Add(new CSSPrimitiveValue((CssString)obj));
-            else if (obj is Number)
-                _values.Add(new CSSPrimitiveValue((Number)obj));
-            else if (obj is Percent)
-                _values.Add(new CSSPrimitiveValue((Percent)obj));
-            else if (obj is CssUrl)
-                _values.Add(new CSSPrimitiveValue((CssUrl)obj));
+            _values.Add(obj);
         }
     }
 }

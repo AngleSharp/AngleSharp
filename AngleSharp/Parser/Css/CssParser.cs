@@ -769,7 +769,7 @@
             return medium;
         }
 
-        Tuple<String, CSSValue> GetConstraint(IEnumerator<CssToken> tokens)
+        Tuple<String, ICssValue> GetConstraint(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
@@ -830,7 +830,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The computed value.</returns>
-        CSSValue InValue(IEnumerator<CssToken> tokens)
+        ICssValue InValue(IEnumerator<CssToken> tokens)
         {
             tokenizer.IgnoreWhitespace = false;
             value.Reset();
@@ -882,7 +882,7 @@
             return false;
         }
 
-        Boolean TakeValue(ICssObject val, IEnumerator<CssToken> tokens)
+        Boolean TakeValue(ICssValue val, IEnumerator<CssToken> tokens)
         {
             var nxt = tokens.MoveNext();
 
@@ -1261,7 +1261,7 @@
         /// </summary>
         /// <param name="token">The token to consider.</param>
         /// <returns>The created value.</returns>
-        static ICssObject ToUnit(CssUnitToken token)
+        static ICssValue ToUnit(CssUnitToken token)
         {
             if (token.Type == CssTokenType.Percentage)
                 return new Percent(token.Value);
@@ -1274,7 +1274,7 @@
         /// </summary>
         /// <param name="identifier">The identifier to consider.</param>
         /// <returns>The created value.</returns>
-        static ICssObject ToIdentifier(String identifier)
+        static ICssValue ToIdentifier(String identifier)
         {
             if (identifier.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
                 return CSSValue.Inherit;
@@ -1405,7 +1405,7 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValue object.</returns>
-        internal static CSSValue ParseValue(String source, IConfiguration configuration = null)
+        public static ICssValue ParseValue(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
@@ -1486,7 +1486,7 @@
                 if (values[i] == CSSValue.Separator)
                 {
                     for (var j = values.Length - 1; j >= i; j--)
-                        values.Remove(values[j]);
+                        values.RemoveAt(j);
 
                     break;
                 }
