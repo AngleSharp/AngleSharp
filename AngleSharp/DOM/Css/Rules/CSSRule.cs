@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    abstract class CSSRule : ICssRule, ICssObject
+    abstract class CSSRule : ICssRule
     {
         #region Fields
 
@@ -116,7 +116,7 @@
         /// Returns a CSS code representation of the rule.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public abstract String ToCss();
+        protected abstract String ToCss();
 
         #endregion
     }

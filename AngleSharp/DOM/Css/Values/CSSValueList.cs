@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a list of values in the CSS context.
     /// </summary>
-    sealed class CSSValueList : CSSValue, IEnumerable<ICssValue>
+    sealed class CssValueList : ICssValue, IEnumerable<ICssValue>
     {
         #region Fields
 
@@ -20,8 +20,7 @@
         /// <summary>
         /// Creates a new CSS value list.
         /// </summary>
-        internal CSSValueList()
-            : base(CssValueType.List)
+        internal CssValueList()
         {
             _items = new List<ICssValue>();
         }
@@ -30,7 +29,7 @@
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="item">The first item to add.</param>
-        internal CSSValueList(ICssValue item)
+        internal CssValueList(ICssValue item)
 			: this()
         {
 			_items.Add(item);
@@ -40,8 +39,7 @@
         /// Creates a new CSS value list.
         /// </summary>
         /// <param name="items">The items to use.</param>
-        internal CSSValueList(List<ICssValue> items)
-            : base(CssValueType.List)
+        internal CssValueList(List<ICssValue> items)
         {
             _items = items;
         }
@@ -59,6 +57,41 @@
         }
 
         /// <summary>
+        /// Gets the type of the value (list).
+        /// </summary>
+        public CssValueType Type
+        {
+            get { return CssValueType.List; }
+        }
+
+        /// <summary>
+        /// Gets a CSS code representation of the stylesheet.
+        /// </summary>
+        public String CssText
+        {
+            get
+            {
+                var builder = Pool.NewStringBuilder();
+
+                if (_items.Count > 0)
+                {
+                    builder.Append(_items[0].CssText);
+
+                    for (int i = 1; i < _items.Count; i++)
+                    {
+                        if (_items[i] == CssValue.Separator)
+                            builder.Append(',');
+                        else
+                            builder.Append(' ').Append(_items[i].CssText);
+                    }
+                }
+
+                return builder.ToPool();
+            }
+        }
+
+
+        /// <summary>
         /// Used to retrieve a CSSValue by ordinal index. The order in this collection represents the order of the values in the CSS style property.
         /// </summary>
         /// <param name="index">If index is greater than or equal to the number of values in the list, this returns null.</param>
@@ -71,30 +104,6 @@
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Returns a CSS code representation of the stylesheet.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public override String ToCss()
-        {
-            var builder = Pool.NewStringBuilder();
-
-            if (_items.Count > 0)
-            {
-                builder.Append(_items[0].CssText);
-
-                for (int i = 1; i < _items.Count; i++)
-                {
-                    if (_items[i] == CSSValue.Separator)
-                        builder.Append(',');
-                    else
-                        builder.Append(' ').Append(_items[i].CssText);
-                }
-            }
-
-            return builder.ToPool();
-        }
 
         public void Add(ICssValue item)
         {

@@ -11,7 +11,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CSSMedium : ICssObject, IEnumerable<MediaFeature>
+    sealed class CSSMedium : IEnumerable<MediaFeature>
     {
         #region Media Types and Features
 
@@ -119,9 +119,28 @@
                 var constraints = new String[_features.Count];
 
                 for (int i = 0; i < _features.Count; i++)
-                    constraints[i] = _features[i].ToCss();
+                    constraints[i] = _features[i].CssText;
 
                 return String.Join(" and ", constraints);
+            }
+        }
+
+        /// <summary>
+        /// Gets a CSS code representation of the medium.
+        /// </summary>
+        public String CssText
+        {
+            get
+            {
+                var constraints = Constraints;
+                var prefix = IsExclusive ? "only " : (IsInverse ? "not " : String.Empty);
+
+                if (String.IsNullOrEmpty(constraints))
+                    return String.Concat(prefix, Type ?? String.Empty);
+                else if (String.IsNullOrEmpty(Type))
+                    return String.Concat(prefix, constraints);
+
+                return String.Concat(prefix, Type, " and ", constraints);
             }
         }
 
@@ -148,23 +167,6 @@
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a CSS code representation of the medium.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public String ToCss()
-        {
-            var constraints = Constraints;
-            var prefix = IsExclusive ? "only " : (IsInverse ? "not " : String.Empty);
-
-            if (String.IsNullOrEmpty(constraints))
-                return String.Concat(prefix, Type ?? String.Empty);
-            else if (String.IsNullOrEmpty(Type))
-                return String.Concat(prefix, constraints);
-
-            return String.Concat(prefix, Type, " and ", constraints);
         }
 
         /// <summary>

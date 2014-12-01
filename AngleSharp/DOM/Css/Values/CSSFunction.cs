@@ -5,10 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class CSSFunction : CSSValue
+    sealed class CssFunction : ICssValue
     {
-        public CSSFunction(String name, List<ICssValue> arguments)
-            : base(CssValueType.Primitive)
+        public CssFunction(String name, List<ICssValue> arguments)
         {
             Name = name;
             Arguments = arguments;
@@ -26,9 +25,14 @@
             private set;
         }
 
-        public override String ToCss()
+        public CssValueType Type
         {
-            return FunctionNames.Build(Name, Arguments.Select(m => m.CssText).ToArray());
+            get { return CssValueType.Primitive; }
+        }
+
+        public String CssText
+        {
+            get { return FunctionNames.Build(Name, Arguments.Select(m => m.CssText).ToArray()); }
         }
     }
 }

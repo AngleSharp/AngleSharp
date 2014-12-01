@@ -67,7 +67,7 @@
         /// </summary>
         /// <param name="value">The value to add.</param>
         /// <returns>The status.</returns>
-        public void AddValue(CSSValue value)
+        public void AddValue(CssValue value)
         {
             _values.Add(value);
         }
@@ -86,7 +86,7 @@
         /// </summary>
         public void InsertDelimiter()
         {
-            _values.Add(CSSValue.Delimiter);
+            _values.Add(CssValue.Delimiter);
         }
 
         /// <summary>
@@ -102,10 +102,10 @@
                 function.Arguments.Add(value);
                 function.StartIndex = _values.Count;
             }
-            else if (_values.Count == 0 || _values[_values.Count - 1] == CSSValue.Separator)
+            else if (_values.Count == 0 || _values[_values.Count - 1] == CssValue.Separator)
                 IsFaulted = true;
             else
-                _values.Add(CSSValue.Separator);
+                _values.Add(CssValue.Separator);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@
         {
             if (end - start != 1)
             {
-                var list = new CSSValueList();
+                var list = new CssValueList();
 
                 for (var i = start; i < end; i++)
                     list.Add(_values[i]);
@@ -213,9 +213,9 @@
 
             #region Methods
 
-            public CSSValue ToValue()
+            public ICssValue ToValue()
             {
-                return new CSSFunction(_name, _arguments);
+                return new CssFunction(_name, _arguments);
             }
 
             #endregion

@@ -15,7 +15,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length != _arguments)
                 return false;
@@ -34,7 +34,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length != _arguments)
                 return false;
@@ -62,7 +62,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2>> setResult)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length != 2)
                 return false;
@@ -79,7 +79,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null)
                 return false;
@@ -103,7 +103,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3>> setResult)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length != 3)
                 return false;
@@ -121,7 +121,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null)
                 return false;
@@ -147,7 +147,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length != 4)
                 return false;
@@ -167,7 +167,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null)
                 return false;

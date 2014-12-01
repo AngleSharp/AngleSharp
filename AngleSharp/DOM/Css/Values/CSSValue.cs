@@ -5,14 +5,12 @@
     /// <summary>
     /// Represents a CSS value.
 	/// </summary>
-    class CSSValue : ICssValue, ICssObject
+    sealed class CssValue : ICssValue
     {
         #region Fields
 
-        /// <summary>
-        /// The type of value.
-        /// </summary>
         readonly CssValueType _type;
+        readonly String _text;
 
         #endregion
 
@@ -21,22 +19,22 @@
         /// <summary>
         /// Gets the instance for an inherited value.
         /// </summary>
-        public static readonly CSSValue Inherit = new CSSInheritValue();
+        public static readonly CssValue Inherit = new CssValue(Keywords.Inherit, CssValueType.Inherit);
 
         /// <summary>
         /// Gets the instance for an initial value.
         /// </summary>
-        public static readonly CSSValue Initial = new CSSInitialValue();
+        public static readonly CssValue Initial = new CssValue(Keywords.Initial, CssValueType.Initial);
 
         /// <summary>
         /// Gets the instance for a slash delimiter value.
         /// </summary>
-        internal static readonly CSSValue Delimiter = new CSSDelimiterValue();
+        internal static readonly CssValue Delimiter = new CssValue("/");
 
         /// <summary>
         /// Gets the instance for a comma separator value.
         /// </summary>
-        internal static readonly CSSValue Separator = new CSSSeparatorValue();
+        internal static readonly CssValue Separator = new CssValue(",");
 
         #endregion
 
@@ -45,10 +43,21 @@
         /// <summary>
         /// Creates a new CSS value.
         /// </summary>
+        /// <param name="text">The text that represents the value.</param>
         /// <param name="type">The type of of the value.</param>
-        internal CSSValue(CssValueType type = CssValueType.Custom)
+        protected CssValue(String text, CssValueType type)
         {
+            _text = text;
             _type = type;
+        }
+
+        /// <summary>
+        /// Creates a new custom CSS value.
+        /// </summary>
+        /// <param name="text">The text that represents the value.</param>
+        internal CssValue(String text)
+            : this(text, CssValueType.Custom)
+        {
         }
 
         #endregion
@@ -68,124 +77,7 @@
         /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns a CSS code representation of the stylesheet.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public virtual String ToCss()
-        {
-            return String.Empty;
-        }
-
-        #endregion
-
-        #region Nested
-
-        sealed class CSSInheritValue : CSSValue
-        {
-            #region Singleton
-
-            public CSSInheritValue()
-                : base(CssValueType.Inherit)
-            {
-            }
-
-            #endregion
-
-            #region Methods
-
-            /// <summary>
-            /// Returns a CSS code representation of the stylesheet.
-            /// </summary>
-            /// <returns>A string that contains the code.</returns>
-            public override String ToCss()
-            {
-                return Keywords.Inherit;
-            }
-
-            #endregion
-        }
-
-        sealed class CSSInitialValue : CSSValue
-        {
-            #region Singleton
-
-            public CSSInitialValue()
-                : base(CssValueType.Initial)
-            {
-            }
-
-            #endregion
-
-            #region Methods
-
-            /// <summary>
-            /// Returns a CSS code representation of the stylesheet.
-            /// </summary>
-            /// <returns>A string that contains the code.</returns>
-            public override String ToCss()
-            {
-                return Keywords.Initial;
-            }
-
-            #endregion
-        }
-
-        sealed class CSSDelimiterValue : CSSValue
-        {
-            #region Singleton
-
-            public CSSDelimiterValue()
-                : base(CssValueType.Custom)
-            {
-            }
-
-            #endregion
-
-            #region Methods
-
-            /// <summary>
-            /// Returns a CSS code representation of the stylesheet.
-            /// </summary>
-            /// <returns>A string that contains the code.</returns>
-            public override String ToCss()
-            {
-                return "/";
-            }
-
-            #endregion
-        }
-
-        sealed class CSSSeparatorValue : CSSValue
-        {
-            #region Singleton
-
-            public CSSSeparatorValue()
-                : base(CssValueType.Custom)
-            {
-            }
-
-            #endregion
-
-            #region Methods
-
-            /// <summary>
-            /// Returns a CSS code representation of the stylesheet.
-            /// </summary>
-            /// <returns>A string that contains the code.</returns>
-            public override String ToCss()
-            {
-                return ",";
-            }
-
-            #endregion
+            get { return _text; }
         }
 
         #endregion

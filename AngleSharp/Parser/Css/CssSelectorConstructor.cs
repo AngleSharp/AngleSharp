@@ -561,7 +561,7 @@
 					case pseudoClassFunctionNot:
 					{
 						var sel = nested.Result;
-                        var code = String.Concat(pseudoClassFunctionNot, "(", sel.ToCss(), ")");
+                        var code = String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")");
 						Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), code));
                         return true;
 					}
@@ -976,7 +976,7 @@
 		/// <summary>
 		/// The nth-child selector.
 		/// </summary>
-        sealed class NthFirstChildSelector : NthChildSelector, ISelector, ICssObject
+        sealed class NthFirstChildSelector : NthChildSelector, ISelector
         {
 			public Boolean Match(IElement element)
             {
@@ -1000,19 +1000,14 @@
 
             public String Text
             {
-                get { return ToCss(); }
-            }
-
-            public String ToCss()
-            {
-                return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthChild, step, offset);
+                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthChild, step, offset); }
             }
         }
 
 		/// <summary>
 		/// The nth-lastchild selector.
 		/// </summary>
-        sealed class NthLastChildSelector : NthChildSelector, ISelector, ICssObject
+        sealed class NthLastChildSelector : NthChildSelector, ISelector
         {
             public Boolean Match(IElement element)
             {
@@ -1036,19 +1031,14 @@
 
             public String Text
             {
-                get { return ToCss(); }
-            }
-
-            public String ToCss()
-            {
-                return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastChild, step, offset);
+                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastChild, step, offset); }
             }
         }
 
 		/// <summary>
 		/// The first child selector.
 		/// </summary>
-        sealed class FirstChildSelector : ISelector, ICssObject
+        sealed class FirstChildSelector : ISelector
         {
             FirstChildSelector()
             { }
@@ -1062,7 +1052,7 @@
             
             public String Text
             {
-                get { return ToCss(); }
+                get { return ":" + CssSelectorConstructor.pseudoClassFirstChild; }
             }
 
             public Priority Specifity
@@ -1087,17 +1077,12 @@
 
                 return false;
             }
-
-            public String ToCss()
-            {
-                return ":" + CssSelectorConstructor.pseudoClassFirstChild;
-            }
         }
 
 		/// <summary>
 		/// The last child selector.
 		/// </summary>
-        sealed class LastChildSelector : ISelector, ICssObject
+        sealed class LastChildSelector : ISelector
         {
             LastChildSelector()
             { }
@@ -1111,7 +1096,7 @@
 
             public String Text
             {
-                get { return ToCss(); }
+                get { return ":" + CssSelectorConstructor.pseudoClassLastChild; }
             }
 
             public Priority Specifity
@@ -1135,11 +1120,6 @@
                 }
 
                 return false;
-            }
-
-            public String ToCss()
-            {
-                return ":" + CssSelectorConstructor.pseudoClassLastChild;
             }
         }
 

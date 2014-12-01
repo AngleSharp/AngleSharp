@@ -119,7 +119,7 @@
         /// Returns a CSS code representation of the rule.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public override String ToCss()
+        protected override String ToCss()
         {
             return String.Concat("@keyframes ", _name, " ", _rules.ToCssBlock());
         }

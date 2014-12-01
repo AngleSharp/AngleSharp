@@ -17,7 +17,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<Tuple<T[], U>> setResult)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
             var end = default(ICssValue);
 
             if (values != null)
@@ -29,7 +29,7 @@
             }
             else
             {
-                values = new CSSValueList();
+                values = new CssValueList();
                 end = value;
             }
 
@@ -45,7 +45,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
             var end = default(ICssValue);
 
             if (values != null)
@@ -53,11 +53,11 @@
                 var items = values.ToList();
                 end = items[items.Count - 1].Reduce();
                 items.RemoveAt(items.Count - 1);
-                values = new CSSValueList(items.Select(m => m.Reduce()).ToList());
+                values = new CssValueList(items.Select(m => m.Reduce()).ToList());
             }
             else
             {
-                values = new CSSValueList();
+                values = new CssValueList();
                 end = value;
             }
 

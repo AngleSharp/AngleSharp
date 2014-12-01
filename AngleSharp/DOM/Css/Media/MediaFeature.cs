@@ -6,11 +6,11 @@
     /// Represents a feature expression within
     /// a media query.
     /// </summary>
-    public abstract class MediaFeature : ICssObject
+    public abstract class MediaFeature
     {
         #region Fields
 
-        String _name;
+        readonly String _name;
         ICssValue _value;
 
         #endregion
@@ -43,6 +43,20 @@
             set { _value = value; }
         }
 
+        /// <summary>
+        /// Gets a CSS code representation of the medium.
+        /// </summary>
+        public String CssText
+        {
+            get
+            {
+                if (_value == null)
+                    return String.Concat("(", _name, ")");
+
+                return String.Concat("(", _name, ": ", _value.CssText, ")");
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -66,18 +80,6 @@
         /// <param name="window">The current browsing window.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public abstract Boolean Validate(IWindow window);
-
-        /// <summary>
-        /// Returns a CSS code representation of the medium.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public String ToCss()
-        {
-            if (_value == null)
-                return String.Concat("(", _name, ")");
-
-            return String.Concat("(", _name, ": ", _value.CssText, ")");
-        }
 
         #endregion
     }

@@ -18,7 +18,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length < _start || items.Length < _end)
                 return false;
@@ -28,7 +28,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = value as CSSValueList;
+            var items = value as CssValueList;
 
             if (items == null || items.Length < _start || items.Length > _end)
                 return false;

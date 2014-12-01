@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Globalization;
 
     /// <summary>
-    /// Represents a time value.
+    /// Represents a resolution value.
     /// </summary>
-    public struct Frequency : IEquatable<Frequency>, ICssValue
+    public struct Resolution : IEquatable<Resolution>, ICssValue
     {
         #region Fields
 
@@ -18,11 +19,11 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new frequency value.
+        /// Creates a new resolution value.
         /// </summary>
-        /// <param name="value">The value of the frequency.</param>
-        /// <param name="unit">The unit of the frequency.</param>
-        public Frequency(Single value, Unit unit)
+        /// <param name="value">The value of the resolution.</param>
+        /// <param name="unit">The unit of the resolution.</param>
+        public Resolution(Single value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -33,11 +34,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of frequency in Hz.
+        /// Gets the value of resolution.
         /// </summary>
         public Single Value
         {
-            get { return _unit == Unit.Khz ? _value * 1000f : _value; }
+            get { return _value; }
         }
 
         /// <summary>
@@ -57,11 +58,14 @@
             {
                 switch (_unit)
                 {
-                    case Unit.Khz:
-                        return Units.Khz;
+                    case Unit.Dpcm:
+                        return Units.Dpcm;
 
-                    case Unit.Hz:
-                        return Units.Hz;
+                    case Unit.Dpi:
+                        return Units.Dpi;
+
+                    case Unit.Dppx:
+                        return Units.Dppx;
 
                     default:
                         return String.Empty;
@@ -71,28 +75,14 @@
 
         #endregion
 
-        #region Casts
-
-        /// <summary>
-        /// Converts the frequency to a single floating point.
-        /// </summary>
-        /// <param name="frequency">The frequency.</param>
-        /// <returns>The float value.</returns>
-        public static explicit operator Single(Frequency frequency)
-        {
-            return frequency.Value;
-        }
-
-        #endregion
-
         #region Methods
 
         /// <summary>
-        /// Checks for equality with the other frequency.
+        /// Checks if the current resolution equals the given one.
         /// </summary>
-        /// <param name="other">The frequency to compare to.</param>
-        /// <returns>True if both frequencies are equal, otherwise false.</returns>
-        public Boolean Equals(Frequency other)
+        /// <param name="other">The given resolution to check for equality.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public Boolean Equals(Resolution other)
         {
             return _value == other._value && _unit == other._unit;
         }
@@ -102,18 +92,22 @@
         #region Units
 
         /// <summary>
-        /// The various frequency units.
+        /// The various resolution units.
         /// </summary>
         public enum Unit
         {
             /// <summary>
-            /// The value is a frequency (Hz).
+            /// The value is a resolution (dots per in).
             /// </summary>
-            Hz,
+            Dpi,
             /// <summary>
-            /// The value is a frequency (kHz).
+            /// The value is a resolution (dots per cm).
             /// </summary>
-            Khz,
+            Dpcm,
+            /// <summary>
+            /// The value is a resolution (dots per px).
+            /// </summary>
+            Dppx,
         }
 
         #endregion
@@ -127,14 +121,14 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Frequency)
-                return this.Equals((Frequency)obj);
+            if (obj is Resolution)
+                return this.Equals((Resolution)obj);
 
             return false;
         }
 
         /// <summary>
-        /// Returns a hash code that defines the current frequency.
+        /// Returns a hash code that defines the current resolution.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
@@ -147,7 +141,7 @@
         #region String Representation
 
         /// <summary>
-        /// Returns a string representing the frequency.
+        /// Returns a string representing the resolution.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()

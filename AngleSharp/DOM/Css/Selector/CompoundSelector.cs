@@ -62,12 +62,12 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        protected override String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 
             for (int i = 0; i < selectors.Count; i++)
-                sb.Append(selectors[i].ToCss());
+                sb.Append(selectors[i].Text);
 
             return sb.ToPool();
         }

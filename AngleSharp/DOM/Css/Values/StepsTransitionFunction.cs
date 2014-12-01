@@ -54,7 +54,7 @@
         /// Returns the CSS representation of the steps timing function.
         /// </summary>
         /// <returns>A string that resembles CSS code.</returns>
-        public override String ToCss()
+        protected override String ToCss()
         {
             return FunctionNames.Build(FunctionNames.Steps, Intervals.ToString(CultureInfo.InvariantCulture), IsStart ? Keywords.Start : Keywords.End);
         }

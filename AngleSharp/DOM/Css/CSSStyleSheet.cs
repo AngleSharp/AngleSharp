@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
@@ -8,7 +7,7 @@
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    sealed class CSSStyleSheet : StyleSheet, ICssStyleSheet, ICssObject
+    sealed class CSSStyleSheet : StyleSheet, ICssStyleSheet
     {
         #region Fields
 
@@ -91,6 +90,22 @@
             get { return _source; }
         }
 
+        /// <summary>
+        /// Gets a CSS code representation of the stylesheet.
+        /// </summary>
+        public String CssText
+        {
+            get
+            {
+                var sb = Pool.NewStringBuilder();
+
+                foreach (var rule in _rules)
+                    sb.AppendLine(rule.CssText);
+
+                return sb.ToPool();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -116,24 +131,6 @@
             var value = CssParser.ParseRule(rule);
             _rules.Insert(value, index, this, null);
             return index;            
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns a CSS code representation of the stylesheet.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public String ToCss()
-        {
-            var sb = Pool.NewStringBuilder();
-
-            foreach (var rule in _rules)
-                sb.AppendLine(rule.ToCss());
-
-            return sb.ToPool();
         }
 
         #endregion

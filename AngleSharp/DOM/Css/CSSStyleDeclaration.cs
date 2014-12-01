@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CSSStyleDeclaration : ICssStyleDeclaration, ICssObject, IPropertyCreator
+    sealed class CSSStyleDeclaration : ICssStyleDeclaration, IPropertyCreator
     {
         #region Fields
 
@@ -76,7 +76,63 @@
         /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
+            get
+            {
+                var list = new List<String>();
+                var serialized = new List<String>();
+
+                foreach (var declaration in _declarations)
+                {
+                    var property = declaration.Name;
+
+                    if (serialized.Contains(property))
+                        continue;
+
+                    var shorthands = CssPropertyFactory.GetShorthands(property);
+
+                    if (shorthands.Any())
+                    {
+                        var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+
+                        foreach (var shorthand in shorthands.OrderByDescending(m => CssPropertyFactory.GetLonghands(m).Count()))
+                        {
+                            var properties = CssPropertyFactory.GetLonghands(shorthand);
+                            var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToList();
+
+                            if (currentLonghands.Count == 0)
+                                continue;
+
+                            var important = currentLonghands.Count(m => m.IsImportant);
+
+                            if (important > 0 && important != currentLonghands.Count)
+                                continue;
+
+                            var rule = CssPropertyFactory.CreateShorthand(shorthand, this);
+                            var value = rule.SerializeValue(currentLonghands);
+
+                            if (String.IsNullOrEmpty(value))
+                                continue;
+
+                            value = CSSProperty.Serialize(shorthand, value, important != 0);
+                            list.Add(value);
+
+                            foreach (var longhand in currentLonghands)
+                            {
+                                serialized.Add(longhand.Name);
+                                longhands.Remove(longhand);
+                            }
+                        }
+                    }
+
+                    if (serialized.Contains(property))
+                        continue;
+
+                    list.Add(declaration.CssText);
+                    serialized.Add(property);
+                }
+
+                return String.Join(" ", list);
+            }
             set
             {
                 if (_readOnly)
@@ -2511,72 +2567,6 @@
             _declarations.Clear();
             _declarations.AddRange(style._declarations);
             style._declarations.Clear();
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns the CSS representation of the list of rules.
-        /// </summary>
-        /// <returns>A string containing the CSS code of the declarations.</returns>
-        public String ToCss()
-        {
-            var list = new List<String>();
-            var serialized = new List<String>();
-
-            foreach (var declaration in _declarations)
-            {
-                var property = declaration.Name;
-
-                if (serialized.Contains(property))
-                    continue;
-
-                var shorthands = CssPropertyFactory.GetShorthands(property);
-
-                if (shorthands.Any())
-                {
-                    var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
-
-                    foreach (var shorthand in shorthands.OrderByDescending(m => CssPropertyFactory.GetLonghands(m).Count()))
-                    {
-                        var properties = CssPropertyFactory.GetLonghands(shorthand);
-                        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToList();
-
-                        if (currentLonghands.Count == 0)
-                            continue;
-
-                        var important = currentLonghands.Count(m => m.IsImportant);
-
-                        if (important > 0 && important != currentLonghands.Count)
-                            continue;
-
-                        var rule = CssPropertyFactory.CreateShorthand(shorthand, this);
-                        var value = rule.SerializeValue(currentLonghands);
-
-                        if (String.IsNullOrEmpty(value))
-                            continue;
-
-                        value = CSSProperty.Serialize(shorthand, value, important != 0);
-                        list.Add(value);
-
-                        foreach (var longhand in currentLonghands)
-                        {
-                            serialized.Add(longhand.Name);
-                            longhands.Remove(longhand);
-                        }
-                    }
-                }
-
-                if (serialized.Contains(property))
-                    continue;
-
-                list.Add(declaration.CssText);
-                serialized.Add(property);
-            }
-
-            return String.Join(" ", list);
         }
 
         #endregion

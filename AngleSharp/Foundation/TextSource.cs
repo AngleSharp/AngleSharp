@@ -10,7 +10,7 @@
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class TextSource : ITextSource
     {
         #region Fields
@@ -95,17 +95,15 @@
             {
                 if (value != _encoding)
                 {
-                    //Get previous interpretation of rest
+                    //Get previous interpretation of the rest
                     var length = _content.Length - _index;
                     var rest = _content.ToString(_index, length);
                     //Get raw bytes from old encoding
                     var raw = _encoding.GetBytes(rest);
                     //Set new encoding
                     _encoding = value;
-                    //Remove former rest
-                    _content.Remove(_index, length);
-                    //Add former rest re-interpreted with new encoding
-                    _content.Append(_encoding.GetString(raw, 0, raw.Length));
+                    //Remove former rest and re-append with new encoding
+                    _content.Remove(_index, length).Append(_encoding.GetString(raw, 0, raw.Length));
                 }
             }
         }

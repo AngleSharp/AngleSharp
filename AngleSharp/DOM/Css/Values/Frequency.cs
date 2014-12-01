@@ -1,19 +1,15 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Globalization;
 
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public struct Time : IEquatable<Time>, ICssValue
+    public struct Frequency : IEquatable<Frequency>, ICssValue
     {
         #region Fields
-
-        /// <summary>
-        /// Gets the zero time.
-        /// </summary>
-        public static readonly Time Zero = new Time(0f, Unit.S);
 
         readonly Single _value;
         readonly Unit _unit;
@@ -23,11 +19,11 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new time value.
+        /// Creates a new frequency value.
         /// </summary>
-        /// <param name="value">The value of the time.</param>
-        /// <param name="unit">The unit of the time.</param>
-        public Time(Single value, Unit unit)
+        /// <param name="value">The value of the frequency.</param>
+        /// <param name="unit">The unit of the frequency.</param>
+        public Frequency(Single value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -38,11 +34,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of time in ms.
+        /// Gets the value of frequency in Hz.
         /// </summary>
         public Single Value
         {
-            get { return _unit == Unit.S ? _value * 1000f : _value; }
+            get { return _unit == Unit.Khz ? _value * 1000f : _value; }
         }
 
         /// <summary>
@@ -62,11 +58,11 @@
             {
                 switch (_unit)
                 {
-                    case Unit.Ms:
-                        return Units.Ms;
+                    case Unit.Khz:
+                        return Units.Khz;
 
-                    case Unit.S:
-                        return Units.S;
+                    case Unit.Hz:
+                        return Units.Hz;
 
                     default:
                         return String.Empty;
@@ -79,13 +75,13 @@
         #region Casts
 
         /// <summary>
-        /// Converts the time to the number of milliseconds.
+        /// Converts the frequency to a single floating point.
         /// </summary>
-        /// <param name="time">The time to convert.</param>
-        /// <returns>The number of milliseconds.</returns>
-        public static explicit operator Single(Time time)
+        /// <param name="frequency">The frequency.</param>
+        /// <returns>The float value.</returns>
+        public static explicit operator Single(Frequency frequency)
         {
-            return time.Value;
+            return frequency.Value;
         }
 
         #endregion
@@ -93,13 +89,13 @@
         #region Methods
 
         /// <summary>
-        /// Checks if the current time is equal to the other time.
+        /// Checks for equality with the other frequency.
         /// </summary>
-        /// <param name="other">The time to compare to.</param>
-        /// <returns>True if both represent the same value.</returns>
-        public Boolean Equals(Time other)
+        /// <param name="other">The frequency to compare to.</param>
+        /// <returns>True if both frequencies are equal, otherwise false.</returns>
+        public Boolean Equals(Frequency other)
         {
-            return Value == other.Value;
+            return _value == other._value && _unit == other._unit;
         }
 
         #endregion
@@ -107,18 +103,18 @@
         #region Units
 
         /// <summary>
-        /// An enumeration of time units.
+        /// The various frequency units.
         /// </summary>
-        public enum Unit : ushort
+        public enum Unit
         {
             /// <summary>
-            /// The value is a time (ms).
+            /// The value is a frequency (Hz).
             /// </summary>
-            Ms,
+            Hz,
             /// <summary>
-            /// The value is a time (s).
+            /// The value is a frequency (kHz).
             /// </summary>
-            S,
+            Khz,
         }
 
         #endregion
@@ -132,14 +128,14 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Length)
-                return this.Equals((Length)obj);
+            if (obj is Frequency)
+                return this.Equals((Frequency)obj);
 
             return false;
         }
 
         /// <summary>
-        /// Returns a hash code that defines the current time.
+        /// Returns a hash code that defines the current frequency.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
@@ -152,7 +148,7 @@
         #region String Representation
 
         /// <summary>
-        /// Returns a string representing the time.
+        /// Returns a string representing the frequency.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()

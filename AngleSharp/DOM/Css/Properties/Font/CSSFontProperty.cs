@@ -126,7 +126,7 @@
 
             if (!_parts.TryGetValue(value, out setting))
             {
-                var entries = value as CSSValueList ?? new CSSValueList(value);
+                var entries = value as CssValueList ?? new CssValueList(value);
                 var allowDelim = false;
                 ICssValue weight = null, style = null, variant = null, stretch = null, size = null, height = null;
 
@@ -136,7 +136,7 @@
 
                     if (allowDelim)
                     {
-                        if (entry == CSSValue.Delimiter && (++i == entries.Length || !_height.CanStore(entries[i++], ref height)))
+                        if (entry == CssValue.Delimiter && (++i == entries.Length || !_height.CanStore(entries[i++], ref height)))
                             return false;
 
                         return _families.TrySetValue(entries.Subset(start: i)) && _stretch.TrySetValue(stretch) && 

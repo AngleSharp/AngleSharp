@@ -142,14 +142,14 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
-            var images = new CSSValueList();
-            var positions = new CSSValueList();
-            var sizes = new CSSValueList();
-            var repeats = new CSSValueList();
-            var attachments = new CSSValueList();
-            var origins = new CSSValueList();
-            var clips = new CSSValueList();
+            var items = (value as CssValueList ?? new CssValueList(value)).ToList();
+            var images = new CssValueList();
+            var positions = new CssValueList();
+            var sizes = new CssValueList();
+            var repeats = new CssValueList();
+            var attachments = new CssValueList();
+            var origins = new CssValueList();
+            var clips = new CssValueList();
             ICssValue color = null;
 
             foreach (var list in items)
@@ -162,13 +162,13 @@
 
                 if (images.Length > 0)
                 {
-                    images.Add(CSSValue.Separator);
-                    positions.Add(CSSValue.Separator);
-                    sizes.Add(CSSValue.Separator);
-                    repeats.Add(CSSValue.Separator);
-                    attachments.Add(CSSValue.Separator);
-                    origins.Add(CSSValue.Separator);
-                    clips.Add(CSSValue.Separator);
+                    images.Add(CssValue.Separator);
+                    positions.Add(CssValue.Separator);
+                    sizes.Add(CssValue.Separator);
+                    repeats.Add(CssValue.Separator);
+                    attachments.Add(CssValue.Separator);
+                    origins.Add(CssValue.Separator);
+                    clips.Add(CssValue.Separator);
                 }
 
                 for (int j = 0; j < list.Length; j++)
@@ -180,7 +180,7 @@
                         if (j + 1 == list.Length)
                             continue;
 
-                        var pack = new CSSValueList();
+                        var pack = new CssValueList();
                         pack.Add(position);
                         pack.Add(list[j + 1]);
 
@@ -190,7 +190,7 @@
                             position = list[++j];
                         }
 
-                        if (j + 1 < list.Length && list[j + 1] == CSSValue.Delimiter)
+                        if (j + 1 < list.Length && list[j + 1] == CssValue.Delimiter)
                         {
                             j += 2;
 
@@ -199,7 +199,7 @@
                                 if (j + 1 == list.Length)
                                     continue;
 
-                                pack = new CSSValueList();
+                                pack = new CssValueList();
                                 pack.Add(size);
                                 pack.Add(list[j + 1]);
 
@@ -218,7 +218,7 @@
                         if (j + 1 == list.Length)
                             continue;
 
-                        var pack = new CSSValueList();
+                        var pack = new CssValueList();
                         pack.Add(repeat);
                         pack.Add(list[j + 1]);
 

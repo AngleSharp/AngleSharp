@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
-    sealed class CSSRuleList : ICssRuleList, ICssObject
+    sealed class CSSRuleList : ICssRuleList
     {
         #region Fields
 
@@ -46,6 +46,22 @@
         ICssRule ICssRuleList.this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }
+        }
+
+        /// <summary>
+        /// Gets a CSS code representation of the rulelist.
+        /// </summary>
+        public String CssText
+        {
+            get
+            {
+                var sb = Pool.NewStringBuilder();
+
+                for (int i = 0; i < _rules.Count; i++)
+                    sb.AppendLine(_rules[i].CssText);
+
+                return sb.ToPool();
+            }
         }
 
         #endregion
@@ -145,24 +161,6 @@
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns a CSS code representation of the rulelist.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        public String ToCss()
-        {
-            var sb = Pool.NewStringBuilder();
-
-            for (int i = 0; i < _rules.Count; i++)
-                sb.AppendLine(_rules[i].ToCss());
-
-            return sb.ToPool();
         }
 
         #endregion

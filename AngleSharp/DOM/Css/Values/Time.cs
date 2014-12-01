@@ -1,14 +1,20 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Globalization;
 
     /// <summary>
-    /// Represents a resolution value.
+    /// Represents a time value.
     /// </summary>
-    public struct Resolution : IEquatable<Resolution>, ICssValue
+    public struct Time : IEquatable<Time>, ICssValue
     {
         #region Fields
+
+        /// <summary>
+        /// Gets the zero time.
+        /// </summary>
+        public static readonly Time Zero = new Time(0f, Unit.S);
 
         readonly Single _value;
         readonly Unit _unit;
@@ -18,11 +24,11 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new resolution value.
+        /// Creates a new time value.
         /// </summary>
-        /// <param name="value">The value of the resolution.</param>
-        /// <param name="unit">The unit of the resolution.</param>
-        public Resolution(Single value, Unit unit)
+        /// <param name="value">The value of the time.</param>
+        /// <param name="unit">The unit of the time.</param>
+        public Time(Single value, Unit unit)
         {
             _value = value;
             _unit = unit;
@@ -33,11 +39,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of resolution.
+        /// Gets the value of time in ms.
         /// </summary>
         public Single Value
         {
-            get { return _value; }
+            get { return _unit == Unit.S ? _value * 1000f : _value; }
         }
 
         /// <summary>
@@ -57,14 +63,11 @@
             {
                 switch (_unit)
                 {
-                    case Unit.Dpcm:
-                        return Units.Dpcm;
+                    case Unit.Ms:
+                        return Units.Ms;
 
-                    case Unit.Dpi:
-                        return Units.Dpi;
-
-                    case Unit.Dppx:
-                        return Units.Dppx;
+                    case Unit.S:
+                        return Units.S;
 
                     default:
                         return String.Empty;
@@ -74,16 +77,30 @@
 
         #endregion
 
+        #region Casts
+
+        /// <summary>
+        /// Converts the time to the number of milliseconds.
+        /// </summary>
+        /// <param name="time">The time to convert.</param>
+        /// <returns>The number of milliseconds.</returns>
+        public static explicit operator Single(Time time)
+        {
+            return time.Value;
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
-        /// Checks if the current resolution equals the given one.
+        /// Checks if the current time is equal to the other time.
         /// </summary>
-        /// <param name="other">The given resolution to check for equality.</param>
-        /// <returns>True if both are equal, otherwise false.</returns>
-        public Boolean Equals(Resolution other)
+        /// <param name="other">The time to compare to.</param>
+        /// <returns>True if both represent the same value.</returns>
+        public Boolean Equals(Time other)
         {
-            return _value == other._value && _unit == other._unit;
+            return Value == other.Value;
         }
 
         #endregion
@@ -91,22 +108,18 @@
         #region Units
 
         /// <summary>
-        /// The various resolution units.
+        /// An enumeration of time units.
         /// </summary>
-        public enum Unit
+        public enum Unit : ushort
         {
             /// <summary>
-            /// The value is a resolution (dots per in).
+            /// The value is a time (ms).
             /// </summary>
-            Dpi,
+            Ms,
             /// <summary>
-            /// The value is a resolution (dots per cm).
+            /// The value is a time (s).
             /// </summary>
-            Dpcm,
-            /// <summary>
-            /// The value is a resolution (dots per px).
-            /// </summary>
-            Dppx,
+            S,
         }
 
         #endregion
@@ -120,14 +133,14 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Resolution)
-                return this.Equals((Resolution)obj);
+            if (obj is Length)
+                return this.Equals((Length)obj);
 
             return false;
         }
 
         /// <summary>
-        /// Returns a hash code that defines the current resolution.
+        /// Returns a hash code that defines the current time.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
@@ -140,7 +153,7 @@
         #region String Representation
 
         /// <summary>
-        /// Returns a string representing the resolution.
+        /// Returns a string representing the time.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()

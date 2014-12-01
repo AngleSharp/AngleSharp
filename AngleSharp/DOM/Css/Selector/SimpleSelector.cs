@@ -9,7 +9,7 @@
     /// universal selector, attribute selector, class selector,
     /// id selector or pseudo-class).
     /// </summary>
-    class SimpleSelector : ISelector, ICssObject
+    class SimpleSelector : ISelector
     {
         #region Fields
 
@@ -304,19 +304,6 @@
         public Boolean Match(IElement element)
         {
             return _matches(element);
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns a valid CSS string representing this selector.
-        /// </summary>
-        /// <returns>The CSS to create this selector.</returns>
-        public String ToCss()
-        {
-            return Text;
         }
 
         #endregion

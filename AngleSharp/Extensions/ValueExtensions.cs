@@ -38,14 +38,14 @@
             return null;
         }
 
-        public static CSSValueList CopyToList(this ICssValue value)
+        public static CssValueList CopyToList(this ICssValue value)
         {
-            var original = value as CSSValueList;
+            var original = value as CssValueList;
 
             if (original == null)
-                return new CSSValueList(value);
+                return new CssValueList(value);
 
-            var newList = new CSSValueList();
+            var newList = new CssValueList();
 
             foreach (var item in original)
                 newList.Add(item);
@@ -60,7 +60,7 @@
 
         public static IEnumerable<ICssValue> AsEnumeration(this ICssValue value)
         {
-            var list = value as CSSValueList;
+            var list = value as CssValueList;
 
             if (list != null)
                 return list;
@@ -68,7 +68,7 @@
             return new ICssValue[1] { value };
         }
 
-        public static ICssValue Reduce(this CSSValueList list)
+        public static ICssValue Reduce(this CssValueList list)
         {
             if (list.Length == 0)
                 return null;
@@ -222,7 +222,7 @@
 
         public static String ToFontFamily(this ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
             if (values == null)
             {
@@ -295,7 +295,7 @@
 
         public static GradientStop[] ToGradientStops(this ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
             if (value == null || values.Length < 2)
                 return null;
@@ -319,7 +319,7 @@
 
         public static GradientStop? ToGradientStop(this ICssValue value, Single defaultStop = 0f)
         {
-            var list = value as CSSValueList;
+            var list = value as CssValueList;
             Color? color = null;
             IDistance location = new Percent(defaultStop);
 
@@ -342,9 +342,9 @@
 
         public static Single? ToAspectRatio(this ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
-            if (values != null && values.Length == 3 && values[1] == CSSValueList.Delimiter)
+            if (values != null && values.Length == 3 && values[1] == CssValue.Delimiter)
             {
                 var w = values[0].ToInteger();
                 var h = values[2].ToInteger();
@@ -400,7 +400,7 @@
             return primitive;
         }
 
-        public static CSSValueList Subset(this CSSValueList values, Int32 start = 0, Int32 end = -1)
+        public static CssValueList Subset(this CssValueList values, Int32 start = 0, Int32 end = -1)
         {
             if (end == -1)
                 end = values.Length;
@@ -410,20 +410,20 @@
             for (var i = start; i < end; i++)
                 list.Add(values[i]);
 
-            return new CSSValueList(list);
+            return new CssValueList(list);
         }
 
-        public static List<CSSValueList> ToList(this CSSValueList values)
+        public static List<CssValueList> ToList(this CssValueList values)
         {
-            var list = new List<CSSValueList>();
+            var list = new List<CssValueList>();
 
             for (int i = 0; i < values.Length; i++)
             {
-                var entry = new CSSValueList();
+                var entry = new CssValueList();
 
                 for (int j = i; j < values.Length; j++)
                 {
-                    if (values[j] == CSSValue.Separator)
+                    if (values[j] == CssValue.Separator)
                         break;
 
                     entry.Add(values[j]);
@@ -438,7 +438,7 @@
 
         public static Point ToPoint(this ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
             if (values == null || values.Length == 1)
             {
@@ -566,7 +566,7 @@
 
         public static Shadow ToShadow(this ICssValue value)
         {
-            var item = value as CSSValueList;
+            var item = value as CssValueList;
 
             if (item == null || item.Length < 2)
                 return null;
@@ -624,16 +624,16 @@
             return new Shadow(inset, offsetX.Value, offsetY.Value, blurRadius, spreadRadius, color);
         }
 
-        public static CSSValueList ToSeparatedList(this List<CSSValueList> list)
+        public static CssValueList ToSeparatedList(this List<CssValueList> list)
         {
-            var values = new CSSValueList();
+            var values = new CssValueList();
 
             if (list.Count > 0)
                 values.Add(list[0].Reduce());
 
             for (int i = 1; i < list.Count; i++)
             {
-                values.Add(CSSValue.Separator);
+                values.Add(CssValue.Separator);
                 values.Add(list[i].Reduce());
             }
 

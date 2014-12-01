@@ -91,9 +91,9 @@
         /// Returns a CSS code representation of the rule.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public override String ToCss()
+        protected override String ToCss()
         {
-            var inner = String.Concat(" { ", _style.ToCss(), _style.Length > 0 ? " }" : "}");
+            var inner = String.Concat(" { ", _style.CssText, _style.Length > 0 ? " }" : "}");
             return String.Concat("@page ", _selector.Text, inner);
         }
 

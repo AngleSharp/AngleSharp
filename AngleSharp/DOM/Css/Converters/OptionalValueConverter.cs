@@ -18,7 +18,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<Tuple<T, U>> setResult)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
             var v1 = default(T);
             var v2 = default(U);
 
@@ -43,7 +43,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
             if (values != null)
             {
@@ -60,9 +60,9 @@
             return _listConverter.Validate(value);
         }
 
-        static CSSValueList CopyExcept(CSSValueList original, Int32 index)
+        static CssValueList CopyExcept(CssValueList original, Int32 index)
         {
-            var list = new CSSValueList();
+            var list = new CssValueList();
 
             for (int i = 0; i < original.Length; i++)
             {

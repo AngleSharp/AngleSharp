@@ -10,7 +10,7 @@
     /// Represents a complex selector.
     /// One or more compound selectors separated by combinators.
     /// </summary>
-    sealed class ComplexSelector : ISelector, ICssObject
+    sealed class ComplexSelector : ISelector
     {
         #region Fields
 
@@ -53,7 +53,22 @@
         /// </summary>
         public String Text
         {
-            get { return ToCss(); }
+            get
+            {
+                var sb = Pool.NewStringBuilder();
+
+                if (selectors.Count > 0)
+                {
+                    var n = selectors.Count - 1;
+
+                    for (int i = 0; i < n; i++)
+                        sb.Append(selectors[i].selector.Text).Append(selectors[i].delimiter);
+
+                    sb.Append(selectors[n].selector.Text);
+                }
+
+                return sb.ToPool();
+            }
         }
 
         /// <summary>
@@ -249,31 +264,6 @@
             public Char delimiter;
             public Func<IElement, IEnumerable<IElement>> transform;
             public ISelector selector;
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns a valid CSS string representing this selector.
-        /// </summary>
-        /// <returns>The CSS to create this selector.</returns>
-        public String ToCss()
-        {
-            var sb = Pool.NewStringBuilder();
-
-            if (selectors.Count > 0)
-            {
-                var n = selectors.Count - 1;
-
-                for (int i = 0; i < n; i++)
-                    sb.Append(selectors[i].selector.ToCss()).Append(selectors[i].delimiter);
-
-                sb.Append(selectors[n].selector.ToCss());
-            }
-
-            return sb.ToPool();
         }
 
         #endregion

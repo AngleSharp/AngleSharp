@@ -74,16 +74,16 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        protected override String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 
             if (selectors.Count > 0)
             {
-                sb.Append(selectors[0].ToCss());
+                sb.Append(selectors[0].Text);
 
                 for (int i = 1; i < selectors.Count; i++)
-                    sb.Append(Specification.Comma).Append(selectors[i].ToCss());
+                    sb.Append(Specification.Comma).Append(selectors[i].Text);
             }
 
             return sb.ToPool();

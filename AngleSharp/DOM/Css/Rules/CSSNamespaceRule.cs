@@ -96,7 +96,7 @@
         /// Returns a CSS code representation of the rule.
         /// </summary>
         /// <returns>A string that contains the code.</returns>
-        public override String ToCss()
+        protected override String ToCss()
         {
             var prefix = String.IsNullOrEmpty(_prefix) ? String.Empty : _prefix + " ";
             return String.Concat("@namespace ", prefix, _namespaceURI.CssUrl(), ";");

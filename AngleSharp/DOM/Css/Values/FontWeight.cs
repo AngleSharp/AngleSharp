@@ -16,7 +16,18 @@
 
         String ICssValue.CssText
         {
-            get { return String.Empty; }//TODO
+            get
+            {
+                if (IsRelative)
+                    return Value == 100 ? Keywords.Bolder : Keywords.Lighter;
+
+                if (Value == 400)
+                    return Keywords.Normal;
+                else if (Value == 700)
+                    return Keywords.Bold;
+
+                return Value.ToString();
+            }
         }
 
         #endregion

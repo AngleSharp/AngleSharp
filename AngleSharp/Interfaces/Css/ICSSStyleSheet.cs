@@ -36,5 +36,10 @@
         /// <param name="index">The index representing the position to be removed.</param>
         [DomName("deleteRule")]
         void RemoveAt(Int32 index);
+
+        /// <summary>
+        /// Gets a CSS code representation of the stylesheet.
+        /// </summary>
+        String CssText { get; }
     }
 }

@@ -19,12 +19,12 @@
 
         public Boolean TryConvert(ICssValue value, Action<U[]> setResult)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
             var results = new List<U>();
 
             if (values != null)
             {
-                var list = new CSSValueList();
+                var list = new CssValueList();
                 list.Add(values[0]);
 
                 for (int i = 1; i < values.Length; i++)
@@ -34,7 +34,7 @@
                         if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
                             return false;
 
-                        list = new CSSValueList();
+                        list = new CssValueList();
 
                         if (!_include)
                             continue;
@@ -55,12 +55,12 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
             if (values == null)
                 return _converter.Validate(value);
 
-            var list = new CSSValueList();
+            var list = new CssValueList();
             list.Add(values[0]);
 
             for (int i = 1; i < values.Length; i++)
@@ -70,7 +70,7 @@
                     if (!_converter.Validate(list.Reduce()))
                         return false;
 
-                    list = new CSSValueList();
+                    list = new CssValueList();
 
                     if (!_include)
                         continue;

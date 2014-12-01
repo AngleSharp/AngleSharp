@@ -54,7 +54,7 @@
             return true;
         }
 
-        protected static Boolean ExpandPeriodic(CSSValueList list)
+        protected static Boolean ExpandPeriodic(CssValueList list)
         {
             if (list.Length == 0 || list.Length > 4)
                 return false;

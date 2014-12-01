@@ -5,7 +5,7 @@
 
     static class ValueConverterExtensions
     {
-        public static T TryAll<T>(this IValueConverter<T> converter, CSSValueList list, T defaultValue)
+        public static T TryAll<T>(this IValueConverter<T> converter, CssValueList list, T defaultValue)
         {
             for (int i = 0; i < list.Length; i++)
             {
@@ -91,7 +91,7 @@
 
         public static IValueConverter<T[]> OptionalSplit<T>(this IValueConverter<T> primary)
         {
-            var condition = new StructValueConverter<Boolean>(m => m == CSSValue.Delimiter ? (Boolean?)true : null);
+            var condition = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
             return new SplitValueConverter<Boolean, T>(condition, primary, false);
         }
     }

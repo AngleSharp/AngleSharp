@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the keyframe selector.
     /// </summary>
-    sealed class KeyframeSelector : IKeyframeSelector, ICssObject
+    sealed class KeyframeSelector : IKeyframeSelector
     {
         #region Fields
 
@@ -48,15 +48,6 @@
 
                 return String.Join(", ", stops);
             }
-        }
-
-        #endregion
-
-        #region Methods
-
-        String ICssObject.ToCss()
-        {
-            return Text;
         }
 
         #endregion

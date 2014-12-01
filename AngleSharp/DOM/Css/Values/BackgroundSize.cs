@@ -13,12 +13,20 @@
 
         CssValueType ICssValue.Type
         {
-            get { return CssValueType.Primitive; }
+            get { return CssValueType.List; }
         }
 
         String ICssValue.CssText
         {
-            get { return String.Empty; }//TODO
+            get
+            {
+                if (IsCovered)
+                    return Keywords.Cover;
+                else if (IsContained)
+                    return Keywords.Contain;
+
+                return String.Format("{0} {1}", Width.CssText, Height.CssText);
+            }
         }
 
         #endregion

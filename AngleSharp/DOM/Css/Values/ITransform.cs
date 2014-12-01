@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
+
     /// <summary>
     /// Functionality for computing transformation.
     /// </summary>

@@ -5,7 +5,6 @@
     sealed class RequiredValueConverter<T> : IValueConverter<T>
     {
         readonly IValueConverter<T> _converter;
-        readonly T _default;
 
         public RequiredValueConverter(IValueConverter<T> converter)
         {

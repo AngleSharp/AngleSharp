@@ -903,7 +903,7 @@
 
             if (delimiter == Specification.Solidus)
             {
-                value.AddValue(CSSValue.Delimiter);
+                value.AddValue(CssValue.Delimiter);
                 return tokens.MoveNext();
             }
 
@@ -1277,9 +1277,9 @@
         static ICssValue ToIdentifier(String identifier)
         {
             if (identifier.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
-                return CSSValue.Inherit;
+                return CssValue.Inherit;
             else if (identifier.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
-                return CSSValue.Initial;
+                return CssValue.Initial;
 
             return new CssIdentifier(identifier);
         }
@@ -1466,16 +1466,16 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static CSSValueList ParseValueList(String source, IConfiguration configuration = null)
+        internal static CssValueList ParseValueList(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
             var value = tokens.MoveNext() ? parser.InValue(tokens) : null;
-            var values = value as CSSValueList;
+            var values = value as CssValueList;
 
             if (values == null)
             {
-                values = new CSSValueList();
+                values = new CssValueList();
 
                 if (value != null)
                     values.Add(value);
@@ -1483,7 +1483,7 @@
 
             for (var i = 0; i < values.Length; i++)
             {
-                if (values[i] == CSSValue.Separator)
+                if (values[i] == CssValue.Separator)
                 {
                     for (var j = values.Length - 1; j >= i; j--)
                         values.RemoveAt(j);
@@ -1519,16 +1519,16 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValueList object.</returns>
-        internal static List<CSSValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
+        internal static List<CssValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            var value = tokens.MoveNext() ? parser.InValue(tokens) : new CSSValueList();
-            var values = value as CSSValueList;
+            var value = tokens.MoveNext() ? parser.InValue(tokens) : new CssValueList();
+            var values = value as CssValueList;
 
             if (values == null)
             {
-                values = new CSSValueList();
+                values = new CssValueList();
 
                 if (value != null)
                     values.Add(value);

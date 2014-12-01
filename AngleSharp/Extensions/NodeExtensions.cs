@@ -448,21 +448,5 @@
 
             return null;
         }
-
-        /// <summary>
-        /// Tries to print the CSS representation of the Object, if any.
-        /// Otherwise the an empty string is returned.
-        /// </summary>
-        /// <param name="obj">The object to convert.</param>
-        /// <returns>The CSS string representation.</returns>
-        public static String ToCss(this Object obj)
-        {
-            var css = obj as ICssObject;
-
-            if (css == null)
-                return String.Empty;
-
-            return css.ToCss();
-        }
     }
 }

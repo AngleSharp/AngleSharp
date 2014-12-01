@@ -87,7 +87,7 @@
         /// </summary>
         internal ICssValue Value
         {
-            get { return _value ?? CSSValue.Initial; }
+            get { return _value ?? CssValue.Initial; }
         }
 
         #endregion
@@ -99,7 +99,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || _value == CSSValue.Inherit; }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || _value == CssValue.Inherit; }
         }
 
         /// <summary>
@@ -115,7 +115,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _value == null || _value == CSSValue.Initial; }
+            get { return _value == null || _value == CssValue.Initial; }
         }
 
         /// <summary>
@@ -159,7 +159,7 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(ICssValue value)
         {
-            if (value == CSSValue.Inherit || value == CSSValue.Initial || value == null)
+            if (value == CssValue.Inherit || value == CssValue.Initial || value == null)
             {
                 Reset();
                 _value = value;
@@ -750,7 +750,7 @@
 
             String ICssValue.CssText
             {
-                get { return _matrix.ToCss(); }
+                get { return FunctionNames.Build(FunctionNames.Matrix3d, _matrix.ToString()); }
             }
         }
 
@@ -786,7 +786,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.Translate, _x.ToCss(), _y.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.Translate, _x.CssText, _y.CssText); }
             }
         }
 
@@ -819,7 +819,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.TranslateX, _x.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.TranslateX, _x.CssText); }
             }
         }
 
@@ -852,7 +852,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.TranslateY, _y.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.TranslateY, _y.CssText); }
             }
         }
 
@@ -885,7 +885,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.TranslateZ, _z.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.TranslateZ, _z.CssText); }
             }
         }
 
@@ -924,7 +924,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.Translate3d, _x.ToCss(), _y.ToCss(), _z.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.Translate3d, _x.CssText, _y.CssText, _z.CssText); }
             }
         }
 
@@ -958,7 +958,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.Rotate, _angle.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.Rotate, ((ICssValue)_angle).CssText); }
             }
         }
 
@@ -1037,7 +1037,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), _angle.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), ((ICssValue)_angle).CssText); }
             }
         }
 
@@ -1251,7 +1251,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.Skew, _alpha.ToCss(), _beta.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.Skew, ((ICssValue)_alpha).CssText, ((ICssValue)_beta).CssText); }
             }
         }
 
@@ -1284,7 +1284,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.SkewX, _angle.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.SkewX, ((ICssValue)_angle).CssText); }
             }
         }
 
@@ -1317,7 +1317,7 @@
 
             String ICssValue.CssText
             {
-                get { return FunctionNames.Build(FunctionNames.SkewY, _angle.ToCss()); }
+                get { return FunctionNames.Build(FunctionNames.SkewY, ((ICssValue)_angle).CssText); }
             }
         }
 

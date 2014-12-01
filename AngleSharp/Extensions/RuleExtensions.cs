@@ -15,7 +15,7 @@
         /// <returns>The block string representation.</returns>
         public static String ToCssBlock(this CSSRuleList rules)
         {
-            return String.Concat("{ ", rules.ToCss(), rules.Length > 0 ? " }" : "}");
+            return String.Concat("{ ", rules.CssText, rules.Length > 0 ? " }" : "}");
         }
 
         /// <summary>
@@ -25,7 +25,7 @@
         /// <returns>The block string representation.</returns>
         public static String ToCssBlock(this CSSStyleDeclaration style)
         {
-            return String.Concat("{ ", style.ToCss(), style.Length > 0 ? " }" : "}");
+            return String.Concat("{ ", style.CssText, style.Length > 0 ? " }" : "}");
         }
     }
 }

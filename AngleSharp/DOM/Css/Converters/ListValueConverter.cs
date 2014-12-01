@@ -15,7 +15,7 @@
 
         public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
         {
-            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
+            var items = (value as CssValueList ?? new CssValueList(value)).ToList();
             var targets = new T[items.Count];
 
             for (var i = 0; i < items.Count; i++)
@@ -30,7 +30,7 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = (value as CSSValueList ?? new CSSValueList(value)).ToList();
+            var items = (value as CssValueList ?? new CssValueList(value)).ToList();
 
             foreach (var item in items)
             {

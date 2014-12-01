@@ -43,7 +43,7 @@
                 if (index < 0 || index >= _media.Count)
                     return null;
 
-                return _media[index].ToCss();
+                return _media[index].CssText;
             }
         }
 
@@ -65,7 +65,7 @@
                 var parts = new String[_media.Count];
 
                 for (int i = 0; i < _media.Count; i++)
-                    parts[i] = _media[i].ToCss();
+                    parts[i] = _media[i].CssText;
 
                 return String.Join(", ", parts); 
             }
@@ -176,7 +176,7 @@
         public IEnumerator<String> GetEnumerator()
         {
             foreach (var medium in _media)
-                yield return medium.ToCss();
+                yield return medium.CssText;
         }
 
         /// <summary>

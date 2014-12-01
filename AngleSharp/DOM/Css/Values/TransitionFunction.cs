@@ -13,7 +13,7 @@
         /// Returns the CSS representation of the function.
         /// </summary>
         /// <returns>The string representing the CSS code.</returns>
-        public abstract String ToCss();
+        protected abstract String ToCss();
 
         #endregion
 
