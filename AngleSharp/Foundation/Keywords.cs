@@ -1231,5 +1231,30 @@
         /// The soft-light keyword.
         /// </summary>
         public static readonly String SoftLight = "soft-light";
+
+        /// <summary>
+        /// The ellipse keyword.
+        /// </summary>
+        public static readonly String Ellipse = "ellipse";
+
+        /// <summary>
+        /// The closest-side keyword.
+        /// </summary>
+        public static readonly String ClosestSide = "closest-side";
+
+        /// <summary>
+        /// The closest-corner keyword.
+        /// </summary>
+        public static readonly String ClosestCorner = "closest-corner";
+
+        /// <summary>
+        /// The farthest-side keyword.
+        /// </summary>
+        public static readonly String FarthestSide = "farthest-side";
+
+        /// <summary>
+        /// The farthest-corner keyword.
+        /// </summary>
+        public static readonly String FarthestCorner = "farthest-corner";
     }
 }
