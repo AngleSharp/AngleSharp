@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -63,16 +64,20 @@
 
         #endregion
 
-        #region String Representation
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the CSS representation of the linear gradient function.
-        /// </summary>
-        /// <returns>A string that resembles CSS code.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            return FunctionNames.Build(_repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient,
-                _angle.ToCss(), String.Join(", ", _stops.Select(m => m.ToCss())));
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get
+            {
+                return FunctionNames.Build(_repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient,
+                    ((ICssValue)_angle).CssText, String.Join(", ", _stops.Select(m => ((ICssValue)m).CssText)));
+            }
         }
 
         #endregion

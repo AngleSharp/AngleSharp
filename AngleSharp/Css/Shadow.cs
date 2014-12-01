@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
 
@@ -6,7 +6,7 @@
     /// The shadow class for holding information about
     /// a box or text-shadow.
     /// </summary>
-    public sealed class Shadow : ICssObject
+    public sealed class Shadow : ICssValue
     {
         #region Fields
 
@@ -94,21 +94,25 @@
 
         #endregion
 
-        #region Methods
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the string representation of the function in CSS code.
-        /// </summary>
-        /// <returns>The CSS code to construct this value.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            var inset = _inset ? "inset " : String.Empty;
-            return inset + String.Format("{0} {1} {2} {3} {4}",
-                _offsetX.ToCss(),
-                _offsetY.ToCss(),
-                _blurRadius.ToCss(),
-                _spreadRadius.ToCss(),
-                _color.ToCss());
+            get { return CssValueType.List; }
+        }
+
+        String ICssValue.CssText
+        {
+            get
+            {
+                var inset = _inset ? "inset " : String.Empty;
+                return inset + String.Format("{0} {1} {2} {3} {4}",
+                    ((ICssValue)_offsetX).CssText,
+                    ((ICssValue)_offsetY).CssText,
+                    ((ICssValue)_blurRadius).CssText,
+                    ((ICssValue)_spreadRadius).CssText,
+                    ((ICssValue)_color).CssText);
+            }
         }
 
         #endregion

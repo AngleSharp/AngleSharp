@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Extensions;
     using System;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Wraps a string as a CSS url value.
     /// </summary>
-    sealed class CssUrl : ICssObject
+    sealed class CssUrl : ICssValue
     {
         #region Fields
 
@@ -51,15 +51,16 @@
 
         #endregion
 
-        #region Methods
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the CSS standard represenation of the contained string.
-        /// </summary>
-        /// <returns>A string that contains the CSS code to create the value.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            return _url.CssUrl();
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return _url.CssUrl(); }
         }
 
         #endregion

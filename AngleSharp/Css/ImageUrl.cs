@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Extensions;
     using System;
@@ -19,13 +19,18 @@
             _url = url;
         }
 
-        /// <summary>
-        /// Returns the CSS representation of the linear gradient function.
-        /// </summary>
-        /// <returns>A string that resembles CSS code.</returns>
-        public String ToCss()
+        #region CSS Value
+
+        CssValueType ICssValue.Type
         {
-            return _url.CssUrl();
+            get { return CssValueType.Primitive; }
         }
+
+        String ICssValue.CssText
+        {
+            get { return _url.CssUrl(); }
+        }
+
+        #endregion
     }
 }

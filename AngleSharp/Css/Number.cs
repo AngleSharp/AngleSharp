@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
     using System.Globalization;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a float value.
     /// </summary>
-    public struct Number : IEquatable<Number>, ICssObject
+    public struct Number : IEquatable<Number>, ICssValue
     {
         #region Fields
 
@@ -203,13 +203,18 @@
             return _value.ToString();
         }
 
-        /// <summary>
-        /// Returns a CSS representation of the number.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
+        #endregion
+
+        #region CSS Value
+
+        CssValueType ICssValue.Type
         {
-            return _value.ToString(CultureInfo.InvariantCulture);
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return _value.ToString(CultureInfo.InvariantCulture); }
         }
 
         #endregion

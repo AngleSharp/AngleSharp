@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
     using System.Globalization;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public struct Length : IEquatable<Length>, IDistance, ICssObject
+    public struct Length : IEquatable<Length>, IDistance
     {
         #region Fields
 
@@ -311,24 +311,32 @@
         #region String Representation
 
         /// <summary>
-        /// Returns a CSS representation of the length.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
-        {
-            if (_value == 0f)
-                return _value.ToString(CultureInfo.InvariantCulture);
-
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
-        }
-
-        /// <summary>
         /// Returns a string representing the length.
         /// </summary>
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
             return String.Concat(_value.ToString(), UnitString);
+        }
+
+        #endregion
+
+        #region CSS Value
+
+        CssValueType ICssValue.Type
+        {
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get
+            {
+                if (_value == 0f)
+                    return _value.ToString(CultureInfo.InvariantCulture);
+
+                return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
+            }
         }
 
         #endregion

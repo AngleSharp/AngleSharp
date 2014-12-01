@@ -1,11 +1,11 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
 
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public sealed class Point : ICssObject
+    public sealed class Point : ICssValue
     {
         #region Fields
 
@@ -54,15 +54,16 @@
 
         #endregion
 
-        #region Methods
+        #region CSS Value
 
-        /// <summary>
-        /// Returns a CSS representation of the Point.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            return String.Format("{0} {1}", _x.ToCss(), _y.ToCss());
+            get { return CssValueType.List; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return String.Format("{0} {1}", _x.CssText, _y.CssText); }
         }
 
         #endregion

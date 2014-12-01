@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Globalization;
 

@@ -1,11 +1,12 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
 
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    public sealed class Counter : ICssObject
+    public sealed class Counter : ICssValue
     {
         #region Fields
 
@@ -60,25 +61,29 @@
 
         #endregion
 
-        #region String Representation
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the CSS representation of the specified counter.
-        /// </summary>
-        /// <returns>The CSS counter or counters function code.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            if (_separator != null)
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get
             {
-                if (_listStyle != null)
-                    return FunctionNames.Build(FunctionNames.Counters, _identifier, _separator, _listStyle);
+                if (_separator != null)
+                {
+                    if (_listStyle != null)
+                        return FunctionNames.Build(FunctionNames.Counters, _identifier, _separator, _listStyle);
 
-                return FunctionNames.Build(FunctionNames.Counters, _identifier, _separator);
+                    return FunctionNames.Build(FunctionNames.Counters, _identifier, _separator);
+                }
+                else if (_listStyle != null)
+                    return FunctionNames.Build(FunctionNames.Counter, _identifier, _listStyle);
+
+                return FunctionNames.Build(FunctionNames.Counter, _identifier);
             }
-            else if (_listStyle != null)
-                return FunctionNames.Build(FunctionNames.Counter, _identifier, _listStyle);
-
-            return FunctionNames.Build(FunctionNames.Counter, _identifier);
         }
 
         #endregion

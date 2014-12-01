@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
     using System.Globalization;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    public struct Resolution : IEquatable<Resolution>, ICssObject
+    public struct Resolution : IEquatable<Resolution>, ICssValue
     {
         #region Fields
 
@@ -148,13 +148,18 @@
             return String.Concat(_value.ToString(), UnitString);
         }
 
-        /// <summary>
-        /// Returns a CSS representation of the resolution.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
+        #endregion
+
+        #region CSS Value
+
+        CssValueType ICssValue.Type
         {
-            return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString); }
         }
 
         #endregion

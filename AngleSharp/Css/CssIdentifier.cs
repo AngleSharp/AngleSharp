@@ -1,11 +1,11 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
 
     /// <summary>
     /// Wraps a string as a CSS identifier value.
     /// </summary>
-    sealed class CssIdentifier : ICssObject
+    sealed class CssIdentifier : ICssValue
     {
         #region Fields
 
@@ -50,15 +50,16 @@
 
         #endregion
 
-        #region Methods
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the CSS standard represenation of the contained string.
-        /// </summary>
-        /// <returns>A string that contains the CSS code to create the value.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            return _token;
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return _token; }
         }
 
         #endregion

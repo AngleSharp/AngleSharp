@@ -1,12 +1,13 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
 
     /// <summary>
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class Shape : ICssObject
+    public sealed class Shape : ICssValue
     {
         #region Fields
 
@@ -72,15 +73,16 @@
 
         #endregion
 
-        #region String Representation
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the string representation of the function in CSS code.
-        /// </summary>
-        /// <returns>The CSS code to construct this value.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            return FunctionNames.Build(FunctionNames.Rect, _top.ToCss(), _right.ToCss(), _bottom.ToCss(), _left.ToCss());
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return FunctionNames.Build(FunctionNames.Rect, ((ICssValue)_top).CssText, ((ICssValue)_right).CssText, ((ICssValue)_bottom).CssText, ((ICssValue)_left).CssText); }
         }
 
         #endregion

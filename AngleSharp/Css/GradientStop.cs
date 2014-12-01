@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
 
@@ -6,7 +6,7 @@
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    public struct GradientStop : ICssObject
+    public struct GradientStop : ICssValue
     {
         #region Fields
 
@@ -50,15 +50,16 @@
 
         #endregion
 
-        #region String Representation
+        #region CSS Value
 
-        /// <summary>
-        /// Returns the CSS standard represenation, which is just color and location.
-        /// </summary>
-        /// <returns>A string that contains the color and location of the stop.</returns>
-        public String ToCss()
+        CssValueType ICssValue.Type
         {
-            return String.Concat(_color.ToCss(), " ", _location.ToCss());
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return String.Concat(((ICssValue)_color).CssText, " ", _location.CssText); }
         }
 
         #endregion

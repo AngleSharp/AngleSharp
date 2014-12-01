@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Globalization;
@@ -9,7 +10,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, ICssObject
+    public struct Color : IEquatable<Color>, ICssValue
     {
         #region Basic colors
 
@@ -458,13 +459,21 @@
             return String.Concat("#", alpha.ToString("X2"), red.ToString("X2"), green.ToString("X2"), blue.ToString("X2"));
         }
 
-        /// <summary>
-        /// Returns a CSS representation of the length.
-        /// </summary>
-        /// <returns>The CSS value string.</returns>
-        public String ToCss()
+        #endregion
+
+        #region CSS Value
+
+        CssValueType ICssValue.Type
         {
-            return FunctionNames.Build(FunctionNames.Rgba, red.ToString(), green.ToString(), blue.ToString(), Alpha.ToString("0.##", CultureInfo.InvariantCulture));
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get
+            {
+                return FunctionNames.Build(FunctionNames.Rgba, red.ToString(), green.ToString(), blue.ToString(), Alpha.ToString("0.##", CultureInfo.InvariantCulture)); ;
+            }
         }
 
         #endregion

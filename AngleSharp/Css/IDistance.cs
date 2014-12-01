@@ -1,11 +1,11 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
 
     /// <summary>
     /// Functionality for length computation.
     /// </summary>
-    public interface IDistance : ICssObject
+    public interface IDistance : ICssValue
     {
         /// <summary>
         /// Converts the value to pixels.

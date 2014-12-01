@@ -1,11 +1,11 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.DOM.Css
 {
     using System;
 
     /// <summary>
     /// Represents a general transform function.
     /// </summary>
-    public abstract class TransitionFunction : ICssObject
+    public abstract class TransitionFunction : ICssValue
     {
         #region Methods
 
@@ -47,6 +47,20 @@
         /// Gets the pre-defined step-end function.
         /// </summary>
         public static readonly TransitionFunction StepEnd = new StepsTransitionFunction(1, false);
+
+        #endregion
+
+        #region CSS Value
+
+        CssValueType ICssValue.Type
+        {
+            get { return CssValueType.Primitive; }
+        }
+
+        String ICssValue.CssText
+        {
+            get { return ToCss(); }
+        }
 
         #endregion
     }
