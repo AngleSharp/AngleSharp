@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     sealed class MinAspectRatioMediaFeature : MediaFeature
     {
-        Single _ratio;
+        Tuple<Int32, Int32> _ratio;
 
         public MinAspectRatioMediaFeature()
             : base(FeatureNames.MinAspectRatio)
@@ -20,7 +19,11 @@
 
         internal override Boolean TrySetValue(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
+            return CSSProperty.WithRatio().TryConvert(value, m =>
+            {
+                _ratio = m;
+                Value = value;
+            });
         }
 
         public override Boolean Validate(IWindow window)
@@ -31,7 +34,7 @@
 
     sealed class MaxAspectRatioMediaFeature : MediaFeature
     {
-        Single _ratio;
+        Tuple<Int32, Int32> _ratio;
 
         public MaxAspectRatioMediaFeature()
             : base(FeatureNames.MaxAspectRatio)
@@ -45,7 +48,11 @@
 
         internal override Boolean TrySetValue(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
+            return CSSProperty.WithRatio().TryConvert(value, m =>
+            {
+                _ratio = m;
+                Value = value;
+            });
         }
 
         public override Boolean Validate(IWindow window)
@@ -56,7 +63,7 @@
 
     sealed class AspectRatioMediaFeature : MediaFeature
     {
-        Single _ratio;
+        Tuple<Int32, Int32> _ratio;
 
         public AspectRatioMediaFeature()
             : base(FeatureNames.AspectRatio)
@@ -65,13 +72,17 @@
 
         internal override Boolean TrySetDefaultValue()
         {
-            _ratio = 1f;
+            _ratio = Tuple.Create(1, 1);
             return true;
         }
 
         internal override Boolean TrySetValue(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
+            return CSSProperty.WithRatio().TryConvert(value, m =>
+            {
+                _ratio = m;
+                Value = value;
+            });
         }
 
         public override Boolean Validate(IWindow window)
