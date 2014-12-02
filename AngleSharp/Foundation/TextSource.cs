@@ -10,7 +10,7 @@
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class TextSource : ITextSource
     {
         #region Fields
