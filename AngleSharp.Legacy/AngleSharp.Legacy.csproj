@@ -384,6 +384,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\FunctionValueConverter.cs">
       <Link>DOM\Css\Converters\FunctionValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\GradientConverter.cs">
+      <Link>DOM\Css\Converters\GradientConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\IdentifierValueConverter.cs">
       <Link>DOM\Css\Converters\IdentifierValueConverter.cs</Link>
     </Compile>
