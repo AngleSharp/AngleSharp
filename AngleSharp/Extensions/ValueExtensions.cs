@@ -24,7 +24,7 @@
         {
             var primitive = value as CssIdentifier;
             mode = default(T);
-            return primitive != null && obj.TryGetValue(primitive, out mode);
+            return primitive != null && obj.TryGetValue(primitive.Value, out mode);
         }
 
         public static String GetIdentifier<T>(this Dictionary<String, T> obj, T value)
