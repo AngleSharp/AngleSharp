@@ -389,69 +389,6 @@
             return null;
         }
 
-        public static GradientStop[] ToGradientStops(this ICssValue value)
-        {
-            var values = value as CssValueList;
-
-            if (value == null || values.Length < 2)
-                return null;
-
-            var stops = new GradientStop[values.Length];
-
-            var perStop = 100f / (values.Length - 1);
-
-            for (int i = 0, k = 0; i < values.Length; i++, k++)
-            {
-                var stop = values[i].ToGradientStop(perStop * k);
-
-                if (stop == null)
-                    return null;
-
-                stops[k] = stop.Value;
-            }
-
-            return stops;
-        }
-
-        public static GradientStop? ToGradientStop(this ICssValue value, Single defaultStop = 0f)
-        {
-            var list = value as CssValueList;
-            Color? color = null;
-            IDistance location = new Percent(defaultStop);
-
-            if (list != null)
-            {
-                if (list.Length != 2)
-                    return null;
-
-                color = list[0].ToColor();
-                location = list[1].ToDistance();
-            }
-            else
-                color = value.ToColor();
-
-            if (color == null || location == null)
-                return null;
-
-            return new GradientStop(color.Value, location);
-        }
-
-        public static Single? ToAspectRatio(this ICssValue value)
-        {
-            var values = value as CssValueList;
-
-            if (values != null && values.Length == 3 && values[1] == CssValue.Delimiter)
-            {
-                var w = values[0].ToInteger();
-                var h = values[2].ToInteger();
-
-                if (w.HasValue && h.HasValue && w.Value > 0 && h.Value > 0)
-                    return (Single)w.Value / (Single)h.Value;
-            }
-
-            return null;
-        }
-
         public static Point ToPoint(this ICssValue value)
         {
             var values = value as CssValueList;
