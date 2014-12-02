@@ -34,5 +34,15 @@
         {
             return arguments.Count == 1 ? arguments[0] : new CssValueList(arguments);
         }
+
+        public Int32 MinArgs
+        {
+            get { return 1; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return 1; }
+        }
     }
 }

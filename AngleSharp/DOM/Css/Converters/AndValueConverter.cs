@@ -31,5 +31,15 @@
         {
             return _previous.Validate(value) || _next.Validate(value);
         }
+
+        public Int32 MinArgs
+        {
+            get { return _previous.MinArgs + _next.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return _previous.MaxArgs + _next.MaxArgs; }
+        }
     }
 }

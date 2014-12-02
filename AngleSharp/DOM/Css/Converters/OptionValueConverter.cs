@@ -31,5 +31,15 @@
 
             return _converter.Validate(value);
         }
+
+        public Int32 MinArgs
+        {
+            get { return 0; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return _converter.MaxArgs; }
+        }
     }
 }

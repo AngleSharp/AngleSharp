@@ -56,6 +56,16 @@
 
             return items.Length == 0;
         }
+
+        public Int32 MinArgs
+        {
+            get { return Math.Min(_first.MinArgs, _second.MinArgs); }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Math.Max(_first.MaxArgs, _second.MaxArgs); }
+        }
     }
 
     sealed class OptionsValueConverter<T1, T2, T3> : IValueConverter<Tuple<T1, T2, T3>>
@@ -113,6 +123,16 @@
             }
 
             return items.Length == 0;
+        }
+
+        public Int32 MinArgs
+        {
+            get { return Math.Min(Math.Min(_first.MinArgs, _second.MinArgs), _third.MinArgs); }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Math.Max(Math.Max(_first.MaxArgs, _second.MaxArgs), _third.MaxArgs); }
         }
     }
 
@@ -174,6 +194,16 @@
             }
 
             return items.Length == 0;
+        }
+
+        public Int32 MinArgs
+        {
+            get { return Math.Min(Math.Min(Math.Min(_first.MinArgs, _second.MinArgs), _third.MinArgs), _fourth.MinArgs); }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Math.Max(Math.Max(Math.Max(_first.MaxArgs, _second.MaxArgs), _third.MaxArgs), _fourth.MaxArgs); }
         }
     }
 
@@ -247,6 +277,16 @@
             }
 
             return items.Length == 0;
+        }
+
+        public Int32 MinArgs
+        {
+            get { return Math.Min(Math.Min(Math.Min(Math.Min(Math.Min(Math.Min(Math.Min(_first.MinArgs, _second.MinArgs), _third.MinArgs), _fourth.MinArgs), _fifth.MinArgs), _sixth.MinArgs), _seventh.MinArgs), _eigth.MinArgs); }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(_first.MaxArgs, _second.MaxArgs), _third.MaxArgs), _fourth.MaxArgs), _fifth.MaxArgs), _sixth.MaxArgs), _seventh.MaxArgs), _eigth.MaxArgs); }
         }
     }
 }

@@ -63,5 +63,15 @@
 
             return _listConverter.Validate(values) && _endConverter.Validate(end);
         }
+
+        public Int32 MinArgs
+        {
+            get { return _endConverter.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return _listConverter.MaxArgs + _endConverter.MaxArgs; }
+        }
     }
 }

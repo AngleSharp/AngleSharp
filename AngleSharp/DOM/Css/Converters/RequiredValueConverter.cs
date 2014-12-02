@@ -26,5 +26,15 @@
 
             return _converter.Validate(value);
         }
+
+        public Int32 MinArgs
+        {
+            get { return Math.Max(1, _converter.MinArgs); }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Math.Max(1, _converter.MaxArgs); }
+        }
     }
 }

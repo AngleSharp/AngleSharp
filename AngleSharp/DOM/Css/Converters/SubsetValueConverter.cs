@@ -35,5 +35,15 @@
 
             return _converter.Validate(items.Subset(_start, _end).Reduce());
         }
+
+        public Int32 MinArgs
+        {
+            get { return _converter.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Math.Min(_converter.MaxArgs, Math.Max(MinArgs, _end - _start)); }
+        }
     }
 }

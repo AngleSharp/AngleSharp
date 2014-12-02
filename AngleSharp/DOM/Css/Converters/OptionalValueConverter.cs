@@ -72,5 +72,15 @@
 
             return list;
         }
+
+        public Int32 MinArgs
+        {
+            get { return _listConverter.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return _listConverter.MaxArgs + _optionConverter.MaxArgs; }
+        }
     }
 }

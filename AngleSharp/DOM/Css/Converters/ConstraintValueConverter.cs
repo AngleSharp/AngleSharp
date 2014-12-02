@@ -28,5 +28,15 @@
         {
             return _primary.Validate(value);
         }
+
+        public Int32 MinArgs
+        {
+            get { return _primary.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return _primary.MaxArgs; }
+        }
     }
 }

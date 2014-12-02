@@ -81,5 +81,15 @@
 
             return _converter.Validate(list.Reduce());
         }
+
+        public Int32 MinArgs
+        {
+            get { return _converter.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Int32.MaxValue; }
+        }
     }
 }

@@ -5,6 +5,10 @@
     interface IValueConverter
     {
         Boolean Validate(ICssValue value);
+
+        Int32 MinArgs { get; }
+
+        Int32 MaxArgs { get; }
     }
 
     interface IValueConverter<T> : IValueConverter
