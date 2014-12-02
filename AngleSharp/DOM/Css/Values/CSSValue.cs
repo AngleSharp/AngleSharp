@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="text">The text that represents the value.</param>
         /// <param name="type">The type of of the value.</param>
-        protected CssValue(String text, CssValueType type)
+        CssValue(String text, CssValueType type)
         {
             _text = text;
             _type = type;
