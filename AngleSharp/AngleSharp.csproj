@@ -45,6 +45,7 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ContextExtensions.cs" />
+    <Compile Include="DOM\Css\Converters\GradientConverter.cs" />
     <Compile Include="DOM\Css\Values\BackgroundSize.cs" />
     <Compile Include="DOM\Css\Values\FontWeight.cs" />
     <Compile Include="DOM\Css\Values\Image\IImageSource.cs" />

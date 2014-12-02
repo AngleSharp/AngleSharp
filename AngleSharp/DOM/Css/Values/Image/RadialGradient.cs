@@ -14,8 +14,7 @@
         #region Fields
 
         readonly GradientStop[] _stops;
-        readonly IDistance _x;
-        readonly IDistance _y;
+        readonly Point _pt;
         readonly IDistance _width;
         readonly IDistance _height;
         readonly Boolean _repeating;
@@ -33,11 +32,10 @@
         /// <param name="height">The height.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public RadialGradient(IDistance x, IDistance y, IDistance width, IDistance height, GradientStop[] stops, Boolean repeating = false)
+        public RadialGradient(Point pt, IDistance width, IDistance height, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
-            _x = x;
-            _y = y;
+            _pt = pt;
             _width = width;
             _height = height;
             _repeating = repeating;
@@ -52,7 +50,7 @@
         /// </summary>
         public IDistance X
         {
-            get { return _x; }
+            get { return _pt.X; }
         }
 
         /// <summary>
@@ -60,7 +58,7 @@
         /// </summary>
         public IDistance Y
         {
-            get { return _y; }
+            get { return _pt.Y; }
         }
 
         /// <summary>
@@ -108,7 +106,7 @@
         {
             get
             {
-                var position = new[] { _width.CssText, _height.CssText, Keywords.At, _x.CssText, _y.CssText };
+                var position = new[] { _width.CssText, _height.CssText, Keywords.At, ((ICssValue)_pt).CssText };
                 return FunctionNames.Build(_repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient,
                     String.Join(" ", position), String.Join(", ", _stops.Select(m => ((ICssValue)m).CssText)));
             }

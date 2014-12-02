@@ -249,8 +249,8 @@
 
         public static IValueConverter<Angle> WithSideOrCorner()
         {
-            return WithOptions(TakeOne(Keywords.Left, -1).Or(TakeOne(Keywords.Right, 1)), TakeOne(Keywords.Top, -1).Or(TakeOne(Keywords.Bottom, 1)), Tuple.Create(0, 0)).
-                   To(m => new Angle((Single)(Math.Atan2(m.Item1 - 0.5, 0.5 - m.Item2) * 180.0 / Math.PI), Angle.Unit.Deg));
+            return WithOptions(TakeOne(Keywords.Left, -1.0).Or(TakeOne(Keywords.Right, 1.0)), TakeOne(Keywords.Top, 1.0).Or(TakeOne(Keywords.Bottom, -1.0)), Tuple.Create(0.0, 0.0)).
+                   To(m => new Angle((Single)(Math.Atan2(m.Item1, m.Item2) * 180.0 / Math.PI), Angle.Unit.Deg));
         }
 
         public static IValueConverter<Length> WithBorderWidth()
@@ -283,9 +283,10 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
         /// </summary>
         /// <returns>The value converter.</returns>
-        public static IValueConverter<Single> WithRatio()
+        public static IValueConverter<Tuple<Int32, Int32>> WithRatio()
         {
-            return new StructValueConverter<Single>(ValueExtensions.ToAspectRatio);
+            var condition = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
+            return new SplitValueConverter<Boolean, Int32>(condition, WithInteger(), false).Constraint(m => m.Length == 2).To(m => Tuple.Create(m[0], m[1]));
         }
 
         /// <summary>
@@ -509,11 +510,6 @@
             return new StructValueConverter<Byte>(ValueExtensions.ToByte);
         }
 
-        public static IValueConverter<GradientStop[]> WithGradientStops()
-        {
-            return new ClassValueConverter<GradientStop[]>(ValueExtensions.ToGradientStops);
-        }
-
         public static IValueConverter<T> FirstArg<T>(IValueConverter<T> converter)
         {
             return new SubsetValueConverter<T>(converter, 0, 1);
@@ -532,14 +528,13 @@
         static IValueConverter<LinearGradient> WithLinearGradient()
         {
             var side = FirstArg(TakeOne(Keywords.To, true)).And(RestArgs(WithSideOrCorner(), 1)).To(m => m.Item2);
-            var angle = FirstArg(WithAngle().Or(side));
-            var stops = RestArgs(WithGradientStops(), 1);
-            var args = angle.And(stops).Or(WithGradientStops().To(m => Tuple.Create(Angle.Zero, m)));
+            var angle = WithAngle().Or(side);
+            var gradient = new GradientConverter<Angle>(angle, new Angle(180f, Angle.Unit.Deg));
 
             return new FunctionValueConverter<LinearGradient>(FunctionNames.LinearGradient,
-                        args.To(m => new LinearGradient(m.Item1, m.Item2, false))).Or(
+                        gradient.To(m => new LinearGradient(m.Item1, m.Item2, false))).Or(
                    new FunctionValueConverter<LinearGradient>(FunctionNames.RepeatingLinearGradient,
-                        args.To(m => new LinearGradient(m.Item1, m.Item2, true))));
+                        gradient.To(m => new LinearGradient(m.Item1, m.Item2, true))));
         }
         
         /// <summary>
@@ -562,12 +557,12 @@
             var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance(), WithDistance(), m => new Point(m.Item1, m.Item2)));
             var position = FirstArg(TakeOne(Keywords.At, true)).And(RestArgs(WithPoint(), 1)).To(m => m.Item2);
             var first = endingShape.Or(size);
-            var args = FirstArg(first).And(RestArgs(WithGradientStops(), 1));
+            var gradient = new GradientConverter<Point>(first, new Point(Percent.Fifty, Percent.Fifty));
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
-                        args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, false))).Or(
+                        gradient.To(m => new RadialGradient(m.Item1, Percent.Hundred, Percent.Hundred, m.Item2, false))).Or(
                    new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
-                        args.To(m => new RadialGradient(Percent.Fifty, Percent.Fifty, Percent.Hundred, Percent.Hundred, m.Item2, true))));
+                        gradient.To(m => new RadialGradient(m.Item1, Percent.Hundred, Percent.Hundred, m.Item2, true))));
         }
 
         /// <summary>
