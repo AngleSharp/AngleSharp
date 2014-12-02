@@ -346,49 +346,6 @@
             return primitive;
         }
 
-        public static String ToFontFamily(this ICssValue value)
-        {
-            var values = value as CssValueList;
-
-            if (values == null)
-            {
-                var ident = value as CssIdentifier;
-
-                if (ident != null)
-                {
-                    String family;
-
-                    if (Map.DefaultFontFamilies.TryGetValue(ident, out family))
-                        return family;
-
-                    return ident.Value;
-                }
-
-                var str = value as CssString;
-
-                if (str != null)
-                    return str.Value;
-            }
-            else
-            {
-                var names = new String[values.Length];
-
-                for (var i = 0; i < names.Length; i++)
-                {
-                    var ident = values[i] as CssIdentifier;
-
-                    if (ident == null)
-                        return null;
-
-                    names[i] = ident.Value;
-                }
-
-                return String.Join(" ", names);
-            }
-
-            return null;
-        }
-
         public static Point ToPoint(this ICssValue value)
         {
             var values = value as CssValueList;

@@ -15,8 +15,7 @@
 
         readonly GradientStop[] _stops;
         readonly Point _pt;
-        readonly IDistance _width;
-        readonly IDistance _height;
+        readonly Point _size;
         readonly Boolean _repeating;
 
         #endregion
@@ -26,18 +25,15 @@
         /// <summary>
         /// Creates a new radial gradient.
         /// </summary>
-        /// <param name="x">The x-coordinate.</param>
-        /// <param name="y">The y-coordinate.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
+        /// <param name="pt">The center point of the gradient.</param>
+        /// <param name="size">The size of the ellipsoid..</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public RadialGradient(Point pt, IDistance width, IDistance height, GradientStop[] stops, Boolean repeating = false)
+        public RadialGradient(Point pt, Point size, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _pt = pt;
-            _width = width;
-            _height = height;
+            _size = size;
             _repeating = repeating;
         }
 
@@ -66,7 +62,7 @@
         /// </summary>
         public IDistance Width
         {
-            get { return _width; }
+            get { return _size.X; }
         }
 
         /// <summary>
@@ -74,7 +70,7 @@
         /// </summary>
         public IDistance Height
         {
-            get { return _height; }
+            get { return _size.Y; }
         }
 
         /// <summary>
@@ -106,7 +102,7 @@
         {
             get
             {
-                var position = new[] { _width.CssText, _height.CssText, Keywords.At, ((ICssValue)_pt).CssText };
+                var position = new[] { ((ICssValue)_size).CssText, Keywords.At, ((ICssValue)_pt).CssText };
                 return FunctionNames.Build(_repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient,
                     String.Join(" ", position), String.Join(", ", _stops.Select(m => ((ICssValue)m).CssText)));
             }

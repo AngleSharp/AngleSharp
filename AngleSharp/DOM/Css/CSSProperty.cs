@@ -331,7 +331,7 @@
 
         public static IValueConverter<String> WithFontFamily()
         {
-            return new ClassValueConverter<String>(ValueExtensions.ToFontFamily);
+            return From(Map.DefaultFontFamilies).Or(WithString()).Or(TakeMany(WithIdentifier()).To(names => String.Join(" ", names)));
         }
 
         public static IValueConverter<IDistance> WithDistance()
@@ -551,18 +551,21 @@
             // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
             // <ending-shape> = [ ellipse | circle ]
             // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
-
-            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => new Point(Percent.Zero, Percent.Zero));
+            
+            var center = new Point(Percent.Fifty, Percent.Fifty);
+            var zeroSize = new Point(Percent.Zero, Percent.Zero);
+            var defaults = Tuple.Create(zeroSize, center);
+            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => zeroSize);
             var predefinedSize = WithIdentifier().Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
             var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance(), WithDistance(), m => new Point(m.Item1, m.Item2)));
             var position = FirstArg(TakeOne(Keywords.At, true)).And(RestArgs(WithPoint(), 1)).To(m => m.Item2);
-            var first = endingShape.Or(size);
-            var gradient = new GradientConverter<Point>(first, new Point(Percent.Fifty, Percent.Fifty));
+            var dimensions = WithOptions(endingShape.Or(size), position, defaults);
+            var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
-                        gradient.To(m => new RadialGradient(m.Item1, Percent.Hundred, Percent.Hundred, m.Item2, false))).Or(
+                        gradient.To(m => new RadialGradient(m.Item1.Item2, m.Item1.Item1, m.Item2, false))).Or(
                    new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
-                        gradient.To(m => new RadialGradient(m.Item1, Percent.Hundred, Percent.Hundred, m.Item2, true))));
+                        gradient.To(m => new RadialGradient(m.Item1.Item2, m.Item1.Item1, m.Item2, true))));
         }
 
         /// <summary>
