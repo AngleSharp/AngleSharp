@@ -15,15 +15,18 @@
 
         public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
-            if (value == null || !_converter.TryConvert(value, setResult))
+            if (value == null)
+            {
                 setResult(_default);
+                return true;
+            }
 
-            return true;
+            return _converter.TryConvert(value, setResult);
         }
 
         public Boolean Validate(ICssValue value)
         {
-            return true;
+            return value == null || _converter.Validate(value);
         }
 
         public Int32 MinArgs

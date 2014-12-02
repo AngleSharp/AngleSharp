@@ -474,66 +474,6 @@
             return null;
         }
 
-        public static Shadow ToShadow(this ICssValue value)
-        {
-            var item = value as CssValueList;
-
-            if (item == null || item.Length < 2)
-                return null;
-
-            var inset = item[0].Is(Keywords.Inset);
-            var offset = inset ? 1 : 0;
-
-            if (inset && item.Length < 3)
-                return null;
-
-            var offsetX = item[offset++].ToLength();
-            var offsetY = item[offset++].ToLength();
-
-            if (!offsetX.HasValue || !offsetY.HasValue)
-                return null;
-
-            var blurRadius = Length.Zero;
-            var spreadRadius = Length.Zero;
-            var color = Color.Black;
-
-            if (item.Length > offset)
-            {
-                var blur = item[offset].ToLength();
-
-                if (blur.HasValue)
-                {
-                    blurRadius = blur.Value;
-                    offset++;
-                }
-            }
-
-            if (item.Length > offset)
-            {
-                var spread = item[offset].ToLength();
-
-                if (spread.HasValue)
-                {
-                    spreadRadius = spread.Value;
-                    offset++;
-                }
-            }
-
-            if (item.Length > offset)
-            {
-                CSSProperty.WithColor().TryConvert(item[offset], v => 
-                {
-                    color = v;
-                    offset++;
-                });
-            }
-
-            if (item.Length > offset)
-                return null;
-
-            return new Shadow(inset, offsetX.Value, offsetY.Value, blurRadius, spreadRadius, color);
-        }
-
         #endregion
 
         #region Value Calculation

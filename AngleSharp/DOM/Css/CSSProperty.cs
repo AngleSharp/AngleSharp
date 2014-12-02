@@ -286,7 +286,7 @@
         public static IValueConverter<Tuple<Int32, Int32>> WithRatio()
         {
             var condition = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
-            return new SplitValueConverter<Boolean, Int32>(condition, WithInteger(), false).Constraint(m => m.Length == 2).To(m => Tuple.Create(m[0], m[1]));
+            return new SplitValueConverter<Boolean, Int32>(condition, WithArg(WithInteger()), false).Constraint(m => m.Length == 2).To(m => Tuple.Create(m[0], m[1]));
         }
 
         /// <summary>
@@ -341,7 +341,18 @@
 
         public static IValueConverter<Shadow> WithShadow()
         {
-            return new ClassValueConverter<Shadow>(ValueExtensions.ToShadow);
+            return WithArgs(WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black),
+                        m => new Shadow(false, m.Item1, m.Item2, Length.Zero, Length.Zero, m.Item3)).Or(
+                   WithArgs(WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
+                        m => new Shadow(false, m.Item1, m.Item2, m.Item3, Length.Zero, m.Item4))).Or(
+                   WithArgs(WithLength().Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
+                        m => new Shadow(false, m.Item1, m.Item2, m.Item3, m.Item4, m.Item5))).Or(
+                   WithArgs(TakeOne(Keywords.Inset, true).Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
+                        m => new Shadow(m.Item1, m.Item2, m.Item3, Length.Zero, Length.Zero, m.Item4))).Or(
+                   WithArgs(TakeOne(Keywords.Inset, true).Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
+                        m => new Shadow(m.Item1, m.Item2, m.Item3, m.Item4, Length.Zero, m.Item5))).Or(
+                   WithArgs(TakeOne(Keywords.Inset, true).Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
+                        m => new Shadow(m.Item1, m.Item2, m.Item3, m.Item4, m.Item5, m.Item6)));
         }
 
         /// <summary>
@@ -381,7 +392,12 @@
 
         public static IValueConverter<CssAttr> WithAttr()
         {
-            return new FunctionValueConverter<CssAttr>(FunctionNames.Attr, WithString().Or(WithIdentifier()).To(m => new CssAttr(m)));
+            return new FunctionValueConverter<CssAttr>(FunctionNames.Attr, WithString().Or(WithIdentifier()).To(m => new CssAttr(m)).Atomic());
+        }
+
+        public static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
+        {
+            return new ArgumentsValueConverter<T>(converter, 1).To(m => m[0]);
         }
 
         public static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
@@ -402,6 +418,16 @@
         public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
+        }
+
+        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, Func<Tuple<T1, T2, T3, T4, T5>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth).To(converter);
+        }
+
+        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T6, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, Func<Tuple<T1, T2, T3, T4, T5, T6>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth).To(converter);
         }
 
         public static IValueConverter<Tuple<T1, T2>> WithOptions<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second, Tuple<T1, T2> defaults)
@@ -431,22 +457,23 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<TransitionFunction> WithTransition()
         {
-            return new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).
-                Or(new FunctionValueConverter<TransitionFunction>(FunctionNames.Steps,
-                        WithInteger().To(m => (TransitionFunction)new StepsTransitionFunction(m)).Or(
-                        WithArgs(WithInteger(), TakeOne(Keywords.Start, true).Or(TakeOne(Keywords.End, false)), m => (TransitionFunction)new StepsTransitionFunction(m.Item1, m.Item2))))).
-                Or(new FunctionValueConverter<TransitionFunction>(FunctionNames.CubicBezier,
-                        WithArgs(WithNumber(), WithNumber(), WithNumber(), WithNumber(), m => (TransitionFunction)new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4))));
+            return new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).Or(
+                   new FunctionValueConverter<TransitionFunction>(FunctionNames.Steps,
+                        WithArgs(WithInteger().Required(), TakeOne(Keywords.Start, true).Or(TakeOne(Keywords.End, false)).Option(false), 
+                            m => (TransitionFunction)new StepsTransitionFunction(m.Item1, m.Item2)))).Or(
+                   new FunctionValueConverter<TransitionFunction>(FunctionNames.CubicBezier,
+                        WithArgs(WithNumber().Required(), WithNumber().Required(), WithNumber().Required(), WithNumber().Required(), 
+                            m => (TransitionFunction)new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4))));
         }
 
         public static IValueConverter<Counter> WithCounter()
         {
             return new FunctionValueConverter<Counter>(FunctionNames.Counter,
-                        WithIdentifier().To(m => new Counter(m, Keywords.Decimal, null)).Or(
-                        WithArgs(WithIdentifier(), WithIdentifier(), m => new Counter(m.Item1, m.Item2, null)))).
-                Or(new FunctionValueConverter<Counter>(FunctionNames.Counters,
-                        WithArgs(WithIdentifier(), WithString(), m => new Counter(m.Item1, Keywords.Decimal, m.Item2)).Or(
-                        WithArgs(WithIdentifier(), WithString(), WithIdentifier(), m => new Counter(m.Item1, m.Item3, m.Item2)))));
+                        WithArgs(WithIdentifier().Required(), WithIdentifier().Option(Keywords.Decimal), 
+                            m => new Counter(m.Item1, m.Item2, null))).Or(
+                   new FunctionValueConverter<Counter>(FunctionNames.Counters,
+                        WithArgs(WithIdentifier().Required(), WithString().Required(), WithIdentifier().Option(Keywords.Decimal), 
+                            m => new Counter(m.Item1, m.Item3, m.Item2))));
         }
 
         /// <summary>
@@ -467,7 +494,10 @@
         public static IValueConverter<Shape> WithShape()
         {
             return new FunctionValueConverter<Shape>(FunctionNames.Rect,
-                       WithArgs(WithLength(), WithLength(), WithLength(), WithLength(), m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)));
+                        WithArgs(WithLength().Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), 
+                            m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)).Or(
+                        WithArg(TakeMany(WithLength()).Constraint(m => m.Length == 4).To(
+                            m => new Shape(m[0], m[1], m[2], m[3])))));
         }
 
         /// <summary>
@@ -557,7 +587,7 @@
             var defaults = Tuple.Create(zeroSize, center);
             var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => zeroSize);
             var predefinedSize = WithIdentifier().Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
-            var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance(), WithDistance(), m => new Point(m.Item1, m.Item2)));
+            var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance().Required(), WithDistance().Required(), m => new Point(m.Item1, m.Item2)));
             var position = FirstArg(TakeOne(Keywords.At, true)).And(RestArgs(WithPoint(), 1)).To(m => m.Item2);
             var dimensions = WithOptions(endingShape.Or(size), position, defaults);
             var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
@@ -575,8 +605,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<IImageSource> WithGradient()
         {
-            return WithLinearGradient().To(m => (IImageSource)m).Or(
-                   WithRadialGradient().To(m => (IImageSource)m));
+            return WithLinearGradient().To(m => (IImageSource)m).Or(WithRadialGradient().To(m => (IImageSource)m));
         }
 
         /// <summary>
@@ -600,13 +629,17 @@
 
             return new StructValueConverter<Color>(ValueExtensions.ToColor).Or(
                    new FunctionValueConverter<Color>(FunctionNames.Rgb,
-                        WithArgs(WithByte(), WithByte(), WithByte(), m => new Color(m.Item1, m.Item2, m.Item3)))).Or(
+                        WithArgs(WithByte().Required(), WithByte().Required(), WithByte().Required(), 
+                            m => new Color(m.Item1, m.Item2, m.Item3)))).Or(
                    new FunctionValueConverter<Color>(FunctionNames.Rgba,
-                        WithArgs(WithByte(), WithByte(), WithByte(), WithNumber(), m => new Color(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
+                        WithArgs(WithByte().Required(), WithByte().Required(), WithByte().Required(), WithNumber().Required(), 
+                            m => new Color(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
                    new FunctionValueConverter<Color>(FunctionNames.Hsl,
-                        WithArgs(WithNumber(), WithPercent(), WithPercent(), m => Color.FromHsl(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue)))).Or(
+                        WithArgs(WithNumber().Required(), WithPercent().Required(), WithPercent().Required(), 
+                            m => Color.FromHsl(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue)))).Or(
                    new FunctionValueConverter<Color>(FunctionNames.Hsla,
-                        WithArgs(WithNumber(), WithPercent(), WithPercent(), WithNumber().Constraint(m => m >= 0f && m <= 1f), m => Color.FromHsla(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue, m.Item4))));
+                        WithArgs(WithNumber().Required(), WithPercent().Required(), WithPercent().Required(), WithNumber().Constraint(m => m >= 0f && m <= 1f).Required(), 
+                            m => Color.FromHsla(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue, m.Item4))));
         }
 
         /// <summary>
@@ -616,51 +649,91 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<ITransform> WithTransform()
         {
-            return new FunctionValueConverter<ITransform>(FunctionNames.Matrix,
-                        WithArgs(WithNumber(), 6, m => (ITransform)new MatrixTransform(m[0], m[1], 0f, m[2], m[3], 0f, 0f, 0f, 1f, m[4], m[5], 0f))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Matrix3d,
-                        WithArgs(WithNumber(), 12, m => (ITransform)new MatrixTransform(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11])))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate,
-                        WithDistance().To(m => (ITransform)new TranslateTransform(m, Length.Zero, Length.Zero)).Or(
-                        WithArgs(WithDistance(), 2, m => (ITransform)new TranslateTransform(m[0], m[1], Length.Zero))))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Translate3d,
-                        WithDistance().To(m => (ITransform)new TranslateTransform(m, Length.Zero, Length.Zero)).Or(
-                        WithArgs(WithDistance(), 2, m => (ITransform)new TranslateTransform(m[0], m[1], Length.Zero))).Or(
-                        WithArgs(WithDistance(), 3, m => (ITransform)new TranslateTransform(m[0], m[1], m[2]))))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateX,
-                        WithDistance().To(m => (ITransform)new TranslateTransform(m, Length.Zero, Length.Zero)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateY,
-                        WithDistance().To(m => (ITransform)new TranslateTransform(Length.Zero, m, Length.Zero)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.TranslateZ,
-                        WithDistance().To(m => (ITransform)new TranslateTransform(Length.Zero, Length.Zero, m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale,
-                        WithNumber().To(m => (ITransform)new ScaleTransform(m, m, 1f)).Or(
-                        WithArgs(WithNumber(), 2, m => (ITransform)new ScaleTransform(m[0], m[1], 1f))))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Scale3d,
-                        WithNumber().To(m => (ITransform)new ScaleTransform(m, m, m)).Or(
-                        WithArgs(WithNumber(), 3, m => (ITransform)new ScaleTransform(m[0], m[1], m[2]))))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleX,
-                        WithNumber().To(m => (ITransform)new ScaleTransform(m, 1f, 1f)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleY,
-                        WithNumber().To(m => (ITransform)new ScaleTransform(1f, m, 1f)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.ScaleZ,
-                        WithNumber().To(m => (ITransform)new ScaleTransform(1f, 1f, m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Rotate,
-                        WithAngle().To(m => (ITransform)RotateTransform.RotateZ(m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Rotate3d,
-                        WithArgs(WithNumber(), WithNumber(), WithNumber(), WithAngle(), m => (ITransform)new RotateTransform(m.Item1, m.Item2, m.Item3, m.Item4)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.RotateX,
-                        WithAngle().To(m => (ITransform)RotateTransform.RotateX(m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.RotateY,
-                        WithAngle().To(m => (ITransform)RotateTransform.RotateY(m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.RotateZ,
-                        WithAngle().To(m => (ITransform)RotateTransform.RotateZ(m)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.Skew,
-                        WithArgs(WithAngle(), 2, m => (ITransform)new SkewTransform(m[0], m[1])))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.SkewX,
-                        WithAngle().To(m => (ITransform)new SkewTransform(m, Angle.Zero)))).
-                Or(new FunctionValueConverter<ITransform>(FunctionNames.SkewY,
-                       WithAngle().To(m => (ITransform)new SkewTransform(Angle.Zero, m))));
+            return WithMatrixTransform().To(m => (ITransform)m).Or(
+                   WithScaleTransform().To(m => (ITransform)m)).Or(
+                   WithRotateTransform().To(m => (ITransform)m)).Or(
+                   WithTranslateTransform().To(m => (ITransform)m)).Or(
+                   WithSkewTransform().To(m => (ITransform)m));
+        }
+
+        public static IValueConverter<MatrixTransform> WithMatrixTransform()
+        {
+            return new FunctionValueConverter<MatrixTransform>(FunctionNames.Matrix,
+                        WithArgs(WithNumber(), 6,
+                            m => new MatrixTransform(m[0], m[1], 0f, m[2], m[3], 0f, 0f, 0f, 1f, m[4], m[5], 0f))).Or(
+                   new FunctionValueConverter<MatrixTransform>(FunctionNames.Matrix3d,
+                        WithArgs(WithNumber(), 12,
+                            m => new MatrixTransform(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11]))));
+        }
+
+        public static IValueConverter<TranslateTransform> WithTranslateTransform()
+        {
+            return new FunctionValueConverter<TranslateTransform>(FunctionNames.Translate,
+                        WithArgs(WithDistance().Required(), WithDistance().Option(Length.Zero),
+                            m => new TranslateTransform(m.Item1, m.Item2, Length.Zero))).Or(
+                   new FunctionValueConverter<TranslateTransform>(FunctionNames.Translate3d,
+                        WithArgs(WithDistance().Required(), WithDistance().Option(Length.Zero), WithDistance().Option(Length.Zero),
+                            m => new TranslateTransform(m.Item1, m.Item2, m.Item3)))).Or(
+                   new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateX,
+                        WithArg(WithDistance().To(
+                            m => new TranslateTransform(m, Length.Zero, Length.Zero))))).Or(
+                   new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateY,
+                        WithArg(WithDistance().To(
+                            m => new TranslateTransform(Length.Zero, m, Length.Zero))))).Or(
+                   new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateZ,
+                        WithArg(WithDistance().To(
+                            m => new TranslateTransform(Length.Zero, Length.Zero, m)))));
+        }
+
+        public static IValueConverter<ScaleTransform> WithScaleTransform()
+        {
+            return new FunctionValueConverter<ScaleTransform>(FunctionNames.Scale,
+                        WithArgs(WithNumber().Required(), WithNumber().Option(Single.NaN),
+                            m => new ScaleTransform(m.Item1, Single.IsNaN(m.Item2) ? m.Item1 : m.Item2, 1f))).Or(
+                   new FunctionValueConverter<ScaleTransform>(FunctionNames.Scale3d,
+                        WithArgs(WithNumber().Required(), WithNumber().Option(Single.NaN), WithNumber().Option(Single.NaN),
+                            m => new ScaleTransform(m.Item1, Single.IsNaN(m.Item2) ? m.Item1 : m.Item2, Single.IsNaN(m.Item3) ? m.Item1 : m.Item3)))).Or(
+                   new FunctionValueConverter<ScaleTransform>(FunctionNames.ScaleX,
+                        WithArg(WithNumber().To(
+                            m => new ScaleTransform(m, 1f, 1f))))).Or(
+                   new FunctionValueConverter<ScaleTransform>(FunctionNames.ScaleY,
+                        WithArg(WithNumber().To(
+                            m => new ScaleTransform(1f, m, 1f))))).Or(
+                   new FunctionValueConverter<ScaleTransform>(FunctionNames.ScaleZ,
+                        WithArg(WithNumber().To(
+                            m => new ScaleTransform(1f, 1f, m)))));
+        }
+
+        public static IValueConverter<RotateTransform> WithRotateTransform()
+        {
+            return new FunctionValueConverter<RotateTransform>(FunctionNames.Rotate,
+                        WithArg(WithAngle().To(
+                            m => RotateTransform.RotateZ(m)))).Or(
+                   new FunctionValueConverter<RotateTransform>(FunctionNames.Rotate3d,
+                        WithArgs(WithNumber().Required(), WithNumber().Required(), WithNumber().Required(), WithAngle().Required(), 
+                            m => new RotateTransform(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
+                   new FunctionValueConverter<RotateTransform>(FunctionNames.RotateX,
+                        WithArg(WithAngle().To(
+                            m => RotateTransform.RotateX(m))))).Or(
+                   new FunctionValueConverter<RotateTransform>(FunctionNames.RotateY,
+                        WithArg(WithAngle().To(
+                            m => RotateTransform.RotateY(m))))).Or(
+                   new FunctionValueConverter<RotateTransform>(FunctionNames.RotateZ,
+                        WithArg(WithAngle().To(
+                            m => RotateTransform.RotateZ(m)))));
+        }
+
+        public static IValueConverter<SkewTransform> WithSkewTransform()
+        {
+            return new FunctionValueConverter<SkewTransform>(FunctionNames.Skew,
+                        WithArgs(WithAngle().Required(), WithAngle().Required(), 
+                            m => new SkewTransform(m.Item1, m.Item2))).Or(
+                   new FunctionValueConverter<SkewTransform>(FunctionNames.SkewX,
+                        WithArg(WithAngle().To(
+                            m => new SkewTransform(m, Angle.Zero))))).Or(
+                   new FunctionValueConverter<SkewTransform>(FunctionNames.SkewY,
+                       WithArg(WithAngle().To(
+                            m => new SkewTransform(Angle.Zero, m)))));
         }
 
         public static IValueConverter<Boolean> Toggle(String on, String off)

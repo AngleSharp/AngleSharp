@@ -24,6 +24,11 @@
             return new ToValueConverter<T, U>(converter, result);
         }
 
+        public static IValueConverter<T> Atomic<T>(this IValueConverter<T> converter)
+        {
+            return new AtomicValueConverter<T>(converter);
+        }
+
         public static IValueConverter<Tuple<T, T, T, T>> Periodic<T>(this IValueConverter<T> converter)
         {
             return converter.To(m => Tuple.Create(m, m, m, m)).Or(

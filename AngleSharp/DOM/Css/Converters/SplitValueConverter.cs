@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -31,7 +30,7 @@
                 {
                     if (_condition.Validate(values[i]))
                     {
-                        if (!_converter.TryConvert(list.Reduce(), m => results.Add(m)))
+                        if (!_converter.TryConvert(list, m => results.Add(m)))
                             return false;
 
                         list = new CssValueList();
@@ -43,8 +42,10 @@
                     list.Add(values[i]);
                 }
 
-                value = list.Reduce();
+                value = list;
             }
+            else
+                value = new CssValueList(value);
 
             if (!_converter.TryConvert(value, m => results.Add(m)))
                 return false;
@@ -57,29 +58,32 @@
         {
             var values = value as CssValueList;
 
-            if (values == null)
-                return _converter.Validate(value);
-
-            var list = new CssValueList();
-            list.Add(values[0]);
-
-            for (int i = 1; i < values.Length; i++)
+            if (values != null)
             {
-                if (_condition.Validate(values[i]))
+                var list = new CssValueList();
+                list.Add(values[0]);
+
+                for (int i = 1; i < values.Length; i++)
                 {
-                    if (!_converter.Validate(list.Reduce()))
-                        return false;
+                    if (_condition.Validate(values[i]))
+                    {
+                        if (!_converter.Validate(list))
+                            return false;
 
-                    list = new CssValueList();
+                        list = new CssValueList();
 
-                    if (!_include)
-                        continue;
+                        if (!_include)
+                            continue;
+                    }
+
+                    list.Add(values[i]);
                 }
-
-                list.Add(values[i]);
+                value = list;
             }
+            else
+                value = new CssValueList(value);
 
-            return _converter.Validate(list.Reduce());
+            return _converter.Validate(value);
         }
 
         public Int32 MinArgs

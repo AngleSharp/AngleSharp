@@ -32,7 +32,7 @@
 
         static ICssValue Transform(List<ICssValue> arguments)
         {
-            return arguments.Count == 1 ? arguments[0] : new CssValueList(arguments);
+            return new CssValueList(arguments);
         }
 
         public Int32 MinArgs

@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>[]> Converter = 
-            CSSBorderRadiusPartProperty.SingleConverter.Periodic().OptionalSplit().Constraint(m => m != null && m.Length < 3);
+            CSSBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().OptionalSplit().Constraint(m => m != null && m.Length < 3);
 
         readonly CSSBorderTopLeftRadiusProperty _topLeft;
         readonly CSSBorderTopRightRadiusProperty _topRight;
