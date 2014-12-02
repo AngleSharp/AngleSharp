@@ -369,6 +369,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\ArgumentsValueConverter.cs">
       <Link>DOM\Css\Converters\ArgumentsValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\AtomicValueConverter.cs">
+      <Link>DOM\Css\Converters\AtomicValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\ClassValueConverter.cs">
       <Link>DOM\Css\Converters\ClassValueConverter.cs</Link>
     </Compile>
