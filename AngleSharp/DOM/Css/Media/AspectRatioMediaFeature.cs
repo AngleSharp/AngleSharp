@@ -20,16 +20,7 @@
 
         internal override Boolean TrySetValue(ICssValue value)
         {
-            var ratio = value.ToAspectRatio();
-
-            if (ratio.HasValue)
-            {
-                Value = value;
-                _ratio = ratio.Value;
-                return true;
-            }
-
-            return false;
+            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)
@@ -54,16 +45,7 @@
 
         internal override Boolean TrySetValue(ICssValue value)
         {
-            var ratio = value.ToAspectRatio();
-
-            if (ratio.HasValue)
-            {
-                Value = value;
-                _ratio = ratio.Value;
-                return true;
-            }
-
-            return false;
+            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)
@@ -89,16 +71,7 @@
 
         internal override Boolean TrySetValue(ICssValue value)
         {
-            var ratio = value.ToAspectRatio();
-
-            if (ratio.HasValue)
-            {
-                Value = value;
-                _ratio = ratio.Value;
-                return true;
-            }
-
-            return false;
+            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)
