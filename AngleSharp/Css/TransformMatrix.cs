@@ -240,23 +240,6 @@
             return (Int32)(_m11 + _m12 + _m13 + _m21 + _m22 + _m23 + _m31 + _m32 + _m33 + _tx + _ty + _tz);
         }
 
-        /// <summary>
-        /// Returns a string representation of the contents of the matrix.
-        /// </summary>
-        /// <returns>The comma separated list of values.</returns>
-        public override String ToString()
-        {
-            var cells = new[]
-            {
-                _m11.ToString(CultureInfo.InvariantCulture), _m12.ToString(CultureInfo.InvariantCulture), _m13.ToString(CultureInfo.InvariantCulture),
-                _m21.ToString(CultureInfo.InvariantCulture), _m22.ToString(CultureInfo.InvariantCulture), _m23.ToString(CultureInfo.InvariantCulture),
-                _m31.ToString(CultureInfo.InvariantCulture), _m32.ToString(CultureInfo.InvariantCulture), _m33.ToString(CultureInfo.InvariantCulture),
-                _tx.ToString(CultureInfo.InvariantCulture), _ty.ToString(CultureInfo.InvariantCulture), _tz.ToString(CultureInfo.InvariantCulture)
-            };
-
-            return String.Format(", ", cells);
-        }
-
         #endregion
     }
 }

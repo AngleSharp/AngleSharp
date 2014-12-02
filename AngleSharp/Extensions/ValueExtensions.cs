@@ -17,7 +17,7 @@
         public static Boolean Is(this ICssValue value, String identifier)
         {
             var primitive = value as CssIdentifier;
-            return primitive != null && ((String)primitive).Equals(identifier, StringComparison.OrdinalIgnoreCase);
+            return primitive != null && primitive.Value.Equals(identifier, StringComparison.OrdinalIgnoreCase);
         }
 
         public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, ICssValue value, out T mode)
@@ -160,7 +160,7 @@
             var primitive = value as CssString;
 
             if (primitive != null)
-                return (String)primitive;
+                return primitive.Value;
 
             return null;
         }
@@ -170,7 +170,7 @@
             var primitive = value as CssIdentifier;
 
             if (primitive != null)
-                return (String)primitive;
+                return primitive.Value;
 
             return null;
         }
@@ -235,13 +235,13 @@
                     if (Map.DefaultFontFamilies.TryGetValue(ident, out family))
                         return family;
 
-                    return ident;
+                    return ident.Value;
                 }
 
                 var str = value as CssString;
 
                 if (str != null)
-                    return str;
+                    return str.Value;
             }
             else
             {
@@ -254,7 +254,7 @@
                     if (ident == null)
                         return null;
 
-                    names[i] = ident;
+                    names[i] = ident.Value;
                 }
 
                 return String.Join(" ", names);

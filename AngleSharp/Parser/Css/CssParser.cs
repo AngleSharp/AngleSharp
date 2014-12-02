@@ -858,10 +858,10 @@
                     value.AddValue(ToIdentifier(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
-                    value.AddValue((CssString)token.Data);
+                    value.AddValue(new CssString(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue((CssUrl)token.Data);
+                    value.AddValue(new CssUrl(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
                     value.AddValue(ToNumber((CssNumberToken)token));

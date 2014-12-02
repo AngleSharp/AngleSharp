@@ -27,26 +27,22 @@
 
         #endregion
 
-        #region Casts
+        #region Properties
 
         /// <summary>
-        /// Defines an explicit cast from a string to a CssUrl.
+        /// Gets the string value of the stored url.
         /// </summary>
-        /// <param name="str">The string to wrap.</param>
-        /// <returns>The wrapped string.</returns>
-        public static explicit operator CssUrl(String str)
+        public String Value
         {
-            return new CssUrl(str);
+            get { return _url; }
         }
 
         /// <summary>
-        /// Defines an implicit cast from a CssUrl to a string.
+        /// Gets a new URL for the stored url.
         /// </summary>
-        /// <param name="str">The string to unwrap.</param>
-        /// <returns>The original string.</returns>
-        public static implicit operator String(CssUrl str)
+        public Url Url
         {
-            return str._url;
+            get { return new Url(_url); }
         }
 
         #endregion

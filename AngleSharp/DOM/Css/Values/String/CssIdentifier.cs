@@ -26,26 +26,14 @@
 
         #endregion
 
-        #region Casts
+        #region Properties
 
         /// <summary>
-        /// Defines an explicit cast from a string to a CssIdentifier.
+        /// Gets the stored value.
         /// </summary>
-        /// <param name="str">The string to wrap.</param>
-        /// <returns>The wrapped string.</returns>
-        public static explicit operator CssIdentifier(String str)
+        public String Value
         {
-            return new CssIdentifier(str);
-        }
-
-        /// <summary>
-        /// Defines an implicit cast from a CssIdentifier to a string.
-        /// </summary>
-        /// <param name="str">The string to unwrap.</param>
-        /// <returns>The original string.</returns>
-        public static implicit operator String(CssIdentifier str)
-        {
-            return str._token;
+            get { return _token; }
         }
 
         #endregion

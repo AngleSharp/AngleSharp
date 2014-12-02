@@ -6,15 +6,15 @@
     /// <summary>
     /// Represents an URL to define an image.
     /// </summary>
-    public sealed class ImageUrl : IImageSource
+    sealed class ImageUrl : IImageSource
     {
-        readonly String _url;
+        readonly CssUrl _url;
 
         /// <summary>
         /// Creates a new image URL.
         /// </summary>
         /// <param name="url">The URL to use.</param>
-        public ImageUrl(String url)
+        public ImageUrl(CssUrl url)
         {
             _url = url;
         }
@@ -28,7 +28,7 @@
 
         String ICssValue.CssText
         {
-            get { return _url.CssUrl(); }
+            get { return ((ICssValue)_url).CssText; }
         }
 
         #endregion

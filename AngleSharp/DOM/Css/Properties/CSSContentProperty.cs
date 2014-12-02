@@ -38,9 +38,9 @@
                 TakeOne(Keywords.None, new ContentMode[0])).Or(
                 TakeMany(
                     From(ContentModes).Or(
-                    WithUrl().To(url => (ContentMode)new UrlContentMode(new Url(url)))).Or(
+                    WithUrl().To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
                     WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
-                    WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr))).Or(
+                    WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(
                     WithCounter().To(counter => (ContentMode)new CounterContentMode(counter)))
                 ));
         }

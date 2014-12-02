@@ -27,26 +27,14 @@
 
         #endregion
 
-        #region Casts
+        #region Properties
 
         /// <summary>
-        /// Defines an explicit cast from a string to a CssAttr.
+        /// Gets the stored value.
         /// </summary>
-        /// <param name="str">The string to wrap.</param>
-        /// <returns>The wrapped string.</returns>
-        public static explicit operator CssAttr(String str)
+        public String Value
         {
-            return new CssAttr(str);
-        }
-
-        /// <summary>
-        /// Defines an implicit cast from a CssAttr to a string.
-        /// </summary>
-        /// <param name="str">The string to unwrap.</param>
-        /// <returns>The original string.</returns>
-        public static implicit operator String(CssAttr str)
-        {
-            return str._name;
+            get { return _name; }
         }
 
         #endregion

@@ -6,7 +6,7 @@
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    public struct GradientStop : ICssValue
+    struct GradientStop : ICssValue
     {
         #region Fields
 
