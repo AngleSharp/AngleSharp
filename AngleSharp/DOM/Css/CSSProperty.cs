@@ -270,7 +270,20 @@
 
         public static IValueConverter<Point> WithPoint()
         {
-            return new ClassValueConverter<Point>(ValueExtensions.ToPoint);
+            var hi = TakeOne(Keywords.Left, (IDistance)Percent.Zero).Or(TakeOne(Keywords.Right, (IDistance)Percent.Hundred)).Or(TakeOne(Keywords.Center, (IDistance)Percent.Fifty));
+            var vi = TakeOne(Keywords.Top, (IDistance)Percent.Zero).Or(TakeOne(Keywords.Bottom, (IDistance)Percent.Hundred)).Or(TakeOne(Keywords.Center, (IDistance)Percent.Fifty));
+            var h = hi.Or(WithDistance());
+            var v = vi.Or(WithDistance());
+
+            return WithDistance().To(m => new Point(x: m)).Or(
+                   Toggle(Keywords.Left, Keywords.Right).To(m => new Point(x: m ? Percent.Zero : Percent.Hundred))).Or(
+                   Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(y: m ? Percent.Zero : Percent.Hundred))).Or(
+                   TakeOne(Keywords.Center, new Point())).Or(
+                   WithArgs(h.Required(), v.Required(), m => new Point(m.Item1, m.Item2))).Or(
+                   WithArgs(v.Required(), h.Required(), m => new Point(m.Item2, m.Item1))).Or(
+                   WithArgs(hi, vi, WithDistance(), m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
+                   WithArgs(hi, WithDistance(), vi, m => new Point(m.Item1.Add(m.Item2), m.Item3))).Or(
+                   WithArgs(hi, WithDistance(), vi, WithDistance(), m => new Point(m.Item1.Add(m.Item2), m.Item3.Add(m.Item4))));
         }
 
         public static IValueConverter<IDistance> WithImageBorderWidth()
