@@ -53,11 +53,6 @@
             return newList;
         }
 
-        public static CssUrl ToUri(this ICssValue value)
-        {
-            return value as CssUrl;
-        }
-
         public static IEnumerable<ICssValue> AsEnumeration(this ICssValue value)
         {
             var list = value as CssValueList;
@@ -76,6 +71,63 @@
                 return list[0];
 
             return list;
+        }
+
+        public static CssValueList Subset(this CssValueList values, Int32 start = 0, Int32 end = -1)
+        {
+            if (end == -1)
+                end = values.Length;
+
+            var list = new List<ICssValue>();
+
+            for (var i = start; i < end; i++)
+                list.Add(values[i]);
+
+            return new CssValueList(list);
+        }
+
+        public static List<CssValueList> ToList(this CssValueList values)
+        {
+            var list = new List<CssValueList>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                var entry = new CssValueList();
+
+                for (int j = i; j < values.Length; j++)
+                {
+                    if (values[j] == CssValue.Separator)
+                        break;
+
+                    entry.Add(values[j]);
+                    i++;
+                }
+
+                list.Add(entry);
+            }
+
+            return list;
+        }
+
+        public static CssValueList ToSeparatedList(this List<CssValueList> list)
+        {
+            var values = new CssValueList();
+
+            if (list.Count > 0)
+                values.Add(list[0].Reduce());
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                values.Add(CssValue.Separator);
+                values.Add(list[i].Reduce());
+            }
+
+            return values;
+        }
+
+        public static CssUrl ToUri(this ICssValue value)
+        {
+            return value as CssUrl;
         }
 
         public static IDistance ToBorderSlice(this ICssValue value)
@@ -220,6 +272,80 @@
             return value as Angle?;
         }
 
+        public static Frequency? ToFrequency(this ICssValue value)
+        {
+            return value as Frequency?;
+        }
+
+        public static Length? ToLength(this ICssValue value)
+        {
+            var primitive = value as Length?;
+
+            if (primitive == null)
+            {
+                var number = value as Number?;
+
+                if (number.HasValue && number.Value == Number.Zero)
+                    return Length.Zero;
+            }
+
+            return primitive;
+        }
+
+        public static Resolution? ToResolution(this ICssValue value)
+        {
+            return value as Resolution?;
+        }
+
+        public static Time? ToTime(this ICssValue value)
+        {
+            return value as Time?;
+        }
+
+        public static IDistance ToImageBorderWidth(this ICssValue value)
+        {
+            if (value.Is(Keywords.Auto))
+                return Percent.Hundred;
+
+            var multiple = value.ToSingle();
+
+            if (multiple.HasValue)
+                return new Percent(multiple.Value * 100f);
+
+            return value.ToDistance();
+        }
+
+        public static Length? ToBorderWidth(this ICssValue value)
+        {
+            var length = value.ToLength();
+
+            if (length != null)
+                return length;
+            else if (value.Is(Keywords.Thin))
+                return Length.Thin;
+            else if (value.Is(Keywords.Medium))
+                return Length.Medium;
+            else if (value.Is(Keywords.Thick))
+                return Length.Thick;
+
+            return length;
+        }
+
+        public static Color? ToColor(this ICssValue value)
+        {
+            var primitive = value as Color?;
+
+            if (primitive == null)
+            {
+                var colorName = value.ToIdentifier();
+
+                if (colorName != null)
+                    return Color.FromName(colorName);
+            }
+
+            return primitive;
+        }
+
         public static String ToFontFamily(this ICssValue value)
         {
             var values = value as CssValueList;
@@ -261,36 +387,6 @@
             }
 
             return null;
-        }
-
-        public static Frequency? ToFrequency(this ICssValue value)
-        {
-            return value as Frequency?;
-        }
-
-        public static Length? ToLength(this ICssValue value)
-        {
-            var primitive = value as Length?;
-
-            if (primitive == null)
-            {
-                var number = value as Number?;
-
-                if (number.HasValue && number.Value == Number.Zero)
-                    return Length.Zero;
-            }
-
-            return primitive;
-        }
-
-        public static Resolution? ToResolution(this ICssValue value)
-        {
-            return value as Resolution?;
-        }
-
-        public static Time? ToTime(this ICssValue value)
-        {
-            return value as Time?;
         }
 
         public static GradientStop[] ToGradientStops(this ICssValue value)
@@ -354,86 +450,6 @@
             }
 
             return null;
-        }
-
-        public static IDistance ToImageBorderWidth(this ICssValue value)
-        {
-            if (value.Is(Keywords.Auto))
-                return Percent.Hundred;
-
-            var multiple = value.ToSingle();
-
-            if (multiple.HasValue)
-                return new Percent(multiple.Value * 100f);
-
-            return value.ToDistance();
-        }
-
-        public static Length? ToBorderWidth(this ICssValue value)
-        {
-            var length = value.ToLength();
-
-            if (length != null)
-                return length;
-            else if (value.Is(Keywords.Thin))
-                return Length.Thin;
-            else if (value.Is(Keywords.Medium))
-                return Length.Medium;
-            else if (value.Is(Keywords.Thick))
-                return Length.Thick;
-
-            return length;
-        }
-
-        public static Color? ToColor(this ICssValue value)
-        {
-            var primitive = value as Color?;
-
-            if (primitive == null)
-            {
-                var colorName = value.ToIdentifier();
-
-                if (colorName != null)
-                    return Color.FromName(colorName);
-            }
-
-            return primitive;
-        }
-
-        public static CssValueList Subset(this CssValueList values, Int32 start = 0, Int32 end = -1)
-        {
-            if (end == -1)
-                end = values.Length;
-
-            var list = new List<ICssValue>();
-
-            for (var i = start; i < end; i++)
-                list.Add(values[i]);
-
-            return new CssValueList(list);
-        }
-
-        public static List<CssValueList> ToList(this CssValueList values)
-        {
-            var list = new List<CssValueList>();
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                var entry = new CssValueList();
-
-                for (int j = i; j < values.Length; j++)
-                {
-                    if (values[j] == CssValue.Separator)
-                        break;
-
-                    entry.Add(values[j]);
-                    i++;
-                }
-
-                list.Add(entry);
-            }
-
-            return list;
         }
 
         public static Point ToPoint(this ICssValue value)
@@ -622,22 +638,6 @@
                 return null;
 
             return new Shadow(inset, offsetX.Value, offsetY.Value, blurRadius, spreadRadius, color);
-        }
-
-        public static CssValueList ToSeparatedList(this List<CssValueList> list)
-        {
-            var values = new CssValueList();
-
-            if (list.Count > 0)
-                values.Add(list[0].Reduce());
-
-            for (int i = 1; i < list.Count; i++)
-            {
-                values.Add(CssValue.Separator);
-                values.Add(list[i].Reduce());
-            }
-
-            return values;
         }
 
         #endregion
