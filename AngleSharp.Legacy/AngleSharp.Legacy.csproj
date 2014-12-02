@@ -1029,86 +1029,71 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
       <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Angle.cs">
-      <Link>DOM\Css\Values\Angle.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\BackgroundSize.cs">
       <Link>DOM\Css\Values\BackgroundSize.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Color.cs">
-      <Link>DOM\Css\Values\Color.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Counter.cs">
       <Link>DOM\Css\Values\Counter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssAttr.cs">
-      <Link>DOM\Css\Values\CssAttr.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CssFunction.cs">
+      <Link>DOM\Css\Values\CssFunction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSFunction.cs">
-      <Link>DOM\Css\Values\CSSFunction.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CssValue.cs">
+      <Link>DOM\Css\Values\CssValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssIdentifier.cs">
-      <Link>DOM\Css\Values\CssIdentifier.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssString.cs">
-      <Link>DOM\Css\Values\CssString.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssUrl.cs">
-      <Link>DOM\Css\Values\CssUrl.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValue.cs">
-      <Link>DOM\Css\Values\CSSValue.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CSSValueList.cs">
-      <Link>DOM\Css\Values\CSSValueList.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CubicBezierTransitionFunction.cs">
-      <Link>DOM\Css\Values\CubicBezierTransitionFunction.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\CssValueList.cs">
+      <Link>DOM\Css\Values\CssValueList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\FontWeight.cs">
       <Link>DOM\Css\Values\FontWeight.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Frequency.cs">
-      <Link>DOM\Css\Values\Frequency.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Image\GradientStop.cs">
+      <Link>DOM\Css\Values\Image\GradientStop.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\GradientStop.cs">
-      <Link>DOM\Css\Values\GradientStop.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Image\IImageSource.cs">
+      <Link>DOM\Css\Values\Image\IImageSource.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\IDistance.cs">
-      <Link>DOM\Css\Values\IDistance.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Image\ImageUrl.cs">
+      <Link>DOM\Css\Values\Image\ImageUrl.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\IImageSource.cs">
-      <Link>DOM\Css\Values\IImageSource.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Image\LinearGradient.cs">
+      <Link>DOM\Css\Values\Image\LinearGradient.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\ImageUrl.cs">
-      <Link>DOM\Css\Values\ImageUrl.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\ITransform.cs">
-      <Link>DOM\Css\Values\ITransform.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Length.cs">
-      <Link>DOM\Css\Values\Length.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\LinearGradient.cs">
-      <Link>DOM\Css\Values\LinearGradient.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Number.cs">
-      <Link>DOM\Css\Values\Number.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Percent.cs">
-      <Link>DOM\Css\Values\Percent.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Image\RadialGradient.cs">
+      <Link>DOM\Css\Values\Image\RadialGradient.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Point.cs">
       <Link>DOM\Css\Values\Point.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\RadialGradient.cs">
-      <Link>DOM\Css\Values\RadialGradient.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Angle.cs">
+      <Link>DOM\Css\Values\Primitive\Angle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Color.cs">
+      <Link>DOM\Css\Values\Primitive\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Frequency.cs">
+      <Link>DOM\Css\Values\Primitive\Frequency.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\IDistance.cs">
+      <Link>DOM\Css\Values\Primitive\IDistance.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Length.cs">
+      <Link>DOM\Css\Values\Primitive\Length.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Number.cs">
+      <Link>DOM\Css\Values\Primitive\Number.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Percent.cs">
+      <Link>DOM\Css\Values\Primitive\Percent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Resolution.cs">
+      <Link>DOM\Css\Values\Primitive\Resolution.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Time.cs">
+      <Link>DOM\Css\Values\Primitive\Time.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Repeat.cs">
       <Link>DOM\Css\Values\Repeat.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Resolution.cs">
-      <Link>DOM\Css\Values\Resolution.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Shadow.cs">
       <Link>DOM\Css\Values\Shadow.cs</Link>
@@ -1116,14 +1101,44 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Shape.cs">
       <Link>DOM\Css\Values\Shape.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\StepsTransitionFunction.cs">
-      <Link>DOM\Css\Values\StepsTransitionFunction.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\String\CssAttr.cs">
+      <Link>DOM\Css\Values\String\CssAttr.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Time.cs">
-      <Link>DOM\Css\Values\Time.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\String\CssIdentifier.cs">
+      <Link>DOM\Css\Values\String\CssIdentifier.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\TransitionFunction.cs">
-      <Link>DOM\Css\Values\TransitionFunction.cs</Link>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\String\CssString.cs">
+      <Link>DOM\Css\Values\String\CssString.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\String\CssUrl.cs">
+      <Link>DOM\Css\Values\String\CssUrl.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\ITransform.cs">
+      <Link>DOM\Css\Values\Transform\ITransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\MatrixTransform.cs">
+      <Link>DOM\Css\Values\Transform\MatrixTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\RotateTransform.cs">
+      <Link>DOM\Css\Values\Transform\RotateTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\ScaleTransform.cs">
+      <Link>DOM\Css\Values\Transform\ScaleTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\SkewTransform.cs">
+      <Link>DOM\Css\Values\Transform\SkewTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\TranslateTransform.cs">
+      <Link>DOM\Css\Values\Transform\TranslateTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transition\CubicBezierTransitionFunction.cs">
+      <Link>DOM\Css\Values\Transition\CubicBezierTransitionFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transition\StepsTransitionFunction.cs">
+      <Link>DOM\Css\Values\Transition\StepsTransitionFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transition\TransitionFunction.cs">
+      <Link>DOM\Css\Values\Transition\TransitionFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Document.cs">
       <Link>DOM\Document.cs</Link>
