@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Css;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a transformation matrix value.
+    /// http://dev.w3.org/csswg/css-transforms/#mathematical-description
     /// </summary>
-    public struct TransformMatrix : IEquatable<TransformMatrix>
+    public sealed class TransformMatrix : IEquatable<TransformMatrix>
     {
         #region Fields
 
@@ -19,27 +18,41 @@
         /// <summary>
         /// Gets the unity matrix.
         /// </summary>
-        public static readonly TransformMatrix One = new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f);
+        public static readonly TransformMatrix One = new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
 
-        readonly Single _m11;
-        readonly Single _m12;
-        readonly Single _m13;
-        readonly Single _m21;
-        readonly Single _m22;
-        readonly Single _m23;
-        readonly Single _m31;
-        readonly Single _m32;
-        readonly Single _m33;
-        readonly Single _tx;
-        readonly Single _ty;
-        readonly Single _tz;
+        readonly Single[,] _matrix;
 
         #endregion
 
         #region ctor
 
+        TransformMatrix()
+        {
+            _matrix = new Single[4, 4];
+        }
+
         /// <summary>
-        /// Creates a (3D) transformation matrix.
+        /// Creates a new transformation matrix from a 1D-array.
+        /// </summary>
+        /// <param name="values">The array with values.</param>
+        public TransformMatrix(Single[] values)
+            : this()
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (values.Length != 16)
+                throw new ArgumentException("You need to provide 16 (4x4) values.", "values");
+
+            for (int i = 0, k = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++, k++)
+                    _matrix[j, i] = values[k];
+            }
+        }
+
+        /// <summary>
+        /// Creates a transformation matrix.
         /// </summary>
         /// <param name="m11">The (1, 1) entry.</param>
         /// <param name="m12">The (1, 2) entry.</param>
@@ -53,20 +66,33 @@
         /// <param name="tx">The x-translation entry.</param>
         /// <param name="ty">The y-translation entry.</param>
         /// <param name="tz">The z-translation entry.</param>
-        public TransformMatrix(Single m11, Single m12, Single m13, Single m21, Single m22, Single m23, Single m31, Single m32, Single m33, Single tx, Single ty, Single tz)
+        /// <param name="px">The x-perspective entry.</param>
+        /// <param name="py">The y-perspective entry.</param>
+        /// <param name="pz">The z-perspective entry.</param>
+        public TransformMatrix(
+            Single m11, Single m12, Single m13, 
+            Single m21, Single m22, Single m23, 
+            Single m31, Single m32, Single m33, 
+            Single tx, Single ty, Single tz, 
+            Single px, Single py, Single pz)
+            : this()
         {
-            _m11 = m11;
-            _m12 = m12;
-            _m13 = m13;
-            _m21 = m21;
-            _m22 = m22;
-            _m23 = m23;
-            _m31 = m31;
-            _m32 = m32;
-            _m33 = m33;
-            _tx = tx;
-            _ty = ty;
-            _tz = tz;
+            _matrix[0, 0] = m11;
+            _matrix[0, 1] = m12;
+            _matrix[0, 2] = m13;
+            _matrix[1, 0] = m21;
+            _matrix[1, 1] = m22;
+            _matrix[1, 2] = m23;
+            _matrix[2, 0] = m31;
+            _matrix[2, 1] = m32;
+            _matrix[2, 2] = m33;
+            _matrix[0, 3] = tx;
+            _matrix[1, 3] = ty;
+            _matrix[2, 3] = tz;
+            _matrix[3, 0] = px;
+            _matrix[3, 1] = py;
+            _matrix[3, 2] = pz;
+            _matrix[3, 3] = 1f;
         }
 
         #endregion
@@ -78,7 +104,7 @@
         /// </summary>
         public Single M11
         {
-            get { return _m11; }
+            get { return _matrix[0, 0]; }
         }
 
         /// <summary>
@@ -86,7 +112,7 @@
         /// </summary>
         public Single M12
         {
-            get { return _m12; }
+            get { return _matrix[0, 1]; }
         }
 
         /// <summary>
@@ -94,7 +120,7 @@
         /// </summary>
         public Single M13
         {
-            get { return _m13; }
+            get { return _matrix[0, 2]; }
         }
 
         /// <summary>
@@ -102,7 +128,7 @@
         /// </summary>
         public Single M21
         {
-            get { return _m21; }
+            get { return _matrix[1, 0]; }
         }
 
         /// <summary>
@@ -110,7 +136,7 @@
         /// </summary>
         public Single M22
         {
-            get { return _m22; }
+            get { return _matrix[1, 1]; }
         }
 
         /// <summary>
@@ -118,7 +144,7 @@
         /// </summary>
         public Single M23
         {
-            get { return _m23; }
+            get { return _matrix[1, 2]; }
         }
 
         /// <summary>
@@ -126,7 +152,7 @@
         /// </summary>
         public Single M31
         {
-            get { return _m31; }
+            get { return _matrix[2, 0]; }
         }
 
         /// <summary>
@@ -134,7 +160,7 @@
         /// </summary>
         public Single M32
         {
-            get { return _m32; }
+            get { return _matrix[2, 1]; }
         }
 
         /// <summary>
@@ -142,7 +168,7 @@
         /// </summary>
         public Single M33
         {
-            get { return _m33; }
+            get { return _matrix[2, 2]; }
         }
 
         /// <summary>
@@ -150,7 +176,7 @@
         /// </summary>
         public Single Tx
         {
-            get { return _tx; }
+            get { return _matrix[0, 3]; }
         }
 
         /// <summary>
@@ -158,7 +184,7 @@
         /// </summary>
         public Single Ty
         {
-            get { return _ty; }
+            get { return _matrix[1, 3]; }
         }
 
         /// <summary>
@@ -166,7 +192,7 @@
         /// </summary>
         public Single Tz
         {
-            get { return _tz; }
+            get { return _matrix[2, 3]; }
         }
 
         #endregion
@@ -180,38 +206,19 @@
         /// <returns>True if all elements are equal, otherwise false.</returns>
         public Boolean Equals(TransformMatrix other)
         {
-            return _m11 == other._m11 && _m12 == other._m12 && _m13 == other._m13 &&
-                _m21 == other._m21 && _m22 == other._m22 && _m32 == other._m32 &&
-                _m31 == other._m31 && _m23 == other._m23 && _m33 == other._m33 &&
-                _tx == other._tx && _ty == other._ty && _tz == other._tz;
-        }
+            var A = this._matrix;
+            var B = other._matrix;
 
-        #endregion
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (A[i, j] != B[i, j])
+                        return false;
+                }
+            }
 
-        #region Operator
-
-        /// <summary>
-        /// Computes the combination of two transform matrices.
-        /// </summary>
-        /// <param name="a">The first matrix (applied later).</param>
-        /// <param name="b">The original transform matrix (has been applied).</param>
-        /// <returns>The combination of both matrices.</returns>
-        public static TransformMatrix operator *(TransformMatrix a, TransformMatrix b)
-        {
-            return new TransformMatrix(
-                a._m11 * b._m11 + a._m12 * b._m21 + a._m13 * b._m31,
-                a._m11 * b._m12 + a._m12 * b._m22 + a._m13 * b._m32,
-                a._m11 * b._m13 + a._m12 * b._m23 + a._m13 * b._m33,
-                a._m21 * b._m11 + a._m22 * b._m21 + a._m23 * b._m31,
-                a._m21 * b._m12 + a._m22 * b._m22 + a._m23 * b._m32,
-                a._m21 * b._m13 + a._m22 * b._m23 + a._m23 * b._m33,
-                a._m31 * b._m11 + a._m32 * b._m21 + a._m33 * b._m31,
-                a._m31 * b._m12 + a._m32 * b._m22 + a._m33 * b._m32,
-                a._m31 * b._m13 + a._m32 * b._m23 + a._m33 * b._m33,
-                a._m11 * b._tx + a._m12 * b._ty + a._m13 * b._tz + a._tx,
-                a._m21 * b._tx + a._m22 * b._ty + a._m23 * b._tz + a._ty,
-                a._m31 * b._tx + a._m32 * b._ty + a._m33 * b._tz + a._tz
-            );
+            return true;
         }
 
         #endregion
@@ -237,7 +244,13 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)(_m11 + _m12 + _m13 + _m21 + _m22 + _m23 + _m31 + _m32 + _m33 + _tx + _ty + _tz);
+            var sum = 0f;
+
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    sum += _matrix[i, j] * (4 * i + j);
+
+            return (Int32)(sum);
         }
 
         #endregion
