@@ -10,6 +10,8 @@
     {
         #region Fields
 
+        readonly Boolean _min;
+        readonly Boolean _max;
         readonly String _name;
         ICssValue _value;
 
@@ -20,6 +22,8 @@
         internal MediaFeature(String name)
         {
             _name = name;
+            _min = name.StartsWith("min-");
+            _max = name.StartsWith("max-");
         }
 
         #endregion
@@ -32,6 +36,22 @@
         public String Name
         {
             get { return _name; }
+        }
+
+        /// <summary>
+        /// Gets if the feature represents the minimum.
+        /// </summary>
+        public Boolean IsMinimum
+        {
+            get { return _min; }
+        }
+
+        /// <summary>
+        /// Gets if the feature represents the maximum.
+        /// </summary>
+        public Boolean IsMaximum
+        {
+            get { return _max; }
         }
 
         /// <summary>
@@ -81,7 +101,7 @@
             var result = false;
 
             if (value == null)
-                result = TrySetDefault();
+                result = !IsMinimum && !IsMaximum && TrySetDefault();
             else
                 result = TrySetCustom(value);
 
