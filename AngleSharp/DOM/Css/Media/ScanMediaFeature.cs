@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     sealed class ScanMediaFeature : MediaFeature
     {
         #region Fields
 
-        Boolean _progressive;
+        static readonly IValueConverter<Boolean> Converter = CSSProperty.Toggle(Keywords.Interlace, Keywords.Progressive);
         Boolean _interlace;
 
         #endregion
@@ -18,39 +17,36 @@
         public ScanMediaFeature()
             : base(FeatureNames.Scan)
         {
-            _progressive = false;
             _interlace = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Boolean IsProgressive
+        {
+            get { return !_interlace; }
+        }
+
+        public Boolean IsInterlaced
+        {
+            get { return _interlace; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
-            _progressive = true;
-            _interlace = true;
+            _interlace = false;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            if (Value.Is(Keywords.Progressive))
-            {
-                Value = value;
-                _progressive = true;
-                _interlace = false;
-                return true;
-            }
-            else if (Value.Is(Keywords.Interlace))
-            {
-                Value = value;
-                _progressive = false;
-                _interlace = true;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _interlace = m);
         }
 
         public override Boolean Validate(IWindow window)

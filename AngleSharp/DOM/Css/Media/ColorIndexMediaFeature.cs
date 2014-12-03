@@ -1,109 +1,44 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 
-    sealed class MinColorIndexMediaFeature : MediaFeature
-    {
-        Int32 _index;
-
-        public MinColorIndexMediaFeature()
-            : base(FeatureNames.MinColorIndex)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var index = value.ToInteger();
-
-            if (index.HasValue && index.Value >= 0)
-            {
-                Value = value;
-                _index = index.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
-    sealed class MaxColorIndexMediaFeature : MediaFeature
-    {
-        Int32 _index;
-
-        public MaxColorIndexMediaFeature()
-            : base(FeatureNames.MaxColorIndex)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var index = value.ToInteger();
-
-            if (index.HasValue && index.Value >= 0)
-            {
-                Value = value;
-                _index = index.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
     sealed class ColorIndexMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Int32> Converter = CSSProperty.WithInteger().Constraint(m => m >= 0);
         Int32 _index;
 
-        public ColorIndexMediaFeature()
-            : base(FeatureNames.ColorIndex)
+        #endregion
+
+        #region ctor
+
+        public ColorIndexMediaFeature(String name)
+            : base(name)
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        #endregion
+
+        #region Methods
+
+        protected override Boolean TrySetDefault()
         {
             _index = 0;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            var index = value.ToInteger();
-
-            if (index.HasValue && index.Value >= 0)
-            {
-                Value = value;
-                _index = index.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _index = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

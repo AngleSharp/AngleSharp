@@ -1,108 +1,42 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-
-    sealed class MinWidthMediaFeature : MediaFeature
-    {
-        Length _length;
-
-        public MinWidthMediaFeature()
-            : base(FeatureNames.MinWidth)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                _length = length.Value;
-                Value = value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
-    sealed class MaxWidthMediaFeature : MediaFeature
-    {
-        Length _length;
-
-        public MaxWidthMediaFeature()
-            : base(FeatureNames.MaxWidth)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                Value = value;
-                _length = length.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
 
     sealed class WidthMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Length> Converter = CSSProperty.WithLength();
         Length _length;
 
-        public WidthMediaFeature()
-            : base(FeatureNames.Width)
+        #endregion
+
+        #region ctor
+
+        public WidthMediaFeature(String name)
+            : base(name)
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        #endregion
+
+        #region Methods
+
+        protected override Boolean TrySetDefault()
         {
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                Value = value;
-                _length = length.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _length = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

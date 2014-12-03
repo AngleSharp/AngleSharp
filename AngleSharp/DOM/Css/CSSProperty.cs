@@ -666,17 +666,24 @@
                    WithScaleTransform().To(m => (ITransform)m)).Or(
                    WithRotateTransform().To(m => (ITransform)m)).Or(
                    WithTranslateTransform().To(m => (ITransform)m)).Or(
-                   WithSkewTransform().To(m => (ITransform)m));
+                   WithSkewTransform().To(m => (ITransform)m)).Or(
+                   WithPerspective().To(m => (ITransform)m));
+        }
+
+        public static IValueConverter<PerspectiveTransform> WithPerspective()
+        {
+            return new FunctionValueConverter<PerspectiveTransform>(FunctionNames.Perspective,
+                        WithArg(WithLength().To(m => new PerspectiveTransform(m))));
         }
 
         public static IValueConverter<MatrixTransform> WithMatrixTransform()
         {
             return new FunctionValueConverter<MatrixTransform>(FunctionNames.Matrix,
                         WithArgs(WithNumber(), 6,
-                            m => new MatrixTransform(m[0], m[1], 0f, m[2], m[3], 0f, 0f, 0f, 1f, m[4], m[5], 0f))).Or(
+                            m => new MatrixTransform(new [] { m[0], m[1], 0f, 0f, m[2], m[3], 0f, 0f, 0f, 1f, 0f, m[4], m[5], 0f, 1f }))).Or(
                    new FunctionValueConverter<MatrixTransform>(FunctionNames.Matrix3d,
-                        WithArgs(WithNumber(), 12,
-                            m => new MatrixTransform(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11]))));
+                        WithArgs(WithNumber(), 16,
+                            m => new MatrixTransform(m))));
         }
 
         public static IValueConverter<TranslateTransform> WithTranslateTransform()

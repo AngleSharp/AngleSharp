@@ -4,17 +4,15 @@
     using System;
 
     /// <summary>
-    /// Represents the skew transformation.
+    /// Represents the distance transformation.
     /// </summary>
-    sealed class SkewTransform : ITransform
+    sealed class PerspectiveTransform : ITransform
     {
-        readonly Angle _alpha;
-        readonly Angle _beta;
+        readonly Length _distance;
 
-        internal SkewTransform(Angle alpha, Angle beta)
+        internal PerspectiveTransform(Length distance)
         {
-            _alpha = alpha;
-            _beta = beta;
+            _distance = distance;
         }
 
         /// <summary>
@@ -23,9 +21,7 @@
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            var a = _alpha.Tan();
-            var b = _beta.Tan();
-            return new TransformMatrix(1f, a, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
+            return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, -1f / _distance.ToPixel());
         }
 
         CssValueType ICssValue.Type
@@ -35,7 +31,7 @@
 
         String ICssValue.CssText
         {
-            get { return FunctionNames.Build(FunctionNames.Skew, ((ICssValue)_alpha).CssText, ((ICssValue)_beta).CssText); }
+            get { return FunctionNames.Build(FunctionNames.Perspective, ((ICssValue)_distance).CssText); }
         }
     }
 }

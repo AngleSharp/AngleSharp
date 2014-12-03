@@ -69,7 +69,7 @@
                 l * l * omc + cosa, m * l * omc - n * sina, n * l * omc + m * sina,
                 l * m * omc + n * sina, m * m * omc + cosa, n * m * omc - l * sina,
                 l * n * omc - m * sina, m * n * omc + l * sina, n * n * omc + cosa,
-                0f, 0f, 0f);
+                0f, 0f, 0f, 0f, 0f, 0f);
         }
 
         CssValueType ICssValue.Type

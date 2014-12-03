@@ -1,109 +1,43 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-
-    sealed class MinResolutionMediaFeature : MediaFeature
-    {
-        Resolution _res;
-
-        public MinResolutionMediaFeature()
-            : base(FeatureNames.MinResolution)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var res = value.ToResolution();
-
-            if (res.HasValue)
-            {
-                Value = value;
-                _res = res.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
-    sealed class MaxResolutionMediaFeature : MediaFeature
-    {
-        Resolution _res;
-
-        public MaxResolutionMediaFeature()
-            : base(FeatureNames.MaxResolution)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var res = value.ToResolution();
-
-            if (res.HasValue)
-            {
-                Value = value;
-                _res = res.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
 
     sealed class ResolutionMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Resolution> Converter = CSSProperty.WithResolution();
         Resolution _res;
 
-        public ResolutionMediaFeature()
-            : base(FeatureNames.Resolution)
+        #endregion
+
+        #region ctor
+
+        public ResolutionMediaFeature(String name)
+            : base(name)
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        #endregion
+
+        #region Methods
+
+        protected override Boolean TrySetDefault()
         {
             _res = new Resolution(72f, Resolution.Unit.Dpi);
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            var res = value.ToResolution();
-
-            if (res.HasValue)
-            {
-                Value = value;
-                _res = res.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _res = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

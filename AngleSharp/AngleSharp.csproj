@@ -86,6 +86,7 @@
     <Compile Include="DOM\Css\Properties\List\CSSCounterProperty.cs" />
     <Compile Include="DOM\Css\Selector\KeyframeSelector.cs" />
     <Compile Include="DOM\Css\Values\CssFunction.cs" />
+    <Compile Include="DOM\Css\Values\Transform\PerspectiveTransform.cs" />
     <Compile Include="DOM\Css\Values\Transform\RotateTransform.cs" />
     <Compile Include="DOM\Css\Values\Transform\ScaleTransform.cs" />
     <Compile Include="DOM\Css\Values\Transform\SkewTransform.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
     <Compile Include="DOM\Events\PageTransitionEvent.cs" />
+    <Compile Include="DOM\Factories\CssMediaFeatureFactory.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />

@@ -1125,6 +1125,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\MatrixTransform.cs">
       <Link>DOM\Css\Values\Transform\MatrixTransform.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\PerspectiveTransform.cs">
+      <Link>DOM\Css\Values\Transform\PerspectiveTransform.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\RotateTransform.cs">
       <Link>DOM\Css\Values\Transform\RotateTransform.cs</Link>
     </Compile>
@@ -1220,6 +1223,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
       <Link>DOM\EventTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\CssMediaFeatureFactory.cs">
+      <Link>DOM\Factories\CssMediaFeatureFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>

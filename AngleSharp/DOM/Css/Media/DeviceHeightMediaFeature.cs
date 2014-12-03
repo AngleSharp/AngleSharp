@@ -1,108 +1,42 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-
-    sealed class MinDeviceHeightMediaFeature : MediaFeature
-    {
-        Length _length;
-
-        public MinDeviceHeightMediaFeature()
-            : base(FeatureNames.MinDeviceHeight)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                Value = value;
-                _length = length.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
-    sealed class MaxDeviceHeightMediaFeature : MediaFeature
-    {
-        Length _length;
-
-        public MaxDeviceHeightMediaFeature()
-            : base(FeatureNames.MaxDeviceHeight)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                Value = value;
-                _length = length.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
 
     sealed class DeviceHeightMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Length> Converter = CSSProperty.WithLength();
         Length _length;
 
-        public DeviceHeightMediaFeature()
-            : base(FeatureNames.DeviceHeight)
+        #endregion
+
+        #region ctor
+
+        public DeviceHeightMediaFeature(String name)
+            : base(name)
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        #endregion
+
+        #region Methods
+
+        protected override Boolean TrySetDefault()
         {
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                Value = value;
-                _length = length.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _length = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

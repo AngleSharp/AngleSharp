@@ -1,109 +1,44 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 
-    sealed class MinColorMediaFeature : MediaFeature
-    {
-        Int32 _color;
-
-        public MinColorMediaFeature()
-            : base(FeatureNames.MinColor)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var color = value.ToInteger();
-
-            if (color.HasValue && color.Value > 0)
-            {
-                Value = value;
-                _color = color.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
-    sealed class MaxColorMediaFeature : MediaFeature
-    {
-        Int32 _color;
-
-        public MaxColorMediaFeature()
-            : base(FeatureNames.MaxColor)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var color = value.ToInteger();
-
-            if (color.HasValue && color.Value > 0)
-            {
-                Value = value;
-                _color = color.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
     sealed class ColorMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Int32> Converter = CSSProperty.WithInteger().Constraint(m => m > 0);
         Int32 _color;
 
-        public ColorMediaFeature()
-            : base(FeatureNames.Color)
+        #endregion
+
+        #region ctor
+
+        public ColorMediaFeature(String name)
+            : base(name)
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        #endregion
+
+        #region Methods
+
+        protected override Boolean TrySetDefault()
         {
             _color = 1;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            var color = value.ToInteger();
-
-            if (color.HasValue && color.Value > 0)
-            {
-                Value = value;
-                _color = color.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _color = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

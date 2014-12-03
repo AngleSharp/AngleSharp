@@ -213,6 +213,12 @@
         public static readonly String CubicBezier = "cubic-bezier";
 
         /// <summary>
+        /// The perspective function.
+        /// </summary>
+        public static readonly String Perspective = "perspective";
+
+
+        /// <summary>
         /// Creates a function call expression from the given strings.
         /// </summary>
         /// <param name="function">The name of the function.</param>

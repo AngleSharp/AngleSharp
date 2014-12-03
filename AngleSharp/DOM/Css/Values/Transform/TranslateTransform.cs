@@ -28,7 +28,7 @@
             var dx = _x.ToPixel();
             var dy = _y.ToPixel();
             var dz = _z.ToPixel();
-            return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz);
+            return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz, 0f, 0f, 0f);
         }
 
         CssValueType ICssValue.Type

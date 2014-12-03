@@ -10,6 +10,8 @@
     {
         #region Fields
 
+        readonly Boolean _min;
+        readonly Boolean _max;
         readonly String _name;
         ICssValue _value;
 
@@ -20,6 +22,8 @@
         internal MediaFeature(String name)
         {
             _name = name;
+            _min = name.StartsWith("min-");
+            _max = name.StartsWith("max-");
         }
 
         #endregion
@@ -35,12 +39,27 @@
         }
 
         /// <summary>
-        /// Gets the value of the feature.
+        /// Gets if the feature represents the minimum.
         /// </summary>
-        internal ICssValue Value
+        public Boolean IsMinimum
+        {
+            get { return _min; }
+        }
+
+        /// <summary>
+        /// Gets if the feature represents the maximum.
+        /// </summary>
+        public Boolean IsMaximum
+        {
+            get { return _max; }
+        }
+
+        /// <summary>
+        /// Gets the value of the feature, if any.
+        /// </summary>
+        public ICssValue Value
         {
             get { return _value; }
-            set { _value = value; }
         }
 
         /// <summary>
@@ -50,10 +69,8 @@
         {
             get
             {
-                if (_value == null)
-                    return String.Concat("(", _name, ")");
-
-                return String.Concat("(", _name, ": ", _value.CssText, ")");
+                var ending = _value != null ? ": " + _value.CssText : String.Empty;
+                return String.Concat("(", _name, ending, ")");
             }
         }
 
@@ -65,14 +82,34 @@
         /// Tries to set the default value.
         /// </summary>
         /// <returns>True if the default value is acceptable, otherwise false.</returns>
-        internal abstract Boolean TrySetDefaultValue();
+        protected abstract Boolean TrySetDefault();
 
         /// <summary>
         /// Tries to set the given value.
         /// </summary>
         /// <param name="value">The value that should be used.</param>
         /// <returns>True if the given value is valid, otherwise false.</returns>
-        internal abstract Boolean TrySetValue(ICssValue value);
+        protected abstract Boolean TrySetCustom(ICssValue value);
+
+        /// <summary>
+        /// Tries to set the given value.
+        /// </summary>
+        /// <param name="value">The value that should be used.</param>
+        /// <returns>True if the given value is accepted, otherwise false.</returns>
+        internal Boolean TrySetValue(ICssValue value)
+        {
+            var result = false;
+
+            if (value == null)
+                result = !IsMinimum && !IsMaximum && TrySetDefault();
+            else
+                result = TrySetCustom(value);
+
+            if (result)
+                _value = value;
+
+            return result;
+        }
 
         /// <summary>
         /// Validates the given feature.

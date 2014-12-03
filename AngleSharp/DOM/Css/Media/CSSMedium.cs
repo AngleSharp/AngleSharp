@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.DOM.Css.Media;
     using AngleSharp.Extensions;
     using System;
@@ -27,8 +26,6 @@
             Keywords.All
         };
 
-        readonly static Dictionary<String, Func<MediaFeature>> featureConstructors = new Dictionary<String, Func<MediaFeature>>(StringComparer.OrdinalIgnoreCase);
-
         #endregion
 
         #region Fields
@@ -38,40 +35,6 @@
         #endregion
 
         #region ctor
-
-        static CSSMedium()
-        {
-            featureConstructors.Add(FeatureNames.MinWidth, () => new MinWidthMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxWidth, () => new MaxWidthMediaFeature());
-            featureConstructors.Add(FeatureNames.Width, () => new WidthMediaFeature());
-            featureConstructors.Add(FeatureNames.MinHeight, () => new MinHeightMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxHeight, () => new MaxHeightMediaFeature());
-            featureConstructors.Add(FeatureNames.Height, () => new HeightMediaFeature());
-            featureConstructors.Add(FeatureNames.MinDeviceWidth, () => new MinDeviceWidthMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxDeviceWidth, () => new MaxDeviceWidthMediaFeature());
-            featureConstructors.Add(FeatureNames.DeviceWidth, () => new DeviceWidthMediaFeature());
-            featureConstructors.Add(FeatureNames.MinDeviceHeight, () => new MinDeviceHeightMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxDeviceHeight, () => new MaxDeviceHeightMediaFeature());
-            featureConstructors.Add(FeatureNames.DeviceHeight, () => new DeviceHeightMediaFeature());
-            featureConstructors.Add(FeatureNames.Orientation, () => new OrientationMediaFeature());
-            featureConstructors.Add(FeatureNames.MinAspectRatio, () => new MinAspectRatioMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxAspectRatio, () => new MaxAspectRatioMediaFeature());
-            featureConstructors.Add(FeatureNames.AspectRatio, () => new AspectRatioMediaFeature());
-            featureConstructors.Add(FeatureNames.MinColor, () => new MinColorMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxColor, () => new MaxColorMediaFeature());
-            featureConstructors.Add(FeatureNames.Color, () => new ColorMediaFeature());
-            featureConstructors.Add(FeatureNames.MinColorIndex, () => new MinColorIndexMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxColorIndex, () => new MaxColorIndexMediaFeature());
-            featureConstructors.Add(FeatureNames.ColorIndex, () => new ColorIndexMediaFeature());
-            featureConstructors.Add(FeatureNames.MinMonochrome, () => new MinMonochromeMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxMonochrome, () => new MaxMonochromeMediaFeature());
-            featureConstructors.Add(FeatureNames.Monochrome, () => new MonochromeMediaFeature());
-            featureConstructors.Add(FeatureNames.MinResolution, () => new MinResolutionMediaFeature());
-            featureConstructors.Add(FeatureNames.MaxResolution, () => new MaxResolutionMediaFeature());
-            featureConstructors.Add(FeatureNames.Resolution, () => new ResolutionMediaFeature());
-            featureConstructors.Add(FeatureNames.Grid, () => new GridMediaFeature());
-            featureConstructors.Add(FeatureNames.Scan, () => new ScanMediaFeature());
-        }
 
         internal CSSMedium()
         {
@@ -195,16 +158,9 @@
         /// <param name="value">The value of the feature, if any.</param>
         internal Boolean AddConstraint(String name, ICssValue value = null)
         {
-            Func<MediaFeature> constructor;
+            var feature = CssMediaFeatureFactory.Create(name);
 
-            if (!featureConstructors.TryGetValue(name, out constructor))
-                return false;
-
-            var feature = constructor();
-
-            if (value == null && !feature.TrySetDefaultValue())
-                return false;
-            else if (value != null && !feature.TrySetValue(value))
+            if (feature == null || !feature.TrySetValue(value))
                 return false;
 
             _features.Add(feature);

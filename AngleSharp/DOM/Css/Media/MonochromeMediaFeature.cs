@@ -1,109 +1,44 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 
-    sealed class MinMonochromeMediaFeature : MediaFeature
-    {
-        Int32 _index;
-
-        public MinMonochromeMediaFeature()
-            : base(FeatureNames.MinMonochrome)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var index = value.ToInteger();
-
-            if (index.HasValue && index.Value >= 0)
-            {
-                Value = value;
-                _index = index.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
-    sealed class MaxMonochromeMediaFeature : MediaFeature
-    {
-        Int32 _index;
-
-        public MaxMonochromeMediaFeature()
-            : base(FeatureNames.MaxMonochrome)
-        {
-        }
-
-        internal override Boolean TrySetDefaultValue()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetValue(ICssValue value)
-        {
-            var index = value.ToInteger();
-
-            if (index.HasValue && index.Value >= 0)
-            {
-                Value = value;
-                _index = index.Value;
-                return true;
-            }
-
-            return false;
-        }
-
-        public override Boolean Validate(IWindow window)
-        {
-            return true;
-        }
-    }
-
     sealed class MonochromeMediaFeature : MediaFeature
     {
+        #region Fields
+        
+        static readonly IValueConverter<Int32> Converter = CSSProperty.WithInteger().Constraint(m => m >= 0);
         Int32 _index;
 
-        public MonochromeMediaFeature()
-            : base(FeatureNames.Monochrome)
+        #endregion
+
+        #region ctor
+
+        public MonochromeMediaFeature(String name)
+            : base(name)
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        #endregion
+
+        #region Methods
+
+        protected override Boolean TrySetDefault()
         {
             _index = 0;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            var index = value.ToInteger();
-
-            if (index.HasValue && index.Value >= 0)
-            {
-                Value = value;
-                _index = index.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _index = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }
