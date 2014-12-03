@@ -86,6 +86,7 @@
     <Compile Include="DOM\Css\Properties\List\CSSCounterProperty.cs" />
     <Compile Include="DOM\Css\Selector\KeyframeSelector.cs" />
     <Compile Include="DOM\Css\Values\CssFunction.cs" />
+    <Compile Include="DOM\Css\Values\Transform\PerspectiveTransform.cs" />
     <Compile Include="DOM\Css\Values\Transform\RotateTransform.cs" />
     <Compile Include="DOM\Css\Values\Transform\ScaleTransform.cs" />
     <Compile Include="DOM\Css\Values\Transform\SkewTransform.cs" />

@@ -653,7 +653,14 @@
                    WithScaleTransform().To(m => (ITransform)m)).Or(
                    WithRotateTransform().To(m => (ITransform)m)).Or(
                    WithTranslateTransform().To(m => (ITransform)m)).Or(
-                   WithSkewTransform().To(m => (ITransform)m));
+                   WithSkewTransform().To(m => (ITransform)m)).Or(
+                   WithPerspective().To(m => (ITransform)m));
+        }
+
+        public static IValueConverter<PerspectiveTransform> WithPerspective()
+        {
+            return new FunctionValueConverter<PerspectiveTransform>(FunctionNames.Perspective,
+                        WithArg(WithLength().To(m => new PerspectiveTransform(m))));
         }
 
         public static IValueConverter<MatrixTransform> WithMatrixTransform()
