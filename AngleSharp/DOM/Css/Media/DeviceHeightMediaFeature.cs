@@ -1,17 +1,26 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     sealed class DeviceHeightMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Length> Converter = CSSProperty.WithLength();
         Length _length;
+
+        #endregion
+
+        #region ctor
 
         public DeviceHeightMediaFeature(String name)
             : base(name)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         protected override Boolean TrySetDefault()
         {
@@ -20,20 +29,14 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            var length = value.ToLength();
-
-            if (length.HasValue)
-            {
-                _length = length.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _length = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

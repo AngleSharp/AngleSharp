@@ -1,17 +1,26 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     sealed class ResolutionMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Resolution> Converter = CSSProperty.WithResolution();
         Resolution _res;
+
+        #endregion
+
+        #region ctor
 
         public ResolutionMediaFeature(String name)
             : base(name)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         protected override Boolean TrySetDefault()
         {
@@ -21,20 +30,14 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            var res = value.ToResolution();
-
-            if (res.HasValue)
-            {
-                _res = res.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _res = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

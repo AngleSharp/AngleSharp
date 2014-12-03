@@ -1,16 +1,26 @@
 ﻿namespace AngleSharp.DOM.Css.Media
 {
-    using AngleSharp.Css;
     using System;
 
     sealed class AspectRatioMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Tuple<Int32, Int32>> Converter = CSSProperty.WithRatio();
         Tuple<Int32, Int32> _ratio;
+
+        #endregion
+
+        #region ctor
 
         public AspectRatioMediaFeature(String name)
             : base(name)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         protected override Boolean TrySetDefault()
         {
@@ -20,12 +30,14 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
+            return Converter.TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

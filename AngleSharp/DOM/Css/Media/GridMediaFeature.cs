@@ -6,12 +6,23 @@
 
     sealed class GridMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Int32> Converter = CSSProperty.WithInteger().Constraint(m => m >= 0);
         Int32 _grid;
+
+        #endregion
+
+        #region ctor
 
         public GridMediaFeature()
             : base(FeatureNames.Grid)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         protected override Boolean TrySetDefault()
         {
@@ -21,20 +32,14 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            var grid = value.ToInteger();
-
-            if (grid.HasValue && grid.Value >= 0)
-            {
-                _grid = grid.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _grid = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }

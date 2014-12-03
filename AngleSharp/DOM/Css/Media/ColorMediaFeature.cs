@@ -5,12 +5,23 @@
 
     sealed class ColorMediaFeature : MediaFeature
     {
+        #region Fields
+
+        static readonly IValueConverter<Int32> Converter = CSSProperty.WithInteger().Constraint(m => m > 0);
         Int32 _color;
+
+        #endregion
+
+        #region ctor
 
         public ColorMediaFeature(String name)
             : base(name)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         protected override Boolean TrySetDefault()
         {
@@ -20,20 +31,14 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            var color = value.ToInteger();
-
-            if (color.HasValue && color.Value > 0)
-            {
-                _color = color.Value;
-                return true;
-            }
-
-            return false;
+            return Converter.TryConvert(value, m => _color = m);
         }
 
         public override Boolean Validate(IWindow window)
         {
             return true;
         }
+
+        #endregion
     }
 }
