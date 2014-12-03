@@ -1125,6 +1125,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\MatrixTransform.cs">
       <Link>DOM\Css\Values\Transform\MatrixTransform.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\PerspectiveTransform.cs">
+      <Link>DOM\Css\Values\Transform\PerspectiveTransform.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Transform\RotateTransform.cs">
       <Link>DOM\Css\Values\Transform\RotateTransform.cs</Link>
     </Compile>
