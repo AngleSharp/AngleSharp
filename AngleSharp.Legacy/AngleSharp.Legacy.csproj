@@ -1221,6 +1221,9 @@
     <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
       <Link>DOM\EventTarget.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\CssMediaFeatureFactory.cs">
+      <Link>DOM\Factories\CssMediaFeatureFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\CssPropertyFactory.cs">
       <Link>DOM\Factories\CssPropertyFactory.cs</Link>
     </Compile>
