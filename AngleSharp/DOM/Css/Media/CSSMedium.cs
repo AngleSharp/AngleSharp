@@ -202,9 +202,7 @@
 
             var feature = constructor();
 
-            if (value == null && !feature.TrySetDefaultValue())
-                return false;
-            else if (value != null && !feature.TrySetValue(value))
+            if (!feature.TrySetValue(value))
                 return false;
 
             _features.Add(feature);

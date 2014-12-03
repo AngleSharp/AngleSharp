@@ -13,18 +13,17 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             return false;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var index = value.ToInteger();
 
             if (index.HasValue && index.Value >= 0)
             {
-                Value = value;
                 _index = index.Value;
                 return true;
             }
@@ -47,18 +46,17 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             return false;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var index = value.ToInteger();
 
             if (index.HasValue && index.Value >= 0)
             {
-                Value = value;
                 _index = index.Value;
                 return true;
             }
@@ -81,19 +79,18 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             _index = 0;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var index = value.ToInteger();
 
             if (index.HasValue && index.Value >= 0)
             {
-                Value = value;
                 _index = index.Value;
                 return true;
             }

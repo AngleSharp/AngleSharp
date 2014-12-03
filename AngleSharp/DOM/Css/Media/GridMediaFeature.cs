@@ -13,19 +13,18 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             _grid = 0;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var grid = value.ToInteger();
 
             if (grid.HasValue && grid.Value >= 0)
             {
-                Value = value;
                 _grid = grid.Value;
                 return true;
             }

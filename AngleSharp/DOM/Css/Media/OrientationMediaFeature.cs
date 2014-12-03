@@ -16,25 +16,23 @@
             _landscape = false;
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             _portrait = true;
             _landscape = true;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             if (Value.Is(Keywords.Portrait))
             {
-                Value = value;
                 _portrait = true;
                 _landscape = false;
                 return true;
             }
             else if (Value.Is(Keywords.Landscape))
             {
-                Value = value;
                 _portrait = false;
                 _landscape = true;
                 return true;

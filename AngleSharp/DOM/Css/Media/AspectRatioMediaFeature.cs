@@ -12,18 +12,14 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             return false;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m =>
-            {
-                _ratio = m;
-                Value = value;
-            });
+            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)
@@ -41,18 +37,14 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             return false;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m =>
-            {
-                _ratio = m;
-                Value = value;
-            });
+            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)
@@ -70,19 +62,15 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             _ratio = Tuple.Create(1, 1);
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
-            return CSSProperty.WithRatio().TryConvert(value, m =>
-            {
-                _ratio = m;
-                Value = value;
-            });
+            return CSSProperty.WithRatio().TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(IWindow window)

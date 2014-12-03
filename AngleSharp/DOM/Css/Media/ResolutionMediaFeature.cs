@@ -13,18 +13,17 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             return false;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var res = value.ToResolution();
 
             if (res.HasValue)
             {
-                Value = value;
                 _res = res.Value;
                 return true;
             }
@@ -47,18 +46,17 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             return false;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var res = value.ToResolution();
 
             if (res.HasValue)
             {
-                Value = value;
                 _res = res.Value;
                 return true;
             }
@@ -81,19 +79,18 @@
         {
         }
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             _res = new Resolution(72f, Resolution.Unit.Dpi);
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             var res = value.ToResolution();
 
             if (res.HasValue)
             {
-                Value = value;
                 _res = res.Value;
                 return true;
             }

@@ -26,25 +26,23 @@
 
         #region Methods
 
-        internal override Boolean TrySetDefaultValue()
+        protected override Boolean TrySetDefault()
         {
             _progressive = true;
             _interlace = true;
             return true;
         }
 
-        internal override Boolean TrySetValue(ICssValue value)
+        protected override Boolean TrySetCustom(ICssValue value)
         {
             if (Value.Is(Keywords.Progressive))
             {
-                Value = value;
                 _progressive = true;
                 _interlace = false;
                 return true;
             }
             else if (Value.Is(Keywords.Interlace))
             {
-                Value = value;
                 _progressive = false;
                 _interlace = true;
                 return true;
