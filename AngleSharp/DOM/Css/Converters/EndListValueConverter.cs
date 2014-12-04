@@ -36,8 +36,13 @@
             T[] v1 = default(T[]);
             U v2 = default(U);
 
-            if (!_listConverter.TryConvert(values, m => v1 = m) || !_endConverter.TryConvert(end, m => v2 = m))
+            if (!_endConverter.TryConvert(end, m => v2 = m))
                 return false;
+
+            if (values.Length != 0 && !_listConverter.TryConvert(values, m => v1 = m))
+                return false;
+            else if (values.Length == 0)
+                v1 = new T[0];
 
             setResult(Tuple.Create(v1, v2));
             return true;
@@ -61,7 +66,7 @@
                 end = value;
             }
 
-            return _listConverter.Validate(values) && _endConverter.Validate(end);
+            return _endConverter.Validate(end) && (values.Length == 0 || _listConverter.Validate(values));
         }
 
         public Int32 MinArgs
