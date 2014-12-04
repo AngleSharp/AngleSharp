@@ -16,9 +16,9 @@
         readonly PropertyFlags _flags;
         readonly String _name;
         readonly CSSStyleDeclaration _rule;
-        protected ICssValue _value;
 
         Boolean _important;
+        ICssValue _value;
 
         #endregion
 
@@ -181,30 +181,6 @@
         #endregion
 
         #region Methods
-
-        internal Boolean CanTake(ICssValue value)
-        {
-            var current = _value;
-
-            if (TrySetValue(value))
-            {
-                TrySetValue(current);
-                return true;
-            }
-
-            return false;
-        }
-
-        internal Boolean CanStore(ICssValue value, ref ICssValue storagePosition)
-        {
-            if (storagePosition == null && CanTake(value))
-            {
-                storagePosition = value;
-                return true;
-            }
-
-            return false;
-        }
 
         /// <summary>
         /// Notified once the value changed.
@@ -771,9 +747,24 @@
             return new UnorderedOptionsConverter<T1, T2, T3>(first, second, third);
         }
 
+        public static IValueConverter<Tuple<T1, T2, T3, T4>> WithAny<T1, T2, T3, T4>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth)
+        {
+            return new UnorderedOptionsConverter<T1, T2, T3, T4>(first, second, third, fourth);
+        }
+
         public static IValueConverter<Tuple<T1, T2, T3, T4, T5>> WithAny<T1, T2, T3, T4, T5>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth)
         {
             return new UnorderedOptionsConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6>> WithAny<T1, T2, T3, T4, T5, T6>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth)
+        {
+            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7>> WithAny<T1, T2, T3, T4, T5, T6, T7>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh)
+        {
+            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6, T7>(first, second, third, fourth, fifth, sixth, seventh);
         }
 
         public static IValueConverter<Boolean> Toggle(String on, String off)
