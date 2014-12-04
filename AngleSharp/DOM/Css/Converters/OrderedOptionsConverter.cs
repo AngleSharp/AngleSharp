@@ -64,7 +64,8 @@
             if (values.Length < MinArgs && values.Length > MaxArgs)
                 return false;
 
-            return values.Length == 0;
+            return _first.VaryStart(values) && _second.VaryStart(values) &&
+                   values.Length == 0;
         }
     }
 
@@ -133,7 +134,8 @@
             if (values.Length < MinArgs && values.Length > MaxArgs)
                 return false;
 
-            return values.Length == 0;
+            return _first.VaryStart(values) && _second.VaryStart(values) &&
+                   _third.VaryStart(values) && values.Length == 0;
         }
     }
 }
