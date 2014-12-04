@@ -335,7 +335,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssBorderImageSliceFillIllegal()
+        public void CssBorderImageSliceFillLegal()
         {
             var snippet = "border-image-slice: fill";
             var property = CssParser.ParseDeclaration(snippet);
@@ -343,9 +343,14 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSBorderImageSliceProperty));
             var concrete = (CSSBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual(true, concrete.IsFilled);
+            Assert.AreEqual(Percent.Hundred, concrete.SliceLeft);
+            Assert.AreEqual(Percent.Hundred, concrete.SliceRight);
+            Assert.AreEqual(Percent.Hundred, concrete.SliceTop);
+            Assert.AreEqual(Percent.Hundred, concrete.SliceBottom);
         }
 
         [TestMethod]
