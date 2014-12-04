@@ -19,6 +19,7 @@
 
         readonly Stream _baseStream;
         readonly StringBuilder _content;
+        readonly MemoryStream _raw;
         readonly Byte[] _buffer;
         readonly Char[] _chars;
 
@@ -35,6 +36,7 @@
         {
             _buffer = new Byte[BufferSize];
             _chars = new Char[BufferSize];
+            _raw = new MemoryStream();
             _index = 0;
             _encoding = encoding ?? Encoding.UTF8;
         }
@@ -114,15 +116,19 @@
                     return;
                 }
 
-                //Get previous interpretation of the rest
-                var length = _content.Length - _index;
-                var rest = _content.ToString(_index, length);
-                //Get raw bytes from old encoding
-                var raw = _encoding.GetBytes(rest);
-                //Set new encoding
                 _encoding = value;
-                //Remove former rest and re-append with new encoding
-                _content.Remove(_index, length).Append(_encoding.GetString(raw, 0, raw.Length));
+
+                var raw = _raw.ToArray();
+                var content = _encoding.GetString(raw, 0, raw.Length);
+
+                //If everything seems to fit up to this point, do an instant switch
+                if (content.Substring(0, _index).Equals(_content.ToString(0, _index)))
+                {
+                    _content.Remove(_index, _content.Length - _index);
+                    _content.Append(content.Substring(_index));
+                }
+
+                //Otherwise consider restart from beginning ...
             }
         }
 
@@ -149,6 +155,7 @@
 
         public void Dispose()
         {
+            _raw.Dispose();
             _content.Clear().ToPool();
         }
 
@@ -323,10 +330,11 @@
 
         void AppendContentFromBuffer(Int32 size, Int32 offset = 0)
         {
+            size -= offset;
             _finished = size == 0;
             var charLength = _encoding.GetChars(_buffer, offset, size, _chars, 0);
 
-            for (int i = 0, n = charLength - 1; i < n; ++i)
+            /*for (int i = 0, n = charLength - 1; i < n; ++i)
             {
                 if (_chars[i] == Specification.CarriageReturn && _chars[i + 1] == Specification.LineFeed)
                 {
@@ -339,8 +347,9 @@
             }
 
             if (charLength > 0 && _chars[charLength - 1] == Specification.CarriageReturn)
-                charLength--;
+                charLength--;*/
 
+            _raw.Write(_buffer, offset, size);
             _content.Append(_chars, 0, charLength);
         }
 

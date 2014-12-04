@@ -278,6 +278,9 @@
                 _column++;
 
             _current = _reader.ReadCharacter();
+
+            if (_current == Specification.CarriageReturn)
+                _current = _reader.ReadCharacter();
         }
 
         /// <summary>
@@ -298,6 +301,9 @@
                 _column++;
 
             _current = await _reader.ReadCharacterAsync(cancelToken).ConfigureAwait(false);
+
+            if (_current == Specification.CarriageReturn)
+                _current = await _reader.ReadCharacterAsync(cancelToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -316,6 +322,12 @@
             }
 
             _current = _reader[_reader.Index - 1];
+
+            if (_current == Specification.CarriageReturn)
+            {
+                BackUnsafe();
+                return;
+            }
 
             if (_current.IsLineBreak())
             {
