@@ -23,6 +23,16 @@
 
         public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
         {
+            return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
+        }
+
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list)
+        {
+            return converter.VaryStart(list, (c, v) => c.Validate(v));
+        }
+
+        static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Func<IValueConverter<T>, ICssValue, Boolean> validate)
+        {
             var min = Math.Max(converter.MinArgs, 1);
             var max = converter.MaxArgs;
             var n = Math.Min(max, list.Length);
@@ -31,31 +41,41 @@
             {
                 var subset = count > 1 ? list.Subset(0, count) : list[0];
 
-                if (converter.TryConvert(subset, setResult))
+                if (validate(converter, subset))
                 {
                     list.RemoveRange(0, count);
                     return true;
                 }
             }
 
-            return converter.TryConvert(null, setResult);
+            return validate(converter, null);
         }
 
         public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
+        {
+            return converter.VaryAll(list, (c, v) => c.TryConvert(v, setResult));
+        }
+
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list)
+        {
+            return converter.VaryAll(list, (c, v) => c.Validate(v));
+        }
+
+        static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list, Func<IValueConverter<T>, ICssValue, Boolean> validate)
         {
             var min = Math.Max(converter.MinArgs, 1);
             var max = converter.MaxArgs;
 
             for (int i = 0; i < list.Length; i++)
             {
-                var n = Math.Min(i + max, list.Length);
+                var n = Math.Min(Math.Min(max, list.Length) + i, list.Length);
 
                 for (int j = n; j >= i + min; j--)
                 {
                     var count = j - i;
                     var subset = count > 1 ? list.Subset(i, j) : list[i];
 
-                    if (converter.TryConvert(subset, setResult))
+                    if (validate(converter, subset))
                     {
                         list.RemoveRange(i, count);
                         return true;
@@ -63,7 +83,7 @@
                 }
             }
 
-            return converter.TryConvert(null, setResult);
+            return validate(converter, null);
         }
 
         public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)
@@ -99,9 +119,19 @@
             return new RequiredValueConverter<T>(converter);
         }
 
+        public static IValueConverter<ICssValue> Val<T>(this IValueConverter<T> converter)
+        {
+            return new ToValueConverter<T>(converter);
+        }
+
         public static IValueConverter<T> Option<T>(this IValueConverter<T> converter, T defaultValue)
         {
             return new OptionValueConverter<T>(converter, defaultValue);
+        }
+
+        public static IValueConverter<ICssValue> Option(this IValueConverter<ICssValue> converter)
+        {
+            return new OptionValueConverter<ICssValue>(converter, null);
         }
 
         public static IValueConverter<Tuple<T1, T2>> And<T1, T2>(this IValueConverter<T1> primary, IValueConverter<T2> secondary)
