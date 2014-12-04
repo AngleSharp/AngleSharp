@@ -34,7 +34,7 @@
 
             foreach (var item in items)
             {
-                if (!_converter.Validate(item))
+                if (!_converter.Validate(item.Reduce()))
                     return false;
             }
 
