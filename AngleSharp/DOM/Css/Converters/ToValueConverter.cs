@@ -2,6 +2,42 @@
 {
     using System;
 
+    sealed class ToValueConverter<T> : IValueConverter<ICssValue>
+    {
+        readonly IValueConverter<T> _converter;
+
+        public ToValueConverter(IValueConverter<T> converter)
+        {
+            _converter = converter;
+        }
+
+        public Boolean TryConvert(ICssValue value, Action<ICssValue> setResult)
+        {
+            if (Validate(value))
+            {
+                setResult(value);
+                return true;
+            }
+
+            return false;
+        }
+
+        public Boolean Validate(ICssValue value)
+        {
+            return _converter.Validate(value);
+        }
+
+        public Int32 MinArgs
+        {
+            get { return _converter.MinArgs; }
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return _converter.MaxArgs; }
+        }
+    }
+
     sealed class ToValueConverter<T, U> : IValueConverter<U>
     {
         readonly IValueConverter<T> _converter;
