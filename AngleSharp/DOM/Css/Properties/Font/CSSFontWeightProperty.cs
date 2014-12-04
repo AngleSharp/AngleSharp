@@ -45,7 +45,7 @@
 
         #region Methods
 
-        public void SetWeight(FontWeight weight)
+        void SetWeight(FontWeight weight)
         {
             _weight = weight;
         }

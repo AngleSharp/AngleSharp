@@ -41,10 +41,9 @@
 
         #region Methods
 
-        public void SetColor(Color color)
+        void SetColor(Color color)
         {
             _color = color;
-            _value = color;
         }
 
         internal override void Reset()

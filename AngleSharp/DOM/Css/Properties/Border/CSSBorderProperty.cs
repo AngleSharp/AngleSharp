@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -12,11 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color>> Converter = WithOptions(
-            CSSBorderPartWidthProperty.Converter,
-            CSSBorderPartStyleProperty.Converter,
-            CSSBorderPartColorProperty.Converter,
-            Tuple.Create(CSSBorderPartWidthProperty.Default, CSSBorderPartStyleProperty.Default, CSSBorderPartColorProperty.Default));
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = WithAny(
+            CSSBorderPartWidthProperty.Converter.Val().Option(CssValue.Initial),
+            CSSBorderPartStyleProperty.Converter.Val().Option(CssValue.Initial),
+            CSSBorderPartColorProperty.Converter.Val().Option(CssValue.Initial));
 
         readonly CSSBorderTopColorProperty _topColor;
         readonly CSSBorderTopStyleProperty _topStyle;
@@ -88,18 +88,18 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                _topWidth.SetWidth(m.Item1);
-                _topStyle.SetStyle(m.Item2);
-                _topColor.SetColor(m.Item3);
-                _leftWidth.SetWidth(m.Item1);
-                _leftStyle.SetStyle(m.Item2);
-                _leftColor.SetColor(m.Item3);
-                _rightWidth.SetWidth(m.Item1);
-                _rightStyle.SetStyle(m.Item2);
-                _rightColor.SetColor(m.Item3);
-                _bottomWidth.SetWidth(m.Item1);
-                _bottomStyle.SetStyle(m.Item2);
-                _bottomColor.SetColor(m.Item3);
+                _topWidth.TrySetValue(m.Item1);
+                _topStyle.TrySetValue(m.Item2);
+                _topColor.TrySetValue(m.Item3);
+                _leftWidth.TrySetValue(m.Item1);
+                _leftStyle.TrySetValue(m.Item2);
+                _leftColor.TrySetValue(m.Item3);
+                _rightWidth.TrySetValue(m.Item1);
+                _rightStyle.TrySetValue(m.Item2);
+                _rightColor.TrySetValue(m.Item3);
+                _bottomWidth.TrySetValue(m.Item1);
+                _bottomStyle.TrySetValue(m.Item2);
+                _bottomColor.TrySetValue(m.Item3);
             });
         }
 

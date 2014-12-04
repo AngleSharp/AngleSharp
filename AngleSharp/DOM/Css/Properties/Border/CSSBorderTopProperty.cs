@@ -12,7 +12,6 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color>> Converter = CSSBorderProperty.Converter;
         readonly CSSBorderTopColorProperty _color;
         readonly CSSBorderTopStyleProperty _style;
         readonly CSSBorderTopWidthProperty _width;
@@ -63,11 +62,11 @@
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, m =>
+            return CSSBorderProperty.Converter.TryConvert(value, m =>
             {
-                _width.SetWidth(m.Item1);
-                _style.SetStyle(m.Item2);
-                _color.SetColor(m.Item3);
+                _width.TrySetValue(m.Item1);
+                _style.TrySetValue(m.Item2);
+                _color.TrySetValue(m.Item3);
             });
         }
 

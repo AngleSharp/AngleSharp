@@ -87,7 +87,7 @@
 
         #region Methods
 
-        public void SetSlice(IDistance top, IDistance right, IDistance bottom, IDistance left, Boolean fill = false)
+        void SetSlice(IDistance top, IDistance right, IDistance bottom, IDistance left, Boolean fill = false)
         {
             _top = top;
             _right = right ?? _top;

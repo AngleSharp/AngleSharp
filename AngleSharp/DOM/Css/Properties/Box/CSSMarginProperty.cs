@@ -13,7 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = CSSMarginPartProperty.Converter.Periodic();
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
+            CSSMarginPartProperty.Converter.Val().Periodic();
         readonly CSSMarginTopProperty _top;
         readonly CSSMarginRightProperty _right;
         readonly CSSMarginBottomProperty _bottom;
@@ -81,10 +82,10 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                _top.SetMargin(m.Item1);
-                _right.SetMargin(m.Item2);
-                _bottom.SetMargin(m.Item3);
-                _left.SetMargin(m.Item4);
+                _top.TrySetValue(m.Item1);
+                _right.TrySetValue(m.Item2);
+                _bottom.TrySetValue(m.Item3);
+                _left.TrySetValue(m.Item4);
             });
         }
 

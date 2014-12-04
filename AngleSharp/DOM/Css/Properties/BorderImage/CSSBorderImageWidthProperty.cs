@@ -80,7 +80,7 @@
 
         #region Methods
 
-        public void SetWidth(IDistance top, IDistance right, IDistance bottom, IDistance left)
+        void SetWidth(IDistance top, IDistance right, IDistance bottom, IDistance left)
         {
             _top = top;
             _right = right;

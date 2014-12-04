@@ -13,7 +13,9 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = CSSPaddingPartProperty.Converter.Periodic();
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
+            CSSPaddingPartProperty.Converter.Val().Periodic();
+
         readonly CSSPaddingTopProperty _top;
         readonly CSSPaddingRightProperty _right;
         readonly CSSPaddingBottomProperty _bottom;
@@ -81,10 +83,10 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                _top.SetPadding(m.Item1);
-                _right.SetPadding(m.Item2);
-                _bottom.SetPadding(m.Item3);
-                _left.SetPadding(m.Item4);
+                _top.TrySetValue(m.Item1);
+                _right.TrySetValue(m.Item2);
+                _bottom.TrySetValue(m.Item3);
+                _left.TrySetValue(m.Item4);
             });
         }
 

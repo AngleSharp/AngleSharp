@@ -50,7 +50,7 @@
 
         #region Methods
 
-        public void SetRepeat(BorderRepeat horizontal, BorderRepeat vertical)
+        void SetRepeat(BorderRepeat horizontal, BorderRepeat vertical)
         {
             _horizontal = horizontal;
             _vertical = vertical;

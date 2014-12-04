@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -41,7 +42,7 @@
 
         #region Methods
 
-        public void SetStretch(FontStretch stretch)
+        void SetStretch(FontStretch stretch)
         {
             _stretch = stretch;
         }

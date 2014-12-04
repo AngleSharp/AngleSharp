@@ -41,10 +41,9 @@
 
         #region Methods
 
-        public void SetPadding(IDistance padding)
+        void SetPadding(IDistance padding)
         {
             _padding = padding;
-            _value = padding;
         }
 
         internal override void Reset()

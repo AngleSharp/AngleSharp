@@ -50,10 +50,9 @@
 
         #region Methods
 
-        public void SetMargin(IDistance margin)
+        void SetMargin(IDistance margin)
         {
             _margin = margin;
-            _value = (ICssValue)margin ?? new CssIdentifier(Keywords.Auto);
         }
 
         internal override void Reset()

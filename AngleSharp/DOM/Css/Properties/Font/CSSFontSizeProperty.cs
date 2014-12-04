@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetSize(IDistance size)
+        void SetSize(IDistance size)
         {
             _size = size;
         }

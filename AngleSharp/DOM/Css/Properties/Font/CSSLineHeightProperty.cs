@@ -38,7 +38,7 @@
 
         #region Methods
 
-        public void SetHeight(IDistance height)
+        void SetHeight(IDistance height)
         {
             _height = height;
         }

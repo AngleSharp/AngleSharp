@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Information:
@@ -43,7 +44,7 @@
 
         #region Methods
 
-        private void SetFamilies(IEnumerable<String> families)
+        void SetFamilies(IEnumerable<String> families)
         {
             _families.Clear();
             _families.AddRange(families);

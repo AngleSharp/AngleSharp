@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetAspectValue(Single? aspectValue)
+        void SetAspectValue(Single? aspectValue)
         {
             _aspectValue = aspectValue;
         }

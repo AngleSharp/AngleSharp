@@ -55,7 +55,7 @@
 
         #region Methods
 
-        public void SetSpacing(Length? spacing)
+        void SetSpacing(Length? spacing)
         {
             _spacing = spacing;
         }

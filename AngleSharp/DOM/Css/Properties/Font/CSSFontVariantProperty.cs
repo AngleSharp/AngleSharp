@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetVariant(FontVariant variant)
+        void SetVariant(FontVariant variant)
         {
             _variant = variant;
         }

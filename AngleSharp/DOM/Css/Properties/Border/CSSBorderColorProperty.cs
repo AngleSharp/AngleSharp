@@ -13,7 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Color, Color, Color, Color>> Converter = CSSBorderPartColorProperty.Converter.Periodic();
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
+            CSSBorderPartColorProperty.Converter.Val().Periodic();
         readonly CSSBorderTopColorProperty _top;
         readonly CSSBorderRightColorProperty _right;
         readonly CSSBorderBottomColorProperty _bottom;
@@ -81,10 +82,10 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                _top.SetColor(m.Item1);
-                _right.SetColor(m.Item2);
-                _bottom.SetColor(m.Item3);
-                _left.SetColor(m.Item4);
+                _top.TrySetValue(m.Item1);
+                _right.TrySetValue(m.Item2);
+                _bottom.TrySetValue(m.Item3);
+                _left.TrySetValue(m.Item4);
             });
         }
 

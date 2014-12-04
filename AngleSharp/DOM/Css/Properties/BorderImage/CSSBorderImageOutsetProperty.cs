@@ -68,7 +68,7 @@
 
         #region Methods
 
-        public void SetOutset(IDistance top, IDistance right, IDistance bottom, IDistance left)
+        void SetOutset(IDistance top, IDistance right, IDistance bottom, IDistance left)
         {
             _top = top;
             _right = right;

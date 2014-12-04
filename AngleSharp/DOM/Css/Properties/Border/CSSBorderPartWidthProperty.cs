@@ -40,10 +40,9 @@
 
         #region Methods
 
-        public void SetWidth(Length width)
+        void SetWidth(Length width)
         {
             _width = width;
-            _value = Serialize(width);
         }
 
         internal override void Reset()

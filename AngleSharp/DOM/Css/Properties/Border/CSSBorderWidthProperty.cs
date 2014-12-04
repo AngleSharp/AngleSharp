@@ -13,7 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> Converter = CSSBorderPartWidthProperty.Converter.Periodic();
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
+            CSSBorderPartWidthProperty.Converter.Val().Periodic();
         readonly CSSBorderTopWidthProperty _top;
         readonly CSSBorderRightWidthProperty _right;
         readonly CSSBorderBottomWidthProperty _bottom;
@@ -81,10 +82,10 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                _top.SetWidth(m.Item1);
-                _right.SetWidth(m.Item2);
-                _bottom.SetWidth(m.Item3);
-                _left.SetWidth(m.Item4);
+                _top.TrySetValue(m.Item1);
+                _right.TrySetValue(m.Item2);
+                _bottom.TrySetValue(m.Item3);
+                _left.TrySetValue(m.Item4);
             });
         }
 
