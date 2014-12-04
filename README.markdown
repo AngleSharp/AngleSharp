@@ -26,6 +26,11 @@ More information is also available by following some of the hyper references men
 Current status
 --------------
 
+[![Build status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/code-cracker/code-cracker)
+[![Nuget count](https://img.shields.io/nuget/v/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
+[![Nuget downloads](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
+[![Issues open](https://img.shields.io/github/issues/FlorianRappl/AngleSharp.svg?style=flat-square)](https://github.com/FlorianRappl/AngleSharp/issues)
+
 The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript.
 
 Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
