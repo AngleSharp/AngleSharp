@@ -5,8 +5,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Distances = System.Tuple<IDistance, IDistance, IDistance, IDistance>;
-    using Slices = System.Tuple<IDistance, IDistance, IDistance, IDistance, System.Boolean>;
 
     /// <summary>
     /// More information available at:
@@ -16,16 +14,13 @@
     {
         #region Fields
 
-        static readonly IDistance nil = null;
-
-        public static readonly IValueConverter<Tuple<IImageSource, Tuple<Slices, Distances, Distances>, BorderRepeat[]>> Converter = WithAny(
-            CSSBorderImageSourceProperty.Converter.Option(CSSBorderImageSourceProperty.Default),
+        internal static readonly IValueConverter<Tuple<ICssValue, Tuple<ICssValue, ICssValue, ICssValue>, ICssValue>> Converter = WithAny(
+            CSSBorderImageSourceProperty.Converter.Val().Option(),
             WithOrder(
-                CSSBorderImageSliceProperty.Converter.Option(Tuple.Create(CSSBorderImageSliceProperty.Default, nil, nil, nil, false)),
-                CSSBorderImageWidthProperty.Converter.StartsWithDelimiter().Option(Tuple.Create(CSSBorderImageWidthProperty.Default, CSSBorderImageWidthProperty.Default, CSSBorderImageWidthProperty.Default, CSSBorderImageWidthProperty.Default)),
-                CSSBorderImageOutsetProperty.Converter.StartsWithDelimiter().Option(Tuple.Create(CSSBorderImageOutsetProperty.Default, CSSBorderImageOutsetProperty.Default, CSSBorderImageOutsetProperty.Default, CSSBorderImageOutsetProperty.Default))
-            ),
-            CSSBorderImageRepeatProperty.Converter.Option(new[] { CSSBorderImageRepeatProperty.Default, CSSBorderImageRepeatProperty.Default })
+                CSSBorderImageSliceProperty.Converter.Val().Option(),
+                CSSBorderImageWidthProperty.Converter.Val().StartsWithDelimiter().Option(),
+                CSSBorderImageOutsetProperty.Converter.Val().StartsWithDelimiter().Option()),
+            CSSBorderImageRepeatProperty.Converter.Val().Option()
         );
 
         readonly CSSBorderImageOutsetProperty _outset;
@@ -181,16 +176,11 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                var slices = m.Item2.Item1;
-                var widths = m.Item2.Item2;
-                var outsets = m.Item2.Item3;
-                var repeats = m.Item3;
-
-                _source.SetImages(m.Item1);
-                _slice.SetSlice(slices.Item1, slices.Item2, slices.Item3, slices.Item4, slices.Item5);
-                _width.SetWidth(widths.Item1, widths.Item2, widths.Item3, widths.Item4);
-                _outset.SetOutset(outsets.Item1, outsets.Item2, outsets.Item3, outsets.Item4);
-                _repeat.SetRepeat(repeats[0], repeats.Length == 2 ? repeats[1] : repeats[0]);
+                _source.TrySetValue(m.Item1);
+                _slice.TrySetValue(m.Item2.Item1);
+                _width.TrySetValue(m.Item2.Item2);
+                _outset.TrySetValue(m.Item2.Item3);
+                _repeat.TrySetValue(m.Item3);
             });
         }
 

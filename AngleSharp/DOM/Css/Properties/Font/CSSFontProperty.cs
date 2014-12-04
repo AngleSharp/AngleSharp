@@ -23,6 +23,22 @@
         readonly CSSLineHeightProperty _height;
         readonly CSSFontFamilyProperty _families;
 
+        internal static readonly IValueConverter<SystemFont> SystemFontConverter = From(_parts);
+
+        internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = WithOrder(
+            WithAny(
+                CSSFontStyleProperty.Converter.Val().Option(),
+                CSSFontVariantProperty.Converter.Val().Option(),
+                CSSFontWeightProperty.Converter.Val().Option(),
+                CSSFontStretchProperty.Converter.Val().Option()
+            ),
+            WithOrder(
+                CSSFontSizeProperty.Converter.Val().Required(),
+                CSSLineHeightProperty.Converter.Val().StartsWithDelimiter().Option()
+            ),
+            CSSFontFamilyProperty.Converter.Val().Required()
+        );
+
         #endregion
 
         #region ctor
@@ -122,53 +138,30 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            SystemFont setting;
+            //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | caption | icon | menu | message-box | small-caption | status-bar
 
-            if (!_parts.TryGetValue(value, out setting))
+            return Converter.TryConvert(value, m =>
             {
-                var entries = value as CssValueList ?? new CssValueList(value);
-                var allowDelim = false;
-                ICssValue weight = null, style = null, variant = null, stretch = null, size = null, height = null;
-
-                for (var i = 0; i < entries.Length; i++)
-                {
-                    var entry = entries[i];
-
-                    if (allowDelim)
-                    {
-                        if (entry == CssValue.Delimiter && (++i == entries.Length || !_height.CanStore(entries[i++], ref height)))
-                            return false;
-
-                        return _families.TrySetValue(entries.Subset(start: i)) && _stretch.TrySetValue(stretch) && 
-                               _variant.TrySetValue(variant) && _size.TrySetValue(size) &&
-                               _height.TrySetValue(height) && _style.TrySetValue(style) &&
-                               _weight.TrySetValue(weight);
-                    }
-                    else if (_size.CanStore(entry, ref size))
-                        allowDelim = true;
-                    else if (!_style.CanStore(entry, ref style) && !_variant.CanStore(entry, ref variant) &&
-                             !_weight.CanStore(entry, ref weight) && !_stretch.CanStore(entry, ref stretch))
-                        return false;
-                }
-
-                return false;
-            }
-            else
-                SetTo(setting);
-
-            return true;
+                _style.TrySetValue(m.Item1.Item1);
+                _variant.TrySetValue(m.Item1.Item2);
+                _weight.TrySetValue(m.Item1.Item3);
+                _stretch.TrySetValue(m.Item1.Item4);
+                _size.TrySetValue(m.Item2.Item1);
+                _height.TrySetValue(m.Item2.Item2);
+                _families.TrySetValue(m.Item3);
+            }) || SystemFontConverter.TryConvert(value, SetSystemFont);
         }
 
         /// <summary>
         /// Instead of specifying individual longhand properties, a
         /// keyword can be used to represent a specific system font.
         /// </summary>
-        /// <param name="setting">The setting to apply.</param>
-        void SetTo(SystemFont setting)
+        /// <param name="font">The font to select.</param>
+        static void SetSystemFont(SystemFont font)
         {
             //TODO set properties to the setting given by the enumeration value
 
-            switch (setting)
+            switch (font)
             {
                 case SystemFont.Caption:
                 case SystemFont.Icon:
@@ -176,7 +169,7 @@
                 case SystemFont.MessageBox:
                 case SystemFont.SmallCaption:
                 case SystemFont.StatusBar:
-                    return;
+                    break;
             }
         }
 

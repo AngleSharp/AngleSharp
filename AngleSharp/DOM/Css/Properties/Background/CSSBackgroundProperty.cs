@@ -4,6 +4,8 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using BgLayer = System.Tuple<ICssValue, System.Tuple<ICssValue, ICssValue>, ICssValue, ICssValue, ICssValue, ICssValue>;
+    using FinalBgLayer = System.Tuple<ICssValue, System.Tuple<ICssValue, ICssValue>, ICssValue, ICssValue, ICssValue, ICssValue, ICssValue>;
 
     /// <summary>
     /// More information available at:
@@ -12,6 +14,31 @@
     sealed class CSSBackgroundProperty : CSSShorthandProperty, ICssBackgroundProperty
     {
         #region Fields
+
+        static readonly IValueConverter<BgLayer> NormalLayerConverter = WithAny(
+            CSSBackgroundImageProperty.Converter.Val().Option(),
+            WithOrder(
+                CSSBackgroundPositionProperty.Converter.Val().Option(),
+                CSSBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
+            CSSBackgroundRepeatProperty.Converter.Val().Option(),
+            CSSBackgroundAttachmentProperty.Converter.Val().Option(),
+            CSSBackgroundOriginProperty.Converter.Val().Option(),
+            CSSBackgroundClipProperty.Converter.Val().Option()
+        );
+
+        static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = WithAny(
+            CSSBackgroundImageProperty.Converter.Val().Option(),
+            WithOrder(
+                CSSBackgroundPositionProperty.Converter.Val().Option(),
+                CSSBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
+            CSSBackgroundRepeatProperty.Converter.Val().Option(),
+            CSSBackgroundAttachmentProperty.Converter.Val().Option(),
+            CSSBackgroundOriginProperty.Converter.Val().Option(),
+            CSSBackgroundClipProperty.Converter.Val().Option(),
+            CSSBackgroundColorProperty.Converter.Val().Option()
+        );
+
+        static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> Converter = TakeList(NormalLayerConverter).RequiresEnd(FinalLayerConverter);
 
         readonly CSSBackgroundImageProperty _image;
         readonly CSSBackgroundPositionProperty _position;
@@ -142,110 +169,39 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            var items = (value as CssValueList ?? new CssValueList(value)).ToList();
-            var images = new CssValueList();
-            var positions = new CssValueList();
-            var sizes = new CssValueList();
-            var repeats = new CssValueList();
-            var attachments = new CssValueList();
-            var origins = new CssValueList();
-            var clips = new CssValueList();
-            ICssValue color = null;
+            //[ <bg-layer> , ]* <final-bg-layer> where: 
+            //  <bg-layer> = 
+            //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> 
+            //  <final-bg-layer> = 
+            //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
 
-            foreach (var list in items)
+            return Converter.TryConvert(value, m =>
             {
-                ICssValue image = null, position = null, size = null, repeat = null,
-                         attachment = null, origin = null, clip = null;
+                _image.TrySetValue(Transform(m, n => n.Item1));
+                _position.TrySetValue(Transform(m, n => n.Item2.Item1));
+                _size.TrySetValue(Transform(m, n => n.Item2.Item2));
+                _repeat.TrySetValue(Transform(m, n => n.Item3));
+                _attachment.TrySetValue(Transform(m, n => n.Item4));
+                _origin.TrySetValue(Transform(m, n => n.Item5));
+                _clip.TrySetValue(Transform(m, n => n.Item6));
+                _color.TrySetValue(m.Item2.Item7);
+            });
+        }
 
-                if (color != null)
-                    return false;
+        static ICssValue Transform(Tuple<BgLayer[], FinalBgLayer> data, Func<BgLayer, ICssValue> selector)
+        {
+            var final = new BgLayer(data.Item2.Item1, data.Item2.Item2, data.Item2.Item3, data.Item2.Item4, data.Item2.Item5, data.Item2.Item6);
 
-                if (images.Length > 0)
-                {
-                    images.Add(CssValue.Separator);
-                    positions.Add(CssValue.Separator);
-                    sizes.Add(CssValue.Separator);
-                    repeats.Add(CssValue.Separator);
-                    attachments.Add(CssValue.Separator);
-                    origins.Add(CssValue.Separator);
-                    clips.Add(CssValue.Separator);
-                }
+            if (data.Item1.Length == 0)
+                return selector(final);
 
-                for (int j = 0; j < list.Length; j++)
-                {
-                    var item = list[j];
+            var list = new CssValueList();
 
-                    if (_position.CanStore(item, ref position))
-                    {
-                        if (j + 1 == list.Length)
-                            continue;
+            foreach (var item in data.Item1)
+                list.Add(selector(item));
 
-                        var pack = new CssValueList();
-                        pack.Add(position);
-                        pack.Add(list[j + 1]);
-
-                        if (_position.CanTake(pack))
-                        {
-                            positions.Add(position);
-                            position = list[++j];
-                        }
-
-                        if (j + 1 < list.Length && list[j + 1] == CssValue.Delimiter)
-                        {
-                            j += 2;
-
-                            if (j < list.Length && _size.CanStore(list[j], ref size))
-                            {
-                                if (j + 1 == list.Length)
-                                    continue;
-
-                                pack = new CssValueList();
-                                pack.Add(size);
-                                pack.Add(list[j + 1]);
-
-                                if (_size.CanTake(pack))
-                                {
-                                    sizes.Add(size);
-                                    size = list[++j];
-                                }
-                            }
-                            else
-                                return false;
-                        }
-                    }
-                    else if (_repeat.CanStore(item, ref repeat))
-                    {
-                        if (j + 1 == list.Length)
-                            continue;
-
-                        var pack = new CssValueList();
-                        pack.Add(repeat);
-                        pack.Add(list[j + 1]);
-
-                        if (_repeat.CanTake(pack))
-                        {
-                            repeats.Add(repeat);
-                            repeat = list[++j];
-                        }
-                    }
-                    else if (!_image.CanStore(item, ref image) && !_attachment.CanStore(item, ref attachment) && 
-                             !_origin.CanStore(item, ref origin) && !_clip.CanStore(item, ref clip) && !_color.CanStore(item, ref color))
-                        return false;
-                }
-
-                images.Add(image ?? new CssIdentifier(Keywords.None));
-                positions.Add(position ?? new CssIdentifier(Keywords.Center));
-                sizes.Add(size ?? new CssIdentifier(Keywords.Auto));
-                repeats.Add(repeat ?? new CssIdentifier(Keywords.Repeat));
-                attachments.Add(attachment ?? new CssIdentifier(Keywords.Scroll));
-                origins.Add(origin ?? new CssIdentifier(Keywords.BorderBox));
-                clips.Add(clip ?? new CssIdentifier(Keywords.BorderBox));
-            }
-
-            return _image.TrySetValue(images.Reduce()) && _position.TrySetValue(positions.Reduce()) &&
-                   _repeat.TrySetValue(repeats.Reduce()) && _attachment.TrySetValue(attachments.Reduce()) &&
-                   _origin.TrySetValue(origins.Reduce()) && _size.TrySetValue(sizes.Reduce()) &&
-                   _clip.TrySetValue(clips) && _color.TrySetValue(color);
+            list.Add(selector(final));
+            return list;
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
