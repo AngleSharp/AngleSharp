@@ -22,6 +22,7 @@
         readonly Byte[] _buffer;
         readonly Char[] _chars;
 
+        EncodingConfidence _confidence;
         Boolean _finished;
         Encoding _encoding;
         Int32 _index;
@@ -48,6 +49,7 @@
         {
             _finished = true;
             _content.Append(source.Replace("\r\n", "\n"));
+            _confidence = EncodingConfidence.Certain;
         }
 
         /// <summary>
@@ -61,6 +63,7 @@
         {
             _baseStream = baseStream;
             _content = Pool.NewStringBuilder();
+            _confidence = EncodingConfidence.Tentative;
         }
 
         #endregion
@@ -93,18 +96,33 @@
             get { return _encoding; }
             set 
             {
-                if (value != _encoding)
+                if (_confidence != EncodingConfidence.Tentative)
+                    return;
+
+                if (_encoding.IsUnicode())
                 {
-                    //Get previous interpretation of the rest
-                    var length = _content.Length - _index;
-                    var rest = _content.ToString(_index, length);
-                    //Get raw bytes from old encoding
-                    var raw = _encoding.GetBytes(rest);
-                    //Set new encoding
-                    _encoding = value;
-                    //Remove former rest and re-append with new encoding
-                    _content.Remove(_index, length).Append(_encoding.GetString(raw, 0, raw.Length));
+                    _confidence = EncodingConfidence.Certain;
+                    return;
                 }
+
+                if (value.IsUnicode())
+                    value = DocumentEncoding.UTF8;
+
+                if (value == _encoding)
+                {
+                    _confidence = EncodingConfidence.Certain;
+                    return;
+                }
+
+                //Get previous interpretation of the rest
+                var length = _content.Length - _index;
+                var rest = _content.ToString(_index, length);
+                //Get raw bytes from old encoding
+                var raw = _encoding.GetBytes(rest);
+                //Set new encoding
+                _encoding = value;
+                //Remove former rest and re-append with new encoding
+                _content.Remove(_index, length).Append(_encoding.GetString(raw, 0, raw.Length));
             }
         }
 
@@ -324,6 +342,17 @@
                 charLength--;
 
             _content.Append(_chars, 0, charLength);
+        }
+
+        #endregion
+
+        #region Confidence
+
+        enum EncodingConfidence
+        {
+            Tentative,
+            Certain,
+            Irrelevant
         }
 
         #endregion
