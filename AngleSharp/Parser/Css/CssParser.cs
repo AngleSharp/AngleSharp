@@ -1327,7 +1327,7 @@
         /// <summary>
         /// Takes a string and transforms it into a selector object.
         /// </summary>
-        /// <param name="selector">The string to parse.</param>
+        /// <param name="keyText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The Selector object.</returns>
         public static IKeyframeSelector ParseKeyText(String keyText, IConfiguration configuration = null)
