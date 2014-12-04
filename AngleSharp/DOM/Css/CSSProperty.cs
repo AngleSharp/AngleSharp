@@ -577,8 +577,7 @@
             var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => zeroSize);
             var predefinedSize = WithIdentifier().Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
             var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance().Required(), WithDistance().Required(), m => new Point(m.Item1, m.Item2)));
-            var position = FirstArg(TakeOne(Keywords.At, true)).And(RestArgs(WithPoint(), 1)).To(m => m.Item2);
-            var dimensions = WithOptions(endingShape.Or(size), position, defaults);
+            var dimensions = WithOrder(WithAny(endingShape.Option(zeroSize), size.Option(zeroSize)), WithOrder(TakeOne(Keywords.At, true).Required(), WithPoint().Required()).Option(Tuple.Create(true, center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
             var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
@@ -740,6 +739,11 @@
         public static IValueConverter<Tuple<T1, T2, T3>> WithOrder<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
         {
             return new OrderedOptionsConverter<T1, T2, T3>(first, second, third);
+        }
+
+        public static IValueConverter<Tuple<T1, T2>> WithAny<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
+        {
+            return new UnorderedOptionsConverter<T1, T2>(first, second);
         }
 
         public static IValueConverter<Tuple<T1, T2, T3>> WithAny<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
