@@ -135,6 +135,7 @@
             encodings.Add("cp1251", Windows1251);
             encodings.Add("windows-1251", Windows1251);
             encodings.Add("x-cp1251", Windows1251);
+            encodings.Add("x-user-defined", Windows1252);
             encodings.Add("ansi_x3.4-1968", Windows1252);
             encodings.Add("ascii", Windows1252);
             encodings.Add("cp1252", Windows1252);
@@ -347,6 +348,20 @@
             suggestions.Add("lt", Windows1257);
             suggestions.Add("sk", Windows1250);
             suggestions.Add("th", Windows874);
+        }
+
+        #endregion
+
+        #region Extensions
+
+        /// <summary>
+        /// Checks if the provided encoding is any UTF-16 encoding.
+        /// </summary>
+        /// <param name="encoding">The encoding to check.</param>
+        /// <returns>The result of the check (UTF-16BE, UTF-16LE).</returns>
+        public static Boolean IsUnicode(this Encoding encoding)
+        {
+            return encoding == UTF16BE || encoding == UTF16LE;
         }
 
         #endregion
