@@ -44,7 +44,7 @@
 
         #region Methods
 
-        private void SetImages(IImageSource image)
+        public void SetImages(IImageSource image)
         {
             _image = image;
         }

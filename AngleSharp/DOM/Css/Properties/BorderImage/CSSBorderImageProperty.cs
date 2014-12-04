@@ -5,6 +5,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Distances = System.Tuple<IDistance, IDistance, IDistance, IDistance>;
+    using Slices = System.Tuple<IDistance, IDistance, IDistance, IDistance, System.Boolean>;
 
     /// <summary>
     /// More information available at:
@@ -13,6 +15,18 @@
     sealed class CSSBorderImageProperty : CSSShorthandProperty, ICssBorderImageProperty
     {
         #region Fields
+
+        static readonly IDistance nil = null;
+
+        public static readonly IValueConverter<Tuple<IImageSource, Tuple<Slices, Distances, Distances>, BorderRepeat[]>> Converter = WithAny(
+            CSSBorderImageSourceProperty.Converter.Option(CSSBorderImageSourceProperty.Default),
+            WithOrder(
+                CSSBorderImageSliceProperty.Converter.Option(Tuple.Create(CSSBorderImageSliceProperty.Default, nil, nil, nil, false)),
+                CSSBorderImageWidthProperty.Converter.StartsWithDelimiter().Option(Tuple.Create(CSSBorderImageWidthProperty.Default, CSSBorderImageWidthProperty.Default, CSSBorderImageWidthProperty.Default, CSSBorderImageWidthProperty.Default)),
+                CSSBorderImageOutsetProperty.Converter.StartsWithDelimiter().Option(Tuple.Create(CSSBorderImageOutsetProperty.Default, CSSBorderImageOutsetProperty.Default, CSSBorderImageOutsetProperty.Default, CSSBorderImageOutsetProperty.Default))
+            ),
+            CSSBorderImageRepeatProperty.Converter.Option(new[] { CSSBorderImageRepeatProperty.Default, CSSBorderImageRepeatProperty.Default })
+        );
 
         readonly CSSBorderImageOutsetProperty _outset;
         readonly CSSBorderImageRepeatProperty _repeat;
@@ -165,18 +179,19 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            //<'border-image-source'> || <'border-image-slice'> [ / <'border-image-width'> | / <'border-image-width'>? / <'border-image-outset'> ]? || <'border-image-repeat'>
+            return Converter.TryConvert(value, m =>
+            {
+                var slices = m.Item2.Item1;
+                var widths = m.Item2.Item2;
+                var outsets = m.Item2.Item3;
+                var repeats = m.Item3;
 
-            //return WithOptions(
-            //            CSSBorderImageSourceProperty.Converter,
-            //            CSSBorderImageSliceProperty.Converter.OptionalSlash(CSSBorderImageWidthProperty.Converter.OptionalSlash(, CSSBorderImageWidthProperty.Default),
-            //            CSSBorderImageRepeatProperty.Converter).TryConvert(value, m =>
-            //            {
-
-            //            });
-            
-            //Required: SOurce, Slice and Repeat
-            return false;
+                _source.SetImages(m.Item1);
+                _slice.SetSlice(slices.Item1, slices.Item2, slices.Item3, slices.Item4, slices.Item5);
+                _width.SetWidth(widths.Item1, widths.Item2, widths.Item3, widths.Item4);
+                _outset.SetOutset(outsets.Item1, outsets.Item2, outsets.Item3, outsets.Item4);
+                _repeat.SetRepeat(repeats[0], repeats.Length == 2 ? repeats[1] : repeats[0]);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)

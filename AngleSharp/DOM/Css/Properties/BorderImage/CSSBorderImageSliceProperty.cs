@@ -15,8 +15,14 @@
         #region Fields
 
         internal static readonly IDistance Default = Percent.Hundred;
-        internal static readonly IValueConverter<Tuple<Tuple<IDistance, IDistance, IDistance, IDistance>, Boolean>> Converter = 
-            WithBorderSlice().Periodic().Optional(TakeOne(Keywords.Fill, true), false);
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance, Boolean>> Converter = WithAny(
+            WithBorderSlice().Option(Default),
+            WithBorderSlice().Option(null),
+            WithBorderSlice().Option(null),
+            WithBorderSlice().Option(null),
+            TakeOne(Keywords.Fill, true).Option(false)
+        );
+
         IDistance _top;
         IDistance _right;
         IDistance _bottom;
@@ -84,9 +90,9 @@
         public void SetSlice(IDistance top, IDistance right, IDistance bottom, IDistance left, Boolean fill = false)
         {
             _top = top;
-            _right = right;
-            _bottom = bottom;
-            _left = left;
+            _right = right ?? _top;
+            _bottom = bottom ?? _top;
+            _left = left ?? _right;
             _fill = fill;
         }
 
@@ -106,7 +112,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, m => SetSlice(m.Item1.Item1, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2));
+            return Converter.TryConvert(value, m => SetSlice(m.Item1, m.Item2, m.Item3, m.Item4, m.Item5));
         }
 
         #endregion
