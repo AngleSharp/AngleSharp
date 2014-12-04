@@ -5,6 +5,8 @@
 
     static class ValueConverterExtensions
     {
+        static readonly IValueConverter<Boolean> delimiter = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
+
         public static T TryAll<T>(this IValueConverter<T> converter, CssValueList list, T defaultValue)
         {
             for (int i = 0; i < list.Length; i++)
@@ -17,6 +19,51 @@
             }
 
             return defaultValue;
+        }
+
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
+        {
+            var min = Math.Max(converter.MinArgs, 1);
+            var max = converter.MaxArgs;
+            var n = Math.Min(max, list.Length);
+
+            for (int count = n; count >= min; count--)
+            {
+                var subset = count > 1 ? list.Subset(0, count) : list[0];
+
+                if (converter.TryConvert(subset, setResult))
+                {
+                    list.RemoveRange(0, count);
+                    return true;
+                }
+            }
+
+            return converter.TryConvert(null, setResult);
+        }
+
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
+        {
+            var min = Math.Max(converter.MinArgs, 1);
+            var max = converter.MaxArgs;
+
+            for (int i = 0; i < list.Length; i++)
+            {
+                var n = Math.Min(i + max, list.Length);
+
+                for (int j = n; j >= i + min; j--)
+                {
+                    var count = j - i;
+                    var subset = count > 1 ? list.Subset(i, j) : list[i];
+
+                    if (converter.TryConvert(subset, setResult))
+                    {
+                        list.RemoveRange(i, count);
+                        return true;
+                    }
+                }
+            }
+
+            return converter.TryConvert(null, setResult);
         }
 
         public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)
@@ -96,8 +143,12 @@
 
         public static IValueConverter<T[]> OptionalSplit<T>(this IValueConverter<T> primary)
         {
-            var condition = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
-            return new SplitValueConverter<Boolean, T>(condition, primary, false);
+            return new SplitValueConverter<Boolean, T>(delimiter, primary, false);
+        }
+
+        public static IValueConverter<T> StartsWithDelimiter<T>(this IValueConverter<T> converter)
+        {
+            return new OrderedOptionsConverter<Boolean, T>(delimiter.Required(), converter.Required()).To(m => m.Item2);
         }
     }
 }

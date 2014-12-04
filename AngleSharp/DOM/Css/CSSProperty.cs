@@ -410,7 +410,7 @@
 
         public static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
         {
-            return new ArgumentsValueConverter<T>(converter, 1).To(m => m[0]);
+            return converter.Atomic();
         }
 
         public static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
@@ -754,6 +754,26 @@
                    new FunctionValueConverter<SkewTransform>(FunctionNames.SkewY,
                        WithArg(WithAngle().To(
                             m => new SkewTransform(Angle.Zero, m)))));
+        }
+
+        public static IValueConverter<Tuple<T1, T2>> WithOrder<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
+        {
+            return new OrderedOptionsConverter<T1, T2>(first, second);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3>> WithOrder<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
+        {
+            return new OrderedOptionsConverter<T1, T2, T3>(first, second, third);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3>> WithAny<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
+        {
+            return new UnorderedOptionsConverter<T1, T2, T3>(first, second, third);
+        }
+
+        public static IValueConverter<Tuple<T1, T2, T3, T4, T5>> WithAny<T1, T2, T3, T4, T5>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth)
+        {
+            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth);
         }
 
         public static IValueConverter<Boolean> Toggle(String on, String off)

@@ -28,7 +28,7 @@
                 {
                     if (_optionConverter.TryConvert(values[i], m => v2 = m))
                     {
-                        value = CopyExcept(values, i).Reduce();
+                        value = values.CopyExcept(i);
                         break;
                     }
                 }
@@ -51,26 +51,13 @@
                 {
                     if (_optionConverter.Validate(values[i]))
                     {
-                        value = CopyExcept(values, i);
+                        value = values.CopyExcept(i);
                         break;
                     }
                 }
             }
 
             return _listConverter.Validate(value);
-        }
-
-        static CssValueList CopyExcept(CssValueList original, Int32 index)
-        {
-            var list = new CssValueList();
-
-            for (int i = 0; i < original.Length; i++)
-            {
-                if (i != index)
-                    list.Add(original[i]);
-            }
-
-            return list;
         }
 
         public Int32 MinArgs

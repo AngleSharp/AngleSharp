@@ -38,6 +38,29 @@
             return null;
         }
 
+        public static CssValueList Copy(this CssValueList original)
+        {
+            var list = new CssValueList();
+
+            for (int i = 0; i < original.Length; i++)
+                list.Add(original[i]);
+
+            return list;
+        }
+
+        public static CssValueList CopyExcept(this CssValueList original, Int32 index)
+        {
+            var list = new CssValueList();
+
+            for (int i = 0; i < original.Length; i++)
+            {
+                if (i != index)
+                    list.Add(original[i]);
+            }
+
+            return list;
+        }
+
         public static CssValueList CopyToList(this ICssValue value)
         {
             var original = value as CssValueList;

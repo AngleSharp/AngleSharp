@@ -120,6 +120,11 @@
             _items.RemoveAt(index);
         }
 
+        public void RemoveRange(Int32 index, Int32 count)
+        {
+            _items.RemoveRange(index, count);
+        }
+
         #endregion
 
         #region IEnumerable
