@@ -411,6 +411,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\OptionValueConverter.cs">
       <Link>DOM\Css\Converters\OptionValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\OrderedOptionsConverter.cs">
+      <Link>DOM\Css\Converters\OrderedOptionsConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\OrValueConverter.cs">
       <Link>DOM\Css\Converters\OrValueConverter.cs</Link>
     </Compile>
@@ -428,6 +431,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\ToValueConverter.cs">
       <Link>DOM\Css\Converters\ToValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\UnorderedOptionsConverter.cs">
+      <Link>DOM\Css\Converters\UnorderedOptionsConverter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
