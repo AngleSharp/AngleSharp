@@ -181,7 +181,7 @@ namespace UnitTests.Css
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
             Assert.AreEqual(Color.FromRgb(0xFF, 0xFF, 0x80), stops[0].Color);
-            Assert.AreEqual(Color.FromRgba(204, 153, 153, 0.4), stops[1].Color);
+            Assert.AreEqual(Color.FromRgba(204, 153, 153, 0.4f), stops[1].Color);
             Assert.AreEqual(Color.FromRgb(0xE6, 0xE6, 0xFF), stops[2].Color);
         }
 
@@ -224,8 +224,9 @@ namespace UnitTests.Css
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(4, stops.Length);
             Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[0].Color);
-            Assert.AreEqual(Color.FromRgba(0, 0, 0, 0.3), stops[1].Color);
-            Assert.AreEqual(Color.Transparent, stops[2].Color);
+            Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[1].Color);
+            Assert.AreEqual(Color.FromRgba(0, 0, 0, 0.3), stops[2].Color);
+            Assert.AreEqual(Color.Transparent, stops[3].Color);
         }
 
         [TestMethod]
