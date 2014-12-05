@@ -25,7 +25,7 @@
         /// </summary>
         public static readonly Percent Hundred = new Percent(100f);
 
-        Single _value;
+        readonly Single _value;
 
         #endregion
 
