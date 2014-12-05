@@ -8,6 +8,12 @@
     /// </summary>
     sealed class CssNumberToken : CssToken
     {
+        #region Fields
+
+        static readonly Char[] floatIndicators = new[] { '.', 'e', 'E' };
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -17,6 +23,11 @@
         public CssNumberToken(String number)
             : base(CssTokenType.Number, number)
         {
+        }
+
+        public Boolean IsInteger
+        {
+            get { return Data.IndexOfAny(floatIndicators) == -1; }
         }
 
         #endregion

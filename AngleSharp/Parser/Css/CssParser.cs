@@ -1294,7 +1294,8 @@
             if (token.Value == 0f)
                 return Number.Zero;
 
-            return new Number(token.Value);
+            var unit = token.IsInteger ? Number.Unit.Integer : Number.Unit.Float;
+            return new Number(token.Value, unit);
         }
 
         #endregion
