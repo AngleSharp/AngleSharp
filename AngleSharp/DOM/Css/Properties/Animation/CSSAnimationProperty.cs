@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Tuple<Time, TransitionFunction, Time, Int32>, Tuple<AnimationDirection, AnimationFillStyle, PlayState, String>>[]> Converter = TakeList(
+        internal static readonly IValueConverter<Tuple<Tuple<Time, TransitionFunction, Time, Single>, Tuple<AnimationDirection, AnimationFillStyle, PlayState, String>>[]> Converter = TakeList(
             WithOptions(
                 CSSAnimationDurationProperty.SingleConverter,
                 CSSAnimationTimingFunctionProperty.SingleConverter,
@@ -115,7 +115,7 @@
         /// <summary>
         /// Gets the iteraction counts of the animations.
         /// </summary>
-        public IEnumerable<Int32> Iterations
+        public IEnumerable<Single> Iterations
         {
             get { return _iterationCount.Iterations; }
         }

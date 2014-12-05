@@ -13,10 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Int32> SingleConverter = WithInteger().Constraint(m => m >= 0).Or(TakeOne(Keywords.Infinite, -1));
-        internal static readonly IValueConverter<Int32[]> Converter = TakeList(SingleConverter);
-        internal static readonly Int32 Default = 1;
-        readonly List<Int32> _iterations;
+        internal static readonly IValueConverter<Single> SingleConverter = WithNumber().Constraint(m => m >= 0f).Or(TakeOne(Keywords.Infinite, Single.PositiveInfinity));
+        internal static readonly IValueConverter<Single[]> Converter = TakeList(SingleConverter);
+        internal static readonly Single Default = 1f;
+        readonly List<Single> _iterations;
 
         #endregion
 
@@ -25,7 +25,7 @@
         internal CSSAnimationIterationCountProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.AnimationIterationCount, rule)
         {
-            _iterations = new List<Int32>();
+            _iterations = new List<Single>();
             Reset();
         }
 
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the iteration count of the covered animations.
         /// </summary>
-        public IEnumerable<Int32> Iterations
+        public IEnumerable<Single> Iterations
         {
             get { return _iterations; }
         }
@@ -45,7 +45,7 @@
 
         #region Methods
 
-        public void SetIterations(IEnumerable<Int32> iterations)
+        public void SetIterations(IEnumerable<Single> iterations)
         {
             _iterations.Clear();
             _iterations.AddRange(iterations);
