@@ -106,6 +106,7 @@ The time estimates are speculative, which means that the project could be totall
 (December 2014) **0.8.0**
 - Interface for rendering defined
 - Full HTML DOM implemented
+- New CSS value model integrated
 - CSS computation works with everything
 - PseudoElement available
 - Mutation records connected
