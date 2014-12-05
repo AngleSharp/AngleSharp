@@ -18,14 +18,15 @@
         /// <summary>
         /// Gets the positive infinite value.
         /// </summary>
-        public static readonly Number Infinite = new Number(Single.PositiveInfinity);
+        public static readonly Number Infinite = new Number(Single.PositiveInfinity, Unit.Float);
 
         /// <summary>
         /// Gets the neutral element.
         /// </summary>
-        public static readonly Number One = new Number(1f);
+        public static readonly Number One = new Number(1f, Unit.Integer);
 
-        Single _value;
+        readonly Single _value;
+        readonly Unit _unit;
 
         #endregion
 
@@ -35,9 +36,11 @@
         /// Creates a new number value.
         /// </summary>
         /// <param name="value">The value of the number.</param>
-        public Number(Single value)
+        /// <param name="unit">The kind of number.</param>
+        public Number(Single value, Unit unit)
         {
             _value = value;
+            _unit = unit;
         }
 
         #endregion
@@ -161,7 +164,26 @@
         /// <returns>True if both numbers are equal, otherwise false.</returns>
         public Boolean Equals(Number other)
         {
-            return _value == other._value;
+            return _value == other._value && _unit == other._unit;
+        }
+
+        #endregion
+
+        #region Units
+
+        /// <summary>
+        /// An enumeration of angle representations.
+        /// </summary>
+        public enum Unit : ushort
+        {
+            /// <summary>
+            /// The value has been given as an integer.
+            /// </summary>
+            Integer,
+            /// <summary>
+            /// The value has been given in a floating point notation.
+            /// </summary>
+            Float,
         }
 
         #endregion
