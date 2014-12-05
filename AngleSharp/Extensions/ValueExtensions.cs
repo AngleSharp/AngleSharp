@@ -272,10 +272,10 @@
 
         public static Int32? ToInteger(this ICssValue value)
         {
-            var val = value.ToSingle();
+            var primitive = value as Number?;
 
-            if (val.HasValue)
-                return (Int32)val.Value;
+            if (primitive != null && primitive.Value.IsInteger)
+                return (Int32)primitive.Value.Value;
 
             return null;
         }

@@ -60,7 +60,7 @@
         /// </summary>
         public Boolean IsInteger
         {
-            get { return _value == Math.Floor(_value); }
+            get { return _unit == Unit.Integer; }
         }
 
         #endregion
