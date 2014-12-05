@@ -910,7 +910,7 @@ namespace UnitTests.Css
         }
 
         [TestMethod]
-        public void CssOrphansFloatingLegal()
+        public void CssOrphansFloatingIllegal()
         {
             var snippet = "orphans : 1.5 ";
             var property = CssParser.ParseDeclaration(snippet);
@@ -918,10 +918,9 @@ namespace UnitTests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOfType(property, typeof(CSSOrphansProperty));
             var concrete = (CSSOrphansProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsFalse(concrete.IsInherited);
-            Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("1.5", concrete.Value.CssText);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.IsTrue(concrete.IsInherited);
+            Assert.IsFalse(concrete.HasValue);
         }
 
         [TestMethod]
