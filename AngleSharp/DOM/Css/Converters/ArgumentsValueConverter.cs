@@ -202,7 +202,7 @@
             if (items == null)
                 return false;
 
-            return items.Length <= 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _third.Validate(items[3]);
+            return items.Length <= 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]);
         }
 
         public Int32 MinArgs
@@ -325,7 +325,7 @@
             if (items == null)
                 return false;
 
-            return items.Length <= 6 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _third.Validate(items[3]) && _fourth.Validate(items[4]) && _sixth.Validate(items[5]);
+            return items.Length <= 6 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]) && _fifth.Validate(items[4]) && _sixth.Validate(items[5]);
         }
 
         public Int32 MinArgs
