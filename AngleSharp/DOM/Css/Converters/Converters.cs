@@ -129,10 +129,9 @@
         /// Represents the angle to a side or corner of a box.
         /// http://dev.w3.org/csswg/css-images-3/#typedef-side-or-corner
         /// </summary>
-        public static readonly IValueConverter<Angle> SideOrCornerConverter = WithOptions(
-            TakeOne(Keywords.Left, -1.0).Or(TakeOne(Keywords.Right, 1.0)),
-            TakeOne(Keywords.Top, 1.0).Or(TakeOne(Keywords.Bottom, -1.0)),
-            Tuple.Create(0.0, 0.0)
+        public static readonly IValueConverter<Angle> SideOrCornerConverter = WithAny(
+            TakeOne(Keywords.Left, -1.0).Or(TakeOne(Keywords.Right, 1.0)).Option(0.0),
+            TakeOne(Keywords.Top, 1.0).Or(TakeOne(Keywords.Bottom, -1.0)).Option(0.0)
         ).To(m => new Angle((Single)(Math.Atan2(m.Item1, m.Item2) * 180.0 / Math.PI), Angle.Unit.Deg));
 
         /// <summary>
@@ -218,7 +217,7 @@
         /// </summary>
         public static readonly IValueConverter<LinearGradient> LinearGradientConverter = Construct(() =>
         {
-            var side = FirstArg(TakeOne(Keywords.To, true)).And(RestArgs(SideOrCornerConverter, 1)).To(m => m.Item2);
+            var side = SideOrCornerConverter.StartsWithKeyword(Keywords.To);
             var angle = AngleConverter.Or(side);
             var gradient = new GradientConverter<Angle>(angle, new Angle(180f, Angle.Unit.Deg));
 
@@ -472,9 +471,9 @@
             return converter.Atomic();
         }
 
-        static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
+        static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> converter, Int32 arguments, Func<T1[], T> transform)
         {
-            return new ArgumentsValueConverter<T1>(first, arguments).To(converter);
+            return new ArgumentsValueConverter<T1>(converter, arguments).To(transform);
         }
 
         static IValueConverter<T> WithArgs<T1, T2, T>(IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
@@ -494,41 +493,7 @@
 
         #endregion
 
-        #region Options
-
-        public static IValueConverter<Tuple<T1, T2>> WithOptions<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second, Tuple<T1, T2> defaults)
-        {
-            return new OptionsValueConverter<T1, T2>(first, second, defaults);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3>> WithOptions<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Tuple<T1, T2, T3> defaults)
-        {
-            return new OptionsValueConverter<T1, T2, T3>(first, second, third, defaults);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3, T4>> WithOptions<T1, T2, T3, T4>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Tuple<T1, T2, T3, T4> defaults)
-        {
-            return new OptionsValueConverter<T1, T2, T3, T4>(first, second, third, fourth, defaults);
-        }
-
-        public static IValueConverter<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> WithOptions<T1, T2, T3, T4, T5, T6, T7, T8>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>> defaults)
-        {
-            return new OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth, defaults);
-        }
-
-        #endregion
-
         #region Misc
-
-        public static IValueConverter<T> FirstArg<T>(IValueConverter<T> converter)
-        {
-            return new SubsetValueConverter<T>(converter, 0, 1);
-        }
-
-        public static IValueConverter<T> RestArgs<T>(IValueConverter<T> converter, Int32 start)
-        {
-            return new SubsetValueConverter<T>(converter, start, -1);
-        }
 
         public static IValueConverter<Boolean> Toggle(String on, String off)
         {
