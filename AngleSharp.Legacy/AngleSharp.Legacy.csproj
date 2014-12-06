@@ -429,9 +429,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\StructValueConverter.cs">
       <Link>DOM\Css\Converters\StructValueConverter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Converters\SubsetValueConverter.cs">
-      <Link>DOM\Css\Converters\SubsetValueConverter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\ToValueConverter.cs">
       <Link>DOM\Css\Converters\ToValueConverter.cs</Link>
     </Compile>
