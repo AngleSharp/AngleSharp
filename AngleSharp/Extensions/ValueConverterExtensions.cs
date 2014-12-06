@@ -109,11 +109,6 @@
             return new EndListValueConverter<T, U>(listConverter, endConverter);
         }
 
-        public static IValueConverter<Tuple<T, U>> Optional<T, U>(this IValueConverter<T> listConverter, IValueConverter<U> optionConverter, U defaultValue)
-        {
-            return new OptionalValueConverter<T, U>(listConverter, optionConverter, defaultValue);
-        }
-
         public static IValueConverter<T> Required<T>(this IValueConverter<T> converter)
         {
             return new RequiredValueConverter<T>(converter);
