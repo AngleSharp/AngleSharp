@@ -202,7 +202,7 @@
             var length = LengthConverter.Required();
             return new FunctionValueConverter<Shape>(FunctionNames.Rect,
                         WithArgs(length, length, length, length, m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)).Or(
-                        WithArg(TakeMany(LengthConverter, 1, 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
+                        WithArg(TakeMany(LengthConverter, 4, 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
         });
 
         /// <summary>
@@ -428,11 +428,7 @@
         /// Represents a ratio object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
         /// </summary>
-        public static readonly IValueConverter<Tuple<Int32, Int32>> RatioConverter = Construct(() =>
-        {
-            var condition = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
-            return new SplitValueConverter<Boolean, Int32>(condition, WithArg(IntegerConverter), false).Constraint(m => m.Length == 2).To(m => Tuple.Create(m[0], m[1]));
-        });
+        public static readonly IValueConverter<Tuple<Int32, Int32>> RatioConverter = WithOrder(IntegerConverter.Required(), IntegerConverter.StartsWithDelimiter().Required());
 
         /// <summary>
         /// Represents a shadow object.
