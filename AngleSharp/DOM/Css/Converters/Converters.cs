@@ -492,11 +492,6 @@
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
         }
 
-        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T6, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, Func<Tuple<T1, T2, T3, T4, T5, T6>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth).To(converter);
-        }
-
         #endregion
 
         #region Options
