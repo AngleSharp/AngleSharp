@@ -378,6 +378,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\ConstraintValueConverter.cs">
       <Link>DOM\Css\Converters\ConstraintValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Converters\Converters.cs">
+      <Link>DOM\Css\Converters\Converters.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\DictionaryValueConverter.cs">
       <Link>DOM\Css\Converters\DictionaryValueConverter.cs</Link>
     </Compile>
