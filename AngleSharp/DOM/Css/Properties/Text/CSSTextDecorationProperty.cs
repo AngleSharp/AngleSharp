@@ -13,10 +13,11 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Color, TextDecorationStyle, TextDecorationLine[]>> Converter = CSSTextDecorationLineProperty.Converter.
-            Optional(CSSTextDecorationColorProperty.Converter, CSSTextDecorationColorProperty.Default).
-            Optional(CSSTextDecorationStyleProperty.Converter, CSSTextDecorationStyleProperty.Default).
-            To(m => Tuple.Create(m.Item1.Item2, m.Item2, m.Item1.Item1));
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = WithAny(
+            CSSTextDecorationColorProperty.Converter.Val().Option(),
+            CSSTextDecorationStyleProperty.Converter.Val().Option(),
+            CSSTextDecorationLineProperty.Converter.Val().Option()
+        );
 
         readonly CSSTextDecorationColorProperty _color;
         readonly CSSTextDecorationLineProperty _line;
@@ -74,11 +75,11 @@
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, m =>
-                {
-                    _color.SetColor(m.Item1);
-                    _style.SetDecorationStyle(m.Item2);
-                    _line.SetLines(m.Item3);
-                });
+            {
+                _color.TrySetValue(m.Item1);
+                _style.TrySetValue(m.Item2);
+                _line.TrySetValue(m.Item3);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CSSProperty> properties)
