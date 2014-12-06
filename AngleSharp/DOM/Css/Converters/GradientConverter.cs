@@ -8,8 +8,6 @@
         readonly IValueConverter<T> _arguments;
         readonly T _default;
 
-        static readonly IValueConverter<Color> ColorConverter = CSSProperty.WithColor();
-
         public GradientConverter(IValueConverter<T> arguments, T defaultValue)
         {
             _default = defaultValue;
@@ -51,7 +49,7 @@
                 value = values[0];
             }
 
-            if (!ColorConverter.TryConvert(value, m => color = m) || location == null)
+            if (!Converters.ColorConverter.TryConvert(value, m => color = m) || location == null)
                 return null;
 
             return new GradientStop(color, location);
