@@ -40,8 +40,8 @@
                     From(ContentModes).Or(
                     WithUrl().To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
                     WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
-                    WithAttr().To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(
-                    WithCounter().To(counter => (ContentMode)new CounterContentMode(counter)))
+                    Converters.AttrConverter.To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(
+                    Converters.CounterConverter.To(counter => (ContentMode)new CounterContentMode(counter)))
                 ));
         }
 

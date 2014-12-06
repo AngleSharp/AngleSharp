@@ -46,6 +46,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ContextExtensions.cs" />
     <Compile Include="DOM\Css\Converters\AtomicValueConverter.cs" />
+    <Compile Include="DOM\Css\Converters\Converters.cs" />
     <Compile Include="DOM\Css\Converters\GradientConverter.cs" />
     <Compile Include="DOM\Css\Converters\OrderedOptionsConverter.cs" />
     <Compile Include="DOM\Css\Converters\UnorderedOptionsConverter.cs" />

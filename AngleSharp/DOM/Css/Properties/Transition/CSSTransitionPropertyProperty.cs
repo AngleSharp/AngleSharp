@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<String> SingleConverter = WithAnimatableIdentifier();
+        internal static readonly IValueConverter<String> SingleConverter = Converters.AnimatableConverter;
         internal static readonly IValueConverter<String[]> Converter = TakeOne(Keywords.None, new String[0]).Or(TakeList(SingleConverter));
         internal static readonly String Default = Keywords.All;
         readonly List<String> _properties;

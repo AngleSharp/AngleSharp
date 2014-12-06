@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Shape> Converter = WithShape().OrDefault();
+        internal static readonly IValueConverter<Shape> Converter = Converters.ShapeConverter.OrDefault();
         internal static readonly Shape Default = null;
         Shape _shape;
 

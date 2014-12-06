@@ -6,7 +6,6 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Resolution> Converter = CSSProperty.WithResolution();
         Resolution _res;
 
         #endregion
@@ -30,7 +29,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _res = m);
+            return Converters.ResolutionConverter.TryConvert(value, m => _res = m);
         }
 
         public override Boolean Validate(IWindow window)

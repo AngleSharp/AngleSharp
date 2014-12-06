@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Information:
@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly String[] Default = new [] { "Times New Roman" };
-        internal static readonly IValueConverter<String[]> Converter = TakeList(WithFontFamily());
+        internal static readonly IValueConverter<String[]> Converter = TakeList(From(Map.DefaultFontFamilies).Or(WithString()).Or(TakeMany(WithIdentifier()).To(names => String.Join(" ", names))));
         readonly List<String> _families;
 
         #endregion

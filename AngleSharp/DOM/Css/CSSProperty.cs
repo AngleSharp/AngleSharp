@@ -223,59 +223,29 @@
             return new DictionaryValueConverter<T>(values);
         }
 
-        public static IValueConverter<Angle> WithSideOrCorner()
-        {
-            return WithOptions(TakeOne(Keywords.Left, -1.0).Or(TakeOne(Keywords.Right, 1.0)), TakeOne(Keywords.Top, 1.0).Or(TakeOne(Keywords.Bottom, -1.0)), Tuple.Create(0.0, 0.0)).
-                   To(m => new Angle((Single)(Math.Atan2(m.Item1, m.Item2) * 180.0 / Math.PI), Angle.Unit.Deg));
-        }
-
         public static IValueConverter<Length> WithBorderWidth()
         {
-            return new StructValueConverter<Length>(ValueExtensions.ToBorderWidth);
+            return Converters.LineWidthConverter;
         }
 
         public static IValueConverter<IDistance> WithLineHeight()
         {
-            return new ClassValueConverter<IDistance>(ValueExtensions.ToLineHeight);
+            return Converters.LineHeightConverter;
         }
 
         public static IValueConverter<IDistance> WithBorderSlice()
         {
-            return new ClassValueConverter<IDistance>(ValueExtensions.ToBorderSlice);
+            return Converters.BorderSliceConverter;
         }
 
         public static IValueConverter<Point> WithPoint()
         {
-            var hi = TakeOne(Keywords.Left, (IDistance)Percent.Zero).Or(TakeOne(Keywords.Right, (IDistance)Percent.Hundred)).Or(TakeOne(Keywords.Center, (IDistance)Percent.Fifty));
-            var vi = TakeOne(Keywords.Top, (IDistance)Percent.Zero).Or(TakeOne(Keywords.Bottom, (IDistance)Percent.Hundred)).Or(TakeOne(Keywords.Center, (IDistance)Percent.Fifty));
-            var h = hi.Or(WithDistance());
-            var v = vi.Or(WithDistance());
-
-            return WithDistance().To(m => new Point(x: m)).Or(
-                   Toggle(Keywords.Left, Keywords.Right).To(m => new Point(x: m ? Percent.Zero : Percent.Hundred))).Or(
-                   Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(y: m ? Percent.Zero : Percent.Hundred))).Or(
-                   TakeOne(Keywords.Center, new Point())).Or(
-                   WithArgs(h.Required(), v.Required(), m => new Point(m.Item1, m.Item2))).Or(
-                   WithArgs(v.Required(), h.Required(), m => new Point(m.Item2, m.Item1))).Or(
-                   WithArgs(hi, vi, WithDistance(), m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
-                   WithArgs(hi, WithDistance(), vi, m => new Point(m.Item1.Add(m.Item2), m.Item3))).Or(
-                   WithArgs(hi, WithDistance(), vi, WithDistance(), m => new Point(m.Item1.Add(m.Item2), m.Item3.Add(m.Item4))));
+            return Converters.PointConverter;
         }
 
         public static IValueConverter<IDistance> WithImageBorderWidth()
         {
-            return new ClassValueConverter<IDistance>(ValueExtensions.ToImageBorderWidth);
-        }
-
-        /// <summary>
-        /// Represents a ratio object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Tuple<Int32, Int32>> WithRatio()
-        {
-            var condition = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
-            return new SplitValueConverter<Boolean, Int32>(condition, WithArg(WithInteger()), false).Constraint(m => m.Length == 2).To(m => Tuple.Create(m[0], m[1]));
+            return Converters.ImageBorderWidthConverter;
         }
 
         /// <summary>
@@ -285,27 +255,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<Length> WithLength()
         {
-            return new StructValueConverter<Length>(ValueExtensions.ToLength);
-        }
-
-        /// <summary>
-        /// Represents a resolution object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/resolution
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Resolution> WithResolution()
-        {
-            return new StructValueConverter<Resolution>(ValueExtensions.ToResolution);
-        }
-
-        /// <summary>
-        /// Represents a frequency object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/frequency
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Frequency> WithFrequency()
-        {
-            return new StructValueConverter<Frequency>(ValueExtensions.ToFrequency);
+            return Converters.LengthConverter;
         }
 
         /// <summary>
@@ -315,33 +265,17 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<Time> WithTime()
         {
-            return new StructValueConverter<Time>(ValueExtensions.ToTime);
-        }
-
-        public static IValueConverter<String> WithFontFamily()
-        {
-            return From(Map.DefaultFontFamilies).Or(WithString()).Or(TakeMany(WithIdentifier()).To(names => String.Join(" ", names)));
+            return Converters.TimeConverter;
         }
 
         public static IValueConverter<IDistance> WithDistance()
         {
-            return new ClassValueConverter<IDistance>(ValueExtensions.ToDistance);
+            return Converters.DistanceConverter;
         }
 
         public static IValueConverter<Shadow> WithShadow()
         {
-            return WithArgs(WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black),
-                        m => new Shadow(false, m.Item1, m.Item2, Length.Zero, Length.Zero, m.Item3)).Or(
-                   WithArgs(WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
-                        m => new Shadow(false, m.Item1, m.Item2, m.Item3, Length.Zero, m.Item4))).Or(
-                   WithArgs(WithLength().Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
-                        m => new Shadow(false, m.Item1, m.Item2, m.Item3, m.Item4, m.Item5))).Or(
-                   WithArgs(TakeOne(Keywords.Inset, true).Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
-                        m => new Shadow(m.Item1, m.Item2, m.Item3, Length.Zero, Length.Zero, m.Item4))).Or(
-                   WithArgs(TakeOne(Keywords.Inset, true).Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
-                        m => new Shadow(m.Item1, m.Item2, m.Item3, m.Item4, Length.Zero, m.Item5))).Or(
-                   WithArgs(TakeOne(Keywords.Inset, true).Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), WithColor().Option(Color.Black), 
-                        m => new Shadow(m.Item1, m.Item2, m.Item3, m.Item4, m.Item5, m.Item6)));
+            return Converters.ShadowConverter;
         }
 
         /// <summary>
@@ -351,7 +285,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<CssUrl> WithUrl()
         {
-            return new ClassValueConverter<CssUrl>(ValueExtensions.ToUri);
+            return Converters.UrlConverter;
         }
 
         /// <summary>
@@ -361,7 +295,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<String> WithString()
         {
-            return new ClassValueConverter<String>(ValueExtensions.ToCssString);
+            return Converters.StringConverter;
         }
 
         /// <summary>
@@ -371,27 +305,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<String> WithIdentifier()
         {
-            return new ClassValueConverter<String>(ValueExtensions.ToIdentifier);
-        }
-
-        public static IValueConverter<String> WithAnimatableIdentifier()
-        {
-            return new ClassValueConverter<String>(ValueExtensions.ToAnimatableIdentifier);
-        }
-
-        public static IValueConverter<CssAttr> WithAttr()
-        {
-            return new FunctionValueConverter<CssAttr>(FunctionNames.Attr, WithString().Or(WithIdentifier()).To(m => new CssAttr(m)).Atomic());
-        }
-
-        public static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
-        {
-            return converter.Atomic();
-        }
-
-        public static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
-        {
-            return new ArgumentsValueConverter<T1>(first, arguments).To(converter);
+            return Converters.IdentifierConverter;
         }
 
         public static IValueConverter<T> WithArgs<T1, T2, T>(IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
@@ -402,21 +316,6 @@
         public static IValueConverter<T> WithArgs<T1, T2, T3, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Func<Tuple<T1, T2, T3>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3>(first, second, third).To(converter);
-        }
-
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
-        }
-
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, Func<Tuple<T1, T2, T3, T4, T5>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth).To(converter);
-        }
-
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T6, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, Func<Tuple<T1, T2, T3, T4, T5, T6>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth).To(converter);
         }
 
         public static IValueConverter<Tuple<T1, T2>> WithOptions<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second, Tuple<T1, T2> defaults)
@@ -446,23 +345,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<TransitionFunction> WithTransition()
         {
-            return new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).Or(
-                   new FunctionValueConverter<TransitionFunction>(FunctionNames.Steps,
-                        WithArgs(WithInteger().Required(), TakeOne(Keywords.Start, true).Or(TakeOne(Keywords.End, false)).Option(false), 
-                            m => (TransitionFunction)new StepsTransitionFunction(m.Item1, m.Item2)))).Or(
-                   new FunctionValueConverter<TransitionFunction>(FunctionNames.CubicBezier,
-                        WithArgs(WithNumber().Required(), WithNumber().Required(), WithNumber().Required(), WithNumber().Required(), 
-                            m => (TransitionFunction)new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4))));
-        }
-
-        public static IValueConverter<Counter> WithCounter()
-        {
-            return new FunctionValueConverter<Counter>(FunctionNames.Counter,
-                        WithArgs(WithIdentifier().Required(), WithIdentifier().Option(Keywords.Decimal), 
-                            m => new Counter(m.Item1, m.Item2, null))).Or(
-                   new FunctionValueConverter<Counter>(FunctionNames.Counters,
-                        WithArgs(WithIdentifier().Required(), WithString().Required(), WithIdentifier().Option(Keywords.Decimal), 
-                            m => new Counter(m.Item1, m.Item3, m.Item2))));
+            return Converters.TransitionConverter;
         }
 
         /// <summary>
@@ -472,31 +355,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<Int32> WithInteger()
         {
-            return new StructValueConverter<Int32>(ValueExtensions.ToInteger);
-        }
-
-        /// <summary>
-        /// Represents a shape object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Shape> WithShape()
-        {
-            return new FunctionValueConverter<Shape>(FunctionNames.Rect,
-                        WithArgs(WithLength().Required(), WithLength().Required(), WithLength().Required(), WithLength().Required(), 
-                            m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)).Or(
-                        WithArg(TakeMany(WithLength()).Constraint(m => m.Length == 4).To(
-                            m => new Shape(m[0], m[1], m[2], m[3])))));
-        }
-
-        /// <summary>
-        /// Represents an angle object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Angle> WithAngle()
-        {
-            return new StructValueConverter<Angle>(ValueExtensions.ToAngle);
+            return Converters.IntegerConverter;
         }
 
         /// <summary>
@@ -506,94 +365,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<Single> WithNumber()
         {
-            return new StructValueConverter<Single>(ValueExtensions.ToSingle);
-        }
-
-        /// <summary>
-        /// Represents a percentage object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Percent> WithPercent()
-        {
-            return new StructValueConverter<Percent>(ValueExtensions.ToPercent);
-        }
-
-        /// <summary>
-        /// Represents an integer object reduced to [0, 255].
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Byte> WithByte()
-        {
-            return new StructValueConverter<Byte>(ValueExtensions.ToByte);
-        }
-
-        public static IValueConverter<T> FirstArg<T>(IValueConverter<T> converter)
-        {
-            return new SubsetValueConverter<T>(converter, 0, 1);
-        }
-
-        public static IValueConverter<T> RestArgs<T>(IValueConverter<T> converter, Int32 start)
-        {
-            return new SubsetValueConverter<T>(converter, start, -1);
-        }
-
-        /// <summary>
-        /// Represents a linear-gradient object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        static IValueConverter<LinearGradient> WithLinearGradient()
-        {
-            var side = FirstArg(TakeOne(Keywords.To, true)).And(RestArgs(WithSideOrCorner(), 1)).To(m => m.Item2);
-            var angle = WithAngle().Or(side);
-            var gradient = new GradientConverter<Angle>(angle, new Angle(180f, Angle.Unit.Deg));
-
-            return new FunctionValueConverter<LinearGradient>(FunctionNames.LinearGradient,
-                        gradient.To(m => new LinearGradient(m.Item1, m.Item2, false))).Or(
-                   new FunctionValueConverter<LinearGradient>(FunctionNames.RepeatingLinearGradient,
-                        gradient.To(m => new LinearGradient(m.Item1, m.Item2, true))));
-        }
-        
-        /// <summary>
-        /// Represents a radial-gradient object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        static IValueConverter<RadialGradient> WithRadialGradient()
-        {
-            //TODO
-            //Determine first argument (if any):
-            // [ <ending-shape> || <size> ]? [ at <position> ]?
-            //where:
-            // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
-            // <ending-shape> = [ ellipse | circle ]
-            // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
-            
-            var center = new Point(Percent.Fifty, Percent.Fifty);
-            var zeroSize = new Point(Percent.Zero, Percent.Zero);
-            var defaults = Tuple.Create(zeroSize, center);
-            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => zeroSize);
-            var predefinedSize = WithIdentifier().Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
-            var size = predefinedSize.Or(WithLength().To(m => new Point(m, m))).Or(WithArgs(WithDistance().Required(), WithDistance().Required(), m => new Point(m.Item1, m.Item2)));
-            var dimensions = WithOrder(WithAny(endingShape.Option(zeroSize), size.Option(zeroSize)), WithOrder(TakeOne(Keywords.At, true).Required(), WithPoint().Required()).Option(Tuple.Create(true, center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
-            var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
-
-            return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
-                        gradient.To(m => new RadialGradient(m.Item1.Item2, m.Item1.Item1, m.Item2, false))).Or(
-                   new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
-                        gradient.To(m => new RadialGradient(m.Item1.Item2, m.Item1.Item1, m.Item2, true))));
-        }
-
-        /// <summary>
-        /// Represents a gradient object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<IImageSource> WithGradient()
-        {
-            return WithLinearGradient().To(m => (IImageSource)m).Or(WithRadialGradient().To(m => (IImageSource)m));
+            return Converters.NumberConverter;
         }
 
         /// <summary>
@@ -603,7 +375,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<IImageSource> WithImageSource()
         {
-            return WithUrl().To(m => (IImageSource)new ImageUrl(m)).Or(WithGradient());
+            return Converters.ImageSourceConverter;
         }
 
         /// <summary>
@@ -613,21 +385,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<Color> WithColor()
         {
-            const Single hnorm = 1f / 360f;
-
-            return new StructValueConverter<Color>(ValueExtensions.ToColor).Or(
-                   new FunctionValueConverter<Color>(FunctionNames.Rgb,
-                        WithArgs(WithByte().Required(), WithByte().Required(), WithByte().Required(), 
-                            m => new Color(m.Item1, m.Item2, m.Item3)))).Or(
-                   new FunctionValueConverter<Color>(FunctionNames.Rgba,
-                        WithArgs(WithByte().Required(), WithByte().Required(), WithByte().Required(), WithNumber().Required(), 
-                            m => new Color(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
-                   new FunctionValueConverter<Color>(FunctionNames.Hsl,
-                        WithArgs(WithNumber().Required(), WithPercent().Required(), WithPercent().Required(), 
-                            m => Color.FromHsl(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue)))).Or(
-                   new FunctionValueConverter<Color>(FunctionNames.Hsla,
-                        WithArgs(WithNumber().Required(), WithPercent().Required(), WithPercent().Required(), WithNumber().Constraint(m => m >= 0f && m <= 1f).Required(), 
-                            m => Color.FromHsla(hnorm * m.Item1, m.Item2.NormalizedValue, m.Item3.NormalizedValue, m.Item4))));
+            return Converters.ColorConverter;
         }
 
         /// <summary>
@@ -637,98 +395,7 @@
         /// <returns>The value converter.</returns>
         public static IValueConverter<ITransform> WithTransform()
         {
-            return WithMatrixTransform().To(m => (ITransform)m).Or(
-                   WithScaleTransform().To(m => (ITransform)m)).Or(
-                   WithRotateTransform().To(m => (ITransform)m)).Or(
-                   WithTranslateTransform().To(m => (ITransform)m)).Or(
-                   WithSkewTransform().To(m => (ITransform)m)).Or(
-                   WithPerspective().To(m => (ITransform)m));
-        }
-
-        public static IValueConverter<PerspectiveTransform> WithPerspective()
-        {
-            return new FunctionValueConverter<PerspectiveTransform>(FunctionNames.Perspective,
-                        WithArg(WithLength().To(m => new PerspectiveTransform(m))));
-        }
-
-        public static IValueConverter<MatrixTransform> WithMatrixTransform()
-        {
-            return new FunctionValueConverter<MatrixTransform>(FunctionNames.Matrix,
-                        WithArgs(WithNumber(), 6,
-                            m => new MatrixTransform(new [] { m[0], m[1], 0f, 0f, m[2], m[3], 0f, 0f, 0f, 1f, 0f, m[4], m[5], 0f, 1f }))).Or(
-                   new FunctionValueConverter<MatrixTransform>(FunctionNames.Matrix3d,
-                        WithArgs(WithNumber(), 16,
-                            m => new MatrixTransform(m))));
-        }
-
-        public static IValueConverter<TranslateTransform> WithTranslateTransform()
-        {
-            return new FunctionValueConverter<TranslateTransform>(FunctionNames.Translate,
-                        WithArgs(WithDistance().Required(), WithDistance().Option(Length.Zero),
-                            m => new TranslateTransform(m.Item1, m.Item2, Length.Zero))).Or(
-                   new FunctionValueConverter<TranslateTransform>(FunctionNames.Translate3d,
-                        WithArgs(WithDistance().Required(), WithDistance().Option(Length.Zero), WithDistance().Option(Length.Zero),
-                            m => new TranslateTransform(m.Item1, m.Item2, m.Item3)))).Or(
-                   new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateX,
-                        WithArg(WithDistance().To(
-                            m => new TranslateTransform(m, Length.Zero, Length.Zero))))).Or(
-                   new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateY,
-                        WithArg(WithDistance().To(
-                            m => new TranslateTransform(Length.Zero, m, Length.Zero))))).Or(
-                   new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateZ,
-                        WithArg(WithDistance().To(
-                            m => new TranslateTransform(Length.Zero, Length.Zero, m)))));
-        }
-
-        public static IValueConverter<ScaleTransform> WithScaleTransform()
-        {
-            return new FunctionValueConverter<ScaleTransform>(FunctionNames.Scale,
-                        WithArgs(WithNumber().Required(), WithNumber().Option(Single.NaN),
-                            m => new ScaleTransform(m.Item1, Single.IsNaN(m.Item2) ? m.Item1 : m.Item2, 1f))).Or(
-                   new FunctionValueConverter<ScaleTransform>(FunctionNames.Scale3d,
-                        WithArgs(WithNumber().Required(), WithNumber().Option(Single.NaN), WithNumber().Option(Single.NaN),
-                            m => new ScaleTransform(m.Item1, Single.IsNaN(m.Item2) ? m.Item1 : m.Item2, Single.IsNaN(m.Item3) ? m.Item1 : m.Item3)))).Or(
-                   new FunctionValueConverter<ScaleTransform>(FunctionNames.ScaleX,
-                        WithArg(WithNumber().To(
-                            m => new ScaleTransform(m, 1f, 1f))))).Or(
-                   new FunctionValueConverter<ScaleTransform>(FunctionNames.ScaleY,
-                        WithArg(WithNumber().To(
-                            m => new ScaleTransform(1f, m, 1f))))).Or(
-                   new FunctionValueConverter<ScaleTransform>(FunctionNames.ScaleZ,
-                        WithArg(WithNumber().To(
-                            m => new ScaleTransform(1f, 1f, m)))));
-        }
-
-        public static IValueConverter<RotateTransform> WithRotateTransform()
-        {
-            return new FunctionValueConverter<RotateTransform>(FunctionNames.Rotate,
-                        WithArg(WithAngle().To(
-                            m => RotateTransform.RotateZ(m)))).Or(
-                   new FunctionValueConverter<RotateTransform>(FunctionNames.Rotate3d,
-                        WithArgs(WithNumber().Required(), WithNumber().Required(), WithNumber().Required(), WithAngle().Required(), 
-                            m => new RotateTransform(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
-                   new FunctionValueConverter<RotateTransform>(FunctionNames.RotateX,
-                        WithArg(WithAngle().To(
-                            m => RotateTransform.RotateX(m))))).Or(
-                   new FunctionValueConverter<RotateTransform>(FunctionNames.RotateY,
-                        WithArg(WithAngle().To(
-                            m => RotateTransform.RotateY(m))))).Or(
-                   new FunctionValueConverter<RotateTransform>(FunctionNames.RotateZ,
-                        WithArg(WithAngle().To(
-                            m => RotateTransform.RotateZ(m)))));
-        }
-
-        public static IValueConverter<SkewTransform> WithSkewTransform()
-        {
-            return new FunctionValueConverter<SkewTransform>(FunctionNames.Skew,
-                        WithArgs(WithAngle().Required(), WithAngle().Required(), 
-                            m => new SkewTransform(m.Item1, m.Item2))).Or(
-                   new FunctionValueConverter<SkewTransform>(FunctionNames.SkewX,
-                        WithArg(WithAngle().To(
-                            m => new SkewTransform(m, Angle.Zero))))).Or(
-                   new FunctionValueConverter<SkewTransform>(FunctionNames.SkewY,
-                       WithArg(WithAngle().To(
-                            m => new SkewTransform(Angle.Zero, m)))));
+            return Converters.TransformConverter;
         }
 
         public static IValueConverter<Tuple<T1, T2>> WithOrder<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
@@ -739,11 +406,6 @@
         public static IValueConverter<Tuple<T1, T2, T3>> WithOrder<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
         {
             return new OrderedOptionsConverter<T1, T2, T3>(first, second, third);
-        }
-
-        public static IValueConverter<Tuple<T1, T2>> WithAny<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
-        {
-            return new UnorderedOptionsConverter<T1, T2>(first, second);
         }
 
         public static IValueConverter<Tuple<T1, T2, T3>> WithAny<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
