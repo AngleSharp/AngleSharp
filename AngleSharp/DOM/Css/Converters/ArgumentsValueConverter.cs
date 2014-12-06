@@ -216,66 +216,6 @@
         }
     }
 
-    sealed class ArgumentsValueConverter<T1, T2, T3, T4, T5> : IValueConverter<Tuple<T1, T2, T3, T4, T5>>
-    {
-        readonly IValueConverter<T1> _first;
-        readonly IValueConverter<T2> _second;
-        readonly IValueConverter<T3> _third;
-        readonly IValueConverter<T4> _fourth;
-        readonly IValueConverter<T5> _fifth;
-
-        public ArgumentsValueConverter(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth)
-        {
-            _first = first;
-            _second = second;
-            _third = third;
-            _fourth = fourth;
-            _fifth = fifth;
-        }
-
-        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3, T4, T5>> setResult)
-        {
-            var items = value as CssValueList;
-
-            if (items == null || items.Length > 5)
-                return false;
-
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-            var t5 = default(T5);
-
-            if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) ||
-                !_third.TryConvert(items[2], t => t3 = t) || !_fourth.TryConvert(items[3], t => t4 = t) ||
-                !_fifth.TryConvert(items[4], t => t5 = t))
-                return false;
-
-            setResult(Tuple.Create(t1, t2, t3, t4, t5));
-            return true;
-        }
-
-        public Boolean Validate(ICssValue value)
-        {
-            var items = value as CssValueList;
-
-            if (items == null)
-                return false;
-
-            return items.Length <= 5 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]) && _fifth.Validate(items[4]);
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs; }
-        }
-    }
-
     sealed class ArgumentsValueConverter<T1, T2, T3, T4, T5, T6> : IValueConverter<Tuple<T1, T2, T3, T4, T5, T6>>
     {
         readonly IValueConverter<T1> _first;

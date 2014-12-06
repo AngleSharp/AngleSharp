@@ -165,17 +165,24 @@
             FunctionNames.Attr, WithArg(StringConverter.Or(IdentifierConverter).To(m => new CssAttr(m))));
 
         /// <summary>
-        /// Represents a timing-function object.
+        /// Represents a steps timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter<TransitionFunction> TransitionConverter = Construct(() =>
+        public static readonly IValueConverter<StepsTransitionFunction> StepsConverter = new FunctionValueConverter<StepsTransitionFunction>(
+            FunctionNames.Steps, WithArgs(
+                IntegerConverter.Required(), 
+                TakeOne(Keywords.Start, true).Or(TakeOne(Keywords.End, false)).Option(false), 
+            m => new StepsTransitionFunction(m.Item1, m.Item2)));
+
+        /// <summary>
+        /// Represents a cubic-bezier timing-function object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
+        /// </summary>
+        public static readonly IValueConverter<CubicBezierTransitionFunction> CubicBezierConverter = Construct(() =>
         {
             var number = NumberConverter.Required();
-            return new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).Or(
-                   new FunctionValueConverter<TransitionFunction>(FunctionNames.Steps,
-                        WithArgs(IntegerConverter.Required(), TakeOne(Keywords.Start, true).Or(TakeOne(Keywords.End, false)).Option(false), m => (TransitionFunction)new StepsTransitionFunction(m.Item1, m.Item2)))).Or(
-                   new FunctionValueConverter<TransitionFunction>(FunctionNames.CubicBezier,
-                        WithArgs(number, number, number, number, m => (TransitionFunction)new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4))));
+            return new FunctionValueConverter<CubicBezierTransitionFunction>(FunctionNames.CubicBezier,
+                    WithArgs(number, number, number, number, m => new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4)));
         });
 
         /// <summary>
@@ -395,14 +402,19 @@
         #region Composed
 
         /// <summary>
+        /// Represents a timing-function object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
+        /// </summary>
+        public static readonly IValueConverter<TransitionFunction> TransitionConverter = new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).Or(
+            StepsConverter.To(m => (TransitionFunction)m)).Or(
+            CubicBezierConverter.To(m => (TransitionFunction)m));
+
+        /// <summary>
         /// Represents a gradient object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
         /// </summary>
-        public static readonly IValueConverter<IImageSource> GradientConverter = Construct(() =>
-        {
-            return LinearGradientConverter.To(m => (IImageSource)m).Or(
-                   RadialGradientConverter.To(m => (IImageSource)m));
-        });
+        public static readonly IValueConverter<IImageSource> GradientConverter = LinearGradientConverter.To(m => (IImageSource)m).Or(
+            RadialGradientConverter.To(m => (IImageSource)m));
 
         /// <summary>
         /// Represents a transform function.
@@ -428,7 +440,9 @@
         /// Represents a ratio object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
         /// </summary>
-        public static readonly IValueConverter<Tuple<Int32, Int32>> RatioConverter = WithOrder(IntegerConverter.Required(), IntegerConverter.StartsWithDelimiter().Required());
+        public static readonly IValueConverter<Tuple<Int32, Int32>> RatioConverter = WithOrder(
+            IntegerConverter.Required(), 
+            IntegerConverter.StartsWithDelimiter().Required());
 
         /// <summary>
         /// Represents a shadow object.
@@ -446,7 +460,8 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
         /// <returns>The value converter.</returns>
-        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)new ImageUrl(m)).Or(GradientConverter);
+        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)new ImageUrl(m)).Or(
+            GradientConverter);
 
         #endregion
 
@@ -475,11 +490,6 @@
         static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
-        }
-
-        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, Func<Tuple<T1, T2, T3, T4, T5>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth).To(converter);
         }
 
         static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T6, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, Func<Tuple<T1, T2, T3, T4, T5, T6>, T> converter)
