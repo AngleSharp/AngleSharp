@@ -176,6 +176,12 @@
             return new SplitValueConverter<Boolean, T>(delimiter, primary, false);
         }
 
+        public static IValueConverter<T> StartsWithKeyword<T>(this IValueConverter<T> converter, String keyword)
+        {
+            return new OrderedOptionsConverter<Boolean, T>(
+                new IdentifierValueConverter<Boolean>(keyword, true).Required(), converter.Required()).To(m => m.Item2);
+        }
+
         public static IValueConverter<T> StartsWithDelimiter<T>(this IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<Boolean, T>(delimiter.Required(), converter.Required()).To(m => m.Item2);
