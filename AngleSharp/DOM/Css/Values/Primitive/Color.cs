@@ -176,7 +176,7 @@
                 int b = color[2].FromHex();
                 b += b * 16;
 
-                return new Color((byte)r, (byte)g, (byte)b);
+                return new Color((Byte)r, (Byte)g, (Byte)b);
             }
             else if (color.Length == 6)
             {
@@ -187,7 +187,7 @@
                 g += color[3].FromHex();
                 b += color[5].FromHex();
 
-                return new Color((byte)r, (byte)g, (byte)b);
+                return new Color((Byte)r, (Byte)g, (Byte)b);
             }
 
             return new Color();
@@ -275,7 +275,7 @@
             var r = (Byte)Math.Round(255f * HueToRgb(m1, m2, h + third));
             var g = (Byte)Math.Round(255f * HueToRgb(m1, m2, h));
             var b = (Byte)Math.Round(255f * HueToRgb(m1, m2, h - third));
-            var a = (Byte)Math.Round(255f * alpha);
+            var a = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * alpha), 255), 0);
             return new Color(r, g, b, a);
         }
 
