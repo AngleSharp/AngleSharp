@@ -202,7 +202,7 @@
             var length = LengthConverter.Required();
             return new FunctionValueConverter<Shape>(FunctionNames.Rect,
                         WithArgs(length, length, length, length, m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)).Or(
-                        WithArg(TakeMany(LengthConverter).Constraint(m => m.Length == 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
+                        WithArg(TakeMany(LengthConverter, 1, 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
         });
 
         /// <summary>
@@ -438,17 +438,12 @@
         /// Represents a shadow object.
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
-        public static readonly IValueConverter<Shadow> ShadowConverter = Construct(() =>
-        {
-            var length = LengthConverter.Required();
-            var color = ColorConverter.Option(Color.Black);
-            return WithArgs(length, length, color, m => new Shadow(false, m.Item1, m.Item2, Length.Zero, Length.Zero, m.Item3)).Or(
-                   WithArgs(length, length, length, color, m => new Shadow(false, m.Item1, m.Item2, m.Item3, Length.Zero, m.Item4))).Or(
-                   WithArgs(length, length, length, length, color, m => new Shadow(false, m.Item1, m.Item2, m.Item3, m.Item4, m.Item5))).Or(
-                   WithArgs(TakeOne(Keywords.Inset, true).Required(), length, length, color, m => new Shadow(m.Item1, m.Item2, m.Item3, Length.Zero, Length.Zero, m.Item4))).Or(
-                   WithArgs(TakeOne(Keywords.Inset, true).Required(), length, length, length, color, m => new Shadow(m.Item1, m.Item2, m.Item3, m.Item4, Length.Zero, m.Item5))).Or(
-                   WithArgs(TakeOne(Keywords.Inset, true).Required(), length, length, length, length, color, m => new Shadow(m.Item1, m.Item2, m.Item3, m.Item4, m.Item5, m.Item6)));
-        });
+        public static readonly IValueConverter<Shadow> ShadowConverter = WithOrder(
+            TakeOne(Keywords.Inset, true).Option(false),
+            TakeMany(LengthConverter, 2, 4).Required(),
+            ColorConverter.Option(Color.Black)).To(
+            m => new Shadow(m.Item1, m.Item2[0], m.Item2[1], Get(m.Item2, 2, Length.Zero), Get(m.Item2, 3, Length.Zero), m.Item3));
+
 
         /// <summary>
         /// Represents an image source object.
@@ -461,37 +456,37 @@
 
         #region Arguments
 
-        public static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
+        static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
         {
             return converter.Atomic();
         }
 
-        public static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
+        static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> first, Int32 arguments, Func<T1[], T> converter)
         {
             return new ArgumentsValueConverter<T1>(first, arguments).To(converter);
         }
 
-        public static IValueConverter<T> WithArgs<T1, T2, T>(IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
+        static IValueConverter<T> WithArgs<T1, T2, T>(IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2>(first, second).To(converter);
         }
 
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Func<Tuple<T1, T2, T3>, T> converter)
+        static IValueConverter<T> WithArgs<T1, T2, T3, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Func<Tuple<T1, T2, T3>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3>(first, second, third).To(converter);
         }
 
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
+        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
         }
 
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, Func<Tuple<T1, T2, T3, T4, T5>, T> converter)
+        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, Func<Tuple<T1, T2, T3, T4, T5>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth).To(converter);
         }
 
-        public static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T6, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, Func<Tuple<T1, T2, T3, T4, T5, T6>, T> converter)
+        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T5, T6, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, Func<Tuple<T1, T2, T3, T4, T5, T6>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth).To(converter);
         }
@@ -544,9 +539,9 @@
             return new IdentifierValueConverter<T>(identifier, result);
         }
 
-        public static IValueConverter<T[]> TakeMany<T>(IValueConverter<T> converter)
+        public static IValueConverter<T[]> TakeMany<T>(IValueConverter<T> converter, Int32 min = 1, Int32 max = Int32.MaxValue)
         {
-            return new OneOrMoreValueConverter<T>(converter);
+            return new OneOrMoreValueConverter<T>(converter, min, max);
         }
 
         public static IValueConverter<T[]> TakeList<T>(IValueConverter<T> converter)
@@ -605,6 +600,11 @@
         #endregion
 
         #region Helper
+
+        static T Get<T>(T[] array, Int32 index, T defaultValue)
+        {
+            return array.Length > index ? array[index] : defaultValue;
+        }
 
         static IValueConverter<T> Construct<T>(Func<IValueConverter<T>> f)
         {

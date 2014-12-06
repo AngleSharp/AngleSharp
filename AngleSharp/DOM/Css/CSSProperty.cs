@@ -445,7 +445,7 @@
 
         public static IValueConverter<T[]> TakeMany<T>(IValueConverter<T> converter)
         {
-            return new OneOrMoreValueConverter<T>(converter);
+            return new OneOrMoreValueConverter<T>(converter, 1, Int32.MaxValue);
         }
 
         public static IValueConverter<T[]> TakeList<T>(IValueConverter<T> converter)
