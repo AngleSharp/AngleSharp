@@ -405,9 +405,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\OneOrMoreValueConverter.cs">
       <Link>DOM\Css\Converters\OneOrMoreValueConverter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Converters\OptionalValueConverter.cs">
-      <Link>DOM\Css\Converters\OptionalValueConverter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\OptionsValueConverter.cs">
       <Link>DOM\Css\Converters\OptionsValueConverter.cs</Link>
     </Compile>
