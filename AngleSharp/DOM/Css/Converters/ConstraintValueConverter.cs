@@ -4,8 +4,8 @@
 
     sealed class ConstraintValueConverter<T> : IValueConverter<T>
     {
-        readonly Predicate<T> _constraint;
         readonly IValueConverter<T> _primary;
+        readonly Predicate<T> _constraint;
 
         public ConstraintValueConverter(IValueConverter<T> primary, Predicate<T> constraint)
         {
@@ -26,7 +26,8 @@
 
         public Boolean Validate(ICssValue value)
         {
-            return _primary.Validate(value);
+            var t = default(T);
+            return _primary.TryConvert(value, m => t = m) && _constraint(t);
         }
 
         public Int32 MinArgs
