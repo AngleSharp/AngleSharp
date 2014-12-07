@@ -14,17 +14,11 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<String, Time, TransitionFunction, Time>[]> Converter = TakeList(
-                WithOptions(
-                    CSSTransitionPropertyProperty.SingleConverter,
-                    CSSTransitionDurationProperty.SingleConverter,
-                    CSSTransitionTimingFunctionProperty.SingleConverter,
-                    CSSTransitionDelayProperty.SingleConverter,
-                Tuple.Create(
-                    CSSTransitionPropertyProperty.Default, 
-                    CSSTransitionDurationProperty.Default, 
-                    CSSTransitionTimingFunctionProperty.Default, 
-                    CSSTransitionDelayProperty.Default)));
+        internal static readonly IValueConverter<Tuple<String, Time, TransitionFunction, Time>[]> Converter = TakeList(WithAny(
+            CSSTransitionPropertyProperty.SingleConverter.Option(CSSTransitionPropertyProperty.Default),
+            CSSTransitionDurationProperty.SingleConverter.Option(CSSTransitionDurationProperty.Default),
+            CSSTransitionTimingFunctionProperty.SingleConverter.Option(CSSTransitionTimingFunctionProperty.Default),
+            CSSTransitionDelayProperty.SingleConverter.Option(CSSTransitionDelayProperty.Default)));
 
         readonly CSSTransitionDelayProperty _delay;
         readonly CSSTransitionDurationProperty _duration;
