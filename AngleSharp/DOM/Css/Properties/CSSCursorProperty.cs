@@ -13,9 +13,13 @@
         #region Fields
 
         static readonly IValueConverter<Tuple<CustomCursor[], SystemCursor>> Converter = TakeList(
-                       WithImageSource().To(m => new CustomCursor { Image = m }).Or(
-                       WithArgs(WithImageSource().Required(), WithNumber().Required(), WithNumber().Required(), v => new CustomCursor { Image = v.Item1, X = v.Item2, Y = v.Item3 }))
-                   ).RequiresEnd(From(Map.Cursors));
+                WithImageSource().To(m => new CustomCursor { Image = m }).Or(
+                WithOrder(
+                    WithImageSource().Required(), 
+                    WithNumber().Required(), 
+                    WithNumber().Required()).To(
+                v => new CustomCursor { Image = v.Item1, X = v.Item2, Y = v.Item3 }))
+            ).RequiresEnd(From(Map.Cursors));
         static readonly SystemCursor Default = SystemCursor.Auto;
 
         CustomCursor[] _customs;
