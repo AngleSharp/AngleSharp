@@ -2,6 +2,76 @@
 {
     using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+
+    sealed class OrderedOptionsConverter<T> : IValueConverter<T[]>
+    {
+        readonly IValueConverter<T> _converter;
+
+        public OrderedOptionsConverter(IValueConverter<T> converter)
+        {
+            _converter = converter;
+        }
+
+        public Int32 MaxArgs
+        {
+            get { return Int32.MaxValue; }
+        }
+
+        public Int32 MinArgs
+        {
+            get { return _converter.MinArgs; }
+        }
+
+        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
+        {
+            var values = value as CssValueList;
+
+            if (values != null)
+                values = values.Copy();
+            else if (value != null)
+                values = new CssValueList(value);
+            else
+                values = new CssValueList();
+
+            if (values.Length < MinArgs)
+                return false;
+
+            var items = new List<T>();
+
+            while (values.Length != 0)
+            {
+                if (!_converter.VaryStart(values, m => items.Add(m)))
+                    return false;
+            }
+
+            setResult(items.ToArray());
+            return true;
+        }
+
+        public Boolean Validate(ICssValue value)
+        {
+            var values = value as CssValueList;
+
+            if (values != null)
+                values = values.Copy();
+            else if (value != null)
+                values = new CssValueList(value);
+            else
+                values = new CssValueList();
+
+            if (values.Length < MinArgs)
+                return false;
+
+            while (values.Length != 0)
+            {
+                if (!_converter.VaryStart(values))
+                    return false;
+            }
+
+            return true;
+        }
+    }
 
     sealed class OrderedOptionsConverter<T1, T2> : IValueConverter<Tuple<T1, T2>>
     {
