@@ -20,7 +20,10 @@
         internal static readonly IValueConverter<BackgroundSize> SingleConverter = WithDistance().OrDefault().To(m => new BackgroundSize { Width = m }).Or(
             TakeOne(Keywords.Cover, Cover)).Or(
             TakeOne(Keywords.Contain, Contain)).Or(
-            WithArgs(WithDistance().OrDefault().Required(), WithDistance().OrDefault().Required(), pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
+            WithOrder(
+                WithDistance().OrDefault().Required(), 
+                WithDistance().OrDefault().Required()).To(
+            pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
         internal static readonly IValueConverter<BackgroundSize[]> Converter = TakeList(SingleConverter);
         readonly List<BackgroundSize> _sizes;
 

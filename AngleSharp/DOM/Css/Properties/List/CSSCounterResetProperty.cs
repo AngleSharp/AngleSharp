@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = WithIdentifier().Split(
-            WithArgs(WithIdentifier().Required(), WithInteger().Option(0), m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
+            WithOrder(WithIdentifier().Required(), WithInteger().Option(0)).To(m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
 
         #endregion
 
