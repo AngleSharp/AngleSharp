@@ -14,25 +14,15 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Tuple<Time, TransitionFunction, Time, Single>, Tuple<AnimationDirection, AnimationFillStyle, PlayState, String>>[]> Converter = TakeList(
-            WithOptions(
-                CSSAnimationDurationProperty.SingleConverter,
-                CSSAnimationTimingFunctionProperty.SingleConverter,
-                CSSAnimationDelayProperty.SingleConverter,
-                CSSAnimationIterationCountProperty.SingleConverter,
-                CSSAnimationDirectionProperty.SingleConverter,
-                CSSAnimationFillModeProperty.SingleConverter,
-                CSSAnimationPlayStateProperty.SingleConverter,
-                CSSAnimationNameProperty.SingleConverter,
-            Tuple.Create(Tuple.Create(
-                CSSAnimationDurationProperty.Default, 
-                CSSAnimationTimingFunctionProperty.Default, 
-                CSSAnimationDelayProperty.Default, 
-                CSSAnimationIterationCountProperty.Default), Tuple.Create(
-                CSSAnimationDirectionProperty.Default, 
-                CSSAnimationFillModeProperty.Default, 
-                CSSAnimationPlayStateProperty.Default, 
-                CSSAnimationNameProperty.Default))));
+        internal static readonly IValueConverter<Tuple<Time, TransitionFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = TakeList(WithAny(
+            CSSAnimationDurationProperty.SingleConverter.Option(CSSAnimationDurationProperty.Default),
+            CSSAnimationTimingFunctionProperty.SingleConverter.Option(CSSAnimationTimingFunctionProperty.Default),
+            CSSAnimationDelayProperty.SingleConverter.Option(CSSAnimationDelayProperty.Default),
+            CSSAnimationIterationCountProperty.SingleConverter.Option(CSSAnimationIterationCountProperty.Default),
+            CSSAnimationDirectionProperty.SingleConverter.Option(CSSAnimationDirectionProperty.Default),
+            CSSAnimationFillModeProperty.SingleConverter.Option(CSSAnimationFillModeProperty.Default),
+            CSSAnimationPlayStateProperty.SingleConverter.Option(CSSAnimationPlayStateProperty.Default),
+            CSSAnimationNameProperty.SingleConverter.Option(CSSAnimationNameProperty.Default)));
 
         readonly CSSAnimationDelayProperty _delay;
         readonly CSSAnimationDirectionProperty _direction;
@@ -138,14 +128,14 @@
         {
             return Converter.TryConvert(value, t =>
             {
-                _duration.SetDurations(t.Select(m => m.Item1.Item1));
-                _timingFunction.SetTimingFunctions(t.Select(m => m.Item1.Item2));
-                _delay.SetDelays(t.Select(m => m.Item1.Item3));
-                _iterationCount.SetIterations(t.Select(m => m.Item1.Item4));
-                _direction.SetDirections(t.Select(m => m.Item2.Item1));
-                _fillMode.SetFillModes(t.Select(m => m.Item2.Item2));
-                _playState.SetStates(t.Select(m => m.Item2.Item3));
-                _name.SetNames(t.Select(m => m.Item2.Item4));
+                _duration.SetDurations(t.Select(m => m.Item1));
+                _timingFunction.SetTimingFunctions(t.Select(m => m.Item2));
+                _delay.SetDelays(t.Select(m => m.Item3));
+                _iterationCount.SetIterations(t.Select(m => m.Item4));
+                _direction.SetDirections(t.Select(m => m.Item5));
+                _fillMode.SetFillModes(t.Select(m => m.Item6));
+                _playState.SetStates(t.Select(m => m.Item7));
+                _name.SetNames(t.Select(m => m.Rest.Item1));
             });
         }
 
