@@ -13,7 +13,7 @@
 
         internal static readonly IDistance Default = Percent.Zero;
         internal static readonly IValueConverter<IDistance> SingleConverter = WithDistance();
-        internal static readonly IValueConverter<IDistance[]> Converter = TakeMany(SingleConverter).Constraint(m => m.Length < 3);
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance>> Converter = WithOrder(SingleConverter.Required(), SingleConverter.Option(null));
         IDistance _horizontal;
         IDistance _vertical;
 
@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, m => SetRadius(m[0], m.Length == 2 ? m[1] : m[0]));
+            return Converter.TryConvert(value, m => SetRadius(m.Item1, m.Item2 ?? m.Item1));
         }
 
         #endregion

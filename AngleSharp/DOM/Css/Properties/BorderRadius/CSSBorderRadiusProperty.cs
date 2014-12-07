@@ -13,8 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>[]> Converter = 
-            CSSBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().OptionalSplit().Constraint(m => m != null && m.Length < 3);
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = WithOrder(
+            CSSBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().Required(),
+            CSSBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option()
+        );
 
         readonly CSSBorderTopLeftRadiusProperty _topLeft;
         readonly CSSBorderTopRightRadiusProperty _topRight;
@@ -115,13 +117,10 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                var elliptic = m.Length == 2;
-                var h = m[0];
-                var v = m[elliptic ? 1 : 0];
-                _topLeft.SetRadius(h.Item1, v.Item1);
-                _topRight.SetRadius(h.Item2, v.Item2);
-                _bottomRight.SetRadius(h.Item3, v.Item3);
-                _bottomLeft.SetRadius(h.Item4, v.Item4);
+                _topLeft.TrySetValue(Extract(m, 0));
+                _topRight.TrySetValue(Extract(m, 1));
+                _bottomRight.TrySetValue(Extract(m, 2));
+                _bottomLeft.TrySetValue(Extract(m, 3));
             });
         }
 
@@ -137,6 +136,43 @@
 
             var vertical = SerializePeriodic(_topLeft.VerticalRadius, _topRight.VerticalRadius, _bottomRight.VerticalRadius, _bottomLeft.VerticalRadius);
             return horizontal + " / " + vertical;
+        }
+
+        #endregion
+
+        #region Helper
+
+        static ICssValue Extract(Tuple<ICssValue, ICssValue> src, Int32 index)
+        {
+            var hv = src.Item1;
+            var vv = src.Item2;
+            var h = hv as CssValueList;
+            var v = vv as CssValueList;
+
+            if (h != null)
+                hv = Find(h, index);
+
+            if (vv == null)
+                return hv;
+
+            var value = new CssValueList();
+            value.Add(hv);
+
+            if (v != null)
+                vv = Find(v, index);
+
+            value.Add(vv);
+            return value;
+        }
+
+        static ICssValue Find(CssValueList list, Int32 index)
+        {
+            if (index < list.Length)
+                return list[index];
+            else if (index == 3 && 1 < list.Length)
+                return list[1];
+            
+            return list[0];
         }
 
         #endregion

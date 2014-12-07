@@ -166,11 +166,6 @@
             return new ConstraintValueConverter<T>(primary, constraint);
         }
 
-        public static IValueConverter<T[]> OptionalSplit<T>(this IValueConverter<T> primary)
-        {
-            return new SplitValueConverter<Boolean, T>(delimiter, primary, false);
-        }
-
         public static IValueConverter<T> StartsWithKeyword<T>(this IValueConverter<T> converter, String keyword)
         {
             return new OrderedOptionsConverter<Boolean, T>(
