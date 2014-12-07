@@ -417,9 +417,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Converters\RequiredValueConverter.cs">
       <Link>DOM\Css\Converters\RequiredValueConverter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Converters\SplitValueConverter.cs">
-      <Link>DOM\Css\Converters\SplitValueConverter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\StructValueConverter.cs">
       <Link>DOM\Css\Converters\StructValueConverter.cs</Link>
     </Compile>
