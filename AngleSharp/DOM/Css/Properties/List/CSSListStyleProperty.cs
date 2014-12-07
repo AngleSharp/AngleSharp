@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -12,14 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = WithOptions(
-                CSSListStyleTypeProperty.Converter,
-                CSSListStylePositionProperty.Converter,
-                CSSListStyleImageProperty.Converter,
-            Tuple.Create(
-                CSSListStyleTypeProperty.Default,
-                CSSListStylePositionProperty.Default,
-                CSSListStyleImageProperty.Default));
+        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = WithAny(
+            CSSListStyleTypeProperty.Converter.Option(CSSListStyleTypeProperty.Default),
+            CSSListStylePositionProperty.Converter.Option(CSSListStylePositionProperty.Default),
+            CSSListStyleImageProperty.Converter.Option(CSSListStyleImageProperty.Default));
 
         readonly CSSListStyleTypeProperty _type;
         readonly CSSListStyleImageProperty _image;

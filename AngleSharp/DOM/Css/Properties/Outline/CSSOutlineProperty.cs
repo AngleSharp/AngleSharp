@@ -13,11 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color?>> Converter = WithOptions(
-                CSSOutlineWidthProperty.Converter,
-                CSSOutlineStyleProperty.Converter,
-                CSSOutlineColorProperty.Converter,
-            Tuple.Create(CSSOutlineWidthProperty.Default, CSSOutlineStyleProperty.Default, CSSOutlineColorProperty.Default));
+        internal static readonly IValueConverter<Tuple<Length, LineStyle, Color?>> Converter = WithAny(
+            CSSOutlineWidthProperty.Converter.Option(CSSOutlineWidthProperty.Default),
+            CSSOutlineStyleProperty.Converter.Option(CSSOutlineStyleProperty.Default),
+            CSSOutlineColorProperty.Converter.Option(CSSOutlineColorProperty.Default));
 
         readonly CSSOutlineStyleProperty _style;
         readonly CSSOutlineWidthProperty _width;
