@@ -423,9 +423,9 @@
             return new IdentifierValueConverter<T>(identifier, result);
         }
 
-        public static IValueConverter<T[]> TakeMany<T>(IValueConverter<T> converter)
+        public static IValueConverter<T[]> TakeMany<T>(IValueConverter<T> converter, Int32 min = 1, Int32 max = Int32.MaxValue)
         {
-            return new OneOrMoreValueConverter<T>(converter, 1, Int32.MaxValue);
+            return new OneOrMoreValueConverter<T>(converter, min, max);
         }
 
         public static IValueConverter<T[]> TakeList<T>(IValueConverter<T> converter)
