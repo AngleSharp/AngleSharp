@@ -318,11 +318,6 @@
             return new ArgumentsValueConverter<T1, T2, T3>(first, second, third).To(converter);
         }
 
-        public static IValueConverter<Tuple<T1, T2>> WithOptions<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second, Tuple<T1, T2> defaults)
-        {
-            return new OptionsValueConverter<T1, T2>(first, second, defaults);
-        }
-
         public static IValueConverter<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> WithOptions<T1, T2, T3, T4, T5, T6, T7, T8>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>> defaults)
         {
             return new OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth, defaults);

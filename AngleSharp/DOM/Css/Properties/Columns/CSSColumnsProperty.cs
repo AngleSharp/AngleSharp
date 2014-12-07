@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -12,10 +13,9 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length?, Int32?>> Converter = WithOptions(
-                CSSColumnWidthProperty.Converter,
-                CSSColumnCountProperty.Converter,
-            Tuple.Create(CSSColumnWidthProperty.Default, CSSColumnCountProperty.Default));
+        internal static readonly IValueConverter<Tuple<Length?, Int32?>> Converter = WithAny(
+            CSSColumnWidthProperty.Converter.Option(CSSColumnWidthProperty.Default),
+            CSSColumnCountProperty.Converter.Option(CSSColumnCountProperty.Default));
 
         readonly CSSColumnCountProperty _count;
         readonly CSSColumnWidthProperty _width;
