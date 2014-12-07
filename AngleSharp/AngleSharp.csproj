@@ -76,7 +76,6 @@
     <Compile Include="DOM\Css\Converters\OptionValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OrValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\RequiredValueConverter.cs" />
-    <Compile Include="DOM\Css\Converters\SplitValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\StructValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ToValueConverter.cs" />
     <Compile Include="DOM\Css\Properties\CSSShorthandProperty.cs" />
