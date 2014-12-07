@@ -73,7 +73,6 @@
     <Compile Include="DOM\Css\Constants\PositionMode.cs" />
     <Compile Include="DOM\Css\Converters\ListValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OneOrMoreValueConverter.cs" />
-    <Compile Include="DOM\Css\Converters\OptionsValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OptionValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\OrValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\RequiredValueConverter.cs" />
