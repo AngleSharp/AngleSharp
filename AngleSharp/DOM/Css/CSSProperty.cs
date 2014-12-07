@@ -228,24 +228,9 @@
             return Converters.LineWidthConverter;
         }
 
-        public static IValueConverter<IDistance> WithLineHeight()
-        {
-            return Converters.LineHeightConverter;
-        }
-
         public static IValueConverter<IDistance> WithBorderSlice()
         {
             return Converters.BorderSliceConverter;
-        }
-
-        public static IValueConverter<Point> WithPoint()
-        {
-            return Converters.PointConverter;
-        }
-
-        public static IValueConverter<IDistance> WithImageBorderWidth()
-        {
-            return Converters.ImageBorderWidthConverter;
         }
 
         /// <summary>
@@ -273,31 +258,6 @@
             return Converters.DistanceConverter;
         }
 
-        public static IValueConverter<Shadow> WithShadow()
-        {
-            return Converters.ShadowConverter;
-        }
-
-        /// <summary>
-        /// Represents an URL object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<CssUrl> WithUrl()
-        {
-            return Converters.UrlConverter;
-        }
-
-        /// <summary>
-        /// Represents a string object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/string
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<String> WithString()
-        {
-            return Converters.StringConverter;
-        }
-
         /// <summary>
         /// Represents an identifier object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
@@ -311,16 +271,6 @@
         public static IValueConverter<Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>>> WithOptions<T1, T2, T3, T4, T5, T6, T7, T8>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth, Tuple<Tuple<T1, T2, T3, T4>, Tuple<T5, T6, T7, T8>> defaults)
         {
             return new OptionsValueConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth, defaults);
-        }
-
-        /// <summary>
-        /// Represents a timing-function object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<TransitionFunction> WithTransition()
-        {
-            return Converters.TransitionConverter;
         }
 
         /// <summary>

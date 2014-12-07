@@ -38,8 +38,8 @@
                 TakeOne(Keywords.None, new ContentMode[0])).Or(
                 TakeMany(
                     From(ContentModes).Or(
-                    WithUrl().To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
-                    WithString().To(str => (ContentMode)new TextContentMode(str))).Or(
+                    Converters.UrlConverter.To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
+                    Converters.StringConverter.To(str => (ContentMode)new TextContentMode(str))).Or(
                     Converters.AttrConverter.To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(
                     Converters.CounterConverter.To(counter => (ContentMode)new CounterContentMode(counter)))
                 ));

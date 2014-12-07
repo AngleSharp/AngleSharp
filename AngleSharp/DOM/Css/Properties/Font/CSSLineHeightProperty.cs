@@ -12,7 +12,7 @@
         #region Fields
 
         internal static readonly IDistance Default = new Percent(120f);
-        internal static readonly IValueConverter<IDistance> Converter = WithLineHeight();
+        internal static readonly IValueConverter<IDistance> Converter = Converters.LineHeightConverter;
         IDistance _height;
 
         #endregion

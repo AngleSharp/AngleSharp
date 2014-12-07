@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly Point Default = Point.Centered;
-        internal static readonly IValueConverter<Point> SingleConverter = WithPoint();
+        internal static readonly IValueConverter<Point> SingleConverter = Converters.PointConverter;
         internal static readonly IValueConverter<Point[]> Converter = TakeList(SingleConverter);
         readonly List<Point> _positions;
 

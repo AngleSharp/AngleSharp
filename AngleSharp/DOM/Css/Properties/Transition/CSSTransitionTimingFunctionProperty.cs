@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<TransitionFunction> SingleConverter = WithTransition();
+        internal static readonly IValueConverter<TransitionFunction> SingleConverter = Converters.TransitionConverter;
         internal static readonly IValueConverter<TransitionFunction[]> Converter = TakeList(SingleConverter);
         internal static readonly TransitionFunction Default = TransitionFunction.Ease;
         readonly List<TransitionFunction> _functions;
