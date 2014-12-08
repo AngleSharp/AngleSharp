@@ -239,16 +239,6 @@
         }
 
         /// <summary>
-        /// Represents an identifier object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<String> WithIdentifier()
-        {
-            return Converters.IdentifierConverter;
-        }
-
-        /// <summary>
         /// Represents an integer object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>

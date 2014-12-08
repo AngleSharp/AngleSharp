@@ -13,8 +13,9 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<String> SingleConverter = WithIdentifier();
-        internal static readonly IValueConverter<String[]> Converter = TakeOne(Keywords.None, new String[0]).Or(TakeList(SingleConverter));
+        internal static readonly IValueConverter<String> SingleConverter = Converters.IdentifierConverter;
+        internal static readonly IValueConverter<String[]> Converter = TakeOne(Keywords.None, new String[0]).Or(
+            TakeList(SingleConverter));
         internal static readonly String Default = String.Empty;
         readonly List<String> _names;
 
