@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Single> Converter = WithNumber();
+        internal static readonly IValueConverter<Single> Converter = Converters.NumberConverter;
         internal static readonly Single Default = 1f;
         Single _opacity;
 

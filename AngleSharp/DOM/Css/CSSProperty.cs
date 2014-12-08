@@ -259,26 +259,6 @@
         }
 
         /// <summary>
-        /// Represents a number object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/number
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Single> WithNumber()
-        {
-            return Converters.NumberConverter;
-        }
-
-        /// <summary>
-        /// Represents an image source object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<IImageSource> WithImageSource()
-        {
-            return Converters.ImageSourceConverter;
-        }
-
-        /// <summary>
         /// Represents a color object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
         /// </summary>

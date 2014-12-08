@@ -13,7 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Single> SingleConverter = WithNumber().Constraint(m => m >= 0f).Or(TakeOne(Keywords.Infinite, Single.PositiveInfinity));
+        internal static readonly IValueConverter<Single> SingleConverter = Converters.NumberConverter.Constraint(m => m >= 0f).Or(
+            TakeOne(Keywords.Infinite, Single.PositiveInfinity));
         internal static readonly IValueConverter<Single[]> Converter = TakeList(SingleConverter);
         internal static readonly Single Default = 1f;
         readonly List<Single> _iterations;
