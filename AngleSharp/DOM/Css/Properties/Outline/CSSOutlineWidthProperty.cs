@@ -12,7 +12,7 @@
         #region Fields
 
         internal static readonly Length Default = Length.Medium;
-        internal static readonly IValueConverter<Length> Converter = WithBorderWidth();
+        internal static readonly IValueConverter<Length> Converter = Converters.LineWidthConverter;
         Length _width;
 
         #endregion

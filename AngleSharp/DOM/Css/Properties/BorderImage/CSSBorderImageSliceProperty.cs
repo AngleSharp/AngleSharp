@@ -16,10 +16,10 @@
 
         internal static readonly IDistance Default = Percent.Hundred;
         internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance, Boolean>> Converter = WithAny(
-            WithBorderSlice().Option(Default),
-            WithBorderSlice().Option(null),
-            WithBorderSlice().Option(null),
-            WithBorderSlice().Option(null),
+            Converters.BorderSliceConverter.Option(Default),
+            Converters.BorderSliceConverter.Option(null),
+            Converters.BorderSliceConverter.Option(null),
+            Converters.BorderSliceConverter.Option(null),
             TakeOne(Keywords.Fill, true).Option(false)
         );
 

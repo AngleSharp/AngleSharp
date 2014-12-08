@@ -223,16 +223,6 @@
             return new DictionaryValueConverter<T>(values);
         }
 
-        public static IValueConverter<Length> WithBorderWidth()
-        {
-            return Converters.LineWidthConverter;
-        }
-
-        public static IValueConverter<IDistance> WithBorderSlice()
-        {
-            return Converters.BorderSliceConverter;
-        }
-
         /// <summary>
         /// Represents a length object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
