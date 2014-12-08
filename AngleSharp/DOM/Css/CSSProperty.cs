@@ -288,16 +288,6 @@
             return Converters.ColorConverter;
         }
 
-        /// <summary>
-        /// Represents a transform function.
-        /// http://dev.w3.org/csswg/css-transforms/#two-d-transform-functions
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<ITransform> WithTransform()
-        {
-            return Converters.TransformConverter;
-        }
-
         public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<T>(converter);
