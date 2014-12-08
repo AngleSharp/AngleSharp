@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Int32> Converter = WithInteger().Constraint(m => m >= 0);
+        internal static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m >= 0);
         internal static readonly Int32 Default = 2;
         Int32 _count;
 

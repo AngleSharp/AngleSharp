@@ -238,16 +238,6 @@
             return Converters.DistanceConverter;
         }
 
-        /// <summary>
-        /// Represents an integer object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Int32> WithInteger()
-        {
-            return Converters.IntegerConverter;
-        }
-
         public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<T>(converter);

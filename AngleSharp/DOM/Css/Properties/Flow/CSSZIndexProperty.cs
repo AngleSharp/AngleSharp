@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly Int32? Default = null;
-        internal static readonly IValueConverter<Int32?> Converter = WithInteger().OrNullDefault();
+        internal static readonly IValueConverter<Int32?> Converter = Converters.IntegerConverter.OrNullDefault();
         Int32? _index;
 
         #endregion

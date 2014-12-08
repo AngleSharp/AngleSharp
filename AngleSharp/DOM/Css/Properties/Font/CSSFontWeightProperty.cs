@@ -14,7 +14,8 @@
 
         internal static readonly FontWeight Default = Map.FontWeights[Keywords.Normal];
         internal static readonly IValueConverter<FontWeight> Converter = From(Map.FontWeights).Or(
-            WithInteger().Constraint(m => m >= 100 && m <= 900).To(m => new FontWeight { IsRelative = false, Value = m }));
+            Converters.IntegerConverter.Constraint(m => m >= 100 && m <= 900).To(
+            m => new FontWeight { IsRelative = false, Value = m }));
         FontWeight _weight;
 
         #endregion

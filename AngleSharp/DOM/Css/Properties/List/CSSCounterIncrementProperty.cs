@@ -15,8 +15,8 @@
 
         internal static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = WithOrder(
             WithOrder(
-                Converters.IdentifierConverter.Required(), 
-                WithInteger().Option(1)).To(
+                Converters.IdentifierConverter.Required(),
+                Converters.IntegerConverter.Option(1)).To(
             m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
 
         #endregion

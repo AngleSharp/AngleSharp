@@ -12,7 +12,6 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Int32> Converter = WithInteger();
         internal static readonly Int32 Default = 2;
 
         /// <summary>
@@ -66,7 +65,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetCount);
+            return Converters.IntegerConverter.TryConvert(value, SetCount);
         }
 
         #endregion

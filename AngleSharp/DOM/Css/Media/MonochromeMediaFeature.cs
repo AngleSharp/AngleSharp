@@ -6,8 +6,8 @@
     sealed class MonochromeMediaFeature : MediaFeature
     {
         #region Fields
-        
-        static readonly IValueConverter<Int32> Converter = CSSProperty.WithInteger().Constraint(m => m >= 0);
+
+        static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m >= 0);
         Int32 _index;
 
         #endregion
