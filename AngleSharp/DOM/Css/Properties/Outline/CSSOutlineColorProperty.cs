@@ -13,7 +13,8 @@
         #region Fields
 
         internal static readonly Color? Default = null;
-        internal static readonly IValueConverter<Color?> Converter = WithColor().ToNullable().Or(TakeOne(Keywords.Invert, Default));
+        internal static readonly IValueConverter<Color?> Converter = Converters.ColorConverter.ToNullable().Or(
+            TakeOne(Keywords.Invert, Default));
         Color? _color;
 
         #endregion

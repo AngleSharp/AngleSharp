@@ -11,7 +11,7 @@
         #region Fields
 
         internal static readonly Color Default = Color.Transparent;
-        internal static readonly IValueConverter<Color> Converter = WithColor();
+        internal static readonly IValueConverter<Color> Converter = Converters.ColorConverter;
         Color _color;
 
         #endregion

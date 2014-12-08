@@ -258,16 +258,6 @@
             return Converters.IntegerConverter;
         }
 
-        /// <summary>
-        /// Represents a color object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Color> WithColor()
-        {
-            return Converters.ColorConverter;
-        }
-
         public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<T>(converter);

@@ -12,7 +12,7 @@
         #region Fields
 
         internal static readonly Color Default = Color.Transparent;
-        internal static readonly IValueConverter<Color> Converter = WithColor();
+        internal static readonly IValueConverter<Color> Converter = Converters.ColorConverter;
         /// <summary>
         /// Represents the color of the rule separating columns.
         /// </summary>
