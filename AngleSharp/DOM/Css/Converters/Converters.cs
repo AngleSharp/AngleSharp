@@ -87,6 +87,12 @@
         public static readonly IValueConverter<Int32> IntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToInteger);
 
         /// <summary>
+        /// Represents an integer object that is zero or greater.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
+        /// </summary>
+        public static readonly IValueConverter<Int32> PositiveIntegerConverter = IntegerConverter.Constraint(m => m >= 0);
+
+        /// <summary>
         /// Represents an angle object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
         /// </summary>

@@ -12,7 +12,6 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m >= 0);
         internal static readonly Int32 Default = 2;
         Int32 _count;
 
@@ -61,7 +60,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetCount);
+            return Converters.PositiveIntegerConverter.TryConvert(value, SetCount);
         }
 
         #endregion

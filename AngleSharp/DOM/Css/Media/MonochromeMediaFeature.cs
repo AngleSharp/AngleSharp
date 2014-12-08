@@ -7,7 +7,6 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m >= 0);
         Int32 _index;
 
         #endregion
@@ -31,7 +30,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _index = m);
+            return Converters.PositiveIntegerConverter.TryConvert(value, m => _index = m);
         }
 
         public override Boolean Validate(IWindow window)

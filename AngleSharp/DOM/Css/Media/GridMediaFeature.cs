@@ -8,7 +8,6 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m >= 0);
         Int32 _grid;
 
         #endregion
@@ -32,7 +31,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _grid = m);
+            return Converters.PositiveIntegerConverter.TryConvert(value, m => _grid = m);
         }
 
         public override Boolean Validate(IWindow window)
