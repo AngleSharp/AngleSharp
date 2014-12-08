@@ -233,16 +233,6 @@
             return Converters.LengthConverter;
         }
 
-        /// <summary>
-        /// Represents a time object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/time
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Time> WithTime()
-        {
-            return Converters.TimeConverter;
-        }
-
         public static IValueConverter<IDistance> WithDistance()
         {
             return Converters.DistanceConverter;
