@@ -6,7 +6,6 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Length> Converter = CSSProperty.WithLength();
         Length _length;
 
         #endregion
@@ -29,7 +28,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _length = m);
+            return Converters.LengthConverter.TryConvert(value, m => _length = m);
         }
 
         public override Boolean Validate(IWindow window)

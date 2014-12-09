@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly Length? Default = null;
-        internal static readonly IValueConverter<Length?> Converter = WithLength().OrNullDefault();
+        internal static readonly IValueConverter<Length?> Converter = Converters.LengthConverter.OrNullDefault();
         /// <summary>
         /// Null indicates that other properties (column-count) should be considered.
         /// </summary>

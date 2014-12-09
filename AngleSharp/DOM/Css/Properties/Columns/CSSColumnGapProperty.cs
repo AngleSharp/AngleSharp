@@ -13,7 +13,8 @@
         #region Fields
 
         internal static readonly Length Default = new Length(1f, Length.Unit.Em);
-        internal static readonly IValueConverter<Length> Converter = WithLength().Or(TakeOne(Keywords.Normal, Default));
+        internal static readonly IValueConverter<Length> Converter = Converters.LengthConverter.Or(
+            TakeOne(Keywords.Normal, Default));
         Length _gap;
 
         #endregion

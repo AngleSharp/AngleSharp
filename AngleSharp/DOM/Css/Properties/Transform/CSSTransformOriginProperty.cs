@@ -21,7 +21,7 @@
                 WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)).Option(Percent.Fifty),
                 WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)).Option(Percent.Fifty)).To(
             m => new Point(m.Item1, m.Item2))).Required(),
-            WithLength().Option(Length.Zero));
+            Converters.LengthConverter.Option(Length.Zero));
 
         IDistance _x;
         IDistance _y;

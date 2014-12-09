@@ -223,16 +223,6 @@
             return new DictionaryValueConverter<T>(values);
         }
 
-        /// <summary>
-        /// Represents a length object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/length
-        /// </summary>
-        /// <returns>The value converter.</returns>
-        public static IValueConverter<Length> WithLength()
-        {
-            return Converters.LengthConverter;
-        }
-
         public static IValueConverter<IDistance> WithDistance()
         {
             return Converters.DistanceConverter;
