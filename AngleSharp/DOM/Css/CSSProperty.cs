@@ -223,11 +223,6 @@
             return new DictionaryValueConverter<T>(values);
         }
 
-        public static IValueConverter<IDistance> WithDistance()
-        {
-            return Converters.DistanceConverter;
-        }
-
         public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<T>(converter);

@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly IDistance Default = null;
-        internal static readonly IValueConverter<IDistance> Converter = WithDistance().Or(TakeOne(Keywords.None, Default));
+        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(TakeOne(Keywords.None, Default));
         /// <summary>
         /// The width has no maximum value if _mode == null.
         /// </summary>

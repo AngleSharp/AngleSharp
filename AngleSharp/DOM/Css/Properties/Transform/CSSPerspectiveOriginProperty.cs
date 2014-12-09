@@ -13,15 +13,15 @@
         #region Fields
 
         internal static readonly Point Default = Point.Centered;
-        internal static readonly IValueConverter<Point> Converter = WithDistance().To(m => new Point(m, m)).Or(
+        internal static readonly IValueConverter<Point> Converter = Converters.DistanceConverter.To(m => new Point(m, m)).Or(
                 TakeOne(Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
                 TakeOne(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty))).Or(
                 TakeOne(Keywords.Right, new Point(Percent.Hundred, Percent.Fifty))).Or(
                 TakeOne(Keywords.Top, new Point(Percent.Fifty, Percent.Zero))).Or(
                 TakeOne(Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)))).Or(
                 WithAny(
-                    WithDistance().Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)).Option(Percent.Fifty),
-                    WithDistance().Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)).Option(Percent.Fifty)).To(
+                    Converters.DistanceConverter.Or(TakeOne<IDistance>(Keywords.Left, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Right, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)).Option(Percent.Fifty),
+                    Converters.DistanceConverter.Or(TakeOne<IDistance>(Keywords.Top, Percent.Zero)).Or(TakeOne<IDistance>(Keywords.Bottom, Percent.Hundred)).Or(TakeOne<IDistance>(Keywords.Center, Percent.Fifty)).Option(Percent.Fifty)).To(
                 m => new Point(m.Item1, m.Item2)));
 
         IDistance _x;

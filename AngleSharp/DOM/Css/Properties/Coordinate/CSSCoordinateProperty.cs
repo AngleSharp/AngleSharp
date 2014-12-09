@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly IDistance Default = null;
-        internal static readonly IValueConverter<IDistance> Converter = WithDistance().OrDefault();
+        internal static readonly IValueConverter<IDistance> Converter = Converters.AutoDistanceConverter;
         IDistance _distance;
 
         #endregion

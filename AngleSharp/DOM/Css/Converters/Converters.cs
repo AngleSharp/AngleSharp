@@ -122,6 +122,11 @@
         public static readonly IValueConverter<IDistance> DistanceConverter = new ClassValueConverter<IDistance>(ValueExtensions.ToDistance);
 
         /// <summary>
+        /// Represents a distance object (or default).
+        /// </summary>
+        public static readonly IValueConverter<IDistance> AutoDistanceConverter = DistanceConverter.OrDefault();
+
+        /// <summary>
         /// Represents an color object (usually hex or name).
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
         /// </summary>

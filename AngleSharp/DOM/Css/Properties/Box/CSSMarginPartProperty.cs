@@ -12,7 +12,7 @@
         #region Fields
 
         internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<IDistance> Converter = WithDistance().OrDefault();
+        internal static readonly IValueConverter<IDistance> Converter = Converters.AutoDistanceConverter;
         IDistance _margin;
 
         #endregion

@@ -17,12 +17,12 @@
         internal static readonly BackgroundSize Cover = new BackgroundSize { IsCovered = true };
         internal static readonly BackgroundSize Contain = new BackgroundSize { IsContained = true };
         internal static readonly BackgroundSize Default = new BackgroundSize();
-        internal static readonly IValueConverter<BackgroundSize> SingleConverter = WithDistance().OrDefault().To(m => new BackgroundSize { Width = m }).Or(
+        internal static readonly IValueConverter<BackgroundSize> SingleConverter = Converters.AutoDistanceConverter.To(m => new BackgroundSize { Width = m }).Or(
             TakeOne(Keywords.Cover, Cover)).Or(
             TakeOne(Keywords.Contain, Contain)).Or(
             WithOrder(
-                WithDistance().OrDefault().Required(), 
-                WithDistance().OrDefault().Required()).To(
+                Converters.AutoDistanceConverter.Required(),
+                Converters.AutoDistanceConverter.Required()).To(
             pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
         internal static readonly IValueConverter<BackgroundSize[]> Converter = SingleConverter.FromList();
         readonly List<BackgroundSize> _sizes;

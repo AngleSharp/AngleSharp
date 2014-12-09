@@ -77,7 +77,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return WithDistance().TryConvert(value, SetAlignment) || Converter.TryConvert(value, SetAlignment);
+            return Converters.DistanceConverter.TryConvert(value, SetAlignment) || Converter.TryConvert(value, SetAlignment);
         }
 
         #endregion
