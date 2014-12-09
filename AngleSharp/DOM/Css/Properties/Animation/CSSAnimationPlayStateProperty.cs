@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly IValueConverter<PlayState> SingleConverter = Toggle(Keywords.Running, Keywords.Paused).To(m => m ? PlayState.Running : PlayState.Paused);
-        internal static readonly IValueConverter<PlayState[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<PlayState[]> Converter = SingleConverter.FromList();
         internal static readonly PlayState Default = PlayState.Running;
         readonly List<PlayState> _states;
 

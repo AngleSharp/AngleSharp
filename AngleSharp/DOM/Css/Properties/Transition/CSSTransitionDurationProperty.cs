@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly IValueConverter<Time> SingleConverter = Converters.TimeConverter;
-        internal static readonly IValueConverter<Time[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<Time[]> Converter = SingleConverter.FromList();
         internal static readonly Time Default = Time.Zero;
         readonly List<Time> _times;
 

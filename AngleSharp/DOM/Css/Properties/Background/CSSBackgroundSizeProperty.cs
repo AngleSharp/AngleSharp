@@ -24,7 +24,7 @@
                 WithDistance().OrDefault().Required(), 
                 WithDistance().OrDefault().Required()).To(
             pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
-        internal static readonly IValueConverter<BackgroundSize[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<BackgroundSize[]> Converter = SingleConverter.FromList();
         readonly List<BackgroundSize> _sizes;
 
         #endregion

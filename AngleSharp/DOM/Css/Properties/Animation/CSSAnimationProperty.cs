@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Time, TransitionFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = TakeList(WithAny(
+        internal static readonly IValueConverter<Tuple<Time, TransitionFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = WithAny(
             CSSAnimationDurationProperty.SingleConverter.Option(CSSAnimationDurationProperty.Default),
             CSSAnimationTimingFunctionProperty.SingleConverter.Option(CSSAnimationTimingFunctionProperty.Default),
             CSSAnimationDelayProperty.SingleConverter.Option(CSSAnimationDelayProperty.Default),
@@ -22,7 +22,7 @@
             CSSAnimationDirectionProperty.SingleConverter.Option(CSSAnimationDirectionProperty.Default),
             CSSAnimationFillModeProperty.SingleConverter.Option(CSSAnimationFillModeProperty.Default),
             CSSAnimationPlayStateProperty.SingleConverter.Option(CSSAnimationPlayStateProperty.Default),
-            CSSAnimationNameProperty.SingleConverter.Option(CSSAnimationNameProperty.Default)));
+            CSSAnimationNameProperty.SingleConverter.Option(CSSAnimationNameProperty.Default)).FromList();
 
         readonly CSSAnimationDelayProperty _delay;
         readonly CSSAnimationDirectionProperty _direction;

@@ -24,7 +24,7 @@
                 From(Map.BackgroundRepeats).Required(), 
                 From(Map.BackgroundRepeats).Required()).To(
             m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
-        internal static readonly IValueConverter<Repeat[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<Repeat[]> Converter = SingleConverter.FromList();
         readonly List<Repeat> _repeats;
 
         #endregion

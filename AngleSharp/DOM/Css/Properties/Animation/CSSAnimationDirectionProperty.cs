@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -13,7 +14,7 @@
         #region Fields
 
         internal static readonly IValueConverter<AnimationDirection> SingleConverter = From(Map.AnimationDirections);
-        internal static readonly IValueConverter<AnimationDirection[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<AnimationDirection[]> Converter = SingleConverter.FromList();
         internal static readonly AnimationDirection Default = AnimationDirection.Normal;
         readonly List<AnimationDirection> _directions;
 

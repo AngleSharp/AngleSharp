@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -14,7 +15,7 @@
 
         internal static readonly BackgroundAttachment Default = BackgroundAttachment.Scroll;
         internal static readonly IValueConverter<BackgroundAttachment> SingleConverter = From(Map.BackgroundAttachments);
-        internal static readonly IValueConverter<BackgroundAttachment[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<BackgroundAttachment[]> Converter = SingleConverter.FromList();
         readonly List<BackgroundAttachment> _attachments;
 
         #endregion

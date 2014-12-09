@@ -288,11 +288,6 @@
             return new IdentifierValueConverter<T>(identifier, result);
         }
 
-        public static IValueConverter<T[]> TakeList<T>(IValueConverter<T> converter)
-        {
-            return new ListValueConverter<T>(converter);
-        }
-
         #endregion
     }
 }

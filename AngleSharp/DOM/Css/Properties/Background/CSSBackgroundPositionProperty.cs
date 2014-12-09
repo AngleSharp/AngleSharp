@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -14,7 +15,7 @@
 
         internal static readonly Point Default = Point.Centered;
         internal static readonly IValueConverter<Point> SingleConverter = Converters.PointConverter;
-        internal static readonly IValueConverter<Point[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<Point[]> Converter = SingleConverter.FromList();
         readonly List<Point> _positions;
 
         #endregion

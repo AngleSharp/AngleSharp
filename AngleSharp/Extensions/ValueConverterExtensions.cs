@@ -91,6 +91,11 @@
             return new OneOrMoreValueConverter<T>(converter, min, max);
         }
 
+        public static IValueConverter<T[]> FromList<T>(this IValueConverter<T> converter)
+        {
+            return new ListValueConverter<T>(converter);
+        }
+
         public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)
         {
             return new ToValueConverter<T, U>(converter, result);

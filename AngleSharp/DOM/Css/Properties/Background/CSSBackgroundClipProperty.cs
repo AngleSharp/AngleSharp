@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -14,7 +15,7 @@
 
         internal static readonly BoxModel Default = BoxModel.BorderBox;
         internal static readonly IValueConverter<BoxModel> SingleConverter = From(Map.BoxModels);
-        internal static readonly IValueConverter<BoxModel[]> Converter = TakeList(SingleConverter);
+        internal static readonly IValueConverter<BoxModel[]> Converter = SingleConverter.FromList();
         readonly List<BoxModel> _clips;
 
         #endregion

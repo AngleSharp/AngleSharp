@@ -38,7 +38,7 @@
             CSSBackgroundColorProperty.Converter.Val().Option()
         );
 
-        static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> Converter = TakeList(NormalLayerConverter).RequiresEnd(FinalLayerConverter);
+        static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> Converter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
 
         readonly CSSBackgroundImageProperty _image;
         readonly CSSBackgroundPositionProperty _position;

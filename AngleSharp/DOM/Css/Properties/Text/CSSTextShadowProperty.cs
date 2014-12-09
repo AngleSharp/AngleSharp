@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly Shadow[] Default = new Shadow[0];
-        internal static readonly IValueConverter<Shadow[]> Converter = TakeOne(Keywords.None, Default).Or(TakeList(Converters.ShadowConverter));
+        internal static readonly IValueConverter<Shadow[]> Converter = TakeOne(Keywords.None, Default).Or(Converters.ShadowConverter.FromList());
         readonly List<Shadow> _shadows;
 
         #endregion
