@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly HorizontalAlignment Default = HorizontalAlignment.Left;
-        internal static readonly IValueConverter<HorizontalAlignment> Converter = From(Map.HorizontalAlignments);
+        internal static readonly IValueConverter<HorizontalAlignment> Converter = Map.HorizontalAlignments.ToConverter();
         HorizontalAlignment _mode;
 
         #endregion

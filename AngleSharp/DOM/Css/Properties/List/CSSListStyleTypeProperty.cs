@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly ListStyle Default = ListStyle.Disc;
-        internal static readonly IValueConverter<ListStyle> Converter = From(Map.ListStyles);
+        internal static readonly IValueConverter<ListStyle> Converter = Map.ListStyles.ToConverter();
         ListStyle _style;
 
         #endregion

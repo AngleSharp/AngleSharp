@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly TextTransform Default = TextTransform.None;
-        internal static readonly IValueConverter<TextTransform> Converter = From(Map.TextTransforms);
+        internal static readonly IValueConverter<TextTransform> Converter = Map.TextTransforms.ToConverter();
         TextTransform _mode;
 
         #endregion

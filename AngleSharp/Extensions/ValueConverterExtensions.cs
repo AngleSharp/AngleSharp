@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Css;
     using System;
+    using System.Collections.Generic;
 
     static class ValueConverterExtensions
     {
@@ -94,6 +95,11 @@
         public static IValueConverter<T[]> FromList<T>(this IValueConverter<T> converter)
         {
             return new ListValueConverter<T>(converter);
+        }
+
+        public static IValueConverter<T> ToConverter<T>(this Dictionary<String, T> values)
+        {
+            return new DictionaryValueConverter<T>(values);
         }
 
         public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)

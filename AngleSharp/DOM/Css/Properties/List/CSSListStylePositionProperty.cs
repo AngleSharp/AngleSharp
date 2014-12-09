@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly ListPosition Default = ListPosition.Outside;
-        internal static readonly IValueConverter<ListPosition> Converter = From(Map.ListPositions);
+        internal static readonly IValueConverter<ListPosition> Converter = Map.ListPositions.ToConverter();
         ListPosition _position;
 
         #endregion

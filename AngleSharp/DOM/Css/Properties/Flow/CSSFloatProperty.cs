@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly Floating Default = Floating.None;
-        internal static readonly IValueConverter<Floating> Converter = From(Map.FloatingModes);
+        internal static readonly IValueConverter<Floating> Converter = Map.FloatingModes.ToConverter();
         Floating _mode;
 
         #endregion

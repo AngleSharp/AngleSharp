@@ -218,11 +218,6 @@
 
         #region Value Converters
 
-        public static IValueConverter<T> From<T>(Dictionary<String, T> values)
-        {
-            return new DictionaryValueConverter<T>(values);
-        }
-
         public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<T>(converter);

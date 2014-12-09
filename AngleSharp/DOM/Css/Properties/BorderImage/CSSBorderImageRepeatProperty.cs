@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly BorderRepeat Default = BorderRepeat.Stretch;
-        internal static readonly IValueConverter<BorderRepeat[]> Converter = From(Map.BorderRepeatModes).Many(1, 2);
+        internal static readonly IValueConverter<BorderRepeat[]> Converter = Map.BorderRepeatModes.ToConverter().Many(1, 2);
         BorderRepeat _horizontal;
         BorderRepeat _vertical;
 

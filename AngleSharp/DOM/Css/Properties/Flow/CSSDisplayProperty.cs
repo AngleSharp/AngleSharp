@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly DisplayMode Default = DisplayMode.Inline;
-        internal static readonly IValueConverter<DisplayMode> Converter = From(Map.DisplayModes);
+        internal static readonly IValueConverter<DisplayMode> Converter = Map.DisplayModes.ToConverter();
         DisplayMode _mode;
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly Whitespace Default = Whitespace.Normal;
-        internal static readonly IValueConverter<Whitespace> Converter = From(Map.WhitespaceModes);
+        internal static readonly IValueConverter<Whitespace> Converter = Map.WhitespaceModes.ToConverter();
         Whitespace _mode;
 
         #endregion

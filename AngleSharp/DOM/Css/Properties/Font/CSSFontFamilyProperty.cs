@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly String[] Default = new [] { "Times New Roman" };
-        internal static readonly IValueConverter<String[]> Converter = From(Map.DefaultFontFamilies).Or(
+        internal static readonly IValueConverter<String[]> Converter = Map.DefaultFontFamilies.ToConverter().Or(
             Converters.StringConverter).Or(
             Converters.IdentifierConverter.Many().To(names => String.Join(" ", names))).FromList();
         readonly List<String> _families;

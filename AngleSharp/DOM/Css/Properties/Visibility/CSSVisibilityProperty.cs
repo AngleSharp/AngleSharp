@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Visibility> Converter = From(Map.Visibilities);
+        internal static readonly IValueConverter<Visibility> Converter = Map.Visibilities.ToConverter();
         internal static readonly Visibility Default = Visibility.Visible;
         Visibility _visiblity;
 

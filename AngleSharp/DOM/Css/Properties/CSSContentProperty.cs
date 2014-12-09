@@ -36,7 +36,7 @@
             Converter = 
                 TakeOne(Keywords.Normal, Default).Or(
                 TakeOne(Keywords.None, new ContentMode[0])).Or(
-                    From(ContentModes).Or(
+                    ContentModes.ToConverter().Or(
                     Converters.UrlConverter.To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
                     Converters.StringConverter.To(str => (ContentMode)new TextContentMode(str))).Or(
                     Converters.AttrConverter.To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(

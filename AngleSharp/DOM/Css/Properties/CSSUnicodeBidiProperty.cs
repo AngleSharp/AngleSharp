@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<UnicodeMode> Converter = From(Map.UnicodeModes);
+        internal static readonly IValueConverter<UnicodeMode> Converter = Map.UnicodeModes.ToConverter();
         internal static readonly UnicodeMode Default = UnicodeMode.Normal;
         UnicodeMode _mode;
 

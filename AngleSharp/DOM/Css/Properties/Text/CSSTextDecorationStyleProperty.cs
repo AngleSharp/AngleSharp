@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly TextDecorationStyle Default = TextDecorationStyle.Solid;
-        internal static readonly IValueConverter<TextDecorationStyle> Converter = From(Map.TextDecorationStyles);
+        internal static readonly IValueConverter<TextDecorationStyle> Converter = Map.TextDecorationStyles.ToConverter();
         TextDecorationStyle _style;
 
         #endregion

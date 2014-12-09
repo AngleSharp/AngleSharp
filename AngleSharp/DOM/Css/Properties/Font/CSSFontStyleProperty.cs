@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly FontStyle Default = FontStyle.Normal;
-        internal static readonly IValueConverter<FontStyle> Converter = From(Map.FontStyles);
+        internal static readonly IValueConverter<FontStyle> Converter = Map.FontStyles.ToConverter();
         FontStyle _style;
 
         #endregion

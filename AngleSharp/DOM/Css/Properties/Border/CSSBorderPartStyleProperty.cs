@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -11,7 +12,7 @@
         #region Fields
 
         internal static readonly LineStyle Default = LineStyle.None;
-        internal static readonly IValueConverter<LineStyle> Converter = From(Map.LineStyles);
+        internal static readonly IValueConverter<LineStyle> Converter = Map.LineStyles.ToConverter();
         LineStyle _style;
 
         #endregion

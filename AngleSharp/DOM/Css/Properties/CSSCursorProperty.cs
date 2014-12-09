@@ -17,7 +17,7 @@
                 Converters.ImageSourceConverter.Required(),
                 Converters.NumberConverter.Required(),
                 Converters.NumberConverter.Required()).To(
-            v => new CustomCursor { Image = v.Item1, X = v.Item2, Y = v.Item3 })).FromList().RequiresEnd(From(Map.Cursors));
+            v => new CustomCursor { Image = v.Item1, X = v.Item2, Y = v.Item3 })).FromList().RequiresEnd(Map.Cursors.ToConverter());
         static readonly SystemCursor Default = SystemCursor.Auto;
 
         CustomCursor[] _customs;

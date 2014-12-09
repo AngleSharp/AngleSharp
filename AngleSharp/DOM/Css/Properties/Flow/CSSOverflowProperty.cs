@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly OverflowMode Default = OverflowMode.Visible;
-        internal static readonly IValueConverter<OverflowMode> Converter = From(Map.OverflowModes);
+        internal static readonly IValueConverter<OverflowMode> Converter = Map.OverflowModes.ToConverter();
         OverflowMode _mode;
 
         #endregion

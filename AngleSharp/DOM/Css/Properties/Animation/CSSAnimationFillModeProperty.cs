@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<AnimationFillStyle> SingleConverter = From(Map.AnimationFillStyles);
+        internal static readonly IValueConverter<AnimationFillStyle> SingleConverter = Map.AnimationFillStyles.ToConverter();
         internal static readonly IValueConverter<AnimationFillStyle[]> Converter = SingleConverter.FromList();
         internal static readonly AnimationFillStyle Default = AnimationFillStyle.None;
         readonly List<AnimationFillStyle> _fillModes;

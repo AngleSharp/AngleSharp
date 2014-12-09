@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly BackgroundAttachment Default = BackgroundAttachment.Scroll;
-        internal static readonly IValueConverter<BackgroundAttachment> SingleConverter = From(Map.BackgroundAttachments);
+        internal static readonly IValueConverter<BackgroundAttachment> SingleConverter = Map.BackgroundAttachments.ToConverter();
         internal static readonly IValueConverter<BackgroundAttachment[]> Converter = SingleConverter.FromList();
         readonly List<BackgroundAttachment> _attachments;
 

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<AnimationDirection> SingleConverter = From(Map.AnimationDirections);
+        internal static readonly IValueConverter<AnimationDirection> SingleConverter = Map.AnimationDirections.ToConverter();
         internal static readonly IValueConverter<AnimationDirection[]> Converter = SingleConverter.FromList();
         internal static readonly AnimationDirection Default = AnimationDirection.Normal;
         readonly List<AnimationDirection> _directions;

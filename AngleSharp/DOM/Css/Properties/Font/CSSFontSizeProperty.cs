@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly IDistance Default = FontSize.Medium.ToDistance();
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(From(Map.FontSizes).To(m => m.ToDistance()));
+        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(Map.FontSizes.ToConverter().To(m => m.ToDistance()));
         IDistance _size;
 
         #endregion

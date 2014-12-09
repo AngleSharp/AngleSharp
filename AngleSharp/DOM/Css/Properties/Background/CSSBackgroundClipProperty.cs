@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly BoxModel Default = BoxModel.BorderBox;
-        internal static readonly IValueConverter<BoxModel> SingleConverter = From(Map.BoxModels);
+        internal static readonly IValueConverter<BoxModel> SingleConverter = Map.BoxModels.ToConverter();
         internal static readonly IValueConverter<BoxModel[]> Converter = SingleConverter.FromList();
         readonly List<BoxModel> _clips;
 

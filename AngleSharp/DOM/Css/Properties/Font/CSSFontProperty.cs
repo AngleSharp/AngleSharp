@@ -23,7 +23,7 @@
         readonly CSSLineHeightProperty _height;
         readonly CSSFontFamilyProperty _families;
 
-        internal static readonly IValueConverter<SystemFont> SystemFontConverter = From(_parts);
+        internal static readonly IValueConverter<SystemFont> SystemFontConverter = _parts.ToConverter();
 
         internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = WithOrder(
             WithAny(

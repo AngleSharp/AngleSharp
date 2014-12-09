@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly ClearMode Default = ClearMode.None;
-        internal static readonly IValueConverter<ClearMode> Converter = From(Map.ClearModes);
+        internal static readonly IValueConverter<ClearMode> Converter = Map.ClearModes.ToConverter();
         ClearMode _mode;
 
         #endregion

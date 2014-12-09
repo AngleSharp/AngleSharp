@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly FontStretch Default = FontStretch.Normal;
-        internal static readonly IValueConverter<FontStretch> Converter = From(Map.FontStretches);
+        internal static readonly IValueConverter<FontStretch> Converter = Map.FontStretches.ToConverter();
         FontStretch _stretch;
 
         #endregion

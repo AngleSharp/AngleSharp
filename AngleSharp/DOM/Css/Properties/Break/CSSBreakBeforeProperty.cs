@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly BreakMode Default = BreakMode.Auto;
-        internal static readonly IValueConverter<BreakMode> Converter = From(Map.BreakModes);
+        internal static readonly IValueConverter<BreakMode> Converter = Map.BreakModes.ToConverter();
         BreakMode _mode;
 
         #endregion

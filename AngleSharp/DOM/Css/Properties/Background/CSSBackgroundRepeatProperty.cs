@@ -17,12 +17,12 @@
         static readonly Repeat RepeatX = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat };
         static readonly Repeat RepeatY = new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat };
         internal static readonly Repeat Default = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
-        internal static readonly IValueConverter<Repeat> SingleConverter = From(Map.BackgroundRepeats).To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
+        internal static readonly IValueConverter<Repeat> SingleConverter = Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
             TakeOne(Keywords.RepeatX, RepeatX)).Or(
             TakeOne(Keywords.RepeatY, RepeatY)).Or(
             WithOrder(
-                From(Map.BackgroundRepeats).Required(), 
-                From(Map.BackgroundRepeats).Required()).To(
+                Map.BackgroundRepeats.ToConverter().Required(), 
+                Map.BackgroundRepeats.ToConverter().Required()).To(
             m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
         internal static readonly IValueConverter<Repeat[]> Converter = SingleConverter.FromList();
         readonly List<Repeat> _repeats;

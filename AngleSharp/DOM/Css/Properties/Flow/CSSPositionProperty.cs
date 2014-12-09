@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly PositionMode Default = PositionMode.Static;
-        internal static readonly IValueConverter<PositionMode> Converter = From(Map.PositionModes);
+        internal static readonly IValueConverter<PositionMode> Converter = Map.PositionModes.ToConverter();
         PositionMode _mode;
 
         #endregion

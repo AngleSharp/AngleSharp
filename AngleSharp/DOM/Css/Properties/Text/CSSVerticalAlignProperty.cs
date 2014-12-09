@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,7 +13,7 @@
         #region Fields
 
         internal static readonly VerticalAlignment Default = VerticalAlignment.Baseline;
-        internal static readonly IValueConverter<VerticalAlignment> Converter = From(Map.VerticalAlignments);
+        internal static readonly IValueConverter<VerticalAlignment> Converter = Map.VerticalAlignments.ToConverter();
         VerticalAlignment _mode;
         IDistance _shift;
 
