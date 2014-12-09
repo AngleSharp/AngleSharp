@@ -15,7 +15,7 @@
 
         internal static readonly IValueConverter<Tuple<String, String>[]> Converter = 
                    TakeOne(Keywords.None, new Tuple<String, String>[0]).Or(
-                   TakeMany(Converters.StringConverter).Constraint(m => m.Length % 2 == 0).To(TransformArray));
+                   Converters.StringConverter.Many().Constraint(m => m.Length % 2 == 0).To(TransformArray));
 
         internal static readonly Tuple<String, String>[] Default = new Tuple<String, String>[] { Tuple.Create("«", "»") };
         Tuple<String, String>[] _quotes;

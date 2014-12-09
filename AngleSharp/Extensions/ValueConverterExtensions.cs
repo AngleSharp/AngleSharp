@@ -86,6 +86,11 @@
             return validate(converter, null);
         }
 
+        public static IValueConverter<T[]> Many<T>(this IValueConverter<T> converter, Int32 min = 1, Int32 max = Int32.MaxValue)
+        {
+            return new OneOrMoreValueConverter<T>(converter, min, max);
+        }
+
         public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)
         {
             return new ToValueConverter<T, U>(converter, result);

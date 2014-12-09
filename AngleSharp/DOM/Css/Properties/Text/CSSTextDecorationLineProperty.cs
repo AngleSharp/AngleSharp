@@ -14,7 +14,7 @@
         #region Fields
 
         internal static readonly TextDecorationLine[] Default = new TextDecorationLine[0];
-        internal static readonly IValueConverter<TextDecorationLine[]> SingleConverter = TakeMany(From(Map.TextDecorationLines));
+        internal static readonly IValueConverter<TextDecorationLine[]> SingleConverter = From(Map.TextDecorationLines).Many();
         internal static readonly IValueConverter<TextDecorationLine[]> Converter = TakeOne(Keywords.None, Default).Or(SingleConverter);
         readonly List<TextDecorationLine> _lines;
 

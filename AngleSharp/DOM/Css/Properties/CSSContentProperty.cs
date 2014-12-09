@@ -36,13 +36,12 @@
             Converter = 
                 TakeOne(Keywords.Normal, Default).Or(
                 TakeOne(Keywords.None, new ContentMode[0])).Or(
-                TakeMany(
                     From(ContentModes).Or(
                     Converters.UrlConverter.To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
                     Converters.StringConverter.To(str => (ContentMode)new TextContentMode(str))).Or(
                     Converters.AttrConverter.To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(
-                    Converters.CounterConverter.To(counter => (ContentMode)new CounterContentMode(counter)))
-                ));
+                    Converters.CounterConverter.To(counter => (ContentMode)new CounterContentMode(counter))).Many()
+                );
         }
 
         internal CSSContentProperty(CSSStyleDeclaration rule)

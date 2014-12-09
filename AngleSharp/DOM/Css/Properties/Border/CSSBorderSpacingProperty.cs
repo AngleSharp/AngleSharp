@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly Length Default = Length.Zero;
-        internal static readonly IValueConverter<Length[]> Converter = TakeMany(Converters.LengthConverter, 1, 2);
+        internal static readonly IValueConverter<Length[]> Converter = Converters.LengthConverter.Many(1, 2);
         Length _h;
         Length _v;
 
