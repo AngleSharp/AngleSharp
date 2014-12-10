@@ -1,10 +1,10 @@
-﻿namespace AngleSharp.Css.Media
+﻿namespace AngleSharp.Css.MediaFeatures
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
-    sealed class HeightMediaFeature : MediaFeature
+    sealed class WidthMediaFeature : MediaFeature
     {
         #region Fields
 
@@ -14,7 +14,7 @@
 
         #region ctor
 
-        public HeightMediaFeature(String name)
+        public WidthMediaFeature(String name)
             : base(name)
         {
         }

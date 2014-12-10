@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Factories;
     using AngleSharp.Html;
     using System;
 

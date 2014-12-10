@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Factories
+﻿namespace AngleSharp.DOM
 {
     using System;
     using System.Collections.Generic;

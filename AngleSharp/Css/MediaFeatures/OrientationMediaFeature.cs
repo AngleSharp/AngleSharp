@@ -1,38 +1,38 @@
-﻿namespace AngleSharp.Css.Media
+﻿namespace AngleSharp.Css.MediaFeatures
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
-    sealed class ScanMediaFeature : MediaFeature
+    sealed class OrientationMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Interlace, Keywords.Progressive);
-        Boolean _interlace;
+        static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Portrait, Keywords.Landscape);
+        Boolean _portrait;
 
         #endregion
 
         #region ctor
 
-        public ScanMediaFeature()
-            : base(FeatureNames.Scan)
+        public OrientationMediaFeature()
+            : base(FeatureNames.Orientation)
         {
-            _interlace = false;
+            _portrait = false;
         }
 
         #endregion
 
         #region Properties
 
-        public Boolean IsProgressive
+        public Boolean IsLandscape
         {
-            get { return !_interlace; }
+            get { return !_portrait; }
         }
 
-        public Boolean IsInterlaced
+        public Boolean IsPortrait
         {
-            get { return _interlace; }
+            get { return _portrait; }
         }
 
         #endregion
@@ -41,13 +41,13 @@
 
         protected override Boolean TrySetDefault()
         {
-            _interlace = false;
+            _portrait = false;
             return true;
         }
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _interlace = m);
+            return Converter.TryConvert(value, m => _portrait = m);
         }
 
         public override Boolean Validate(IWindow window)

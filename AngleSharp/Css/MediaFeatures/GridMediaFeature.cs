@@ -1,21 +1,21 @@
-﻿namespace AngleSharp.Css.Media
+﻿namespace AngleSharp.Css.MediaFeatures
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
-    sealed class WidthMediaFeature : MediaFeature
+    sealed class GridMediaFeature : MediaFeature
     {
         #region Fields
 
-        Length _length;
+        Int32 _grid;
 
         #endregion
 
         #region ctor
 
-        public WidthMediaFeature(String name)
-            : base(name)
+        public GridMediaFeature()
+            : base(FeatureNames.Grid)
         {
         }
 
@@ -25,12 +25,13 @@
 
         protected override Boolean TrySetDefault()
         {
+            _grid = 0;
             return true;
         }
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converters.LengthConverter.TryConvert(value, m => _length = m);
+            return Converters.PositiveIntegerConverter.TryConvert(value, m => _grid = m);
         }
 
         public override Boolean Validate(IWindow window)

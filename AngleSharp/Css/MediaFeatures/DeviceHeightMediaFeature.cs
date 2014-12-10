@@ -1,20 +1,20 @@
-﻿namespace AngleSharp.Css.Media
+﻿namespace AngleSharp.Css.MediaFeatures
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
-    sealed class MonochromeMediaFeature : MediaFeature
+    sealed class DeviceHeightMediaFeature : MediaFeature
     {
         #region Fields
 
-        Int32 _index;
+        Length _length;
 
         #endregion
 
         #region ctor
 
-        public MonochromeMediaFeature(String name)
+        public DeviceHeightMediaFeature(String name)
             : base(name)
         {
         }
@@ -25,13 +25,12 @@
 
         protected override Boolean TrySetDefault()
         {
-            _index = 0;
             return true;
         }
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converters.PositiveIntegerConverter.TryConvert(value, m => _index = m);
+            return Converters.LengthConverter.TryConvert(value, m => _length = m);
         }
 
         public override Boolean Validate(IWindow window)
