@@ -213,44 +213,5 @@
         }
 
         #endregion
-
-        #region Value Converters
-
-        public static IValueConverter<Tuple<T1, T2>> WithAny<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
-        {
-            return new UnorderedOptionsConverter<T1, T2>(first, second);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3>> WithAny<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
-        {
-            return new UnorderedOptionsConverter<T1, T2, T3>(first, second, third);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3, T4>> WithAny<T1, T2, T3, T4>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth)
-        {
-            return new UnorderedOptionsConverter<T1, T2, T3, T4>(first, second, third, fourth);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3, T4, T5>> WithAny<T1, T2, T3, T4, T5>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth)
-        {
-            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6>> WithAny<T1, T2, T3, T4, T5, T6>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth)
-        {
-            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7>> WithAny<T1, T2, T3, T4, T5, T6, T7>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh)
-        {
-            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6, T7>(first, second, third, fourth, fifth, sixth, seventh);
-        }
-
-        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8>>> WithAny<T1, T2, T3, T4, T5, T6, T7, T8>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth)
-        {
-            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth);
-        }
-
-        #endregion
     }
 }

@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Time, TransitionFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<Time, TransitionFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = Converters.WithAny(
             CSSAnimationDurationProperty.SingleConverter.Option(CSSAnimationDurationProperty.Default),
             CSSAnimationTimingFunctionProperty.SingleConverter.Option(CSSAnimationTimingFunctionProperty.Default),
             CSSAnimationDelayProperty.SingleConverter.Option(CSSAnimationDelayProperty.Default),

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
             CSSBorderPartWidthProperty.Converter.Val().Option(CssValue.Initial),
             CSSBorderPartStyleProperty.Converter.Val().Option(CssValue.Initial),
             CSSBorderPartColorProperty.Converter.Val().Option(CssValue.Initial));

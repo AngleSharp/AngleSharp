@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<BgLayer> NormalLayerConverter = WithAny(
+        static readonly IValueConverter<BgLayer> NormalLayerConverter = Converters.WithAny(
             CSSBackgroundImageProperty.Converter.Val().Option(),
             Converters.WithOrder(
                 CSSBackgroundPositionProperty.Converter.Val().Option(),
@@ -26,7 +26,7 @@
             CSSBackgroundClipProperty.Converter.Val().Option()
         );
 
-        static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = WithAny(
+        static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = Converters.WithAny(
             CSSBackgroundImageProperty.Converter.Val().Option(),
             Converters.WithOrder(
                 CSSBackgroundPositionProperty.Converter.Val().Option(),

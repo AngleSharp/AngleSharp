@@ -15,7 +15,7 @@
         #region Fields
 
         internal static readonly IDistance Default = Percent.Hundred;
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance, Boolean>> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance, Boolean>> Converter = Converters.WithAny(
             Converters.BorderSliceConverter.Option(Default),
             Converters.BorderSliceConverter.Option(null),
             Converters.BorderSliceConverter.Option(null),

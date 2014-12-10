@@ -574,34 +574,137 @@
 
         #region Unordered
 
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2>> WithAny<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
         {
             return new UnorderedOptionsConverter<T1, T2>(first, second);
         }
 
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <param name="third">The third value converter to try.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2, T3>> WithAny<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
         {
             return new UnorderedOptionsConverter<T1, T2, T3>(first, second, third);
         }
 
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <typeparam name="T4">The type of the fourth converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <param name="third">The third value converter to try.</param>
+        /// <param name="fourth">The fourth value converter to try.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2, T3, T4>> WithAny<T1, T2, T3, T4>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth)
         {
             return new UnorderedOptionsConverter<T1, T2, T3, T4>(first, second, third, fourth);
         }
 
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <typeparam name="T4">The type of the fourth converter.</typeparam>
+        /// <typeparam name="T5">The type of the fifth converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <param name="third">The third value converter to try.</param>
+        /// <param name="fourth">The fourth value converter to try.</param>
+        /// <param name="fifth">The fifth value converter to try.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2, T3, T4, T5>> WithAny<T1, T2, T3, T4, T5>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth)
         {
             return new UnorderedOptionsConverter<T1, T2, T3, T4, T5>(first, second, third, fourth, fifth);
         }
 
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <typeparam name="T4">The type of the fourth converter.</typeparam>
+        /// <typeparam name="T5">The type of the fifth converter.</typeparam>
+        /// <typeparam name="T6">The type of the sixth converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <param name="third">The third value converter to try.</param>
+        /// <param name="fourth">The fourth value converter to try.</param>
+        /// <param name="fifth">The fifth value converter to try.</param>
+        /// <param name="sixth">The sixth value converter to try.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6>> WithAny<T1, T2, T3, T4, T5, T6>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth)
         {
             return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6>(first, second, third, fourth, fifth, sixth);
         }
 
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <typeparam name="T4">The type of the fourth converter.</typeparam>
+        /// <typeparam name="T5">The type of the fifth converter.</typeparam>
+        /// <typeparam name="T6">The type of the sixth converter.</typeparam>
+        /// <typeparam name="T7">The type of the seventh converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <param name="third">The third value converter to try.</param>
+        /// <param name="fourth">The fourth value converter to try.</param>
+        /// <param name="fifth">The fifth value converter to try.</param>
+        /// <param name="sixth">The sixth value converter to try.</param>
+        /// <param name="seventh">The seventh value converter to try.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7>> WithAny<T1, T2, T3, T4, T5, T6, T7>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh)
         {
             return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6, T7>(first, second, third, fourth, fifth, sixth, seventh);
+        }
+
+        /// <summary>
+        /// Uses the two converters in any order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <typeparam name="T4">The type of the fourth converter.</typeparam>
+        /// <typeparam name="T5">The type of the fifth converter.</typeparam>
+        /// <typeparam name="T6">The type of the sixth converter.</typeparam>
+        /// <typeparam name="T7">The type of the seventh converter.</typeparam>
+        /// <typeparam name="T8">The type of the eighth converter.</typeparam>
+        /// <param name="first">The first value converter to try.</param>
+        /// <param name="second">The second value converter to try.</param>
+        /// <param name="third">The third value converter to try.</param>
+        /// <param name="fourth">The fourth value converter to try.</param>
+        /// <param name="fifth">The fifth value converter to try.</param>
+        /// <param name="sixth">The sixth value converter to try.</param>
+        /// <param name="seventh">The seventh value converter to try.</param>
+        /// <param name="eighth">The eighth value converter to try.</param>
+        /// <returns>The new converter.</returns>
+        public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8>>> WithAny<T1, T2, T3, T4, T5, T6, T7, T8>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth)
+        {
+            return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth);
         }
 
         #endregion

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Color, Length, LineStyle>> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<Color, Length, LineStyle>> Converter = Converters.WithAny(
             CSSColumnRuleColorProperty.Converter.Option(CSSColumnRuleColorProperty.Default),
             CSSColumnRuleWidthProperty.Converter.Option(CSSColumnRuleWidthProperty.Default),
             CSSColumnRuleStyleProperty.Converter.Option(CSSColumnRuleStyleProperty.Default));

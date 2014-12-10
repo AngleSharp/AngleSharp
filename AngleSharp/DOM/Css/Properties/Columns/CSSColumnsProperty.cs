@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length?, Int32?>> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<Length?, Int32?>> Converter = Converters.WithAny(
             CSSColumnWidthProperty.Converter.Option(CSSColumnWidthProperty.Default),
             CSSColumnCountProperty.Converter.Option(CSSColumnCountProperty.Default));
 

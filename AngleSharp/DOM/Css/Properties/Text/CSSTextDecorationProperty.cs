@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
             CSSTextDecorationColorProperty.Converter.Val().Option(),
             CSSTextDecorationStyleProperty.Converter.Val().Option(),
             CSSTextDecorationLineProperty.Converter.Val().Option()

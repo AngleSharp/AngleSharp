@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = WithAny(
+        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = Converters.WithAny(
             CSSListStyleTypeProperty.Converter.Option(CSSListStyleTypeProperty.Default),
             CSSListStylePositionProperty.Converter.Option(CSSListStylePositionProperty.Default),
             CSSListStyleImageProperty.Converter.Option(CSSListStyleImageProperty.Default));

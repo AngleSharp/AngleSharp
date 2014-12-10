@@ -19,7 +19,7 @@
                 Keywords.Right, new Point(Percent.Hundred, Percent.Fifty)).Or(
                 Keywords.Top, new Point(Percent.Fifty, Percent.Zero)).Or(
                 Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)).Or(
-                WithAny(
+                Converters.WithAny(
                     Converters.DistanceConverter.Or(Keywords.Left, Percent.Zero).Or(Keywords.Right, Percent.Hundred).Or(Keywords.Center, Percent.Fifty).Option(Percent.Fifty),
                     Converters.DistanceConverter.Or(Keywords.Top, Percent.Zero).Or(Keywords.Bottom, Percent.Hundred).Or(Keywords.Center, Percent.Fifty).Option(Percent.Fifty)).To(
                 m => new Point(m.Item1, m.Item2)));
