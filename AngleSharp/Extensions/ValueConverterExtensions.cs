@@ -155,6 +155,11 @@
             return new OrValueConverter<T>(primary, secondary);
         }
 
+        public static IValueConverter<T> Or<T>(this IValueConverter<T> primary, String keyword, T value)
+        {
+            return new OrValueConverter<T>(primary, new IdentifierValueConverter<T>(keyword, value));
+        }
+
         public static IValueConverter<Nullable<T>> ToNullable<T>(this IValueConverter<T> primary)
             where T : struct
         {
