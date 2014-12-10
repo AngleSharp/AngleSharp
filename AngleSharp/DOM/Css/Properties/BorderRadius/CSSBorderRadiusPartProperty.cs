@@ -13,7 +13,9 @@
 
         internal static readonly IDistance Default = Percent.Zero;
         internal static readonly IValueConverter<IDistance> SingleConverter = Converters.DistanceConverter;
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance>> Converter = WithOrder(SingleConverter.Required(), SingleConverter.Option(null));
+        internal static readonly IValueConverter<Tuple<IDistance, IDistance>> Converter = Converters.WithOrder(
+            SingleConverter.Required(), 
+            SingleConverter.Option(null));
         IDistance _horizontal;
         IDistance _vertical;
 

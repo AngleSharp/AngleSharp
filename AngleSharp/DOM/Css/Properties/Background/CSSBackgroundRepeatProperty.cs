@@ -20,7 +20,7 @@
         internal static readonly IValueConverter<Repeat> SingleConverter = Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
             Keywords.RepeatX, RepeatX).Or(
             Keywords.RepeatY, RepeatY).Or(
-            WithOrder(
+            Converters.WithOrder(
                 Map.BackgroundRepeats.ToConverter().Required(), 
                 Map.BackgroundRepeats.ToConverter().Required()).To(
             m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));

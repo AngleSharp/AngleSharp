@@ -531,6 +531,11 @@
 
         #region Order
 
+        public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
+        {
+            return new OrderedOptionsConverter<T>(converter);
+        }
+
         public static IValueConverter<Tuple<T1, T2>> WithOrder<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
         {
             return new OrderedOptionsConverter<T1, T2>(first, second);

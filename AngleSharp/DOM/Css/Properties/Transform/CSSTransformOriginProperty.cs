@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly Point Default = Point.Centered;
-        internal static IValueConverter<Tuple<Point, Length>> Converter = WithOrder(
+        internal static IValueConverter<Tuple<Point, Length>> Converter = Converters.WithOrder(
             Converters.DistanceConverter.To(m => new Point(m, m)).Or(Keywords.Center, new Point(Percent.Fifty, Percent.Fifty)).Or(WithAny(
                 Converters.DistanceConverter.Or(Keywords.Left, Percent.Zero).Or(Keywords.Right, Percent.Hundred).Or(Keywords.Center, Percent.Fifty).Option(Percent.Fifty),
                 Converters.DistanceConverter.Or(Keywords.Top, Percent.Zero).Or(Keywords.Bottom, Percent.Hundred).Or(Keywords.Center, Percent.Fifty).Option(Percent.Fifty)).To(

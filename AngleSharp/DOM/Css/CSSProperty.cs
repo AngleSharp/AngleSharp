@@ -216,16 +216,6 @@
 
         #region Value Converters
 
-        public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
-        {
-            return new OrderedOptionsConverter<T>(converter);
-        }
-
-        public static IValueConverter<Tuple<T1, T2>> WithOrder<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
-        {
-            return new OrderedOptionsConverter<T1, T2>(first, second);
-        }
-
         public static IValueConverter<Tuple<T1, T2, T3>> WithOrder<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
         {
             return new OrderedOptionsConverter<T1, T2, T3>(first, second, third);

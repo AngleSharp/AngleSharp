@@ -26,13 +26,13 @@
         internal static readonly IValueConverter<SystemFont> SystemFontConverter = _parts.ToConverter();
 
         internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = WithOrder(
-            WithAny(
+            Converters.WithAny(
                 CSSFontStyleProperty.Converter.Val().Option(),
                 CSSFontVariantProperty.Converter.Val().Option(),
                 CSSFontWeightProperty.Converter.Val().Option(),
                 CSSFontStretchProperty.Converter.Val().Option()
             ),
-            WithOrder(
+            Converters.WithOrder(
                 CSSFontSizeProperty.Converter.Val().Required(),
                 CSSLineHeightProperty.Converter.Val().StartsWithDelimiter().Option()
             ),

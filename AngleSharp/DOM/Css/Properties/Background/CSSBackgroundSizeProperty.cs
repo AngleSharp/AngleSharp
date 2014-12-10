@@ -20,7 +20,7 @@
         internal static readonly IValueConverter<BackgroundSize> SingleConverter = Converters.AutoDistanceConverter.To(m => new BackgroundSize { Width = m }).Or(
             Keywords.Cover, Cover).Or(
             Keywords.Contain, Contain).Or(
-            WithOrder(
+            Converters.WithOrder(
                 Converters.AutoDistanceConverter.Required(),
                 Converters.AutoDistanceConverter.Required()).To(
             pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));

@@ -17,7 +17,7 @@
 
         static readonly IValueConverter<BgLayer> NormalLayerConverter = WithAny(
             CSSBackgroundImageProperty.Converter.Val().Option(),
-            WithOrder(
+            Converters.WithOrder(
                 CSSBackgroundPositionProperty.Converter.Val().Option(),
                 CSSBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
             CSSBackgroundRepeatProperty.Converter.Val().Option(),
@@ -28,7 +28,7 @@
 
         static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = WithAny(
             CSSBackgroundImageProperty.Converter.Val().Option(),
-            WithOrder(
+            Converters.WithOrder(
                 CSSBackgroundPositionProperty.Converter.Val().Option(),
                 CSSBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
             CSSBackgroundRepeatProperty.Converter.Val().Option(),

@@ -13,8 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = WithOrder(
-            WithOrder(
+        internal static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = Converters.WithOrder(
+            Converters.WithOrder(
                 Converters.IdentifierConverter.Required(),
                 Converters.IntegerConverter.Option(0)).To(
             m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
