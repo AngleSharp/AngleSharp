@@ -1,10 +1,10 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using NUnit.Framework;
-using System;
-
-namespace UnitTests.Library
+﻿namespace UnitTests.Library
 {
+    using AngleSharp;
+    using AngleSharp.Css;
+    using NUnit.Framework;
+    using System;
+
     [TestFixture]
     public class PriorityTests
     {

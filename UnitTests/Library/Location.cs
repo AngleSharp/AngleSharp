@@ -1,8 +1,8 @@
-﻿using AngleSharp.DOM;
-using NUnit.Framework;
-
-namespace UnitTests.Library
+﻿namespace UnitTests.Library
 {
+    using AngleSharp.DOM;
+    using NUnit.Framework;
+
     [TestFixture]
     public class LocationTests
     {

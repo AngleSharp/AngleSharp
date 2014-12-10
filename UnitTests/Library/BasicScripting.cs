@@ -1,11 +1,11 @@
-﻿using AngleSharp;
-using AngleSharp.Infrastructure;
-using AngleSharp.Network;
-using NUnit.Framework;
-using System;
-
-namespace UnitTests.Library
+﻿namespace UnitTests.Library
 {
+    using AngleSharp;
+    using AngleSharp.Infrastructure;
+    using AngleSharp.Network;
+    using NUnit.Framework;
+    using System;
+
     [TestFixture]
     public class BasicScriptingTests
     {
@@ -19,6 +19,13 @@ namespace UnitTests.Library
             scripting = new TestScriptEngine();
             configuration.IsScripting = true;
             configuration.Register(scripting);
+        }
+
+        [TearDown]
+        public void DestroyConfig()
+        {
+            configuration = null;
+            scripting = null;
         }
 
         [Test]

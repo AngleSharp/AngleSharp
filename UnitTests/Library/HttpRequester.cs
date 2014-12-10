@@ -1,13 +1,13 @@
-﻿using AngleSharp;
-using AngleSharp.Extensions;
-using AngleSharp.Network;
-using NUnit.Framework;
-using System.IO;
-using System.Linq;
-using UnitTests.Mocks;
-
-namespace UnitTests.Library
+﻿namespace UnitTests.Library
 {
+    using AngleSharp;
+    using AngleSharp.Extensions;
+    using AngleSharp.Network;
+    using NUnit.Framework;
+    using System.IO;
+    using System.Linq;
+    using UnitTests.Mocks;
+
     [TestFixture]
     public class HttpRequesterTests
     {
@@ -27,14 +27,16 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(200, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(200, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
 
-                var content = new StreamReader(response.Content);
-                Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
+                    var content = new StreamReader(response.Content);
+                    Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
+                }
             }
         }
 
@@ -48,11 +50,13 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(500, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(500, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -66,11 +70,13 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(400, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(400, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -84,11 +90,13 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(403, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(403, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -102,11 +110,13 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(404, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(404, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -121,18 +131,20 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(200, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
-                
-                var stream = new StreamReader(response.Content);
-                Assert.IsNotNull(stream);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(200, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
 
-                var content = stream.ReadToEnd();
-                Assert.IsTrue(content.Length > 0);
-                Assert.IsTrue(content.Contains("\"data\": \"Hello world\""));
+                    var stream = new StreamReader(response.Content);
+                    Assert.IsNotNull(stream);
+
+                    var content = stream.ReadToEnd();
+                    Assert.IsTrue(content.Length > 0);
+                    Assert.IsTrue(content.Contains("\"data\": \"Hello world\""));
+                }
             }
         }
 
@@ -147,18 +159,20 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(200, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(200, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
 
-                var stream = new StreamReader(response.Content);
-                Assert.IsNotNull(stream);
+                    var stream = new StreamReader(response.Content);
+                    Assert.IsNotNull(stream);
 
-                var content = stream.ReadToEnd();
-                Assert.IsTrue(content.Length > 0);
-                Assert.IsTrue(content.Contains("\"data\": \"PUT THIS THING BACK\""));
+                    var content = stream.ReadToEnd();
+                    Assert.IsTrue(content.Length > 0);
+                    Assert.IsTrue(content.Contains("\"data\": \"PUT THIS THING BACK\""));
+                }
             }
         }
 
@@ -173,11 +187,13 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(200, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(200, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -192,11 +208,13 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(405, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(405, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -211,11 +229,13 @@ namespace UnitTests.Library
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(405, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(405, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
+                }
             }
         }
 
@@ -235,18 +255,20 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request).Result;
-                Assert.IsNotNull(response);
-                Assert.AreEqual(200, (int)response.StatusCode);
-                Assert.IsTrue(response.Content.CanRead);
-                Assert.IsTrue(response.Headers.Count > 0);
+                using (var response = http.RequestAsync(request).Result)
+                {
+                    Assert.IsNotNull(response);
+                    Assert.AreEqual(200, (int)response.StatusCode);
+                    Assert.IsTrue(response.Content.CanRead);
+                    Assert.IsTrue(response.Headers.Count > 0);
 
-                var stream = new StreamReader(response.Content);
-                Assert.IsNotNull(stream);
+                    var stream = new StreamReader(response.Content);
+                    Assert.IsNotNull(stream);
 
-                var content = stream.ReadToEnd();
-                Assert.IsTrue(content.Length > 0);
-                Assert.AreEqual("{\n  \"user-agent\": \"" + info.Agent + "\"\n}", content);
+                    var content = stream.ReadToEnd();
+                    Assert.IsTrue(content.Length > 0);
+                    Assert.AreEqual("{\n  \"user-agent\": \"" + info.Agent + "\"\n}", content);
+                }
             }
         }
 
@@ -260,18 +282,20 @@ namespace UnitTests.Library
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
-                var response = http.RequestAsync(request);
-                Assert.IsNotNull(response);
-                Assert.IsFalse(response.IsCompleted);
+                using (var response = http.RequestAsync(request))
+                {
+                    Assert.IsNotNull(response);
+                    Assert.IsFalse(response.IsCompleted);
 
-                var result = response.Result;
+                    var result = response.Result;
 
-                Assert.IsTrue(response.IsCompleted);
-                Assert.IsTrue(result.Content.CanRead);
-                Assert.IsTrue(result.Headers.Count > 0);
+                    Assert.IsTrue(response.IsCompleted);
+                    Assert.IsTrue(result.Content.CanRead);
+                    Assert.IsTrue(result.Headers.Count > 0);
 
-                var content = new StreamReader(result.Content);
-                Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
+                    var content = new StreamReader(result.Content);
+                    Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
+                }
             }
         }
     }
