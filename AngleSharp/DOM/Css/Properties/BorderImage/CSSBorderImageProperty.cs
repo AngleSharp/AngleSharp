@@ -16,7 +16,7 @@
 
         internal static readonly IValueConverter<Tuple<ICssValue, Tuple<ICssValue, ICssValue, ICssValue>, ICssValue>> Converter = WithAny(
             CSSBorderImageSourceProperty.Converter.Val().Option(),
-            WithOrder(
+            Converters.WithOrder(
                 CSSBorderImageSliceProperty.Converter.Val().Option(),
                 CSSBorderImageWidthProperty.Converter.Val().StartsWithDelimiter().Option(),
                 CSSBorderImageOutsetProperty.Converter.Val().StartsWithDelimiter().Option()),

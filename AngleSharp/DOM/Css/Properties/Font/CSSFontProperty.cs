@@ -25,7 +25,7 @@
 
         internal static readonly IValueConverter<SystemFont> SystemFontConverter = _parts.ToConverter();
 
-        internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = WithOrder(
+        internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = Converters.WithOrder(
             Converters.WithAny(
                 CSSFontStyleProperty.Converter.Val().Option(),
                 CSSFontVariantProperty.Converter.Val().Option(),

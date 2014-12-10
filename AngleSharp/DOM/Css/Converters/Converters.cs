@@ -531,16 +531,40 @@
 
         #region Order
 
+        /// <summary>
+        /// Uses the provided converter successively in order.
+        /// </summary>
+        /// <typeparam name="T">The type of the converter.</typeparam>
+        /// <param name="converter">The converter that should be used successively.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<T[]> WithOrder<T>(IValueConverter<T> converter)
         {
             return new OrderedOptionsConverter<T>(converter);
         }
 
+        /// <summary>
+        /// Uses the two converters in their order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <param name="first">The first converter to be applied.</param>
+        /// <param name="second">The second converter to be applied.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2>> WithOrder<T1, T2>(IValueConverter<T1> first, IValueConverter<T2> second)
         {
             return new OrderedOptionsConverter<T1, T2>(first, second);
         }
 
+        /// <summary>
+        /// Uses the three converters in their order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <param name="first">The first converter to be applied.</param>
+        /// <param name="second">The second converter to be applied.</param>
+        /// <param name="third">The third converter to be applied.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Tuple<T1, T2, T3>> WithOrder<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
         {
             return new OrderedOptionsConverter<T1, T2, T3>(first, second, third);

@@ -13,7 +13,7 @@
         #region Fields
 
         static readonly IValueConverter<Tuple<CustomCursor[], SystemCursor>> Converter = Converters.ImageSourceConverter.To(m => new CustomCursor { Image = m }).Or(
-            WithOrder(
+            Converters.WithOrder(
                 Converters.ImageSourceConverter.Required(),
                 Converters.NumberConverter.Required(),
                 Converters.NumberConverter.Required()).To(
