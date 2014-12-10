@@ -1,14 +1,14 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Css.ValueConverters
 {
     using AngleSharp.DOM.Css;
     using System;
 
-    sealed class ClassValueConverter<T> : IValueConverter<T>
-        where T : class
+    sealed class StructValueConverter<T> : IValueConverter<T>
+        where T : struct
     {
-        readonly Func<ICssValue, T> _converter;
+        readonly Func<ICssValue, T?> _converter;
 
-        public ClassValueConverter(Func<ICssValue, T> converter)
+        public StructValueConverter(Func<ICssValue, T?> converter)
         {
             _converter = converter;
         }
@@ -17,16 +17,16 @@
         {
             var result = _converter(value);
 
-            if (result == null)
+            if (!result.HasValue)
                 return false;
 
-            setResult(result);
+            setResult(result.Value);
             return true;
         }
 
         public Boolean Validate(ICssValue value)
         {
-            return _converter(value) != null;
+            return _converter(value).HasValue;
         }
 
         public Int32 MinArgs

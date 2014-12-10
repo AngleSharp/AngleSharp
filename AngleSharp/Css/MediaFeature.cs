@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Media
+﻿namespace AngleSharp.Css
 {
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;

@@ -1,34 +1,32 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Css.ValueConverters
 {
     using AngleSharp.DOM.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
-    sealed class DictionaryValueConverter<T> : IValueConverter<T>
+    sealed class IdentifierValueConverter<T> : IValueConverter<T>
     {
-        readonly Dictionary<String, T> _values;
+        readonly String _identifier;
+        readonly T _result;
 
-        public DictionaryValueConverter(Dictionary<String, T> values)
+        public IdentifierValueConverter(String identifier, T result)
         {
-            _values = values;
+            _identifier = identifier;
+            _result = result;
         }
 
         public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
-            var temp = default(T);
-
-            if (!_values.TryGetValue(value, out temp))
+            if (!value.Is(_identifier))
                 return false;
 
-            setResult(temp);
+            setResult(_result);
             return true;
         }
 
         public Boolean Validate(ICssValue value)
         {
-            var mode = default(T);
-            return _values.TryGetValue(value, out mode);
+            return value.Is(_identifier);
         }
 
         public Int32 MinArgs
