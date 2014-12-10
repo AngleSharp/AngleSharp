@@ -82,7 +82,14 @@
 
         String ICssValue.CssText
         {
-            get { return FunctionNames.Build(FunctionNames.Rect, ((ICssValue)_top).CssText, ((ICssValue)_right).CssText, ((ICssValue)_bottom).CssText, ((ICssValue)_left).CssText); }
+            get
+            {
+                return FunctionNames.Build(FunctionNames.Rect, 
+                    ((ICssValue)_top).CssText, 
+                    ((ICssValue)_right).CssText, 
+                    ((ICssValue)_bottom).CssText, 
+                    ((ICssValue)_left).CssText);
+            }
         }
 
         #endregion

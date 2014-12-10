@@ -3,36 +3,60 @@
     using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     sealed class CssFunction : ICssValue
     {
+        #region Fields
+
+        readonly String _name;
+        readonly List<ICssValue> _arguments;
+
+        #endregion
+
+        #region ctor
+
         public CssFunction(String name, List<ICssValue> arguments)
         {
-            Name = name;
-            Arguments = arguments;
+            _name = name;
+            _arguments = arguments;
         }
+
+        #endregion
+
+        #region Properties
 
         public String Name
         {
-            get;
-            private set;
+            get { return _name; }
         }
 
         public List<ICssValue> Arguments
         {
-            get;
-            private set;
+            get { return _arguments; }
         }
 
-        public CssValueType Type
+        #endregion
+
+        #region CSS Value
+
+        CssValueType ICssValue.Type
         {
             get { return CssValueType.Primitive; }
         }
 
-        public String CssText
+        String ICssValue.CssText
         {
-            get { return FunctionNames.Build(Name, Arguments.Select(m => m.CssText).ToArray()); }
+            get
+            {
+                var arguments = new String[_arguments.Count];
+
+                for (int i = 0; i < arguments.Length; i++)
+                    arguments[i] = _arguments[i].CssText;
+
+                return FunctionNames.Build(Name, arguments);
+            }
         }
+
+        #endregion
     }
 }

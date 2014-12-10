@@ -9,9 +9,15 @@
     /// </summary>
     sealed class ScaleTransform : ITransform
     {
+        #region Fields
+
         readonly Single _sx;
         readonly Single _sy;
         readonly Single _sz;
+
+        #endregion
+
+        #region ctor
 
         internal ScaleTransform(Single sx, Single sy, Single sz)
         {
@@ -19,6 +25,10 @@
             _sy = sy;
             _sz = sz;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Computes the matrix for the given transformation.
@@ -29,6 +39,10 @@
             return new TransformMatrix(_sx, 0f, 0f, 0f, _sy, 0f, 0f, 0f, _sz, 0f, 0f, 0f, 0f, 0f, 0f);
         }
 
+        #endregion
+
+        #region CSS Value
+
         CssValueType ICssValue.Type
         {
             get { return CssValueType.Primitive; }
@@ -36,7 +50,15 @@
 
         String ICssValue.CssText
         {
-            get { return FunctionNames.Build(FunctionNames.Scale3d, _sx.ToString(CultureInfo.InvariantCulture), _sy.ToString(CultureInfo.InvariantCulture), _sz.ToString(CultureInfo.InvariantCulture)); }
+            get
+            {
+                return FunctionNames.Build(FunctionNames.Scale3d, 
+                    _sx.ToString(CultureInfo.InvariantCulture), 
+                    _sy.ToString(CultureInfo.InvariantCulture), 
+                    _sz.ToString(CultureInfo.InvariantCulture));
+            }
         }
+
+        #endregion
     }
 }

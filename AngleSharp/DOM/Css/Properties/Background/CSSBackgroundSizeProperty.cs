@@ -14,16 +14,11 @@
     {
         #region Fields
 
-        internal static readonly BackgroundSize Cover = new BackgroundSize { IsCovered = true };
-        internal static readonly BackgroundSize Contain = new BackgroundSize { IsContained = true };
         internal static readonly BackgroundSize Default = new BackgroundSize();
         internal static readonly IValueConverter<BackgroundSize> SingleConverter = Converters.AutoDistanceConverter.To(m => new BackgroundSize { Width = m }).Or(
-            Keywords.Cover, Cover).Or(
-            Keywords.Contain, Contain).Or(
-            Converters.WithOrder(
-                Converters.AutoDistanceConverter.Required(),
-                Converters.AutoDistanceConverter.Required()).To(
-            pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
+            Keywords.Cover, new BackgroundSize { IsCovered = true }).Or(
+            Keywords.Contain, new BackgroundSize { IsContained = true }).Or(
+            Converters.WithOrder(Converters.AutoDistanceConverter.Required(), Converters.AutoDistanceConverter.Required()).To(pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
         internal static readonly IValueConverter<BackgroundSize[]> Converter = SingleConverter.FromList();
         readonly List<BackgroundSize> _sizes;
 
@@ -81,6 +76,18 @@
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetSizes);
+        }
+
+        #endregion
+
+        #region Structure
+
+        internal struct BackgroundSize
+        {
+            public Boolean IsCovered;
+            public Boolean IsContained;
+            public IDistance Width;
+            public IDistance Height;
         }
 
         #endregion

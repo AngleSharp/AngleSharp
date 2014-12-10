@@ -14,16 +14,11 @@
     {
         #region Fields
 
-        static readonly Repeat RepeatX = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat };
-        static readonly Repeat RepeatY = new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat };
         internal static readonly Repeat Default = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
         internal static readonly IValueConverter<Repeat> SingleConverter = Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
-            Keywords.RepeatX, RepeatX).Or(
-            Keywords.RepeatY, RepeatY).Or(
-            Converters.WithOrder(
-                Map.BackgroundRepeats.ToConverter().Required(), 
-                Map.BackgroundRepeats.ToConverter().Required()).To(
-            m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
+            Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
+            Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
+            Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()).To(m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
         internal static readonly IValueConverter<Repeat[]> Converter = SingleConverter.FromList();
         readonly List<Repeat> _repeats;
 
@@ -82,6 +77,16 @@
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetRepeats);
+        }
+
+        #endregion
+
+        #region Structure
+
+        internal struct Repeat
+        {
+            public BackgroundRepeat Horizontal;
+            public BackgroundRepeat Vertical;
         }
 
         #endregion

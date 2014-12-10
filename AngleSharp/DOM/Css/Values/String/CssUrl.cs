@@ -6,7 +6,7 @@
     /// <summary>
     /// Wraps a string as a CSS url value.
     /// </summary>
-    sealed class CssUrl : ICssValue
+    sealed class CssUrl : Url, ICssValue, IImageSource
     {
         #region Fields
 
@@ -21,28 +21,9 @@
         /// </summary>
         /// <param name="url">The specified url.</param>
         public CssUrl(String url)
+            : base(url)
         {
             _url = url;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the string value of the stored url.
-        /// </summary>
-        public String Value
-        {
-            get { return _url; }
-        }
-
-        /// <summary>
-        /// Gets a new URL for the stored url.
-        /// </summary>
-        public Url Url
-        {
-            get { return new Url(_url); }
         }
 
         #endregion

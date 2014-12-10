@@ -172,8 +172,8 @@
         /// Represents an attribute retriever object.
         /// http://dev.w3.org/csswg/css-values/#funcdef-attr
         /// </summary>
-        public static readonly IValueConverter<CssAttr> AttrConverter = new FunctionValueConverter<CssAttr>(
-            FunctionNames.Attr, WithArg(StringConverter.Or(IdentifierConverter).To(m => new CssAttr(m))));
+        public static readonly IValueConverter<String> AttrConverter = new FunctionValueConverter<String>(
+            FunctionNames.Attr, WithArg(StringConverter.Or(IdentifierConverter)));
 
         /// <summary>
         /// Represents a steps timing-function object.
@@ -469,8 +469,7 @@
         /// Represents an image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)new ImageUrl(m)).Or(
-            GradientConverter);
+        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)m).Or(GradientConverter);
 
         #endregion
 

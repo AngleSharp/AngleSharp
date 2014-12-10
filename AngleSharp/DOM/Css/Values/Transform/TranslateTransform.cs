@@ -8,9 +8,15 @@
     /// </summary>
     sealed class TranslateTransform : ITransform
     {
+        #region Fields
+
         readonly IDistance _x;
         readonly IDistance _y;
         readonly IDistance _z;
+
+        #endregion
+
+        #region ctor
 
         internal TranslateTransform(IDistance x, IDistance y, IDistance z)
         {
@@ -18,6 +24,10 @@
             _y = y;
             _z = z;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Computes the matrix for the given transformation.
@@ -31,6 +41,10 @@
             return new TransformMatrix(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f, dx, dy, dz, 0f, 0f, 0f);
         }
 
+        #endregion
+
+        #region CSS Value
+
         CssValueType ICssValue.Type
         {
             get { return CssValueType.Primitive; }
@@ -38,7 +52,15 @@
 
         String ICssValue.CssText
         {
-            get { return FunctionNames.Build(FunctionNames.Translate3d, _x.CssText, _y.CssText, _z.CssText); }
+            get
+            {
+                return FunctionNames.Build(FunctionNames.Translate3d, 
+                    _x.CssText, 
+                    _y.CssText, 
+                    _z.CssText);
+            }
         }
+
+        #endregion
     }
 }

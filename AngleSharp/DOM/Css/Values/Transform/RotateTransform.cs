@@ -9,10 +9,16 @@
     /// </summary>
     sealed class RotateTransform : ITransform
     {
+        #region Fields
+
         readonly Single _x;
         readonly Single _y;
         readonly Single _z;
         readonly Angle _angle;
+
+        #endregion
+
+        #region ctor
 
         internal RotateTransform(Single x, Single y, Single z, Angle angle)
         {
@@ -21,6 +27,10 @@
             _z = z;
             _angle = angle;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Constructs a rotate 3D transformation around the x-axis.
@@ -72,6 +82,10 @@
                 0f, 0f, 0f, 0f, 0f, 0f);
         }
 
+        #endregion
+
+        #region CSS Value
+
         CssValueType ICssValue.Type
         {
             get { return CssValueType.Primitive; }
@@ -79,7 +93,16 @@
 
         String ICssValue.CssText
         {
-            get { return FunctionNames.Build(FunctionNames.Rotate3d, _x.ToString(CultureInfo.InvariantCulture), _y.ToString(CultureInfo.InvariantCulture), _z.ToString(CultureInfo.InvariantCulture), ((ICssValue)_angle).CssText); }
+            get
+            {
+                return FunctionNames.Build(FunctionNames.Rotate3d, 
+                    _x.ToString(CultureInfo.InvariantCulture), 
+                    _y.ToString(CultureInfo.InvariantCulture), 
+                    _z.ToString(CultureInfo.InvariantCulture), 
+                    ((ICssValue)_angle).CssText);
+            }
         }
+
+        #endregion
     }
 }

@@ -35,10 +35,10 @@
 
             Converter = Converters.Assign(Keywords.Normal, Default).Or(Keywords.None, new ContentMode[0]).Or(
                     ContentModes.ToConverter().Or(
-                    Converters.UrlConverter.To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
-                    Converters.StringConverter.To(str => (ContentMode)new TextContentMode(str))).Or(
-                    Converters.AttrConverter.To(attr => (ContentMode)new AttributeContentMode(attr.Value))).Or(
-                    Converters.CounterConverter.To(counter => (ContentMode)new CounterContentMode(counter))).Many()
+                    Converters.UrlConverter.To(TransformUrl)).Or(
+                    Converters.StringConverter.To(TransformString)).Or(
+                    Converters.AttrConverter.To(TransformAttr)).Or(
+                    Converters.CounterConverter.To(TransformCounter)).Many()
                 );
         }
 
@@ -70,6 +70,30 @@
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetMode);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static ContentMode TransformUrl(CssUrl url)
+        {
+            return new UrlContentMode(url);
+        }
+
+        static ContentMode TransformString(String str)
+        {
+            return new TextContentMode(str);
+        }
+
+        static ContentMode TransformAttr(String attr)
+        {
+            return new AttributeContentMode(attr);
+        }
+
+        static ContentMode TransformCounter(Counter counter)
+        {
+            return new CounterContentMode(counter);
         }
 
         #endregion

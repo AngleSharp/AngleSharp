@@ -9,6 +9,13 @@
     /// </summary>
     public sealed class StepsTransitionFunction : TransitionFunction
     {
+        #region Fields
+
+        readonly Int32 _intervals;
+        readonly Boolean _start;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -20,8 +27,8 @@
         /// <param name="start">Optional: If not specified then the change occurs at the end.</param>
         public StepsTransitionFunction(Int32 intervals, Boolean start = false)
         {
-            Intervals = Math.Max(1, intervals);
-            IsStart = start;
+            _intervals = Math.Max(1, intervals);
+            _start = start;
         }
 
         #endregion
@@ -33,8 +40,7 @@
         /// </summary>
         public Int32 Intervals
         {
-            get;
-            private set;
+            get { return _intervals; }
         }
 
         /// <summary>
@@ -42,8 +48,7 @@
         /// </summary>
         public Boolean IsStart
         {
-            get;
-            private set;
+            get { return _start; }
         }
 
         #endregion
@@ -56,7 +61,9 @@
         /// <returns>A string that resembles CSS code.</returns>
         protected override String ToCss()
         {
-            return FunctionNames.Build(FunctionNames.Steps, Intervals.ToString(CultureInfo.InvariantCulture), IsStart ? Keywords.Start : Keywords.End);
+            return FunctionNames.Build(FunctionNames.Steps, 
+                _intervals.ToString(CultureInfo.InvariantCulture), 
+                _start ? Keywords.Start : Keywords.End);
         }
 
         #endregion

@@ -50,13 +50,9 @@
     <Compile Include="Css\ValueConverters\GradientConverter.cs" />
     <Compile Include="Css\ValueConverters\OrderedOptionsConverter.cs" />
     <Compile Include="Css\ValueConverters\UnorderedOptionsConverter.cs" />
-    <Compile Include="DOM\Css\Values\BackgroundSize.cs" />
-    <Compile Include="DOM\Css\Values\FontWeight.cs" />
     <Compile Include="DOM\Css\Values\Image\IImageSource.cs" />
-    <Compile Include="DOM\Css\Values\Image\ImageUrl.cs" />
     <Compile Include="Css\Map.cs" />
     <Compile Include="DOM\Css\Values\Transform\MatrixTransform.cs" />
-    <Compile Include="DOM\Css\Values\Repeat.cs" />
     <Compile Include="DOM\Css\Constants\BlendMode.cs" />
     <Compile Include="Css\ValueConverters\ArgumentsValueConverter.cs" />
     <Compile Include="Css\ValueConverters\ClassValueConverter.cs" />
@@ -388,7 +384,6 @@
     <Compile Include="Url.cs" />
     <Compile Include="Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
-    <Compile Include="DOM\Css\Values\String\CssAttr.cs" />
     <Compile Include="DOM\Css\Values\String\CssIdentifier.cs" />
     <Compile Include="DOM\Css\Values\String\CssString.cs" />
     <Compile Include="IConfiguration.cs" />

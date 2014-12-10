@@ -9,6 +9,15 @@
     /// </summary>
     public sealed class CubicBezierTransitionFunction : TransitionFunction
     {
+        #region Fields
+
+        readonly Single _x1;
+        readonly Single _y1;
+        readonly Single _x2;
+        readonly Single _y2;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -22,10 +31,10 @@
         /// <param name="y2">The y-coordinate of P2.</param>
         public CubicBezierTransitionFunction(Single x1, Single y1, Single x2, Single y2)
         {
-            X1 = x1;
-            Y1 = y1;
-            X2 = x2;
-            Y2 = y2;
+            _x1 = x1;
+            _y1 = y1;
+            _x2 = x2;
+            _y2 = y2;
         }
 
         #endregion
@@ -37,8 +46,7 @@
         /// </summary>
         public Single X1
         {
-            get;
-            private set;
+            get { return _x1; }
         }
 
         /// <summary>
@@ -46,8 +54,7 @@
         /// </summary>
         public Single Y1
         {
-            get;
-            private set;
+            get { return _y1; }
         }
 
         /// <summary>
@@ -55,8 +62,7 @@
         /// </summary>
         public Single X2
         {
-            get;
-            private set;
+            get { return _x2; }
         }
 
         /// <summary>
@@ -64,8 +70,7 @@
         /// </summary>
         public Single Y2
         {
-            get;
-            private set;
+            get { return _y2; }
         }
 
         #endregion
@@ -79,8 +84,10 @@
         protected override String ToCss()
         {
             return FunctionNames.Build(FunctionNames.CubicBezier, 
-                X1.ToString(CultureInfo.InvariantCulture), Y1.ToString(CultureInfo.InvariantCulture), 
-                X2.ToString(CultureInfo.InvariantCulture), Y2.ToString(CultureInfo.InvariantCulture));
+                _x1.ToString(CultureInfo.InvariantCulture), 
+                _y1.ToString(CultureInfo.InvariantCulture), 
+                _x2.ToString(CultureInfo.InvariantCulture), 
+                _y2.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

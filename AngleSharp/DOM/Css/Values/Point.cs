@@ -63,7 +63,7 @@
 
         String ICssValue.CssText
         {
-            get { return String.Format("{0} {1}", _x.CssText, _y.CssText); }
+            get { return String.Concat(_x.CssText, " ", _y.CssText); }
         }
 
         #endregion

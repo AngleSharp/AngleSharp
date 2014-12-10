@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
@@ -12,8 +13,16 @@
     {
         #region Fields
 
-        internal static readonly FontWeight Default = Map.FontWeights[Keywords.Normal];
-        internal static readonly IValueConverter<FontWeight> Converter = Map.FontWeights.ToConverter().Or(
+        static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, new FontWeight { IsRelative = false, Value = 400 } },
+            { Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 } },
+            { Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 } },
+            { Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 } }
+        };
+
+        internal static readonly FontWeight Default = FontWeights[Keywords.Normal];
+        internal static readonly IValueConverter<FontWeight> Converter = FontWeights.ToConverter().Or(
             Converters.IntegerConverter.Constraint(m => m >= 100 && m <= 900).To(
             m => new FontWeight { IsRelative = false, Value = m }));
         FontWeight _weight;
@@ -64,6 +73,16 @@
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, SetWeight);
+        }
+
+        #endregion
+
+        #region Structure
+
+        internal struct FontWeight
+        {
+            public Boolean IsRelative;
+            public Int32 Value;
         }
 
         #endregion

@@ -149,11 +149,6 @@
         public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// Contains the string-FontWeight mapping.
-        /// </summary>
-        public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
-
-        /// <summary>
         /// Contains the string-PositionMode mapping.
         /// </summary>
         public static readonly Dictionary<String, PositionMode> PositionModes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase);
@@ -398,11 +393,6 @@
             HorizontalAlignments.Add(Keywords.Right, HorizontalAlignment.Right);
             HorizontalAlignments.Add(Keywords.Center, HorizontalAlignment.Center);
             HorizontalAlignments.Add(Keywords.Justify, HorizontalAlignment.Justify);
-
-            FontWeights.Add(Keywords.Normal, new FontWeight { IsRelative = false, Value = 400 });
-            FontWeights.Add(Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 });
-            FontWeights.Add(Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 });
-            FontWeights.Add(Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 });
 
             PositionModes.Add(Keywords.Static, PositionMode.Static);
             PositionModes.Add(Keywords.Relative, PositionMode.Relative);

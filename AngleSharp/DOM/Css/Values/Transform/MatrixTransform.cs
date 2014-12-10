@@ -9,12 +9,22 @@
     /// </summary>
     sealed class MatrixTransform : ITransform
     {
+        #region Fields
+
         readonly Single[] _values;
+
+        #endregion
+
+        #region ctor
 
         internal MatrixTransform(Single[] values)
         {
             _values = values;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Returns the stored matrix.
@@ -24,6 +34,10 @@
         {
             return new TransformMatrix(_values);
         }
+
+        #endregion
+
+        #region CSS Value
 
         CssValueType ICssValue.Type
         {
@@ -42,5 +56,7 @@
                 return FunctionNames.Build(FunctionNames.Matrix3d, values);
             }
         }
+
+        #endregion
     }
 }
