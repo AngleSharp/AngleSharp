@@ -18,8 +18,8 @@
         internal static readonly BackgroundSize Contain = new BackgroundSize { IsContained = true };
         internal static readonly BackgroundSize Default = new BackgroundSize();
         internal static readonly IValueConverter<BackgroundSize> SingleConverter = Converters.AutoDistanceConverter.To(m => new BackgroundSize { Width = m }).Or(
-            TakeOne(Keywords.Cover, Cover)).Or(
-            TakeOne(Keywords.Contain, Contain)).Or(
+            Keywords.Cover, Cover).Or(
+            Keywords.Contain, Contain).Or(
             WithOrder(
                 Converters.AutoDistanceConverter.Required(),
                 Converters.AutoDistanceConverter.Required()).To(

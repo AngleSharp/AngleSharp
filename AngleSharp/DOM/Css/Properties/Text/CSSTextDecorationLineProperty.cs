@@ -15,7 +15,7 @@
 
         internal static readonly TextDecorationLine[] Default = new TextDecorationLine[0];
         internal static readonly IValueConverter<TextDecorationLine[]> SingleConverter = Map.TextDecorationLines.ToConverter().Many();
-        internal static readonly IValueConverter<TextDecorationLine[]> Converter = TakeOne(Keywords.None, Default).Or(SingleConverter);
+        internal static readonly IValueConverter<TextDecorationLine[]> Converter = SingleConverter.Or(Keywords.None, Default);
         readonly List<TextDecorationLine> _lines;
 
         #endregion

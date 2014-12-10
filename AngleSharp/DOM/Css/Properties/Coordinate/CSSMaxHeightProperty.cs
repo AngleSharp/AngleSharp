@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly IDistance Default = null;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(TakeOne(Keywords.None, Default));
+        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(Keywords.None, Default);
         /// <summary>
         /// No limit on the height of the box if _mode == null.
         /// </summary>

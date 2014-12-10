@@ -13,8 +13,7 @@
         #region Fields
 
         internal static readonly Length Default = Length.Zero;
-        internal static readonly IValueConverter<Length> Converter = Converters.LengthConverter.Or(
-            TakeOne(Keywords.None, Default));
+        internal static readonly IValueConverter<Length> Converter = Converters.LengthConverter.Or(Keywords.None, Default);
         Length _distance;
 
         #endregion

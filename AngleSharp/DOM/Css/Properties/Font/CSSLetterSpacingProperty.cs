@@ -13,8 +13,7 @@
         #region Fields
 
         internal static readonly Length? Default = null;
-        internal static readonly IValueConverter<Length?> Converter = TakeOne(Keywords.Normal, Default).Or(
-            Converters.LengthConverter.ToNullable());
+        internal static readonly IValueConverter<Length?> Converter = Converters.LengthConverter.ToNullable().Or(Keywords.Normal, Default);
         Length? _spacing;
 
         #endregion

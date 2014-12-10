@@ -13,8 +13,7 @@
         #region Fields
 
         internal static readonly IImageSource Default = null;
-        internal static readonly IValueConverter<IImageSource> Converter = TakeOne(Keywords.None, Default).Or(
-            Converters.ImageSourceConverter);
+        internal static readonly IValueConverter<IImageSource> Converter = Converters.ImageSourceConverter.Or(Keywords.None, Default);
         IImageSource _image;
 
         #endregion

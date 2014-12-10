@@ -20,7 +20,7 @@
             Converters.BorderSliceConverter.Option(null),
             Converters.BorderSliceConverter.Option(null),
             Converters.BorderSliceConverter.Option(null),
-            TakeOne(Keywords.Fill, true).Option(false)
+            Converters.Assign(Keywords.Fill, true).Option(false)
         );
 
         IDistance _top;

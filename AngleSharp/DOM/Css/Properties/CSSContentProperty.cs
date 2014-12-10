@@ -33,9 +33,7 @@
 
             Default = new[] { new NormalContentMode() };
 
-            Converter = 
-                TakeOne(Keywords.Normal, Default).Or(
-                TakeOne(Keywords.None, new ContentMode[0])).Or(
+            Converter = Converters.Assign(Keywords.Normal, Default).Or(Keywords.None, new ContentMode[0]).Or(
                     ContentModes.ToConverter().Or(
                     Converters.UrlConverter.To(url => (ContentMode)new UrlContentMode(url.Url))).Or(
                     Converters.StringConverter.To(str => (ContentMode)new TextContentMode(str))).Or(

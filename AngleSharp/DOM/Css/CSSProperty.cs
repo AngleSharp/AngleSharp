@@ -270,12 +270,7 @@
 
         public static IValueConverter<Boolean> Toggle(String on, String off)
         {
-            return TakeOne(on, true).Or(TakeOne(off, false));
-        }
-
-        public static IValueConverter<T> TakeOne<T>(String identifier, T result)
-        {
-            return new IdentifierValueConverter<T>(identifier, result);
+            return Converters.Assign(on, true).Or(off, false);
         }
 
         #endregion

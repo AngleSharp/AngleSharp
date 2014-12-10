@@ -18,8 +18,8 @@
         static readonly Repeat RepeatY = new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat };
         internal static readonly Repeat Default = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
         internal static readonly IValueConverter<Repeat> SingleConverter = Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
-            TakeOne(Keywords.RepeatX, RepeatX)).Or(
-            TakeOne(Keywords.RepeatY, RepeatY)).Or(
+            Keywords.RepeatX, RepeatX).Or(
+            Keywords.RepeatY, RepeatY).Or(
             WithOrder(
                 Map.BackgroundRepeats.ToConverter().Required(), 
                 Map.BackgroundRepeats.ToConverter().Required()).To(

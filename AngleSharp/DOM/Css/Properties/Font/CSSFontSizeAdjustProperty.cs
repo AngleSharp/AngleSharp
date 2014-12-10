@@ -13,8 +13,7 @@
         #region Fields
 
         internal static readonly Single? Default = null;
-        internal static readonly IValueConverter<Single?> Converter = TakeOne(Keywords.None, Default).Or(
-            Converters.NumberConverter.ToNullable());
+        internal static readonly IValueConverter<Single?> Converter = Converters.NumberConverter.ToNullable().Or(Keywords.None, Default);
         Single? _aspectValue;
 
         #endregion

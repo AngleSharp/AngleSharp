@@ -15,7 +15,7 @@
 
         internal static readonly IImageSource[] Default = new IImageSource[0];
         internal static readonly IValueConverter<IImageSource> SingleConverter = Converters.ImageSourceConverter;
-        internal static readonly IValueConverter<IImageSource[]> Converter = TakeOne(Keywords.None, Default).Or(SingleConverter.FromList());
+        internal static readonly IValueConverter<IImageSource[]> Converter = SingleConverter.FromList().Or(Keywords.None, Default);
         readonly List<IImageSource> _images;
 
         #endregion
