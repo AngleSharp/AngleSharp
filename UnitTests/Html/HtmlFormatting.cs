@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.Extensions;
 using AngleSharp.DOM;
@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlFormattingTests
     {
-        [TestMethod]
+        [Test]
         public void FormattingEightFontTagsWithParagraph()
         {
             var doc = DocumentBuilder.Html(@"<p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X");
@@ -187,7 +187,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml0body1p1font0font0font0font0font0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingThreeFontTagsWithParagraph()
         {
             var doc = DocumentBuilder.Html(@"<p><font size=4><font size=4><font size=4><font size=4><p>X");
@@ -304,7 +304,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml0body1p1font0font0font0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingFiveFontTagsWithParagraph()
         {
             var doc = DocumentBuilder.Html(@"<p><font size=4><font size=4><font size=4><font size=""5""><font size=4><p>X");
@@ -427,7 +427,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml0body1p1font0font0font0font0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingFourFontTagsWithParagraph()
         {
             var doc = DocumentBuilder.Html(@"<p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X");
@@ -575,7 +575,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml0body1p1font0font0font0font0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingMultipleBoldTagsWithObject()
         {
             var doc = DocumentBuilder.Html(@"<p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y");
@@ -709,7 +709,7 @@ namespace UnitTests
             Assert.AreEqual("Y", dochtml0body1p1b0b0b0b0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingMultipleTagsWithXInDivSurroundedByAnchor()
         {
             var doc = DocumentBuilder.Html(@"<a><b><big><em><strong><div>X</a>");
@@ -797,7 +797,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml0body1big1em0strong0div0a0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingEightDivsInBoldAndAnchor()
         {
             var doc = DocumentBuilder.Html(@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8>A</a>");
@@ -964,7 +964,7 @@ namespace UnitTests
             Assert.AreEqual("A", dochtml0body1b1div0div1div1div1div1div1div1div1a0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingNineDivsInBoldAndAnchor()
         {
             var doc = DocumentBuilder.Html(@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9>A</a>");
@@ -1139,7 +1139,7 @@ namespace UnitTests
             Assert.AreEqual("A", dochtml0body1b1div0div1div1div1div1div1div1div1a0div0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingTenDivsInBoldAndAnchor()
         {
             var doc = DocumentBuilder.Html(@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9><div id=10>A</a>");
@@ -1324,7 +1324,7 @@ namespace UnitTests
             Assert.AreEqual("A", dochtml0body1b1div0div1div1div1div1div1div1div1a0div0div0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingCiteBoldCiteItalicCiteItalicCiteItalicDivWithText()
         {
             var doc = DocumentBuilder.Html(@"<cite><b><cite><i><cite><i><cite><i><div>X</b>TEST");

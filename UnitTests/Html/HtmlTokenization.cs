@@ -1,16 +1,16 @@
 ﻿using AngleSharp;
 using AngleSharp.Parser;
 using AngleSharp.Parser.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Text;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlTokenizationTests
     {
-        [TestMethod]
+        [Test]
         public void TokenizationFinalEOF()
         {
             var s = new TextSource("");
@@ -19,7 +19,7 @@ namespace UnitTests
             Assert.AreEqual(HtmlTokenType.EOF, token.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationLongerCharacterReference()
         {
             var content = "&abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTV;";
@@ -30,7 +30,7 @@ namespace UnitTests
             Assert.AreEqual(content, ((HtmlCharacterToken)token).Data);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationStartTagDetection()
         {
             var s = new TextSource("<p>");
@@ -40,7 +40,7 @@ namespace UnitTests
             Assert.AreEqual("p", ((HtmlTagToken)token).Name);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationBogusCommentEmpty()
         {
             var s = new TextSource("<!>");
@@ -50,7 +50,7 @@ namespace UnitTests
             Assert.AreEqual(String.Empty, ((HtmlCommentToken)token).Data);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationBogusCommentQuestionMark()
         {
             var s = new TextSource("<?>");
@@ -60,7 +60,7 @@ namespace UnitTests
             Assert.AreEqual("?", ((HtmlCommentToken)token).Data);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationBogusCommentClosingTag()
         {
             var s = new TextSource("</ >");
@@ -70,7 +70,7 @@ namespace UnitTests
             Assert.AreEqual(" ", ((HtmlCommentToken)token).Data);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationTagNameDetection()
         {
             var s = new TextSource("<span>");
@@ -79,7 +79,7 @@ namespace UnitTests
             Assert.AreEqual("span", ((HtmlTagToken)token).Name);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationTagSelfClosingDetected()
         {
             var s = new TextSource("<img />");
@@ -88,7 +88,7 @@ namespace UnitTests
             Assert.AreEqual(true, ((HtmlTagToken)token).IsSelfClosing);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationAttributesDetected()
         {
             var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
@@ -97,7 +97,7 @@ namespace UnitTests
             Assert.AreEqual(3, ((HtmlTagToken)token).Attributes.Count);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationAttributeNameDetection()
         {
             var s = new TextSource("<input required>");
@@ -106,7 +106,7 @@ namespace UnitTests
             Assert.AreEqual("required", ((HtmlTagToken)token).Attributes[0].Key);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationTagMixedCaseHandling()
         {
             var s = new TextSource("<InpUT>");
@@ -115,7 +115,7 @@ namespace UnitTests
             Assert.AreEqual("input", ((HtmlTagToken)token).Name);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationTagSpacesBehind()
         {
             var s = new TextSource("<i   >");
@@ -124,7 +124,7 @@ namespace UnitTests
             Assert.AreEqual("i", ((HtmlTagToken)token).Name);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationCharacterReferenceNotin()
         {
             var str = string.Empty;
@@ -145,7 +145,7 @@ namespace UnitTests
             Assert.AreEqual("I'm ∉ I tell you", str);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationCharacterReferenceNotIt()
         {
             var str = string.Empty;
@@ -166,7 +166,7 @@ namespace UnitTests
             Assert.AreEqual("I'm ¬it; I tell you", str);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationDoctypeDetected()
         {
             var s = new TextSource("<!doctype html>");
@@ -175,7 +175,7 @@ namespace UnitTests
             Assert.AreEqual(HtmlTokenType.DOCTYPE, token.Type);
         }
         
-        [TestMethod]
+        [Test]
         public void TokenizationCommentDetected()
         {
             var s = new TextSource("<!-- hi my friend -->");
@@ -184,7 +184,7 @@ namespace UnitTests
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationCDataDetected()
         {
             var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
@@ -194,7 +194,7 @@ namespace UnitTests
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationCDataCorrectCharacters()
         {
             StringBuilder sb = new StringBuilder();
@@ -215,7 +215,7 @@ namespace UnitTests
             Assert.AreEqual("hi mum how <!-- are you doing />", sb.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void TokenizationUnusualDoctype()
         {
             var s = new TextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");

@@ -1,13 +1,13 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlCssIntegrationTests
     {
-        [TestMethod]
+        [Test]
         public void DetectStylesheet()
         {
             var html = @"<!DOCTYPE html>

@@ -1,13 +1,13 @@
 ﻿using AngleSharp;
 using AngleSharp.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class CommonExtensionsTests
     {
-        [TestMethod]
+        [Test]
         public void ContainsTestSuccess()
         {
             var list = "abcd[g;.";
@@ -15,7 +15,7 @@ namespace UnitTests.Library
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void HexadecimalNumbersWorking()
         {
             for (int i = 0; i < 256; i++)
@@ -27,7 +27,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ContainsTestFail()
         {
             var list = "abcd[g;.";
@@ -35,7 +35,7 @@ namespace UnitTests.Library
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseEmptyString()
         {
             var str = string.Empty;
@@ -43,7 +43,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseNoSpacesString()
         {
             var str = "ThisIsMyString";
@@ -51,7 +51,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseSingleSpacesString()
         {
             var str = "This Is My String";
@@ -59,7 +59,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseMultipleSpacesString()
         {
             var original = "This Is My String";
@@ -68,7 +68,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseMultipleLeadingSpacesString()
         {
             var original = " This Is My String";
@@ -77,7 +77,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseMultipleTrailingSpacesString()
         {
             var original = "This Is My String ";
@@ -86,7 +86,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseMultipleLeadingTrailingSpacesString()
         {
             var original = " This Is My String ";
@@ -95,7 +95,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripEmptyString()
         {
             var str = string.Empty;
@@ -103,7 +103,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripNoSpacesString()
         {
             var str = "ThisIsMyString";
@@ -111,7 +111,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripSingleSpacesString()
         {
             var str = "This Is My String";
@@ -119,7 +119,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripMultipleSpacesString()
         {
             var original = "This Is My String";
@@ -128,7 +128,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripMultipleLeadingSpacesString()
         {
             var original = "This Is My String";
@@ -137,7 +137,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripMultipleTrailingSpacesString()
         {
             var original = "This Is My String";
@@ -146,7 +146,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void CollapseStripMultipleLeadingTrailingSpacesString()
         {
             var original = "This Is My String";
@@ -155,7 +155,7 @@ namespace UnitTests.Library
             Assert.AreEqual(original, result);
         }
 
-        [TestMethod]
+        [Test]
         public void FromHexNumeric()
         {
             var number = '2';
@@ -163,7 +163,7 @@ namespace UnitTests.Library
             Assert.AreEqual(2, result);
         }
 
-        [TestMethod]
+        [Test]
         public void FromHexLowercase()
         {
             var number = 'c';
@@ -171,7 +171,7 @@ namespace UnitTests.Library
             Assert.AreEqual(12, result);
         }
 
-        [TestMethod]
+        [Test]
         public void FromHexUppercase()
         {
             var number = 'F';
@@ -179,7 +179,7 @@ namespace UnitTests.Library
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLineBreaksWithoutLineBreak()
         {
             var str = "Hi there how are you";
@@ -187,7 +187,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLineBreaksWithLineBreak()
         {
             var str = "Hi\nthere\thow\r\n\nare you";
@@ -195,7 +195,7 @@ namespace UnitTests.Library
             Assert.AreEqual("Hithere\thoware you", result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLineBreaksOnlyLineBreak()
         {
             var str = "\r\n\r\n\n\n\r\n";
@@ -203,7 +203,7 @@ namespace UnitTests.Library
             Assert.AreEqual("", result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLineBreaksEmptyString()
         {
             var str = "";
@@ -211,7 +211,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLeadingTailingSpacesEmptyString()
         {
             var str = "";
@@ -219,7 +219,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLeadingTailingSpacesSpaceString()
         {
             var str = "       ";
@@ -227,7 +227,7 @@ namespace UnitTests.Library
             Assert.AreEqual(0, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLeadingTailingSpacesNormalString()
         {
             var str = "Hello how are you";
@@ -235,7 +235,7 @@ namespace UnitTests.Library
             Assert.AreEqual(str, result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLeadingTailingSpacesLeadingSpacesString()
         {
             var str = "   What is that";
@@ -243,7 +243,7 @@ namespace UnitTests.Library
             Assert.AreEqual("What is that", result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLeadingTailingSpacesTailingSpacesString()
         {
             var str = "How are you   ";
@@ -251,7 +251,7 @@ namespace UnitTests.Library
             Assert.AreEqual("How are you", result);
         }
 
-        [TestMethod]
+        [Test]
         public void StripLeadingTailingSpacesBothKindOfSpacesString()
         {
             var str = "   Hello how are you    ";
@@ -259,7 +259,7 @@ namespace UnitTests.Library
             Assert.AreEqual("Hello how are you", result);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitStringOnSpace()
         {
             var str = "Hi there how are you";
@@ -267,7 +267,7 @@ namespace UnitTests.Library
             Assert.AreEqual(5, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitStringNothingFound()
         {
             var str = "Hi there how are you";
@@ -275,7 +275,7 @@ namespace UnitTests.Library
             Assert.AreEqual(1, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitStringFinalDelimiter()
         {
             var str = "Hi there how are you ";
@@ -283,7 +283,7 @@ namespace UnitTests.Library
             Assert.AreEqual(5, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitTrimmingStringOnSpace()
         {
             var str = "Hi there how are you";
@@ -291,7 +291,7 @@ namespace UnitTests.Library
             Assert.AreEqual(5, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitTrimmingStringNothingFound()
         {
             var str = "Hi there how are you";
@@ -299,7 +299,7 @@ namespace UnitTests.Library
             Assert.AreEqual(1, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitTrimmingStringTrimming()
         {
             var str = "Hi;  there how ;are you";
@@ -307,7 +307,7 @@ namespace UnitTests.Library
             Assert.AreEqual("there how", result[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitTrimmingStringLength()
         {
             var str = "Hi;  there how ;are you";

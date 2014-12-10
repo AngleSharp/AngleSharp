@@ -2,14 +2,14 @@
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using AngleSharp.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Html
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlTemplateTests
     {
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTextContent()
         {
             var doc = DocumentBuilder.Html(@"<body><template>Hello</template>");
@@ -47,7 +47,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Hello", dochtml0body1template0ContentText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeStandaloneWithTextContent()
         {
             var doc = DocumentBuilder.Html(@"<template>Hello</template>");
@@ -85,7 +85,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeEmptyFollowedByEmptyDiv()
         {
             var doc = DocumentBuilder.Html(@"<template></template><div></div>");
@@ -125,7 +125,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateInHtmlWithTextContent()
         {
             var doc = DocumentBuilder.Html(@"<html><template>Hello</template>");
@@ -163,7 +163,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateInHeadWithDivElement()
         {
             var doc = DocumentBuilder.Html(@"<head><template><div></div></template></head>");
@@ -203,7 +203,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInDivWithDivAndSpanMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<div><template><div><span></template><b>");
@@ -261,7 +261,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1div0b1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInDivMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<div><template></div>Hello");
@@ -305,7 +305,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Hello", dochtml0body1div0template0ContentText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeClosedInDivElement()
         {
             var doc = DocumentBuilder.Html(@"<div></template></div>");
@@ -335,7 +335,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTableElement()
         {
             var doc = DocumentBuilder.Html(@"<table><template></template></table>");
@@ -375,7 +375,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTableElementMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<table><template></template></div>");
@@ -415,7 +415,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInDivUnderTableElement()
         {
             var doc = DocumentBuilder.Html(@"<table><div><template></template></div>");
@@ -461,7 +461,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeFollowedByDivInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><template></template><div></div>");
@@ -507,7 +507,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table1template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTableAfterSpaces()
         {
             var doc = DocumentBuilder.Html(@"<table>   <template></template></table>");
@@ -551,7 +551,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template1Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTbody()
         {
             var doc = DocumentBuilder.Html(@"<table><tbody><template></template></tbody>");
@@ -597,7 +597,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTbodyMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<table><tbody><template></tbody></template>");
@@ -643,7 +643,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTbodyInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><tbody><template></template></tbody></table>");
@@ -689,7 +689,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInThead()
         {
             var doc = DocumentBuilder.Html(@"<table><thead><template></template></thead>");
@@ -735,7 +735,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0thead0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInTfoot()
         {
             var doc = DocumentBuilder.Html(@"<table><tfoot><template></template></tfoot>");
@@ -781,7 +781,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tfoot0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInSelect()
         {
             var doc = DocumentBuilder.Html(@"<select><template></template></select>");
@@ -821,7 +821,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOptionInSelect()
         {
             var doc = DocumentBuilder.Html(@"<select><template><option></option></template></select>");
@@ -867,7 +867,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template0Contentoption0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOptionsAndMisclosedSelect()
         {
             var doc = DocumentBuilder.Html(@"<template><option></option></select><option></option></template>");
@@ -913,7 +913,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInSelectFollowedByOption()
         {
             var doc = DocumentBuilder.Html(@"<select><template></template><option></select>");
@@ -959,7 +959,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1select0option1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInOptionOfSelect()
         {
             var doc = DocumentBuilder.Html(@"<select><option><template></template></select>");
@@ -1005,7 +1005,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0option0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInImplicitlyClosed()
         {
             var doc = DocumentBuilder.Html(@"<select><template>");
@@ -1045,7 +1045,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInInSelectAfterClosedOption()
         {
             var doc = DocumentBuilder.Html(@"<select><option></option><template>");
@@ -1091,7 +1091,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template1Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenOptionInSelectAfterClosedOption()
         {
             var doc = DocumentBuilder.Html(@"<select><option></option><template><option>");
@@ -1143,7 +1143,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template1Contentoption0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTdInThead()
         {
             var doc = DocumentBuilder.Html(@"<table><thead><template><td></template></table>");
@@ -1195,7 +1195,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0thead0template0Contenttd0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTheadInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><template><thead></template></table>");
@@ -1241,7 +1241,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contentthead0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTdAndMisclosedTrInTable()
         {
             var doc = DocumentBuilder.Html(@"<body><table><template><td></tr><div></template></table>");
@@ -1293,7 +1293,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttd0div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTheadInTableWithMisclosedThead()
         {
             var doc = DocumentBuilder.Html(@"<table><template><thead></template></thead></table>");
@@ -1339,7 +1339,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contentthead0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTrInTheadInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><thead><template><tr></template></table>");
@@ -1391,7 +1391,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0thead0template0Contenttr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTrInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><template><tr></template></table>");
@@ -1437,7 +1437,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTdInTrInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><template><td>");
@@ -1495,7 +1495,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0template0Contenttd0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodesNestedWithClosedElementsInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><template><tr><template><td></template></tr></template></table>");
@@ -1557,7 +1557,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttr0template0Contenttd0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodesNestedWithOpenElementsInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><template><tr><template><td></td></template></tr></template></table>");
@@ -1619,7 +1619,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttr0template0Contenttd0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithOpenTdInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><template><td></template>");
@@ -1665,7 +1665,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttd0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithTdInBody()
         {
             var doc = DocumentBuilder.Html(@"<body><template><td></td></template>");
@@ -1705,7 +1705,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodesMisnestedContent()
         {
             var doc = DocumentBuilder.Html(@"<body><template><template><tr></tr></template><td></td></template>");
@@ -1761,7 +1761,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithColInColgroupInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><colgroup><template><col>");
@@ -1813,7 +1813,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithFrameInFrameset()
         {
             var doc = DocumentBuilder.Html(@"<frameset><template><frame></frame></template></frameset>");
@@ -1837,7 +1837,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateWithFrameAndMisclosedFrameset()
         {
             var doc = DocumentBuilder.Html(@"<template><frame></frame></frameset><frame></frame></template>");
@@ -1865,7 +1865,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateWithDivFramesetAndSpan()
         {
             var doc = DocumentBuilder.Html(@"<template><div><frameset><span></span></div><span></span></template>");
@@ -1917,7 +1917,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithDivFramesetSpan()
         {
             var doc = DocumentBuilder.Html(@"<body><template><div><frameset><span></span></div><span></span></template></body>");
@@ -1969,7 +1969,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentspan1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithScriptAndTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><script>var i = 1;</script><td></td></template>");
@@ -2019,7 +2019,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTrDiv()
         {
             var doc = DocumentBuilder.Html(@"<body><template><tr><div></div></tr></template>");
@@ -2065,7 +2065,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentdiv1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTrTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><tr></tr><td></td></template>");
@@ -2117,7 +2117,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttr1td0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTdMisclosedTrAndTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><td></td></tr><td></td></template>");
@@ -2163,7 +2163,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTdTbodyTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><td></td><tbody><td></td></template>");
@@ -2209,7 +2209,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTdCaptionTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><td></td><caption></caption><td></td></template>");
@@ -2255,7 +2255,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTdColgroupTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><td></td><colgroup></caption><td></td></template>");
@@ -2301,7 +2301,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTdMisclosedTableAndTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><td></td></table><td></td></template>");
@@ -2347,7 +2347,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTrTbodyTr()
         {
             var doc = DocumentBuilder.Html(@"<body><template><tr></tr><tbody><tr></tr></template>");
@@ -2393,7 +2393,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttr1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTrCaptionTr()
         {
             var doc = DocumentBuilder.Html(@"<body><template><tr></tr><caption><tr></tr></template>");
@@ -2439,7 +2439,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttr1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTrMisclosedTableTr()
         {
             var doc = DocumentBuilder.Html(@"<body><template><tr></tr></table><tr></tr></template>");
@@ -2485,7 +2485,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttr1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTheadCaptionTbody()
         {
             var doc = DocumentBuilder.Html(@"<body><template><thead></thead><caption></caption><tbody></tbody></template>");
@@ -2537,7 +2537,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttbody2.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTheadMisclosedTableTbody()
         {
             var doc = DocumentBuilder.Html(@"<body><template><thead></thead></table><tbody></tbody></template></body>");
@@ -2583,7 +2583,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttbody1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithDivTr()
         {
             var doc = DocumentBuilder.Html(@"<body><template><div><tr></tr></div></template>");
@@ -2623,7 +2623,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentdiv0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithEmAndText()
         {
             var doc = DocumentBuilder.Html(@"<body><template><em>Hello</em></template>");
@@ -2667,7 +2667,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Hello", dochtml0body1template0Contentem0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithComment()
         {
             var doc = DocumentBuilder.Html(@"<body><template><!--comment--></template>");
@@ -2705,7 +2705,7 @@ namespace UnitTests.Html
             Assert.AreEqual(@"comment", dochtml0body1template0ContentComment0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithStyleTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><style></style><td></td></template>");
@@ -2751,7 +2751,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithMetaTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><meta><td></td></template>");
@@ -2797,7 +2797,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithLinkTd()
         {
             var doc = DocumentBuilder.Html(@"<body><template><link><td></td></template>");
@@ -2843,7 +2843,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedTemplateWithTr()
         {
             var doc = DocumentBuilder.Html(@"<body><template><template><tr></tr></template><td></td></template>");
@@ -2899,7 +2899,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInColgroupWithCol()
         {
             var doc = DocumentBuilder.Html(@"<body><table><colgroup><template><col></col></template></colgroup></table></body>");
@@ -2951,7 +2951,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithAttrAndDivAndOtherBody()
         {
             var doc = DocumentBuilder.Html(@"<body a=b><template><div></div><body c=d><div></div></body></template></body>");
@@ -3000,7 +3000,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentdiv1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInHtmlWithAttrWithDivAndOtherHtml()
         {
             var doc = DocumentBuilder.Html(@"<html a=b><template><div><html b=c><span></template>");
@@ -3049,7 +3049,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInHtmlWithAttrWithColAndOtherHtml()
         {
             var doc = DocumentBuilder.Html(@"<html a=b><template><col></col><html b=c><col></col></template>");
@@ -3098,7 +3098,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInHtmlWithAttrWithFrameAndOtherHtml()
         {
             var doc = DocumentBuilder.Html(@"<html a=b><template><frame></frame><html b=c><frame></frame></template>");
@@ -3135,7 +3135,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTrAndNestedTemplate()
         {
             var doc = DocumentBuilder.Html(@"<body><template><tr></tr><template></template><td></td></template>");
@@ -3197,7 +3197,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttr2td0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithTheadTrTfootNestedTemplateWithTr()
         {
             var doc = DocumentBuilder.Html(@"<body><template><thead></thead><template><tr></tr></template><tr></tr><tfoot></tfoot></template>");
@@ -3271,7 +3271,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttfoot3.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithNestedTemplateBTemplateAndText()
         {
             var doc = DocumentBuilder.Html(@"<body><template><template><b><template></template></template>text</template>");
@@ -3335,7 +3335,7 @@ namespace UnitTests.Html
             Assert.AreEqual("text", dochtml0body1template0ContentText1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithColColgroupInBody()
         {
             var doc = DocumentBuilder.Html(@"<body><template><col><colgroup>");
@@ -3375,7 +3375,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithColMisclosedColgroupInBody()
         {
             var doc = DocumentBuilder.Html(@"<body><template><col></colgroup>");
@@ -3415,7 +3415,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithColAndColgroup()
         {
             var doc = DocumentBuilder.Html(@"<body><template><col><colgroup></template></body>");
@@ -3455,7 +3455,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithColDiv()
         {
             var doc = DocumentBuilder.Html(@"<body><template><col><div>");
@@ -3495,7 +3495,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithColMisclosedDiv()
         {
             var doc = DocumentBuilder.Html(@"<body><template><col></div>");
@@ -3535,7 +3535,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithColAndText()
         {
             var doc = DocumentBuilder.Html(@"<body><template><col>Hello");
@@ -3575,7 +3575,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contentcol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithItalicAndMenuAndText()
         {
             var doc = DocumentBuilder.Html(@"<body><template><i><menu>Foo</i>");
@@ -3631,7 +3631,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Foo", dochtml0body1template0Contentmenu1i0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithMisclosedDivDivTextAndNestedTemplateInBody()
         {
             var doc = DocumentBuilder.Html(@"<body><template></div><div>Foo</div><template></template><tr></tr>");
@@ -3685,7 +3685,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate1Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeInBodyWithMisclosedDivTrTdAndText()
         {
             var doc = DocumentBuilder.Html(@"<body><div><template></div><tr><td>Foo</td></tr></template>");
@@ -3741,7 +3741,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Foo", dochtml0body1div0template0Contenttr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeMisclosedFigcaptionAndSubAndTable()
         {
             var doc = DocumentBuilder.Html(@"<template></figcaption><sub><table></table>");
@@ -3787,7 +3787,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeEmptyNested()
         {
             var doc = DocumentBuilder.Html(@"<template><template>");
@@ -3831,7 +3831,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithDivStandalone()
         {
             var doc = DocumentBuilder.Html(@"<template><div>");
@@ -3871,7 +3871,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithDiv()
         {
             var doc = DocumentBuilder.Html(@"<template><template><div>");
@@ -3921,7 +3921,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithTable()
         {
             var doc = DocumentBuilder.Html(@"<template><template><table>");
@@ -3971,7 +3971,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithTbody()
         {
             var doc = DocumentBuilder.Html(@"<template><template><tbody>");
@@ -4021,7 +4021,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithTr()
         {
             var doc = DocumentBuilder.Html(@"<template><template><tr>");
@@ -4071,7 +4071,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithTd()
         {
             var doc = DocumentBuilder.Html(@"<template><template><td>");
@@ -4121,7 +4121,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithCaption()
         {
             var doc = DocumentBuilder.Html(@"<template><template><caption>");
@@ -4171,7 +4171,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithColgroup()
         {
             var doc = DocumentBuilder.Html(@"<template><template><colgroup>");
@@ -4221,7 +4221,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithCol()
         {
             var doc = DocumentBuilder.Html(@"<template><template><col>");
@@ -4271,7 +4271,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithSelectInTbody()
         {
             var doc = DocumentBuilder.Html(@"<template><template><tbody><select>");
@@ -4327,7 +4327,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithTextInTable()
         {
             var doc = DocumentBuilder.Html(@"<template><template><table>Foo");
@@ -4381,7 +4381,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithFrame()
         {
             var doc = DocumentBuilder.Html(@"<template><template><frame>");
@@ -4419,7 +4419,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithScriptUnclosed()
         {
             var doc = DocumentBuilder.Html(@"<template><template><script>var i");
@@ -4473,7 +4473,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeNestedWithStyleUnclosed()
         {
             var doc = DocumentBuilder.Html(@"<template><template><style>var i");
@@ -4527,7 +4527,7 @@ namespace UnitTests.Html
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithTableBeforeBodySpanText()
         {
             var doc = DocumentBuilder.Html(@"<template><table></template><body><span>Foo");
@@ -4577,7 +4577,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Foo", dochtml0body1span0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithTdBeforeBodySpanText()
         {
             var doc = DocumentBuilder.Html(@"<template><td></template><body><span>Foo");
@@ -4627,7 +4627,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Foo", dochtml0body1span0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithObjectBeforeBodySpanText()
         {
             var doc = DocumentBuilder.Html(@"<template><object></template><body><span>Foo");
@@ -4677,7 +4677,7 @@ namespace UnitTests.Html
             Assert.AreEqual("Foo", dochtml0body1span0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TemplateNodeWithSvgAndNestedTemplate()
         {
             var doc = DocumentBuilder.Html(@"<template><svg><template>");

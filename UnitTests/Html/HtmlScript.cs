@@ -1,7 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Parser.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
@@ -9,10 +9,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/tests16.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class HtmlScriptTests
     {
-        [TestMethod]
+        [Test]
         public void ScriptElementAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script>");
@@ -47,7 +47,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithTextAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script>a");
@@ -86,7 +86,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><");
@@ -127,7 +127,7 @@ namespace UnitTests
 
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></");
@@ -166,7 +166,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingUppercaseLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></S");
@@ -205,7 +205,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingTwoUppercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></SC");
@@ -244,7 +244,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingThreeUppercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></SCR");
@@ -283,7 +283,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingFourUppercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRI");
@@ -322,7 +322,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingFiveUppercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRIP");
@@ -361,7 +361,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingSixUppercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRIPT");
@@ -400,7 +400,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingSevenUppercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRIPT ");
@@ -435,7 +435,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingLowercaseLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></s");
@@ -474,7 +474,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingTwoLowercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></sc");
@@ -513,7 +513,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingThreeLowercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></scr");
@@ -552,7 +552,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingFourLowercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></scri");
@@ -591,7 +591,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingFiveLowercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></scrip");
@@ -630,7 +630,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingSixLowercaseLettersAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></script");
@@ -669,7 +669,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenClosingSixLowercaseLettersAndSpaceAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script></script ");
@@ -704,7 +704,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenBogusCommentAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!");
@@ -743,7 +743,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenBogusCommentAndLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!a");
@@ -782,7 +782,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenBogusCommentAndDashAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!-");
@@ -821,7 +821,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenBogusCommentAndDashLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!-a");
@@ -860,7 +860,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--");
@@ -899,7 +899,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--a");
@@ -938,7 +938,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<");
@@ -977,7 +977,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<a");
@@ -1016,7 +1016,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenSlashAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--</");
@@ -1055,7 +1055,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashClosingScriptUnfinishedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--</script");
@@ -1094,7 +1094,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashClosingScriptUnfinishedSpacesAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--</script ");
@@ -1133,7 +1133,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenLetterSAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<s");
@@ -1172,7 +1172,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script");
@@ -1211,7 +1211,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script ");
@@ -1252,7 +1252,7 @@ namespace UnitTests
 
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesOpenAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script <");
@@ -1291,7 +1291,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesOpenLetterAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script <a");
@@ -1330,7 +1330,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentScriptTagInsideAndClosingAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </");
@@ -1369,7 +1369,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndClosingSTagAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </s");
@@ -1408,7 +1408,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndClosingScriptTagUnfinishedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script");
@@ -1447,7 +1447,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndClosingScriptMisspelledUnfinishedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </scripta");
@@ -1486,7 +1486,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndClosingScriptUnfinishedSpacesAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script ");
@@ -1525,7 +1525,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndClosedScriptAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script>");
@@ -1564,7 +1564,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenScriptTagAndTrailingSlashWhenClosingScriptAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script/");
@@ -1603,7 +1603,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenScriptTagAndOpenBracketAfterSpaceAfterClosingScriptAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script <");
@@ -1642,7 +1642,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndOpenLowercaseAAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script <a");
@@ -1681,7 +1681,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingTagAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </");
@@ -1720,7 +1720,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script");
@@ -1759,7 +1759,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagUnfinishedWithSpacesAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script ");
@@ -1798,7 +1798,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagUnfinishedTrailingSlashAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script/");
@@ -1837,7 +1837,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosedScriptTagAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script>");
@@ -1876,7 +1876,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -");
@@ -1915,7 +1915,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAndLowercaseAAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -a");
@@ -1954,7 +1954,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAndOpenBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -<");
@@ -1993,7 +1993,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --");
@@ -2032,7 +2032,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesLowercaseAAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --a");
@@ -2071,7 +2071,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesOpenBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --<");
@@ -2110,7 +2110,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithCommentThatHostsScriptElementAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -->");
@@ -2149,7 +2149,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithCommentThatHostsScriptElementAndOpenBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --><");
@@ -2188,7 +2188,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithCommentThatHostsScriptElementAndOpenClosingBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></");
@@ -2227,7 +2227,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithCommentThatHostsScriptElementUnfinishedClosingBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script");
@@ -2266,7 +2266,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithCommentThatHostsScriptElementUnfinishedClosingBracketWithSpacesAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script ");
@@ -2305,7 +2305,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosedCommentThatHostsUnfinishedScriptElementAndClosingUnfinishedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script/");
@@ -2344,7 +2344,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosedCommentThatHostsUnfinishedScriptElementClosedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script>");
@@ -2383,7 +2383,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosedCommentThatHostsScriptPairWithMistakeClosedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script><\/script>--></script>");
@@ -2422,7 +2422,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosedCommentThatHostsScriptPairWithMistakesClosedAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></scr'+'ipt>--></script>");
@@ -2461,7 +2461,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script></script>");
@@ -2500,7 +2500,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAndClosingBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>--><!--</script>");
@@ -2539,7 +2539,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAndHasASpaceBeforeClosingBracketAfterDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>-- ></script>");
@@ -2578,7 +2578,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithMultipleEscapedCommentsWrongBarelyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>- -></script>");
@@ -2617,7 +2617,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithMultipleEscapedCommentsWrongClearlyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>- - ></script>");
@@ -2656,7 +2656,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithMultipleEscapedCommentsWrongWronglyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>-></script>");
@@ -2695,7 +2695,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithEscapedOpenedScriptTagFollowedByText()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script>--!></script>X");
@@ -2734,7 +2734,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithSpecialCharactersInWronglyEscapedScriptTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<scr'+'ipt></script>--></script>");
@@ -2777,7 +2777,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithEscapedScriptTagClosedWrongWithSpecialCharacters()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></scr'+'ipt></script>X");
@@ -2816,7 +2816,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptNoScriptWithClosedCommentThatContainsAnotherClosedNoScriptElement()
         {
             var doc = new Document("<!doctype html><noscript><!--<noscript></noscript>--></noscript>");
@@ -2862,7 +2862,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptNoScriptWithCommentStartAndTextInsideBeforeClosing()
         {
             var doc = new Document("<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>");
@@ -2918,7 +2918,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1noscript1Text0.TextContent);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptNoScriptAfterDoctypeWithIFrameContentAndTextAfter()
         {
             var doc = new Document("<!doctype html><noscript><iframe></noscript>X");
@@ -2964,7 +2964,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml1body1Text0.TextContent);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithinBodyThatisInsideNoframes()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><noframes><body><script><!--...</script></body></noframes></html>");
@@ -3003,7 +3003,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptStandalone()
         {
             var doc = DocumentBuilder.Html(@"<script>");
@@ -3033,7 +3033,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithTextLowercaseA()
         {
             var doc = DocumentBuilder.Html(@"<script>a");
@@ -3067,7 +3067,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithTextLt()
         {
             var doc = DocumentBuilder.Html(@"<script><");
@@ -3101,7 +3101,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithTextLtSlash()
         {
             var doc = DocumentBuilder.Html(@"<script></");
@@ -3135,7 +3135,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagSpace()
         {
             var doc = DocumentBuilder.Html(@"<script></SCRIPT ");
@@ -3165,7 +3165,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagLowercaseS()
         {
             var doc = DocumentBuilder.Html(@"<script></s");
@@ -3199,7 +3199,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagLowercaseSC()
         {
             var doc = DocumentBuilder.Html(@"<script></sc");
@@ -3233,7 +3233,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagLowercaseSCR()
         {
             var doc = DocumentBuilder.Html(@"<script></scr");
@@ -3267,7 +3267,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRI()
         {
             var doc = DocumentBuilder.Html(@"<script></scri");
@@ -3301,7 +3301,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRIP()
         {
             var doc = DocumentBuilder.Html(@"<script></scrip");
@@ -3335,7 +3335,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRIPT()
         {
             var doc = DocumentBuilder.Html(@"<script></script");
@@ -3369,7 +3369,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithClosingScriptSpaceInsteadOfGt()
         {
             var doc = DocumentBuilder.Html(@"<script></script ");
@@ -3399,7 +3399,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEm()
         {
             var doc = DocumentBuilder.Html(@"<script><!");
@@ -3433,7 +3433,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmLowercaseA()
         {
             var doc = DocumentBuilder.Html(@"<script><!a");
@@ -3467,7 +3467,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDash()
         {
             var doc = DocumentBuilder.Html(@"<script><!-");
@@ -3501,7 +3501,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashLowercaseA()
         {
             var doc = DocumentBuilder.Html(@"<script><!-a");
@@ -3535,7 +3535,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashDash()
         {
             var doc = DocumentBuilder.Html(@"<script><!--");
@@ -3569,7 +3569,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashDashLowercaseA()
         {
             var doc = DocumentBuilder.Html(@"<script><!--a");
@@ -3603,7 +3603,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashDashLt()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<");
@@ -3637,7 +3637,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashDashLtLowercaseA()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<a");
@@ -3671,7 +3671,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashDashLtSlash()
         {
             var doc = DocumentBuilder.Html(@"<script><!--</");
@@ -3705,7 +3705,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptLtEmDashDashLtSlashLowercaseSCRIPT()
         {
             var doc = DocumentBuilder.Html(@"<script><!--</script");
@@ -3739,7 +3739,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithStartCommentScriptInside()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script </s");
@@ -3773,7 +3773,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithStartCommentAndThreeEscapes()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script </script </script ");
@@ -3807,7 +3807,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithStartCommentAndEffectivelyClosed()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script </script </script>");
@@ -3841,7 +3841,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpeningCommentAndDashLowercaseA()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script -a");
@@ -3875,7 +3875,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptThatTriesToEscapeAnotherScriptTag()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script --");
@@ -3909,7 +3909,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptThatContainsAnotherScriptTagInsideCommentAndIsNotFinished()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script --><");
@@ -3943,7 +3943,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptThatContainsAnotherScriptTagInsideAComment()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script --></script");
@@ -3977,7 +3977,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithCommentThatTriesToOpenCloseButMisspells()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script><\/script>--></script>");
@@ -4011,7 +4011,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithScriptsInCommentCommentBeforeClosing()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>--><!--</script>");
@@ -4045,7 +4045,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithScriptsInCommentSpaceBeforeBracket()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>-- ></script>");
@@ -4079,7 +4079,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithScriptsInCommentSpaceBetweenDash()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>- -></script>");
@@ -4113,7 +4113,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithScriptsInCommentDashMissing()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>-></script>");
@@ -4147,7 +4147,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithValidCommentAndTextAfter()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script>--!></script>X");
@@ -4181,7 +4181,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
  
-        [TestMethod]
+        [Test]
         public void ScriptWithOpenCommentAndClosingMisspelledTextAfter()
         {
             var doc = DocumentBuilder.Html(@"<script><!--<script></scr'+'ipt></script>X");

@@ -3,22 +3,22 @@ using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using AngleSharp.Extensions;
 using AngleSharp.Parser.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Linq;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlTreeTests
     {
-        [TestMethod]
+        [Test]
         public void TreeHasOneBangComment()
         {
             var doc = DocumentBuilder.Html("<!-- BANG IT --!>");
             Assert.AreEqual(2, doc.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5DocumentType()
         {
             var dom = DocumentBuilder.Html("<!doctype html >");
@@ -30,7 +30,7 @@ namespace UnitTests
             Assert.AreEqual("<!DOCTYPE html>", dom.Doctype.ToHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlDocumenTypeWithPublicIdentifier()
         {
             var xhtmlType = "<!DOCTYPE html PUBLIC \"-//w3c//dtd xhtml 1.0\">";
@@ -43,7 +43,7 @@ namespace UnitTests
             Assert.AreEqual(xhtmlType, dom.Doctype.ToHtml());
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNonConformingTable()
         {
             //8.2.5.4.7 The "in body" insertion mode - "In the non-conforming ..."
@@ -69,7 +69,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeIFrameWithAnotherIFramePairInsideComment()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><iframe><!--<iframe></iframe>--></iframe>");
@@ -112,7 +112,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeIFrameWithTextAndStrangeComment()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><iframe>...<!--X->...<!--/X->...</iframe>");
@@ -151,7 +151,7 @@ namespace UnitTests
             Assert.AreEqual("...<!--X->...<!--/X->...", dochtml1body1iframe0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeXmpWithAnotherXmpPairInsideComment()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><xmp><!--<xmp></xmp>--></xmp>");
@@ -194,7 +194,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoEmbedWithAnotherNoEmbedPairInsideComment()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><noembed><!--<noembed></noembed>--></noembed>");
@@ -237,7 +237,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeOneTextNodeTableBeforeABCD()
         {
             //One Text node before the table, containing "ABCD"
@@ -254,7 +254,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeOneTextNodeTableBeforeAspaceBspaceC()
         {
             //One Text node before the table, containing "A B C" (A-space-B-space-C).
@@ -271,7 +271,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeOneTextNodeTableBeforeAspaceBC()
         {
             //One Text node before the table, containing "A BC" (A-space-B-C), and one Text node inside the table (as a child of a tbody) with a single space character.
@@ -289,7 +289,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnexpectedTableMarkup()
         {
             //8.2.8.3 Unexpected markup in tables
@@ -312,7 +312,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeMisnestedTagsHeisenbergNoFurthest()
         {
             //8.2.8.1 Misnested tags: <b><i></b></i>
@@ -334,7 +334,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeMisnestedTagsHeisenbergWithFurthest()
         {
             //8.2.8.2 Misnested tags: <b><p></b></p>
@@ -353,7 +353,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnclosedFormattingElements()
         {
             //8.2.8.6 Unclosed formatting elements
@@ -405,7 +405,7 @@ namespace UnitTests
             Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void HeisenbergAlgorithmStrong()
         {
             var doc = DocumentBuilder.Html(@"<p>1<s id=""A"">2<b id=""B"">3</p>4</s>5</b>");
@@ -462,7 +462,7 @@ namespace UnitTests
             Assert.AreEqual("5", bt.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void OpenButtonWrongClosingTag()
         {
             var doc = DocumentBuilder.Html(@"<button>1</foo>");
@@ -496,7 +496,7 @@ namespace UnitTests
             Assert.AreEqual("1", dochtml0body1button0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void UnknownTagWithParagraphChild()
         {
             var doc = DocumentBuilder.Html(@"<foo>1<p>2</foo>");
@@ -540,7 +540,7 @@ namespace UnitTests
             Assert.AreEqual("2", dochtml0body1foo0p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void OpenDefinitionWrongClosingTag()
         {
             var doc = DocumentBuilder.Html(@"<dd>1</foo>");
@@ -574,7 +574,7 @@ namespace UnitTests
             Assert.AreEqual("1", dochtml0body1dd0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void UnknownTagWithDefinitionChild()
         {
             var doc = DocumentBuilder.Html(@"<foo>1<dd>2</foo>");
@@ -618,7 +618,7 @@ namespace UnitTests
             Assert.AreEqual("2", dochtml0body1foo0dd1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void IsIndexStandalone()
         {
             var doc = DocumentBuilder.Html(@"<isindex>");
@@ -677,7 +677,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1form0hr2.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void IsIndexWithAttributes()
         {
             var doc = DocumentBuilder.Html(@"<isindex name=""A"" action=""B"" prompt=""C"" foo=""D"">");
@@ -738,7 +738,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1form0hr2.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void IsIndexWithinForm()
         {
             var doc = DocumentBuilder.Html(@"<form><isindex>");
@@ -768,7 +768,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1form0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSingleTextNode()
         {
             var doc = DocumentBuilder.Html(@"Test");
@@ -796,7 +796,7 @@ namespace UnitTests
             Assert.AreEqual("Test", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSingleDivElement()
         {
             var doc = DocumentBuilder.Html(@"<div></div>");
@@ -826,7 +826,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSingleDivWithTextNode()
         {
             var doc = DocumentBuilder.Html(@"<div>Test</div>");
@@ -860,7 +860,7 @@ namespace UnitTests
             Assert.AreEqual("Test", dochtml0body1div0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTagStartedUnexpectedEof()
         {
             var doc = DocumentBuilder.Html(@"<di");
@@ -884,7 +884,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDivsWithContentAndScript()
         {
             var doc = DocumentBuilder.Html(@"<div>Hello</div>
@@ -946,7 +946,7 @@ console.log(""PASS"");
             Assert.AreEqual("Bye", dochtml0body1div3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDivWithAttributeAndTextNode()
         {
             var doc = DocumentBuilder.Html(@"<div foo=""bar"">Hello</div>");
@@ -981,7 +981,7 @@ console.log(""PASS"");
             Assert.AreEqual("Hello", dochtml0body1div0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeScriptElementWithTagInside()
         {
             var doc = DocumentBuilder.Html(@"<div>Hello</div>
@@ -1043,7 +1043,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("Bye", dochtml0body1div3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnknownElementsInContent()
         {
             var doc = DocumentBuilder.Html(@"<foo bar=""baz""></foo><potato quack=""duck""></potato>");
@@ -1081,7 +1081,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("duck", dochtml0body1potato1.Attributes.Get("quack").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnknownElementsSurrounding()
         {
             var doc = DocumentBuilder.Html(@"<foo bar=""baz""><potato quack=""duck""></potato></foo>");
@@ -1119,7 +1119,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("duck", dochtml0body1foo0potato0.Attributes.Get("quack").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnknownElementsWithAttributesInClosing()
         {
             var doc = DocumentBuilder.Html(@"<foo></foo bar=""baz""><potato></potato quack=""duck"">");
@@ -1155,7 +1155,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1potato1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeInvalidClosingTag()
         {
             var doc = DocumentBuilder.Html(@"</ tttt>");
@@ -1183,7 +1183,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDivWithAttributeAndImages()
         {
             var doc = DocumentBuilder.Html(@"<div FOO ><img><img></div>");
@@ -1226,7 +1226,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1div0img1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeParagraphsWithTypo()
         {
             var doc = DocumentBuilder.Html(@"<p>Test</p<p>Test2</p>");
@@ -1260,7 +1260,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("TestTest2", dochtml0body1p0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeInvalidStartTag()
         {
             var doc = DocumentBuilder.Html(@"<rdar://problem/6869687>");
@@ -1293,7 +1293,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
 
         }
 
-        [TestMethod]
+        [Test]
         public void TreeAnchorTagWrongClosing()
         {
             var doc = DocumentBuilder.Html(@"<A>test< /A>");
@@ -1327,7 +1327,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("test< /A>", dochtml0body1a0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSingleEntity()
         {
             var doc = DocumentBuilder.Html(@"&lt;");
@@ -1355,7 +1355,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("<", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDoubleBodiesWithAttributes()
         {
             var doc = DocumentBuilder.Html(@"<body foo='bar'><body foo='baz' yo='mama'>");
@@ -1381,7 +1381,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("mama", dochtml0body1.Attributes.Get("yo").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeClosingBrWithAttribute()
         {
             var doc = DocumentBuilder.Html(@"<body></br foo=""bar""></body>");
@@ -1411,7 +1411,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1br0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeBodyTypoWithBrAttributes()
         {
             var doc = DocumentBuilder.Html(@"<bdy><br foo=""bar""></body>");
@@ -1448,7 +1448,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("bar", dochtml0body1bdy0br0.Attributes.Get("foo").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeBrClosingWithAttributesOutsideBodyTag()
         {
             var doc = DocumentBuilder.Html(@"<body></body></br foo=""bar"">");
@@ -1478,7 +1478,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1br0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeBodyTpyoWithBrOutside()
         {
             var doc = DocumentBuilder.Html(@"<bdy></body><br foo=""bar"">");
@@ -1515,7 +1515,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("bar", dochtml0body1bdy0br0.Attributes.Get("foo").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeCommentAfterDocumentRoot()
         {
             var doc = DocumentBuilder.Html(@"<html><body></body></html><!-- Hi there -->");
@@ -1543,7 +1543,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(@" Hi there ", docComment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTextAndCommentAfterDocumentRoot()
         {
             var doc = DocumentBuilder.Html(@"<html><body></body></html>x<!-- Hi there -->");
@@ -1575,7 +1575,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(@" Hi there ", dochtml0body1Comment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTextAndCommentAfterDocumentRootTwice()
         {
             var doc = DocumentBuilder.Html(@"<html><body></body></html>x<!-- Hi there --></html><!-- Again -->");
@@ -1611,7 +1611,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(@" Again ", docComment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTextAndCommentAfterDocumentRootWithRedundantClosingTags()
         {
             var doc = DocumentBuilder.Html(@"<html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->");
@@ -1647,7 +1647,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(@" Again ", docComment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeRubyWithDivs()
         {
             var doc = DocumentBuilder.Html(@"<html><body><ruby><div><rp>xx</rp></div></ruby></body></html>");
@@ -1693,7 +1693,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("xx", dochtml0body1ruby0div0rp0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeRubyAndRtElements()
         {
             var doc = DocumentBuilder.Html(@"<html><body><ruby><div><rt>xx</rt></div></ruby></body></html>");
@@ -1739,7 +1739,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("xx", dochtml0body1ruby0div0rt0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeFramesetAndNoframesElements()
         {
             var doc = DocumentBuilder.Html(@"<html><frameset><!--1--><noframes>A</noframes><!--2--></frameset><!--3--><noframes>B</noframes><!--4--></html><!--5--><noframes>C</noframes><!--6-->");
@@ -1817,7 +1817,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(@"6", docComment2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSelectOptions()
         {
             var doc = DocumentBuilder.Html(@"<select><option>A<select><option>B<select><option>C<select><option>D<select><option>E<select><option>F<select><option>G<select>");
@@ -1935,7 +1935,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("G", dochtml0body1option3select1option0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDefinitionList()
         {
             var doc = DocumentBuilder.Html(@"<dd><dd><dt><dt><dd><li><li>");
@@ -2000,7 +2000,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1dd4li1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDivsAndFormatting()
         {
             var doc = DocumentBuilder.Html(@"<div><b></div><div><nobr>a<nobr>");
@@ -2064,7 +2064,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1div1b0nobr1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStandardStructureWithoutRoot()
         {
             var doc = DocumentBuilder.Html(@"<head></head>
@@ -2093,7 +2093,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body2.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleTagOutsideHead()
         {
             var doc = DocumentBuilder.Html(@"<head></head> <style></style>ddd");
@@ -2131,7 +2131,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("ddd", dochtml0body2Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTableElementMisnestedWithUnknownElement()
         {
             var doc = DocumentBuilder.Html(@"<kbd><table></kbd><col><select><tr>");
@@ -2197,7 +2197,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1kbd0table1tbody1tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTableAndSelectElementMistnestedInUnknownElement()
         {
             var doc = DocumentBuilder.Html(@"<kbd><table></kbd><col><select><tr></table><div>");
@@ -2269,7 +2269,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1kbd0div2.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeVariousTagsInsideAnchorElement()
         {
             var doc = DocumentBuilder.Html(@"<a><li><style></style><title></title></a>");
@@ -2323,7 +2323,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1li1a0title1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeVariousTagsInsideFontElement()
         {
             var doc = DocumentBuilder.Html(@"<font></p><p><meta><title></title></font>");
@@ -2383,7 +2383,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1p1font0title1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeCenterTitleElementInAnchorElement()
         {
             var doc = DocumentBuilder.Html(@"<a><center><title></title><a>");
@@ -2437,7 +2437,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1center1a1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSvgElementWithTitleAndDiv()
         {
             var doc = DocumentBuilder.Html(@"<svg><title><div>");
@@ -2479,7 +2479,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0title0div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSvgElementWithTitleAndRectAndDiv()
         {
             var doc = DocumentBuilder.Html(@"<svg><title><rect><div>");
@@ -2527,7 +2527,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0title0rect0div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSvgElementWithTitleRepeated()
         {
             var doc = DocumentBuilder.Html(@"<svg><title><svg><div>");
@@ -2575,7 +2575,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0title0div1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeImageWithFailedContent()
         {
             var doc = DocumentBuilder.Html(@"<img <="""" FAIL>");
@@ -2607,7 +2607,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("", dochtml0body1img0.GetAttribute("<"));
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnorderedListWithDivElements()
         {
             var doc = DocumentBuilder.Html(@"<ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>");
@@ -2674,7 +2674,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("C", dochtml0body1ul0li1div1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSvgWithEmAndDescElements()
         {
             var doc = DocumentBuilder.Html(@"<svg><em><desc></em>");
@@ -2716,7 +2716,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1em1desc0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSvgWithTfootAndClosingMiElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><tfoot></mi><td>");
@@ -2758,7 +2758,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0tfoot0td0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeMathWithMrowsAndOtherElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>");
@@ -2820,7 +2820,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("a", dochtml0body1math0mrow0mi1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDocTypeWithInputHiddenAndFrameset()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><input type=""hidden""><frameset>");
@@ -2849,7 +2849,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml1frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDocTypeWithInputButtonAndFrameset()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><input type=""button""><frameset>");
@@ -2885,7 +2885,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("button", dochtml1body1input0.Attributes.Get("type").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeUnknownTagSelfClosing()
         {
             var doc = DocumentBuilder.Html(@"<foo bar=qux/>");
@@ -2916,7 +2916,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("qux/", dochtml0body1foo0.Attributes.Get("bar").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
             var doc = new Document(@"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
@@ -2970,7 +2970,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("B", dochtml0body1p0span1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingDisabled()
         {
             //Scripting is disabled by default
@@ -3028,7 +3028,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("B", dochtml0body1p0span1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSarcasmTagUsed()
         {
             var doc = DocumentBuilder.Html(@"<div><sarcasm><div></div></sarcasm></div>");
@@ -3070,7 +3070,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1div0sarcasm0div0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeImageWithOpeningDoubleQuotesAltAttribute()
         {
             var doc = DocumentBuilder.Html(@"<html><body><img src="""" border=""0"" alt=""><div>A</div></body></html>");
@@ -3094,7 +3094,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWithMisnestedClosingTableBodySection()
         {
             var doc = DocumentBuilder.Html(@"<table><td></tbody>A");
@@ -3146,7 +3146,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0tr0td0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWithMisnestedClosingTableHeadSection()
         {
             var doc = DocumentBuilder.Html(@"<table><td></thead>A");
@@ -3198,7 +3198,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("A", dochtml0body1table0tbody0tr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWithMisnestedClosingTableFootSection()
         {
             var doc = DocumentBuilder.Html(@"<table><td></tfoot>A");
@@ -3250,7 +3250,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("A", dochtml0body1table0tbody0tr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWithTableHeadSectionAndMisnestedClosingTableBodySection()
         {
             var doc = DocumentBuilder.Html(@"<table><thead><td></tbody>A");
@@ -3302,7 +3302,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("A", dochtml0body1table0thead0tr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><a href='#1'><nobr>1<nobr></a><br><a href='#2'><nobr>2<nobr></a><br><a href='#3'><nobr>3<nobr></a>");
@@ -3448,7 +3448,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml1body1a4nobr1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndFormattingTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<nobr></b><i><nobr>2<nobr></i>3");
@@ -3543,7 +3543,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("3", dochtml1body1nobr3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndTableTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<table><nobr></b><i><nobr>2<nobr></i>3");
@@ -3638,7 +3638,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml1body1b0nobr0table4.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoBrAndTableCellTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<table><tr><td><nobr></b><i><nobr>2<nobr></i>3");
@@ -3751,7 +3751,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("3", dochtml1body1b0nobr0table1tbody0tr0td0nobr2Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndDivTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<div><nobr></b><i><nobr>2<nobr></i>3");
@@ -3864,7 +3864,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("3", dochtml1body1div1nobr3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndBoldAndDivTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<nobr></b><div><i><nobr>2<nobr></i>3");
@@ -3965,7 +3965,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("3", dochtml1body1div1nobr2Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndInsTagInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<nobr><ins></b><i><nobr>");
@@ -4046,7 +4046,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml1body1i2nobr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndInsTagWithBoldInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b><nobr>1<ins><nobr></b><i>2");
@@ -4119,7 +4119,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("2", dochtml1body1nobr1i0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNobrAndItalicTagsInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><b>1<nobr></b><i><nobr>2</i>");
@@ -4192,7 +4192,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("2", dochtml1body1i2nobr0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeMisopenedCodeTagInParagraph()
         {
             var doc = DocumentBuilder.Html(@"<p><code x</code></p>
@@ -4251,7 +4251,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("\n", dochtml0body1code1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeItalicInParagraphInForeignObjectInSvg()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><foreignObject><p><i></p>a");
@@ -4314,7 +4314,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("a", dochtml1body1svg0foreignObject0i1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTableWithSvgInTableCell()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a");
@@ -4401,7 +4401,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("a", dochtml1body1table0tbody0tr0td0svg0foreignObject0i1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeItalicInParagraphInMtextInMath()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mtext><p><i></p>a");
@@ -4464,7 +4464,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("a", dochtml1body1math0mtext0i1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTableWithMathInTableCell()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><table><tr><td><math><mtext><p><i></p>a");
@@ -4551,7 +4551,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("a", dochtml1body1table0tbody0tr0td0math0mtext0i1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeDivWithMisclosedTagInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><div><!/div>a");
@@ -4594,7 +4594,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("a", dochtml1body1div0Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithCommentThatOpensAndClosesAStyleTagInside()
         {
             var doc = DocumentBuilder.Html(@"<style><!--<style></style>--></style>");
@@ -4632,7 +4632,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithOpeningCommentAndClosingStyleInside()
         {
             var doc = DocumentBuilder.Html(@"<style><!--</style>X");
@@ -4670,7 +4670,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("X", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithClosingStyleInCommentInside()
         {
             var doc = DocumentBuilder.Html(@"<style><!--...</style>...--></style>");
@@ -4708,7 +4708,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("...-->", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithTagsInside()
         {
             var doc = DocumentBuilder.Html(@"<style><!--<br><html xmlns:v=""urn:schemas-microsoft-com:vml""><!--[if !mso]><style></style>X");
@@ -4746,7 +4746,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("X", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithStyleCommentsInside()
         {
             var doc = DocumentBuilder.Html(@"<style><!--...<style><!--...--!></style>--></style>");
@@ -4784,7 +4784,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithClosingStyleCommentsInside()
         {
             var doc = DocumentBuilder.Html(@"<style><!--...</style><!-- --><style>@import ...</style>");
@@ -4832,7 +4832,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithNestedStyleInside()
         {
             var doc = DocumentBuilder.Html(@"<style>...<style><!--...</style><!-- --></style>");
@@ -4870,7 +4870,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeStyleWithIEConditionalCommentsInside()
         {
             var doc = DocumentBuilder.Html(@"<style>...<!--[if IE]><style>...</style>X");
@@ -4908,7 +4908,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("X", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTitleWithTitleCommentInside()
         {
             var doc = DocumentBuilder.Html(@"<title><!--<title></title>--></title>");
@@ -4946,7 +4946,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTitleWronglyAndCorrectlyClosed()
         {
             var doc = DocumentBuilder.Html(@"<title>&lt;/title></title>");
@@ -4980,7 +4980,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTitleWronglyClosedWithLinkAndClosingHead()
         {
             var doc = DocumentBuilder.Html(@"<title>foo/title><link></head><body>X");
@@ -5014,7 +5014,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoScriptWithNoScriptCommentInside()
         {
             var doc = new Document(@"<noscript><!--<noscript></noscript>--></noscript>");
@@ -5055,7 +5055,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
             var doc = new Document(@"<noscript><!--</noscript>X<noscript>--></noscript>");
@@ -5106,7 +5106,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1noscript1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoScriptWithIFrameInside()
         {
             var doc = new Document(@"<noscript><iframe></noscript>X");
@@ -5147,7 +5147,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("X", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoFramesWithNoFramesComment()
         {
             var doc = DocumentBuilder.Html(@"<noframes><!--<noframes></noframes>--></noframes>");
@@ -5185,7 +5185,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoframesWithBodyAndScriptWithComment()
         {
             var doc = DocumentBuilder.Html(@"<noframes><body><script><!--...</script></body></noframes></html>");
@@ -5219,7 +5219,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTextareaWithIllegalComment()
         {
             var doc = DocumentBuilder.Html(@"<textarea><!--<textarea></textarea>--></textarea>");
@@ -5257,7 +5257,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTextareaWithLegalComment()
         {
             var doc = DocumentBuilder.Html(@"<textarea>&lt;/textarea></textarea>");
@@ -5291,7 +5291,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("</textarea>", dochtml0body1textarea0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeIFrameWithTextAndIFrameComment()
         {
             var doc = DocumentBuilder.Html(@"<iframe><!--<iframe></iframe>--></iframe>");
@@ -5329,7 +5329,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeIFrameWithTextAndXComment()
         {
             var doc = DocumentBuilder.Html(@"<iframe>...<!--X->...<!--/X->...</iframe>");
@@ -5363,7 +5363,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("...<!--X->...<!--/X->...", dochtml0body1iframe0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void treeXmpWithComment()
         {
             var doc = DocumentBuilder.Html(@"<xmp><!--<xmp></xmp>--></xmp>");
@@ -5401,7 +5401,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeNoEmbedWithComments()
         {
             var doc = DocumentBuilder.Html(@"<noembed><!--<noembed></noembed>--></noembed>");
@@ -5439,7 +5439,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("-->", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTableWithNewLine()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table>
@@ -5479,7 +5479,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual("\n", dochtml1body1table0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeSpanAndFontInMisnestedTableCell()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><td><span><font></span><span>");
@@ -5556,7 +5556,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(NodeType.Element, dochtml1body1table0tbody0tr0td0font1span0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeTableInFormDoubleMisnested()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><form><table></form><form></table></form>");

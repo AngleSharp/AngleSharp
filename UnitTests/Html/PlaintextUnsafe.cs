@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class PlaintextUnsafeTests
     {
-        [TestMethod]
+        [Test]
         public void IllegalCodepointForNumericEntity()
         {
             var doc = DocumentBuilder.Html(@"FOO&#x000D;ZOO");
@@ -35,7 +35,7 @@ namespace UnitTests
             Assert.AreEqual("FOO\rZOO", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterAfterHtml()
         {
             var doc = DocumentBuilder.Html("<html>" + Specification.Null.ToString() + "<frameset></frameset>");
@@ -59,7 +59,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterWithSpacesAfterHtml()
         {
             var doc = DocumentBuilder.Html("<html> " + Specification.Null.ToString() + " <frameset></frameset>");
@@ -83,7 +83,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterWithCharactersAfterHtml()
         {
             var doc = DocumentBuilder.Html("<html>a" + Specification.Null.ToString() + "a<frameset></frameset>");
@@ -111,7 +111,7 @@ namespace UnitTests
             Assert.AreEqual("aa", dochtml0body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void DoubleNullCharactersAfterHtml()
         {
             var doc = DocumentBuilder.Html(@"<html>" + Specification.Null.ToString() + Specification.Null.ToString() + "<frameset></frameset>");
@@ -135,7 +135,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterWithLinebreakAfterHtml()
         {
             var doc = DocumentBuilder.Html("<html>" + Specification.Null.ToString() + @"
@@ -160,7 +160,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void PlaintextWithFillerText()
         {
             var doc = DocumentBuilder.Html(@"<plaintext>□filler□text□".Replace('□', Specification.Null));
@@ -195,7 +195,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterInCDataWithFillerInSvg()
         {
             var doc = DocumentBuilder.Html("<svg><![CDATA[" + Specification.Null.ToString() + 
@@ -230,7 +230,7 @@ namespace UnitTests
             Assert.AreEqual("�filler�text�".Replace('�', Specification.Replacement), dochtml0body1svg0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterInComment()
         {
             var doc = DocumentBuilder.Html(@"<body><!" + Specification.Null.ToString() + ">");
@@ -259,7 +259,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Comment, dochtml0body1child.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void NullAndOtherCharactersInComment()
         {
             var doc = DocumentBuilder.Html(@"<body><!" + Specification.Null.ToString() + "filler" + Specification.Null.ToString() + "text>");
@@ -288,7 +288,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Comment, dochtml0body1Comment.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharactersInForeignObjectInSvg()
         {
             var doc = DocumentBuilder.Html(@"<body><svg><foreignObject>" + Specification.Null.ToString() + "filler" + Specification.Null.ToString() + "text");
@@ -328,7 +328,7 @@ namespace UnitTests
             Assert.AreEqual("fillertext", dochtml0body1svg0foreignObject0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void PreTagStartingWithTwoEmptyLines()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><pre>
@@ -369,7 +369,7 @@ A</pre>");
             Assert.AreEqual("\nA", dochtml1body1pre0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void PreTagStartingWithOneEmptyLine()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><pre>
@@ -409,7 +409,7 @@ A</pre>");
             Assert.AreEqual("A", dochtml1body1pre0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterInMathTextInMathTag()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><table><tr><td><math><mtext>" + Specification.Null.ToString() + "a");
@@ -478,7 +478,7 @@ A</pre>");
             Assert.AreEqual("a", dochtml1body1table0tbody0tr0td0math0mtext0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterAfterLetterInMathIdentifier()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mi>a" + Specification.Null.ToString() + "b");
@@ -523,7 +523,7 @@ A</pre>");
             Assert.AreEqual("ab", dochtml1body1math0mi0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void NullCharacterAfterLetterInMathNumeric()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mn>a" + Specification.Null.ToString() + "b");
@@ -568,7 +568,7 @@ A</pre>");
             Assert.AreEqual("ab", dochtml1body1math0mn0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TitleClosedWrongRestOkay()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><title>foo/title><link></head><body>X");
@@ -607,7 +607,7 @@ A</pre>");
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void NoFramesWithCommentInsideThatContainsAnotherNoFramesPair()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><noframes><!--<noframes></noframes>--></noframes>");
@@ -650,7 +650,7 @@ A</pre>");
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TextAreaWithCommentInsideThatContainsAnotherTextAreaPair()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><textarea><!--<textarea></textarea>--></textarea>");
@@ -693,7 +693,7 @@ A</pre>");
             Assert.AreEqual("-->", dochtml1body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TextAreaWithQuiteCloseTextAreaClosingInside()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><textarea>&lt;/textarea></textarea>");
@@ -732,7 +732,7 @@ A</pre>");
             Assert.AreEqual("</textarea>", dochtml1body1textarea0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TextAreaWithEntityInside()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><textarea>&lt;</textarea>");
@@ -771,7 +771,7 @@ A</pre>");
             Assert.AreEqual("<", dochtml1body1textarea0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TextAreaWithTextThatContainsEntityInside()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><textarea>a&lt;b</textarea>");

@@ -1,15 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class FosterParentingTests
     {
-        [TestMethod]
+        [Test]
         public void FosterDivInDivMisclosedSpan()
         {
             var doc = DocumentBuilder.Html(@"<div>
@@ -55,7 +55,7 @@ namespace UnitTests
             Assert.AreEqual("\nx", dochtml0body1div0Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTextAndDivInDivMisclosedSpan()
         {
             var doc = DocumentBuilder.Html(@"<div>x<div></div>
@@ -100,7 +100,7 @@ namespace UnitTests
             Assert.AreEqual("\nx", dochtml0body1div0Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTextAndDivInDivMisclosedSpanWithText()
         {
             var doc = DocumentBuilder.Html(@"<div>x<div></div>x</span>x");
@@ -144,7 +144,7 @@ namespace UnitTests
             Assert.AreEqual("xx", dochtml0body1div0Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTextAndDivInDivWithTextMisclosedSpan()
         {
             var doc = DocumentBuilder.Html(@"<div>x<div></div>y</span>z");
@@ -188,7 +188,7 @@ namespace UnitTests
             Assert.AreEqual("yz", dochtml0body1div0Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterDivAndTextInDivAndTable()
         {
             var doc = DocumentBuilder.Html(@"<table><div>x<div></div>x</span>x");
@@ -239,7 +239,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTextInTable()
         {
             var doc = DocumentBuilder.Html(@"x<table>x");
@@ -273,7 +273,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTableInTable()
         {
             var doc = DocumentBuilder.Html(@"x<table><table>x");
@@ -317,7 +317,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table3.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterDivsInBoldFormatting()
         {
             var doc = DocumentBuilder.Html(@"<b>a<div></div><div></b>y");
@@ -373,7 +373,7 @@ namespace UnitTests
             Assert.AreEqual("y", dochtml0body1div1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterParagraphAndDivInAnchor()
         {
             var doc = DocumentBuilder.Html(@"<a><div><p></a>");
@@ -427,7 +427,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1div1p1a0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTitleInBody()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><body><title>X</title>");
@@ -466,7 +466,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml1body1title0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTitleInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><title>X</title></table>");
@@ -511,7 +511,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTitleOutsideHead()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><head></head><title>X</title>");
@@ -550,7 +550,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterMisclosedHeadAndTitle()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html></head><title>X</title>");
@@ -589,7 +589,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterMetaInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><meta></table>");
@@ -630,7 +630,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterMetaInTableInTableCell()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table>X<tr><td><table> <meta></table></table>");
@@ -703,7 +703,7 @@ namespace UnitTests
             Assert.AreEqual(" ", dochtml1body1table1tbody0tr0td0table1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSpaceBeforeHead()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><html> <head>");
@@ -732,7 +732,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSpaceBeforeHtml()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html> <head>");
@@ -761,7 +761,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterStyleInTableWithSpaces()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><style> <tr>x </style> </table>");
@@ -810,7 +810,7 @@ namespace UnitTests
             Assert.AreEqual(" ", dochtml1body1table0Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterScriptInTbodyInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><TBODY><script> <tr>x </script> </table>");
@@ -865,7 +865,7 @@ namespace UnitTests
             Assert.AreEqual(" ", dochtml1body1table0tbody0Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterAppletInParagraph()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><p><applet><p>X</p></applet>");
@@ -916,7 +916,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml1body1p0applet0p0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterListingBeforeHtml()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><listing>
@@ -956,7 +956,7 @@ X</listing>");
             Assert.AreEqual("X", dochtml1body1listing0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSelectWithMisnestedInput()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><select><input>X");
@@ -1001,7 +1001,7 @@ X</listing>");
             Assert.AreEqual("X", dochtml1body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSelectInSelect()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><select><select>X");
@@ -1040,7 +1040,7 @@ X</listing>");
             Assert.AreEqual("X", dochtml1body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterInputInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><input type=hidDEN></table>");
@@ -1082,7 +1082,7 @@ X</listing>");
             Assert.AreEqual("hidDEN", dochtml1body1table0input0.GetAttribute("type"));
         }
 
-        [TestMethod]
+        [Test]
         public void FosterInputAndTextInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table>X<input type=hidDEN></table>");
@@ -1128,7 +1128,7 @@ X</listing>");
             Assert.AreEqual("hidDEN", dochtml1body1table1input0.GetAttribute("type"));
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSpacesAndInputInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table>  <input type=hidDEN></table>");
@@ -1174,7 +1174,7 @@ X</listing>");
             Assert.AreEqual("hidDEN", dochtml1body1table0input1.GetAttribute("type"));
         }
 
-        [TestMethod]
+        [Test]
         public void FosterInputAndSpacesWithAttributeInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table>  <input type='hidDEN'></table>");
@@ -1220,7 +1220,7 @@ X</listing>");
             Assert.AreEqual("hidDEN", dochtml1body1table0input1.GetAttribute("type"));
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTwoInputsInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><input type="" hidden""><input type=hidDEN></table>");
@@ -1269,7 +1269,7 @@ X</listing>");
             Assert.AreEqual("hidDEN", dochtml1body1table1input0.GetAttribute("type"));
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSelectInTable()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><select>X<tr>");
@@ -1326,7 +1326,7 @@ X</listing>");
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTextInSelect()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><select>X</select>");
@@ -1365,7 +1365,7 @@ X</listing>");
             Assert.AreEqual("X", dochtml1body1select0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MixingUpperAndLowercaseInDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE hTmL><html></html>");
@@ -1394,7 +1394,7 @@ X</listing>");
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void PureUppercaseDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML><html></html>");
@@ -1423,7 +1423,7 @@ X</listing>");
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void ParagraphClosedWrongInDiv()
         {
             var doc = DocumentBuilder.Html(@"<div><p>a</x> b");
@@ -1463,7 +1463,7 @@ X</listing>");
             Assert.AreEqual("a b", dochtml0body1div0p0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterImplicitCellClosed()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><td><code></code> </table>");
@@ -1521,7 +1521,7 @@ X</listing>");
             Assert.AreEqual(" ", dochtml0body1table0tbody0tr0td0Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterTextInTableAfterRow()
         {
             var doc = DocumentBuilder.Html(@"<table><b><tr><td>aaa</td></tr>bbb</table>ccc");
@@ -1599,7 +1599,7 @@ X</listing>");
             Assert.AreEqual("ccc", dochtml0body1b3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSpacesAndTextAfterRow()
         {
             var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> B</table>");
@@ -1645,7 +1645,7 @@ X</listing>");
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterSpacesTextAndFormattingAfterRow()
         {
             var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> </em>C</table>");
@@ -1695,7 +1695,7 @@ X</listing>");
             Assert.AreEqual(" ", dochtml0body1table1tbody0Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterKeygenInSelect()
         {
             var doc = DocumentBuilder.Html(@"<select><keygen>");

@@ -1,21 +1,21 @@
 ﻿using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Linq;
 
 namespace UnitTests.Css
 {
-    [TestClass]
+    [TestFixture]
     public class CssTransformPropertyTests
     {
-        [TestMethod]
+        [Test]
         public void CssPerspectiveNoneUppercaseLegal()
         {
             var snippet = "perspective:  NONE ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
+            Assert.IsInstanceOf<CSSPerspectiveProperty>(property);
             var concrete = (CSSPerspectiveProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -24,14 +24,14 @@ namespace UnitTests.Css
             Assert.AreEqual("none", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveLengthPixelLegal()
         {
             var snippet = "perspective:  20px  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
+            Assert.IsInstanceOf<CSSPerspectiveProperty>(property);
             var concrete = (CSSPerspectiveProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -40,14 +40,14 @@ namespace UnitTests.Css
             Assert.AreEqual("20px", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveLengthEmLegal()
         {
             var snippet = "perspective:  3.5em  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
+            Assert.IsInstanceOf<CSSPerspectiveProperty>(property);
             var concrete = (CSSPerspectiveProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -56,14 +56,14 @@ namespace UnitTests.Css
             Assert.AreEqual("3.5em", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveZeroLegal()
         {
             var snippet = "perspective:  0  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
+            Assert.IsInstanceOf<CSSPerspectiveProperty>(property);
             var concrete = (CSSPerspectiveProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -72,28 +72,28 @@ namespace UnitTests.Css
             Assert.AreEqual("0", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectivePercentIllegal()
         {
             var snippet = "perspective:  10%  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveProperty));
+            Assert.IsInstanceOf<CSSPerspectiveProperty>(property);
             var concrete = (CSSPerspectiveProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginZeroLegal()
         {
             var snippet = "perspective-origin:  0  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -102,14 +102,14 @@ namespace UnitTests.Css
             Assert.AreEqual("0", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginLengthLegal()
         {
             var snippet = "perspective-origin:  20px  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -118,14 +118,14 @@ namespace UnitTests.Css
             Assert.AreEqual("20px", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginLeftLegal()
         {
             var snippet = "perspective-origin:  left  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -134,14 +134,14 @@ namespace UnitTests.Css
             Assert.AreEqual("left", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginPercentLegal()
         {
             var snippet = "perspective-origin:  15%  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -150,14 +150,14 @@ namespace UnitTests.Css
             Assert.AreEqual("15%", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginPercentPercentLegal()
         {
             var snippet = "perspective-origin:  15% 25% ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -166,14 +166,14 @@ namespace UnitTests.Css
             Assert.AreEqual("15% 25%", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginLeftCenterLegal()
         {
             var snippet = "perspective-origin:  left center ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -182,14 +182,14 @@ namespace UnitTests.Css
             Assert.AreEqual("left center", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginRightBottomLegal()
         {
             var snippet = "perspective-origin:  right BOTTOM ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -198,14 +198,14 @@ namespace UnitTests.Css
             Assert.AreEqual("right bottom", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssPerspectiveOriginTopCenterLegal()
         {
             var snippet = "perspective-origin:  top center ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("perspective-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSPerspectiveOriginProperty));
+            Assert.IsInstanceOf<CSSPerspectiveOriginProperty>(property);
             var concrete = (CSSPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -214,7 +214,7 @@ namespace UnitTests.Css
             Assert.AreEqual("top center", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformStylePreserve3DLegal()
         {
             var snippet = "transform-style:  preserve-3d ";
@@ -222,7 +222,7 @@ namespace UnitTests.Css
             Assert.AreEqual("transform-style", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformStyleProperty));
+            Assert.IsInstanceOf<CSSTransformStyleProperty>(property);
             var concrete = (CSSTransformStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -231,28 +231,28 @@ namespace UnitTests.Css
             Assert.AreEqual("preserve-3d", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformStyleNoneIllegal()
         {
             var snippet = "transform-style:  none ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformStyleProperty));
+            Assert.IsInstanceOf<CSSTransformStyleProperty>(property);
             var concrete = (CSSTransformStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXOffsetLegal()
         {
             var snippet = "transform-origin:  2px ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -260,14 +260,14 @@ namespace UnitTests.Css
             Assert.AreEqual("2px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXOffsetKeywordLegal()
         {
             var snippet = "transform-origin:  bottom ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -275,14 +275,14 @@ namespace UnitTests.Css
             Assert.AreEqual("bottom", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginYOffsetLegal()
         {
             var snippet = "transform-origin:  3cm 2px";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -290,14 +290,14 @@ namespace UnitTests.Css
             Assert.AreEqual("3cm 2px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginYOffsetXKeywordLegal()
         {
             var snippet = "transform-origin:  2px left";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -305,14 +305,14 @@ namespace UnitTests.Css
             Assert.AreEqual("2px left", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXKeywordYOffsetLegal()
         {
             var snippet = "transform-origin:  left 2px ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -320,14 +320,14 @@ namespace UnitTests.Css
             Assert.AreEqual("left 2px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXKeywordYKeywordLegal()
         {
             var snippet = "transform-origin:  right top ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -335,14 +335,14 @@ namespace UnitTests.Css
             Assert.AreEqual("right top", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginYKeywordXKeywordLegal()
         {
             var snippet = "transform-origin:  top  right ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -350,14 +350,14 @@ namespace UnitTests.Css
             Assert.AreEqual("top right", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXYZLegal()
         {
             var snippet = "transform-origin:  2px 30% 10px ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -365,14 +365,14 @@ namespace UnitTests.Css
             Assert.AreEqual("2px 30% 10px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginYXKeywordZLegal()
         {
             var snippet = "transform-origin:  2px left 10px ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -380,14 +380,14 @@ namespace UnitTests.Css
             Assert.AreEqual("2px left 10px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXKeywordYZLegal()
         {
             var snippet = "transform-origin:  left 5px -3px ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -395,14 +395,14 @@ namespace UnitTests.Css
             Assert.AreEqual("left 5px -3px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginXKeywordYKeywordZLegal()
         {
             var snippet = "transform-origin:  right bottom 2cm ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -410,14 +410,14 @@ namespace UnitTests.Css
             Assert.AreEqual("right bottom 2cm", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformOriginYKeywordXKeywordZLegal()
         {
             var snippet = "transform-origin:  bottom  right  2cm ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformOriginProperty));
+            Assert.IsInstanceOf<CSSTransformOriginProperty>(property);
             var concrete = (CSSTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -425,14 +425,14 @@ namespace UnitTests.Css
             Assert.AreEqual("bottom right 2cm", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformNoneLegal()
         {
             var snippet = "transform:  none ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -440,14 +440,14 @@ namespace UnitTests.Css
             Assert.AreEqual("none", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformMatrixLegal()
         {
             var snippet = "transform:  matrix(1.0, 2.0, 3.0, 4.0, 5.0, 6.0) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -455,14 +455,14 @@ namespace UnitTests.Css
             Assert.AreEqual("matrix(1, 2, 3, 4, 5, 6)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformTranslateLegal()
         {
             var snippet = "transform:  translate(12px, 50%) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -470,14 +470,14 @@ namespace UnitTests.Css
             Assert.AreEqual("translate(12px, 50%)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformTranslateXLegal()
         {
             var snippet = "transform:  translateX(2em) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -485,14 +485,14 @@ namespace UnitTests.Css
             Assert.AreEqual("translateX(2em)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformTranslateYLegal()
         {
             var snippet = "transform:  translateY(3in) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -500,14 +500,14 @@ namespace UnitTests.Css
             Assert.AreEqual("translateY(3in)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformScaleLegal()
         {
             var snippet = "transform:  scale(2, 0.5) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -515,14 +515,14 @@ namespace UnitTests.Css
             Assert.AreEqual("scale(2, 0.5)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformScaleXLegal()
         {
             var snippet = "transform:  scaleX(0.1) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -530,14 +530,14 @@ namespace UnitTests.Css
             Assert.AreEqual("scaleX(0.1)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformScaleYLegal()
         {
             var snippet = "transform:  scaleY(1.5) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -545,14 +545,14 @@ namespace UnitTests.Css
             Assert.AreEqual("scaleY(1.5)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformRotateLegal()
         {
             var snippet = "transform:  rotate(0.5turn) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -560,14 +560,14 @@ namespace UnitTests.Css
             Assert.AreEqual("rotate(0.5turn)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformSkewXLegal()
         {
             var snippet = "transform:  skewX(  30deg  ) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -575,14 +575,14 @@ namespace UnitTests.Css
             Assert.AreEqual("skewX(30deg)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformSkewYLegal()
         {
             var snippet = "transform:  skewY(  1.07rad  ) ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
@@ -590,14 +590,14 @@ namespace UnitTests.Css
             Assert.AreEqual("skewY(1.07rad)", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformMultipleLegal()
         {
             var snippet = "transform:  translate(50%, 50%) rotate(45deg) scale(1.5)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
@@ -607,174 +607,174 @@ namespace UnitTests.Css
             Assert.AreEqual(3, elements.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformMatrix3dLegal()
         {
             var snippet = "transform:  matrix3d(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(MatrixTransform));
+            Assert.IsInstanceOf<MatrixTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformTranslate3dLegal()
         {
             var snippet = "transform:  translate3d(12px, 50%, 3em)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(TranslateTransform));
+            Assert.IsInstanceOf<TranslateTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformTranslateZLegal()
         {
             var snippet = "transform:  translateZ(2px)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(TranslateTransform));
+            Assert.IsInstanceOf<TranslateTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformScale3dLegal()
         {
             var snippet = "transform:  scale3d(2.5, 1.2, 0.3)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(ScaleTransform));
+            Assert.IsInstanceOf<ScaleTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformScaleZLegal()
         {
             var snippet = "transform:  scaleZ(0.3)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(ScaleTransform));
+            Assert.IsInstanceOf<ScaleTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformRotate3dLegal()
         {
             var snippet = "transform:  rotate3d(1, 2.0, 3.0, 10deg)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(RotateTransform));
+            Assert.IsInstanceOf<RotateTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformRotateXLegal()
         {
             var snippet = "transform:  rotateX(10deg)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(RotateTransform));
+            Assert.IsInstanceOf<RotateTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformRotateYLegal()
         {
             var snippet = "transform:  rotateY(10deg)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(RotateTransform));
+            Assert.IsInstanceOf<RotateTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformRotateZLegal()
         {
             var snippet = "transform: rotateZ(10deg)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(RotateTransform));
+            Assert.IsInstanceOf<RotateTransform>(element);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformPerspectiveLegal()
         {
             var snippet = "transform: perspective(17px)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("transform", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSTransformProperty));
+            Assert.IsInstanceOf<CSSTransformProperty>(property);
             var concrete = (CSSTransformProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             var elements = concrete.Transforms.ToArray();
             Assert.AreEqual(1, elements.Length);
             var element = elements[0];
-            Assert.IsInstanceOfType(element, typeof(PerspectiveTransform));
+            Assert.IsInstanceOf<PerspectiveTransform>(element);
         }
     }
 }

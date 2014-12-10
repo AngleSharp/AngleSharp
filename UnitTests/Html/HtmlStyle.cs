@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlStyleTests
     {
-        [TestMethod]
+        [Test]
         public void StyleWithCommentThatContainsClosingStyleTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style><!--...</style>...--></style>");
@@ -51,7 +51,7 @@ namespace UnitTests
             Assert.AreEqual("...-->", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithCommentsAndText()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style><!--<br><html xmlns:v=""urn:schemas-microsoft-com:vml""><!--[if !mso]><style></style>X");
@@ -94,7 +94,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithCommentsAndNestedStyles()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style><!--...<style><!--...--!></style>--></style>");
@@ -137,7 +137,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithNestedCommentAndOtherStyles()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style><!--...</style><!-- --><style>@import ...</style>");
@@ -190,7 +190,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithNestedElementAndComment()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style>...<style><!--...</style><!-- --></style>");
@@ -233,7 +233,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithCommentInsideThatHostsIEConditional()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style>...<!--[if IE]><style>...</style>X");
@@ -276,7 +276,7 @@ namespace UnitTests
             Assert.AreEqual("X", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TitleWithCommentInsideThatHostsAnotherTitlePair()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><title><!--<title></title>--></title>");
@@ -319,7 +319,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TitleWithEntityThatIsWronglyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><title>&lt;/title></title>");
@@ -358,7 +358,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithCommentInsideThatContainsAnotherStylePair()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style><!--<style></style>--></style>");
@@ -401,7 +401,7 @@ namespace UnitTests
             Assert.AreEqual("-->", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void StyleWithOpeningCommentAndClosedStyleInside()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><style><!--</style>X");

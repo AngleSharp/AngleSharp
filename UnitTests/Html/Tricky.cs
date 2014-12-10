@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Extensions;
@@ -11,10 +11,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/tricky01.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class TrickyTests
     {
-        [TestMethod]
+        [Test]
         public void BoldAndNotBold()
         {
             var doc = DocumentBuilder.Html(@"<b><p>Bold </b> Not bold</p>
@@ -69,7 +69,7 @@ Also not bold.");
             Assert.AreEqual("\nAlso not bold.", text3.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ItalicAndOrRed()
         {
             var doc = DocumentBuilder.Html(@"<html>
@@ -223,7 +223,7 @@ Also not bold.");
             Assert.AreEqual(@" Plain", text11.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FormattingParagraphs()
         {
             var doc = DocumentBuilder.Html(@"<html><body>
@@ -334,7 +334,7 @@ Also not bold.");
             Assert.AreEqual(@" Italic", text7.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void DefinitionListWithFormatting()
         {
             var doc = DocumentBuilder.Html(@"<html>
@@ -415,7 +415,7 @@ Also not bold.");
             Assert.AreEqual("\n", text4.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void HelloWorldWithSomeDivs()
         {
             var doc = DocumentBuilder.Html(@"<html><body>
@@ -487,7 +487,7 @@ Also not bold.");
             Assert.AreEqual("  \n", text4.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableFormattingGoneWild()
         {
             var doc = DocumentBuilder.Html(@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>");
@@ -587,7 +587,7 @@ Also not bold.");
             Assert.AreEqual(@" ", text7.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void YouShouldSeeThisText()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><p><a><p>You should see this text.");
@@ -658,7 +658,7 @@ Also not bold.");
 
         }
 
-        [TestMethod]
+        [Test]
         public void InsanelyBadlyNestedTagSequence()
         {
             var doc = DocumentBuilder.Html(@"<TABLE>
@@ -819,7 +819,7 @@ This page contains an insanely badly-nested tag sequence.");
             Assert.AreEqual("\nThis page contains an insanely badly-nested tag sequence.", text7.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ImplicitlyClosingDivs()
         {
             var doc = DocumentBuilder.Html(@"<html>
@@ -904,7 +904,7 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             Assert.AreEqual("\n\n", text5.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlDomConsturctionFromBytesOnlyZerosLeadsToInfiniteLoop()
         {
             var bs = new Byte[5509];

@@ -3,16 +3,16 @@ using AngleSharp.DOM;
 using AngleSharp.DOM.Css;
 using AngleSharp.DOM.Html;
 using AngleSharp.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Linq;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class DOMTests
     {
-        [TestMethod]
+        [Test]
         public void DOMTokenListWritesBack()
         {
             var testClass = "myclass";
@@ -22,7 +22,7 @@ namespace UnitTests
             Assert.AreEqual(testClass, div.ClassName);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMTokenListCorrectlyInitializedFindsClass()
         {
             var testClass = "myclass";
@@ -31,7 +31,7 @@ namespace UnitTests
             Assert.IsTrue(div.ClassList.Contains(testClass));
         }
 
-        [TestMethod]
+        [Test]
         public void DOMTokenListCorrectlyInitializedNoClass()
         {
             var testClass = "myclass1";
@@ -40,7 +40,7 @@ namespace UnitTests
             Assert.IsFalse(div.ClassList.Contains(testClass));
         }
 
-        [TestMethod]
+        [Test]
         public void DOMTokenListToggleWorksTurnOff()
         {
             var testClass = "myclass";
@@ -51,7 +51,7 @@ namespace UnitTests
             Assert.AreEqual(div.ClassName, otherClasses);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMTokenListToggleWorksTurnOn()
         {
             var testClass = "myclass";
@@ -62,7 +62,7 @@ namespace UnitTests
             Assert.AreEqual(div.ClassName, otherClasses + " " + testClass);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMStringMapBindingGet()
         {
             var value = "SomeUser";
@@ -71,7 +71,7 @@ namespace UnitTests
             Assert.AreEqual(div.Dataset["user"], value);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMStringMapBindingSet()
         {
             var value = "SomeUser";
@@ -80,14 +80,14 @@ namespace UnitTests
             Assert.AreEqual(div.GetAttribute("data-user"), value);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMStringMapHasNoAttribute()
         {
             var div = new HTMLDivElement();
             Assert.IsTrue(div.Dataset["user"] == null);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMStringMapHasAttributesButRequestedMissing()
         {
             var div = new HTMLDivElement();
@@ -97,7 +97,7 @@ namespace UnitTests
             Assert.IsTrue(div.Dataset["user"] == null);
         }
 
-        [TestMethod]
+        [Test]
         public void DOMStringMapIEnumerableWorking()
         {
             var div = new HTMLDivElement();
@@ -111,7 +111,7 @@ namespace UnitTests
             Assert.AreEqual("third attribute", div.Dataset.Last().Value);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlCustomTitleGeneration()
         {
             var doc = new Document();
@@ -126,7 +126,7 @@ namespace UnitTests
             Assert.AreEqual(title, doc.Title);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlHasRightHeadElement()
         {
             var doc = new Document();
@@ -137,7 +137,7 @@ namespace UnitTests
             Assert.AreEqual(head, doc.Head);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlHasRightBodyElement()
         {
             var doc = new Document();
@@ -148,7 +148,7 @@ namespace UnitTests
             Assert.AreEqual(body, doc.Body);
         }
 
-        [TestMethod]
+        [Test]
         public void NormalizeRemovesEmptyTextNodes()
         {
             var div = new HTMLDivElement();
@@ -161,7 +161,7 @@ namespace UnitTests
             Assert.AreEqual(div.ChildNodes.Length, 4);
         }
 
-        [TestMethod]
+        [Test]
         public void NormalizeRemovesEmptyTextNodesNested()
         {
             var div = new HTMLDivElement();
@@ -177,7 +177,7 @@ namespace UnitTests
             Assert.AreEqual(a.ChildNodes.Length, 1);
         }
 
-        [TestMethod]
+        [Test]
         public void NormalizeMergeTextNodes()
         {
             var div = new HTMLDivElement();
@@ -196,7 +196,7 @@ namespace UnitTests
             Assert.AreEqual(div.ChildNodes.Length, 4);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithoutPort()
         {
             var hostname = "www.w3.org";
@@ -213,7 +213,7 @@ namespace UnitTests
             Assert.AreEqual(protocol, location.Protocol);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithoutPortButWithHash()
         {
             var hostname = "www.w3.org";
@@ -231,7 +231,7 @@ namespace UnitTests
             Assert.AreEqual(protocol, location.Protocol);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithPort()
         {
             var hostname = "www.w3.org";
@@ -250,7 +250,7 @@ namespace UnitTests
             Assert.AreEqual(protocol, location.Protocol);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithPortAndHash()
         {
             var hostname = "www.w3.org";
@@ -270,7 +270,7 @@ namespace UnitTests
             Assert.AreEqual(protocol, location.Protocol);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithHashChange()
         {
             var hostname = "www.w3.org";
@@ -292,7 +292,7 @@ namespace UnitTests
             Assert.AreEqual(address, location.Href);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithProtocolChange()
         {
             var hostname = "www.w3.org";
@@ -315,7 +315,7 @@ namespace UnitTests
             Assert.AreEqual(address, location.Href);
         }
 
-        [TestMethod]
+        [Test]
         public void LocationCorrectAddressWithPathChange()
         {
             var hostname = "www.w3.org";
@@ -338,7 +338,7 @@ namespace UnitTests
             Assert.AreEqual(address, location.Href);
         }
 
-        [TestMethod]
+        [Test]
         public void CSSStyleDeclarationEmpty()
         {
             var css = new CSSStyleDeclaration();
@@ -346,7 +346,7 @@ namespace UnitTests
             Assert.AreEqual(0, css.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CSSStyleDeclarationUnbound()
         {
             var css = new CSSStyleDeclaration();
@@ -356,7 +356,7 @@ namespace UnitTests
             Assert.AreEqual(2, css.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlAnchorToggleProperties()
         {
             var doc = new Document();
@@ -379,7 +379,7 @@ namespace UnitTests
             Assert.IsTrue(element.IsHidden);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlButtonToggleProperties()
         {
             var doc = new Document();
@@ -401,7 +401,7 @@ namespace UnitTests
             Assert.AreEqual("get", element.FormMethod);
         }
 
-        [TestMethod]
+        [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
             var doc = new Document();
@@ -412,7 +412,7 @@ namespace UnitTests
             Assert.AreEqual(2, element.Style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
             var doc = new Document();
@@ -425,7 +425,7 @@ namespace UnitTests
             Assert.AreEqual(2, element.Style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
             var element = new HTMLSpanElement();
@@ -435,7 +435,7 @@ namespace UnitTests
             Assert.AreEqual(2, element.Style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlStandardHead()
         {
             var content = @"<!doctype html>
@@ -473,7 +473,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, head.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlCharacterSerialization()
         {
             var content = @"<!doctype html><html><head></head><body></body></html>";
@@ -493,7 +493,7 @@ namespace UnitTests
             Assert.AreEqual("&gt;", body.InnerHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlWithLangAttributeFromString()
         {
             var content = @"<html>
@@ -517,7 +517,7 @@ namespace UnitTests
             Assert.AreEqual("mso-ansi-language:EN-US", span.GetAttribute("style"));
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlWithLangAttributeFromStream()
         {
             var fs = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Pages.encoding.html");

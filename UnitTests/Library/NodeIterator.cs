@@ -1,15 +1,15 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class NodeIteratorTests
     {
-        [TestMethod]
+        [Test]
         public void NodeIteratorJavaScriptKitDivision()
         {
             var source = @"<div id=contentarea>
@@ -34,9 +34,9 @@ namespace UnitTests.Library
 
             Assert.IsFalse(iterator.IsBeforeReference);
             Assert.AreEqual(3, results.Count);
-            Assert.IsInstanceOfType(results[0], typeof(HTMLParagraphElement));
-            Assert.IsInstanceOfType(results[1], typeof(HTMLSpanElement));
-            Assert.IsInstanceOfType(results[2], typeof(HTMLBoldElement));
+            Assert.IsInstanceOf<HTMLParagraphElement>(results[0]);
+            Assert.IsInstanceOf<HTMLSpanElement>(results[1]);
+            Assert.IsInstanceOf<HTMLBoldElement>(results[2]);
 
             do
                 results.Remove(iterator.Reference);
@@ -45,7 +45,7 @@ namespace UnitTests.Library
             Assert.IsTrue(iterator.IsBeforeReference);
         }
 
-        [TestMethod]
+        [Test]
         public void NodeIteratorJavaScriptKitParagraph()
         {
             var source = @"<p id=essay>George<span> loves </span><b>JavaScript!</b></p>";
@@ -70,7 +70,7 @@ namespace UnitTests.Library
             Assert.AreEqual("George loves JavaScript!", paratext);
         }
 
-        [TestMethod]
+        [Test]
         public void NodeIteratorJavaScriptKitList()
         {
             var source = @"<ul id=mylist>
@@ -116,7 +116,7 @@ namespace UnitTests.Library
             Assert.AreEqual("item", item2.ClassName);
         }
 
-        [TestMethod]
+        [Test]
         public void NodeIteratorDotteroSpans()
         {
             var source = @"<div id=""content"">

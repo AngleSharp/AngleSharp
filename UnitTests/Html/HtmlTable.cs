@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.Extensions;
 using AngleSharp.DOM;
@@ -10,10 +10,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/tables01.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class HtmlTableTests
     {
-        [TestMethod]
+        [Test]
         public void TableWithSingleTh()
         {
             var doc = DocumentBuilder.Html(@"<table><th>");
@@ -61,7 +61,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0th0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSingleTd()
         {
             var doc = DocumentBuilder.Html(@"<table><td>");
@@ -109,7 +109,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSingleCol()
         {
             var doc = DocumentBuilder.Html(@"<table><col foo='bar'>");
@@ -152,7 +152,7 @@ namespace UnitTests
             Assert.AreEqual("bar", dochtml0body1table0colgroup0col0.Attributes.Get("foo").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSingleColgroupClosingHtml()
         {
             var doc = DocumentBuilder.Html(@"<table><colgroup></html>foo");
@@ -192,7 +192,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table1colgroup0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableClosedFollowedByParagraph()
         {
             var doc = DocumentBuilder.Html(@"<table></table><p>foo");
@@ -232,7 +232,7 @@ namespace UnitTests
             Assert.AreEqual("foo", dochtml0body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableClosingEveryhingUnorderedOpenedTd()
         {
             var doc = DocumentBuilder.Html(@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>");
@@ -280,7 +280,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSelectOption()
         {
             var doc = DocumentBuilder.Html(@"<table><select><option>3</select></table>");
@@ -326,7 +326,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSelectAndTable()
         {
             var doc = DocumentBuilder.Html(@"<table><select><table></table></select></table>");
@@ -368,7 +368,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table2.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSelectClosed()
         {
             var doc = DocumentBuilder.Html(@"<table><select></table>");
@@ -404,7 +404,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithSelectOptionAndContent()
         {
             var doc = DocumentBuilder.Html(@"<table><select><option>A<tr><td>B</td></tr></table>");
@@ -472,7 +472,7 @@ namespace UnitTests
             Assert.AreEqual("B", dochtml0body1table1tbody0tr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithTdClosedEverything()
         {
             var doc = DocumentBuilder.Html(@"<table><td></body></caption></col></colgroup></html>foo");
@@ -524,7 +524,7 @@ namespace UnitTests
             Assert.AreEqual("foo", dochtml0body1table0tbody0tr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithCellContent()
         {
             var doc = DocumentBuilder.Html(@"<table><td>A</table>B");
@@ -580,7 +580,7 @@ namespace UnitTests
             Assert.AreEqual("B", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithRowAndCaption()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><caption>");
@@ -628,7 +628,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0caption1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithRowClosedEverythingOpenedTd()
         {
             var doc = DocumentBuilder.Html(@"<table><tr></body></caption></col></colgroup></html></td></th><td>foo");
@@ -680,7 +680,7 @@ namespace UnitTests
             Assert.AreEqual("foo", dochtml0body1table0tbody0tr0td0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithTdAndTr()
         {
             var doc = DocumentBuilder.Html(@"<table><td><tr>");
@@ -734,7 +734,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithTdButtonAndTd()
         {
             var doc = DocumentBuilder.Html(@"<table><td><button><td>");
@@ -794,7 +794,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithRowCellAndSvgDescTd()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><td><svg><desc><td>");
@@ -860,7 +860,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithTableRowThatHasStyle()
         {
             var doc = DocumentBuilder.Html(@"<table><tr style=""display: none;"">");
@@ -909,7 +909,7 @@ namespace UnitTests
             Assert.AreEqual("none", style.Display);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithTableRowThatHasStyleAndChanged()
         {
             var doc = DocumentBuilder.Html(@"<table><tr style=""display: none;"">");
@@ -952,7 +952,7 @@ namespace UnitTests
             Assert.AreEqual("block", tr.Style.Display);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithTableRowThatHasNoStyleAndChanged()
         {
             var doc = DocumentBuilder.Html(@"<table><tr>");

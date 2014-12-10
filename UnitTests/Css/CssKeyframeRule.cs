@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
 using System.Linq;
 
 namespace UnitTests.Css
 {
-    [TestClass]
+    [TestFixture]
     public class CssKeyframeRuleTests
     {
         CSSKeyframeRule Create(String source)
@@ -14,7 +14,7 @@ namespace UnitTests.Css
             return CssParser.ParseKeyframeRule(source);
         }
 
-        [TestMethod]
+        [Test]
         public void KeyframeRuleWithFromAndMarginLeft()
         {
             var rule = Create(@"  from {
@@ -27,7 +27,7 @@ namespace UnitTests.Css
             Assert.AreEqual("margin-left", rule.Style.Declarations.First().Name);
         }
 
-        [TestMethod]
+        [Test]
         public void KeyframeRuleWith50PercentAndMarginLeftOpacity()
         {
             var rule = Create(@"  50% {
@@ -42,7 +42,7 @@ namespace UnitTests.Css
             Assert.AreEqual("opacity", rule.Style.Declarations.Skip(1).First().Name);
         }
 
-        [TestMethod]
+        [Test]
         public void KeyframeRuleWithToAndMarginLeft()
         {
             var rule = Create(@"  to {
@@ -55,7 +55,7 @@ namespace UnitTests.Css
             Assert.AreEqual("margin-left", rule.Style.Declarations.First().Name);
         }
 
-        [TestMethod]
+        [Test]
         public void KeyframeRuleWithFromTo255075PercentAndPaddingTopPaddingLeftColor()
         {
             var rule = Create(@"  from,to, 25%, 50%,75%{
@@ -72,7 +72,7 @@ namespace UnitTests.Css
             Assert.AreEqual("color", rule.Style.Declarations.Skip(2).First().Name);
         }
 
-        [TestMethod]
+        [Test]
         public void KeyframeRuleWith0AndNoDeclarations()
         {
             var rule = Create(@"  0% { }");

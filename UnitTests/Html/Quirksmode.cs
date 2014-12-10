@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using AngleSharp.DOM.Html;
 using AngleSharp;
 using AngleSharp.DOM;
@@ -9,18 +9,18 @@ namespace UnitTests
     /// These tests are taken from http://www.quirksmode.org/dom/tests/.
     /// More information: http://www.quirksmode.org/dom/w3c_core.html
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class QuirksmodeTests
     {
         IDocument document;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             document = DocumentBuilder.Html(Assets.quirksmode);
         }
 
-        [TestMethod]
+        [Test]
         public void CreateElementInUppercase()
         {
             var x = document.CreateElement("P");
@@ -29,7 +29,7 @@ namespace UnitTests
             Assert.AreEqual(document, x.Owner);
         }
 
-        [TestMethod]
+        [Test]
         public void CreateTextNode()
         {
             var text = " textNode";
@@ -45,7 +45,7 @@ namespace UnitTests
             Assert.AreEqual(document, test.Owner);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementById()
         {
             var x = document.GetElementById("test");
@@ -53,14 +53,14 @@ namespace UnitTests
             Assert.AreEqual(document, x.Owner);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementByIdWithAName()
         {
             var x = document.GetElementById("test3");
             Assert.IsNull(x);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementsByClassNameSingle()
         {
             var cn = document.GetElementsByClassName("testClass");
@@ -68,7 +68,7 @@ namespace UnitTests
             Assert.AreEqual("p", cn[0].LocalName);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementsByClassNameMultiple()
         {
             var cn = document.GetElementsByClassName("testClass nonsense");
@@ -76,35 +76,35 @@ namespace UnitTests
             Assert.AreEqual("p", cn[0].LocalName);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementsByTagNameUsual()
         {
             var result = document.GetElementsByTagName("P");
             Assert.AreEqual(4, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementsByTagNameAll()
         {
             var result = document.GetElementsByTagName("*");
             Assert.AreEqual(23, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GetElementsByTagNameCustom()
         {
             var result = document.GetElementsByTagName("ppk");
             Assert.AreEqual(1, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void QuerySelectorAllClass()
         {
             var qsa = document.QuerySelectorAll(".testClass");
             Assert.AreEqual(2, qsa.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void QuerySelectorAllCompound()
         {
             var qsa = document.QuerySelectorAll(".testClass + p");

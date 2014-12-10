@@ -2,16 +2,16 @@
 using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.IO;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class CssSheetTests
     {
-        [TestMethod]
+        [Test]
         public void CssSheetOnEofDuringRuleWithoutSemicolon()
         {
             var sheet = CssParser.ParseStyleSheet(@"
@@ -19,25 +19,25 @@ h1 {
  color: red;
  font-weight: bold");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual("red", h1.Style.Color);
             Assert.AreEqual("bold", h1.Style.FontWeight);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetSimpleStyleRuleStringification()
         {
             var css = @"html { font-family: sans-serif; }";
             var stylesheet = CssParser.ParseStyleSheet(css);
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var rule = stylesheet.Rules[0];
-            Assert.IsInstanceOfType(rule, typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(rule);
             Assert.AreEqual(css, rule.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetCloseStringsEndOfLine()
         {
             var sheet = CssParser.ParseStyleSheet(@"p {
@@ -47,7 +47,7 @@ h1 {
         color: green;
       }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
@@ -55,41 +55,41 @@ h1 {
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetOnEofDuringRuleWithinString()
         {
             var sheet = CssParser.ParseStyleSheet(@"
 #something {
  content: 'hi there");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var id = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("#something", id.SelectorText);
             Assert.AreEqual("\"hi there\"", id.Style.Content);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetOnEofDuringAtMediaRuleWithinString()
         {
             var sheet = CssParser.ParseStyleSheet(@"  @media screen {
     p:before { content: 'Hello");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSMediaRule));
+            Assert.IsInstanceOf<CSSMediaRule>(sheet.Rules[0]);
             var media = sheet.Rules[0] as CSSMediaRule;
             Assert.AreEqual("screen", media.Media.MediaText);
             Assert.AreEqual(1, media.Rules.Length);
-            Assert.IsInstanceOfType(media.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(media.Rules[0]);
             var p = media.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p:before", p.SelectorText);
             Assert.AreEqual("\"Hello\"", p.Style.Content);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetIgnoreUnknownProperty()
         {
             var sheet = CssParser.ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
@@ -97,35 +97,35 @@ h1 {
             Assert.AreEqual("red", h1.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedAtKeyword()
         {
             var sheet = CssParser.ParseStyleSheet(@"p @here {color: red}");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetInvalidStatementAtRuleUnexpectedAtKeyword()
         {
             var sheet = CssParser.ParseStyleSheet(@"@foo @bar;");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightBrace()
         {
             var sheet = CssParser.ParseStyleSheet(@"}} {{ - }}");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesis()
         {
             var sheet = CssParser.ParseStyleSheet(@") ( {} ) p {color: red }");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetIgnoreUnknownAtRule()
         {
             var sheet = CssParser.ParseStyleSheet(@"@three-dee {
@@ -137,7 +137,7 @@ h1 {
 }
 h1 { color: blue }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
@@ -145,12 +145,12 @@ h1 { color: blue }");
             Assert.AreEqual("blue", h1.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetKeepValidValueFloat()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { float: left }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(1, img.Style.Length);
@@ -158,45 +158,45 @@ h1 { color: blue }");
             Assert.AreEqual("left", img.Style.Float);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetIgnoreInvalidValueFloat()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { float: left here }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetIgnoreInvalidValueBackground()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { background: ""red"" }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetIgnoreInvalidValueBorderWidth()
         {
             var sheet = CssParser.ParseStyleSheet(@"img { border-width: 3 }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetWellformedDeclaration()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -204,12 +204,12 @@ h1 { color: blue }");
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetMalformedDeclarationMissingColon()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -217,12 +217,12 @@ h1 { color: blue }");
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetMalformedDeclarationMissingColonWithRecovery()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color; color:green }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -230,12 +230,12 @@ h1 { color: blue }");
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetMalformedDeclarationMissingValue()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color: }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -243,12 +243,12 @@ h1 { color: blue }");
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetMalformedDeclarationUnexpectedTokens()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color{;color:maroon} }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -256,12 +256,12 @@ h1 { color: blue }");
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetMalformedDeclarationUnexpectedTokensWithRecovery()
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color{;color:maroon}; color:green }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOfType(sheet.Rules[0], typeof(CSSStyleRule));
+            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -269,7 +269,7 @@ h1 { color: blue }");
             Assert.AreEqual("green", p.Style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateValueListConformal()
         {
             var valueString = "24px 12px 6px";
@@ -280,7 +280,7 @@ h1 { color: blue }");
             Assert.AreEqual(list[2].CssText, "6px");
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateValueListNonConformal()
         {
             var valueString = "  24px  12px 6px  13px ";
@@ -292,7 +292,7 @@ h1 { color: blue }");
             Assert.AreEqual(list[3].CssText, "13px");
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateValueListEmpty()
         {
             var valueString = "";
@@ -300,7 +300,7 @@ h1 { color: blue }");
             Assert.AreEqual(0, list.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateValueListSpaces()
         {
             var valueString = "  ";
@@ -308,7 +308,7 @@ h1 { color: blue }");
             Assert.AreEqual(0, list.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateValueListIllegal()
         {
             var valueString = " , ";
@@ -316,7 +316,7 @@ h1 { color: blue }");
             Assert.AreEqual(0, list.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateMultipleValues()
         {
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
@@ -328,7 +328,7 @@ h1 { color: blue }");
             Assert.AreEqual("sans-serif", list[3].CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateMultipleValueLists()
         {
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
@@ -342,7 +342,7 @@ h1 { color: blue }");
             Assert.AreEqual(3, ((CssValueList)list[1]).Length);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateMultipleValuesNonConformal()
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
@@ -354,7 +354,7 @@ h1 { color: blue }");
             Assert.AreEqual("sans-serif", list[3].CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateMultipleValuesEmpty()
         {
             var valueString = "";
@@ -362,7 +362,7 @@ h1 { color: blue }");
             Assert.AreEqual(0, list.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateMultipleValuesSpaces()
         {
             var valueString = "  ";
@@ -370,7 +370,7 @@ h1 { color: blue }");
             Assert.AreEqual(0, list.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCreateMultipleValuesIllegal()
         {
             var valueString = " , ";
@@ -378,7 +378,7 @@ h1 { color: blue }");
             Assert.AreEqual(0, list.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CssColorBlack()
         {
             var valueString = "#000000";
@@ -389,7 +389,7 @@ h1 { color: blue }");
             Assert.AreEqual(new Color(0, 0, 0), color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssColorRed()
         {
             var valueString = "#FF0000";
@@ -400,7 +400,7 @@ h1 { color: blue }");
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssColorMixedShort()
         {
             var valueString = "#07C";
@@ -411,7 +411,7 @@ h1 { color: blue }");
             Assert.AreEqual(new Color(0, 119, 204), color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssColorGreenShort()
         {
             var valueString = "#00F";
@@ -422,7 +422,7 @@ h1 { color: blue }");
             Assert.AreEqual(new Color(0, 0, 255), color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssColorRedShort()
         {
             var valueString = "#F00";
@@ -433,7 +433,7 @@ h1 { color: blue }");
             Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
-        [TestMethod]
+        [Test]
         public void CssRgbaFunction()
         {
             var names = new[] { "border-top-color", "border-right-color", "border-bottom-color", "border-left-color" };
@@ -456,7 +456,7 @@ h1 { color: blue }");
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CssMarginAll()
         {
             var names = new[] { "margin-top", "margin-right", "margin-bottom", "margin-left" };
@@ -476,7 +476,7 @@ h1 { color: blue }");
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CssSeveralFontFamily()
         {
             var decl = CssParser.ParseDeclarations("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
@@ -493,7 +493,7 @@ h1 { color: blue }");
             Assert.AreEqual("\"Helvetica Neue\", helvetica, arial, sans-serif", value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssFontWithSlashAndContent()
         {
             var decl = CssParser.ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
@@ -509,7 +509,7 @@ h1 { color: blue }");
             Assert.AreEqual("\" (\" attr(href) \")\"", content.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBackgroundWebkitGradient()
         {
             var background = CssParser.ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
@@ -520,7 +520,7 @@ h1 { color: blue }");
             Assert.IsFalse(background.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBackgroundColorRgba()
         {
             var decl = CssParser.ParseDeclarations("background-color: rgba(255, 123, 13, 1)");
@@ -534,7 +534,7 @@ h1 { color: blue }");
             Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssFontWithFraction()
         {
             var font = CssParser.ParseDeclaration("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
@@ -543,7 +543,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.List, font.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTextShadow()
         {
             var decl = CssParser.ParseDeclarations("text-shadow: 0 0 10px #000");
@@ -556,7 +556,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.List, textShadow.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBackgroundWithImage()
         {
             var background = CssParser.ParseDeclaration("background:url(../images/ribbon.svg) no-repeat");
@@ -565,7 +565,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.List, background.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssContentWithCounter()
         {
             var decl = CssParser.ParseDeclarations("content:counter(paging, decimal-leading-zero)");
@@ -578,7 +578,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.Primitive, content.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBackgroundColorRgb()
         {
             var decl = CssParser.ParseDeclarations("background-color: rgb(245, 0, 111)");
@@ -591,18 +591,18 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.Primitive, backgroundColor.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssImportSheet()
         {
             var rule = "@import url(fonts.css);";
             var decl = CssParser.ParseRule(rule);
             Assert.IsNotNull(decl);
-            Assert.IsInstanceOfType(decl, typeof(CSSImportRule));
+            Assert.IsInstanceOf<CSSImportRule>(decl);
             var importRule = (CSSImportRule)decl;
             Assert.AreEqual("fonts.css", importRule.Href);
         }
 
-        [TestMethod]
+        [Test]
         public void CssContentEscaped()
         {
             var decl = CssParser.ParseDeclarations("content:'\005E'");
@@ -615,7 +615,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.Primitive, content.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssContentCounter()
         {
             var decl = CssParser.ParseDeclarations("content:counter(list)'.'");
@@ -628,7 +628,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.List, content.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssTransformTranslate()
         {
             var decl = CssParser.ParseDeclarations("transform:translateY(-50%)");
@@ -641,7 +641,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.Primitive, transform.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBoxShadowMultiline()
         {
             var decl = CssParser.ParseDeclarations(@"
@@ -657,7 +657,7 @@ h1 { color: blue }");
             Assert.AreEqual(CssValueType.List, boxShadow.Value.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssDisplayBlock()
         {
             var decl = CssParser.ParseDeclarations("display:block");
@@ -671,7 +671,7 @@ h1 { color: blue }");
             Assert.AreEqual("block", display.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetWithDataUrlAsBackgroundImage()
         {
             var sheet = CssParser.ParseStyleSheet(".App_Header_ .logo { background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\"); background-size: 71px 28px; background-position: 0 19px; width: 71px; }");
@@ -688,7 +688,7 @@ h1 { color: blue }");
             Assert.AreEqual("71px", decl.Width);
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetFromStreamWeirdBytesLeadingToInfiniteLoop()
         {
             var bs = new Byte[8];
@@ -707,7 +707,7 @@ h1 { color: blue }");
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetFromStreamOnlyZerosAvailable()
         {
             var bs = new Byte[7180];
@@ -720,7 +720,7 @@ h1 { color: blue }");
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CssSheetFromStringWithQuestionMarksLeadingToInfiniteLoop()
         {
             var sheet = DocumentBuilder.Css("U+???\0");

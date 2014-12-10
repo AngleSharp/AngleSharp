@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Globalization;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class DocumentEncodingTests
     {
-        [TestMethod]
+        [Test]
         public void BaiduEncodingTransformationEnToUtf8VsZhToUtf8()
         {
             if (Helper.IsNetworkAvailable())

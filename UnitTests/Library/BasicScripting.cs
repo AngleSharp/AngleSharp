@@ -1,18 +1,18 @@
 ﻿using AngleSharp;
 using AngleSharp.Infrastructure;
 using AngleSharp.Network;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class BasicScriptingTests
     {
         Configuration configuration;
         TestScriptEngine scripting;
 
-        [TestInitialize]
+        [SetUp]
         public void CreateConfig()
         {
             configuration = new Configuration();
@@ -21,7 +21,7 @@ namespace UnitTests.Library
             configuration.Register(scripting);
         }
 
-        [TestMethod]
+        [Test]
         public void DocumentWriteDynamicallyWithCustomScriptEngine()
         {
             scripting.Callback = options =>

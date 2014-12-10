@@ -1,15 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.Extensions;
 using AngleSharp.DOM;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlWithSVGTests
     {
-        [TestMethod]
+        [Test]
         public void SvgCheckAttributesCaseNormalUnchanged()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></svg>");
@@ -230,7 +230,7 @@ namespace UnitTests
             Assert.AreEqual("", dochtml1body1svg0.Attributes.Get("zoomAndPan").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgCheckAttributesCaseUppercaseModified()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><BODY><SVG ATTRIBUTENAME='' ATTRIBUTETYPE='' BASEFREQUENCY='' BASEPROFILE='' CALCMODE='' CLIPPATHUNITS='' CONTENTSCRIPTTYPE='' CONTENTSTYLETYPE='' DIFFUSECONSTANT='' EDGEMODE='' EXTERNALRESOURCESREQUIRED='' FILTERRES='' FILTERUNITS='' GLYPHREF='' GRADIENTTRANSFORM='' GRADIENTUNITS='' KERNELMATRIX='' KERNELUNITLENGTH='' KEYPOINTS='' KEYSPLINES='' KEYTIMES='' LENGTHADJUST='' LIMITINGCONEANGLE='' MARKERHEIGHT='' MARKERUNITS='' MARKERWIDTH='' MASKCONTENTUNITS='' MASKUNITS='' NUMOCTAVES='' PATHLENGTH='' PATTERNCONTENTUNITS='' PATTERNTRANSFORM='' PATTERNUNITS='' POINTSATX='' POINTSATY='' POINTSATZ='' PRESERVEALPHA='' PRESERVEASPECTRATIO='' PRIMITIVEUNITS='' REFX='' REFY='' REPEATCOUNT='' REPEATDUR='' REQUIREDEXTENSIONS='' REQUIREDFEATURES='' SPECULARCONSTANT='' SPECULAREXPONENT='' SPREADMETHOD='' STARTOFFSET='' STDDEVIATION='' STITCHTILES='' SURFACESCALE='' SYSTEMLANGUAGE='' TABLEVALUES='' TARGETX='' TARGETY='' TEXTLENGTH='' VIEWBOX='' VIEWTARGET='' XCHANNELSELECTOR='' YCHANNELSELECTOR='' ZOOMANDPAN=''></SVG>");
@@ -451,7 +451,7 @@ namespace UnitTests
             Assert.AreEqual("", dochtml1body1svg0.Attributes.Get("zoomAndPan").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgCheckAttributesCaseLowercaseModified()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg attributename='' attributetype='' basefrequency='' baseprofile='' calcmode='' clippathunits='' contentscripttype='' contentstyletype='' diffuseconstant='' edgemode='' externalresourcesrequired='' filterres='' filterunits='' glyphref='' gradienttransform='' gradientunits='' kernelmatrix='' kernelunitlength='' keypoints='' keysplines='' keytimes='' lengthadjust='' limitingconeangle='' markerheight='' markerunits='' markerwidth='' maskcontentunits='' maskunits='' numoctaves='' pathlength='' patterncontentunits='' patterntransform='' patternunits='' pointsatx='' pointsaty='' pointsatz='' preservealpha='' preserveaspectratio='' primitiveunits='' refx='' refy='' repeatcount='' repeatdur='' requiredextensions='' requiredfeatures='' specularconstant='' specularexponent='' spreadmethod='' startoffset='' stddeviation='' stitchtiles='' surfacescale='' systemlanguage='' tablevalues='' targetx='' targety='' textlength='' viewbox='' viewtarget='' xchannelselector='' ychannelselector='' zoomandpan=''></svg>");
@@ -673,7 +673,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void SvgCheckTagCaseNormalUnchanged()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></svg>");
@@ -924,7 +924,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1svg0textPath35.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgCheckTagCaseLowercaseModified()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg><altglyph /><altglyphdef /><altglyphitem /><animatecolor /><animatemotion /><animatetransform /><clippath /><feblend /><fecolormatrix /><fecomponenttransfer /><fecomposite /><feconvolvematrix /><fediffuselighting /><fedisplacementmap /><fedistantlight /><feflood /><fefunca /><fefuncb /><fefuncg /><fefuncr /><fegaussianblur /><feimage /><femerge /><femergenode /><femorphology /><feoffset /><fepointlight /><fespecularlighting /><fespotlight /><fetile /><feturbulence /><foreignobject /><glyphref /><lineargradient /><radialgradient /><textpath /></svg>");
@@ -1175,7 +1175,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1svg0textPath35.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgCheckTagCaseUppercaseModified()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><BODY><SVG><ALTGLYPH /><ALTGLYPHDEF /><ALTGLYPHITEM /><ANIMATECOLOR /><ANIMATEMOTION /><ANIMATETRANSFORM /><CLIPPATH /><FEBLEND /><FECOLORMATRIX /><FECOMPONENTTRANSFER /><FECOMPOSITE /><FECONVOLVEMATRIX /><FEDIFFUSELIGHTING /><FEDISPLACEMENTMAP /><FEDISTANTLIGHT /><FEFLOOD /><FEFUNCA /><FEFUNCB /><FEFUNCG /><FEFUNCR /><FEGAUSSIANBLUR /><FEIMAGE /><FEMERGE /><FEMERGENODE /><FEMORPHOLOGY /><FEOFFSET /><FEPOINTLIGHT /><FESPECULARLIGHTING /><FESPOTLIGHT /><FETILE /><FETURBULENCE /><FOREIGNOBJECT /><GLYPHREF /><LINEARGRADIENT /><RADIALGRADIENT /><TEXTPATH /></SVG>");
@@ -1426,7 +1426,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1svg0textPath35.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleNodeInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg><solidColor /></svg>");
@@ -1467,7 +1467,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1svg0solidcolor0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleElement()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg></svg>");
@@ -1502,7 +1502,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1svg0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleElementFollowedByCdata()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg></svg><![CDATA[a]]>");
@@ -1541,7 +1541,7 @@ namespace UnitTests
             Assert.AreEqual(@"[CDATA[a]]", dochtml1body1Comment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleElementInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg></svg>");
@@ -1576,7 +1576,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1svg0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleElementInSelect()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><svg></svg></select>");
@@ -1611,7 +1611,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1select0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleElementInOptionInSelect()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><option><svg></svg></option></select>");
@@ -1652,7 +1652,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1select0option0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgSingleElementInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><svg></svg></table>");
@@ -1693,7 +1693,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><svg><g>foo</g></svg></table>");
@@ -1744,7 +1744,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupAndTextInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><svg><g>foo</g><g>bar</g></svg></table>");
@@ -1806,7 +1806,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupInTbody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><svg><g>foo</g><g>bar</g></svg></tbody></table>");
@@ -1873,7 +1873,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupAndTextInTbody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><svg><g>foo</g><g>bar</g></svg></tr></tbody></table>");
@@ -1946,7 +1946,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupInTableCell()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg></td></tr></tbody></table>");
@@ -2025,7 +2025,7 @@ namespace UnitTests
             Assert.AreEqual("bar", dochtml1body1table0tbody0tr0td0svg0g1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupAndTextInTableCell()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg><p>baz</td></tr></tbody></table>");
@@ -2114,7 +2114,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1table0tbody0tr0td0p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupAndTextInTableCaption()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g></svg><p>baz</caption></table>");
@@ -2191,7 +2191,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1table0caption0p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupInTableCaption()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
@@ -2278,7 +2278,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInCaptionWithMisclosedEnding()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g>baz</table><p>quux");
@@ -2359,7 +2359,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInColgroupWithMisclosedEnding()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><colgroup><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
@@ -2446,7 +2446,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupInSelectMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
@@ -2519,7 +2519,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupInSelectAndTableMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
@@ -2574,7 +2574,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p2Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementOutsideDocumentRoot()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body></html><svg><g>foo</g><g>bar</g><p>baz");
@@ -2639,7 +2639,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementOutsideBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz");
@@ -2704,7 +2704,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInFrameset()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset><svg><g></g><g></g><p><span>");
@@ -2733,7 +2733,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementOutsideFrameset()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset></frameset><svg><g></g><g></g><p><span>");
@@ -2762,7 +2762,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInBodyWithXlinkAttribute()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>");
@@ -2806,7 +2806,7 @@ namespace UnitTests
             Assert.AreEqual("http://www.w3.org/1999/xlink", attr.NamespaceUri);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupThatHasXlinkAttribute()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo></g></svg>");
@@ -2865,7 +2865,7 @@ namespace UnitTests
             Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithGroupThatHasNamespacedAttributes()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo /></svg>");
@@ -2924,7 +2924,7 @@ namespace UnitTests
             Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithSelfClosingGroup()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo />bar</svg>");
@@ -2987,7 +2987,7 @@ namespace UnitTests
             Assert.AreEqual("bar", dochtml1body1svg0Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithMisclosedPath()
         {
             var doc = DocumentBuilder.Html(@"<svg></path>");
@@ -3017,7 +3017,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInDivMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<div><svg></div>a");
@@ -3058,7 +3058,7 @@ namespace UnitTests
             Assert.AreEqual("a", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithPathInDivMisclosed()
         {
             var doc = DocumentBuilder.Html(@"<div><svg><path></div>a");
@@ -3104,7 +3104,7 @@ namespace UnitTests
             Assert.AreEqual("a", dochtml0body1Text1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithMisclosedPathInDiv()
         {
             var doc = DocumentBuilder.Html(@"<div><svg><path></svg><path>");
@@ -3152,7 +3152,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1div0path1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithPathAndMathInDiv()
         {
             var doc = DocumentBuilder.Html(@"<div><svg><path><foreignObject><math></div>a");
@@ -3210,7 +3210,7 @@ namespace UnitTests
             Assert.AreEqual("a", dochtml0body1div0svg0path0foreignObject0math0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithPathAndForeignObjectInDiv()
         {
             var doc = DocumentBuilder.Html(@"<div><svg><path><foreignObject><p></div>a");
@@ -3268,7 +3268,7 @@ namespace UnitTests
             Assert.AreEqual("a", dochtml0body1div0svg0path0foreignObject0p0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithDescDivAndAnotherSvg()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><desc><div><svg><ul>a");
@@ -3331,7 +3331,7 @@ namespace UnitTests
             Assert.AreEqual("a", dochtml1body1svg0desc0div0ul1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithDescAndAnotherSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><desc><svg><ul>a");
@@ -3388,7 +3388,7 @@ namespace UnitTests
             Assert.AreEqual("a", dochtml1body1svg0desc0ul1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInParagraph()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><p><svg><desc><p>");
@@ -3441,7 +3441,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1p0svg0desc0p0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementWithTitleInSvgNamespace()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><p><svg><title><p>");
@@ -3494,7 +3494,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1p0svg0title0p0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgElementInDivWithForeignObject()
         {
             var doc = DocumentBuilder.Html(@"<div><svg><path><foreignObject><p></foreignObject><p>");
@@ -3554,7 +3554,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1div0svg0path0foreignObject0p1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgWithScriptAndPathElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><script></script><path>");
@@ -3596,7 +3596,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0path1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgInsideTableWithRow()
         {
             var doc = DocumentBuilder.Html(@"<table><svg></svg><tr>");
@@ -3644,7 +3644,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgInsideMathMLWithAnnotationXml()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml><svg></svg></annotation-xml><mi>");
@@ -3692,7 +3692,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mi1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgInsideMathMLWithAnnotationXmlAndForeignObject()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml><svg><foreignObject><div><math><mi></mi></math><span></span></div></foreignObject><path></path></svg></annotation-xml><mi>");
@@ -3776,7 +3776,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mi1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void SvgInsideMathMLWithAnnotationXmlAndOthers()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml><svg><foreignObject><math><mi><svg></svg></mi><mo></mo></math><span></span></foreignObject><path></path></svg></annotation-xml><mi>");

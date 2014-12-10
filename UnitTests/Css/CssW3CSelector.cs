@@ -1,11 +1,11 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class CssW3CSelectorTests
     {
         #region Already included tests
@@ -13,7 +13,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-1.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void GroupsOfSelectors()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -30,7 +30,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-2.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TypeElementSelectors()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml"">This address element should have a green background.</address>";
@@ -43,7 +43,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-3.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void UniversalSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -68,7 +68,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-3a.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void UniversalSelectorNoNamespaces()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -91,7 +91,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-4.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void OmittedUniversalSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""foo"">This paragraph should have a green background</p>";
@@ -106,7 +106,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-5.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void AttributeExistenceSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""title"">This paragraph should have a green background because its TITLE
@@ -122,7 +122,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-6.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void AttributeValueSelector()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml"" title=""foo"">
@@ -143,7 +143,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-7.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void AttributeMultivalueSelectorA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""a b c"">This paragraph should have green background because CLASS
@@ -170,7 +170,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-7b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void AttributeMultivalueSelectorB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""hello world"">This line should have a green background.</p>";
@@ -185,7 +185,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-8.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void AttributeValueSelectorsHyphenSeparatedAttributes()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" lang=""en-gb"">This paragraph should have green background because its language is en-gb</p>
@@ -211,7 +211,7 @@ namespace UnitTests
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-9.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void SubstringMatchingAttributeSelectorBeginning()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobar"">This paragraph should have a green background<br></br>
@@ -227,7 +227,7 @@ because its title attribute begins with foo</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-10.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void SubstringMatchingAttributeSelectorEnd()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobar"">This paragraph should have a green background because
@@ -243,7 +243,7 @@ its title attribute ends with bar</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-11.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void SubstringMatchingAttributeSelectorContains()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobarufoo"">This paragraph should have a green background because
@@ -259,7 +259,7 @@ its title attribute contains bar</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-13.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ClassSelectors()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -285,7 +285,7 @@ its title attribute contains bar</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MoreThanOneClassSelectorA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This paragraph
@@ -317,7 +317,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MoreThanOneClassSelectorB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">This line should be green.</p>
@@ -339,7 +339,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14c.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MoreThanOneClassSelectorC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
@@ -364,7 +364,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14d.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NEGATEDMoreThanOneClassSelectorA()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>";
@@ -385,7 +385,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14e.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NEGATEDMoreThanOneClassSelectorB()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
@@ -410,7 +410,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void IDSelectors()
         {
             var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -435,7 +435,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MultipleIDSelectors()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""test"">This line should be green.</p>
@@ -459,7 +459,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15c.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MultipleIds()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""warning"">This test requires support for two or more of XHTML, xml:id, and DOM3 Core.</p>
@@ -495,7 +495,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-22.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void LangPseudoClass()
         {
             var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -521,7 +521,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177a.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(DomException))]
         public void ParsingColonVsColonColonA()
         {
@@ -535,7 +535,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(DomException))]
         public void ParsingColonVsColonColonB()
         {
@@ -553,7 +553,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-178.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ParsingNotAndPseudoElements()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -572,7 +572,7 @@ should be green.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-182.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(DomException))]
         public void NamespacesAndInSelectors()
         {
@@ -592,7 +592,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-183.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void SyntaxAndParsingOfClassSelectors()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This text should be green.</p>
@@ -616,7 +616,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184a.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void EndsWithAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
@@ -632,7 +632,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void StartsWithAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
@@ -648,7 +648,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184c.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ContainsAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
@@ -664,7 +664,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184d.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NEGATEDEndsWithAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
@@ -680,7 +680,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184e.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NEGATEDStartsWithAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
@@ -696,7 +696,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184f.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NEGATEDContainsAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
@@ -712,7 +712,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NEGATEDDynamicHandlingOfEmpty()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -737,7 +737,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void DynamicHandlingOfEmpty()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -767,7 +767,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d2.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void DynamicHandlingOfCombinators()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -798,7 +798,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d3.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void DynamicHandlingOfAttributeSelectors()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -833,7 +833,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d4.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void DynamicUpdatingOfFirstChildAndLastChild()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -856,7 +856,7 @@ This text should be green.
         #endregion
 
         //TODO 1.) Add correct numbers of matches for each selector
-        //TODO 2.) Decorate each method as [TestMethod]
+        //TODO 2.) Decorate each method as [Test]
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-16.xml
@@ -2259,7 +2259,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-46.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void IndirectAdjacentCombinatorA()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
@@ -2280,7 +2280,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-46b.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void IndirectAdjacentCombinatorB()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
@@ -3683,7 +3683,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-87.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void NondeterministicMatchingOfDirectAndIndirectAdjacentCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
@@ -3740,7 +3740,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-90.xml
         /// </summary>
-        [TestMethod]
+        [Test]
         public void SimpleCombinationOfDirectAndIndirectAdjacentCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>

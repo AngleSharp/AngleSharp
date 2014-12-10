@@ -2,21 +2,21 @@
 using AngleSharp.Css;
 using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Css
 {
-    [TestClass]
+    [TestFixture]
     public class CssBorderRadiusPropertyTest
     {
-        [TestMethod]
+        [Test]
         public void CssBorderBottomLeftRadiusPxPxLegal()
         {
             var snippet = "border-bottom-left-radius: 40px  40px";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-left-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderBottomLeftRadiusProperty>(property);
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -24,14 +24,14 @@ namespace UnitTests.Css
             Assert.AreEqual("40px 40px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderBottomLeftRadiusPxEmLegal()
         {
             var snippet = "border-bottom-left-radius  : 40px 20em";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-left-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderBottomLeftRadiusProperty>(property);
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -39,14 +39,14 @@ namespace UnitTests.Css
             Assert.AreEqual("40px 20em", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderBottomLeftRadiusPxPercentLegal()
         {
             var snippet = "border-bottom-left-radius: 10px 5%";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-left-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderBottomLeftRadiusProperty>(property);
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -54,14 +54,14 @@ namespace UnitTests.Css
             Assert.AreEqual("10px 5%", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderBottomLeftRadiusPercentLegal()
         {
             var snippet = "border-bottom-left-radius: 10%";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-left-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomLeftRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderBottomLeftRadiusProperty>(property);
             var concrete = (CSSBorderBottomLeftRadiusProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -69,14 +69,14 @@ namespace UnitTests.Css
             Assert.AreEqual("10%", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderBottomRightRadiusZeroLegal()
         {
             var snippet = "border-bottom-right-radius: 0";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-right-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomRightRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderBottomRightRadiusProperty>(property);
             var concrete = (CSSBorderBottomRightRadiusProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -84,14 +84,14 @@ namespace UnitTests.Css
             Assert.AreEqual("0", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderBottomRightRadiusPxLegal()
         {
             var snippet = "border-bottom-right-radius: 20px";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-right-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderBottomRightRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderBottomRightRadiusProperty>(property);
             var concrete = (CSSBorderBottomRightRadiusProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -99,14 +99,14 @@ namespace UnitTests.Css
             Assert.AreEqual("20px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderTopLeftRadiusCmLegal()
         {
             var snippet = "border-top-left-radius: 3.5cm";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-top-left-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderTopLeftRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderTopLeftRadiusProperty>(property);
             var concrete = (CSSBorderTopLeftRadiusProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -114,14 +114,14 @@ namespace UnitTests.Css
             Assert.AreEqual("3.5cm", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderTopRightRadiusPercentPercentLegal()
         {
             var snippet = "border-top-right-radius: 15% 3.5%";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-top-right-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderTopRightRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderTopRightRadiusProperty>(property);
             var concrete = (CSSBorderTopRightRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -129,14 +129,14 @@ namespace UnitTests.Css
             Assert.AreEqual("15% 3.5%", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusPercentPercentLegal()
         {
             var snippet = "border-radius: 15% 3.5%";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -144,14 +144,14 @@ namespace UnitTests.Css
             Assert.AreEqual("15% 3.5%", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusZeroLegal()
         {
             var snippet = "border-radius: 0";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -167,14 +167,14 @@ namespace UnitTests.Css
             Assert.AreEqual("0", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusThreeLengthsLegal()
         {
             var snippet = "border-radius: 2px 4px 3px";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -190,14 +190,14 @@ namespace UnitTests.Css
             Assert.AreEqual("2px 4px 3px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusFourLengthsLegal()
         {
             var snippet = "border-radius: 2px 4px 3px 0";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -213,28 +213,28 @@ namespace UnitTests.Css
             Assert.AreEqual("2px 4px 3px 0", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusFiveLengthsIllegal()
         {
             var snippet = "border-radius: 2px 4px 3px 0 1px";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusLengthFractionLegal()
         {
             var snippet = "border-radius: 1em/5em";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -250,14 +250,14 @@ namespace UnitTests.Css
             Assert.AreEqual("1em / 5em", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusLengthFractionInbalancedLegal()
         {
             var snippet = "border-radius: 4px 3px 6px / 2px 4px";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -273,14 +273,14 @@ namespace UnitTests.Css
             Assert.AreEqual("4px 3px 6px / 2px 4px", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusFullFractionLegal()
         {
             var snippet = "border-radius: 4px 3px 6px 1em / 2px 4px 0 20%";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -288,28 +288,28 @@ namespace UnitTests.Css
             Assert.AreEqual("4px 3px 6px 1em / 2px 4px 0 20%", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusFiveTailFractionIllegal()
         {
             var snippet = "border-radius: 4px 3px 6px 1em / 2px 4px 0 20% 0";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssBorderRadiusFiveHeadFractionIllegal()
         {
             var snippet = "border-radius: 4px 3px 6px 1em 0 / 2px 4px 0 20%";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("border-radius", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSBorderRadiusProperty));
+            Assert.IsInstanceOf<CSSBorderRadiusProperty>(property);
             var concrete = (CSSBorderRadiusProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);

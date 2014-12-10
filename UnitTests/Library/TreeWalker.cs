@@ -1,15 +1,15 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class TreeWalkerTests
     {
-        [TestMethod]
+        [Test]
         public void TreeWalkerJavaScriptKitDivision()
         {
             var source = @"<div id=contentarea>
@@ -32,15 +32,15 @@ namespace UnitTests.Library
                 results.Add(walker.Current);
 
             Assert.AreEqual(3, results.Count);
-            Assert.IsInstanceOfType(results[0], typeof(HTMLParagraphElement));
-            Assert.IsInstanceOfType(results[1], typeof(HTMLSpanElement));
-            Assert.IsInstanceOfType(results[2], typeof(HTMLBoldElement));
+            Assert.IsInstanceOf<HTMLParagraphElement>(results[0]);
+            Assert.IsInstanceOf<HTMLSpanElement>(results[1]);
+            Assert.IsInstanceOf<HTMLBoldElement>(results[2]);
 
             walker.Current = rootnode;
-            Assert.IsInstanceOfType(walker.ToFirst(), typeof(HTMLParagraphElement));
+            Assert.IsInstanceOf<HTMLParagraphElement>(walker.ToFirst());
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWalkerJavaScriptKitParagraph()
         {
             var source = @"<p id=essay>George<span> loves </span><b>JavaScript!</b></p>";
@@ -64,7 +64,7 @@ namespace UnitTests.Library
             Assert.AreEqual("George loves JavaScript!", paratext);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWalkerJavaScriptKitList()
         {
             var source = @"<ul id=mylist>
@@ -110,7 +110,7 @@ namespace UnitTests.Library
             Assert.AreEqual("item", item2.ClassName);
         }
 
-        [TestMethod]
+        [Test]
         public void TreeWalkerDotteroSpans()
         {
             var source = @"<div id=""content"">

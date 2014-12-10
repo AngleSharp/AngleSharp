@@ -1,6 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Linq;
 
@@ -10,10 +10,10 @@ namespace UnitTests
     /// Tests taken (and ported) from
     /// https://github.com/google/gumbo-parser/blob/master/tests/parser.cc
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class GumboParserTests
     {
-        [TestMethod]
+        [Test]
         public void GumboDoubleBody()
         {
             var html = DocumentBuilder.Html("<body class=first><body class=second id=merged>Text</body></body>");
@@ -32,7 +32,7 @@ namespace UnitTests
             Assert.AreEqual("Text", txt.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboMisnestedHeading()
         {
             var html = DocumentBuilder.Html(@"<h1>  <section>    <h2>      <dl><dt>List    </h1>  </section>  Heading1<h3>Heading3</h4>After</h3> text");
@@ -87,7 +87,7 @@ namespace UnitTests
             Assert.AreEqual("After text", text4.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboLinkifiedHeading()
         {
             var html = DocumentBuilder.Html(@"<li><h3><a href=#foo>Text</a></h3><div>Summary</div>");
@@ -116,7 +116,7 @@ namespace UnitTests
             Assert.AreEqual(1, div.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboFormattingTagsInHeading()
         {
             var html = DocumentBuilder.Html(@"<h2>This is <b>old</h2>text");
@@ -152,7 +152,7 @@ namespace UnitTests
             Assert.AreEqual("text", text3.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboImplicitlyCloseLists()
         {
             var html = DocumentBuilder.Html(@"<ul>
@@ -186,7 +186,7 @@ namespace UnitTests
         /// <summary>
         /// See http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#misnested-tags:-b-i-/b-/i
         /// </summary>
-        [TestMethod]
+        [Test]
         public void GumboAdoptionAgency1()
         {
             var html = DocumentBuilder.Html(@"<p>1<b>2<i>3</b>4</i>5</p>");
@@ -238,7 +238,7 @@ namespace UnitTests
         /// <summary>
         /// See http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#misnested-tags:-b-p-/b-/p
         /// </summary>
-        [TestMethod]
+        [Test]
         public void GumboAdoptionAgency2()
         {
             var html = DocumentBuilder.Html(@"<b>1<p>2</b>3</p>");
@@ -274,7 +274,7 @@ namespace UnitTests
             Assert.AreEqual("3", text3.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboMetaBeforeHead()
         {
             var html = DocumentBuilder.Html(@"<html><meta http-equiv='content-type' content='text/html; charset=UTF-8' /><head></head>");
@@ -283,7 +283,7 @@ namespace UnitTests
             Assert.IsNotNull(root);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboNoahsArkClause()
         {
             var html = DocumentBuilder.Html(@"<p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X");
@@ -319,7 +319,7 @@ namespace UnitTests
             Assert.AreEqual(1, red2.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboRawtextInBody()
         {
             var html = DocumentBuilder.Html(@"<body><noembed jsif=false></noembed>");
@@ -333,7 +333,7 @@ namespace UnitTests
             Assert.AreEqual(1, noembed.Attributes.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void GumboNestedRawtextTags()
         {
             var html = DocumentBuilder.Html(@"<noscript><noscript jstag=false><style>div{text-align:center}</style></noscript>");
@@ -358,7 +358,7 @@ namespace UnitTests
             Assert.AreEqual("div{text-align:center}", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboIsIndex()
         {
             var html = DocumentBuilder.Html(@"<isindex id=form1 action='/action' prompt='Secret Message'>");
@@ -409,7 +409,7 @@ namespace UnitTests
             Assert.AreEqual(0, hr2.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboForm()
         {
             var html = DocumentBuilder.Html(@"<form><input type=hidden /><isindex /></form>After form");
@@ -432,7 +432,7 @@ namespace UnitTests
             Assert.AreEqual("After form", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboNestedForm()
         {
             var html = DocumentBuilder.Html(@"<form><label>Label</label><form><input id=input2></form>After form");
@@ -460,7 +460,7 @@ namespace UnitTests
             Assert.AreEqual("After form", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboMisnestedFormInTable()
         {
             var html = DocumentBuilder.Html(@"<table><tr><td><form><table><tr><td></td></tr></form><form></tr></table></form></td></tr></table>");
@@ -514,7 +514,7 @@ namespace UnitTests
             Assert.AreEqual(0, form2.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboImplicitColgroup()
         {
             var html = DocumentBuilder.Html(@"<table><col /><col /></table>");
@@ -543,7 +543,7 @@ namespace UnitTests
             Assert.AreEqual(0, col2.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboSelectInTable()
         {
             var html = DocumentBuilder.Html(@"<table><td><select><option value=1></table>");
@@ -582,7 +582,7 @@ namespace UnitTests
             Assert.AreEqual(0, option.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboComplicatedSelect()
         {
             var html = DocumentBuilder.Html(@"<select><div class=foo></div><optgroup><option>Option</option><input></optgroup></select>");
@@ -615,7 +615,7 @@ namespace UnitTests
             Assert.AreEqual(0, input.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboDoubleSelect()
         {
             var html = DocumentBuilder.Html(@"<select><select><div></div>");
@@ -634,7 +634,7 @@ namespace UnitTests
             Assert.AreEqual(0, div.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboInputInSelect()
         {
             var html = DocumentBuilder.Html(@"<select><input /><div></div>");
@@ -658,7 +658,7 @@ namespace UnitTests
             Assert.AreEqual(0, div.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboNullDocument()
         {
             var html = DocumentBuilder.Html(@"");
@@ -667,7 +667,7 @@ namespace UnitTests
             Assert.IsNotNull(body);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboOneChar()
         {
             var html = DocumentBuilder.Html(@"T");
@@ -693,7 +693,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, text.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboTextOnly()
         {
             var html = DocumentBuilder.Html(@"Test");
@@ -719,7 +719,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Text, text.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboUnexpectedEndBreak()
         {
             var html = DocumentBuilder.Html(@"</br><div></div>");
@@ -738,7 +738,7 @@ namespace UnitTests
             Assert.AreEqual(0, div.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboCaseSensitiveAttributesCamelCase()
         {
             var html = DocumentBuilder.Html(@"<div class=camelCase>");
@@ -754,7 +754,7 @@ namespace UnitTests
             Assert.AreEqual("camelCase", div.GetAttribute("class"));
         }
 
-        [TestMethod]
+        [Test]
         public void GumboCaseSensitiveAttributesPascalCase()
         {
             var html = DocumentBuilder.Html(@"<div class=PascalCase>");
@@ -770,7 +770,7 @@ namespace UnitTests
             Assert.AreEqual("PascalCase", div.GetAttribute("class"));
         }
 
-        [TestMethod]
+        [Test]
         public void GumboExplicitHtmlStructure()
         {
             var html = DocumentBuilder.Html(@"<!doctype html>
@@ -812,7 +812,7 @@ namespace UnitTests
             Assert.AreEqual("Test", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboDuplicateAttributes()
         {
             var html = DocumentBuilder.Html(@"<input checked=""false"" checked id=foo id='bar'>");
@@ -835,7 +835,7 @@ namespace UnitTests
             Assert.AreEqual("foo", id);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboLinkTagsInHead()
         {
             var html = DocumentBuilder.Html(@"<html>
@@ -883,7 +883,7 @@ namespace UnitTests
             Assert.AreEqual(1, body.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboTextAfterHtml()
         {
             var html = DocumentBuilder.Html(@"<html>Test</html> after doc");
@@ -896,7 +896,7 @@ namespace UnitTests
             Assert.AreEqual("Test after doc", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboWhitespaceInHead()
         {
             var html = DocumentBuilder.Html(@"<html>  Test</html>");
@@ -915,7 +915,7 @@ namespace UnitTests
             Assert.AreEqual("Test", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboDoctype()
         {
             var html = DocumentBuilder.Html(@"<!doctype html>Test") as Document;
@@ -928,7 +928,7 @@ namespace UnitTests
             Assert.AreEqual(String.Empty, doctype.SystemIdentifier);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboInvalidDoctype()
         {
             var html = DocumentBuilder.Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">") as Document;
@@ -945,7 +945,7 @@ namespace UnitTests
             Assert.AreEqual("Test", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboCommentInVerbatimMode()
         {
             var doc = DocumentBuilder.Html(@"<body> <div id='onegoogle'>Text</div>  </body><!-- comment 
@@ -966,7 +966,7 @@ namespace UnitTests
             Assert.AreEqual(" comment \n\n", comment.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboCommentInText()
         {
             var doc = DocumentBuilder.Html(@"Start <!-- comment --> end");
@@ -987,7 +987,7 @@ namespace UnitTests
             Assert.AreEqual(" end", end.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboUnknownTag1()
         {
             var doc = DocumentBuilder.Html(@"<foo>1<p>2</FOO>");
@@ -1000,7 +1000,7 @@ namespace UnitTests
             Assert.AreEqual(typeof(AngleSharp.DOM.Html.HTMLUnknownElement), foo.GetType());
         }
 
-        [TestMethod]
+        [Test]
         public void GumboUnknownTag2()
         {
             var doc = DocumentBuilder.Html(@"<div><sarcasm><div></div></sarcasm></div>");
@@ -1016,7 +1016,7 @@ namespace UnitTests
             Assert.AreEqual(typeof(AngleSharp.DOM.Html.HTMLUnknownElement), sarcasm.GetType());
         }
 
-        [TestMethod]
+        [Test]
         public void GumboInvalidEndTag()
         {
             var doc = DocumentBuilder.Html(@"<a><img src=foo.jpg></img></a>");
@@ -1034,7 +1034,7 @@ namespace UnitTests
             Assert.AreEqual(0, img.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboTables()
         {
             var doc = DocumentBuilder.Html(@"<html><table>
@@ -1108,7 +1108,7 @@ namespace UnitTests
             Assert.AreEqual(0, div.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboStartParagraphInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><P></tr></td>foo</table>");
@@ -1132,7 +1132,7 @@ namespace UnitTests
             Assert.AreEqual(0, table.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboEndParagraphInTable()
         {
             var doc = DocumentBuilder.Html(@"<table></p></table>");
@@ -1152,7 +1152,7 @@ namespace UnitTests
             Assert.AreEqual(0, table.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboUnclosedTableTags()
         {
             var doc = DocumentBuilder.Html(@"<html><table>
@@ -1218,7 +1218,7 @@ namespace UnitTests
             Assert.AreEqual("\n", body_text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboMisnestedTable1()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><div><td></div></table>");
@@ -1252,7 +1252,7 @@ namespace UnitTests
             Assert.AreEqual(0, td.ChildNodes.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GumboMisnestedTable2()
         {
             var doc = DocumentBuilder.Html(@"<table><td>Cell1<table><th>Cell2<tr>Cell3</table>");

@@ -2,15 +2,15 @@
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using AngleSharp.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Linq;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class DOMExtensionsTests
     {
-        [TestMethod]
+        [Test]
         public void ExtensionAttrWithEmptyList()
         {
             var document = DocumentBuilder.Html("");
@@ -18,7 +18,7 @@ namespace UnitTests.Library
             Assert.AreEqual(0, elements.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionAttrWithOneElement()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
@@ -33,7 +33,7 @@ namespace UnitTests.Library
             Assert.AreEqual("test", test.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionAttrWithOneElementButMultipleAttributes()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
@@ -58,7 +58,7 @@ namespace UnitTests.Library
             Assert.AreEqual("True", element.GetAttribute("test5"));
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionAttrWithMultipleElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
@@ -98,7 +98,7 @@ namespace UnitTests.Library
             Assert.AreEqual("test", test4.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionCssWithEmptyListAndEmptyDeclaration()
         {
             var document = DocumentBuilder.Html("");
@@ -106,7 +106,7 @@ namespace UnitTests.Library
             Assert.AreEqual(0, elements.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionCssWithEmptyListOnly()
         {
             var document = DocumentBuilder.Html("");
@@ -114,7 +114,7 @@ namespace UnitTests.Library
             Assert.AreEqual(0, elements.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionCssWithOneElement()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
@@ -128,7 +128,7 @@ namespace UnitTests.Library
             Assert.AreEqual("red", style.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionCssWithOneElementButMultipleCssRules()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
@@ -150,7 +150,7 @@ namespace UnitTests.Library
             Assert.AreEqual("0.5", style.Opacity);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionCssWithMultipleElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
@@ -190,7 +190,7 @@ namespace UnitTests.Library
             Assert.AreEqual("red", style4.GetPropertyValue(color));
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionTextWithEmptyList()
         {
             var document = DocumentBuilder.Html("");
@@ -198,7 +198,7 @@ namespace UnitTests.Library
             Assert.AreEqual(0, elements.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionTextWithOneElement()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
@@ -210,7 +210,7 @@ namespace UnitTests.Library
             Assert.AreEqual("test", text);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionTextWithMultipleElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
@@ -242,7 +242,7 @@ namespace UnitTests.Library
             Assert.AreEqual("test", test4.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionHtmlWithEmptyList()
         {
             var document = DocumentBuilder.Html("");
@@ -250,7 +250,7 @@ namespace UnitTests.Library
             Assert.AreEqual(0, elements.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionHtmlWithOneElement()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
@@ -275,7 +275,7 @@ namespace UnitTests.Library
             Assert.AreEqual("Text", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionHtmlWithMultipleElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
@@ -302,7 +302,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ExtensionHtmlWithMultipleNestedElements()
         {
             var document = DocumentBuilder.Html("<ul><li>First element</li><li>Second element</li><li>third</li><li class=bla><ul><li>First nested</li><li>Second nested</li><li><ul><li>Last nesting level</li></ul></li></ul></li>");

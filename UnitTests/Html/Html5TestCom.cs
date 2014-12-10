@@ -2,7 +2,7 @@
 using AngleSharp.DOM;
 using AngleSharp.Extensions;
 using AngleSharp.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace UnitTests
@@ -11,10 +11,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/html5test-com.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class Html5TestComTests
     {
-        [TestMethod]
+        [Test]
         public void WrongDivTagMistake()
         {
             var doc = DocumentBuilder.Html(@"<div<div>");
@@ -44,7 +44,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtmlbodydivdiv.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void WrongDivAttributeMistake()
         {
             var doc = DocumentBuilder.Html(@"<div foo<bar=''>");
@@ -75,7 +75,7 @@ namespace UnitTests
             Assert.AreEqual("", dochtmlbodydiv.GetAttribute("foo<bar"));
         }
 
-        [TestMethod]
+        [Test]
         public void WrongDivLetterInAttributeMistake()
         {
             var doc = DocumentBuilder.Html(@"<div foo=`bar`>");
@@ -106,7 +106,7 @@ namespace UnitTests
             Assert.AreEqual("`bar`", dochtmlbodydiv.Attributes.Get("foo").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void EntitiesAngles()
         {
             var doc = DocumentBuilder.Html(@"&lang;&rang;");
@@ -134,7 +134,7 @@ namespace UnitTests
             Assert.AreEqual(@"⟨⟩", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void EntitiesApos()
         {
             var doc = DocumentBuilder.Html(@"&apos;");
@@ -162,7 +162,7 @@ namespace UnitTests
             Assert.AreEqual(@"'", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void EntitiesKopf()
         {
             var doc = DocumentBuilder.Html(@"&Kopf;");
@@ -190,7 +190,7 @@ namespace UnitTests
             Assert.AreEqual(@"𝕂", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void EntitiesNotinva()
         {
             var doc = DocumentBuilder.Html(@"&notinva;");
@@ -218,7 +218,7 @@ namespace UnitTests
             Assert.AreEqual(@"∉", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void BogusCommentAsDoctype()
         {
             var doc = DocumentBuilder.Html(@"<?import namespace=""foo"" implementation=""#bar"">");
@@ -246,7 +246,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MisplacedCdataSection()
         {
             var doc = DocumentBuilder.Html(@"<![CDATA[x]]>");
@@ -274,7 +274,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TextAreaWithComments()
         {
             var doc = DocumentBuilder.Html(@"<textarea><!--</textarea>--></textarea>");
@@ -312,7 +312,7 @@ namespace UnitTests
             Assert.AreEqual(@"-->", text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void UnsortedListWithEntries()
         {
             var doc = DocumentBuilder.Html(@"<ul><li>A </li> <li>B</li></ul>");
@@ -366,7 +366,7 @@ namespace UnitTests
             Assert.AreEqual(@"B", text3.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void TableWithFormAndInputs()
         {
             var doc = DocumentBuilder.Html(@"<table><form><input type=hidden><input></form><div></div></table>");
@@ -421,7 +421,7 @@ namespace UnitTests
             Assert.AreEqual("hidden", dochtmlbodytableinput.Attributes.Get("type").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLTag()
         {
             var doc = DocumentBuilder.Html(@"<math></math>");
@@ -452,7 +452,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtmlbodymath.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void TabsInClassNames()
         {
             var html = "<html><body><div class=\"class1\tclass2\"></div></body></html>";
@@ -464,7 +464,7 @@ namespace UnitTests
             Assert.IsTrue(div.ClassList.Contains("class2"));
         }
 
-        [TestMethod]
+        [Test]
         public void NewLinesInClassNames()
         {
             var html = "<html><body><div class=\"class1" + Environment.NewLine + "class2  class3\r\n\t class4\"></div></body></html>";
@@ -476,7 +476,7 @@ namespace UnitTests
             Assert.IsTrue(div.ClassList.Contains("class4"));
         }
 
-        [TestMethod]
+        [Test]
         public void AutoCloseTwoTagsInARow()
         {
             var html = @" <table id=table-uda>
@@ -494,7 +494,7 @@ namespace UnitTests
             Assert.AreEqual("table", dom.QuerySelector("tbody").Parent.NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoCreateTableTags()
         {
             var html = @"<table id=table-uda>
@@ -517,7 +517,7 @@ namespace UnitTests
             Assert.AreEqual(11, dom.QuerySelectorAll("body *").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoCreateHtmlBody()
         {
             var test = @"<html>
@@ -549,7 +549,7 @@ namespace UnitTests
             Assert.AreEqual(4, dom.QuerySelectorAll("script").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoCreateHead()
         {
             var test = @"<html>
@@ -561,7 +561,7 @@ namespace UnitTests
             Assert.AreEqual(dom.QuerySelector("#div1"), dom.QuerySelector("body > :first-child"));
         }
 
-        [TestMethod]
+        [Test]
         public void AutoCreateBody()
         {
             var test = @"<html>
@@ -577,7 +577,7 @@ namespace UnitTests
             Assert.AreEqual(dom.QuerySelector("#div1"), dom.QuerySelector("body > :first-child"));
         }
 
-        [TestMethod]
+        [Test]
         public void NewLinesInTags()
         {
             var test = @"<table 

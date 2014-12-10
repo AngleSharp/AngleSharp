@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
 using AngleSharp.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class PriorityTests
     {
-        [TestMethod]
+        [Test]
         public void PriorityIdHigherThanClassAndTag()
         {
             var a = Priority.OneId;
@@ -31,7 +31,7 @@ namespace UnitTests.Library
             Assert.AreEqual(Priority.OneId, a);
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityInlineHigherThanIdAndClassAndTag()
         {
             var a = Priority.Inline;
@@ -54,7 +54,7 @@ namespace UnitTests.Library
             Assert.AreEqual(Priority.Inline, a);
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityCustomHigherAll()
         {
             var a = new Priority(UInt32.MaxValue);
@@ -76,7 +76,7 @@ namespace UnitTests.Library
             Assert.IsTrue(a == new Priority(UInt32.MaxValue));
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityImportantHigherAllExcludedCustom()
         {
             var a = new Priority(UInt32.MaxValue - 1);
@@ -101,7 +101,7 @@ namespace UnitTests.Library
             Assert.IsTrue(a == new Priority(UInt32.MaxValue - 1));
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityAddSeveralWithoutInline()
         {
             var a = Priority.Zero;
@@ -120,7 +120,7 @@ namespace UnitTests.Library
             Assert.AreEqual(result, a);
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityAddSeveralWithInline()
         {
             var a = Priority.Inline;
@@ -140,7 +140,7 @@ namespace UnitTests.Library
             Assert.AreEqual(result, a);
         }
 
-        [TestMethod]
+        [Test]
         public void PriorityCheckProperties()
         {
             var a = Priority.Inline;

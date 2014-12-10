@@ -1,23 +1,23 @@
 ﻿using AngleSharp;
 using AngleSharp.Extensions;
 using AngleSharp.Network;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using UnitTests.Mocks;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class HttpRequesterTests
     {
-        [TestMethod]
+        [Test]
         public void DefaultGetHttpRequester()
         {
             Assert.IsFalse(Configuration.Default.Requesters.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -38,7 +38,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void StatusCode500OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -56,7 +56,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void StatusCode400OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -74,7 +74,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void StatusCode403OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -92,7 +92,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void StatusCode404OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -110,7 +110,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleHttpPostRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -136,7 +136,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleHttpPutRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -162,7 +162,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleHttpDeleteRequest()
         {
             if (Helper.IsNetworkAvailable())
@@ -181,7 +181,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void MethodNotAllowedOnHttpDelete()
         {
             if (Helper.IsNetworkAvailable())
@@ -200,7 +200,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void MethodNotAllowedOnHttpPut()
         {
             if (Helper.IsNetworkAvailable())
@@ -219,7 +219,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void RequestUserAgentString()
         {
             if (Helper.IsNetworkAvailable())
@@ -250,7 +250,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void AsyncHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())

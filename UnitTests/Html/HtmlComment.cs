@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 using System;
@@ -9,10 +9,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/comments01.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class HtmlCommentTests
     {
-        [TestMethod]
+        [Test]
         public void ValidCommentInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-- BAR -->BAZ");
@@ -48,7 +48,7 @@ namespace UnitTests
             Assert.AreEqual("BAZ", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ToleratedComment()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-- BAR --!>BAZ");
@@ -84,7 +84,7 @@ namespace UnitTests
             Assert.AreEqual("BAZ", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidComment()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-- BAR --   >BAZ");
@@ -116,7 +116,7 @@ namespace UnitTests
             Assert.AreEqual(@" BAR --   >BAZ", dochtml0body1Comment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidCommentWithTagInside()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-- BAR -- <QUX> -- MUX -->BAZ");
@@ -153,7 +153,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ToleratedCommentWithTagInside()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-- BAR -- <QUX> -- MUX --!>BAZ");
@@ -189,7 +189,7 @@ namespace UnitTests
             Assert.AreEqual("BAZ", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidCommentWithTagInside()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-- BAR -- <QUX> -- MUX -- >BAZ");
@@ -221,7 +221,7 @@ namespace UnitTests
             Assert.AreEqual(@" BAR -- <QUX> -- MUX -- >BAZ", dochtml0body1Comment1.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ToleratedInvalidEmptyComment4Dashes()
         {
             var doc = DocumentBuilder.Html(@"FOO<!---->BAZ");
@@ -257,7 +257,7 @@ namespace UnitTests
             Assert.AreEqual("BAZ", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ToleratedInvalidEmptyComment3Dashes()
         {
             var doc = DocumentBuilder.Html(@"FOO<!--->BAZ");
@@ -294,7 +294,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ToleratedInvalidEmptyComment2Dashes()
         {
             var doc = DocumentBuilder.Html(@"FOO<!-->BAZ");
@@ -332,7 +332,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void XmlPreambleAsBogusCommentFollowedByText()
         {
             var doc = DocumentBuilder.Html(@"<?xml version=""1.0"">Hi");
@@ -364,7 +364,7 @@ namespace UnitTests
             Assert.AreEqual("Hi", dochtml1body1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlPreambleAsBogusCommentStandalone()
         {
             var doc = DocumentBuilder.Html(@"<?xml version=""1.0"">");
@@ -393,7 +393,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void XmlPreambleFragmentWithEOF()
         {
             var doc = DocumentBuilder.Html(@"<?xml version");
@@ -421,7 +421,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void ToleratedInvalidEmptyComment5Dashes()
         {
             var doc = DocumentBuilder.Html(@"FOO<!----->BAZ");
@@ -458,7 +458,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ValidCommentInRoot()
         {
             var doc = DocumentBuilder.Html(@"<html><!-- comment --><title>Comment before head</title>");
@@ -497,7 +497,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void MassiveCommentInNBCPage()
         {
             try

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
 
@@ -8,10 +8,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/scriptdata01.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class ScriptDataTests
     {
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedHelloText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'Hello'</script>BAR");
@@ -54,7 +54,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithNoContent()
         {
             var doc = DocumentBuilder.Html(@"FOO<script></script>BAR");
@@ -92,7 +92,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithNoContentAndSpaceInClosingTag()
         {
             var doc = DocumentBuilder.Html(@"FOO<script></script >BAR");
@@ -131,7 +131,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithNoContentAndSelfClosingClosingTag()
         {
             var doc = DocumentBuilder.Html(@"FOO<script></script/>BAR");
@@ -170,7 +170,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithNoContentAndSpacedSelfClosingClosingTag()
         {
             var doc = DocumentBuilder.Html(@"FOO<script></script/ >BAR");
@@ -210,7 +210,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndWrongClosingTag()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain""></scriptx>BAR");
@@ -249,7 +249,7 @@ namespace UnitTests
             Assert.AreEqual("</scriptx>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeInClosingTag()
         {
             var doc = DocumentBuilder.Html(@"FOO<script></script foo="" > "" dd>BAR");
@@ -287,7 +287,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedLtInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<'</script>BAR");
@@ -329,7 +329,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedLtEmInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!'</script>BAR");
@@ -371,7 +371,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedLtEmDashInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!-'</script>BAR");
@@ -413,7 +413,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedCommentStartInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!--'</script>BAR");
@@ -455,7 +455,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedCommentStartAndDashInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!---'</script>BAR");
@@ -497,7 +497,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedEmptyCommentInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!-->'</script>BAR");
@@ -539,7 +539,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedEmptyShortCommentInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!-->'</script>BAR");
@@ -581,7 +581,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedPotatoCommentInText()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!-- potato'</script>BAR");
@@ -623,7 +623,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithQuotedScriptEndInComment()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!-- <sCrIpt'</script>BAR");
@@ -665,7 +665,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributesAndQuotedScriptEnd()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt>'</script>BAR");
@@ -704,7 +704,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt>'</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributesAndQuotedScriptStart()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> -'</script>BAR");
@@ -743,7 +743,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt> -'</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributesAndQuotedScriptStartMoreDashes()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> --'</script>BAR");
@@ -782,7 +782,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt> --'</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithValidCommentAndStartInQuotes()
         {
             var doc = DocumentBuilder.Html(@"FOO<script>'<!-- <sCrIpt> -->'</script>BAR");
@@ -824,7 +824,7 @@ namespace UnitTests
             Assert.AreEqual("BAR", dochtml0body1Text2.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndToleratedStartInCommentAndQuotes()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> --!>'</script>BAR");
@@ -863,7 +863,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt> --!>'</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndInvalidCommentAndQuotes()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> -- >'</script>BAR");
@@ -902,7 +902,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt> -- >'</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotes()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt '</script>BAR");
@@ -941,7 +941,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt '</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotesTrailingSolidus()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt/'</script>BAR");
@@ -980,7 +980,7 @@ namespace UnitTests
             Assert.AreEqual("'<!-- <sCrIpt/'</script>BAR", dochtml0body1script1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotesTrailingBackslash()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt\'</script>BAR");
@@ -1024,7 +1024,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotesConsistentlyClosed()
         {
             var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt/'</script>BAR</script>QUX");

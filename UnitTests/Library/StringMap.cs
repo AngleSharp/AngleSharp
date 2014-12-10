@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.DOM.Collections.Tests
 {
     using AngleSharp.DOM.Html;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class StringMapTests
     {
         HTMLElement a;
         StringMap stringMap;
 
-        [TestInitialize]
+        [SetUp]
         public void CreateMap()
         {
             a = new HTMLElement("a");
@@ -18,21 +18,21 @@
             stringMap = new StringMap("data-", a);
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveTest()
         {
             stringMap.Remove("b");
             Assert.AreEqual(a.GetAttribute("data-b"), null);
         }
 
-        [TestMethod]
+        [Test]
         public void ContainsTest()
         {
             Assert.IsTrue(stringMap.Contains("b"));
             Assert.AreEqual(a.GetAttribute("data-b"), "b");
         }
 
-        [TestMethod]
+        [Test]
         public void GetEnumeratorTest()
         {
             foreach (var str in stringMap)

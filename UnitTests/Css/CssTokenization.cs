@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
 using AngleSharp.Parser;
 using AngleSharp.Parser.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class CssTokenizationTests
     {
-        [TestMethod]
+        [Test]
         public void CssParserIdentifier()
         {
             var teststring = "h1 { background: blue; }";
@@ -25,7 +25,7 @@ namespace UnitTests
             Assert.AreEqual(CssTokenType.Ident, token.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssParserAtRule()
         {
             var teststring = "@media { background: blue; }";
@@ -42,7 +42,7 @@ namespace UnitTests
             Assert.AreEqual(CssTokenType.AtKeyword, token.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void CssParserUrlUnquoted()
         {
             var url = "http://someurl";
@@ -60,7 +60,7 @@ namespace UnitTests
             Assert.AreEqual(url, token.Data);
         }
 
-        [TestMethod]
+        [Test]
         public void CssParserUrlDoubleQuoted()
         {
             var url = "http://someurl";
@@ -78,7 +78,7 @@ namespace UnitTests
             Assert.AreEqual(url, token.Data);
         }
 
-        [TestMethod]
+        [Test]
         public void CssParserUrlSingleQuoted()
         {
             var url = "http://someurl";

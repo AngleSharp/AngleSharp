@@ -1,16 +1,16 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Events;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class DOMEventsTests
     {
         IDocument doc;
 
-        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             var source = @"<!doctype html>
@@ -26,7 +26,7 @@ namespace UnitTests.Library
             doc = DocumentBuilder.Html(source);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsAddHandler()
         {
             var evName = "click";
@@ -42,7 +42,7 @@ namespace UnitTests.Library
             Assert.IsFalse(args.IsTrusted);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsAwaitedTriggered()
         {
             var evName = "click";
@@ -57,7 +57,7 @@ namespace UnitTests.Library
             Assert.AreEqual(evName, task.Result.Type);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsRemoveHandler()
         {
             var evName = "click";
@@ -74,7 +74,7 @@ namespace UnitTests.Library
             Assert.IsFalse(args.IsTrusted);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsCapturingDispatchHandler()
         {
             var evName = "click";
@@ -103,7 +103,7 @@ namespace UnitTests.Library
             element.Dispatch(args);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsBubblingDispatchHandler()
         {
             var evName = "click";
@@ -132,7 +132,7 @@ namespace UnitTests.Library
             element.Dispatch(args);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsCustomHandlerViaFactory()
         {
             var evName = "myevent";
@@ -154,7 +154,7 @@ namespace UnitTests.Library
             element.Dispatch(args);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsCustomHandlerViaConstructor()
         {
             var evName = "myevent";
@@ -175,7 +175,7 @@ namespace UnitTests.Library
             element.Dispatch(args);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsFactory()
         {
             var invalid = EventFactory.Create("invalid");
@@ -188,12 +188,12 @@ namespace UnitTests.Library
             Assert.IsNotNull(events);
             Assert.IsNotNull(wheelevent);
 
-            Assert.IsInstanceOfType(@event, typeof(Event));
-            Assert.IsInstanceOfType(events, typeof(Event));
-            Assert.IsInstanceOfType(wheelevent, typeof(WheelEvent));
+            Assert.IsInstanceOf<Event>(@event);
+            Assert.IsInstanceOf<Event>(events);
+            Assert.IsInstanceOf<WheelEvent>(wheelevent);
         }
 
-        [TestMethod]
+        [Test]
         public void EventsDocumentFinished()
         {
             doc.ReadyStateChanged += (s, ev) =>

@@ -1,17 +1,17 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class CssSelectorTests
     {
         IDocument document;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             document = DocumentBuilder.Html(Assets.selectors);
@@ -32,28 +32,28 @@ namespace UnitTests
             return document.QuerySelectorAll(query);
         }
 
-        [TestMethod]
+        [Test]
         public void PseudoSelectorFirstChild()
         {
             Assert.AreEqual(8, RunQuery("*:first-child").Length);
             Assert.AreEqual(1, RunQuery("p:first-child").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void PseudoSelectorLastChild()
         {
             Assert.AreEqual(7, RunQuery("*:last-child").Length);
             Assert.AreEqual(2, RunQuery("p:last-child").Length);
         }
         
-        [TestMethod]
+        [Test]
         public void PseudoSelectorOnlyChild()
         {
             Assert.AreEqual(3, RunQuery("*:only-child").Length);
             Assert.AreEqual(1, RunQuery("p:only-child").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void PseudoSelectorEmpty()
         {
             var results = RunQuery("*:empty");
@@ -62,7 +62,7 @@ namespace UnitTests
             Assert.AreEqual("input", results[1].NodeName);
         }
         
-        [TestMethod]
+        [Test]
         public void NthChildNoPrefixWithDigit()
         {
             var result = RunQuery(":nth-child(2)");
@@ -74,7 +74,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[3].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void NthChildStarPrefixWithDigit()
         {
             var result = RunQuery("*:nth-child(2)");
@@ -86,7 +86,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[3].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void NthChildElementPrefixWithDigit()
         {
             var result = RunQuery("p:nth-child(2)");
@@ -96,7 +96,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void NthLastChildNoPrefixWithDigit()
         {
             var result = RunQuery(":nth-last-child(2)");
@@ -108,7 +108,7 @@ namespace UnitTests
             Assert.AreEqual("div", result[3].NodeName);
         }
         
-        [TestMethod]
+        [Test]
         public void NthLastChildIdPrefixWithDigit()
         {
             var result = RunQuery("#myDiv :nth-last-child(2)");
@@ -118,7 +118,7 @@ namespace UnitTests
             Assert.AreEqual("span", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void NthLastChildElementPrefixWithDigit()
         {
             var result = RunQuery("span:nth-last-child(3)");
@@ -126,7 +126,7 @@ namespace UnitTests
             Assert.AreEqual(0, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void NthLastChildElementPrefixWithDigit2()
         {
             var result = RunQuery("span:nth-last-child(2)");
@@ -135,7 +135,7 @@ namespace UnitTests
             Assert.AreEqual("span", result[0].NodeName);
         }
         
-        [TestMethod]
+        [Test]
         public void MultipleSelectorsCommaSupportWithNoSpace()
         {
             var result = RunQuery("p.hiclass,a");
@@ -145,7 +145,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void MultipleSelectorsCommaSupportWithPostPendedSpace()
         {
             var result = RunQuery("p.hiclass, a");
@@ -155,7 +155,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void MultipleSelectorsCommaSupportWithPrepostpendedSpace()
         {
             var result = RunQuery("p.hiclass , a");
@@ -165,7 +165,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
         
-        [TestMethod]
+        [Test]
         public void MultipleSelectorsCommaSupportWithPrependedSpace()
         {
             var result = RunQuery("p.hiclass ,a");
@@ -175,7 +175,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorBasicSelector()
         {
             var result = RunQuery("#myDiv");
@@ -184,7 +184,7 @@ namespace UnitTests
             Assert.AreEqual("div", result[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorWithElement()
         {
             var result = RunQuery("div#myDiv");
@@ -193,7 +193,7 @@ namespace UnitTests
             Assert.AreEqual("div", result[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorWithExistingIdDescendant()
         {
             var result = RunQuery("#theBody #myDiv");
@@ -202,7 +202,7 @@ namespace UnitTests
             Assert.AreEqual("div", result[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorWithNonExistantIdDescendant()
         {
             var result = RunQuery("#theBody #whatwhatwhat");
@@ -210,7 +210,7 @@ namespace UnitTests
             Assert.AreEqual(0, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorWithNonExistantIdAncestor()
         {
             var result = RunQuery("#whatwhatwhat #someOtherDiv");
@@ -218,7 +218,7 @@ namespace UnitTests
             Assert.AreEqual(0, result.Length);
         }
         
-        [TestMethod]
+        [Test]
         public void IdSelectorAllDescendantsOfId()
         {
             var result = RunQuery("#myDiv *");
@@ -228,7 +228,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorChildId()
         {
             var result = RunQuery("#theBody>#myDiv");
@@ -237,7 +237,7 @@ namespace UnitTests
             Assert.AreEqual("div", result[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorNotAChildId()
         {
             var result = RunQuery("#theBody>#someOtherDiv");
@@ -245,7 +245,7 @@ namespace UnitTests
             Assert.AreEqual(0, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorAllChildrenOfId()
         {
             var result = RunQuery("#myDiv>*");
@@ -255,7 +255,7 @@ namespace UnitTests
             Assert.AreEqual("p", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void IdSelectorAllChildrenofIdWithNoChildren()
         {
             var result = RunQuery("#someOtherDiv>*");
@@ -263,20 +263,20 @@ namespace UnitTests
             Assert.AreEqual(0, result.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorStar()
         {
             Assert.AreEqual(16, RunQuery("*").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorSingleTagName()
         {
             Assert.AreEqual(1, RunQuery("body").Length);
             Assert.AreEqual("body", RunQuery("body")[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorSingleTagNameMatchingMultipleElements()
         {
             Assert.AreEqual(3, RunQuery("p").Length);
@@ -285,44 +285,44 @@ namespace UnitTests
             Assert.AreEqual("p", RunQuery("p")[2].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorBasicNegativePrecedence()
         {
             Assert.AreEqual(0, RunQuery("head p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorBasicPositivePrecedenceTwoTags()
         {
             Assert.AreEqual(2, RunQuery("div p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorBasicPositivePrecedenceTwoTagsWithGrandchildDescendant()
         {
             Assert.AreEqual(2, RunQuery("div a").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorBasicPositivePrecedenceThreeTags()
         {
             Assert.AreEqual(1, RunQuery("div p a").Length);
             Assert.AreEqual("a", RunQuery("div p a")[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorBasicPositivePrecedenceWithSameTags()
         {
             Assert.AreEqual(1, RunQuery("div div").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ElementSelectorBasicPositivePrecedenceWithinForm()
         {
             Assert.AreEqual(1, RunQuery("form input").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ClassSelectorBasic()
         {
             var result = RunQuery(".checkit");
@@ -332,7 +332,7 @@ namespace UnitTests
             Assert.AreEqual("div", result[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void ClassSelectorChained()
         {
             var result = RunQuery(".omg.ohyeah");
@@ -342,7 +342,7 @@ namespace UnitTests
             Assert.AreEqual("eeeee", result[0].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ClassSelectorWithElement()
         {
             var result = RunQuery("p.ohyeah");
@@ -352,7 +352,7 @@ namespace UnitTests
             Assert.AreEqual("eeeee", result[0].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ClassSelectorParentClassSelector()
         {
             var result = RunQuery("div .ohyeah");
@@ -362,79 +362,79 @@ namespace UnitTests
             Assert.AreEqual("eeeee", result[0].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorChildWithPreAndPostSpace()
         {
             Assert.AreEqual(2, RunQuery("div > p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorChildWithPostSpace()
         {
             Assert.AreEqual(2, RunQuery("div> p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorChildWithPreSpace()
         {
             Assert.AreEqual(2, RunQuery("div >p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorChildWithNoSpace()
         {
             Assert.AreEqual(2, RunQuery("div>p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorChildWithClass()
         {
             Assert.AreEqual(1, RunQuery("div > p.ohyeah").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorAllChildren()
         {
             Assert.AreEqual(3, RunQuery("p > *").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorAllGrandChildren()
         {
             Assert.AreEqual(3, RunQuery("div > * > *").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorAdjacentWithPreAndPostSpace()
         {
             Assert.AreEqual(1, RunQuery("a + span").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorAdjacentWithPostSpace()
         {
             Assert.AreEqual(1, RunQuery("a+ span").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorAdjacentWithPreSpace()
         {
             Assert.AreEqual(1, RunQuery("a +span").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorAdjacentWithNoSpace()
         {
             Assert.AreEqual(1, RunQuery("a+span").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorCommaChildAndAdjacent()
         {
             Assert.AreEqual(3, RunQuery("a + span, div > p").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ComplexSelectorGeneralSiblingCombinator()
         {
             var result = RunQuery("div ~ form");
@@ -442,7 +442,7 @@ namespace UnitTests
             Assert.AreEqual("form", result[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorElementAttrExists()
         {
             var results = RunQuery("div[id]");
@@ -452,7 +452,7 @@ namespace UnitTests
             Assert.AreEqual("div", results[1].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorElementAttrEqualsWithDoubleQuotes()
         {
             var results = RunQuery("div[id=\"someOtherDiv\"]");
@@ -461,7 +461,7 @@ namespace UnitTests
             Assert.AreEqual("div", results[0].NodeName);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorElementAttrSpaceSeparatedWithDoubleQuotes()
         {
             var results = RunQuery("p[class~=\"ohyeah\"]");
@@ -471,13 +471,13 @@ namespace UnitTests
             Assert.AreEqual("eeeee", results[0].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorElementAttrSpaceSeparatedWithEmptyValue()
         {
             Assert.AreEqual(0, RunQuery("p[class~='']").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorElementAttrHyphenSeparatedWithDoubleQuotes()
         {
             var results = RunQuery("span[class|=\"separated\"]");
@@ -487,7 +487,7 @@ namespace UnitTests
             Assert.AreEqual("test", results[0].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorImplicitStarAttrExactWithDoubleQuotes()
         {
             var results = RunQuery("[class=\"checkit\"]");
@@ -499,7 +499,7 @@ namespace UnitTests
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrExactWithDoubleQuotes()
         {
             var results = RunQuery("*[class=\"checkit\"]");
@@ -511,7 +511,7 @@ namespace UnitTests
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrPrefix()
         {
             var results = RunQuery("*[class^=check]");
@@ -523,13 +523,13 @@ namespace UnitTests
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrPrefixWithEmptyValue()
         {
             Assert.AreEqual(0, RunQuery("*[class^='']").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrSuffix()
         {
             var results = RunQuery("*[class$=it]");
@@ -541,13 +541,13 @@ namespace UnitTests
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrSuffixWithEmptyValue()
         {
             Assert.AreEqual(0, RunQuery("*[class$='']").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrSubstring()
         {
             var results = RunQuery("*[class*=heck]");
@@ -559,13 +559,13 @@ namespace UnitTests
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorStarAttrSubstringWithEmptyValue()
         {
             Assert.AreEqual(0, RunQuery("*[class*='']").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeSelectorElementAttrNotEqual()
         {
             var results = RunQuery("p[class!='hiclass']");

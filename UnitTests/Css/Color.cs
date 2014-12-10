@@ -1,12 +1,12 @@
 ﻿using AngleSharp.DOM.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class ColorTests
     {
-        [TestMethod]
+        [Test]
         public void ColorInvalidHexDigitString()
         {
             Color hc;
@@ -15,7 +15,7 @@ namespace UnitTests
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorInvalidLengthString()
         {
             Color hc;
@@ -24,7 +24,7 @@ namespace UnitTests
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorValidLengthShortString()
         {
             Color hc;
@@ -33,7 +33,7 @@ namespace UnitTests
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorValidLengthLongString()
         {
             Color hc;
@@ -42,7 +42,7 @@ namespace UnitTests
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorWhiteShortString()
         {
             var color = "fff";
@@ -50,7 +50,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(255, 255, 255), result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorRedShortString()
         {
             var color = "f00";
@@ -58,7 +58,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(255, 0, 0), result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorFromRedName()
         {
             var color = "red";
@@ -67,7 +67,7 @@ namespace UnitTests
             Assert.AreEqual(Color.Red, result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorFromWhiteName()
         {
             var color = "white";
@@ -76,7 +76,7 @@ namespace UnitTests
             Assert.AreEqual(Color.White, result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorFromUnknownName()
         {
             var color = "bla";
@@ -84,7 +84,7 @@ namespace UnitTests
             Assert.IsFalse(result.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorMixedLongString()
         {
             var color = "facc36";
@@ -92,7 +92,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(250, 204, 54), result);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorMixBlackOnWhite50Percent()
         {
             var color1 = Color.Black;
@@ -101,7 +101,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(127, 127, 127), mix);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorMixRedOnWhite75Percent()
         {
             var color1 = Color.Red;
@@ -110,7 +110,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(255, 63, 63), mix);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorMixBlueOnWhite10Percent()
         {
             var color1 = Color.Blue;
@@ -119,7 +119,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(229, 229, 255), mix);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorMixGreenOnRed30Percent()
         {
             var color1 = Color.PureGreen;
@@ -128,7 +128,7 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(178, 76, 0), mix);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorMixWhiteOnBlack20Percent()
         {
             var color1 = Color.White;
@@ -137,70 +137,70 @@ namespace UnitTests
             Assert.AreEqual(Color.FromRgb(51, 51, 51), mix);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslBlackMixed()
         {
             var color = Color.FromHsl(0, 1, 0);
             Assert.AreEqual(Color.Black, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslBlackMixed1()
         {
             var color = Color.FromHsl(0, 1, 0);
             Assert.AreEqual(Color.Black, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslBlackMixed2()
         {
             var color = Color.FromHsl(0.5f, 1, 0);
             Assert.AreEqual(Color.Black, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslRedPure()
         {
             var color = Color.FromHsl(0, 1, 0.5f);
             Assert.AreEqual(Color.Red, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslGreenPure()
         {
             var color = Color.FromHsl(1f / 3f, 1, 0.5f);
             Assert.AreEqual(Color.PureGreen, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslBluePure()
         {
             var color = Color.FromHsl(2f / 3f, 1, 0.5f);
             Assert.AreEqual(Color.Blue, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslBlackPure()
         {
             var color = Color.FromHsl(0, 0, 0);
             Assert.AreEqual(Color.Black, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslMagentaPure()
         {
             var color = Color.FromHsl(300f / 360f, 1, 0.5f);
             Assert.AreEqual(Color.Magenta, color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslYellowGreenMixed()
         {
             var color = Color.FromHsl(1f / 4f, 0.75f, 0.63f);
             Assert.AreEqual(Color.FromRgb(161, 231, 90), color);
         }
 
-        [TestMethod]
+        [Test]
         public void ColorHslGrayBlueMixed()
         {
             var color = Color.FromHsl(210f / 360f, 0.25f, 0.25f);

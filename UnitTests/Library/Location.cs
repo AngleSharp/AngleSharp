@@ -1,12 +1,12 @@
 ﻿using AngleSharp.DOM;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class LocationTests
     {
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithoutPathGoogle()
         {
             var url = "http://www.google.de";
@@ -21,7 +21,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithPathGoogle()
         {
             var url = "https://www.google.de/mypath";
@@ -36,7 +36,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void ProtocolRelativeLocationWithPathGoogleApis()
         {
             var url = "//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js";
@@ -51,7 +51,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithPortAndQueryLocalhost()
         {
             var url = "http://localhost:8080/?mytest";
@@ -67,7 +67,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void DataLocationSchemeOnly()
         {
             var url = "data:";
@@ -83,7 +83,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void DataLocationComplete()
         {
             var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
@@ -99,7 +99,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationUsernamePasswordWithPort()
         {
             var url = "http://user:password@example.com:8080";
@@ -117,7 +117,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationUsernamePasswordWithPortPathQueryAndFragment()
         {
             var url = "https://user:password@example.com:8080/path?query=value#fragment";
@@ -135,7 +135,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationAbsoluteDirectory()
         {
             var url = "/path";
@@ -150,7 +150,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void QueryRelativeLocation()
         {
             var url = "?query=value";
@@ -165,7 +165,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationRelativeSimple()
         {
             var url = "picture.png";
@@ -180,7 +180,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationAbsoluteFile()
         {
             var url = "/hello.css";
@@ -195,7 +195,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationRelativeDirectoryFile()
         {
             var url = "scripts/js/jquery.js";
@@ -210,7 +210,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentRelativeLocation()
         {
             var url = "#example";
@@ -225,7 +225,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationAbsoluteDirectoryFile()
         {
             var url = "/absolute/resource.jpg";
@@ -240,7 +240,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationRelativeHtml()
         {
             var url = "index.html";
@@ -255,7 +255,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationRelativeHtmlWithQuery()
         {
             var url = "index.html?id=5";
@@ -270,7 +270,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void PathRelativeLocationRelativeWithQueryAndFragment()
         {
             var url = "default.aspx?word#first";
@@ -285,7 +285,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationIpAddressWithPortAndTelnetScheme()
         {
             var url = "telnet://192.0.2.16:80/";
@@ -302,7 +302,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationTelephonePseudo()
         {
             var url = "tel:+1-816-555-1212";
@@ -318,7 +318,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationNewProtocol()
         {
             var url = "news:comp.infosystems.www.servers.unix";
@@ -334,7 +334,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationMailProtocolQueryMultiple()
         {
             var url = "mailto:?to=addr1@an.example,addr2@an.example";
@@ -350,7 +350,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationMailProtocolSimple()
         {
             var url = "mailto:John.Doe@example.com";
@@ -366,7 +366,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationLdapWithIpV6Address()
         {
             var url = "ldap://[2001:db8::7]/c=GB?objectClass?one";
@@ -382,7 +382,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithPercentEncodedAndUppercase()
         {
             var url = "HTTP://example.com.:80/%70a%74%68?a=%31#1%323";
@@ -397,7 +397,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationUrn()
         {
             var url = "urn:oasis:names:specification:docbook:dtd:xml:4.1.2";
@@ -413,7 +413,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationSimpleExample()
         {
             var url = "http://example.com";
@@ -429,7 +429,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationIpExample()
         {
             var url = "http://127.0.0.1:8080/mypath";
@@ -446,7 +446,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationW3Project()
         {
             var url = "http://www.w3.org/pub/WWW/TheProject.html";
@@ -462,7 +462,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationIpV6LongAddress()
         {
             var url = "http://[3ffe:1900:4545:3:200:f8ff:fe21:67cf]/";
@@ -478,7 +478,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationIpV6AbbrAddress()
         {
             var url = "http://[::1]/";
@@ -494,7 +494,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleQueryEmpty()
         {
             var url = "http://example.com/?";
@@ -510,7 +510,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleFragmentEmpty()
         {
             var url = "http://example.com/#";
@@ -526,7 +526,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleQueryAndFragmentEmpty()
         {
             var url = "http://example.com/?#";
@@ -542,7 +542,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleNoPathFragmentEmpty()
         {
             var url = "http://example.com#";
@@ -558,7 +558,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleNoPathQueryEmpty()
         {
             var url = "http://example.com?";
@@ -574,7 +574,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleNoPathQueryAndFragmentEmpty()
         {
             var url = "http://example.com?#";
@@ -590,7 +590,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationExampleTildeDirectory()
         {
             var url = "http://example.com/~smith/";
@@ -606,7 +606,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationGoingUpToRoot()
         {
             var url = "http://example.com/../..";
@@ -622,7 +622,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void RelativeLocationGoingUpAndDown()
         {
             var url = "/a/b/c/./../../g";
@@ -638,7 +638,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationOnWindows()
         {
             var url = "file:c:\\windows\\My Documents 100%20\\foo.txt";
@@ -654,7 +654,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationPercentPathSingle()
         {
             var url = "https://example.com/%E8";
@@ -670,7 +670,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationPercentPathDouble()
         {
             var url = "http://example.com/%25C3%2587";
@@ -686,7 +686,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationQueryString()
         {
             var url = "http://example.com/?q=string";
@@ -702,7 +702,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationPortIgnored()
         {
             var url = "http://example.com:80/";
@@ -718,7 +718,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationCurrentDirectory()
         {
             var url = "http://example.com/%2E/";
@@ -734,7 +734,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void RelativeLocationOneUp()
         {
             var url = "mid/content=5/../6";
@@ -750,7 +750,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationOneUp()
         {
             var url = "http://www.example.com///../";
@@ -766,7 +766,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationFilenameWithSemicolon()
         {
             var url = "http://example.com/file.txt;parameter";
@@ -782,7 +782,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationUnknownTagScheme()
         {
             var url = "tag:example.com,2006-08-18:/path/to/something";
@@ -798,7 +798,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationAuthorityAndPath()
         {
             var url = "http://user:pass@example.com/path/to/";
@@ -816,7 +816,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationViewSourceProtocol()
         {
             var url = "view-source:http://example.com/";
@@ -832,7 +832,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationAuthorityAndPathWithQueryAndFragment()
         {
             var url = "http://user:pass@example.com/path/to/resource?query=x#fragment";
@@ -850,7 +850,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithQueryAndPercent()
         {
             var url = "http://example.com/search?q=Q%26A";
@@ -866,7 +866,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithAmpersandQuerySingleValue()
         {
             var url = "http://example.com/?&&x=b";
@@ -882,7 +882,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationWithAmpersandQueryTwoValues()
         {
             var url = "http://example.com/?q=a&&x=b";
@@ -898,7 +898,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationFileWithBackslashes()
         {
             var url = "file:c:\\windows\\My Documents 100%20\\foo.txt";
@@ -914,7 +914,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationFileEverythingFine()
         {
             var url = "file:///c:/windows/My%20Documents%20100%20/foo.txt";
@@ -930,7 +930,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationFileWithPipe()
         {
             var url = "file:///c|/windows/My%20Documents%20100%20/foo.txt";
@@ -946,7 +946,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationAuthorityNothing()
         {
             var url = "http://:@example.com";
@@ -964,7 +964,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void RelativeLocationWithoutProtocol()
         {
             var url = "//example.com/";
@@ -980,7 +980,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void RelativeLocationOnlyQuery()
         {
             var url = "?one=1&two=2&three=3";
@@ -996,7 +996,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationUnicodeLetters()
         {
             var url = "http://www.詹姆斯.com/atomtests/iri/詹.html";
@@ -1012,7 +1012,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationFtpShortPath()
         {
             var url = "ftp://a/b/c/d;p?q";
@@ -1028,7 +1028,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void RelativeLocationEmpty()
         {
             var url = "";
@@ -1044,7 +1044,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void RelativeLocationSlash()
         {
             var url = "/";
@@ -1060,7 +1060,7 @@ namespace UnitTests.Library
             Assert.IsTrue(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationNutsUrl()
         {
             var url = "http://example.com/:@-._~!$&'()*+,=;:@-._~!$&'()*+,=:@-._~!$&'()*+,==?/?:@-._~!$'()*+,;=/?:@-._~!$'()*+,;==#/?:@-._~!$&'()*+,;=";
@@ -1076,7 +1076,7 @@ namespace UnitTests.Library
             Assert.IsFalse(location.IsRelative);
         }
 
-        [TestMethod]
+        [Test]
         public void AbsoluteLocationDecodedPath()
         {
             var url = "http://example.com/blue%2Fred%3Fand+green";

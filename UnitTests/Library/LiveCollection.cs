@@ -1,15 +1,15 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Linq;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class LiveCollectionTests
     {
-        [TestMethod]
+        [Test]
         public void HtmlLiveCollectionUpdates()
         {
             var document = DocumentBuilder.Html("<ul><li>A<li>B<li>C<li>D</ul>");
@@ -37,7 +37,7 @@ namespace UnitTests.Library
             Assert.AreEqual("E", live[4].TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlLiveCollectionCompleteDOMRebuildWithInnerHtml()
         {
             var document = DocumentBuilder.Html("<p><p><p><p><p>");
@@ -75,7 +75,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlLiveCollectionCompleteDOMRebuildWithText()
         {
             var document = DocumentBuilder.Html("<p><p><p><p><p>");
@@ -105,7 +105,7 @@ namespace UnitTests.Library
             Assert.AreEqual(1, live.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlLiveCollectionWithAttr()
         {
             var document = DocumentBuilder.Html("<a name=first>some name</a><a name=second>more</a><div><a name=third>last</a><a id=change>not really an anchor</a></div>");
@@ -132,7 +132,7 @@ namespace UnitTests.Library
             Assert.AreEqual(4, live.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlLiveCollectionMultiple()
         {
             var document = DocumentBuilder.Html("<embed></embed><div><object></object><applet></applet>");
@@ -153,7 +153,7 @@ namespace UnitTests.Library
             Assert.AreEqual(2, live.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void HtmlLiveCollectionMultipleWithAttr()
         {
             var document = DocumentBuilder.Html("<a href='http://127.0.0.1'></a><div class='container'><area href='#'>my area</area>");

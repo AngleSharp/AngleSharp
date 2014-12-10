@@ -1,16 +1,16 @@
 ﻿using AngleSharp;
 using AngleSharp.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Text;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class AnalysisWindowTests
     {
         AnalysisWindow window;
 
-        [TestInitialize]
+        [SetUp]
         public void CreateDefaultAnalysisWindow()
         {
             window = new AnalysisWindow();
@@ -20,7 +20,7 @@ namespace UnitTests.Library
             window.OuterWidth = 1024;
         }
 
-        [TestMethod]
+        [Test]
         public void GetComputedStyleTrivialInitialScenario()
         {
             var sourceCode = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
@@ -40,7 +40,7 @@ namespace UnitTests.Library
             Assert.AreEqual(2, style.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GetComputedStyleImportantHigherNoInheritance()
         {
             var source = new StringBuilder("<!doctype html> ");
@@ -80,7 +80,7 @@ namespace UnitTests.Library
             Assert.AreEqual(3, computedStyle.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GetComputedStyleHigherMatchingPrio()
         {
             var source = new StringBuilder("<!doctype html> ");
@@ -118,7 +118,7 @@ namespace UnitTests.Library
             Assert.AreEqual("black", computePrioOneStyle.Color);
         }
 
-        [TestMethod]
+        [Test]
         public void GetComputedStyleUseAndPreferInlineStyle()
         {
             var source = new StringBuilder("<!doctype html> ");
@@ -148,7 +148,7 @@ namespace UnitTests.Library
             Assert.AreEqual(1, computedStyle.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void GetComputedStyleComplexScenario()
         {
             var sourceCode = @"<!doctype html>

@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM.Html;
 using AngleSharp.DOM.Io;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class FormSubmitTests
     {
         const String BaseUrl = "http://anglesharp.azurewebsites.net/";
@@ -26,7 +26,7 @@ namespace UnitTests.Library
             return FileEntry.FromFile(String.Format("Filename{0}.txt", index + 1), body);
         }
 
-        [TestMethod]
+        [Test]
         public void PostUrlencodeNormal()
         {
             if (Helper.IsNetworkAvailable())
@@ -53,7 +53,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void PostUrlencodeFile()
         {
             if (Helper.IsNetworkAvailable())
@@ -84,7 +84,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void PostMultipartNormal()
         {
             if (Helper.IsNetworkAvailable())
@@ -111,7 +111,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void PostMultipartFile()
         {
             if (Helper.IsNetworkAvailable())
@@ -142,7 +142,7 @@ namespace UnitTests.Library
             }
         }
 
-        [TestMethod]
+        [Test]
         public void PostMultipartFiles()
         {
             if (Helper.IsNetworkAvailable())

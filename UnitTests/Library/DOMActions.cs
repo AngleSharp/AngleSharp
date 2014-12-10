@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class DOMActions
     {
-        [TestMethod]
+        [Test]
         public void ParentReplacementByCloneWithChildrenExpectedToHaveAParent()
         {
             const string html = @"
@@ -45,7 +45,7 @@ namespace UnitTests.Library
             Assert.IsNotNull(cloneElement.FirstChild.Parent);
         }
 
-        [TestMethod]
+        [Test]
         public void ParentReplacementByCloneWithNoChildren()
         {
             const string html = @"
@@ -79,7 +79,7 @@ namespace UnitTests.Library
             Assert.IsFalse(clonedParent.HasChildNodes);
         }
 
-        [TestMethod]
+        [Test]
         public void IsEqualNodesWithExactlyTheSameNodes()
         {
             const string html = @"
@@ -105,7 +105,7 @@ namespace UnitTests.Library
             Assert.IsTrue(divTwo.IsEqualNode(divThree));
         }
 
-        [TestMethod]
+        [Test]
         public void IsEqualNodesWithClonedNode()
         {
             const string html = @"
@@ -127,7 +127,7 @@ namespace UnitTests.Library
             Assert.IsFalse(original.IsEqualNode(doc.Body));
         }
 
-        [TestMethod]
+        [Test]
         public void ContainsWithChildNodes()
         {
             const string html = @"
@@ -152,7 +152,7 @@ namespace UnitTests.Library
             Assert.IsTrue(parent.Contains(grandchild));
         }
 
-        [TestMethod]
+        [Test]
         public void ReturnTextFromBody()
         {
             var test = "Some text";
@@ -170,7 +170,7 @@ namespace UnitTests.Library
             Assert.AreEqual(test, text.Text);
         }
 
-        [TestMethod]
+        [Test]
         public void ReturnConcatTextFromBody()
         {
             var test1 = "Some text";

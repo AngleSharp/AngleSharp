@@ -2,7 +2,7 @@
 using AngleSharp.DOM;
 using AngleSharp.Extensions;
 using AngleSharp.Html;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
@@ -10,10 +10,10 @@ namespace UnitTests
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/tree-construction/domjs-unsafe.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class UserJsUnsafeTests
     {
-        [TestMethod]
+        [Test]
         public void Html5LibSvgCdata()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[foo
@@ -45,7 +45,7 @@ bar]]>");
             Assert.AreEqual("foo\nbar", text.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5LibScriptDataCommentStarted()
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!--foo" + Specification.Null.ToString() + "</script>");
@@ -76,7 +76,7 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5LibScriptDataCommentFinishing()
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo--" + Specification.Null.ToString() + "</script>");
@@ -107,7 +107,7 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5LibScriptDataEnding()
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo-<</script>");
@@ -138,7 +138,7 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5LibScriptDataParagraph()
         {
             var doc = DocumentBuilder.Html(@"<script type=""data""><!--<p></script>");
@@ -169,7 +169,7 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5LibDoctypeInHeadImplicit()
         {
             var doc = DocumentBuilder.Html(@"<html><!DOCTYPE html>");
@@ -190,7 +190,7 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, dochtmlbody.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void Html5LibDoctypeInBodyImplicit()
         {
             var doc = DocumentBuilder.Html(@"<html><head></head><!DOCTYPE html>");

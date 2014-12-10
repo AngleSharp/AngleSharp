@@ -2,7 +2,7 @@
 using AngleSharp.DOM;
 using AngleSharp.DOM.Html;
 using AngleSharp.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -14,7 +14,7 @@ namespace UnitTests
     /// and
     /// to be more specific: (*)/blob/master/tree-construction/tests4.dat
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class HtmlFragmentTests
     {
         HTMLElement Create(string tagName)
@@ -23,7 +23,7 @@ namespace UnitTests
             return HtmlElementFactory.Create(tagName, doc);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentBodyContextDoubleBodyAndSpanElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<body><span>", Create("body"));
@@ -35,7 +35,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docspan0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentBodyContextSpanAndDoubleBodyElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<span><body>", Create("body"));
@@ -47,7 +47,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docspan0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentDivContextSpanAndDoubleBodyElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<span><body>", Create("div"));
@@ -59,7 +59,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docspan0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentHtmlContextBodyAndSpanElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<body><span>", Create("html"));
@@ -83,7 +83,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docbody1span0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentBodyContextFramesetAndSpanElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", Create("body"));
@@ -96,7 +96,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentBodyContextSpanAndFramesetElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", Create("body"));
@@ -108,7 +108,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docspan0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentDivContextSpanAndFramesetElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", Create("div"));
@@ -120,7 +120,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docspan0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentHtmlContextEmpty()
         {
             var doc = DocumentBuilder.HtmlFragment(@"", Create("html"));
@@ -137,7 +137,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docbody1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentHtmlContextFramesetAndSpanElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", Create("html"));
@@ -155,7 +155,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docframeset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTableContextOpeningTableAndTrElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<table><tr>", Create("table"));
@@ -173,7 +173,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, doctbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTableContextClosingTableAndTrElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Create("table"));
@@ -191,7 +191,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, doctbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentFramesetContextClosingFramesetAndFrameElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Create("frameset"));
@@ -203,7 +203,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docframe0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentSelectContextClosingSelectAndOptionElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</select><option>", Create("select"));
@@ -214,7 +214,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docoption0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentSelectContextInputAndOptionElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<input><option>", Create("select"));
@@ -226,7 +226,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, docoption0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTdContextTableAndDoubleTdElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<table><td><td>", Create("td"));
@@ -263,7 +263,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTdContextTfootAndAnchorElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<tfoot><a>", Create("td"));
@@ -275,7 +275,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, doca0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTrContextTdAndFinishedTableAndTdElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<td><table></table><td>", Create("tr"));
@@ -299,7 +299,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, doctd1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTbodyContextTdAndTableAndTbodyAndMisplacedAnchorAndTrElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<td><table><tbody><a><tr>", Create("tbody"));
@@ -342,7 +342,7 @@ namespace UnitTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTbodyContextMisplacedTheadAndAnchorElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<thead><a>", Create("tbody"));
@@ -354,7 +354,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, doca0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentColgroupContextClosingColgroupAndColElement()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</colgroup><col>", Create("colgroup"));
@@ -366,7 +366,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, doccol0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentDivContextWithText()
         {
             var doc = DocumentBuilder.HtmlFragment(@"direct div content", Create("div"));
@@ -376,7 +376,7 @@ namespace UnitTests
             Assert.AreEqual("direct div content", docText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTextareaContextWithText()
         {
             var doc = DocumentBuilder.HtmlFragment(@"direct textarea content", Create("textarea"));
@@ -385,7 +385,7 @@ namespace UnitTests
             Assert.AreEqual("direct textarea content", docText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentTextAreaContextWithTextAndMarkup()
         {
             var doc = DocumentBuilder.HtmlFragment(@"textarea content with <em>pseudo</em> <foo>markup", Create("textarea"));
@@ -394,7 +394,7 @@ namespace UnitTests
             Assert.AreEqual("textarea content with <em>pseudo</em> <foo>markup", docText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentStyleContextWithText()
         {
             var doc = DocumentBuilder.HtmlFragment(@"this is &#x0043;DATA inside a <style> element", Create("style"));
@@ -404,7 +404,7 @@ namespace UnitTests
             Assert.AreEqual("this is &#x0043;DATA inside a <style> element", docText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentPlaintextContext()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</plaintext>", Create("plaintext"));
@@ -414,7 +414,7 @@ namespace UnitTests
             Assert.AreEqual("</plaintext>", docText0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentHtmlContextWithText()
         {
             var doc = DocumentBuilder.HtmlFragment(@"setting html's innerHTML", Create("html"));
@@ -436,7 +436,7 @@ namespace UnitTests
             Assert.AreEqual("setting html's innerHTML", docbody1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentHeadContextWithTextInTitle()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<title>setting head's innerHTML</title>", Create("head"));
@@ -452,7 +452,7 @@ namespace UnitTests
             Assert.AreEqual("setting head's innerHTML", doctitle0Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FosterFragmentDoubleClosedBody()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<body>X</body></body>", Create("html"));
@@ -474,7 +474,7 @@ namespace UnitTests
             Assert.AreEqual("X", docbody1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentButtonWithText()
         {
             var doc = DocumentBuilder.HtmlFragment("<button>Boo!</button>");
@@ -484,7 +484,7 @@ namespace UnitTests
             Assert.AreEqual("Boo!", buttonElement.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentButtonWithTextAndAttribute()
         {
             var doc = DocumentBuilder.HtmlFragment("<button type=SEARCH>Boo!</button>");
@@ -496,7 +496,7 @@ namespace UnitTests
             Assert.AreEqual("SEARCH", buttonElement.GetAttribute("type"));
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentButtonDefaultSubmitType()
         {
             var doc = DocumentBuilder.HtmlFragment("<button>Boo!</button>");
@@ -508,7 +508,7 @@ namespace UnitTests
             Assert.IsFalse(buttonElement.HasAttribute("type"));
         }
         
-        [TestMethod]
+        [Test]
         public void FragmentClassNameCaseNumbered()
         {
             var dom = DocumentBuilder.HtmlFragment("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />");
@@ -523,7 +523,7 @@ namespace UnitTests
             Assert.AreEqual(1, dom.QuerySelectorAll(".CLASS2").Length);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentClassNameOnlyCase()
         {
             var dom = DocumentBuilder.HtmlFragment("<div class=\"class CLASS\" />");
@@ -535,7 +535,7 @@ namespace UnitTests
             CollectionAssert.AreEqual(new List<String>(new[] { "class", "CLASS" }), new List<String>(el.ClassList));
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentUnquotedAttributeHandling()
         {
             var doc = DocumentBuilder.HtmlFragment("<div custattribute=10/23/2012 id=\"tableSample\"><span>sample text</span></div>");
@@ -544,7 +544,7 @@ namespace UnitTests
             Assert.AreEqual("10/23/2012", obj.GetAttribute("custattribute"));
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentCaretsInAttributes()
         {
             var doc = DocumentBuilder.HtmlFragment("<div><img src=\"test.png\" alt=\">\" /></div>");
@@ -554,7 +554,7 @@ namespace UnitTests
             Assert.AreEqual("<div><img src=\"test.png\" alt=\">\"></div>", div.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentUnwrapWithoutParent()
         {
             var s = "This is <b> a big</b> text";
@@ -564,7 +564,7 @@ namespace UnitTests
             Assert.AreEqual("<b> a big</b>", t.OuterHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentRoundtripEncoding()
         {
             var html = "<span>Test &nbsp; nbsp</span>";
@@ -577,7 +577,7 @@ namespace UnitTests
             Assert.AreEqual(html, output);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentClassAndStyleAsBoolean()
         {
             var html = @"<span class="""" style="""">Test </span><div class style><br /></div>";
@@ -590,7 +590,7 @@ namespace UnitTests
             Assert.AreEqual(@"<span class="""">Test </span><div class=""""><br></div>", output);
         }
 
-        [TestMethod]
+        [Test]
         public void FragmentUtf8HighValuesConversion()
         {
             var html = @"<span>&#55449;&#56580;</span>";

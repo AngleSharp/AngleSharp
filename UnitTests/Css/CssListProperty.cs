@@ -1,20 +1,20 @@
 ﻿using AngleSharp.DOM.Css;
 using AngleSharp.Parser.Css;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.Css
 {
-    [TestClass]
+    [TestFixture]
     public class CssListPropertyTests
     {
-        [TestMethod]
+        [Test]
         public void CssListStylePositionOutsideLegal()
         {
             var snippet = "list-style-position: outside ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStylePositionProperty));
+            Assert.IsInstanceOf<CSSListStylePositionProperty>(property);
             var concrete = (CSSListStylePositionProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -22,42 +22,42 @@ namespace UnitTests.Css
             Assert.AreEqual("outside", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStylePositionOutsideIllegal()
         {
             var snippet = "list-style-position: out-side ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStylePositionProperty));
+            Assert.IsInstanceOf<CSSListStylePositionProperty>(property);
             var concrete = (CSSListStylePositionProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStylePositionNoneIllegal()
         {
             var snippet = "list-style-position: none ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStylePositionProperty));
+            Assert.IsInstanceOf<CSSListStylePositionProperty>(property);
             var concrete = (CSSListStylePositionProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStylePositionInsideLegal()
         {
             var snippet = "list-style-position: insiDe ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStylePositionProperty));
+            Assert.IsInstanceOf<CSSListStylePositionProperty>(property);
             var concrete = (CSSListStylePositionProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -65,14 +65,14 @@ namespace UnitTests.Css
             Assert.AreEqual("inside", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleImageNoneLegal()
         {
             var snippet = "list-style-image: none ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleImageProperty));
+            Assert.IsInstanceOf<CSSListStyleImageProperty>(property);
             var concrete = (CSSListStyleImageProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -80,14 +80,14 @@ namespace UnitTests.Css
             Assert.AreEqual("none", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleImageUrlLegal()
         {
             var snippet = "list-style-image: url(http://www.example.com/images/list.png)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-image", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleImageProperty));
+            Assert.IsInstanceOf<CSSListStyleImageProperty>(property);
             var concrete = (CSSListStyleImageProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -95,14 +95,14 @@ namespace UnitTests.Css
             Assert.AreEqual("url(\"http://www.example.com/images/list.png\")", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleTypeDiscLegal()
         {
             var snippet = "list-style-type: disc ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleTypeProperty));
+            Assert.IsInstanceOf<CSSListStyleTypeProperty>(property);
             var concrete = (CSSListStyleTypeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -110,14 +110,14 @@ namespace UnitTests.Css
             Assert.AreEqual("disc", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleTypeLowerAlphaLegal()
         {
             var snippet = "list-style-type: lower-ALPHA ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleTypeProperty));
+            Assert.IsInstanceOf<CSSListStyleTypeProperty>(property);
             var concrete = (CSSListStyleTypeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -125,14 +125,14 @@ namespace UnitTests.Css
             Assert.AreEqual("lower-alpha", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleTypeGeorgianLegal()
         {
             var snippet = "list-style-type: georgian ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleTypeProperty));
+            Assert.IsInstanceOf<CSSListStyleTypeProperty>(property);
             var concrete = (CSSListStyleTypeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -140,14 +140,14 @@ namespace UnitTests.Css
             Assert.AreEqual("georgian", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleTypeDecimalLeadingZeroLegal()
         {
             var snippet = "list-style-type: decimal-leading-zerO ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleTypeProperty));
+            Assert.IsInstanceOf<CSSListStyleTypeProperty>(property);
             var concrete = (CSSListStyleTypeProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -155,28 +155,28 @@ namespace UnitTests.Css
             Assert.AreEqual("decimal-leading-zero", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleTypeNumberIllegal()
         {
             var snippet = "list-style-type: number ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleTypeProperty));
+            Assert.IsInstanceOf<CSSListStyleTypeProperty>(property);
             var concrete = (CSSListStyleTypeProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleCircleLegal()
         {
             var snippet = "list-style: circle ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleProperty));
+            Assert.IsInstanceOf<CSSListStyleProperty>(property);
             var concrete = (CSSListStyleProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -184,14 +184,14 @@ namespace UnitTests.Css
             Assert.AreEqual("circle", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleSquareInsideLegal()
         {
             var snippet = "list-style: square inside ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleProperty));
+            Assert.IsInstanceOf<CSSListStyleProperty>(property);
             var concrete = (CSSListStyleProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -199,14 +199,14 @@ namespace UnitTests.Css
             Assert.AreEqual("square inside", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssListStyleSquareImageInsideLegal()
         {
             var snippet = "list-style: square url('image.png') inside ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSListStyleProperty));
+            Assert.IsInstanceOf<CSSListStyleProperty>(property);
             var concrete = (CSSListStyleProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -214,14 +214,14 @@ namespace UnitTests.Css
             Assert.AreEqual("square url(\"image.png\") inside", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterResetLegal()
         {
             var snippet = "counter-reset: chapter section 1 page;";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            Assert.IsInstanceOf<CSSCounterResetProperty>(property);
             var concrete = (CSSCounterResetProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -229,14 +229,14 @@ namespace UnitTests.Css
             Assert.AreEqual("chapter section 1 page", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterResetSingleLegal()
         {
             var snippet = "counter-reset: counter-name";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            Assert.IsInstanceOf<CSSCounterResetProperty>(property);
             var concrete = (CSSCounterResetProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -244,14 +244,14 @@ namespace UnitTests.Css
             Assert.AreEqual("counter-name", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterResetNoneLegal()
         {
             var snippet = "counter-reset: none";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            Assert.IsInstanceOf<CSSCounterResetProperty>(property);
             var concrete = (CSSCounterResetProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -259,28 +259,28 @@ namespace UnitTests.Css
             Assert.AreEqual("none", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterResetNumberIllegal()
         {
             var snippet = "counter-reset: 3";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            Assert.IsInstanceOf<CSSCounterResetProperty>(property);
             var concrete = (CSSCounterResetProperty)property;
             Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterResetNegativeLegal()
         {
             var snippet = "counter-reset  :  counter-name   -1";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            Assert.IsInstanceOf<CSSCounterResetProperty>(property);
             var concrete = (CSSCounterResetProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -288,14 +288,14 @@ namespace UnitTests.Css
             Assert.AreEqual("counter-name -1", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterResetTwoCountersExplicitLegal()
         {
             var snippet = "counter-reset  :  counter1   1   counter2   4  ";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterResetProperty));
+            Assert.IsInstanceOf<CSSCounterResetProperty>(property);
             var concrete = (CSSCounterResetProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -303,14 +303,14 @@ namespace UnitTests.Css
             Assert.AreEqual("counter1 1 counter2 4", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterIncrementNoneLegal()
         {
             var snippet = "counter-increment: none";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-increment", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterIncrementProperty));
+            Assert.IsInstanceOf<CSSCounterIncrementProperty>(property);
             var concrete = (CSSCounterIncrementProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
@@ -318,14 +318,14 @@ namespace UnitTests.Css
             Assert.AreEqual("none", concrete.Value.CssText);
         }
 
-        [TestMethod]
+        [Test]
         public void CssCounterIncrementLegal()
         {
             var snippet = "counter-increment: chapter section 2 page";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("counter-increment", property.Name);
             Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOfType(property, typeof(CSSCounterIncrementProperty));
+            Assert.IsInstanceOf<CSSCounterIncrementProperty>(property);
             var concrete = (CSSCounterIncrementProperty)property;
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);

@@ -1,14 +1,14 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
 using AngleSharp.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class HtmlWithMathMLTests
     {
-        [TestMethod]
+        [Test]
         public void MathMLCheckAttributesCaseNormalUnchanged()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><math attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></math>");
@@ -229,7 +229,7 @@ namespace UnitTests
             Assert.AreEqual("", dochtml1body1math0.Attributes.Get("zoomandpan").Value);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLCheckTagCaseNormalUnchanged()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><math><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></math>");
@@ -480,7 +480,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1math0textpath35.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLSingleElement()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math></math>");
@@ -515,7 +515,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1math0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLSingleElementInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><math></math>");
@@ -550,7 +550,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1math0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLElementWithDivAndObjectElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mi><div><object><div><span></span></div></object></div></mi><mi>");
@@ -616,7 +616,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mi1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLElementWithSvgChild()
         {
             var doc = DocumentBuilder.Html(@"<math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>");
@@ -682,7 +682,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mi1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLSingleElementWithChild()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mi>");
@@ -723,7 +723,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1math0mi0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMiAndMglyphElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mi><mglyph>");
@@ -765,7 +765,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0mglyph0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMiAndMalignmarkElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mi><malignmark>");
@@ -807,7 +807,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mi0malignmark0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMoAndMglyphElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mo><mglyph>");
@@ -849,7 +849,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mo0mglyph0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMoAndMalignmarkElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mo><malignmark>");
@@ -891,7 +891,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mo0malignmark0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMnAndMglyphElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mn><mglyph>");
@@ -933,7 +933,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mn0mglyph0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMnAndMalignmarkElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mn><malignmark>");
@@ -975,7 +975,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mn0malignmark0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMsAndMglyphElements()
         {
             var doc = DocumentBuilder.Html(@"<math><ms><mglyph>");
@@ -1017,7 +1017,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0ms0mglyph0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMsAndMalignmarkElements()
         {
             var doc = DocumentBuilder.Html(@"<math><ms><malignmark>");
@@ -1059,7 +1059,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0ms0malignmark0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMtextAndMglyphElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mtext><mglyph>");
@@ -1101,7 +1101,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mtext0mglyph0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMtextAndMalignmarkElements()
         {
             var doc = DocumentBuilder.Html(@"<math><mtext><malignmark>");
@@ -1143,7 +1143,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml0body1math0mtext0malignmark0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLAnnotationXmlWithSvgInside()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><annotation-xml><svg><u>");
@@ -1195,7 +1195,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1u1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLElementInSelect()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><math></math></select>");
@@ -1230,7 +1230,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1select0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInOptionOfSelect()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><option><math></math></option></select>");
@@ -1271,7 +1271,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1select0option0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><math></math></table>");
@@ -1312,7 +1312,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithChildInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi></math></table>");
@@ -1363,7 +1363,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithChildrenInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi><mi>bar</mi></math></table>");
@@ -1424,7 +1424,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInTBodySectionOfTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><math><mi>foo</mi><mi>bar</mi></math></tbody></table>");
@@ -1491,7 +1491,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInRowOfTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><math><mi>foo</mi><mi>bar</mi></math></tr></tbody></table>");
@@ -1564,7 +1564,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0tr0.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInCellOfTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math></td></tr></tbody></table>");
@@ -1643,7 +1643,7 @@ namespace UnitTests
             Assert.AreEqual("bar", dochtml1body1table0tbody0tr0td0math0mi1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLCompleteExampleInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math><p>baz</td></tr></tbody></table>");
@@ -1732,7 +1732,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1table0tbody0tr0td0p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInCaptionOfTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi></math><p>baz</caption></table>");
@@ -1809,7 +1809,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1table0caption0p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLImplicitlyClosedInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
@@ -1896,7 +1896,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInCaptionImplicitlyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi>baz</table><p>quux");
@@ -1977,7 +1977,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInColgroupOfTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><colgroup><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
@@ -2064,7 +2064,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p3Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInSelectInTable()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tr><td><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
@@ -2137,7 +2137,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInSelectInTableImplicitlyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
@@ -2192,7 +2192,7 @@ namespace UnitTests
             Assert.AreEqual("quux", dochtml1body1p2Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLOutsideDocumentRoot()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body></html><math><mi>foo</mi><mi>bar</mi><p>baz");
@@ -2257,7 +2257,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLOutsideDocumentImplicitlyClosed()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz");
@@ -2322,7 +2322,7 @@ namespace UnitTests
             Assert.AreEqual("baz", dochtml1body1p1Text0.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInFrameset()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset><math><mi></mi><mi></mi><p><span>");
@@ -2351,7 +2351,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLOutsideFrameset()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset></frameset><math><mi></mi><mi></mi><p><span>");
@@ -2380,7 +2380,7 @@ namespace UnitTests
             Assert.AreEqual(NodeType.Element, dochtml1frameset1.NodeType);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithXLinkAttributes()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo><math xlink:href=foo></math>");
@@ -2422,7 +2422,7 @@ namespace UnitTests
             Assert.AreEqual("http://www.w3.org/1999/xlink", attr.NamespaceUri);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLInBodyWithLangAttribute()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo></mi></math>");
@@ -2477,7 +2477,7 @@ namespace UnitTests
             Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithMiChild()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo /></math>");
@@ -2532,7 +2532,7 @@ namespace UnitTests
             Assert.AreEqual("http://www.w3.org/XML/1998/namespace", attr2.NamespaceUri);
         }
 
-        [TestMethod]
+        [Test]
         public void MathMLWithTextNode()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo />bar</math>");

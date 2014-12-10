@@ -1,24 +1,24 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM.Css;
 using AngleSharp.Infrastructure;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Linq;
 
 namespace UnitTests.Library
 {
-    [TestClass]
+    [TestFixture]
     public class BasicConfigurationTests
     {
-        [TestMethod]
+        [Test]
         public void HasStyleEngine()
         {
             var config = new Configuration();
             var engine = config.StyleEngines.FirstOrDefault();
             Assert.IsNotNull(engine);
-            Assert.IsInstanceOfType(engine, typeof(CssStyleEngine));
+            Assert.IsInstanceOf<CssStyleEngine>(engine);
         }
 
-        [TestMethod]
+        [Test]
         public void ObtainDefaultSheet()
         {
             var engine = new CssStyleEngine();
