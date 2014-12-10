@@ -100,71 +100,20 @@
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\ArgumentsValueConverter.cs">
-      <Link>Css\Converters\ArgumentsValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\AtomicValueConverter.cs">
-      <Link>Css\Converters\AtomicValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\ClassValueConverter.cs">
-      <Link>Css\Converters\ClassValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\ConstraintValueConverter.cs">
-      <Link>Css\Converters\ConstraintValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\DictionaryValueConverter.cs">
-      <Link>Css\Converters\DictionaryValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\EndListValueConverter.cs">
-      <Link>Css\Converters\EndListValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\FunctionValueConverter.cs">
-      <Link>Css\Converters\FunctionValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\GradientConverter.cs">
-      <Link>Css\Converters\GradientConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\IdentifierValueConverter.cs">
-      <Link>Css\Converters\IdentifierValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\IValueConverter.cs">
-      <Link>Css\Converters\IValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\ListValueConverter.cs">
-      <Link>Css\Converters\ListValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\OneOrMoreValueConverter.cs">
-      <Link>Css\Converters\OneOrMoreValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\OptionValueConverter.cs">
-      <Link>Css\Converters\OptionValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\OrderedOptionsConverter.cs">
-      <Link>Css\Converters\OrderedOptionsConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\OrValueConverter.cs">
-      <Link>Css\Converters\OrValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\RequiredValueConverter.cs">
-      <Link>Css\Converters\RequiredValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\StructValueConverter.cs">
-      <Link>Css\Converters\StructValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\ToValueConverter.cs">
-      <Link>Css\Converters\ToValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\UnorderedOptionsConverter.cs">
-      <Link>Css\Converters\UnorderedOptionsConverter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\FeatureNames.cs">
       <Link>Css\FeatureNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\FunctionNames.cs">
       <Link>Css\FunctionNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\IValueConverter.cs">
+      <Link>Css\IValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Map.cs">
       <Link>Css\Map.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeature.cs">
+      <Link>Css\MediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Media\AspectRatioMediaFeature.cs">
       <Link>Css\Media\AspectRatioMediaFeature.cs</Link>
@@ -186,9 +135,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Media\HeightMediaFeature.cs">
       <Link>Css\Media\HeightMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Media\MediaFeature.cs">
-      <Link>Css\Media\MediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Media\MonochromeMediaFeature.cs">
       <Link>Css\Media\MonochromeMediaFeature.cs</Link>
@@ -224,6 +170,60 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Units.cs">
       <Link>Css\Units.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ArgumentsValueConverter.cs">
+      <Link>Css\ValueConverters\ArgumentsValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\AtomicValueConverter.cs">
+      <Link>Css\ValueConverters\AtomicValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ClassValueConverter.cs">
+      <Link>Css\ValueConverters\ClassValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ConstraintValueConverter.cs">
+      <Link>Css\ValueConverters\ConstraintValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\DictionaryValueConverter.cs">
+      <Link>Css\ValueConverters\DictionaryValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\EndListValueConverter.cs">
+      <Link>Css\ValueConverters\EndListValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\FunctionValueConverter.cs">
+      <Link>Css\ValueConverters\FunctionValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\GradientConverter.cs">
+      <Link>Css\ValueConverters\GradientConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\IdentifierValueConverter.cs">
+      <Link>Css\ValueConverters\IdentifierValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ListValueConverter.cs">
+      <Link>Css\ValueConverters\ListValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\OneOrMoreValueConverter.cs">
+      <Link>Css\ValueConverters\OneOrMoreValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\OptionValueConverter.cs">
+      <Link>Css\ValueConverters\OptionValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\OrderedOptionsConverter.cs">
+      <Link>Css\ValueConverters\OrderedOptionsConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\OrValueConverter.cs">
+      <Link>Css\ValueConverters\OrValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\RequiredValueConverter.cs">
+      <Link>Css\ValueConverters\RequiredValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\StructValueConverter.cs">
+      <Link>Css\ValueConverters\StructValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ToValueConverter.cs">
+      <Link>Css\ValueConverters\ToValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\UnorderedOptionsConverter.cs">
+      <Link>Css\ValueConverters\UnorderedOptionsConverter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Delegates\DomEventHandler.cs">
       <Link>Delegates\DomEventHandler.cs</Link>
