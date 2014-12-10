@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css
 {
+    using AngleSharp.DOM.Css;
     using System;
 
     sealed class StructValueConverter<T> : IValueConverter<T>

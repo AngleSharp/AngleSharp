@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.DOM.Css.Media
+﻿namespace AngleSharp.Css.Media
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
+    using AngleSharp.DOM;
+    using AngleSharp.DOM.Css;
     using System;
 
     sealed class GridMediaFeature : MediaFeature

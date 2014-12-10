@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.DOM.Css.Media
+﻿namespace AngleSharp.Css.Media
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
 
