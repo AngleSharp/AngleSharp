@@ -1242,9 +1242,6 @@
     <Compile Include="..\AngleSharp\DOM\Factories\SvgElementFactory.cs">
       <Link>DOM\Factories\SvgElementFactory.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\FormControlState.cs">
-      <Link>DOM\FormControlState.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLBodyElement.cs">
       <Link>DOM\Html\Basic\HTMLBodyElement.cs</Link>
     </Compile>
@@ -1319,9 +1316,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLUnderlineElement.cs">
       <Link>DOM\Html\Formatting\HTMLUnderlineElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\FormDataSet.cs">
-      <Link>DOM\Html\FormDataSet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLButtonElement.cs">
       <Link>DOM\Html\Forms\HTMLButtonElement.cs</Link>
@@ -1739,6 +1733,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\EventNames.cs">
       <Link>Html\EventNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\FormControlState.cs">
+      <Link>Html\FormControlState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\FormDataSet.cs">
+      <Link>Html\FormDataSet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
