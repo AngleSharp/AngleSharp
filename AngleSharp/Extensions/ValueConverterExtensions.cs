@@ -8,20 +8,6 @@
     {
         static readonly IValueConverter<Boolean> delimiter = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
 
-        public static T TryAll<T>(this IValueConverter<T> converter, CssValueList list, T defaultValue)
-        {
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (converter.TryConvert(list[i], tmp => defaultValue = tmp))
-                {
-                    list.RemoveAt(i);
-                    break;
-                }
-            }
-
-            return defaultValue;
-        }
-
         public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
         {
             return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
@@ -143,11 +129,6 @@
         public static IValueConverter<ICssValue> Option(this IValueConverter<ICssValue> converter)
         {
             return new OptionValueConverter<ICssValue>(converter, null);
-        }
-
-        public static IValueConverter<Tuple<T1, T2>> And<T1, T2>(this IValueConverter<T1> primary, IValueConverter<T2> secondary)
-        {
-            return new AndValueConverter<T1, T2>(primary, secondary);
         }
 
         public static IValueConverter<T> Or<T>(this IValueConverter<T> primary, IValueConverter<T> secondary)

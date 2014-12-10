@@ -58,7 +58,6 @@
     <Compile Include="DOM\Css\Values\Transform\MatrixTransform.cs" />
     <Compile Include="DOM\Css\Values\Repeat.cs" />
     <Compile Include="DOM\Css\Constants\BlendMode.cs" />
-    <Compile Include="DOM\Css\Converters\AndValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ArgumentsValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ClassValueConverter.cs" />
     <Compile Include="DOM\Css\Converters\ConstraintValueConverter.cs" />
