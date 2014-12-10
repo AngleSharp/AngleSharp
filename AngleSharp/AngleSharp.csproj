@@ -699,7 +699,7 @@
     <Compile Include="Css\PropertyNames.cs" />
     <Compile Include="Css\RuleNames.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
-    <Compile Include="DOM\Html\FormDataSet.cs" />
+    <Compile Include="Html\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Network\IInfo.cs" />
@@ -776,7 +776,7 @@
     <Compile Include="DOM\Html\HTMLWbrElement.cs" />
     <Compile Include="DOM\Html\ValidityState.cs" />
     <Compile Include="DOM\Events\Event.cs" />
-    <Compile Include="DOM\FormControlState.cs" />
+    <Compile Include="Html\FormControlState.cs" />
     <Compile Include="Attributes\DomNameAttribute.cs" />
     <Compile Include="Parser\BaseTokenizer.cs" />
     <Compile Include="Css\Colors.cs" />
