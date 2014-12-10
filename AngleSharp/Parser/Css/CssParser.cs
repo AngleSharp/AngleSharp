@@ -727,7 +727,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The medium.</returns>
-        CSSMedium InMediaValue(IEnumerator<CssToken> tokens)
+        CssMedium InMediaValue(IEnumerator<CssToken> tokens)
         {
             var medium = GetMedium(tokens);
             var token = tokens.Current;
@@ -797,10 +797,10 @@
             return Tuple.Create(feature, value.ToValue());
         }
 
-        static CSSMedium GetMedium(IEnumerator<CssToken> tokens)
+        static CssMedium GetMedium(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
-            var medium = new CSSMedium();
+            var medium = new CssMedium();
 
             if (token.Type == CssTokenType.Ident)
             {
@@ -1423,7 +1423,7 @@
         /// <param name="source">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The stream of medias.</returns>
-        internal static IEnumerable<CSSMedium> ParseMediaList(String source, IConfiguration configuration = null)
+        internal static IEnumerable<CssMedium> ParseMediaList(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
@@ -1496,7 +1496,7 @@
             return values;
         }
 
-        internal static CSSMedium ParseMedium(String source, IConfiguration configuration = null)
+        internal static CssMedium ParseMedium(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly List<CSSMedium> _media;
+        readonly List<CssMedium> _media;
 
         #endregion
 
@@ -24,7 +24,7 @@
         /// </summary>
         internal MediaList()
         {
-            _media = new List<CSSMedium>();
+            _media = new List<CssMedium>();
         }
 
         #endregion
@@ -149,7 +149,7 @@
         /// Adds the given medium to the list of media.
         /// </summary>
         /// <param name="medium">The medium to add.</param>
-        internal void Add(CSSMedium medium)
+        internal void Add(CssMedium medium)
         {
             _media.Add(medium);
         }

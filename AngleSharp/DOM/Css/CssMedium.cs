@@ -10,7 +10,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CSSMedium : IEnumerable<MediaFeature>
+    sealed class CssMedium : IEnumerable<MediaFeature>
     {
         #region Media Types and Features
 
@@ -36,7 +36,7 @@
 
         #region ctor
 
-        internal CSSMedium()
+        internal CssMedium()
         {
             _features = new List<MediaFeature>();
         }

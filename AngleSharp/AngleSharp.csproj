@@ -46,7 +46,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ContextExtensions.cs" />
     <Compile Include="Css\Converters\AtomicValueConverter.cs" />
-    <Compile Include="Css\Converters\Converters.cs" />
+    <Compile Include="Css\Converters.cs" />
     <Compile Include="Css\Converters\GradientConverter.cs" />
     <Compile Include="Css\Converters\OrderedOptionsConverter.cs" />
     <Compile Include="Css\Converters\UnorderedOptionsConverter.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Css\Media\AspectRatioMediaFeature.cs" />
     <Compile Include="Css\Media\ColorIndexMediaFeature.cs" />
     <Compile Include="Css\Media\ColorMediaFeature.cs" />
-    <Compile Include="Css\Media\CSSMedium.cs" />
+    <Compile Include="DOM\Css\CssMedium.cs" />
     <Compile Include="Css\Media\DeviceHeightMediaFeature.cs" />
     <Compile Include="Css\Media\DeviceWidthMediaFeature.cs" />
     <Compile Include="Css\Media\GridMediaFeature.cs" />
