@@ -1029,9 +1029,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
       <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\BackgroundSize.cs">
-      <Link>DOM\Css\Values\BackgroundSize.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Counter.cs">
       <Link>DOM\Css\Values\Counter.cs</Link>
     </Compile>
@@ -1044,17 +1041,11 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\CssValueList.cs">
       <Link>DOM\Css\Values\CssValueList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\FontWeight.cs">
-      <Link>DOM\Css\Values\FontWeight.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Image\GradientStop.cs">
       <Link>DOM\Css\Values\Image\GradientStop.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Image\IImageSource.cs">
       <Link>DOM\Css\Values\Image\IImageSource.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Image\ImageUrl.cs">
-      <Link>DOM\Css\Values\Image\ImageUrl.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Image\LinearGradient.cs">
       <Link>DOM\Css\Values\Image\LinearGradient.cs</Link>
@@ -1092,17 +1083,11 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Time.cs">
       <Link>DOM\Css\Values\Primitive\Time.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Repeat.cs">
-      <Link>DOM\Css\Values\Repeat.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Shadow.cs">
       <Link>DOM\Css\Values\Shadow.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Shape.cs">
       <Link>DOM\Css\Values\Shape.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\String\CssAttr.cs">
-      <Link>DOM\Css\Values\String\CssAttr.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\String\CssIdentifier.cs">
       <Link>DOM\Css\Values\String\CssIdentifier.cs</Link>
