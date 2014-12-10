@@ -363,9 +363,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
       <Link>DOM\Css\Constants\Whitespace.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Converters\AndValueConverter.cs">
-      <Link>DOM\Css\Converters\AndValueConverter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Converters\ArgumentsValueConverter.cs">
       <Link>DOM\Css\Converters\ArgumentsValueConverter.cs</Link>
     </Compile>
