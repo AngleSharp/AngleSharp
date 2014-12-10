@@ -141,8 +141,8 @@
         /// http://dev.w3.org/csswg/css-images-3/#typedef-side-or-corner
         /// </summary>
         public static readonly IValueConverter<Angle> SideOrCornerConverter = WithAny(
-            TakeOne(Keywords.Left, -1.0).Or(TakeOne(Keywords.Right, 1.0)).Option(0.0),
-            TakeOne(Keywords.Top, 1.0).Or(TakeOne(Keywords.Bottom, -1.0)).Option(0.0)
+            Assign(Keywords.Left, -1.0).Or(Keywords.Right, 1.0).Option(0.0),
+            Assign(Keywords.Top, 1.0).Or(Keywords.Bottom, -1.0).Option(0.0)
         ).To(m => new Angle((Single)(Math.Atan2(m.Item1, m.Item2) * 180.0 / Math.PI), Angle.Unit.Deg));
 
         /// <summary>
@@ -151,15 +151,15 @@
         /// </summary>
         public static readonly IValueConverter<Point> PointConverter = Construct(() =>
         {
-            var hi = TakeOne(Keywords.Left, (IDistance)Percent.Zero).Or(TakeOne(Keywords.Right, (IDistance)Percent.Hundred)).Or(TakeOne(Keywords.Center, (IDistance)Percent.Fifty));
-            var vi = TakeOne(Keywords.Top, (IDistance)Percent.Zero).Or(TakeOne(Keywords.Bottom, (IDistance)Percent.Hundred)).Or(TakeOne(Keywords.Center, (IDistance)Percent.Fifty));
+            var hi = Assign(Keywords.Left, (IDistance)Percent.Zero).Or(Keywords.Right, Percent.Hundred).Or(Keywords.Center, Percent.Fifty);
+            var vi = Assign(Keywords.Top, (IDistance)Percent.Zero).Or(Keywords.Bottom, Percent.Hundred).Or(Keywords.Center, Percent.Fifty);
             var h = hi.Or(DistanceConverter).Required();
             var v = vi.Or(DistanceConverter).Required();
 
             return DistanceConverter.To(m => new Point(x: m)).Or(
                    Toggle(Keywords.Left, Keywords.Right).To(m => new Point(x: m ? Percent.Zero : Percent.Hundred))).Or(
                    Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(y: m ? Percent.Zero : Percent.Hundred))).Or(
-                   TakeOne(Keywords.Center, new Point())).Or(
+                   Keywords.Center, new Point()).Or(
                    WithArgs(h, v, m => new Point(m.Item1, m.Item2))).Or(
                    WithArgs(v, h, m => new Point(m.Item2, m.Item1))).Or(
                    WithArgs(hi, vi, DistanceConverter, m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
@@ -181,7 +181,7 @@
         public static readonly IValueConverter<StepsTransitionFunction> StepsConverter = new FunctionValueConverter<StepsTransitionFunction>(
             FunctionNames.Steps, WithArgs(
                 IntegerConverter.Required(), 
-                TakeOne(Keywords.Start, true).Or(TakeOne(Keywords.End, false)).Option(false), 
+                Assign(Keywords.Start, true).Or(Keywords.End, false).Option(false), 
             m => new StepsTransitionFunction(m.Item1, m.Item2)));
 
         /// <summary>
@@ -219,7 +219,7 @@
             var length = LengthConverter.Required();
             return new FunctionValueConverter<Shape>(FunctionNames.Rect,
                         WithArgs(length, length, length, length, m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)).Or(
-                        WithArg(TakeMany(LengthConverter, 4, 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
+                        WithArg(LengthConverter.Many(4, 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
         });
 
         /// <summary>
@@ -259,7 +259,7 @@
             var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => zeroSize);
             var predefinedSize = IdentifierConverter.Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
             var size = predefinedSize.Or(LengthConverter.To(m => new Point(m, m))).Or(WithArgs(distance, distance, m => new Point(m.Item1, m.Item2)));
-            var dimensions = WithOrder(WithAny(endingShape.Option(zeroSize), size.Option(zeroSize)), WithOrder(TakeOne(Keywords.At, true).Required(), PointConverter.Required()).Option(Tuple.Create(true, center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
+            var dimensions = WithOrder(WithAny(endingShape.Option(zeroSize), size.Option(zeroSize)), WithOrder(Assign(Keywords.At, true).Required(), PointConverter.Required()).Option(Tuple.Create(true, center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
             var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
@@ -459,8 +459,8 @@
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
         public static readonly IValueConverter<Shadow> ShadowConverter = WithOrder(
-            TakeOne(Keywords.Inset, true).Option(false),
-            TakeMany(LengthConverter, 2, 4).Required(),
+            Assign(Keywords.Inset, true).Option(false),
+            LengthConverter.Many(2, 4).Required(),
             ColorConverter.Option(Color.Black)).To(
             m => new Shadow(m.Item1, m.Item2[0], m.Item2[1], Get(m.Item2, 2, Length.Zero), Get(m.Item2, 3, Length.Zero), m.Item3));
 
@@ -506,24 +506,14 @@
 
         #region Misc
 
-        public static IValueConverter<Boolean> Toggle(String on, String off)
-        {
-            return TakeOne(on, true).Or(TakeOne(off, false));
-        }
-
-        public static IValueConverter<T> TakeOne<T>(String identifier, T result)
+        public static IValueConverter<T> Assign<T>(String identifier, T result)
         {
             return new IdentifierValueConverter<T>(identifier, result);
         }
 
-        public static IValueConverter<T[]> TakeMany<T>(IValueConverter<T> converter, Int32 min = 1, Int32 max = Int32.MaxValue)
+        public static IValueConverter<Boolean> Toggle(String on, String off)
         {
-            return new OneOrMoreValueConverter<T>(converter, min, max);
-        }
-
-        public static IValueConverter<T[]> TakeList<T>(IValueConverter<T> converter)
-        {
-            return new ListValueConverter<T>(converter);
+            return Assign(on, true).Or(off, false);
         }
 
         #endregion
