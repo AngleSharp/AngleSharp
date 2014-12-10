@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Flat, Keywords.Preserve3d);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Flat, Keywords.Preserve3d);
         internal static readonly Boolean Default = true;
         Boolean _flat;
 

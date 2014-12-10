@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly DirectionMode Default = DirectionMode.Ltr;
-        internal static readonly IValueConverter<DirectionMode> Converter = Toggle(Keywords.Ltr, Keywords.Rtl).To(m => m ? DirectionMode.Ltr : DirectionMode.Rtl);
+        internal static readonly IValueConverter<DirectionMode> Converter = Converters.Assign(Keywords.Ltr, DirectionMode.Ltr).Or(Keywords.Rtl, DirectionMode.Rtl);
         DirectionMode _mode;
 
         #endregion

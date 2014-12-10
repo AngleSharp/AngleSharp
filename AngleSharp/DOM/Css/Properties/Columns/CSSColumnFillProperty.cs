@@ -12,7 +12,7 @@
         #region Fields
 
         internal static readonly Boolean Default = true;
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Balance, Keywords.Auto);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Balance, Keywords.Auto);
         Boolean _balanced;
 
         #endregion

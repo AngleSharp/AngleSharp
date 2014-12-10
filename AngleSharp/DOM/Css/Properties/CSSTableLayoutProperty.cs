@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Fixed, Keywords.Auto);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Fixed, Keywords.Auto);
         internal static readonly Boolean Default = false;
         Boolean _fixed;
 

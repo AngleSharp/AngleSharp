@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly Boolean Default = false;
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Clone, Keywords.Slice);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Clone, Keywords.Slice);
         Boolean _clone;
 
         #endregion

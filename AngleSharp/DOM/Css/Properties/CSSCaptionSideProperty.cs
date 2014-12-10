@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Top, Keywords.Bottom);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Top, Keywords.Bottom);
         internal static readonly Boolean Default = true;
         Boolean _top;
 

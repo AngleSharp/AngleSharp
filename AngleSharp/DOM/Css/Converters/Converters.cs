@@ -430,7 +430,6 @@
         /// Represents a transform function.
         /// http://www.w3.org/TR/css3-transforms/#typedef-transform-function
         /// </summary>
-        /// <returns>The value converter.</returns>
         public static readonly IValueConverter<ITransform> TransformConverter = MatrixTransformConverter.To(m => (ITransform)m).Or(
             ScaleTransformConverter.To(m => (ITransform)m)).Or(
             RotateTransformConverter.To(m => (ITransform)m)).Or(
@@ -469,7 +468,6 @@
         /// Represents an image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        /// <returns>The value converter.</returns>
         public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)new ImageUrl(m)).Or(
             GradientConverter);
 
@@ -506,11 +504,24 @@
 
         #region Misc
 
+        /// <summary>
+        /// Creates a new converter by assigning the given identifier to a fixed result.
+        /// </summary>
+        /// <typeparam name="T">The type of the result.</typeparam>
+        /// <param name="identifier">The identifier (keyword) to use.</param>
+        /// <param name="result">The fixed result that is returned if the identifier is found.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<T> Assign<T>(String identifier, T result)
         {
             return new IdentifierValueConverter<T>(identifier, result);
         }
 
+        /// <summary>
+        /// Creates a new boolean converter that toggles between the two given keywords.
+        /// </summary>
+        /// <param name="on">The keyword to use for returning true.</param>
+        /// <param name="off">The keyword to use for returning false.</param>
+        /// <returns>The new converter.</returns>
         public static IValueConverter<Boolean> Toggle(String on, String off)
         {
             return Assign(on, true).Or(off, false);

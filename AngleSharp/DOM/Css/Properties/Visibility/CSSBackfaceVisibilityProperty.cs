@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Visible, Keywords.Hidden);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Visible, Keywords.Hidden);
         internal static readonly Boolean Default = true;
         Boolean _visible;
 

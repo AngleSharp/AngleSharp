@@ -7,7 +7,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> Converter = CSSProperty.Toggle(Keywords.Portrait, Keywords.Landscape);
+        static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Portrait, Keywords.Landscape);
         Boolean _portrait;
 
         #endregion

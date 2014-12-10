@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -266,11 +264,6 @@
         public static IValueConverter<Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8>>> WithAny<T1, T2, T3, T4, T5, T6, T7, T8>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, IValueConverter<T5> fifth, IValueConverter<T6> sixth, IValueConverter<T7> seventh, IValueConverter<T8> eighth)
         {
             return new UnorderedOptionsConverter<T1, T2, T3, T4, T5, T6, T7, T8>(first, second, third, fourth, fifth, sixth, seventh, eighth);
-        }
-
-        public static IValueConverter<Boolean> Toggle(String on, String off)
-        {
-            return Converters.Assign(on, true).Or(off, false);
         }
 
         #endregion

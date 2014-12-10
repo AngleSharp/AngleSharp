@@ -7,7 +7,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> Converter = CSSProperty.Toggle(Keywords.Interlace, Keywords.Progressive);
+        static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Interlace, Keywords.Progressive);
         Boolean _interlace;
 
         #endregion

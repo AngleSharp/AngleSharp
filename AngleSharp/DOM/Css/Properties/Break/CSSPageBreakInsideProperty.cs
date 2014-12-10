@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly BreakMode Default = BreakMode.Auto;
-        internal static readonly IValueConverter<BreakMode> Converter = Toggle(Keywords.Auto, Keywords.Avoid).To(m => m ? BreakMode.Auto : BreakMode.Avoid);
+        internal static readonly IValueConverter<BreakMode> Converter = Converters.Assign(Keywords.Auto, BreakMode.Auto).Or(Keywords.Avoid, BreakMode.Avoid);
         BreakMode _mode;
 
         #endregion

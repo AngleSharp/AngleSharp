@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly FontVariant Default = FontVariant.Normal;
-        internal static readonly IValueConverter<FontVariant> Converter = Toggle(Keywords.Normal, Keywords.SmallCaps).To(m => m ? FontVariant.Normal : FontVariant.SmallCaps);
+        internal static readonly IValueConverter<FontVariant> Converter = Converters.Assign(Keywords.Normal, FontVariant.Normal).Or(Keywords.SmallCaps, FontVariant.SmallCaps);
         FontVariant _variant;
 
         #endregion

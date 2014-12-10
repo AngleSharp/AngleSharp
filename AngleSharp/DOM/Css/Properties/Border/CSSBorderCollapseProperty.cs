@@ -12,7 +12,7 @@
         #region Fields
 
         internal static readonly Boolean Default = true;
-        internal static readonly IValueConverter<Boolean> Converter = Toggle(Keywords.Separate, Keywords.Collapse);
+        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Separate, Keywords.Collapse);
         Boolean _separate;
 
         #endregion
