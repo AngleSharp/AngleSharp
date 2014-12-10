@@ -97,6 +97,9 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\Converters.cs">
+      <Link>Css\Converters.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters\ArgumentsValueConverter.cs">
       <Link>Css\Converters\ArgumentsValueConverter.cs</Link>
     </Compile>
@@ -108,9 +111,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Converters\ConstraintValueConverter.cs">
       <Link>Css\Converters\ConstraintValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Converters\Converters.cs">
-      <Link>Css\Converters\Converters.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Converters\DictionaryValueConverter.cs">
       <Link>Css\Converters\DictionaryValueConverter.cs</Link>
@@ -174,9 +174,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Media\ColorMediaFeature.cs">
       <Link>Css\Media\ColorMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Media\CSSMedium.cs">
-      <Link>Css\Media\CSSMedium.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Media\DeviceHeightMediaFeature.cs">
       <Link>Css\Media\DeviceHeightMediaFeature.cs</Link>
@@ -464,6 +461,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
       <Link>DOM\Css\Constants\Whitespace.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\CssMedium.cs">
+      <Link>DOM\Css\CssMedium.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
