@@ -129,12 +129,12 @@
             if (!IsComplete(properties))
                 return String.Empty;
 
-            var horizontal = SerializePeriodic(_topLeft.HorizontalRadius, _topRight.HorizontalRadius, _bottomRight.HorizontalRadius, _bottomLeft.HorizontalRadius);
+            var horizontal = SerializePeriodic(_topLeft.HorizontalRadius.CssText, _topRight.HorizontalRadius.CssText, _bottomRight.HorizontalRadius.CssText, _bottomLeft.HorizontalRadius.CssText);
 
             if (_topLeft.IsCircle && _topRight.IsCircle && _bottomRight.IsCircle && _bottomLeft.IsCircle)
                 return horizontal;
 
-            var vertical = SerializePeriodic(_topLeft.VerticalRadius, _topRight.VerticalRadius, _bottomRight.VerticalRadius, _bottomLeft.VerticalRadius);
+            var vertical = SerializePeriodic(_topLeft.VerticalRadius.CssText, _topRight.VerticalRadius.CssText, _bottomRight.VerticalRadius.CssText, _bottomLeft.VerticalRadius.CssText);
             return horizontal + " / " + vertical;
         }
 

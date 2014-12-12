@@ -80,15 +80,6 @@
             return SerializePeriodic(top, right, bottom, left);
         }
 
-        protected static String SerializePeriodic(IDistance t, IDistance r, IDistance b, IDistance l)
-        {
-            var top = t.CssText;
-            var right = r.CssText;
-            var bottom = b.CssText;
-            var left = l.CssText;
-            return SerializePeriodic(top, right, bottom, left);
-        }
-
         protected static String SerializePeriodic(String top, String right, String bottom, String left)
         {
             if (left != right)
