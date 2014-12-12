@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -88,25 +87,6 @@
         {
             get { return _repeating; }
         } 
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                var position = new[] { ((ICssValue)_size).CssText, Keywords.At, ((ICssValue)_pt).CssText };
-                return FunctionNames.Build(_repeating ? FunctionNames.RepeatingRadialGradient : FunctionNames.RadialGradient,
-                    String.Join(" ", position), String.Join(", ", _stops.Select(m => ((ICssValue)m).CssText)));
-            }
-        }
 
         #endregion
     }

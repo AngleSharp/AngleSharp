@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents the rotate3d transformation.
@@ -80,27 +79,6 @@
                 l * m * omc + n * sina, m * m * omc + cosa, n * m * omc - l * sina,
                 l * n * omc - m * sina, m * n * omc + l * sina, n * n * omc + cosa,
                 0f, 0f, 0f, 0f, 0f, 0f);
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                return FunctionNames.Build(FunctionNames.Rotate3d, 
-                    _x.ToString(CultureInfo.InvariantCulture), 
-                    _y.ToString(CultureInfo.InvariantCulture), 
-                    _z.ToString(CultureInfo.InvariantCulture), 
-                    ((ICssValue)_angle).CssText);
-            }
         }
 
         #endregion

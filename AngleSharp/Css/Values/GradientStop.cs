@@ -6,7 +6,7 @@
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax
     /// </summary>
-    struct GradientStop : ICssValue
+    public struct GradientStop
     {
         #region Fields
 
@@ -46,20 +46,6 @@
         public IDistance Location
         {
             get { return _location; }
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get { return String.Concat(((ICssValue)_color).CssText, " ", _location.CssText); }
         }
 
         #endregion

@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a point value consisting of two distances.
     /// </summary>
-    public sealed class Point : ICssValue
+    public sealed class Point
     {
         #region Fields
 
@@ -50,20 +50,6 @@
         public IDistance Y
         {
             get { return _y; }
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.List; }
-        }
-
-        String ICssValue.CssText
-        {
-            get { return String.Concat(_x.CssText, " ", _y.CssText); }
         }
 
         #endregion

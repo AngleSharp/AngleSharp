@@ -1,13 +1,11 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Specifies a cubic-bezier curve. 
     /// </summary>
-    public sealed class CubicBezierTransitionFunction : TransitionFunction
+    public sealed class CubicBezierTimingFunction : ITimingFunction
     {
         #region Fields
 
@@ -29,7 +27,7 @@
         /// <param name="y1">The y-coordinate of P1.</param>
         /// <param name="x2">The x-coordinate of P2.</param>
         /// <param name="y2">The y-coordinate of P2.</param>
-        public CubicBezierTransitionFunction(Single x1, Single y1, Single x2, Single y2)
+        public CubicBezierTimingFunction(Single x1, Single y1, Single x2, Single y2)
         {
             _x1 = x1;
             _y1 = y1;
@@ -71,23 +69,6 @@
         public Single Y2
         {
             get { return _y2; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns the CSS representation of the cubic bezier timing function.
-        /// </summary>
-        /// <returns>A string that resembles CSS code.</returns>
-        protected override String ToCss()
-        {
-            return FunctionNames.Build(FunctionNames.CubicBezier, 
-                _x1.ToString(CultureInfo.InvariantCulture), 
-                _y1.ToString(CultureInfo.InvariantCulture), 
-                _x2.ToString(CultureInfo.InvariantCulture), 
-                _y2.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

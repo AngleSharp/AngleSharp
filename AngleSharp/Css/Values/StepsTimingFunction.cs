@@ -1,13 +1,11 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Specifies a stepping function, described above, taking two parameters.
     /// </summary>
-    public sealed class StepsTransitionFunction : TransitionFunction
+    public sealed class StepsTimingFunction : ITimingFunction
     {
         #region Fields
 
@@ -25,7 +23,7 @@
         /// </summary>
         /// <param name="intervals">It must be a positive integer (greater than 0).</param>
         /// <param name="start">Optional: If not specified then the change occurs at the end.</param>
-        public StepsTransitionFunction(Int32 intervals, Boolean start = false)
+        public StepsTimingFunction(Int32 intervals, Boolean start = false)
         {
             _intervals = Math.Max(1, intervals);
             _start = start;
@@ -49,21 +47,6 @@
         public Boolean IsStart
         {
             get { return _start; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns the CSS representation of the steps timing function.
-        /// </summary>
-        /// <returns>A string that resembles CSS code.</returns>
-        protected override String ToCss()
-        {
-            return FunctionNames.Build(FunctionNames.Steps, 
-                _intervals.ToString(CultureInfo.InvariantCulture), 
-                _start ? Keywords.Start : Keywords.End);
         }
 
         #endregion

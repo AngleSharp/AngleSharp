@@ -5,7 +5,7 @@
     /// <summary>
     /// Functionality for computing transformation.
     /// </summary>
-    public interface ITransform : ICssValue
+    public interface ITransform
     {
         /// <summary>
         /// Computes the matrix for the given transformation.

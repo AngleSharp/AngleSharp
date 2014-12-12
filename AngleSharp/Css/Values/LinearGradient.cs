@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,7 +8,7 @@
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    sealed class LinearGradient : IImageSource
+    sealed class LinearGradient : IGradient
     {
         #region Fields
 
@@ -61,24 +60,6 @@
         {
             get { return _repeating; }
         } 
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                return FunctionNames.Build(_repeating ? FunctionNames.RepeatingLinearGradient : FunctionNames.LinearGradient,
-                    ((ICssValue)_angle).CssText, String.Join(", ", _stops.Select(m => ((ICssValue)m).CssText)));
-            }
-        }
 
         #endregion
     }

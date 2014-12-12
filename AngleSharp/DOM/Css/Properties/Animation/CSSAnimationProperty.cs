@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Time, TransitionFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = Converters.WithAny(
+        internal static readonly IValueConverter<Tuple<Time, ITimingFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = Converters.WithAny(
             CSSAnimationDurationProperty.SingleConverter.Option(CSSAnimationDurationProperty.Default),
             CSSAnimationTimingFunctionProperty.SingleConverter.Option(CSSAnimationTimingFunctionProperty.Default),
             CSSAnimationDelayProperty.SingleConverter.Option(CSSAnimationDelayProperty.Default),
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets the timing-functions for the animations.
         /// </summary>
-        public IEnumerable<TransitionFunction> TimingFunctions
+        public IEnumerable<ITimingFunction> TimingFunctions
         {
             get { return _timingFunction.TimingFunctions; }
         }

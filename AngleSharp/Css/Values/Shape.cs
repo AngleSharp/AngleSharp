@@ -7,7 +7,7 @@
     /// Represents a CSS shape.
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/shape
     /// </summary>
-    public sealed class Shape : ICssValue
+    public sealed class Shape
     {
         #region Fields
 
@@ -69,27 +69,6 @@
         public Length Left
         {
             get { return _left; }
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                return FunctionNames.Build(FunctionNames.Rect, 
-                    ((ICssValue)_top).CssText, 
-                    ((ICssValue)_right).CssText, 
-                    ((ICssValue)_bottom).CssText, 
-                    ((ICssValue)_left).CssText);
-            }
         }
 
         #endregion

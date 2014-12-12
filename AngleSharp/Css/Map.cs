@@ -44,9 +44,9 @@
         public static readonly Dictionary<String, BoxModel> BoxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// Contains the string-TransitionFunction mapping.
+        /// Contains the string-TimingFunction mapping.
         /// </summary>
-        public static readonly Dictionary<String, TransitionFunction> TransitionFunctions = new Dictionary<String, TransitionFunction>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ITimingFunction> TimingFunctions = new Dictionary<String, ITimingFunction>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Contains the string-AnimationFillStyle mapping.
@@ -204,13 +204,13 @@
             BoxModels.Add(Keywords.PaddingBox, BoxModel.PaddingBox);
             BoxModels.Add(Keywords.ContentBox, BoxModel.ContentBox);
 
-            TransitionFunctions.Add(Keywords.Ease, TransitionFunction.Ease);
-            TransitionFunctions.Add(Keywords.EaseIn, TransitionFunction.EaseIn);
-            TransitionFunctions.Add(Keywords.EaseOut, TransitionFunction.EaseOut);
-            TransitionFunctions.Add(Keywords.EaseInOut, TransitionFunction.EaseInOut);
-            TransitionFunctions.Add(Keywords.Linear, TransitionFunction.Linear);
-            TransitionFunctions.Add(Keywords.StepStart, TransitionFunction.StepStart);
-            TransitionFunctions.Add(Keywords.StepEnd, TransitionFunction.StepEnd);
+            TimingFunctions.Add(Keywords.Ease, new CubicBezierTimingFunction(0.25f, 0.1f, 0.25f, 1f));
+            TimingFunctions.Add(Keywords.EaseIn, new CubicBezierTimingFunction(0.42f, 0f, 1f, 1f));
+            TimingFunctions.Add(Keywords.EaseOut, new CubicBezierTimingFunction(0f, 0f, 0.58f, 1f));
+            TimingFunctions.Add(Keywords.EaseInOut, new CubicBezierTimingFunction(0.42f, 0f, 0.58f, 1f));
+            TimingFunctions.Add(Keywords.Linear, new CubicBezierTimingFunction(0f, 0f, 1f, 1f));
+            TimingFunctions.Add(Keywords.StepStart, new StepsTimingFunction(1, true));
+            TimingFunctions.Add(Keywords.StepEnd, new StepsTimingFunction(1, false));
 
             AnimationFillStyles.Add(Keywords.None, AnimationFillStyle.None);
             AnimationFillStyles.Add(Keywords.Forwards, AnimationFillStyle.Forwards);

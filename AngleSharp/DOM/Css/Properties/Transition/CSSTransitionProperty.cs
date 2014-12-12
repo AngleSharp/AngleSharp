@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<String, Time, TransitionFunction, Time>[]> Converter = Converters.WithAny(
+        internal static readonly IValueConverter<Tuple<String, Time, ITimingFunction, Time>[]> Converter = Converters.WithAny(
             CSSTransitionPropertyProperty.SingleConverter.Option(CSSTransitionPropertyProperty.Default),
             CSSTransitionDurationProperty.SingleConverter.Option(CSSTransitionDurationProperty.Default),
             CSSTransitionTimingFunctionProperty.SingleConverter.Option(CSSTransitionTimingFunctionProperty.Default),
@@ -61,7 +61,7 @@
         /// <summary>
         /// Gets the timing-functions for the transitions.
         /// </summary>
-        public IEnumerable<TransitionFunction> TimingFunctions
+        public IEnumerable<ITimingFunction> TimingFunctions
         {
             get { return _timingFunction.TimingFunctions; }
         }

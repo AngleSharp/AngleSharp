@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a CSS counter.
     /// </summary>
-    public sealed class Counter : ICssValue
+    public sealed class Counter
     {
         #region Fields
 
@@ -57,33 +57,6 @@
         public String DefinedSeparator
         {
             get { return _separator; }
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                if (_separator != null)
-                {
-                    if (_listStyle != null)
-                        return FunctionNames.Build(FunctionNames.Counters, _identifier, _separator, _listStyle);
-
-                    return FunctionNames.Build(FunctionNames.Counters, _identifier, _separator);
-                }
-                else if (_listStyle != null)
-                    return FunctionNames.Build(FunctionNames.Counter, _identifier, _listStyle);
-
-                return FunctionNames.Build(FunctionNames.Counter, _identifier);
-            }
         }
 
         #endregion

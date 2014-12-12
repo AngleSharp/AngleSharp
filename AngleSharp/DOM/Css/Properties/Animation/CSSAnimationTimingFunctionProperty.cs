@@ -13,10 +13,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<TransitionFunction> SingleConverter = Converters.TransitionConverter;
-        internal static readonly IValueConverter<TransitionFunction[]> Converter = SingleConverter.FromList();
-        internal static readonly TransitionFunction Default = TransitionFunction.Ease;
-        readonly List<TransitionFunction> _functions;
+        internal static readonly IValueConverter<ITimingFunction> SingleConverter = Converters.TransitionConverter;
+        internal static readonly IValueConverter<ITimingFunction[]> Converter = SingleConverter.FromList();
+        internal static readonly ITimingFunction Default = Map.TimingFunctions[Keywords.Ease];
+        readonly List<ITimingFunction> _functions;
 
         #endregion
 
@@ -25,7 +25,7 @@
         internal CSSAnimationTimingFunctionProperty(CSSStyleDeclaration rule)
             : base(PropertyNames.AnimationTimingFunction, rule)
         {
-            _functions = new List<TransitionFunction>();
+            _functions = new List<ITimingFunction>();
             Reset();
         }
 
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the enumeration over all timing functions.
         /// </summary>
-        public IEnumerable<TransitionFunction> TimingFunctions
+        public IEnumerable<ITimingFunction> TimingFunctions
         {
             get { return _functions; }
         }
@@ -45,7 +45,7 @@
 
         #region Methods
 
-        public void SetTimingFunctions(IEnumerable<TransitionFunction> functions)
+        public void SetTimingFunctions(IEnumerable<ITimingFunction> functions)
         {
             _functions.Clear();
             _functions.AddRange(functions);

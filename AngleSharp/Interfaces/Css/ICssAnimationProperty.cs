@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets the enumeration over all timing functions.
         /// </summary>
-        IEnumerable<TransitionFunction> TimingFunctions { get; }
+        IEnumerable<ITimingFunction> TimingFunctions { get; }
     }
 
     /// <summary>

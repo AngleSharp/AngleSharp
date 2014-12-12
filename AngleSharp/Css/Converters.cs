@@ -179,21 +179,21 @@
         /// Represents a steps timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter<StepsTransitionFunction> StepsConverter = new FunctionValueConverter<StepsTransitionFunction>(
+        public static readonly IValueConverter<StepsTimingFunction> StepsConverter = new FunctionValueConverter<StepsTimingFunction>(
             FunctionNames.Steps, WithArgs(
                 IntegerConverter.Required(), 
                 Assign(Keywords.Start, true).Or(Keywords.End, false).Option(false), 
-            m => new StepsTransitionFunction(m.Item1, m.Item2)));
+            m => new StepsTimingFunction(m.Item1, m.Item2)));
 
         /// <summary>
         /// Represents a cubic-bezier timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter<CubicBezierTransitionFunction> CubicBezierConverter = Construct(() =>
+        public static readonly IValueConverter<CubicBezierTimingFunction> CubicBezierConverter = Construct(() =>
         {
             var number = NumberConverter.Required();
-            return new FunctionValueConverter<CubicBezierTransitionFunction>(FunctionNames.CubicBezier,
-                    WithArgs(number, number, number, number, m => new CubicBezierTransitionFunction(m.Item1, m.Item2, m.Item3, m.Item4)));
+            return new FunctionValueConverter<CubicBezierTimingFunction>(FunctionNames.CubicBezier,
+                    WithArgs(number, number, number, number, m => new CubicBezierTimingFunction(m.Item1, m.Item2, m.Item3, m.Item4)));
         });
 
         /// <summary>
@@ -416,9 +416,9 @@
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
-        public static readonly IValueConverter<TransitionFunction> TransitionConverter = new DictionaryValueConverter<TransitionFunction>(Map.TransitionFunctions).Or(
-            StepsConverter.To(m => (TransitionFunction)m)).Or(
-            CubicBezierConverter.To(m => (TransitionFunction)m));
+        public static readonly IValueConverter<ITimingFunction> TransitionConverter = new DictionaryValueConverter<ITimingFunction>(Map.TimingFunctions).Or(
+            StepsConverter.To(m => (ITimingFunction)m)).Or(
+            CubicBezierConverter.To(m => (ITimingFunction)m));
 
         /// <summary>
         /// Represents a gradient object.
