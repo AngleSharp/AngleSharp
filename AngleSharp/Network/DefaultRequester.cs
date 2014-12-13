@@ -19,6 +19,7 @@
         const Int32 BufferSize = 4096;
 
         static readonly Dictionary<String, PropertyInfo> _propCache;
+        static readonly List<String> _restricted;
 
         #endregion
 
@@ -34,6 +35,7 @@
         static DefaultRequester()
         {
             _propCache = new Dictionary<String, PropertyInfo>();
+            _restricted = new List<String>();
         }
 
         /// <summary>
@@ -248,8 +250,19 @@
 
                 var property = _propCache[name];
 
-                if (property != null)
-                    property.SetValue(_http, value);
+                if (!_restricted.Contains(name) && property != null && property.CanWrite)
+                {
+                    try
+                    {
+                        //This might fail on certain platforms
+                        property.SetValue(_http, value);
+                    }
+                    catch
+                    {
+                        //Catch any failure and do not try again on the same platform
+                        _restricted.Add(name);
+                    }
+                }
             }
         }
 
