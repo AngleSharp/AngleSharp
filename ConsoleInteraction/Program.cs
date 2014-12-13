@@ -8,6 +8,7 @@ using ConsoleInteraction.Assets;
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Resources;
@@ -64,9 +65,20 @@ namespace ConsoleInteraction
             TestHtmlFrom("http://www.florian-rappl.de/", false);
         }
 
+        static async Task ExtractContent(String url)
+        {
+            var requestUri = new Uri(url);
+            var httpClient = new HttpClient();
+
+            using (var response = await httpClient.GetStreamAsync(requestUri))
+            {
+                using (var fs = File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), requestUri.Host)))
+                    await response.CopyToAsync(fs);
+            }
+        }
+
         public static async Task test()
         {
-
             var httpClient = new HttpClient();
             var response = await httpClient.GetStreamAsync(new Uri("http://trade.500.com/bjdc/?expect=140107"));
             var document = DocumentBuilder.Html(response);
