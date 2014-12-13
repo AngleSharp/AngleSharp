@@ -130,6 +130,9 @@
   <data name="food" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pages\food.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="item_jd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\item.jd.com;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="nbc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pages\nbc.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -138,5 +141,11 @@
   </data>
   <data name="selectors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pages\selectors.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="trade_500" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\trade.500.com;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="www_baidu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\www.baidu.com;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

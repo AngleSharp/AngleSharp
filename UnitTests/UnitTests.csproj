@@ -166,6 +166,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\item.jd.com" />
+    <None Include="Resources\trade.500.com" />
+    <None Include="Resources\www.baidu.com" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
