@@ -10,7 +10,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, ICssValue
+    public struct Color : IEquatable<Color>, IComparable<Color>, ICssValue
     {
         #region Basic colors
 
@@ -378,6 +378,11 @@
                 return this.Equals((Color)obj);
 
             return false;
+        }
+
+        Int32 IComparable<Color>.CompareTo(Color other)
+        {
+            return hashcode - other.hashcode;
         }
 
         /// <summary>

@@ -9,12 +9,16 @@
     /// </summary>
     public struct Time : IEquatable<Time>, ICssValue
     {
-        #region Fields
+        #region Basic times
 
         /// <summary>
         /// Gets the zero time.
         /// </summary>
         public static readonly Time Zero = new Time(0f, Unit.S);
+
+        #endregion
+
+        #region Fields
 
         readonly Single _value;
         readonly Unit _unit;
@@ -145,7 +149,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)_value;
+            return _value.GetHashCode();
         }
 
         #endregion

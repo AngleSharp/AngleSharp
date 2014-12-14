@@ -8,7 +8,7 @@
     /// </summary>
     public struct Number : IEquatable<Number>, ICssValue
     {
-        #region Fields
+        #region Basic numbers
 
         /// <summary>
         /// Gets a zero value.
@@ -24,6 +24,10 @@
         /// Gets the neutral element.
         /// </summary>
         public static readonly Number One = new Number(1f, Unit.Integer);
+
+        #endregion
+
+        #region Fields
 
         readonly Single _value;
         readonly Unit _unit;
@@ -209,7 +213,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)_value;
+            return _value.GetHashCode();
         }
 
         #endregion

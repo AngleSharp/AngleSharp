@@ -9,12 +9,36 @@
     /// </summary>
     public struct Angle : IEquatable<Angle>, ICssValue
     {
-        #region Fields
+        #region Basic angles
 
         /// <summary>
         /// The zero angle.
         /// </summary>
         public static readonly Angle Zero = new Angle();
+
+        /// <summary>
+        /// The 45° angle.
+        /// </summary>
+        public static readonly Angle HalfQuarter = new Angle(45f, Angle.Unit.Deg);
+
+        /// <summary>
+        /// The 90° angle.
+        /// </summary>
+        public static readonly Angle Quarter = new Angle(90f, Angle.Unit.Deg);
+
+        /// <summary>
+        /// The 135° angle.
+        /// </summary>
+        public static readonly Angle TripleHalfQuarter = new Angle(135f, Angle.Unit.Deg);
+
+        /// <summary>
+        /// The 180° angle.
+        /// </summary>
+        public static readonly Angle Half = new Angle(180f, Angle.Unit.Deg);
+
+        #endregion
+
+        #region Fields
 
         readonly Single _value;
         readonly Unit _unit;

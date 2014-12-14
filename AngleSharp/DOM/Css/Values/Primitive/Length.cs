@@ -9,7 +9,7 @@
     /// </summary>
     public struct Length : IEquatable<Length>, IDistance
     {
-        #region Fields
+        #region Basic lengths
 
         /// <summary>
         /// Gets a zero pixel length value.
@@ -30,6 +30,10 @@
         /// Gets a thick length value.
         /// </summary>
         public static readonly Length Thick = new Length(5f, Unit.Px);
+
+        #endregion
+
+        #region Fields
 
         readonly Single _value;
         readonly Unit _unit;
@@ -136,6 +140,7 @@
                     case Unit.Vh: return Units.Vh;
                     case Unit.Vmin: return Units.Vmin;
                     case Unit.Vmax: return Units.Vmax;
+                    case Unit.Percent: return Units.Percent;
                     default: return String.Empty;
                 }
             }
@@ -279,6 +284,11 @@
             /// 1vmax = 1/100 of the maximum viewport dimension.
             /// </summary>
             Vmax,
+            /// <summary>
+            /// The value is relative to a fixed (external) value, that is context
+            /// dependent. 1% = 1/100 of the external value.
+            /// </summary>
+            Percent
         }
 
         #endregion
@@ -304,7 +314,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)_value;
+            return _value.GetHashCode();
         }
 
         #endregion

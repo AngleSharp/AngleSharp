@@ -232,7 +232,7 @@
         {
             var side = SideOrCornerConverter.StartsWithKeyword(Keywords.To);
             var angle = AngleConverter.Or(side);
-            var gradient = new GradientConverter<Angle>(angle, new Angle(180f, Angle.Unit.Deg));
+            var gradient = new GradientConverter<Angle>(angle, Angle.Half);
 
             return new FunctionValueConverter<LinearGradient>(FunctionNames.LinearGradient,
                         gradient.To(m => new LinearGradient(m.Item1.Value, m.Item2, false))).Or(

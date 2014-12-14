@@ -131,5 +131,10 @@
         /// Pieces.
         /// </summary>
         public static readonly String Pc = "pc";
+
+        /// <summary>
+        /// Percent.
+        /// </summary>
+        public static readonly String Percent = "%";
     }
 }

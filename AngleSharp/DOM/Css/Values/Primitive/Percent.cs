@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Globalization;
 
@@ -8,7 +9,7 @@
     /// </summary>
     public struct Percent : IEquatable<Percent>, IDistance
     {
-        #region Fields
+        #region Basic values
 
         /// <summary>
         /// Gets a zero percent value.
@@ -24,6 +25,10 @@
         /// Gets a hundred percent value.
         /// </summary>
         public static readonly Percent Hundred = new Percent(100f);
+
+        #endregion
+
+        #region Fields
 
         readonly Single _value;
 
@@ -149,7 +154,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)_value;
+            return _value.GetHashCode();
         }
 
         #endregion
@@ -176,7 +181,7 @@
 
         String ICssValue.CssText
         {
-            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), "%"); }
+            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), Units.Percent); }
         }
 
         #endregion

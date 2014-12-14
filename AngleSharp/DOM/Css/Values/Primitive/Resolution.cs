@@ -133,7 +133,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)_value;
+            return _value.GetHashCode();
         }
 
         #endregion
