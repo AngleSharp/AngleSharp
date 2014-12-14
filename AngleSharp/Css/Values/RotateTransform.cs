@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css;
     using System;
 
     /// <summary>
@@ -13,18 +12,54 @@
         readonly Single _x;
         readonly Single _y;
         readonly Single _z;
-        readonly Angle _angle;
+        readonly Single _angle;
 
         #endregion
 
         #region ctor
 
-        internal RotateTransform(Single x, Single y, Single z, Angle angle)
+        internal RotateTransform(Single x, Single y, Single z, Single angle)
         {
             _x = x;
             _y = y;
             _z = z;
             _angle = angle;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the x component of the rotation vector.
+        /// </summary>
+        public Single X
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets the value of the y component of the rotation vector.
+        /// </summary>
+        public Single Y
+        {
+            get { return _y; }
+        }
+
+        /// <summary>
+        /// Gets the value of the z component of the rotation vector.
+        /// </summary>
+        public Single Z
+        {
+            get { return _z; }
+        }
+
+        /// <summary>
+        /// Gets the angle in radiants [0, 2pi].
+        /// </summary>
+        public Single Angle
+        {
+            get { return _angle; }
         }
 
         #endregion
@@ -36,7 +71,7 @@
         /// </summary>
         /// <param name="angle">The angle to rotate.</param>
         /// <returns>The rotate 3D transformation.</returns>
-        public static RotateTransform RotateX(Angle angle)
+        public static RotateTransform RotateX(Single angle)
         {
             return new RotateTransform(1f, 0f, 0f, angle);
         }
@@ -46,7 +81,7 @@
         /// </summary>
         /// <param name="angle">The angle to rotate.</param>
         /// <returns>The rotate 3D transformation.</returns>
-        public static RotateTransform RotateY(Angle angle)
+        public static RotateTransform RotateY(Single angle)
         {
             return new RotateTransform(0f, 1f, 0f, angle);
         }
@@ -56,7 +91,7 @@
         /// </summary>
         /// <param name="angle">The angle to rotate.</param>
         /// <returns>The rotate 3D transformation.</returns>
-        public static RotateTransform RotateZ(Angle angle)
+        public static RotateTransform RotateZ(Single angle)
         {
             return new RotateTransform(0f, 0f, 1f, angle);
         }
@@ -68,8 +103,8 @@
         public TransformMatrix ComputeMatrix()
         {
             var norm = 1f / (Single)Math.Sqrt(_x * _x + _y * _y + _z * _z);
-            var sina = _angle.Sin();
-            var cosa = _angle.Cos();
+            var sina = (Single)Math.Sin(_angle);
+            var cosa = (Single)Math.Cos(_angle);
             var l = _x * norm;
             var m = _y * norm;
             var n = _z * norm;

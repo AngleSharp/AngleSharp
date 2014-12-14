@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css;
+    using System;
 
     /// <summary>
     /// Represents the skew transformation.
@@ -9,17 +9,37 @@
     {
         #region Fields
 
-        readonly Angle _alpha;
-        readonly Angle _beta;
+        readonly Single _alpha;
+        readonly Single _beta;
 
         #endregion
 
         #region ctor
 
-        internal SkewTransform(Angle alpha, Angle beta)
+        internal SkewTransform(Single alpha, Single beta)
         {
             _alpha = alpha;
             _beta = beta;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of the first angle in radiants [0, 2pi].
+        /// </summary>
+        public Single Alpha
+        {
+            get { return _alpha; }
+        }
+
+        /// <summary>
+        /// Gets the value of the second angle in radiants [0, 2pi].
+        /// </summary>
+        public Single Beta
+        {
+            get { return _beta; }
         }
 
         #endregion
@@ -32,8 +52,8 @@
         /// <returns>The transformation matrix representation.</returns>
         public TransformMatrix ComputeMatrix()
         {
-            var a = _alpha.Tan();
-            var b = _beta.Tan();
+            var a = (Single)Math.Tan(_alpha);
+            var b = (Single)Math.Tan(_beta);
             return new TransformMatrix(1f, a, 0f, b, 1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0f);
         }
 

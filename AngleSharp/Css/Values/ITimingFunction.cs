@@ -1,7 +1,5 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using System;
-
     /// <summary>
     /// Represents a general timing function.
     /// </summary>

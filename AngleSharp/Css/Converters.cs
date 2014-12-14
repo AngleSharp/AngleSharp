@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css
 {
     using AngleSharp.Css.ValueConverters;
+    using AngleSharp.Css.Values;
     using AngleSharp.DOM.Css;
     using AngleSharp.Extensions;
     using System;
@@ -234,9 +235,9 @@
             var gradient = new GradientConverter<Angle>(angle, new Angle(180f, Angle.Unit.Deg));
 
             return new FunctionValueConverter<LinearGradient>(FunctionNames.LinearGradient,
-                        gradient.To(m => new LinearGradient(m.Item1, m.Item2, false))).Or(
+                        gradient.To(m => new LinearGradient(m.Item1.Value, m.Item2, false))).Or(
                    new FunctionValueConverter<LinearGradient>(FunctionNames.RepeatingLinearGradient,
-                        gradient.To(m => new LinearGradient(m.Item1, m.Item2, true))));
+                        gradient.To(m => new LinearGradient(m.Item1.Value, m.Item2, true))));
         });
 
         /// <summary>
@@ -382,15 +383,15 @@
         {
             var number = NumberConverter.Required();
             return new FunctionValueConverter<RotateTransform>(FunctionNames.Rotate,
-                        WithArg(AngleConverter.To(m => RotateTransform.RotateZ(m)))).Or(
+                        WithArg(AngleConverter.To(m => RotateTransform.RotateZ(m.Value)))).Or(
                    new FunctionValueConverter<RotateTransform>(FunctionNames.Rotate3d,
-                        WithArgs(number, number, number, AngleConverter.Required(), m => new RotateTransform(m.Item1, m.Item2, m.Item3, m.Item4)))).Or(
+                        WithArgs(number, number, number, AngleConverter.Required(), m => new RotateTransform(m.Item1, m.Item2, m.Item3, m.Item4.Value)))).Or(
                    new FunctionValueConverter<RotateTransform>(FunctionNames.RotateX,
-                        WithArg(AngleConverter.To(m => RotateTransform.RotateX(m))))).Or(
+                        WithArg(AngleConverter.To(m => RotateTransform.RotateX(m.Value))))).Or(
                    new FunctionValueConverter<RotateTransform>(FunctionNames.RotateY,
-                        WithArg(AngleConverter.To(m => RotateTransform.RotateY(m))))).Or(
+                        WithArg(AngleConverter.To(m => RotateTransform.RotateY(m.Value))))).Or(
                    new FunctionValueConverter<RotateTransform>(FunctionNames.RotateZ,
-                        WithArg(AngleConverter.To(m => RotateTransform.RotateZ(m)))));
+                        WithArg(AngleConverter.To(m => RotateTransform.RotateZ(m.Value)))));
         });
 
         /// <summary>
@@ -401,11 +402,11 @@
         {
             var angle = AngleConverter.Required();
             return new FunctionValueConverter<SkewTransform>(FunctionNames.Skew,
-                        WithArgs(angle, angle, m => new SkewTransform(m.Item1, m.Item2))).Or(
+                        WithArgs(angle, angle, m => new SkewTransform(m.Item1.Value, m.Item2.Value))).Or(
                    new FunctionValueConverter<SkewTransform>(FunctionNames.SkewX,
-                        WithArg(AngleConverter.To(m => new SkewTransform(m, Angle.Zero))))).Or(
+                        WithArg(AngleConverter.To(m => new SkewTransform(m.Value, 0f))))).Or(
                    new FunctionValueConverter<SkewTransform>(FunctionNames.SkewY,
-                        WithArg(AngleConverter.To(m => new SkewTransform(Angle.Zero, m)))));
+                        WithArg(AngleConverter.To(m => new SkewTransform(0f, m.Value)))));
         });
 
         #endregion

@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using System;
+    using AngleSharp.DOM.Css;
 
     /// <summary>
     /// Represents a point value consisting of two distances.

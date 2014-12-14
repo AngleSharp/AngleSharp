@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-    using System;
-    using System.Collections.Generic;
+    using AngleSharp.Css.Values;
 
     /// <summary>
     /// Represents the CSS list-style-type property.

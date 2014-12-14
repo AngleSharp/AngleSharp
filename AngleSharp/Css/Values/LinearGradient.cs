@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css.Values
 {
     using System;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@
         #region Fields
 
         readonly GradientStop[] _stops;
-        readonly Angle _angle;
+        readonly Single _angle;
         readonly Boolean _repeating;
 
         #endregion
@@ -26,7 +26,7 @@
         /// <param name="angle">The angle of the linear gradient.</param>
         /// <param name="stops">The stops to use.</param>
         /// <param name="repeating">Indicates if the gradient is repeating.</param>
-        public LinearGradient(Angle angle, GradientStop[] stops, Boolean repeating = false)
+        public LinearGradient(Single angle, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _angle = angle;
@@ -38,9 +38,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the angle.
+        /// Gets the angle in radiant [0, 2pi].
         /// </summary>
-        public Angle Angle
+        public Single Angle
         {
             get { return _angle; }
         }

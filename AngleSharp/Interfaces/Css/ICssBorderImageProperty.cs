@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS border-image-width property.

@@ -1,10 +1,9 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// More information available at:

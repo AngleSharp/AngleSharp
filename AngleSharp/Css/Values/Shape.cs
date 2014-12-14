@@ -1,7 +1,6 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css;
-    using System;
+    using AngleSharp.DOM.Css;
 
     /// <summary>
     /// Represents a CSS shape.
