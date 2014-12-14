@@ -52,7 +52,7 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<LinearGradient>(image);
             var gradient = image as LinearGradient;
-            Assert.AreEqual(new Angle(135f, Angle.Unit.Deg).Value, gradient.Angle);
+            Assert.AreEqual(Angle.TripleHalfQuarter.Value, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Count());
             Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
             Assert.AreEqual(Color.Blue, gradient.Stops.Last().Color);
@@ -71,7 +71,7 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<LinearGradient>(image);
             var gradient = image as LinearGradient;
-            Assert.AreEqual(new Angle(90f, Angle.Unit.Deg).Value, gradient.Angle);
+            Assert.AreEqual(Angle.Quarter.Value, gradient.Angle);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(7, stops.Length);
             Assert.AreEqual(Colors.FromName("red").Value, stops[0].Color);
@@ -96,7 +96,7 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<LinearGradient>(image);
             var gradient = image as LinearGradient;
-            Assert.AreEqual(new Angle(135f, Angle.Unit.Deg).Value, gradient.Angle);
+            Assert.AreEqual(Angle.TripleHalfQuarter.Value, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Count());
             Assert.AreEqual(Color.Red, gradient.Stops.First().Color);
             Assert.AreEqual(Color.FromRgba(255, 0, 0, 0), gradient.Stops.Last().Color);
@@ -115,7 +115,7 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<LinearGradient>(image);
             var gradient = image as LinearGradient;
-            Assert.AreEqual(new Angle(180f, Angle.Unit.Deg).Value, gradient.Angle);
+            Assert.AreEqual(Angle.Half.Value, gradient.Angle);
             Assert.AreEqual(2, gradient.Stops.Count());
             Assert.AreEqual(Color.FromHsl(0f, 0.8f, 0.7f), gradient.Stops.First().Color);
             Assert.AreEqual(Color.FromHex("bada55"), gradient.Stops.Last().Color);
@@ -134,7 +134,7 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<LinearGradient>(image);
             var gradient = image as LinearGradient;
-            Assert.AreEqual(new Angle(180f, Angle.Unit.Deg).Value, gradient.Angle);
+            Assert.AreEqual(Angle.Half.Value, gradient.Angle);
             Assert.AreEqual(3, gradient.Stops.Count());
             Assert.AreEqual(Colors.FromName("yellow").Value, gradient.Stops.First().Color);
             Assert.AreEqual(Colors.FromName("blue").Value, gradient.Stops.Skip(1).First().Color);
