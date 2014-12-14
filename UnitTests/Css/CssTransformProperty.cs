@@ -1,10 +1,11 @@
-﻿using AngleSharp.DOM.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-using System.Linq;
-
-namespace UnitTests.Css
+﻿namespace UnitTests.Css
 {
+    using AngleSharp.Css.Values;
+    using AngleSharp.DOM.Css;
+    using AngleSharp.Parser.Css;
+    using NUnit.Framework;
+    using System.Linq;
+
     [TestFixture]
     public class CssTransformPropertyTests
     {
