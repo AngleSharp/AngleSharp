@@ -5,7 +5,6 @@
     using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
-    using VerticalAlignment = AngleSharp.DOM.Css.VerticalAlignment;
 
     /// <summary>
     /// A collection of mappings for CSS (keywords to constants).
