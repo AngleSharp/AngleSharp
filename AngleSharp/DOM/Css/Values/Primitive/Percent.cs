@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    public struct Percent : IEquatable<Percent>, ICssValue
+    public struct Percent : IEquatable<Percent>, IComparable<Percent>, IFormattable, ICssValue
     {
         #region Basic values
 
@@ -144,6 +144,16 @@
         #region Equality
 
         /// <summary>
+        /// Compares the current percentage against the given one.
+        /// </summary>
+        /// <param name="other">The percentage to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Percent other)
+        {
+            return _value.CompareTo(other._value);
+        }
+
+        /// <summary>
         /// Tests if another object is equal to this object.
         /// </summary>
         /// <param name="obj">The object to test with.</param>
@@ -176,6 +186,17 @@
         public override String ToString()
         {
             return NormalizedValue.ToString();
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the percentage.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            return NormalizedValue.ToString(format, formatProvider);
         }
 
         #endregion

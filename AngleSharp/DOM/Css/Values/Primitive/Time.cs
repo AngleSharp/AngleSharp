@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a time value.
     /// </summary>
-    public struct Time : IEquatable<Time>, ICssValue
+    public struct Time : IEquatable<Time>, IComparable<Time>, IFormattable, ICssValue
     {
         #region Basic times
 
@@ -131,6 +131,16 @@
         #region Equality
 
         /// <summary>
+        /// Compares the current time against the given one.
+        /// </summary>
+        /// <param name="other">The time to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Time other)
+        {
+            return Value.CompareTo(other.Value);
+        }
+
+        /// <summary>
         /// Tests if another object is equal to this object.
         /// </summary>
         /// <param name="obj">The object to test with.</param>
@@ -163,6 +173,17 @@
         public override String ToString()
         {
             return String.Concat(_value.ToString(), UnitString);
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the time.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            return String.Concat(_value.ToString(format, formatProvider), UnitString);
         }
 
         #endregion

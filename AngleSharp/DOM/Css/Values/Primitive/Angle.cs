@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an angle value.
     /// </summary>
-    public struct Angle : IEquatable<Angle>, ICssValue
+    public struct Angle : IEquatable<Angle>, IComparable<Angle>, IFormattable, ICssValue
     {
         #region Basic angles
 
@@ -208,6 +208,16 @@
         #region Equality
 
         /// <summary>
+        /// Compares the current angle against the given one.
+        /// </summary>
+        /// <param name="other">The angle to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Angle other)
+        {
+            return Value.CompareTo(other.Value);
+        }
+
+        /// <summary>
         /// Tests if another object is equal to this object.
         /// </summary>
         /// <param name="obj">The object to test with.</param>
@@ -240,6 +250,17 @@
         public override String ToString()
         {
             return String.Concat(_value.ToString(), UnitString);
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the angle.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            return String.Concat(_value.ToString(format, formatProvider), UnitString);
         }
 
         #endregion

@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a float value.
     /// </summary>
-    public struct Number : IEquatable<Number>, ICssValue
+    public struct Number : IEquatable<Number>, IComparable<Number>, IFormattable, ICssValue
     {
         #region Basic numbers
 
@@ -195,6 +195,16 @@
         #region Equality
 
         /// <summary>
+        /// Compares the current number against the given one.
+        /// </summary>
+        /// <param name="other">The number to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Number other)
+        {
+            return _value.CompareTo(other._value);
+        }
+
+        /// <summary>
         /// Tests if another object is equal to this object.
         /// </summary>
         /// <param name="obj">The object to test with.</param>
@@ -227,6 +237,17 @@
         public override String ToString()
         {
             return _value.ToString();
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the number.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            return _value.ToString(format, formatProvider);
         }
 
         #endregion

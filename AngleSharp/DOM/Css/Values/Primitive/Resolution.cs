@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    public struct Resolution : IEquatable<Resolution>, ICssValue
+    public struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, IFormattable, ICssValue
     {
         #region Fields
 
@@ -78,6 +78,37 @@
         #region Methods
 
         /// <summary>
+        /// Converts the resolution to a per pixel density.
+        /// </summary>
+        /// <returns>The density in dots per pixels.</returns>
+        public Single ToDotsPerPixel()
+        {
+            if (_unit == Unit.Dpi)
+                return _value / 96f;
+            else if (_unit == Unit.Dpcm)
+                return _value * 127f / (50f * 96f);
+
+            return _value;
+        }
+
+        /// <summary>
+        /// Converts the resolution to the given unit.
+        /// </summary>
+        /// <param name="unit">The unit to convert to.</param>
+        /// <returns>The density in the given unit.</returns>
+        public Single To(Unit unit)
+        {
+            var value = ToDotsPerPixel();
+
+            if (unit == Unit.Dpi)
+                return value * 96f;
+            else if (unit == Unit.Dpcm)
+                return value * 50f * 96f / 127f;
+
+            return value;
+        }
+
+        /// <summary>
         /// Checks if the current resolution equals the given one.
         /// </summary>
         /// <param name="other">The given resolution to check for equality.</param>
@@ -115,6 +146,16 @@
         #region Equality
 
         /// <summary>
+        /// Compares the current resolution against the given one.
+        /// </summary>
+        /// <param name="other">The resolution to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Resolution other)
+        {
+            return ToDotsPerPixel().CompareTo(other.ToDotsPerPixel());
+        }
+
+        /// <summary>
         /// Tests if another object is equal to this object.
         /// </summary>
         /// <param name="obj">The object to test with.</param>
@@ -147,6 +188,17 @@
         public override String ToString()
         {
             return String.Concat(_value.ToString(), UnitString);
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the resolution.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            return String.Concat(_value.ToString(format, formatProvider), UnitString);
         }
 
         #endregion

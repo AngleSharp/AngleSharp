@@ -10,7 +10,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, IComparable<Color>, ICssValue
+    public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable, ICssValue
     {
         #region Basic colors
 
@@ -462,6 +462,17 @@
         public override String ToString()
         {
             return String.Concat("#", alpha.ToString("X2"), red.ToString("X2"), green.ToString("X2"), blue.ToString("X2"));
+        }
+
+        /// <summary>
+        /// Returns a formatted string representing the length.
+        /// </summary>
+        /// <param name="format">The format of the number.</param>
+        /// <param name="formatProvider">The provider to use.</param>
+        /// <returns>The unit string.</returns>
+        public String ToString(String format, IFormatProvider formatProvider)
+        {
+            return String.Concat("#", alpha.ToString("X2", formatProvider), red.ToString("X2", formatProvider), green.ToString("X2", formatProvider), blue.ToString("X2", formatProvider));
         }
 
         #endregion
