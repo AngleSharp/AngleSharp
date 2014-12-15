@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
 
@@ -56,7 +55,7 @@
         /// <summary>
         /// Gets the selected font-size.
         /// </summary>
-        IDistance Size { get; }
+        Length Size { get; }
     }
 
     /// <summary>
@@ -90,7 +89,7 @@
         /// Could also be relative to the font size of the element itself. The computed value
         /// is this percentage multiplied by the element's computed font size.
         /// </summary>
-        IDistance Height { get; }
+        Length Height { get; }
     }
 
     /// <summary>

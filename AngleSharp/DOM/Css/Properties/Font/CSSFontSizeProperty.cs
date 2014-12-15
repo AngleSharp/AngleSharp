@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the selected font-size.
         /// </summary>
-        public IDistance Size
+        public Length Size
         {
             get { return _size; }
         }

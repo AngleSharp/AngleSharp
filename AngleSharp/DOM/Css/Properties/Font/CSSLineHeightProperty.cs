@@ -29,7 +29,7 @@
 
         #region Properties
 
-        public IDistance Height
+        public Length Height
         {
             get { return _height; }
         }
