@@ -38,7 +38,7 @@
         /// the image slice is given it is relative to the height of the border
         /// image area. The percentage must not be negative.
         /// </summary>
-        public IDistance WidthTop
+        public Length WidthTop
         {
             get { return _top; }
         }
@@ -49,7 +49,7 @@
         /// the image slice is given it is relative to the height of the border
         /// image area. The percentage must not be negative.
         /// </summary>
-        public IDistance WidthBottom
+        public Length WidthBottom
         {
             get { return _bottom; }
         }
@@ -60,7 +60,7 @@
         /// the image slice is given it is relative to the width of the border
         /// image area. The percentage must not be negative.
         /// </summary>
-        public IDistance WidthLeft
+        public Length WidthLeft
         {
             get { return _left; }
         }
@@ -71,7 +71,7 @@
         /// the image slice is given it is relative to the width of the border
         /// image area. The percentage must not be negative.
         /// </summary>
-        public IDistance WidthRight
+        public Length WidthRight
         {
             get { return _right; }
         }

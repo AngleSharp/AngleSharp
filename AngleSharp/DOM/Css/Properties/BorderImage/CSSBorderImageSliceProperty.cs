@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        public IDistance SliceTop
+        public Length SliceTop
         {
             get { return _top; }
         }
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        public IDistance SliceRight
+        public Length SliceRight
         {
             get { return _right; }
         }
@@ -62,7 +62,7 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        public IDistance SliceBottom
+        public Length SliceBottom
         {
             get { return _bottom; }
         }
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        public IDistance SliceLeft
+        public Length SliceLeft
         {
             get { return _left; }
         }

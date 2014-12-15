@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the top border.
         /// </summary>
-        public IDistance OutsetTop
+        public Length OutsetTop
         {
             get { return _top; }
         }
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the right border.
         /// </summary>
-        public IDistance OutsetRight
+        public Length OutsetRight
         {
             get { return _right; }
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the bottom border.
         /// </summary>
-        public IDistance OutsetBottom
+        public Length OutsetBottom
         {
             get { return _bottom; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the left border.
         /// </summary>
-        public IDistance OutsetLeft
+        public Length OutsetLeft
         {
             get { return _left; }
         }

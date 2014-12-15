@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the outset bottom width of the border-image.
         /// </summary>
-        public IDistance OutsetBottom
+        public Length OutsetBottom
         {
             get { return _outset.OutsetBottom; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the outset left width of the border-image.
         /// </summary>
-        public IDistance OutsetLeft
+        public Length OutsetLeft
         {
             get { return _outset.OutsetLeft; }
         }
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets the outset right width of the border-image.
         /// </summary>
-        public IDistance OutsetRight
+        public Length OutsetRight
         {
             get { return _outset.OutsetRight; }
         }
@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets the outset top width of the border-image.
         /// </summary>
-        public IDistance OutsetTop
+        public Length OutsetTop
         {
             get { return _outset.OutsetTop; }
         }
@@ -107,7 +107,7 @@
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        public IDistance SliceBottom
+        public Length SliceBottom
         {
             get { return _slice.SliceBottom; }
         }
@@ -115,7 +115,7 @@
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        public IDistance SliceRight
+        public Length SliceRight
         {
             get { return _slice.SliceRight; }
         }
@@ -123,7 +123,7 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        public IDistance SliceTop
+        public Length SliceTop
         {
             get { return _slice.SliceTop; }
         }
@@ -131,7 +131,7 @@
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        public IDistance SliceLeft
+        public Length SliceLeft
         {
             get { return _slice.SliceLeft; }
         }
@@ -144,22 +144,22 @@
             get { return _source.Image; }
         }
 
-        public IDistance WidthTop
+        public Length WidthTop
         {
             get { return _width.WidthTop; }
         }
 
-        public IDistance WidthBottom
+        public Length WidthBottom
         {
             get { return _width.WidthBottom; }
         }
 
-        public IDistance WidthLeft
+        public Length WidthLeft
         {
             get { return _width.WidthLeft; }
         }
 
-        public IDistance WidthRight
+        public Length WidthRight
         {
             get { return _width.WidthRight; }
         }
