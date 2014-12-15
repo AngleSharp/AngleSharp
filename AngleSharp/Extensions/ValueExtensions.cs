@@ -374,50 +374,10 @@
 
         #region Value Calculation
 
-        public static Length Add(this IDistance a, IDistance b)
+        public static Length Add(this Length a, Length b)
         {
             return Length.Zero;
             //TODO return new Compute(a, b, '+');
-        }
-
-        sealed class Compute : IDistance
-        {
-            readonly IDistance _left;
-            readonly IDistance _right;
-            readonly Char _op;
-
-            public Compute(IDistance left, IDistance right, Char op)
-            {
-                _left = left;
-                _right = right;
-                _op = op;
-            }
-
-            public Single ToPixel()
-            {
-                var left = _left.ToPixel();
-                var right = _right.ToPixel();
-
-                switch (_op)
-                {
-                    case '+': return left + right;
-                    case '-': return left - right;
-                    case '*': return left * right;
-                    case '/': return left / right;
-                }
-
-                return 0f;
-            }
-
-            public CssValueType Type
-            {
-                get { return CssValueType.Primitive; }
-            }
-
-            public String CssText
-            {
-                get { return String.Concat(_left.CssText, _op.ToString(), _right.CssText); }
-            }
         }
 
         #endregion

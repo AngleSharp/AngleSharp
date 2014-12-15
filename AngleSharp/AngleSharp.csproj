@@ -359,7 +359,6 @@
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
-    <Compile Include="DOM\Css\Values\Primitive\IDistance.cs" />
     <Compile Include="Css\Values\Point.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Css\Values\Counter.cs" />
