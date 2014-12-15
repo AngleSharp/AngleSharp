@@ -11,7 +11,7 @@
         #region Fields
 
         readonly Color _color;
-        readonly IDistance _location;
+        readonly Length _location;
 
         #endregion
 
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="color">The color of the stop.</param>
         /// <param name="location">The location of the stop.</param>
-        public GradientStop(Color color, IDistance location)
+        public GradientStop(Color color, Length location)
         {
             _color = color;
             _location = location;
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the location of the gradient stop.
         /// </summary>
-        public IDistance Location
+        public Length Location
         {
             get { return _location; }
         }

@@ -26,7 +26,7 @@
 
             for (int i = offset, k = 0; i < values.Length; i++, k++)
             {
-                var stop = ToGradientStop(values[i], new Percent(perStop * k));
+                var stop = ToGradientStop(values[i], new Length(perStop * k, Length.Unit.Percent));
 
                 if (stop == null)
                     return null;
@@ -37,7 +37,7 @@
             return stops;
         }
 
-        public static GradientStop? ToGradientStop(ICssValue value, IDistance location)
+        public static GradientStop? ToGradientStop(ICssValue value, Length? location)
         {
             var values = value as CssValueList;
             var color = Color.Transparent;
@@ -54,7 +54,7 @@
             if (!Converters.ColorConverter.TryConvert(value, m => color = m) || location == null)
                 return null;
 
-            return new GradientStop(color, location);
+            return new GradientStop(color, location.Value);
         }
 
         public Boolean TryConvert(ICssValue value, Action<Tuple<T, GradientStop[]>> setResult)
