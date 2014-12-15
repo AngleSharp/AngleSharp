@@ -1113,9 +1113,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Frequency.cs">
       <Link>DOM\Css\Values\Primitive\Frequency.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\IDistance.cs">
-      <Link>DOM\Css\Values\Primitive\IDistance.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Length.cs">
       <Link>DOM\Css\Values\Primitive\Length.cs</Link>
     </Compile>
