@@ -16,8 +16,8 @@
         internal static readonly IValueConverter<Tuple<Length, Length?>> Converter = Converters.WithOrder(
             SingleConverter.Required(), 
             SingleConverter.ToNullable().Option(null));
-        IDistance _horizontal;
-        IDistance _vertical;
+        Length _horizontal;
+        Length _vertical;
 
         #endregion
 
@@ -61,7 +61,7 @@
 
         #region Methods
 
-        public void SetRadius(IDistance horizontal, IDistance vertical)
+        public void SetRadius(Length horizontal, Length vertical)
         {
             _horizontal = horizontal;
             _vertical = vertical;

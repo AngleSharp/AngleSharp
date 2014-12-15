@@ -25,8 +25,7 @@
                     Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(
                 m => new Point(m.Item1, m.Item2)));
 
-        IDistance _x;
-        IDistance _y;
+        Point _pt;
 
         #endregion
 
@@ -47,7 +46,7 @@
         /// </summary>
         public IDistance X
         {
-            get { return _x; }
+            get { return _pt.X; }
         }
 
         /// <summary>
@@ -55,7 +54,7 @@
         /// </summary>
         public IDistance Y
         {
-            get { return _y; }
+            get { return _pt.Y; }
         }
 
         #endregion
@@ -64,14 +63,12 @@
 
         public void SetPosition(Point pt)
         {
-            _x = pt.X;
-            _y = pt.Y;
+            _pt = pt;
         }
 
         internal override void Reset()
         {
-            _x = Default.X;
-            _y = Default.Y;
+            _pt = Default;
         }
 
         /// <summary>

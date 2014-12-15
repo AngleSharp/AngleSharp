@@ -15,7 +15,7 @@
         internal static readonly VerticalAlignment Default = VerticalAlignment.Baseline;
         internal static readonly IValueConverter<VerticalAlignment> Converter = Map.VerticalAlignments.ToConverter();
         VerticalAlignment _mode;
-        IDistance _shift;
+        Length _shift;
 
         #endregion
 
@@ -62,13 +62,13 @@
         public void SetAlignment(VerticalAlignment mode)
         {
             _mode = mode;
-            _shift = Percent.Zero;
+            _shift = Length.Zero;
         }
 
         internal override void Reset()
         {
             _mode = Default;
-            _shift = Percent.Zero;
+            _shift = Length.Zero;
         }
 
         /// <summary>

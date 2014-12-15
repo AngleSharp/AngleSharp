@@ -14,10 +14,10 @@
 
         internal static readonly Length Default = Length.Full;
         internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> Converter = Converters.ImageBorderWidthConverter.Periodic();
-        IDistance _top;
-        IDistance _right;
-        IDistance _bottom;
-        IDistance _left;
+        Length _top;
+        Length _right;
+        Length _bottom;
+        Length _left;
 
         #endregion
 
@@ -80,7 +80,7 @@
 
         #region Methods
 
-        void SetWidth(IDistance top, IDistance right, IDistance bottom, IDistance left)
+        void SetWidth(Length top, Length right, Length bottom, Length left)
         {
             _top = top;
             _right = right;
