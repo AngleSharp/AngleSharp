@@ -66,11 +66,15 @@
         {
             var doc = DocumentBuilder.Html(Helper.StreamFromBytes(Assets.trade_500), configuration);
             var tr = doc.QuerySelector("tr[mid=375][ordernum=375]");
+            var ct = doc.QuerySelector(".countdown_time[title][style]");
+            var ni = doc.QuerySelector("*[fid=443861][homesxname]");
 
             Assert.AreEqual("【单场胜负过关】投注|合买|代购_体彩单场胜负过关游戏_500彩票网", doc.Title);
             Assert.AreEqual("足球", tr.GetAttribute("matchtype"));
             Assert.AreEqual("足球-欧罗巴", tr.GetAttribute("lg"));
             Assert.AreEqual("布鲁日", tr.GetAttribute("homesxname"));
+            Assert.AreEqual("剩余时间", ct.GetAttribute("title"));
+            Assert.AreEqual("克卢日", ni.GetAttribute("homesxname"));
         }
     }
 }
