@@ -242,8 +242,8 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<RadialGradient>(image);
             var gradient = image as RadialGradient;
-            Assert.AreEqual(Percent.Fifty, gradient.X);
-            Assert.AreEqual(Percent.Fifty, gradient.Y);
+            Assert.AreEqual(Length.Half, gradient.X);
+            Assert.AreEqual(Length.Half, gradient.Y);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -263,8 +263,8 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<RadialGradient>(image);
             var gradient = image as RadialGradient;
-            Assert.AreEqual(Percent.Fifty, gradient.X);
-            Assert.AreEqual(Percent.Fifty, gradient.Y);
+            Assert.AreEqual(Length.Half, gradient.X);
+            Assert.AreEqual(Length.Half, gradient.Y);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -284,8 +284,8 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<RadialGradient>(image);
             var gradient = image as RadialGradient;
-            Assert.AreEqual(Percent.Fifty, gradient.X);
-            Assert.AreEqual(Percent.Fifty, gradient.Y);
+            Assert.AreEqual(Length.Half, gradient.X);
+            Assert.AreEqual(Length.Half, gradient.Y);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -305,8 +305,8 @@
             var image = backgroundImage.Images.First();
             Assert.IsInstanceOf<RadialGradient>(image);
             var gradient = image as RadialGradient;
-            Assert.AreEqual(Percent.Fifty, gradient.X);
-            Assert.AreEqual(Percent.Fifty, gradient.Y);
+            Assert.AreEqual(Length.Half, gradient.X);
+            Assert.AreEqual(Length.Half, gradient.Y);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
