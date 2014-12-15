@@ -19,7 +19,7 @@
 
         #region Property
 
-        public IDistance Right
+        public Length Right
         {
             get { return Padding; }
         }

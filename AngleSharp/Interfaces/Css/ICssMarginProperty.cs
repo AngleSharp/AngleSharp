@@ -11,7 +11,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        IDistance Top { get; }
+        Length? Top { get; }
     }
 
     /// <summary>
@@ -23,7 +23,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        IDistance Right { get; }
+        Length? Right { get; }
     }
 
     /// <summary>
@@ -35,7 +35,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        IDistance Left { get; }
+        Length? Left { get; }
     }
 
     /// <summary>
@@ -47,7 +47,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        IDistance Bottom { get; }
+        Length? Bottom { get; }
     }
 
     /// <summary>

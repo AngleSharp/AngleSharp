@@ -41,7 +41,7 @@
         /// Gets the margin relative to the width of the containing block or
         /// a fixed width, if any.
         /// </summary>
-        internal IDistance Margin
+        internal Length? Margin
         {
             get { return _margin; }
         }
