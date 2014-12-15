@@ -10,12 +10,12 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-right radius.
         /// </summary>
-        IDistance HorizontalBottomRight { get; }
+        Length HorizontalBottomRight { get; }
 
         /// <summary>
         /// Gets the value of the vertical bottom-right radius.
         /// </summary>
-        IDistance VerticalBottomRight { get; }
+        Length VerticalBottomRight { get; }
     }
 
     /// <summary>
@@ -26,12 +26,12 @@
         /// <summary>
         /// Gets the value of the horizontal top-right radius.
         /// </summary>
-        IDistance HorizontalTopRight { get; }
+        Length HorizontalTopRight { get; }
 
         /// <summary>
         /// Gets the value of the vertical top-right radius.
         /// </summary>
-        IDistance VerticalTopRight { get; }
+        Length VerticalTopRight { get; }
     }
 
     /// <summary>
@@ -42,12 +42,12 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-left radius.
         /// </summary>
-        IDistance HorizontalBottomLeft { get; }
+        Length HorizontalBottomLeft { get; }
 
         /// <summary>
         /// Gets the value of the vertical bottom-left radius.
         /// </summary>
-        IDistance VerticalBottomLeft { get; }
+        Length VerticalBottomLeft { get; }
     }
 
     /// <summary>
@@ -58,12 +58,12 @@
         /// <summary>
         /// Gets the value of the horizontal top-left radius.
         /// </summary>
-        IDistance HorizontalTopLeft { get; }
+        Length HorizontalTopLeft { get; }
 
         /// <summary>
         /// Gets the value of the vertical top-left radius.
         /// </summary>
-        IDistance VerticalTopLeft { get; }
+        Length VerticalTopLeft { get; }
     }
 
     /// <summary>

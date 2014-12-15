@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the horizontal radius of the ellipse.
         /// </summary>
-        public IDistance HorizontalRadius
+        public Length HorizontalRadius
         {
             get { return _horizontal; }
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the vertical radius of the ellipse.
         /// </summary>
-        public IDistance VerticalRadius
+        public Length VerticalRadius
         {
             get { return _vertical; }
         }
