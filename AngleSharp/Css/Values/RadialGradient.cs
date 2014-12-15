@@ -17,6 +17,8 @@
         readonly Point _pt;
         readonly Point _size;
         readonly Boolean _repeating;
+        readonly Boolean _circle;
+        readonly SizeMode _sizeMode;
 
         #endregion
 
@@ -35,6 +37,8 @@
             _pt = pt;
             _size = size;
             _repeating = repeating;
+            _circle = false;
+            _sizeMode = SizeMode.None;
         }
 
         #endregion
@@ -42,9 +46,25 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the gradient should always be displayed as a circle.
+        /// </summary>
+        public Boolean IsCircle
+        {
+            get { return _circle; }
+        }
+
+        /// <summary>
+        /// Gets the special size mode of the gradient.
+        /// </summary>
+        public SizeMode Mode
+        {
+            get { return _sizeMode; }
+        }
+
+        /// <summary>
         /// Gets the x-position.
         /// </summary>
-        public IDistance X
+        public Length X
         {
             get { return _pt.X; }
         }
@@ -52,7 +72,7 @@
         /// <summary>
         /// Gets the y-position.
         /// </summary>
-        public IDistance Y
+        public Length Y
         {
             get { return _pt.Y; }
         }
@@ -60,7 +80,7 @@
         /// <summary>
         /// Gets the width.
         /// </summary>
-        public IDistance Width
+        public Length Width
         {
             get { return _size.X; }
         }
@@ -68,7 +88,7 @@
         /// <summary>
         /// Gets the height.
         /// </summary>
-        public IDistance Height
+        public Length Height
         {
             get { return _size.Y; }
         }
@@ -88,6 +108,37 @@
         {
             get { return _repeating; }
         } 
+
+        #endregion
+
+        #region Sizes
+
+        /// <summary>
+        /// Enumeration with special size modes.
+        /// </summary>
+        public enum SizeMode
+        {
+            /// <summary>
+            /// No special size mode set.
+            /// </summary>
+            None,
+            /// <summary>
+            /// Size up to the closest corner.
+            /// </summary>
+            ClosestCorner,
+            /// <summary>
+            /// Size up to the closest side.
+            /// </summary>
+            ClosestSide,
+            /// <summary>
+            /// Size up to the farthest corner.
+            /// </summary>
+            FarthestCorner,
+            /// <summary>
+            /// Size up to the farthest side.
+            /// </summary>
+            FarthestSide
+        }
 
         #endregion
     }

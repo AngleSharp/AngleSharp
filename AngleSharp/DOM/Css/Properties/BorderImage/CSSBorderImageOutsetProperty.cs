@@ -12,12 +12,12 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Zero;
+        internal static readonly Length Default = Length.Zero;
         internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> Converter = Converters.LengthOrPercentConverter.Periodic();
-        IDistance _top;
-        IDistance _right;
-        IDistance _bottom;
-        IDistance _left;
+        Length _top;
+        Length _right;
+        Length _bottom;
+        Length _left;
 
         #endregion
 
@@ -68,7 +68,7 @@
 
         #region Methods
 
-        void SetOutset(IDistance top, IDistance right, IDistance bottom, IDistance left)
+        void SetOutset(Length top, Length right, Length bottom, Length left)
         {
             _top = top;
             _right = right;

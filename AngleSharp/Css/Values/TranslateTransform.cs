@@ -9,19 +9,47 @@
     {
         #region Fields
 
-        readonly IDistance _x;
-        readonly IDistance _y;
-        readonly IDistance _z;
+        readonly Length _x;
+        readonly Length _y;
+        readonly Length _z;
 
         #endregion
 
         #region ctor
 
-        internal TranslateTransform(IDistance x, IDistance y, IDistance z)
+        internal TranslateTransform(Length x, Length y, Length z)
         {
             _x = x;
             _y = y;
             _z = z;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the shift in x-direction.
+        /// </summary>
+        public Length Dx
+        {
+            get { return _x; }
+        }
+
+        /// <summary>
+        /// Gets the shift in y-direction.
+        /// </summary>
+        public Length Dy
+        {
+            get { return _y; }
+        }
+
+        /// <summary>
+        /// Gets the shift in z-direction.
+        /// </summary>
+        public Length Dz
+        {
+            get { return _z; }
         }
 
         #endregion

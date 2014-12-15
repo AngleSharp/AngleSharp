@@ -23,10 +23,10 @@
             Converters.Assign(Keywords.Fill, true).Option(false)
         );
 
-        IDistance _top;
-        IDistance _right;
-        IDistance _bottom;
-        IDistance _left;
+        Length _top;
+        Length _right;
+        Length _bottom;
+        Length _left;
         Boolean _fill;
 
         #endregion
@@ -87,7 +87,7 @@
 
         #region Methods
 
-        void SetSlice(IDistance top, IDistance right, IDistance bottom, IDistance left, Boolean fill = false)
+        void SetSlice(Length top, Length? right, Length? bottom, Length? left, Boolean fill)
         {
             _top = top;
             _right = right ?? _top;
