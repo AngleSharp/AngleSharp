@@ -33,7 +33,7 @@
         /// Gets the indentation, which is either a percentage of the containing block width
         /// or specified as fixed length. Negative values are allowed.
         /// </summary>
-        public IDistance Indent
+        public Length Indent
         {
             get { return _indent; }
         }

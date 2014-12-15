@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the position of the abscissa of the vanishing point.
         /// </summary>
-        public IDistance X
+        public Length X
         {
             get { return _pt.X; }
         }
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the position of the ordinate of the vanishing point.
         /// </summary>
-        public IDistance Y
+        public Length Y
         {
             get { return _pt.Y; }
         }

@@ -36,7 +36,7 @@
         /// the baseline of its parent or like absolute values, with the percentage
         /// being a percent of the line-height property.
         /// </summary>
-        public IDistance Shift
+        public Length Shift
         {
             get { return _shift; }
         }

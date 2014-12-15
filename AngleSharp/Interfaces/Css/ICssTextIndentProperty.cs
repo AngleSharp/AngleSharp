@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-
     /// <summary>
     /// Represents the CSS text-indent property.
     /// </summary>
@@ -11,6 +9,6 @@
         /// Gets the indentation, which is either a percentage of the containing block width
         /// or specified as fixed length. Negative values are allowed.
         /// </summary>
-        IDistance Indent { get; }
+        Length Indent { get; }
     }
 }

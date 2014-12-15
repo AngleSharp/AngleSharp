@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-
     /// <summary>
     /// Represents the CSS perspective-origin property.
     /// </summary>
@@ -10,11 +8,11 @@
         /// <summary>
         /// Gets the position of the abscissa of the vanishing point.
         /// </summary>
-        IDistance X { get; }
+        Length X { get; }
 
         /// <summary>
         /// Gets the position of the ordinate of the vanishing point.
         /// </summary>
-        IDistance Y { get; }
+        Length Y { get; }
     }
 }
