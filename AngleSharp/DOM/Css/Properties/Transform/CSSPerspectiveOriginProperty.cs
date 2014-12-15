@@ -13,13 +13,13 @@
     {
         #region Fields
 
-        internal static readonly Point Default = Point.Centered;
+        internal static readonly Point Default = Point.Center;
         internal static readonly IValueConverter<Point> Converter = Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(
-                Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
-                Keywords.Center, new Point(Percent.Fifty, Percent.Fifty)).Or(
-                Keywords.Right, new Point(Percent.Hundred, Percent.Fifty)).Or(
-                Keywords.Top, new Point(Percent.Fifty, Percent.Zero)).Or(
-                Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)).Or(
+                Keywords.Left, new Point(Length.Zero, Length.Half)).Or(
+                Keywords.Center, new Point(Length.Half, Length.Half)).Or(
+                Keywords.Right, new Point(Length.Full, Length.Half)).Or(
+                Keywords.Top, new Point(Length.Half, Length.Zero)).Or(
+                Keywords.Bottom, new Point(Length.Half, Length.Full)).Or(
                 Converters.WithAny(
                     Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
                     Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(

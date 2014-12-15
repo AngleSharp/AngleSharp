@@ -158,10 +158,10 @@
             var h = hi.Or(LengthOrPercentConverter).Required();
             var v = vi.Or(LengthOrPercentConverter).Required();
 
-            return LengthOrPercentConverter.To(m => new Point(x: m)).Or(
-                   Toggle(Keywords.Left, Keywords.Right).To(m => new Point(x: m ? Percent.Zero : Percent.Hundred))).Or(
-                   Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(y: m ? Percent.Zero : Percent.Hundred))).Or(
-                   Keywords.Center, new Point()).Or(
+            return LengthOrPercentConverter.To(m => new Point(m, Length.Half)).Or(
+                   Toggle(Keywords.Left, Keywords.Right).To(m => new Point(m ? Length.Zero : Length.Full, Length.Half))).Or(
+                   Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(Length.Half, m ? Length.Zero : Length.Full))).Or(
+                   Keywords.Center, Point.Center).Or(
                    WithArgs(h, v, m => new Point(m.Item1, m.Item2))).Or(
                    WithArgs(v, h, m => new Point(m.Item2, m.Item1))).Or(
                    WithArgs(hi, vi, LengthOrPercentConverter, m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
@@ -246,22 +246,14 @@
         /// </summary>
         public static readonly IValueConverter<RadialGradient> RadialGradientConverter = Construct(() =>
         {
-            //TODO
-            //Determine first argument (if any):
-            // [ <ending-shape> || <size> ]? [ at <position> ]?
-            //where:
-            // <size> = [ <predefined> | <length> | [ <length> | <percentage> ]{2} ]
-            // <ending-shape> = [ ellipse | circle ]
-            // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
-
             var distance = LengthOrPercentConverter.Required();
-            var center = new Point(Percent.Fifty, Percent.Fifty);
-            var zeroSize = new Point(Percent.Zero, Percent.Zero);
-            var defaults = Tuple.Create(zeroSize, center);
-            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle).To(m => zeroSize);
-            var predefinedSize = IdentifierConverter.Constraint(m => m.IsOneOf(Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => new Point(Percent.Zero, Percent.Zero));
+            var defaults = Tuple.Create(Point.RightBottom, Point.Center);
+            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle);
+            var predefinedSize = IdentifierConverter.Constraint(m => m.IsOneOf(
+                Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => Point.RightBottom);
             var size = predefinedSize.Or(LengthConverter.To(m => new Point(m, m))).Or(WithArgs(distance, distance, m => new Point(m.Item1, m.Item2)));
-            var dimensions = WithOrder(WithAny(endingShape.Option(zeroSize), size.Option(zeroSize)), WithOrder(Assign(Keywords.At, true).Required(), PointConverter.Required()).Option(Tuple.Create(true, center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
+            var dimensions = WithOrder(WithAny(endingShape.Option(true), size.Option(Point.LeftTop)), WithOrder(
+                Assign(Keywords.At, true).Required(), PointConverter.Required()).Option(Tuple.Create(true, Point.Center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
             var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,

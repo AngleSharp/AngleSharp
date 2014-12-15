@@ -374,9 +374,10 @@
 
         #region Value Calculation
 
-        public static IDistance Add(this IDistance a, IDistance b)
+        public static Length Add(this IDistance a, IDistance b)
         {
-            return new Compute(a, b, '+');
+            return Length.Zero;
+            //TODO return new Compute(a, b, '+');
         }
 
         sealed class Compute : IDistance
