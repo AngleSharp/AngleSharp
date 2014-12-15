@@ -220,7 +220,7 @@
             Assert.IsInstanceOf<RadialGradient>(image);
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(60f, Length.Unit.Px), gradient.X);
-            Assert.AreEqual(new Percent(50f), gradient.Y);
+            Assert.AreEqual(Length.Half, gradient.Y);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(4, stops.Length);
             Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[0].Color);

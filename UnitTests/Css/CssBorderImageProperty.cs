@@ -347,10 +347,10 @@ namespace UnitTests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual(true, concrete.IsFilled);
-            Assert.AreEqual(Percent.Hundred, concrete.SliceLeft);
-            Assert.AreEqual(Percent.Hundred, concrete.SliceRight);
-            Assert.AreEqual(Percent.Hundred, concrete.SliceTop);
-            Assert.AreEqual(Percent.Hundred, concrete.SliceBottom);
+            Assert.AreEqual(Length.Full, concrete.SliceLeft);
+            Assert.AreEqual(Length.Full, concrete.SliceRight);
+            Assert.AreEqual(Length.Full, concrete.SliceTop);
+            Assert.AreEqual(Length.Full, concrete.SliceBottom);
         }
 
         [Test]
