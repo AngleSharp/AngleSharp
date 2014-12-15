@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = FontSize.Medium.ToDistance();
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(Map.FontSizes.ToConverter().To(m => m.ToDistance()));
-        IDistance _size;
+        internal static readonly Length Default = FontSize.Medium.ToLength();
+        internal static readonly IValueConverter<Length> Converter = Converters.LengthOrPercentConverter.Or(Map.FontSizes.ToConverter().To(m => m.ToLength()));
+        Length _size;
 
         #endregion
 
@@ -42,7 +42,7 @@
 
         #region Methods
 
-        void SetSize(IDistance size)
+        void SetSize(Length size)
         {
             _size = size;
         }

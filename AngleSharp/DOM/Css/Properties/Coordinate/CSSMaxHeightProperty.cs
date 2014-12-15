@@ -12,12 +12,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = null;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter.Or(Keywords.None, Default);
-        /// <summary>
-        /// No limit on the height of the box if _mode == null.
-        /// </summary>
-        IDistance _mode;
+        internal static readonly Length? Default = null;
+        internal static readonly IValueConverter<Length?> Converter = Converters.LengthOrPercentConverter.ToNullable().Or(Keywords.None, Default);
+        Length? _mode;
 
         #endregion
 
@@ -48,7 +45,7 @@
 
         #region Methods
 
-        public void SetLimit(IDistance mode)
+        public void SetLimit(Length? mode)
         {
             _mode = mode;
         }

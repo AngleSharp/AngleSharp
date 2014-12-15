@@ -20,19 +20,19 @@
         /// Represents a distance object with line-height additions.
         /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
         /// </summary>
-        public static readonly IValueConverter<IDistance> LineHeightConverter = new ClassValueConverter<IDistance>(ValueExtensions.ToLineHeight);
+        public static readonly IValueConverter<Length> LineHeightConverter = new StructValueConverter<Length>(ValueExtensions.ToLineHeight);
 
         /// <summary>
         /// Represents a length object that is based on percentage or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
         /// </summary>
-        public static readonly IValueConverter<IDistance> BorderSliceConverter = new ClassValueConverter<IDistance>(ValueExtensions.ToBorderSlice);
+        public static readonly IValueConverter<Length> BorderSliceConverter = new StructValueConverter<Length>(ValueExtensions.ToBorderSlice);
 
         /// <summary>
         /// Represents a length object that is based on percentage, length or number.
         /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
         /// </summary>
-        public static readonly IValueConverter<IDistance> ImageBorderWidthConverter = new ClassValueConverter<IDistance>(ValueExtensions.ToImageBorderWidth);
+        public static readonly IValueConverter<Length> ImageBorderWidthConverter = new StructValueConverter<Length>(ValueExtensions.ToImageBorderWidth);
 
         /// <summary>
         /// Represents a length object.
@@ -121,12 +121,12 @@
         /// <summary>
         /// Represents a distance object (either Length or Percent).
         /// </summary>
-        public static readonly IValueConverter<IDistance> DistanceConverter = new ClassValueConverter<IDistance>(ValueExtensions.ToDistance);
+        public static readonly IValueConverter<Length> LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
 
         /// <summary>
         /// Represents a distance object (or default).
         /// </summary>
-        public static readonly IValueConverter<IDistance> AutoDistanceConverter = DistanceConverter.OrDefault();
+        public static readonly IValueConverter<Length?> AutoLengthOrPercentConverter = LengthOrPercentConverter.OrNullDefault();
 
         /// <summary>
         /// Represents an color object (usually hex or name).
@@ -153,20 +153,20 @@
         /// </summary>
         public static readonly IValueConverter<Point> PointConverter = Construct(() =>
         {
-            var hi = Assign(Keywords.Left, (IDistance)Percent.Zero).Or(Keywords.Right, Percent.Hundred).Or(Keywords.Center, Percent.Fifty);
-            var vi = Assign(Keywords.Top, (IDistance)Percent.Zero).Or(Keywords.Bottom, Percent.Hundred).Or(Keywords.Center, Percent.Fifty);
-            var h = hi.Or(DistanceConverter).Required();
-            var v = vi.Or(DistanceConverter).Required();
+            var hi = Assign(Keywords.Left, Length.Zero).Or(Keywords.Right, new Length(100f, Length.Unit.Percent)).Or(Keywords.Center, new Length(50f, Length.Unit.Percent));
+            var vi = Assign(Keywords.Top, Length.Zero).Or(Keywords.Bottom, new Length(100f, Length.Unit.Percent)).Or(Keywords.Center, new Length(50f, Length.Unit.Percent));
+            var h = hi.Or(LengthOrPercentConverter).Required();
+            var v = vi.Or(LengthOrPercentConverter).Required();
 
-            return DistanceConverter.To(m => new Point(x: m)).Or(
+            return LengthOrPercentConverter.To(m => new Point(x: m)).Or(
                    Toggle(Keywords.Left, Keywords.Right).To(m => new Point(x: m ? Percent.Zero : Percent.Hundred))).Or(
                    Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(y: m ? Percent.Zero : Percent.Hundred))).Or(
                    Keywords.Center, new Point()).Or(
                    WithArgs(h, v, m => new Point(m.Item1, m.Item2))).Or(
                    WithArgs(v, h, m => new Point(m.Item2, m.Item1))).Or(
-                   WithArgs(hi, vi, DistanceConverter, m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
-                   WithArgs(hi, DistanceConverter, vi, m => new Point(m.Item1.Add(m.Item2), m.Item3))).Or(
-                   WithArgs(hi, DistanceConverter, vi, DistanceConverter, m => new Point(m.Item1.Add(m.Item2), m.Item3.Add(m.Item4))));
+                   WithArgs(hi, vi, LengthOrPercentConverter, m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
+                   WithArgs(hi, LengthOrPercentConverter, vi, m => new Point(m.Item1.Add(m.Item2), m.Item3))).Or(
+                   WithArgs(hi, LengthOrPercentConverter, vi, LengthOrPercentConverter, m => new Point(m.Item1.Add(m.Item2), m.Item3.Add(m.Item4))));
         });
 
         /// <summary>
@@ -254,7 +254,7 @@
             // <ending-shape> = [ ellipse | circle ]
             // <predefined> = [ closest-side | closest-corner | farthest-side | farthest-corner ]
 
-            var distance = DistanceConverter.Required();
+            var distance = LengthOrPercentConverter.Required();
             var center = new Point(Percent.Fifty, Percent.Fifty);
             var zeroSize = new Point(Percent.Zero, Percent.Zero);
             var defaults = Tuple.Create(zeroSize, center);
@@ -341,18 +341,18 @@
         /// </summary>
         public static readonly IValueConverter<TranslateTransform> TranslateTransformConverter = Construct(() =>
         {
-            var distance = DistanceConverter.Required();
-            var option = DistanceConverter.Option(Length.Zero);
+            var distance = LengthOrPercentConverter.Required();
+            var option = LengthOrPercentConverter.Option(Length.Zero);
             return new FunctionValueConverter<TranslateTransform>(FunctionNames.Translate,
                         WithArgs(distance, option, m => new TranslateTransform(m.Item1, m.Item2, Length.Zero))).Or(
                    new FunctionValueConverter<TranslateTransform>(FunctionNames.Translate3d,
                         WithArgs(distance, option, option, m => new TranslateTransform(m.Item1, m.Item2, m.Item3)))).Or(
                    new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateX,
-                        WithArg(DistanceConverter.To(m => new TranslateTransform(m, Length.Zero, Length.Zero))))).Or(
+                        WithArg(LengthOrPercentConverter.To(m => new TranslateTransform(m, Length.Zero, Length.Zero))))).Or(
                    new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateY,
-                        WithArg(DistanceConverter.To(m => new TranslateTransform(Length.Zero, m, Length.Zero))))).Or(
+                        WithArg(LengthOrPercentConverter.To(m => new TranslateTransform(Length.Zero, m, Length.Zero))))).Or(
                    new FunctionValueConverter<TranslateTransform>(FunctionNames.TranslateZ,
-                        WithArg(DistanceConverter.To(m => new TranslateTransform(Length.Zero, Length.Zero, m)))));
+                        WithArg(LengthOrPercentConverter.To(m => new TranslateTransform(Length.Zero, Length.Zero, m)))));
         });
 
         /// <summary>

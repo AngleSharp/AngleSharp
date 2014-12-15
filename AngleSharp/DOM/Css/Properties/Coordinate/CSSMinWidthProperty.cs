@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter;
-        IDistance _mode;
+        internal static readonly Length Default = Length.Zero;
+        internal static readonly IValueConverter<Length> Converter = Converters.LengthOrPercentConverter;
+        Length _mode;
 
         #endregion
 
@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetLimit(IDistance mode)
+        public void SetLimit(Length mode)
         {
             _mode = mode;
         }

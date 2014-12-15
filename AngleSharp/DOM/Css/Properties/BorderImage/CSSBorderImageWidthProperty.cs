@@ -12,8 +12,8 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Hundred;
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = Converters.ImageBorderWidthConverter.Periodic();
+        internal static readonly Length Default = Length.Full;
+        internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> Converter = Converters.ImageBorderWidthConverter.Periodic();
         IDistance _top;
         IDistance _right;
         IDistance _bottom;

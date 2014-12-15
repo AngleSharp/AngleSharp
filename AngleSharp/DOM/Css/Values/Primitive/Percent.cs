@@ -50,11 +50,19 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value (0 to 1).
+        /// Gets the normalized value (0 to 1).
         /// </summary>
         public Single NormalizedValue
         {
             get { return _value * 0.01f; }
+        }
+
+        /// <summary>
+        /// Gets the usual value (0 to 100).
+        /// </summary>
+        public Single Value
+        {
+            get { return _value; }
         }
 
         #endregion

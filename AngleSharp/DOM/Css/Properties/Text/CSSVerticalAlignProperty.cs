@@ -53,7 +53,7 @@
 
         #region Methods
 
-        public void SetAlignment(IDistance shift)
+        public void SetAlignment(Length shift)
         {
             _shift = shift;
             _mode = VerticalAlignment.Baseline;
@@ -78,7 +78,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converters.DistanceConverter.TryConvert(value, SetAlignment) || Converter.TryConvert(value, SetAlignment);
+            return Converters.LengthOrPercentConverter.TryConvert(value, SetAlignment) || Converter.TryConvert(value, SetAlignment);
         }
 
         #endregion

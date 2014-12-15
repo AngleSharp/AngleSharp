@@ -14,12 +14,12 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Hundred;
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance, Boolean>> Converter = Converters.WithAny(
+        internal static readonly Length Default = new Length(100f, Length.Unit.Percent);
+        internal static readonly IValueConverter<Tuple<Length, Length?, Length?, Length?, Boolean>> Converter = Converters.WithAny(
             Converters.BorderSliceConverter.Option(Default),
-            Converters.BorderSliceConverter.Option(null),
-            Converters.BorderSliceConverter.Option(null),
-            Converters.BorderSliceConverter.Option(null),
+            Converters.BorderSliceConverter.ToNullable().Option(null),
+            Converters.BorderSliceConverter.ToNullable().Option(null),
+            Converters.BorderSliceConverter.ToNullable().Option(null),
             Converters.Assign(Keywords.Fill, true).Option(false)
         );
 

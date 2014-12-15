@@ -11,11 +11,11 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<IDistance> SingleConverter = Converters.DistanceConverter;
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance>> Converter = Converters.WithOrder(
+        internal static readonly Length Default = Length.Zero;
+        internal static readonly IValueConverter<Length> SingleConverter = Converters.LengthOrPercentConverter;
+        internal static readonly IValueConverter<Tuple<Length, Length?>> Converter = Converters.WithOrder(
             SingleConverter.Required(), 
-            SingleConverter.Option(null));
+            SingleConverter.ToNullable().Option(null));
         IDistance _horizontal;
         IDistance _vertical;
 

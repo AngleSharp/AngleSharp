@@ -152,12 +152,12 @@
             return value as CssUrl;
         }
 
-        public static IDistance ToBorderSlice(this ICssValue value)
+        public static Length? ToBorderSlice(this ICssValue value)
         {
             var percent = value.ToPercent();
 
             if (percent.HasValue)
-                return percent.Value;
+                return new Length(percent.Value.Value, Length.Unit.Percent);
 
             var number = value.ToSingle();
 
@@ -167,39 +167,41 @@
             return null;
         }
 
-        public static IDistance ToLineHeight(this ICssValue value)
+        public static Length? ToLineHeight(this ICssValue value)
         {
             var distance = value.ToDistance();
 
             if (distance != null)
                 return distance;
             else if (value.Is(Keywords.Normal))
-                return new Percent(120f);
+                return new Length(120f, Length.Unit.Percent);
 
             var val = value.ToSingle();
 
             if (val.HasValue)
-                return new Percent(val.Value * 100f);
+                return new Length(val.Value * 100f, Length.Unit.Percent);
 
             return null;
         }
 
-        public static IDistance ToDistance(this ICssValue value)
+        public static Length? ToDistance(this ICssValue value)
         {
-            var primitive = value as IDistance;
+            var percent = value as Percent?;
 
-            if (primitive == null)
+            if (percent == null)
             {
                 var number = value as Number?;
 
                 if (number.HasValue && number.Value == Number.Zero)
                     return Length.Zero;
             }
+            else
+                return new Length(percent.Value.Value, Length.Unit.Percent);
 
-            return primitive;
+            return value as Length?;
         }
 
-        public static IDistance ToDistance(this FontSize fontSize)
+        public static Length ToLength(this FontSize fontSize)
         {
             switch (fontSize)
             {
@@ -210,13 +212,13 @@
                 case FontSize.Large://1.2em
                     return new Length(1.2f, Length.Unit.Em);
                 case FontSize.Larger://*120%
-                    return new Percent(120f);
+                    return new Length(120f, Length.Unit.Percent);
                 case FontSize.Little://0.75em
                     return new Length(0.75f, Length.Unit.Em);
                 case FontSize.Small://8/9em
                     return new Length(8f / 9f, Length.Unit.Em);
                 case FontSize.Smaller://*80%
-                    return new Percent(80f);
+                    return new Length(80f, Length.Unit.Percent);
                 case FontSize.Tiny://0.6em
                     return new Length(0.6f, Length.Unit.Em);
                 default://1em
@@ -301,9 +303,9 @@
 
         public static Length? ToLength(this ICssValue value)
         {
-            var primitive = value as Length?;
+            var length = value as Length?;
 
-            if (primitive == null)
+            if (length == null)
             {
                 var number = value as Number?;
 
@@ -311,7 +313,7 @@
                     return Length.Zero;
             }
 
-            return primitive;
+            return length;
         }
 
         public static Resolution? ToResolution(this ICssValue value)
@@ -324,15 +326,15 @@
             return value as Time?;
         }
 
-        public static IDistance ToImageBorderWidth(this ICssValue value)
+        public static Length? ToImageBorderWidth(this ICssValue value)
         {
             if (value.Is(Keywords.Auto))
-                return Percent.Hundred;
+                return new Length(100f, Length.Unit.Percent);
 
             var multiple = value.ToSingle();
 
             if (multiple.HasValue)
-                return new Percent(multiple.Value * 100f);
+                return new Length(multiple.Value * 100f, Length.Unit.Percent);
 
             return value.ToDistance();
         }

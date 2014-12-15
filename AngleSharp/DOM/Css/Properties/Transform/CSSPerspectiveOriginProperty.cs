@@ -14,15 +14,15 @@
         #region Fields
 
         internal static readonly Point Default = Point.Centered;
-        internal static readonly IValueConverter<Point> Converter = Converters.DistanceConverter.To(m => new Point(m, m)).Or(
+        internal static readonly IValueConverter<Point> Converter = Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(
                 Keywords.Left, new Point(Percent.Zero, Percent.Fifty)).Or(
                 Keywords.Center, new Point(Percent.Fifty, Percent.Fifty)).Or(
                 Keywords.Right, new Point(Percent.Hundred, Percent.Fifty)).Or(
                 Keywords.Top, new Point(Percent.Fifty, Percent.Zero)).Or(
                 Keywords.Bottom, new Point(Percent.Fifty, Percent.Hundred)).Or(
                 Converters.WithAny(
-                    Converters.DistanceConverter.Or(Keywords.Left, Percent.Zero).Or(Keywords.Right, Percent.Hundred).Or(Keywords.Center, Percent.Fifty).Option(Percent.Fifty),
-                    Converters.DistanceConverter.Or(Keywords.Top, Percent.Zero).Or(Keywords.Bottom, Percent.Hundred).Or(Keywords.Center, Percent.Fifty).Option(Percent.Fifty)).To(
+                    Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
+                    Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(
                 m => new Point(m.Item1, m.Item2)));
 
         IDistance _x;

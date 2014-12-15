@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = null;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.AutoDistanceConverter;
-        IDistance _distance;
+        internal static readonly Length? Default = null;
+        internal static readonly IValueConverter<Length?> Converter = Converters.AutoLengthOrPercentConverter;
+        Length? _distance;
 
         #endregion
 
@@ -50,7 +50,7 @@
 
         #region Methods
 
-        public void SetPosition(IDistance distance)
+        public void SetPosition(Length? distance)
         {
             _distance = distance;
         }

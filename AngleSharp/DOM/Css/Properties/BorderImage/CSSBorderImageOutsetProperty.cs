@@ -13,7 +13,7 @@
         #region Fields
 
         internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<Tuple<IDistance, IDistance, IDistance, IDistance>> Converter = Converters.DistanceConverter.Periodic();
+        internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> Converter = Converters.LengthOrPercentConverter.Periodic();
         IDistance _top;
         IDistance _right;
         IDistance _bottom;

@@ -17,6 +17,16 @@
         public static readonly Length Zero = new Length();
 
         /// <summary>
+        /// Gets the half relative length, i.e. 50%.
+        /// </summary>
+        public static readonly Length Half = new Length(50f, Unit.Percent);
+
+        /// <summary>
+        /// Gets the full relative length, i.e. 100%.
+        /// </summary>
+        public static readonly Length Full = new Length(100f, Unit.Percent);
+
+        /// <summary>
         /// Gets a thin length value.
         /// </summary>
         public static readonly Length Thin = new Length(1f, Unit.Px);

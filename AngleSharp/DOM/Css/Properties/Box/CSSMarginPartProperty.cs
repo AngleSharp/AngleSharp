@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.AutoDistanceConverter;
-        IDistance _margin;
+        internal static readonly Length Default = Length.Zero;
+        internal static readonly IValueConverter<Length?> Converter = Converters.AutoLengthOrPercentConverter;
+        Length? _margin;
 
         #endregion
 
@@ -50,7 +50,7 @@
 
         #region Methods
 
-        void SetMargin(IDistance margin)
+        void SetMargin(Length? margin)
         {
             _margin = margin;
         }

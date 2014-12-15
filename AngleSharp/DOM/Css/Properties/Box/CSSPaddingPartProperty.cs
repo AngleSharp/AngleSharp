@@ -10,9 +10,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter;
-        IDistance _padding;
+        internal static readonly Length Default = Length.Zero;
+        internal static readonly IValueConverter<Length> Converter = Converters.LengthOrPercentConverter;
+        Length _padding;
 
         #endregion
 
@@ -41,7 +41,7 @@
 
         #region Methods
 
-        void SetPadding(IDistance padding)
+        void SetPadding(Length padding)
         {
             _padding = padding;
         }

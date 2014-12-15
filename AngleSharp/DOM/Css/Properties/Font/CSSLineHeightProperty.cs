@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = new Percent(120f);
-        internal static readonly IValueConverter<IDistance> Converter = Converters.LineHeightConverter;
-        IDistance _height;
+        internal static readonly Length Default = new Length(120f, Length.Unit.Percent);
+        internal static readonly IValueConverter<Length> Converter = Converters.LineHeightConverter;
+        Length _height;
 
         #endregion
 
@@ -38,7 +38,7 @@
 
         #region Methods
 
-        void SetHeight(IDistance height)
+        void SetHeight(Length height)
         {
             _height = height;
         }

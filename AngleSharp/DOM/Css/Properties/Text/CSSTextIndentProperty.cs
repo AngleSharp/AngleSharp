@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        internal static readonly IDistance Default = Percent.Zero;
-        internal static readonly IValueConverter<IDistance> Converter = Converters.DistanceConverter;
-        IDistance _indent;
+        internal static readonly Length Default = Length.Zero;
+        internal static readonly IValueConverter<Length> Converter = Converters.LengthOrPercentConverter;
+        Length _indent;
 
         #endregion
 
@@ -42,7 +42,7 @@
 
         #region Methods
 
-        public void SetIndent(IDistance indent)
+        public void SetIndent(Length indent)
         {
             _indent = indent;
         }

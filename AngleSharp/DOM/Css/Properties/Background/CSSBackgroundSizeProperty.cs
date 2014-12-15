@@ -16,10 +16,10 @@
         #region Fields
 
         internal static readonly BackgroundSize Default = new BackgroundSize();
-        internal static readonly IValueConverter<BackgroundSize> SingleConverter = Converters.AutoDistanceConverter.To(m => new BackgroundSize { Width = m }).Or(
+        internal static readonly IValueConverter<BackgroundSize> SingleConverter = Converters.AutoLengthOrPercentConverter.To(m => new BackgroundSize { Width = m }).Or(
             Keywords.Cover, new BackgroundSize { IsCovered = true }).Or(
             Keywords.Contain, new BackgroundSize { IsContained = true }).Or(
-            Converters.WithOrder(Converters.AutoDistanceConverter.Required(), Converters.AutoDistanceConverter.Required()).To(pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
+            Converters.WithOrder(Converters.AutoLengthOrPercentConverter.Required(), Converters.AutoLengthOrPercentConverter.Required()).To(pt => new BackgroundSize { Width = pt.Item1, Height = pt.Item2 }));
         internal static readonly IValueConverter<BackgroundSize[]> Converter = SingleConverter.FromList();
         readonly List<BackgroundSize> _sizes;
 
