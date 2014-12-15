@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-
     /// <summary>
     /// Represents the CSS top property.
     /// </summary>
@@ -10,6 +8,6 @@
         /// <summary>
         /// Gets the position if a fixed position has been set.
         /// </summary>
-        IDistance Top { get; }
+        Length? Top { get; }
     }
 }
