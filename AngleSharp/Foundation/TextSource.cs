@@ -26,6 +26,7 @@
         EncodingConfidence _confidence;
         Boolean _finished;
         Encoding _encoding;
+        Decoder _decoder;
         Int32 _index;
 
         #endregion
@@ -39,6 +40,7 @@
             _raw = new MemoryStream();
             _index = 0;
             _encoding = encoding ?? Encoding.UTF8;
+            _decoder = _encoding.GetDecoder();
         }
 
         /// <summary>
@@ -117,6 +119,7 @@
                 }
 
                 _encoding = value;
+                _decoder = value.GetDecoder();
 
                 var raw = _raw.ToArray();
                 var content = _encoding.GetString(raw, 0, raw.Length);
@@ -295,7 +298,13 @@
                 offset = 4;
             }
 
-            AppendContentFromBuffer(count, offset);
+            if (offset > 0) 
+            {
+                count -= offset;
+                Array.Copy(_buffer, offset, _buffer, 0, count);
+            }
+
+            AppendContentFromBuffer(count);
         }
 
         async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
@@ -328,28 +337,11 @@
             AppendContentFromBuffer(returned);
         }
 
-        void AppendContentFromBuffer(Int32 size, Int32 offset = 0)
+        void AppendContentFromBuffer(Int32 size)
         {
-            size -= offset;
             _finished = size == 0;
-            var charLength = _encoding.GetChars(_buffer, offset, size, _chars, 0);
-
-            /*for (int i = 0, n = charLength - 1; i < n; ++i)
-            {
-                if (_chars[i] == Specification.CarriageReturn && _chars[i + 1] == Specification.LineFeed)
-                {
-                    for (int j = i; j < n; ++j)
-                        _chars[j] = _chars[j + 1];
-
-                    charLength--;
-                    n--;
-                }
-            }
-
-            if (charLength > 0 && _chars[charLength - 1] == Specification.CarriageReturn)
-                charLength--;*/
-
-            _raw.Write(_buffer, offset, size);
+            var charLength = _decoder.GetChars(_buffer, 0, size, _chars, 0);
+            _raw.Write(_buffer, 0, size);
             _content.Append(_chars, 0, charLength);
         }
 

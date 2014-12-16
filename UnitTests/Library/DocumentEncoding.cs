@@ -1,8 +1,11 @@
 ﻿namespace UnitTests.Library
 {
     using AngleSharp;
+    using AngleSharp.DOM.Html;
     using NUnit.Framework;
+    using System;
     using System.Globalization;
+    using System.Linq;
 
     [TestFixture]
     public class DocumentEncodingTests
@@ -60,6 +63,34 @@
         {
             var config = new Configuration { Culture = CultureInfo.GetCultureInfo("zh-tw") };
             TradeEncodingDisplayCharactersFrom(config);
+        }
+
+        [Test]
+        public void TradeEncodingVariousChecks()
+        {
+            var source = Helper.StreamFromBytes(Assets.trade_500);
+            var document = DocumentBuilder.Html(source);
+
+            var bet_content = document.GetElementById("bet_content");
+            Assert.IsNotNull(bet_content);
+            var el = bet_content.GetElementsByTagName("table").Where(x => x.ClassName.Contains("bet_table"));
+
+            foreach (var e in el)
+            {
+                var t = (IHtmlTableElement)e;
+
+                foreach (var tr in t.Rows)
+                {
+                    var awaysxname = tr.GetAttribute("awaysxname");
+                    var homesxname = tr.GetAttribute("homesxname");
+
+                    Assert.IsFalse(String.IsNullOrEmpty(homesxname), "Home team name should exist.");
+                    Assert.IsFalse(homesxname.Contains("?"), "Invalid home team name: " + homesxname);
+                    Assert.IsFalse(String.IsNullOrEmpty(awaysxname), "Away team name should exist.");
+                    Assert.IsFalse(awaysxname.Contains("?"), "Invalid away team name: " + awaysxname);
+                }
+            }
+
         }
 
         static void TradeEncodingDisplayCharactersFrom(Configuration configuration)
