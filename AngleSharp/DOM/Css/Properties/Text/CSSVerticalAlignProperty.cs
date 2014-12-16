@@ -15,7 +15,7 @@
         internal static readonly VerticalAlignment Default = VerticalAlignment.Baseline;
         internal static readonly IValueConverter<VerticalAlignment> Converter = Map.VerticalAlignments.ToConverter();
         VerticalAlignment _mode;
-        IDistance _shift;
+        Length _shift;
 
         #endregion
 
@@ -36,7 +36,7 @@
         /// the baseline of its parent or like absolute values, with the percentage
         /// being a percent of the line-height property.
         /// </summary>
-        public IDistance Shift
+        public Length Shift
         {
             get { return _shift; }
         }
@@ -62,13 +62,13 @@
         public void SetAlignment(VerticalAlignment mode)
         {
             _mode = mode;
-            _shift = Percent.Zero;
+            _shift = Length.Zero;
         }
 
         internal override void Reset()
         {
             _mode = Default;
-            _shift = Percent.Zero;
+            _shift = Length.Zero;
         }
 
         /// <summary>

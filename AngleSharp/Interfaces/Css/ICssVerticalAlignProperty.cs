@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-
     /// <summary>
     /// Represents the CSS vertical-align property.
     /// </summary>
@@ -17,6 +15,6 @@
         /// the baseline of its parent or like absolute values, with the percentage
         /// being a percent of the line-height property.
         /// </summary>
-        IDistance Shift { get; }
+        Length Shift { get; }
     }
 }

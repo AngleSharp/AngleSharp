@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-left radius.
         /// </summary>
-        public IDistance HorizontalBottomLeft
+        public Length HorizontalBottomLeft
         {
             get { return _bottomLeft.HorizontalRadius; }
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the value of the vertical bottom-left radius.
         /// </summary>
-        public IDistance VerticalBottomLeft
+        public Length VerticalBottomLeft
         {
             get { return _bottomLeft.VerticalRadius; }
         }
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the value of the horizontal bottom-right radius.
         /// </summary>
-        public IDistance HorizontalBottomRight
+        public Length HorizontalBottomRight
         {
             get { return _bottomRight.HorizontalRadius; }
         }
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets the value of the vertical bottom-right radius.
         /// </summary>
-        public IDistance VerticalBottomRight
+        public Length VerticalBottomRight
         {
             get { return _bottomRight.VerticalRadius; }
         }
@@ -75,7 +75,7 @@
         /// <summary>
         /// Gets the value of the horizontal top-left radius.
         /// </summary>
-        public IDistance HorizontalTopLeft
+        public Length HorizontalTopLeft
         {
             get { return _topLeft.HorizontalRadius; }
         }
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets the value of the vertical top-left radius.
         /// </summary>
-        public IDistance VerticalTopLeft
+        public Length VerticalTopLeft
         {
             get { return _topLeft.VerticalRadius; }
         }
@@ -91,7 +91,7 @@
         /// <summary>
         /// Gets the value of the horizontal top-right radius.
         /// </summary>
-        public IDistance HorizontalTopRight
+        public Length HorizontalTopRight
         {
             get { return _topRight.HorizontalRadius; }
         }
@@ -99,7 +99,7 @@
         /// <summary>
         /// Gets the value of the vertical top-right radius.
         /// </summary>
-        public IDistance VerticalTopRight
+        public Length VerticalTopRight
         {
             get { return _topRight.VerticalRadius; }
         }
@@ -129,12 +129,12 @@
             if (!IsComplete(properties))
                 return String.Empty;
 
-            var horizontal = SerializePeriodic(_topLeft.HorizontalRadius.CssText, _topRight.HorizontalRadius.CssText, _bottomRight.HorizontalRadius.CssText, _bottomLeft.HorizontalRadius.CssText);
+            var horizontal = SerializePeriodic(_topLeft.HorizontalRadius, _topRight.HorizontalRadius, _bottomRight.HorizontalRadius, _bottomLeft.HorizontalRadius);
 
             if (_topLeft.IsCircle && _topRight.IsCircle && _bottomRight.IsCircle && _bottomLeft.IsCircle)
                 return horizontal;
 
-            var vertical = SerializePeriodic(_topLeft.VerticalRadius.CssText, _topRight.VerticalRadius.CssText, _bottomRight.VerticalRadius.CssText, _bottomLeft.VerticalRadius.CssText);
+            var vertical = SerializePeriodic(_topLeft.VerticalRadius, _topRight.VerticalRadius, _bottomRight.VerticalRadius, _bottomLeft.VerticalRadius);
             return horizontal + " / " + vertical;
         }
 

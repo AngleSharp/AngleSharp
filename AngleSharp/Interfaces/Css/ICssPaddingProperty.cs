@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-
     /// <summary>
     /// Represents the CSS padding-right property.
     /// </summary>
@@ -11,7 +9,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        IDistance Right { get; }
+        Length Right { get; }
     }
 
     /// <summary>
@@ -23,7 +21,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        IDistance Top { get; }
+        Length Top { get; }
     }
 
     /// <summary>
@@ -35,7 +33,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        IDistance Bottom { get; }
+        Length Bottom { get; }
     }
 
     /// <summary>
@@ -47,7 +45,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        IDistance Left { get; }
+        Length Left { get; }
     }
 
     /// <summary>

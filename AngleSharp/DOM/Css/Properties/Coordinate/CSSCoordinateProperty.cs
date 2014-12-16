@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -41,7 +40,7 @@
         /// <summary>
         /// Gets the position if a fixed position has been set.
         /// </summary>
-        public IDistance Position
+        public Length? Position
         {
             get { return _distance; }
         }

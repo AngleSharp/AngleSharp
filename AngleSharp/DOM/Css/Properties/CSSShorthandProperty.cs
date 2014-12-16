@@ -80,6 +80,11 @@
             return SerializePeriodic(top, right, bottom, left);
         }
 
+        protected static String SerializePeriodic(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left)
+        {
+            return SerializePeriodic(top.CssText, right.CssText, bottom.CssText, left.CssText);
+        }
+
         protected static String SerializePeriodic(String top, String right, String bottom, String left)
         {
             if (left != right)

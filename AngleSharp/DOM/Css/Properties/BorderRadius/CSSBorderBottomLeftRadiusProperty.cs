@@ -19,12 +19,12 @@
 
         #region Properties
 
-        public IDistance HorizontalBottomLeft
+        public Length HorizontalBottomLeft
         {
             get { return HorizontalRadius; }
         }
 
-        public IDistance VerticalBottomLeft
+        public Length VerticalBottomLeft
         {
             get { return VerticalRadius; }
         }

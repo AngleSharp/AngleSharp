@@ -32,7 +32,7 @@
         /// Gets the padding relative to the width of the containing block or
         /// a fixed width.
         /// </summary>
-        internal IDistance Padding
+        internal Length Padding
         {
             get { return _padding; }
         }

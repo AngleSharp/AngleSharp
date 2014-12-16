@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
-
     /// <summary>
     /// Represents the CSS min-width property.
     /// </summary>
@@ -10,6 +8,6 @@
         /// <summary>
         /// Gets the minimum height of the element.
         /// </summary>
-        IDistance Limit { get; }
+        Length? Limit { get; }
     }
 }

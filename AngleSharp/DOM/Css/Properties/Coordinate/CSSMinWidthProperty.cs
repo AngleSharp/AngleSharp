@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -33,7 +32,7 @@
         /// <summary>
         /// Gets the minimum height of the element.
         /// </summary>
-        public IDistance Limit
+        public Length? Limit
         {
             get { return _mode; }
         }

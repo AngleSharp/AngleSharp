@@ -34,7 +34,7 @@
         /// Gets the specified max-width of the element. A percentage is calculated
         /// with respect to the width of the containing block.
         /// </summary>
-        public IDistance Limit
+        public Length? Limit
         {
             get { return _mode; }
         }

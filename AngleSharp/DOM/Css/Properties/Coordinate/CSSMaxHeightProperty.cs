@@ -36,7 +36,7 @@
         /// containing block is not specified explicitly, the percentage value is
         /// treated as none.
         /// </summary>
-        public IDistance Limit
+        public Length? Limit
         {
             get { return _mode; }
         }

@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets the value for the top padding.
         /// </summary>
-        public IDistance Top
+        public Length Top
         {
             get { return _top.Top; }
         }
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets the value for the right padding.
         /// </summary>
-        public IDistance Right
+        public Length Right
         {
             get { return _right.Right; }
         }
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the value for the bottom padding.
         /// </summary>
-        public IDistance Bottom
+        public Length Bottom
         {
             get { return _bottom.Bottom; }
         }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets the value for the left padding.
         /// </summary>
-        public IDistance Left
+        public Length Left
         {
             get { return _left.Left; }
         }

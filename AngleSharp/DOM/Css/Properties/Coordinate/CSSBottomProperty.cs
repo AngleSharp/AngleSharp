@@ -19,7 +19,7 @@
 
         #region Property
 
-        public IDistance Bottom
+        public Length? Bottom
         {
             get { return Position; }
         }

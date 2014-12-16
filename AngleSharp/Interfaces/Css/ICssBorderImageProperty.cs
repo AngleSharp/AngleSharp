@@ -11,22 +11,22 @@
         /// <summary>
         /// Gets the top length of the image slice, if any.
         /// </summary>
-        IDistance WidthTop { get; }
+        Length WidthTop { get; }
 
         /// <summary>
         /// Gets the bottom length of the image slice, if any.
         /// </summary>
-        IDistance WidthBottom { get; }
+        Length WidthBottom { get; }
 
         /// <summary>
         /// Gets the left length of the image slice, if any.
         /// </summary>
-        IDistance WidthLeft { get; }
+        Length WidthLeft { get; }
 
         /// <summary>
         /// Gets the right length of the image slice, if any.
         /// </summary>
-        IDistance WidthRight { get; }
+        Length WidthRight { get; }
     }
 
     /// <summary>
@@ -48,22 +48,22 @@
         /// <summary>
         /// Gets the position of the top slicing line.
         /// </summary>
-        IDistance SliceTop { get; }
+        Length SliceTop { get; }
 
         /// <summary>
         /// Gets the position of the right slicing line.
         /// </summary>
-        IDistance SliceRight { get; }
+        Length SliceRight { get; }
 
         /// <summary>
         /// Gets the position of the bottom slicing line.
         /// </summary>
-        IDistance SliceBottom { get; }
+        Length SliceBottom { get; }
 
         /// <summary>
         /// Gets the position of the left slicing line.
         /// </summary>
-        IDistance SliceLeft { get; }
+        Length SliceLeft { get; }
 
         /// <summary>
         /// Gets if the center patch should be filled.
@@ -95,22 +95,22 @@
         /// <summary>
         /// Gets the length or percentage for the outset of the top border.
         /// </summary>
-        IDistance OutsetTop { get; }
+        Length OutsetTop { get; }
 
         /// <summary>
         /// Gets the length or percentage for the outset of the right border.
         /// </summary>
-        IDistance OutsetRight { get; }
+        Length OutsetRight { get; }
 
         /// <summary>
         /// Gets the length or percentage for the outset of the bottom border.
         /// </summary>
-        IDistance OutsetBottom { get; }
+        Length OutsetBottom { get; }
 
         /// <summary>
         /// Gets the length or percentage for the outset of the left border.
         /// </summary>
-        IDistance OutsetLeft { get; }
+        Length OutsetLeft { get; }
     }
 
     /// <summary>

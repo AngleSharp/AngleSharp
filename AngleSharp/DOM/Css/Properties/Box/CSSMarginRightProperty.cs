@@ -19,7 +19,7 @@
 
         #region Properties
 
-        public IDistance Right
+        public Length? Right
         {
             get { return Margin; }
         }

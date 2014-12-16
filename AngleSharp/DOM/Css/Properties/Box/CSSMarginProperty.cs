@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the value for the top margin.
         /// </summary>
-        public IDistance Top
+        public Length? Top
         {
             get { return _top.Top; }
         }
@@ -48,7 +48,7 @@
         /// <summary>
         /// Gets the value for the right margin.
         /// </summary>
-        public IDistance Right
+        public Length? Right
         {
             get { return _right.Right; }
         }
@@ -56,7 +56,7 @@
         /// <summary>
         /// Gets the value for the bottom margin.
         /// </summary>
-        public IDistance Bottom
+        public Length? Bottom
         {
             get { return _bottom.Bottom; }
         }
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets the value for the left margin.
         /// </summary>
-        public IDistance Left
+        public Length? Left
         {
             get { return _left.Left; }
         }

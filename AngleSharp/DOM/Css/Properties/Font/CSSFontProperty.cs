@@ -106,7 +106,7 @@
         /// <summary>
         /// Gets the custom set size of the font, if any.
         /// </summary>
-        public IDistance Size
+        public Length Size
         {
             get { return _size.Size; }
         }
@@ -114,7 +114,7 @@
         /// <summary>
         /// Gets the value of the line height property.
         /// </summary>
-        public IDistance Height
+        public Length Height
         {
             get { return _height.Height; }
         }

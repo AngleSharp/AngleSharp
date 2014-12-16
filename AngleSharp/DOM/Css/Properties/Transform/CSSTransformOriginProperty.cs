@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets how far from the left edge of the box the origin of the transform is set.
         /// </summary>
-        public IDistance X
+        public Length X
         {
             get { return _x; }
         }
@@ -53,7 +53,7 @@
         /// <summary>
         /// Gets how far from the top edge of the box the origin of the transform is set.
         /// </summary>
-        public IDistance Y
+        public Length Y
         {
             get { return _y; }
         }
@@ -70,10 +70,10 @@
 
         #region Methods
 
-        public void SetPosition(Point pt, Length z)
+        public void SetPosition(Length x, Length y, Length z)
         {
-            _x = pt.X;
-            _y = pt.Y;
+            _x = x;
+            _y = y;
             _z = z;
         }
 
@@ -91,7 +91,7 @@
         /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, m => SetPosition(m.Item1, m.Item2));
+            return Converter.TryConvert(value, m => SetPosition(m.Item1.X, m.Item1.Y, m.Item2));
         }
 
         #endregion
