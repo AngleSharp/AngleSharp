@@ -106,6 +106,15 @@
         }
 
         [Test]
+        public void EncodingCheckShiftJisTestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.shift_jis);
+            var doc = DocumentBuilder.Html(source);
+            var text = "九州大学言語学研究室";
+            Assert.AreEqual(text, doc.QuerySelector("h1").TextContent);
+        }
+
+        [Test]
         public void EncodingCheckGb2312TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.gb2312);
