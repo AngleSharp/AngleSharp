@@ -627,24 +627,26 @@
                     else if (tagName == Tags.Meta)
                     {
                         var element = AddElement<HTMLMetaElement>(token.AsTag(), true);
+                        var encoding = element.GetEncoding();
                         CloseCurrentNode();
-                        var charset = element.GetAttribute(AttributeNames.Charset);
 
-                        if (charset == null || !DocumentEncoding.IsSupported(charset))
+                        if (encoding != null)
                         {
-                            charset = element.GetAttribute(AttributeNames.HttpEquiv);
-
-                            if (charset != null && charset.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
+                            try
                             {
-                                charset = element.GetAttribute(AttributeNames.Content) ?? String.Empty;
-                                var encoding = DocumentEncoding.Parse(charset);
-
-                                if (encoding != null)
-                                    doc.Source.CurrentEncoding = encoding;
+                                doc.Source.CurrentEncoding = encoding;
+                            }
+                            catch (NotSupportedException)
+                            {
+                                insert = HtmlTreeMode.Initial;
+                                tokenizer.State = HtmlParseMode.PCData;
+                                doc.ReplaceAll(null, true);
+                                frameset = true;
+                                open.Clear();
+                                formatting.Clear();
+                                templateMode.Clear();
                             }
                         }
-                        else
-                            doc.Source.CurrentEncoding = DocumentEncoding.Resolve(charset);
 
                         return;
                     }
