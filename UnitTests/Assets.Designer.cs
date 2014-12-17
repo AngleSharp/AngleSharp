@@ -245,6 +245,16 @@ namespace UnitTests {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] real_shift_jit {
+            get {
+                object obj = ResourceManager.GetObject("real_shift_jit", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///&lt;head&gt;&lt;/head&gt;
         ///&lt;body id=&quot;theBody&quot;&gt;

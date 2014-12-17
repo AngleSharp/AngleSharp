@@ -106,12 +106,23 @@
         }
 
         [Test]
-        public void EncodingCheckShiftJisTestPage()
+        public void EncodingCheckBomSaysUTF8ButMetaSaysShiftJisTestPage()
         {
             var source = Helper.StreamFromBytes(Assets.shift_jis);
             var doc = DocumentBuilder.Html(source);
             var text = "九州大学言語学研究室";
             Assert.AreEqual(text, doc.QuerySelector("h1").TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckRealShiftJisTestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.real_shift_jit);
+            var doc = DocumentBuilder.Html(source);
+            var title = "２ちゃんねる掲示板へようこそ";
+            Assert.AreEqual(title, doc.Title);
+            var text = "検索";
+            Assert.AreEqual(text, doc.QuerySelector(".form_button").GetAttribute("alt"));
         }
 
         [Test]

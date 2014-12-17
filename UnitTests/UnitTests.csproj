@@ -171,6 +171,7 @@
     <None Include="Resources\gb2312.com" />
     <None Include="Resources\iso-8859-1.it" />
     <None Include="Resources\item.jd.com" />
+    <None Include="Resources\real_shift_jit.net" />
     <None Include="Resources\shift-jis.jp" />
     <None Include="Resources\trade.500.com" />
     <None Include="Resources\utf-8.edu" />

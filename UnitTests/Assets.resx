@@ -151,6 +151,9 @@
   <data name="quirksmode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pages\quirksmode.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="real_shift_jit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\real_shift_jit.net;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="selectors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Pages\selectors.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

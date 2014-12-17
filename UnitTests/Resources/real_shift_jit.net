@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="Description" CONTENT="「ハッキング」から「今晩のおかず」までを手広くカバーする巨大掲示板群『２ちゃんねる』へようこそ！">
+<meta name="KeyWords" CONTENT="２ちゃんねる, 掲示板, 2ch, BBS">
+<meta name="Author" CONTENT="２ちゃんねる">
+<!-- <meta name="verify-v1" content="hMevVuWJIPYrUj9ItfRJByoLNIpyhnrWaywiH+IFocU=" /> -->
+<title>２ちゃんねる掲示板へようこそ</title>
+<style type="text/css" media="all">
+@import url(2ch_top.css);
+</style>
+<script>
+<!--
+function fcs(){document.f.STR.focus();}
+-->
+</script>
+</head>
+
+<body onLoad="document.f.STR.focus()">
+
+<div id="wrapper">
+<div id="header">
+<div id="header_inside">
+<div class="header_left">
+<a href="http://www2.2ch.net/2ch.html"><img src="images/2ch_logo.gif" width="151" height="40" alt="２ちゃんねる" align="middle" border="0" /><a href="http://www2.2ch.net/2ch.html">掲示板</a>｜
+<a href="http://itest.2ch.net/">スマホ版テスト中。</a>｜
+<a href="http://c.2ch.net/">imode</a>
+</div>
+
+<form method=GET name=f action="http://search.2ch.net/search" style="margin:0px">
+<input size=25 name="q" value="" class="form_input" style="float:right;">
+<!-- <select name="TYPE" class="form_select">
+  <option value="BODY">本文</option>
+  <option value="TITLE" selected>スレッドタイトル</option>
+  <option value="POSTERS">投稿者</option>
+</select> --> 
+<input type="image" src="images/search_button.gif"  alt="検索"  class="form_button" style="float:right;"><br />
+<!-- <input type=hidden name=BBS value=ALL>
+<input type=hidden name=ENCODING value=SJIS>
+<input type=hidden name=COUNT value=50> -->
+<!-- <div class="caption">本文検索や検索設定は<a href="http://find.2ch.net/moritapo/notlogin.php">ログイン</a><a href="http://find.2ch.net/moritapo/welcome/">&raquo;詳細</a></div> -->
+
+</form>
+</div>
+
+
+</div><!--- header_inside --->
+</div><!--- end of header--->
+
+<div id="under_header">
+<a href="http://newsnavi.2ch.net/">ニュース</a>｜<a href="http://headline.2ch.net/">総合の人気スレ</a> | <a href="http://headline.2ch.net/bbynews/">ヘッドライン</a>｜<a href="http://www.2ch.net/kakolog.html">過去ログ倉庫</a>
+</div>
+
+
+<div id="main">
+<a href="http://www2.2ch.net/2ch.html"><img src="http://www.2ch.net/2ch-logo.gif"></a>
+
+<br>
+</div><!--- end of main--->
+
+<div id="footer_menu">
+<div class="guide">
+<a href="http://info.2ch.net/guide/">使い方＆注意</a>｜<a href="http://qb5.2ch.net/saku2ch/">削除ガイドライン</a>｜<a href="http://www2.2ch.net/2ch2.html">拡張版メニュー</a>｜<a href="http://senden.tv/infospace.html">広告のご案内</a>
+
+</div>
+
+<div class="banner"> <!-- stvmb -->
+<A href="http://www.bb-chat.tv/?2ch_t" target=_blank><IMG height=60 src="http://img.bbchat.tv/images/bannar/46860-3.gif" width=468 border=0></A><br>
+</div>
+
+<div class="banner"> <!--  stvmb -->
+<div style="width:100%;clear:both;">
+  <div style="text-align:right;width:50%;float:left">
+    <div style="width:100%;text-align:right;padding-right:10px;">
+      <script type="text/javascript">var kauli_yad_count = typeof(kauli_yad_count) == 'undefined' ? 1 : kauli_yad_count + 1;(function(d){ d.write('<span id="kauli_yad_' + kauli_yad_count + '" style="width:300px; height:250px; display:inline-block"><' + '!--55988--' + '><' + '/span>'); var s = d.createElement('script'); var h = d.getElementsByTagName('head')[0]; s.defer = 'defer'; s.async = 'async'; s.src = 'http://js.kau.li/yad.js'; h.insertBefore(s, h.firstChild);})(document);</script>
+      </div>
+  </div>
+  <div style="text-align:left;width:50%;float:left">
+    <div style="width:100%;text-align:left;padding-left:10px;">
+      <script type="text/javascript">var kauli_yad_count = typeof(kauli_yad_count) == 'undefined' ? 1 : kauli_yad_count + 1;(function(d){ d.write('<span id="kauli_yad_' + kauli_yad_count + '" style="width:300px; height:250px; display:inline-block"><' + '!--55989--' + '><' + '/span>'); var s = d.createElement('script'); var h = d.getElementsByTagName('head')[0]; s.defer = 'defer'; s.async = 'async'; s.src = 'http://js.kau.li/yad.js'; h.insertBefore(s, h.firstChild);})(document);</script>
+    </div>
+  </div>
+  <div style="clear:both;"></div>
+</div>
+</div>
+
+<div class="banner" style="width:600px;text-align:left;margin: 0 auto;">
+  Race Queen, Incは、2ch.netというドメインの所有者であり、かつ、実際に登録機関に所有者として登録されております。2ch.netのドメインについては，2012年に，適法にRace Queen Inc. に譲渡されております。適法な譲渡がなければ，ドメイン登録機関への登録は不可能です。現時点において、2ch.netは何ら問題なく管理運営されております。<br><br>
+
+  Race Queen Inc. による2ch.netの管理運営に何ら違法性がないにもかかわらず、西村博之さんによる2ch.netを支援してくれているボランティアの方々の法的責任を追求するとの主張は、法的に全く誤った主張です。<br><br>
+
+  また、2ch.netが適法にRace Queen Inc.によって運営されているのは疑いのない事実であり、Race　Queen Inc.<br>
+  と他の法人ないし個人が商取引（広告掲載契約等）をすることに違法性があるという主張は法的には誤った判断です。<br><br>
+
+  かかる商行為に違法性があるとの西村博之さんの主張は、Race Queen inc の名誉を著しく毀損するものであり、法的対応を検討せざるをえません。<br><br>
+
+  今後、Race Queen Inc.としては、2ch.netの管理運営について事実と異なる虚偽の情報を発出する者に対しては、厳正に対処致します。<br><br>
+
+  Race Queen, Inc<br>
+  Cityland 10, Tower 1 Suite 2303<br>
+  Makati NCR 1226 PH<br>
+  Phone: +63.28943848<br>
+  Fax: +63.28121343<br>
+</div>
+
+
+<div class="condition">
+２ちゃんねるのご利用は利用者各位のご判断にお任せしています｜
+<br><br>
+無断複写●転載を禁じます
+
+</div>
+</div><!--- end of footer_menu--->
+
+
+<div id="footer">
+<div class="footer_left">
+</div>
+
+<div class="footer_right">
+
+
+</div>
+</div><!---end of footer--->
+
+</div><!--- end of wrapper --->
+</body>
+</html>
