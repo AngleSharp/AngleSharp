@@ -53,7 +53,7 @@
         {
             _finished = true;
             _content.Append(source.Replace("\r\n", "\n"));
-            _confidence = EncodingConfidence.Certain;
+            _confidence = EncodingConfidence.Irrelevant;
         }
 
         /// <summary>
@@ -124,14 +124,19 @@
                 var raw = _raw.ToArray();
                 var content = _encoding.GetString(raw, 0, raw.Length);
 
-                //If everything seems to fit up to this point, do an instant switch
                 if (content.Substring(0, _index).Equals(_content.ToString(0, _index)))
                 {
+                    //If everything seems to fit up to this point, do an instant switch
                     _content.Remove(_index, _content.Length - _index);
                     _content.Append(content.Substring(_index));
                 }
-
-                //Otherwise consider restart from beginning ...
+                else
+                {
+                    //Otherwise consider restart from beginning ...
+                    _index = 0;
+                    _content.Clear().Append(content);
+                    throw new NotSupportedException();
+                }
             }
         }
 
@@ -302,6 +307,8 @@
             {
                 count -= offset;
                 Array.Copy(_buffer, offset, _buffer, 0, count);
+                _decoder = _encoding.GetDecoder();
+                _confidence = EncodingConfidence.Certain;
             }
 
             AppendContentFromBuffer(count);
