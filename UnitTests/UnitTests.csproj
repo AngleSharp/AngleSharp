@@ -166,8 +166,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\big5.com" />
+    <None Include="Resources\gb18030.com" />
+    <None Include="Resources\gb2312.com" />
+    <None Include="Resources\iso-8859-1.it" />
     <None Include="Resources\item.jd.com" />
+    <None Include="Resources\shift-jis.jp" />
     <None Include="Resources\trade.500.com" />
+    <None Include="Resources\utf-8.edu" />
+    <None Include="Resources\windows-1251.ru" />
+    <None Include="Resources\windows-1252.com" />
     <None Include="Resources\www.baidu.com" />
   </ItemGroup>
   <Choose>

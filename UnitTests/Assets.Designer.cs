@@ -61,6 +61,16 @@ namespace UnitTests {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] big5 {
+            get {
+                object obj = ResourceManager.GetObject("big5", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;catalog&gt;
         ///   &lt;book id=&quot;bk101&quot;&gt;
@@ -162,6 +172,36 @@ namespace UnitTests {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] gb18030 {
+            get {
+                object obj = ResourceManager.GetObject("gb18030", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] gb2312 {
+            get {
+                object obj = ResourceManager.GetObject("gb2312", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] iso_8859_1 {
+            get {
+                object obj = ResourceManager.GetObject("iso_8859_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] item_jd {
             get {
                 object obj = ResourceManager.GetObject("item_jd", resourceCulture);
@@ -230,9 +270,49 @@ namespace UnitTests {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] shift_jis {
+            get {
+                object obj = ResourceManager.GetObject("shift_jis", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] trade_500 {
             get {
                 object obj = ResourceManager.GetObject("trade_500", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] utf_8 {
+            get {
+                object obj = ResourceManager.GetObject("utf_8", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] windows_1251 {
+            get {
+                object obj = ResourceManager.GetObject("windows_1251", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] windows_1252 {
+            get {
+                object obj = ResourceManager.GetObject("windows_1252", resourceCulture);
                 return ((byte[])(obj));
             }
         }

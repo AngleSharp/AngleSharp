@@ -77,5 +77,68 @@
                 }
             }
         }
+
+        [Test]
+        public void EncodingCheckUtf8TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.utf_8);
+            var doc = DocumentBuilder.Html(source);
+            var text = "  ¥ · £ · € · $ · ¢ · ₡ · ₢ · ₣ · ₤ · ₥ · ₦ · ₧ · ₨ · ₩ · ₪ · ₫ · ₭ · ₮ · ₯ · ₹";
+            Assert.AreEqual(text, doc.QuerySelector("big > big").TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckWindows1252TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.windows_1252);
+            var doc = DocumentBuilder.Html(source);
+            var text = "“Hello Double” vs.  ‘Hello single’ vs. it’s";
+            Assert.AreEqual(text, doc.QuerySelectorAll("tr > td")[7].TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckWindows1251TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.windows_1251);
+            var doc = DocumentBuilder.Html(source);
+            var text = "Преимущества";
+            Assert.AreEqual(text, doc.QuerySelector("h2").TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckGb2312TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.gb2312);
+            var doc = DocumentBuilder.Html(source);
+            var text = "汉字";
+            Assert.AreEqual(text, doc.QuerySelector("td > span").TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckGb18030TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.gb18030);
+            var doc = DocumentBuilder.Html(source);
+            var text = "hello，欢迎回来！";
+            Assert.AreEqual(text, doc.QuerySelector(".pptitle > b").TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckBig5TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.big5);
+            var doc = DocumentBuilder.Html(source);
+            var text = "歷史新聞";
+            Assert.AreEqual(text, doc.QuerySelector("#area_sort_3 a").TextContent);
+        }
+
+        [Test]
+        public void EncodingCheckIso88591TestPage()
+        {
+            var source = Helper.StreamFromBytes(Assets.iso_8859_1);
+            var doc = DocumentBuilder.Html(source);
+            var text = "Apri un blog è gratis";
+            Assert.AreEqual(text, doc.QuerySelectorAll(".label")[3].TextContent);
+        }
     }
 }
