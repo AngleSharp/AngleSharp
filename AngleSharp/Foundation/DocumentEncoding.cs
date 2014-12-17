@@ -111,6 +111,11 @@
         /// </summary>
         public static readonly Encoding Latin13 = GetEncoding("iso-8859-13");
 
+        /// <summary>
+        /// Gets the Shift_JIS encoding.
+        /// </summary>
+        public static readonly Encoding ShiftJis = GetEncoding("shift_jis");
+
         #endregion
 
         #region Initialization
@@ -319,6 +324,7 @@
             var isocn = GetEncoding("iso-2022-cn");
             encodings.Add("iso-2022-cn", isocn);
             encodings.Add("iso-2022-cn-ext", isocn);
+            encodings.Add("shift_jis", ShiftJis);
 
             suggestions.Add("ar", UTF8);
             suggestions.Add("cy", UTF8);
