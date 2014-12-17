@@ -112,9 +112,9 @@
         public static readonly Encoding Latin13 = GetEncoding("iso-8859-13");
 
         /// <summary>
-        /// Gets the Shift_JIS encoding.
+        /// Gets the Shift_JIS encoding, which is usually just treated as UTF-8.
         /// </summary>
-        public static readonly Encoding ShiftJis = GetEncoding("shift_jis");
+        public static readonly Encoding ShiftJis = UTF8;
 
         #endregion
 
