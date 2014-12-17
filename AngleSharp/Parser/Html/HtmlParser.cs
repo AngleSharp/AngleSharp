@@ -253,6 +253,17 @@
             return this;
         }
 
+        void Restart()
+        {
+            insert = HtmlTreeMode.Initial;
+            tokenizer.State = HtmlParseMode.PCData;
+            doc.ReplaceAll(null, true);
+            frameset = true;
+            open.Clear();
+            formatting.Clear();
+            templateMode.Clear();
+        }
+
         /// <summary>
         /// Resets the current insertation mode to the rules according to the algorithm specified
         /// in 8.2.3.1 The insertion mode.
@@ -638,13 +649,7 @@
                             }
                             catch (NotSupportedException)
                             {
-                                insert = HtmlTreeMode.Initial;
-                                tokenizer.State = HtmlParseMode.PCData;
-                                doc.ReplaceAll(null, true);
-                                frameset = true;
-                                open.Clear();
-                                formatting.Clear();
-                                templateMode.Clear();
+                                Restart();
                             }
                         }
 
@@ -861,9 +866,10 @@
                     {
                         RaiseErrorOccurred(ErrorCode.TagMustBeInHead);
                         var index = open.Count;
-                        open.Add(doc.Head as Element);
+                        var head = doc.Head as Element;
+                        open.Add(head);
                         InHead(token);
-                        open.RemoveAt(index);
+                        open.Remove(head);
                         return;
                     }
                     else if (tagName == Tags.Head)

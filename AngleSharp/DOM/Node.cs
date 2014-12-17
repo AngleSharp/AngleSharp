@@ -604,10 +604,13 @@
             for (int i = 0; i < addedNodes.Length; i++)
                 InsertBefore(addedNodes[i], null, true);
 
-            _owner.QueueMutation(MutationRecord.ChildList(
-                target: this,
-                addedNodes: addedNodes,
-                removedNodes: removedNodes));
+            if (!suppressObservers)
+            {
+                _owner.QueueMutation(MutationRecord.ChildList(
+                    target: this,
+                    addedNodes: addedNodes,
+                    removedNodes: removedNodes));
+            }
         }
 
         /// <summary>

@@ -376,8 +376,8 @@
 
         public static Length Add(this Length a, Length b)
         {
-            return Length.Zero;
             //TODO return new Compute(a, b, '+');
+            return Length.Zero;
         }
 
         #endregion
