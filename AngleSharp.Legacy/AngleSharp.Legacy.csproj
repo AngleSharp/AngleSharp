@@ -124,6 +124,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\ColorMediaFeature.cs">
       <Link>Css\MediaFeatures\ColorMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs">
+      <Link>Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceHeightMediaFeature.cs">
       <Link>Css\MediaFeatures\DeviceHeightMediaFeature.cs</Link>
     </Compile>
