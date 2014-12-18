@@ -522,6 +522,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\UnicodeMode.cs">
       <Link>DOM\Css\Constants\UnicodeMode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\UpdateFrequency.cs">
+      <Link>DOM\Css\Constants\UpdateFrequency.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
       <Link>DOM\Css\Constants\Whitespace.cs</Link>
     </Compile>
