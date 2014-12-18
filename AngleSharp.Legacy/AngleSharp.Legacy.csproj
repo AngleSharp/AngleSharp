@@ -151,6 +151,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\ScanMediaFeature.cs">
       <Link>Css\MediaFeatures\ScanMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
+      <Link>Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\WidthMediaFeature.cs">
       <Link>Css\MediaFeatures\WidthMediaFeature.cs</Link>
     </Compile>
