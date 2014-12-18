@@ -25,6 +25,7 @@
             DeviceType = Kind.Screen;
             IsInterlaced = false;
             IsGrid = false;
+            Frequency = 60;
         }
 
         /// <summary>
@@ -85,6 +86,15 @@
         /// Gets or sets the pixel density of the device in dpi.
         /// </summary>
         public Int32 Resolution
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the update frequency of the device in frames / s.
+        /// </summary>
+        public Int32 Frequency
         {
             get;
             set;
