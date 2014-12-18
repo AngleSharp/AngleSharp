@@ -76,6 +76,7 @@
     <Compile Include="Css\ValueConverters\RequiredValueConverter.cs" />
     <Compile Include="Css\ValueConverters\StructValueConverter.cs" />
     <Compile Include="Css\ValueConverters\ToValueConverter.cs" />
+    <Compile Include="DOM\Css\Constants\UpdateFrequency.cs" />
     <Compile Include="DOM\Css\Properties\CSSShorthandProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs" />
