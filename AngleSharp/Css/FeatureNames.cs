@@ -156,5 +156,20 @@
         /// Gets the name of the scan feature.
         /// </summary>
         public readonly static String Scan = "scan";
+
+        /// <summary>
+        /// Gets the name of the min-device-aspect-ratio feature.
+        /// </summary>
+        public readonly static String MinDeviceAspectRatio = "min-device-aspect-ratio";
+
+        /// <summary>
+        /// Gets the name of the max-device-aspect-ratio feature.
+        /// </summary>
+        public readonly static String MaxDeviceAspectRatio = "max-device-aspect-ratio";
+
+        /// <summary>
+        /// Gets the name of the device-aspect-ratio feature.
+        /// </summary>
+        public readonly static String DeviceAspectRatio = "device-aspect-ratio";
     }
 }

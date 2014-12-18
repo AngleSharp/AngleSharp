@@ -26,10 +26,12 @@
             featureConstructors.Add(FeatureNames.MinDeviceHeight, () => new DeviceHeightMediaFeature(FeatureNames.MinDeviceHeight));
             featureConstructors.Add(FeatureNames.MaxDeviceHeight, () => new DeviceHeightMediaFeature(FeatureNames.MaxDeviceHeight));
             featureConstructors.Add(FeatureNames.DeviceHeight, () => new DeviceHeightMediaFeature(FeatureNames.DeviceHeight));
-            featureConstructors.Add(FeatureNames.Orientation, () => new OrientationMediaFeature());
             featureConstructors.Add(FeatureNames.MinAspectRatio, () => new AspectRatioMediaFeature(FeatureNames.MinAspectRatio));
             featureConstructors.Add(FeatureNames.MaxAspectRatio, () => new AspectRatioMediaFeature(FeatureNames.MaxAspectRatio));
             featureConstructors.Add(FeatureNames.AspectRatio, () => new AspectRatioMediaFeature(FeatureNames.AspectRatio));
+            featureConstructors.Add(FeatureNames.MinDeviceAspectRatio, () => new DeviceAspectRatioMediaFeature(FeatureNames.MinDeviceAspectRatio));
+            featureConstructors.Add(FeatureNames.MaxDeviceAspectRatio, () => new DeviceAspectRatioMediaFeature(FeatureNames.MaxDeviceAspectRatio));
+            featureConstructors.Add(FeatureNames.DeviceAspectRatio, () => new DeviceAspectRatioMediaFeature(FeatureNames.DeviceAspectRatio));
             featureConstructors.Add(FeatureNames.MinColor, () => new ColorMediaFeature(FeatureNames.MinColor));
             featureConstructors.Add(FeatureNames.MaxColor, () => new ColorMediaFeature(FeatureNames.MaxColor));
             featureConstructors.Add(FeatureNames.Color, () => new ColorMediaFeature(FeatureNames.Color));
@@ -42,6 +44,7 @@
             featureConstructors.Add(FeatureNames.MinResolution, () => new ResolutionMediaFeature(FeatureNames.MinResolution));
             featureConstructors.Add(FeatureNames.MaxResolution, () => new ResolutionMediaFeature(FeatureNames.MaxResolution));
             featureConstructors.Add(FeatureNames.Resolution, () => new ResolutionMediaFeature(FeatureNames.Resolution));
+            featureConstructors.Add(FeatureNames.Orientation, () => new OrientationMediaFeature());
             featureConstructors.Add(FeatureNames.Grid, () => new GridMediaFeature());
             featureConstructors.Add(FeatureNames.Scan, () => new ScanMediaFeature());
         }
