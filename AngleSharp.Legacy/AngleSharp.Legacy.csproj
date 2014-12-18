@@ -160,6 +160,9 @@
     <Compile Include="..\AngleSharp\Css\PropertyNames.cs">
       <Link>Css\PropertyNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\RenderDevice.cs">
+      <Link>Css\RenderDevice.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\RuleNames.cs">
       <Link>Css\RuleNames.cs</Link>
     </Compile>
