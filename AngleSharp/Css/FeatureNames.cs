@@ -171,5 +171,10 @@
         /// Gets the name of the device-aspect-ratio feature.
         /// </summary>
         public readonly static String DeviceAspectRatio = "device-aspect-ratio";
+
+        /// <summary>
+        /// Gets the name of the update-frequency feature.
+        /// </summary>
+        public readonly static String UpdateFrequency = "update-frequency";
     }
 }

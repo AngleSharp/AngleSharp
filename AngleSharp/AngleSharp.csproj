@@ -46,6 +46,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="ContextExtensions.cs" />
     <Compile Include="Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
+    <Compile Include="Css\MediaFeatures\UpdateFrequencyMediaFeature.cs" />
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\ValueConverters\AtomicValueConverter.cs" />
     <Compile Include="Css\Converters.cs" />

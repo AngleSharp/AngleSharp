@@ -1256,5 +1256,10 @@
         /// The farthest-corner keyword.
         /// </summary>
         public static readonly String FarthestCorner = "farthest-corner";
+
+        /// <summary>
+        /// The slow keyword.
+        /// </summary>
+        public static readonly String Slow = "slow";
     }
 }

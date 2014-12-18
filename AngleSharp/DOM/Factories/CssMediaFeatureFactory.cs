@@ -47,6 +47,7 @@
             featureConstructors.Add(FeatureNames.Orientation, () => new OrientationMediaFeature());
             featureConstructors.Add(FeatureNames.Grid, () => new GridMediaFeature());
             featureConstructors.Add(FeatureNames.Scan, () => new ScanMediaFeature());
+            featureConstructors.Add(FeatureNames.UpdateFrequency, () => new UpdateFrequencyMediaFeature());
         }
 
         /// <summary>
