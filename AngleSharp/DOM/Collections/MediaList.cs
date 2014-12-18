@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Collections
 {
+    using AngleSharp.Css;
     using AngleSharp.DOM.Css;
     using AngleSharp.Parser.Css;
     using System;
@@ -88,15 +89,15 @@
         #region Methods
 
         /// <summary>
-        /// Validates the list of contained media.
+        /// Validates the list of contained media against the provided rendering device.
         /// </summary>
-        /// <param name="window">The current browsing window.</param>
+        /// <param name="device">The current rendering device.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        public Boolean Validate(IWindow window)
+        public Boolean Validate(RenderDevice device)
         {
             foreach (var media in _media)
             {
-                if (media.Validate(window) == false)
+                if (media.Validate(device) == false)
                     return false;
             }
 

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -25,8 +24,7 @@
 
         protected override Boolean TrySetDefault()
         {
-            _ratio = Tuple.Create(1, 1);
-            return true;
+            return false;
         }
 
         protected override Boolean TrySetCustom(ICssValue value)
@@ -34,9 +32,17 @@
             return Converters.RatioConverter.TryConvert(value, m => _ratio = m);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = (Single)_ratio.Item1 / (Single)_ratio.Item2;
+            var available = (Single)device.ViewPortWidth / (Single)device.ViewPortHeight;
+
+            if (IsMaximum)
+                return available <= desired;
+            else if (IsMinimum)
+                return available >= desired;
+            
+            return desired == available;
         }
 
         #endregion

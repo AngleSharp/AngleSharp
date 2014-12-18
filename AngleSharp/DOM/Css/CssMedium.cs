@@ -112,20 +112,27 @@
         #region Methods
 
         /// <summary>
-        /// Validates the given medium.
+        /// Validates the given medium against the provided rendering device.
         /// </summary>
-        /// <param name="window">The current browsing window.</param>
+        /// <param name="device">The current render device.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        public Boolean Validate(IWindow window)
+        public Boolean Validate(RenderDevice device)
         {
             var condition = IsInverse;
 
             if (!String.IsNullOrEmpty(Type) && Types.Contains(Type) == condition)
                 return false;
 
+            if (Type == Keywords.Screen && (device.DeviceType == RenderDevice.Kind.Screen) == condition)
+                return false;
+            else if (Type == Keywords.Speech && (device.DeviceType == RenderDevice.Kind.Speech) == condition)
+                return false;
+            else if (Type == Keywords.Print && (device.DeviceType == RenderDevice.Kind.Printer) == condition)
+                return false;
+
             foreach (var feature in _features)
             {
-                if (feature.Validate(window) == condition)
+                if (feature.Validate(device) == condition)
                     return false;
             }
 

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -114,11 +113,11 @@
         }
 
         /// <summary>
-        /// Validates the given feature.
+        /// Validates the given feature against the provided rendering device.
         /// </summary>
-        /// <param name="window">The current browsing window.</param>
+        /// <param name="device">The provided rendering device.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        public abstract Boolean Validate(IWindow window);
+        public abstract Boolean Validate(RenderDevice device);
 
         #endregion
     }

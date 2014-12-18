@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -50,9 +49,11 @@
             return Converter.TryConvert(value, m => _interlace = m);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = _interlace;
+            var available = device.IsInterlaced;
+            return desired == available;
         }
 
         #endregion

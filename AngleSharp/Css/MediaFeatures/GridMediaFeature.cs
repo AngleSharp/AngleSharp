@@ -1,14 +1,15 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
+    using AngleSharp.Extensions;
     using System;
 
     sealed class GridMediaFeature : MediaFeature
     {
         #region Fields
 
-        Int32 _grid;
+        static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m == 1 || m == 0);
+        Boolean _grid;
 
         #endregion
 
@@ -25,18 +26,20 @@
 
         protected override Boolean TrySetDefault()
         {
-            _grid = 0;
+            _grid = false;
             return true;
         }
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converters.PositiveIntegerConverter.TryConvert(value, m => _grid = m);
+            return Converter.TryConvert(value, m => _grid = m == 1);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = _grid;
+            var available = device.IsGrid;
+            return desired == available;
         }
 
         #endregion

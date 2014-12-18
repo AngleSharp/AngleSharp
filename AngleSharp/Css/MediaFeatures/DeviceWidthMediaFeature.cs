@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -33,9 +32,17 @@
             return Converters.LengthConverter.TryConvert(value, m => _length = m);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = _length.ToPixel();
+            var available = (Single)device.DeviceWidth;
+
+            if (IsMaximum)
+                return available <= desired;
+            else if (IsMinimum)
+                return available >= desired;
+
+            return desired == available;
         }
 
         #endregion

@@ -61,12 +61,13 @@
         public static CSSStyleDeclaration ComputeDeclarations(this IWindow window, IElement element)
         {
             var bag = new CssPropertyBag();
+            var device = new RenderDevice(window.OuterWidth, window.OuterHeight);
 
             foreach (var stylesheet in window.Document.StyleSheets)
             {
                 var sheet = stylesheet as CSSStyleSheet;
 
-                if (sheet != null && !stylesheet.IsDisabled && stylesheet.Media.Validate(window))
+                if (sheet != null && !stylesheet.IsDisabled && stylesheet.Media.Validate(device))
                 {
                     var rules = (CSSRuleList)sheet.Rules;
                     rules.ComputeStyle(bag, window, element);

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
 
@@ -51,10 +52,10 @@
         void Remove(String medium);
 
         /// <summary>
-        /// Validates the list of contained media.
+        /// Validates the list of contained media against the rendering device.
         /// </summary>
-        /// <param name="window">The current browsing window.</param>
+        /// <param name="device">The rendering device.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        Boolean Validate(IWindow window);
+        Boolean Validate(RenderDevice device);
     }
 }

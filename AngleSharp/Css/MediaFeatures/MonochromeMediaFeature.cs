@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -34,9 +33,17 @@
             return Converters.PositiveIntegerConverter.TryConvert(value, m => _index = m);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = _index;
+            var available = device.MonochromeBits;
+
+            if (IsMaximum)
+                return available <= desired;
+            else if (IsMinimum)
+                return available >= desired;
+
+            return desired == available;
         }
 
         #endregion

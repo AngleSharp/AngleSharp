@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -50,9 +49,11 @@
             return Converter.TryConvert(value, m => _portrait = m);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = _portrait;
+            var available = device.DeviceHeight >= device.DeviceWidth;
+            return desired == available;
         }
 
         #endregion

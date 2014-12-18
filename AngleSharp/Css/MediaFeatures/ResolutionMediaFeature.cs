@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using System;
 
@@ -34,9 +33,17 @@
             return Converters.ResolutionConverter.TryConvert(value, m => _res = m);
         }
 
-        public override Boolean Validate(IWindow window)
+        public override Boolean Validate(RenderDevice device)
         {
-            return true;
+            var desired = _res.To(Resolution.Unit.Dpi);
+            var available = (Single)device.Resolution;
+
+            if (IsMaximum)
+                return available <= desired;
+            else if (IsMinimum)
+                return available >= desired;
+
+            return desired == available;
         }
 
         #endregion
