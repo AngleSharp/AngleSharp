@@ -183,6 +183,11 @@
         /// </summary>
         public static readonly Dictionary<String, BlendMode> BlendModes = new Dictionary<String, BlendMode>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-UpdateFrequency mapping.
+        /// </summary>
+        public static readonly Dictionary<String, UpdateFrequency> UpdateFrequencies = new Dictionary<String, UpdateFrequency>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -455,6 +460,10 @@
             BlendModes.Add(Keywords.Saturation, BlendMode.Saturation);
             BlendModes.Add(Keywords.Screen, BlendMode.Screen);
             BlendModes.Add(Keywords.SoftLight, BlendMode.SoftLight);
+
+            UpdateFrequencies.Add(Keywords.None, UpdateFrequency.None);
+            UpdateFrequencies.Add(Keywords.Slow, UpdateFrequency.Slow);
+            UpdateFrequencies.Add(Keywords.Normal, UpdateFrequency.Normal);
         }
 
         #endregion
