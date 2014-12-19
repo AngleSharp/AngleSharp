@@ -21,9 +21,9 @@
         /// Creates a new @page rule.
         /// </summary>
         internal CSSPageRule()
+            : base(CssRuleType.Page)
         {
             _style = new CSSStyleDeclaration(this);
-            _type = CssRuleType.Page;
             _selector = SimpleSelector.All;
         }
 

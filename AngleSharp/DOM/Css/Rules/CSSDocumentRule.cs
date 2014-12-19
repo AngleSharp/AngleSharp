@@ -21,8 +21,8 @@
         #region ctor
 
         internal CSSDocumentRule()
+            : base(CssRuleType.Document)
         {
-            _type = CssRuleType.Document;
             _conditions = new List<Tuple<DocumentFunction, String>>();
         }
 

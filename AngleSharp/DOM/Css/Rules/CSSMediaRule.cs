@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.DOM.Collections;
     using AngleSharp.Extensions;
     using System;
@@ -30,9 +31,9 @@
         /// </summary>
         /// <param name="media">The media list.</param>
         internal CSSMediaRule(MediaList media)
+            : base(CssRuleType.Media)
         {
             _media = media;
-            _type = CssRuleType.Media;
         }
 
         #endregion
@@ -67,10 +68,9 @@
             _media.Import(newRule._media);
         }
 
-        internal override Boolean IsValid(IWindow window)
+        internal override Boolean IsValid(RenderDevice device)
         {
-            //TODO
-            return true;
+            return _media.Validate(device);
         }
 
         #endregion

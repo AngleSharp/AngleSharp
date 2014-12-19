@@ -22,9 +22,9 @@
         /// Creates a new @keyframe rule.
         /// </summary>
         internal CSSKeyframeRule()
+            : base(CssRuleType.Keyframe)
         {
             _style = new CSSStyleDeclaration(this);
-            _type = CssRuleType.Keyframe;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -19,7 +20,8 @@
         /// <summary>
         /// Creates a new CSS grouping rule.
         /// </summary>
-        internal CSSGroupingRule()
+        internal CSSGroupingRule(CssRuleType type)
+            : base(type)
         {
             _rules = new CSSRuleList();
         }
@@ -52,9 +54,9 @@
             _rules.Import(newRule._rules, Owner, Parent);
         }
 
-        internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
+        internal override void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
         {
-            _rules.ComputeStyle(style, window, element);
+            _rules.ComputeStyle(style, device, element);
         }
 
         #endregion
@@ -80,7 +82,7 @@
         public Int32 Insert(String rule, Int32 index)
         {
             var value = CssParser.ParseRule(rule);
-            _rules.Insert(value, index, _ownerSheet, this);
+            _rules.Insert(value, index, Owner, this);
             return index;    
         }
 

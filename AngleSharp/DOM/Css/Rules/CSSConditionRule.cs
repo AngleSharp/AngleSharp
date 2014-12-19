@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
 
     /// <summary>
@@ -13,7 +14,8 @@
         /// <summary>
         /// Constructs a new CSS condition rule.
         /// </summary>
-        internal CSSConditionRule ()
+        internal CSSConditionRule (CssRuleType type)
+            : base(type)
 	    { 
         }
 
@@ -21,13 +23,13 @@
 
         #region Internal Methods
 
-        internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
+        internal override void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
         {
-            if (IsValid(window))
-                base.ComputeStyle(style, window, element);
+            if (IsValid(device))
+                base.ComputeStyle(style, device, element);
         }
 
-        internal abstract Boolean IsValid(IWindow window);
+        internal abstract Boolean IsValid(RenderDevice device);
 
         #endregion
     }

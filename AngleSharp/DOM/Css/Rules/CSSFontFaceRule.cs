@@ -35,9 +35,9 @@
         /// Creates a new @font-face rule.
         /// </summary>
         internal CSSFontFaceRule()
+            : base(CssRuleType.FontFace)
         {
             _style = new CSSStyleDeclaration(this);
-            _type = CssRuleType.FontFace;
         }
 
         #endregion

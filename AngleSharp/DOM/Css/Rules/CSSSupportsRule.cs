@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 
@@ -18,8 +19,8 @@
         #region ctor
 
         internal CSSSupportsRule()
+            : base(CssRuleType.Supports)
         {
-            _type = CssRuleType.Supports;
             _condition = String.Empty;
             _used = true;
         }
@@ -58,7 +59,7 @@
             _used = newRule._used;
         }
 
-        internal override Boolean IsValid(IWindow window)
+        internal override Boolean IsValid(RenderDevice device)
         {
             //TODO
             return true;

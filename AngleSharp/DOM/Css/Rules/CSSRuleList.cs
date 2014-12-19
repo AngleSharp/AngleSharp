@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -73,10 +74,10 @@
             get { return _rules[index]; }
         }
 
-        internal void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
+        internal void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
         {
             foreach (var rule in _rules)
-                rule.ComputeStyle(style, window, element);
+                rule.ComputeStyle(style, device, element);
         }
 
         internal void Clear()

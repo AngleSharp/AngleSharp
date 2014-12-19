@@ -21,8 +21,8 @@
         /// Creates a new @namespace rule.
         /// </summary>
         internal CSSNamespaceRule()
+            : base(CssRuleType.Namespace)
         {
-            _type = CssRuleType.Namespace;
         }
 
         #endregion

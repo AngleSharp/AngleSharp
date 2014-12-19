@@ -23,8 +23,8 @@
         /// Creates a new CSS import rule
         /// </summary>
         internal CSSImportRule()
+            : base(CssRuleType.Import)
         {
-            _type = CssRuleType.Import;
         }
 
         #endregion

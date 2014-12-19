@@ -16,70 +16,36 @@
     static class StyleExtensions
     {
         /// <summary>
-        /// Extends the given bag with the set properties of the specified
-        /// styling declaration.
+        /// Computes the declarations for the given element in the context of
+        /// the specified stylesheets and render device.
         /// </summary>
-        /// <param name="bag">The bag to modify.</param>
-        /// <param name="styling">The styling properties to use.</param>
-        /// <param name="priority">Sets the priority of the new properties.</param>
-        public static void ExtendWith(this CssPropertyBag bag, CSSStyleDeclaration styling, Priority priority)
-        {
-            foreach (var property in styling.Declarations)
-                bag.TryUpdate(property, priority);
-        }
-
-        /// <summary>
-        /// Inherits the unspecified properties from the element's parents.
-        /// </summary>
-        /// <param name="bag">The bag to modify.</param>
-        /// <param name="element">The element that has unresolved properties.</param>
-        /// <param name="window">The associated window object.</param>
-        public static void InheritFrom(this CssPropertyBag bag, IElement element, IWindow window)
-        {
-            var parent = element.ParentElement;
-
-            if (parent != null)
-            {
-                var styling = window.ComputeDeclarations(parent);
-
-                foreach (var property in styling.Declarations)
-                {
-                    var styleProperty = bag[property.Name];
-
-                    if (styleProperty == null || styleProperty.IsInherited)
-                        bag.TryUpdate(property);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Computes the declarations for the given element in the specified window.
-        /// </summary>
-        /// <param name="window">The context of the element.</param>
+        /// <param name="stylesheets">The stylesheets to use.</param>
         /// <param name="element">The element that is questioned.</param>
+        /// <param name="device">The render device to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static CSSStyleDeclaration ComputeDeclarations(this IWindow window, IElement element)
+        public static CSSStyleDeclaration ComputeDeclarations(this IEnumerable<IStyleSheet> stylesheets, IElement element, RenderDevice device)
         {
+            var parents = element.GetAncestorsOf().OfType<IElement>().Reverse().ToArray();
             var bag = new CssPropertyBag();
-            var device = new RenderDevice(window.OuterWidth, window.OuterHeight);
 
-            foreach (var stylesheet in window.Document.StyleSheets)
+            foreach (var stylesheet in stylesheets.OfType<CSSStyleSheet>())
             {
-                var sheet = stylesheet as CSSStyleSheet;
-
-                if (sheet != null && !stylesheet.IsDisabled && stylesheet.Media.Validate(device))
+                if (!stylesheet.IsDisabled && stylesheet.Media.Validate(device))
                 {
-                    var rules = (CSSRuleList)sheet.Rules;
-                    rules.ComputeStyle(bag, window, element);
+                    var rules = (CSSRuleList)stylesheet.Rules;
+
+                    foreach (var parent in parents)
+                        rules.ComputeStyle(bag, device, parent);
+
+                    rules.ComputeStyle(bag, device, element);
                 }
             }
 
             var htmlElement = element as HTMLElement;
 
             if (htmlElement != null)
-                bag.ExtendWith(htmlElement.Style, Priority.Inline);
+                htmlElement.Style.ApplyTo(bag, Priority.Inline);
 
-            bag.InheritFrom(element, window);
             return new CSSStyleDeclaration(bag);
         }
 

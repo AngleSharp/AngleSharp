@@ -2525,26 +2525,6 @@
                 SetLonghand(property);
         }
 
-        void SetLonghand(CSSProperty property)
-        {
-            if (!_declarations.Contains(property))
-                _declarations.Add(property);
-        }
-
-        void SetShorthand(CSSShorthandProperty shorthand)
-        {
-            var properties = shorthand.Properties;
-
-            for (int i = 0; i < properties.Length; i++)
-                SetLonghand(properties[i]);
-        }
-
-        void RaiseChanged()
-        {
-            if (Changed != null)
-                Changed(this, EventArgs.Empty);
-        }
-
         /// <summary>
         /// Updates the CSSStyleDeclaration with the given value.
         /// </summary>
@@ -2567,6 +2547,42 @@
             _declarations.Clear();
             _declarations.AddRange(style._declarations);
             style._declarations.Clear();
+        }
+
+        /// <summary>
+        /// Applies the stored declarations to the given property bag, given the
+        /// specified priority.
+        /// </summary>
+        /// <param name="bag">The property bag to update.</param>
+        /// <param name="priority">The priority to use for updating.</param>
+        internal void ApplyTo(CssPropertyBag bag, Priority priority)
+        {
+            foreach (var property in _declarations)
+                bag.TryUpdate(property, priority);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void SetLonghand(CSSProperty property)
+        {
+            if (!_declarations.Contains(property))
+                _declarations.Add(property);
+        }
+
+        void SetShorthand(CSSShorthandProperty shorthand)
+        {
+            var properties = shorthand.Properties;
+
+            for (int i = 0; i < properties.Length; i++)
+                SetLonghand(properties[i]);
+        }
+
+        void RaiseChanged()
+        {
+            if (Changed != null)
+                Changed(this, EventArgs.Empty);
         }
 
         #endregion

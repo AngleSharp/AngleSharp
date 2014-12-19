@@ -11,8 +11,8 @@
         #region ctor
 
         internal CSSCharsetRule()
+            : base(CssRuleType.Charset)
         {
-            _type = CssRuleType.Charset;
         }
 
         #endregion

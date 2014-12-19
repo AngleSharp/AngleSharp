@@ -23,9 +23,9 @@
         /// Creates a new @keyframes rule.
         /// </summary>
         internal CSSKeyframesRule()
+            : base(CssRuleType.Keyframes)
         {
             _rules = new CSSRuleList();
-            _type = CssRuleType.Keyframes;
         }
 
         #endregion
@@ -65,7 +65,7 @@
         public void Add(String rule)
         {
             var value = CssParser.ParseKeyframeRule(rule);
-            _rules.Insert(value, _rules.Length, _ownerSheet, this);
+            _rules.Insert(value, _rules.Length, Owner, this);
         }
 
         /// <summary>

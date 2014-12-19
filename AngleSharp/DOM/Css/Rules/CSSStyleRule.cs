@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
@@ -22,9 +23,9 @@
         /// Creates a new CSS style rule.
         /// </summary>
         internal CSSStyleRule()
+            : base(CssRuleType.Style)
         {
             _style = new CSSStyleDeclaration(this);
-            _type = CssRuleType.Style;
             _selector = SimpleSelector.All;
         }
 
@@ -80,10 +81,10 @@
             _selector = newRule._selector;
         }
 
-        internal override void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
+        internal override void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
         {
             if (_selector.Match(element))
-                style.ExtendWith(_style, _selector.Specifity);
+                _style.ApplyTo(style, _selector.Specifity);
         }
 
         #endregion

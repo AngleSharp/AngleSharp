@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Tools
 {
+    using AngleSharp.Css;
     using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Events;
@@ -138,7 +139,8 @@
 
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
-            return this.ComputeDeclarations(element);
+            var device = new RenderDevice(OuterWidth, OuterHeight);
+            return this.Document.GetStyleSheets().ComputeDeclarations(element, device);
         }
 
         #endregion

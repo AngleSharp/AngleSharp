@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -10,18 +11,9 @@
     {
         #region Fields
 
-        /// <summary>
-        /// The type of CSS rule.
-        /// </summary>
-        protected CssRuleType _type;
-        /// <summary>
-        /// The parent stylesheet.
-        /// </summary>
-        protected ICssStyleSheet _ownerSheet;
-        /// <summary>
-        /// The parent rule.
-        /// </summary>
-        protected ICssRule _parentRule;
+        readonly CssRuleType _type;
+        ICssStyleSheet _ownerSheet;
+        ICssRule _parentRule;
 
         #endregion
 
@@ -30,9 +22,9 @@
         /// <summary>
         /// Creates a new CSS rule.
         /// </summary>
-        internal CSSRule()
+        internal CSSRule(CssRuleType type)
         {
-            _type = CssRuleType.Unknown;
+            _type = type;
         }
 
         #endregion
@@ -101,9 +93,9 @@
         /// context. Writes the properties into the specified style declaration.
         /// </summary>
         /// <param name="style">The declaration that is used.</param>
-        /// <param name="window">The given window context.</param>
+        /// <param name="device">The given render device.</param>
         /// <param name="element">The element that is computed.</param>
-        internal virtual void ComputeStyle(CssPropertyBag style, IWindow window, IElement element)
+        internal virtual void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
         {
             //By default nothing gets computed.
         }
