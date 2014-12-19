@@ -95,7 +95,7 @@
         /// <param name="style">The declaration that is used.</param>
         /// <param name="device">The given render device.</param>
         /// <param name="element">The element that is computed.</param>
-        internal virtual void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
+        internal virtual void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
         {
             //By default nothing gets computed.
         }

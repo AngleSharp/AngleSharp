@@ -54,7 +54,7 @@
             _rules.Import(newRule._rules, Owner, Parent);
         }
 
-        internal override void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
+        internal override void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
         {
             _rules.ComputeStyle(style, device, element);
         }

@@ -74,7 +74,7 @@
             get { return _rules[index]; }
         }
 
-        internal void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
+        internal void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
         {
             foreach (var rule in _rules)
                 rule.ComputeStyle(style, device, element);

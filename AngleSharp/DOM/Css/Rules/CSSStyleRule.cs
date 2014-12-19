@@ -81,7 +81,7 @@
             _selector = newRule._selector;
         }
 
-        internal override void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
+        internal override void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
         {
             if (_selector.Match(element))
                 _style.ApplyTo(style, _selector.Specifity);

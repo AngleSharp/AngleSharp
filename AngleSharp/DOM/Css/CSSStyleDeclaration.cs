@@ -2555,7 +2555,7 @@
         /// </summary>
         /// <param name="bag">The property bag to update.</param>
         /// <param name="priority">The priority to use for updating.</param>
-        internal void ApplyTo(CssPropertyBag bag, Priority priority)
+        internal void ApplyTo(PropertyBag bag, Priority priority)
         {
             foreach (var property in _declarations)
                 bag.TryUpdate(property, priority);

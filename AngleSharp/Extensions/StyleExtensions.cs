@@ -26,7 +26,7 @@
         public static CSSStyleDeclaration ComputeDeclarations(this IEnumerable<IStyleSheet> stylesheets, IElement element, RenderDevice device)
         {
             var parents = element.GetAncestorsOf().OfType<IElement>().Reverse().ToArray();
-            var bag = new CssPropertyBag();
+            var bag = new PropertyBag();
 
             foreach (var stylesheet in stylesheets.OfType<CSSStyleSheet>())
             {

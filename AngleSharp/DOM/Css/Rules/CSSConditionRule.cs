@@ -23,7 +23,7 @@
 
         #region Internal Methods
 
-        internal override void ComputeStyle(CssPropertyBag style, RenderDevice device, IElement element)
+        internal override void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
         {
             if (IsValid(device))
                 base.ComputeStyle(style, device, element);

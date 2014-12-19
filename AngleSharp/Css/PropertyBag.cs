@@ -1,12 +1,12 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Css;
+    using AngleSharp.DOM.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class CssPropertyBag : IEnumerable<CSSProperty>
+    sealed class PropertyBag : IEnumerable<CSSProperty>
     {
         #region Fields
 
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public CssPropertyBag()
+        public PropertyBag()
         {
             _bag = new Dictionary<String, KeyValuePair<CSSProperty, Priority>>(StringComparer.OrdinalIgnoreCase);
         }
