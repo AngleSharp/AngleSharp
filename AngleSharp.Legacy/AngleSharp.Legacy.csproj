@@ -151,6 +151,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\ScanMediaFeature.cs">
       <Link>Css\MediaFeatures\ScanMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\ScriptingMediaFeature.cs">
+      <Link>Css\MediaFeatures\ScriptingMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
       <Link>Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
     </Compile>
@@ -509,6 +512,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\PositionMode.cs">
       <Link>DOM\Css\Constants\PositionMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\ScriptingState.cs">
+      <Link>DOM\Css\Constants\ScriptingState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
       <Link>DOM\Css\Constants\SystemCursor.cs</Link>
