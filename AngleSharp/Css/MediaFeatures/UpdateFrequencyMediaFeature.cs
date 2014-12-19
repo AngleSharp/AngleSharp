@@ -16,7 +16,7 @@
         #region ctor
 
         public UpdateFrequencyMediaFeature()
-            : base(FeatureNames.Scan)
+            : base(FeatureNames.UpdateFrequency)
         {
             _frequency = UpdateFrequency.Normal;
         }
