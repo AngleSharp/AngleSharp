@@ -140,7 +140,8 @@
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
             var device = new RenderDevice(OuterWidth, OuterHeight);
-            return this.Document.GetStyleSheets().ComputeDeclarations(element, device);
+            var stylesheets = Document.GetStyleSheets();
+            return stylesheets.ComputeDeclarations(element, device);
         }
 
         #endregion
