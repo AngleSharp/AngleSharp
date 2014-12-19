@@ -160,6 +160,9 @@
     <Compile Include="..\AngleSharp\Css\Priority.cs">
       <Link>Css\Priority.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\PropertyBag.cs">
+      <Link>Css\PropertyBag.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\PropertyFlags.cs">
       <Link>Css\PropertyFlags.cs</Link>
     </Compile>
@@ -536,9 +539,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
       <Link>DOM\Css\CSSProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CssPropertyBag.cs">
-      <Link>DOM\Css\CssPropertyBag.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CSSStyleDeclaration.cs">
       <Link>DOM\Css\CSSStyleDeclaration.cs</Link>
