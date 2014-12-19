@@ -864,6 +864,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSUnicodeBidiProperty.cs">
       <Link>DOM\Css\Properties\CSSUnicodeBidiProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSUnknownProperty.cs">
+      <Link>DOM\Css\Properties\CSSUnknownProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSWidowsProperty.cs">
       <Link>DOM\Css\Properties\CSSWidowsProperty.cs</Link>
     </Compile>
@@ -1079,6 +1082,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSSupportsRule.cs">
       <Link>DOM\Css\Rules\CSSSupportsRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSUnknownRule.cs">
+      <Link>DOM\Css\Rules\CSSUnknownRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Selector\ComplexSelector.cs">
       <Link>DOM\Css\Selector\ComplexSelector.cs</Link>
