@@ -79,10 +79,12 @@
     <Compile Include="Css\ValueConverters\ToValueConverter.cs" />
     <Compile Include="DOM\Css\Constants\UpdateFrequency.cs" />
     <Compile Include="DOM\Css\Properties\CSSShorthandProperty.cs" />
+    <Compile Include="DOM\Css\Properties\CSSUnknownProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs" />
     <Compile Include="DOM\Css\Properties\Font\CSSSrcProperty.cs" />
     <Compile Include="DOM\Css\Properties\List\CSSCounterProperty.cs" />
+    <Compile Include="DOM\Css\Rules\CSSUnknownRule.cs" />
     <Compile Include="DOM\Css\Selector\KeyframeSelector.cs" />
     <Compile Include="DOM\Css\Values\CssFunction.cs" />
     <Compile Include="Css\Values\PerspectiveTransform.cs" />
