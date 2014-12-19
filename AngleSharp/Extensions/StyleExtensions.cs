@@ -32,7 +32,7 @@
             {
                 if (!stylesheet.IsDisabled && stylesheet.Media.Validate(device))
                 {
-                    var rules = (CSSRuleList)stylesheet.Rules;
+                    var rules = stylesheet.Rules;
 
                     foreach (var parent in parents)
                         rules.ComputeStyle(bag, device, parent);
