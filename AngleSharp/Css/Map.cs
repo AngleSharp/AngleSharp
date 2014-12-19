@@ -188,6 +188,11 @@
         /// </summary>
         public static readonly Dictionary<String, UpdateFrequency> UpdateFrequencies = new Dictionary<String, UpdateFrequency>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-ScriptingState mapping.
+        /// </summary>
+        public static readonly Dictionary<String, ScriptingState> ScriptingStates = new Dictionary<String, ScriptingState>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -464,6 +469,10 @@
             UpdateFrequencies.Add(Keywords.None, UpdateFrequency.None);
             UpdateFrequencies.Add(Keywords.Slow, UpdateFrequency.Slow);
             UpdateFrequencies.Add(Keywords.Normal, UpdateFrequency.Normal);
+
+            ScriptingStates.Add(Keywords.None, ScriptingState.None);
+            ScriptingStates.Add(Keywords.InitialOnly, ScriptingState.InitialOnly);
+            ScriptingStates.Add(Keywords.Enabled, ScriptingState.Enabled);
         }
 
         #endregion

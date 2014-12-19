@@ -176,5 +176,10 @@
         /// Gets the name of the update-frequency feature.
         /// </summary>
         public readonly static String UpdateFrequency = "update-frequency";
+
+        /// <summary>
+        /// Gets the name of the scripting feature.
+        /// </summary>
+        public readonly static String Scripting = "scripting";
     }
 }

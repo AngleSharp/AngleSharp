@@ -1261,5 +1261,20 @@
         /// The slow keyword.
         /// </summary>
         public static readonly String Slow = "slow";
+
+        /// <summary>
+        /// The enabled keyword.
+        /// </summary>
+        public static readonly String Enabled = "enabled";
+
+        /// <summary>
+        /// The disabled keyword.
+        /// </summary>
+        public static readonly String Disabled = "disabled";
+
+        /// <summary>
+        /// The initial-only keyword.
+        /// </summary>
+        public static readonly String InitialOnly = "initial-only";
     }
 }
