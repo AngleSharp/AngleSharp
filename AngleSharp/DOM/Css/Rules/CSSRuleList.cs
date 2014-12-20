@@ -136,9 +136,6 @@
 
         internal void Add(CSSRule value, ICssStyleSheet owner, ICssRule parent)
         {
-            if (value is CSSUnknownRule)
-                return;
-
             _rules.Add(value);
             value.Owner = owner;
             value.Parent = parent;

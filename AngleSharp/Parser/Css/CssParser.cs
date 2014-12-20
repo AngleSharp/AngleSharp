@@ -382,6 +382,39 @@
             return import;
         }
 
+        /// <summary>
+        /// An unidentified @-rule has been found.
+        /// </summary>
+        /// <param name="parser">The parser to create the rule.</param>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The created rule.</returns>
+        static CSSUnknownRule CreateUnknownRule(CssParser parser, IEnumerator<CssToken> tokens)
+        {
+            var rule = new CSSUnknownRule(tokens.Current.Data);
+            var prelude = Pool.NewStringBuilder();
+            parser.tokenizer.IgnoreWhitespace = false;
+
+            while (tokens.MoveNext())
+            {
+                var token = tokens.Current;
+
+                if (token.Type == CssTokenType.Semicolon)
+                    break;
+                else if (token.Type == CssTokenType.CurlyBracketOpen)
+                    break;
+
+                prelude.Append(token.ToValue());
+            }
+
+            parser.tokenizer.IgnoreWhitespace = true;
+
+            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+                parser.FillRules(rule, tokens);
+
+            rule.Prelude = prelude.ToPool();
+            return rule;
+        }
+
         #endregion
 
         #region States
@@ -404,13 +437,21 @@
                     if (creators.TryGetValue(token.Data, out creator))
                         return creator(this, tokens);
 
-                    return SkipUnknownRule(tokens);
+                    CreateUnknownRule(this, tokens);
+                    //TODO RaiseError
+                    return null;
                 }
+                case CssTokenType.CurlyBracketOpen:
+                {
+                    SkipUnknownRule(tokens);
+                    return null;
+                }
+                case CssTokenType.String:
+                case CssTokenType.Url:
                 case CssTokenType.CurlyBracketClose:
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
                 {
-                    while (tokens.MoveNext()) ;
                     return null;
                 }
                 default:
@@ -425,7 +466,8 @@
                         return rule;
                     }
 
-                    return SkipUnknownRule(tokens);
+                    SkipUnknownRule(tokens);
+                    return null;
                 }
             }
         }
@@ -628,7 +670,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframe data.</returns>
-        CSSRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
+        CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
             var key = InKeyframeText(tokens);
 
@@ -640,7 +682,8 @@
                 return rule;
             }
 
-            return SkipUnknownRule(tokens);
+            SkipUnknownRule(tokens);
+            return null;
         }
 
         /// <summary>
@@ -1213,10 +1256,8 @@
         /// State that is called once in the head of an unknown @ rule.
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
-        static CSSRule SkipUnknownRule(IEnumerator<CssToken> tokens)
+        static void SkipUnknownRule(IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSUnknownRule();
-            var buffer = Pool.NewStringBuilder();
             var curly = 0;
             var round = 0;
             var square = 0;
@@ -1225,7 +1266,6 @@
             do
             {
                 var token = tokens.Current;
-                buffer.Append(token.ToValue());
 
                 switch (token.Type)
                 {
@@ -1254,9 +1294,6 @@
                 }
             }
             while (cont && tokens.MoveNext());
-
-            rule.KeyText = buffer.ToPool();
-            return rule;
         }
 
         /// <summary>
@@ -1555,7 +1592,7 @@
             if (!tokens.MoveNext())
                 return new CSSKeyframeRule();
 
-            return parser.CreateKeyframeRule(tokens) as CSSKeyframeRule;
+            return parser.CreateKeyframeRule(tokens);
         }
 
         /// <summary>
