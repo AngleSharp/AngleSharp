@@ -1215,6 +1215,8 @@
         /// <param name="tokens">The stream of tokens.</param>
         static CSSRule SkipUnknownRule(IEnumerator<CssToken> tokens)
         {
+            var rule = new CSSUnknownRule();
+            var buffer = Pool.NewStringBuilder();
             var curly = 0;
             var round = 0;
             var square = 0;
@@ -1223,6 +1225,7 @@
             do
             {
                 var token = tokens.Current;
+                buffer.Append(token.ToValue());
 
                 switch (token.Type)
                 {
@@ -1252,7 +1255,8 @@
             }
             while (cont && tokens.MoveNext());
 
-            return null;
+            rule.KeyText = buffer.ToPool();
+            return rule;
         }
 
         /// <summary>
