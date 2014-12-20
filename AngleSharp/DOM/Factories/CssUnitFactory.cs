@@ -41,17 +41,17 @@
         }
 
         /// <summary>
-        /// Creates a new value.
+        /// Creates a new CSS value from the given quantity (value with unit).
         /// </summary>
-        /// <param name="unit">The unit of the value.</param>
-        /// <param name="data">The data of the value.</param>
-        /// <returns>The created value.</returns>
-        public static ICssValue Create(String unit, Single data)
+        /// <param name="value">The value of the quantity.</param>
+        /// <param name="unit">The unit of the quantity.</param>
+        /// <returns>The created CSS value.</returns>
+        public static ICssValue Create(Single value, String unit)
         {
             Func<Single, ICssValue> valueCreator;
 
             if (values.TryGetValue(unit, out valueCreator))
-                return valueCreator(data);
+                return valueCreator(value);
 
             return null;
         }

@@ -1265,7 +1265,7 @@
             if (token.Type == CssTokenType.Percentage)
                 return new Percent(token.Value);
 
-            return CssUnitFactory.Create(token.Unit.ToLowerInvariant(), token.Value);
+            return CssUnitFactory.Create(token.Value, token.Unit.ToLowerInvariant());
         }
 
         /// <summary>
