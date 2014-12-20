@@ -511,16 +511,16 @@
                 {
                     var property = style.CreateProperty(propertyName);
 
-                    if (property != null)
-                    {
-                        var value = InValue(tokens);
+                    if (property == null)
+                        property = new CSSUnknownProperty(propertyName, style);
 
-                        if (value != null && property.TrySetValue(value))
-                            style.SetProperty(property);
-                        
-                        if (IsImportant(tokens))
-                            property.IsImportant = true;
-                    }
+                    var value = InValue(tokens);
+
+                    if (value != null && property.TrySetValue(value))
+                        style.SetProperty(property);
+
+                    if (IsImportant(tokens))
+                        property.IsImportant = true;
 
                     JumpToEndOfDeclaration(tokens);
                     return property;
