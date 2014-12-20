@@ -101,7 +101,7 @@
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
     <Compile Include="DOM\Events\PageTransitionEvent.cs" />
-    <Compile Include="DOM\Factories\CssMediaFeatureFactory.cs" />
+    <Compile Include="DOM\Factories\MediaFeatureFactory.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />

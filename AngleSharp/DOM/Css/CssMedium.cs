@@ -165,7 +165,7 @@
         /// <param name="value">The value of the feature, if any.</param>
         internal Boolean AddConstraint(String name, ICssValue value = null)
         {
-            var feature = CssMediaFeatureFactory.Create(name);
+            var feature = MediaFeatureFactory.Create(name);
 
             if (feature == null || !feature.TrySetValue(value))
                 return false;

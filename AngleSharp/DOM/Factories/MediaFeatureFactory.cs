@@ -8,11 +8,11 @@
     /// <summary>
     /// Provides string to media feature instance creation mappings.
     /// </summary>
-    static class CssMediaFeatureFactory
+    static class MediaFeatureFactory
     {
         static readonly Dictionary<String, Func<MediaFeature>> featureConstructors = new Dictionary<String, Func<MediaFeature>>(StringComparer.OrdinalIgnoreCase);
 
-        static CssMediaFeatureFactory()
+        static MediaFeatureFactory()
         {
             featureConstructors.Add(FeatureNames.MinWidth, () => new WidthMediaFeature(FeatureNames.MinWidth));
             featureConstructors.Add(FeatureNames.MaxWidth, () => new WidthMediaFeature(FeatureNames.MaxWidth));
