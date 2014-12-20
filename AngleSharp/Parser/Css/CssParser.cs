@@ -404,8 +404,7 @@
                     if (creators.TryGetValue(token.Data, out creator))
                         return creator(this, tokens);
 
-                    SkipUnknownRule(tokens);
-                    return null;
+                    return SkipUnknownRule(tokens);
                 }
                 case CssTokenType.CurlyBracketClose:
                 case CssTokenType.RoundBracketClose:
@@ -418,16 +417,15 @@
                 {
                     var selector = InSelector(tokens);
 
-                    if (selector == null)
+                    if (selector != null)
                     {
-                        SkipUnknownRule(tokens);
-                        return null;
+                        var rule = new CSSStyleRule();
+                        FillDeclarations(rule.Style, tokens);
+                        rule.Selector = selector;
+                        return rule;
                     }
 
-                    var rule = new CSSStyleRule();
-                    FillDeclarations(rule.Style, tokens);
-                    rule.Selector = selector;
-                    return rule;
+                    return SkipUnknownRule(tokens);
                 }
             }
         }
@@ -630,20 +628,19 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframe data.</returns>
-        CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
+        CSSRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
             var key = InKeyframeText(tokens);
 
-            if (key == null)
+            if (key != null)
             {
-                SkipUnknownRule(tokens);
-                return null;
+                var rule = new CSSKeyframeRule();
+                FillDeclarations(rule.Style, tokens);
+                rule.Key = key;
+                return rule;
             }
 
-            var rule = new CSSKeyframeRule();
-            FillDeclarations(rule.Style, tokens);
-            rule.Key = key;
-            return rule;
+            return SkipUnknownRule(tokens);
         }
 
         /// <summary>
@@ -1216,7 +1213,7 @@
         /// State that is called once in the head of an unknown @ rule.
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
-        static void SkipUnknownRule(IEnumerator<CssToken> tokens)
+        static CSSRule SkipUnknownRule(IEnumerator<CssToken> tokens)
         {
             var curly = 0;
             var round = 0;
@@ -1254,6 +1251,8 @@
                 }
             }
             while (cont && tokens.MoveNext());
+
+            return null;
         }
 
         /// <summary>
@@ -1552,7 +1551,7 @@
             if (!tokens.MoveNext())
                 return new CSSKeyframeRule();
 
-            return parser.CreateKeyframeRule(tokens);
+            return parser.CreateKeyframeRule(tokens) as CSSKeyframeRule;
         }
 
         /// <summary>
