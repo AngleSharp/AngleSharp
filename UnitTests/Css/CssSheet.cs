@@ -119,6 +119,19 @@ h1 {
         }
 
         [Test]
+        public void CssSheetInvalidStatementRulesetUnexpectedRightBraceWithValidQualifiedRule()
+        {
+            var sheet = CssParser.ParseStyleSheet(@"}} {{ - }}
+#hi { color: green; }");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var style = sheet.Rules[0] as ICssStyleRule;
+            Assert.NotNull(style);
+            Assert.AreEqual("#hi", style.SelectorText);
+            Assert.AreEqual(1, style.Style.Length);
+            Assert.AreEqual("green", style.Style.Color);
+        }
+
+        [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesis()
         {
             var sheet = CssParser.ParseStyleSheet(@") ( {} ) p {color: red }");
