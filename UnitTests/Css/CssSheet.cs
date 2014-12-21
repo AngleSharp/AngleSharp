@@ -139,6 +139,18 @@ h1 {
         }
 
         [Test]
+        public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesisWithValidQualifiedRule()
+        {
+            var sheet = CssParser.ParseStyleSheet(@") {} p {color: green }");
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var style = sheet.Rules[0] as ICssStyleRule;
+            Assert.NotNull(style);
+            Assert.AreEqual("p", style.SelectorText);
+            Assert.AreEqual(1, style.Style.Length);
+            Assert.AreEqual("green", style.Style.Color);
+        }
+
+        [Test]
         public void CssSheetIgnoreUnknownAtRule()
         {
             var sheet = CssParser.ParseStyleSheet(@"@three-dee {
