@@ -752,5 +752,31 @@ h1 { color: blue }");
             Assert.IsNotNull(sheet);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
+
+        [Test]
+        public void CssDefaultSheetSupportsRoundTripping()
+        {
+            var originalSourceCode = @"p.info {
+	font-family: arial, sans-serif;
+	line-height: 150%;
+	margin-left: 2em;
+	padding: 1em;
+	border: 3px solid red;
+	background-color: #f89;
+	display: inline-block;
+}
+p.info span {
+	font-weight: bold;
+}
+p.info span::after {
+	content: ': ';
+}";
+            var initialSheet = DocumentBuilder.Css(originalSourceCode);
+            var initialSourceCode = initialSheet.CssText;
+            var finalSheet = DocumentBuilder.Css(initialSourceCode);
+            var finalSourceCode = finalSheet.CssText;
+            Assert.AreEqual(initialSourceCode, finalSourceCode);
+            Assert.AreEqual(initialSheet.Rules.Length, finalSheet.Rules.Length);
+        }
     }
 }
