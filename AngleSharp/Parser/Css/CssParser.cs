@@ -392,26 +392,34 @@
         {
             var rule = new CSSUnknownRule(tokens.Current.Data);
             var prelude = Pool.NewStringBuilder();
+            var round = 0;
+            var square = 0;
             parser.tokenizer.IgnoreWhitespace = false;
 
             while (tokens.MoveNext())
             {
                 var token = tokens.Current;
 
-                if (token.Type == CssTokenType.Semicolon)
+                if (round <= 0 && square <= 0 && (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketOpen))
                     break;
-                else if (token.Type == CssTokenType.CurlyBracketOpen)
-                    break;
+                else if (token.Type == CssTokenType.RoundBracketOpen)
+                    round++;
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                    round--;
+                else if (token.Type == CssTokenType.SquareBracketOpen)
+                    square++;
+                else if (token.Type == CssTokenType.SquareBracketClose)
+                    square--;
 
                 prelude.Append(token.ToValue());
             }
 
+            rule.Prelude = prelude.ToPool().Trim();
             parser.tokenizer.IgnoreWhitespace = true;
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                 parser.FillRules(rule, tokens);
 
-            rule.Prelude = prelude.ToPool();
             return rule;
         }
 
@@ -436,13 +444,14 @@
 
                     if (creators.TryGetValue(token.Data, out creator))
                         return creator(this, tokens);
-
-                    CreateUnknownRule(this, tokens);
+                    
+                    SkipUnknownRule(tokens);
                     //TODO RaiseError
                     return null;
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
+                    //TODO RaiseError
                     SkipUnknownRule(tokens);
                     return null;
                 }
@@ -452,22 +461,20 @@
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
                 {
+                    //TODO RaiseError
+                    SkipUnknownRule(tokens);
                     return null;
                 }
                 default:
                 {
-                    var selector = InSelector(tokens);
+                    var rule = new CSSStyleRule();
+                    rule.Selector = InSelector(tokens);
+                    FillDeclarations(rule.Style, tokens);
 
-                    if (selector != null)
-                    {
-                        var rule = new CSSStyleRule();
-                        FillDeclarations(rule.Style, tokens);
-                        rule.Selector = selector;
-                        return rule;
-                    }
+                    if (rule.Selector == null)
+                        return null;
 
-                    SkipUnknownRule(tokens);
-                    return null;
+                    return rule;
                 }
             }
         }
@@ -518,11 +525,7 @@
                 if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.CurlyBracketClose)
                     break;
 
-                if (selector.Apply(token) == false)
-                {
-                    tokenizer.IgnoreWhitespace = true;
-                    return null;
-                }
+                selector.Apply(token);
             }
             while (tokens.MoveNext());
 
@@ -672,18 +675,14 @@
         /// <returns>The generated keyframe data.</returns>
         CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
-            var key = InKeyframeText(tokens);
+            var rule = new CSSKeyframeRule();
+            rule.Key = InKeyframeText(tokens);
+            FillDeclarations(rule.Style, tokens);
 
-            if (key != null)
-            {
-                var rule = new CSSKeyframeRule();
-                FillDeclarations(rule.Style, tokens);
-                rule.Key = key;
-                return rule;
-            }
+            if (rule.Key == null)
+                return null;
 
-            SkipUnknownRule(tokens);
-            return null;
+            return rule;
         }
 
         /// <summary>
@@ -1270,12 +1269,13 @@
                 switch (token.Type)
                 {
                     case CssTokenType.Semicolon:
-                        cont = curly != 0 || round != 0 || square != 0;
+                        cont = curly > 0 || round > 0 || square > 0;
                         break;
                     case CssTokenType.CurlyBracketClose:
                         curly--;
-                        cont = curly != 0 || round != 0 || square != 0;
+                        cont = curly > 0 || round > 0 || square > 0;
                         break;
+                    case CssTokenType.Function:
                     case CssTokenType.RoundBracketOpen:
                         round++;
                         break;
@@ -1357,10 +1357,7 @@
             var creator = Pool.NewSelectorConstructor();
 
             foreach (var token in tokens)
-            {
-                if (creator.Apply(token) == false)
-                    return null;
-            }
+                creator.Apply(token);
 
             return creator.ToPool();
         }
