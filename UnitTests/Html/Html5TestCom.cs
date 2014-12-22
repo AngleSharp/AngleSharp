@@ -592,5 +592,16 @@ namespace UnitTests
             var output = body.InnerHtml;
             Assert.AreEqual(@"<span id=""test""></span><table border=""0"" cellspacing=""2"" cellpadding=""2"" width=""100%""></table>", output);
         }
+
+        [Test]
+        public void HtmlPageSupportsRoundTripping()
+        {
+            var originalSourceCode = Assets.selectors;
+            var initialDocument = DocumentBuilder.Html(originalSourceCode);
+            var initialSourceCode = initialDocument.ToHtml();
+            var finalDocument = DocumentBuilder.Html(initialSourceCode);
+            var finalSourceCode = finalDocument.ToHtml();
+            Assert.AreEqual(initialSourceCode, finalSourceCode);
+        }
     }
 }
