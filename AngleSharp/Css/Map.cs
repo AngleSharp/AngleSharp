@@ -198,6 +198,11 @@
         /// </summary>
         public static readonly Dictionary<String, PointerAccuracy> PointerAccuracies = new Dictionary<String, PointerAccuracy>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-HoverAbility mapping.
+        /// </summary>
+        public static readonly Dictionary<String, HoverAbility> HoverAbilities = new Dictionary<String, HoverAbility>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -482,6 +487,10 @@
             PointerAccuracies.Add(Keywords.None, PointerAccuracy.None);
             PointerAccuracies.Add(Keywords.Coarse, PointerAccuracy.Coarse);
             PointerAccuracies.Add(Keywords.Fine, PointerAccuracy.Fine);
+
+            HoverAbilities.Add(Keywords.None, HoverAbility.None);
+            HoverAbilities.Add(Keywords.OnDemand, HoverAbility.OnDemand);
+            HoverAbilities.Add(Keywords.Hover, HoverAbility.Hover);
         }
 
         #endregion

@@ -70,6 +70,7 @@
     <Compile Include="Css\IValueConverter.cs" />
     <Compile Include="DOM\Collections\ElementMap.cs" />
     <Compile Include="DOM\Constants\CacheStatus.cs" />
+    <Compile Include="DOM\Css\Constants\HoverAbility.cs" />
     <Compile Include="DOM\Css\Constants\OverflowMode.cs" />
     <Compile Include="DOM\Css\Constants\PointerAccuracy.cs" />
     <Compile Include="DOM\Css\Constants\PositionMode.cs" />

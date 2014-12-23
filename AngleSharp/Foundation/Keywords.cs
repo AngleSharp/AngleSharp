@@ -1286,5 +1286,15 @@
         /// The fine keyword.
         /// </summary>
         public static readonly String Fine = "fine";
+
+        /// <summary>
+        /// The on-demand keyword.
+        /// </summary>
+        public static readonly String OnDemand = "on-demand";
+
+        /// <summary>
+        /// The hover keyword.
+        /// </summary>
+        public static readonly String Hover = "hover";
     }
 }
