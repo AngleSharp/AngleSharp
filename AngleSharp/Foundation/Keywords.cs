@@ -1276,5 +1276,15 @@
         /// The initial-only keyword.
         /// </summary>
         public static readonly String InitialOnly = "initial-only";
+
+        /// <summary>
+        /// The coarse keyword.
+        /// </summary>
+        public static readonly String Coarse = "coarse";
+
+        /// <summary>
+        /// The fine keyword.
+        /// </summary>
+        public static readonly String Fine = "fine";
     }
 }

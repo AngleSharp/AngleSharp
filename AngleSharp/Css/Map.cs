@@ -193,6 +193,11 @@
         /// </summary>
         public static readonly Dictionary<String, ScriptingState> ScriptingStates = new Dictionary<String, ScriptingState>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-PointerAccuracy mapping.
+        /// </summary>
+        public static readonly Dictionary<String, PointerAccuracy> PointerAccuracies = new Dictionary<String, PointerAccuracy>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -473,6 +478,10 @@
             ScriptingStates.Add(Keywords.None, ScriptingState.None);
             ScriptingStates.Add(Keywords.InitialOnly, ScriptingState.InitialOnly);
             ScriptingStates.Add(Keywords.Enabled, ScriptingState.Enabled);
+
+            PointerAccuracies.Add(Keywords.None, PointerAccuracy.None);
+            PointerAccuracies.Add(Keywords.Coarse, PointerAccuracy.Coarse);
+            PointerAccuracies.Add(Keywords.Fine, PointerAccuracy.Fine);
         }
 
         #endregion
