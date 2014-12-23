@@ -50,6 +50,7 @@
             featureConstructors.Add(FeatureNames.UpdateFrequency, () => new UpdateFrequencyMediaFeature());
             featureConstructors.Add(FeatureNames.Scripting, () => new ScriptingMediaFeature());
             featureConstructors.Add(FeatureNames.Pointer, () => new PointerMediaFeature());
+            featureConstructors.Add(FeatureNames.Hover, () => new HoverMediaFeature());
         }
 
         /// <summary>

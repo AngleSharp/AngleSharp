@@ -186,5 +186,10 @@
         /// Gets the name of the pointer feature.
         /// </summary>
         public readonly static String Pointer = "pointer";
+
+        /// <summary>
+        /// Gets the name of the hover feature.
+        /// </summary>
+        public readonly static String Hover = "hover";
     }
 }
