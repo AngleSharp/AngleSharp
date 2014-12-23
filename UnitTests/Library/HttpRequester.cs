@@ -267,7 +267,7 @@
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.AreEqual("{\n  \"user-agent\": \"" + info.Agent + "\"\n}", content);
+                    Assert.AreEqual("{\n  \"user-agent\": \"" + info.Agent + "\"\n}\n", content);
                 }
             }
         }
