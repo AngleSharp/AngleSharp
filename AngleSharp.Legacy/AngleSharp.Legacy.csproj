@@ -139,6 +139,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\HeightMediaFeature.cs">
       <Link>Css\MediaFeatures\HeightMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\HoverMediaFeature.cs">
+      <Link>Css\MediaFeatures\HoverMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\MonochromeMediaFeature.cs">
       <Link>Css\MediaFeatures\MonochromeMediaFeature.cs</Link>
     </Compile>
