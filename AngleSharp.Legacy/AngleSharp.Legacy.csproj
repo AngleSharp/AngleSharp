@@ -145,6 +145,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\OrientationMediaFeature.cs">
       <Link>Css\MediaFeatures\OrientationMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\PointerMediaFeature.cs">
+      <Link>Css\MediaFeatures\PointerMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\ResolutionMediaFeature.cs">
       <Link>Css\MediaFeatures\ResolutionMediaFeature.cs</Link>
     </Compile>
