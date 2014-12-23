@@ -498,6 +498,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\FontVariant.cs">
       <Link>DOM\Css\Constants\FontVariant.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\HoverAbility.cs">
+      <Link>DOM\Css\Constants\HoverAbility.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\LineStyle.cs">
       <Link>DOM\Css\Constants\LineStyle.cs</Link>
     </Compile>
