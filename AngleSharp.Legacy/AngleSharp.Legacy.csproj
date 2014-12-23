@@ -510,6 +510,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\PlayState.cs">
       <Link>DOM\Css\Constants\PlayState.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\PointerAccuracy.cs">
+      <Link>DOM\Css\Constants\PointerAccuracy.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\PositionMode.cs">
       <Link>DOM\Css\Constants\PositionMode.cs</Link>
     </Compile>
