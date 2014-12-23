@@ -90,6 +90,7 @@
     <Compile Include="Css\FontFace.cs" />
     <Compile Include="Css\CssKeyframeRule.cs" />
     <Compile Include="Css\Gradient.cs" />
+    <Compile Include="Css\CssMediaFeatures.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
