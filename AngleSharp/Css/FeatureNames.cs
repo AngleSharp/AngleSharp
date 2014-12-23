@@ -181,5 +181,10 @@
         /// Gets the name of the scripting feature.
         /// </summary>
         public readonly static String Scripting = "scripting";
+
+        /// <summary>
+        /// Gets the name of the pointer feature.
+        /// </summary>
+        public readonly static String Pointer = "pointer";
     }
 }
