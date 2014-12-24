@@ -582,59 +582,48 @@
 
 			if (token.Type == CssTokenType.RoundBracketClose)
 			{
-				switch (attrName)
-				{
-					case pseudoClassFunctionNthChild:
-					{
-                        var sel = GetChildSelector<NthFirstChildSelector>();
+                if (attrName.Equals(pseudoClassFunctionNthChild, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sel = GetChildSelector<NthFirstChildSelector>();
 
-                        if (sel == null)
-                            break;
-
-						Insert(sel);
-                        return;
-					}
-					case pseudoClassFunctionNthLastChild:
-					{
-                        var sel = GetChildSelector<NthLastChildSelector>();
-
-                        if (sel == null)
-                            break;
-
+                    if (sel != null)
                         Insert(sel);
-                        return;
-					}
-					case pseudoClassFunctionNot:
-					{
-						var sel = nested.Result;
-                        var code = String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")");
-						Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), code));
-                        return;
-					}
-					case pseudoClassFunctionDir:
-                    {
-                        var code = String.Concat(pseudoClassFunctionDir, "(", attrValue, ")");
-                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Direction.Equals(attrValue, StringComparison.OrdinalIgnoreCase), code));
-                        return;
-					}
-					case pseudoClassFunctionLang:
-                    {
-                        var code = String.Concat(pseudoClassFunctionLang, "(", attrValue, ")");
-                        Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
-                        return;
-					}
-					case pseudoClassFunctionContains:
-                    {
-                        var code = String.Concat(pseudoClassFunctionContains, "(", attrValue, ")");
-						Insert(SimpleSelector.PseudoClass(el => el.TextContent.Contains(attrValue), code));
-                        return;
-					}
-                    default:
-                        return;
-				}
-			}
+                    else
+                        valid = false;
+                }
+                else if (attrName.Equals(pseudoClassFunctionNthLastChild, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sel = GetChildSelector<NthLastChildSelector>();
 
-            valid = false;
+                    if (sel != null)
+                        Insert(sel);
+                    else
+                        valid = false;
+                }
+                else if (attrName.Equals(pseudoClassFunctionNot, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sel = nested.Result;
+                    var code = String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")");
+                    Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), code));
+                }
+                else if (attrName.Equals(pseudoClassFunctionDir, StringComparison.OrdinalIgnoreCase))
+                {
+                    var code = String.Concat(pseudoClassFunctionDir, "(", attrValue, ")");
+                    Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Direction.Equals(attrValue, StringComparison.OrdinalIgnoreCase), code));
+                }
+                else if (attrName.Equals(pseudoClassFunctionLang, StringComparison.OrdinalIgnoreCase))
+                {
+                    var code = String.Concat(pseudoClassFunctionLang, "(", attrValue, ")");
+                    Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
+                }
+                else if (attrName.Equals(pseudoClassFunctionContains, StringComparison.OrdinalIgnoreCase))
+                {
+                    var code = String.Concat(pseudoClassFunctionContains, "(", attrValue, ")");
+                    Insert(SimpleSelector.PseudoClass(el => el.TextContent.Contains(attrValue), code));
+                }
+			}
+            else
+                valid = false;
 		}
 
 		#endregion
