@@ -513,73 +513,63 @@
 			if (token.Type == CssTokenType.Whitespace)
 				return;
 
-			switch (attrName)
-			{
-				case pseudoClassFunctionNthChild:
-				case pseudoClassFunctionNthLastChild:
-				{
-					switch (token.Type)
-					{
-						case CssTokenType.Ident:
-						case CssTokenType.Number:
-						case CssTokenType.Dimension:
-							attrValue += token.ToValue();
-							return;
+            if (attrName.Equals(pseudoClassFunctionNthChild, StringComparison.OrdinalIgnoreCase) || attrName.Equals(pseudoClassFunctionNthLastChild, StringComparison.OrdinalIgnoreCase))
+            {
+                switch (token.Type)
+                {
+                    case CssTokenType.Ident:
+                    case CssTokenType.Number:
+                    case CssTokenType.Dimension:
+                        attrValue += token.ToValue();
+                        return;
 
-						case CssTokenType.Delim:
-							var chr = token.Data[0];
+                    case CssTokenType.Delim:
+                        var chr = token.Data[0];
 
-							if (chr == Specification.Plus || chr == Specification.Minus)
-							{
-								attrValue += token.Data;
-								return;
-							}
+                        if (chr == Specification.Plus || chr == Specification.Minus)
+                        {
+                            attrValue += token.Data;
+                            return;
+                        }
 
-							break;
-					}
+                        break;
+                }
 
-					break;
-				}
-				case pseudoClassFunctionNot:
-				{
-					if (nested == null)
-						nested = new CssSelectorConstructor();
+                OnPseudoClassFunctionEnd(token);
+            }
+            else if (attrName.Equals(pseudoClassFunctionNot, StringComparison.OrdinalIgnoreCase))
+            {
+                if (nested == null)
+                    nested = new CssSelectorConstructor();
 
-					if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
-					{
-						nested.Apply(token);
-						return;
-					}
+                if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
+                    nested.Apply(token);
+                else
+                    OnPseudoClassFunctionEnd(token);
+            }
+            else if (attrName.Equals(pseudoClassFunctionDir, StringComparison.OrdinalIgnoreCase))
+            {
+                if (token.Type == CssTokenType.Ident)
+                    attrValue = token.Data;
 
-					break;
-				}
-				case pseudoClassFunctionDir:
-				{
-					if (token.Type == CssTokenType.Ident)
-						attrValue = token.Data;
+                state = State.PseudoClassFunctionEnd;
+            }
+            else if (attrName.Equals(pseudoClassFunctionLang, StringComparison.OrdinalIgnoreCase))
+            {
+                if (token.Type == CssTokenType.Ident)
+                    attrValue = token.Data;
 
-					state = State.PseudoClassFunctionEnd;
-					return;
-				}
-				case pseudoClassFunctionLang:
-				{
-					if (token.Type == CssTokenType.Ident)
-						attrValue = token.Data;
+                state = State.PseudoClassFunctionEnd;
+            }
+            else if (attrName.Equals(pseudoClassFunctionContains, StringComparison.OrdinalIgnoreCase))
+            {
+                if (token.Type == CssTokenType.String || token.Type == CssTokenType.Ident)
+                    attrValue = token.Data;
 
-					state = State.PseudoClassFunctionEnd;
-					return;
-				}
-				case pseudoClassFunctionContains:
-				{
-					if (token.Type == CssTokenType.String || token.Type == CssTokenType.Ident)
-						attrValue = token.Data;
-
-					state = State.PseudoClassFunctionEnd;
-					return;
-				}
-			}
-
-			OnPseudoClassFunctionEnd(token);
+                state = State.PseudoClassFunctionEnd;
+            }
+            else
+			    OnPseudoClassFunctionEnd(token);
 		}
 
 		/// <summary>
