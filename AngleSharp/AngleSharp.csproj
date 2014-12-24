@@ -117,6 +117,7 @@
     <Compile Include="Linq\ElementExtensions.cs" />
     <Compile Include="Linq\NodeExtensions.cs" />
     <Compile Include="Linq\StyleSheetExtensions.cs" />
+    <Compile Include="Parser\Css\CssAtRule.cs" />
     <Compile Include="Services\IObjectService.cs" />
     <Compile Include="Services\ISpellCheckService.cs" />
     <Compile Include="Infrastructure\MicroDomTask.cs" />

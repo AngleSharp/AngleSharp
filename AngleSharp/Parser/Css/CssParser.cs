@@ -20,12 +20,6 @@
     [DebuggerStepThrough]
     public sealed class CssParser
     {
-        #region Creator Delegate
-
-        delegate CSSRule Creator(CssParser parser, IEnumerator<CssToken> tokens);
-
-        #endregion
-
         #region Fields
 
         readonly CssSelectorConstructor selector;
@@ -36,25 +30,6 @@
 
         Boolean started;
         Task<ICssStyleSheet> task;
-
-        #endregion
-
-        #region Creators
-
-        static readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>();
-
-        static CssParser()
-        {
-            creators.Add(RuleNames.Charset, CreateCharsetRule);
-            creators.Add(RuleNames.Page, CreatePageRule);
-            creators.Add(RuleNames.Import, CreateImportRule);
-            creators.Add(RuleNames.FontFace, CreateFontFaceRule);
-            creators.Add(RuleNames.Media, CreateMediaRule);
-            creators.Add(RuleNames.Namespace, CreateNamespaceRule);
-            creators.Add(RuleNames.Supports, CreateSupportsRule);
-            creators.Add(RuleNames.Keyframes, CreateKeyframesRule);
-            creators.Add(RuleNames.Document, CreateDocumentRule);
-        }
 
         #endregion
 
@@ -193,7 +168,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created media rule.</returns>
-        static CSSMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var list = tokens.MoveNext() ? parser.InMediaList(tokens) : new MediaList();
             var rule = new CSSMediaRule(list);
@@ -211,7 +186,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created page rule.</returns>
-        static CSSPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSPageRule();
 
@@ -230,7 +205,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created font-face rule.</returns>
-        static CSSFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSFontFaceRule();
 
@@ -246,7 +221,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created supports rule.</returns>
-        static CSSSupportsRule CreateSupportsRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSSupportsRule CreateSupportsRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSSupportsRule();
 
@@ -265,7 +240,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated document rule.</returns>
-        static CSSDocumentRule CreateDocumentRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSDocumentRule CreateDocumentRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSDocumentRule();
 
@@ -284,7 +259,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframes rule.</returns>
-        static CSSKeyframesRule CreateKeyframesRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSKeyframesRule CreateKeyframesRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSKeyframesRule();
 
@@ -303,7 +278,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated namespace rule.</returns>
-        static CSSNamespaceRule CreateNamespaceRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSNamespaceRule CreateNamespaceRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSNamespaceRule();
 
@@ -334,7 +309,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated rule.</returns>
-        static CSSCharsetRule CreateCharsetRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSCharsetRule CreateCharsetRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CSSCharsetRule();
 
@@ -360,7 +335,7 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule.</returns>
-        static CSSImportRule CreateImportRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CSSImportRule CreateImportRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var import = new CSSImportRule();
 
@@ -440,14 +415,15 @@
             {
                 case CssTokenType.AtKeyword:
                 {
-                    Creator creator;
+                    var rule = this.CreateAtRule(token.Data, tokens);
 
-                    if (creators.TryGetValue(token.Data, out creator))
-                        return creator(this, tokens);
-                    
-                    SkipUnknownRule(tokens);
-                    //TODO RaiseError
-                    return null;
+                    if (rule == null)
+                    {
+                        //TODO RaiseError
+                        SkipUnknownRule(tokens);
+                    }
+
+                    return rule;
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
