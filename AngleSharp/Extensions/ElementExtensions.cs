@@ -102,10 +102,52 @@
         /// Checks if the element is currently focused.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently focused, otherwise false.</returns>
+        /// <returns>True if the element is currently focused, otherwise false.</returns>
         public static Boolean IsFocused(this IElement element)
         {
             //TODO Connection to Visual Tree ?
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the element is the first of its type among the parent's children.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element is the first of its type among its siblings.</returns>
+        public static Boolean IsFirstOfType(this IElement element)
+        {
+            var parent = element.ParentElement;
+
+            if (parent == null)
+                return true;
+
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            {
+                if (parent.ChildNodes[i].NodeName == element.NodeName)
+                    return parent.ChildNodes[i] == element;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the element is the last of its type among the parent's children.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element is the last of its type among its siblings.</returns>
+        public static Boolean IsLastOfType(this IElement element)
+        {
+            var parent = element.ParentElement;
+
+            if (parent == null)
+                return true;
+
+            for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+            {
+                if (parent.ChildNodes[i].NodeName == element.NodeName)
+                    return parent.ChildNodes[i] == element;
+            }
+
             return false;
         }
 
