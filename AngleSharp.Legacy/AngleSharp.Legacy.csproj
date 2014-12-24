@@ -2610,6 +2610,9 @@
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssAtRule.cs">
+      <Link>Parser\Css\CssAtRule.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssCombinator.cs">
       <Link>Parser\Css\CssCombinator.cs</Link>
     </Compile>
