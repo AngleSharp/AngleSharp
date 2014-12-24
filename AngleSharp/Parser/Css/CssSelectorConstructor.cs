@@ -42,27 +42,27 @@
         static readonly String pseudoClassIndeterminate = "indeterminate";
         static readonly String pseudoClassDefault = "default";
 
-        static String pseudoClassValid = "valid";
-        static String pseudoClassInvalid = "invalid";
-        static String pseudoClassRequired = "required";
-        static String pseudoClassInRange = "in-range";
-        static String pseudoClassOutOfRange = "out-of-range";
-        static String pseudoClassOptional = "optional";
-        static String pseudoClassReadOnly = "read-only";
-        static String pseudoClassReadWrite = "read-write";
+        static readonly String pseudoClassValid = "valid";
+        static readonly String pseudoClassInvalid = "invalid";
+        static readonly String pseudoClassRequired = "required";
+        static readonly String pseudoClassInRange = "in-range";
+        static readonly String pseudoClassOutOfRange = "out-of-range";
+        static readonly String pseudoClassOptional = "optional";
+        static readonly String pseudoClassReadOnly = "read-only";
+        static readonly String pseudoClassReadWrite = "read-write";
 
-        const String pseudoClassFunctionDir = "dir";
-        const String pseudoClassFunctionNthChild = "nth-child";
-        const String pseudoClassFunctionNthLastChild = "nth-last-child";
-        const String pseudoClassFunctionNot = "not";
-        const String pseudoClassFunctionLang = "lang";
-        const String pseudoClassFunctionContains = "contains";
+        static readonly String pseudoClassFunctionDir = "dir";
+        static readonly String pseudoClassFunctionNthChild = "nth-child";
+        static readonly String pseudoClassFunctionNthLastChild = "nth-last-child";
+        static readonly String pseudoClassFunctionNot = "not";
+        static readonly String pseudoClassFunctionLang = "lang";
+        static readonly String pseudoClassFunctionContains = "contains";
 
-        const String pseudoElementBefore = "before";
-        const String pseudoElementAfter = "after";
-        const String pseudoElementSelection = "selection";
-        const String pseudoElementFirstLine = "first-line";
-        const String pseudoElementFirstLetter = "first-letter";
+        static readonly String pseudoElementBefore = "before";
+        static readonly String pseudoElementAfter = "after";
+        static readonly String pseudoElementSelection = "selection";
+        static readonly String pseudoElementFirstLine = "first-line";
+        static readonly String pseudoElementFirstLetter = "first-letter";
 
         #endregion
 
@@ -84,42 +84,49 @@
 
         #region Initialization
 
-        static Dictionary<String, ISelector> pseudoSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
+        static Dictionary<String, ISelector> pseudoClassSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
+        static Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
 
         static CssSelectorConstructor()
         {
-            pseudoSelectors.Add(pseudoClassRoot, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, pseudoClassRoot));
-            pseudoSelectors.Add(pseudoClassFirstOfType, SimpleSelector.PseudoClass(el => el.IsFirstOfType(), pseudoClassFirstOfType));
-            pseudoSelectors.Add(pseudoClassLastOfType, SimpleSelector.PseudoClass(el => el.IsLastOfType(), pseudoClassLastOfType));
-            pseudoSelectors.Add(pseudoClassOnlyChild, SimpleSelector.PseudoClass(el => el.IsOnlyChild(), pseudoClassOnlyChild));
-            pseudoSelectors.Add(pseudoClassFirstChild, FirstChildSelector.Instance);
-            pseudoSelectors.Add(pseudoClassLastChild, LastChildSelector.Instance);
-            pseudoSelectors.Add(pseudoClassEmpty, SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, pseudoClassEmpty));
-            pseudoSelectors.Add(pseudoClassLink, SimpleSelector.PseudoClass(el => el.IsLink(), pseudoClassLink));
-            pseudoSelectors.Add(pseudoClassVisited, SimpleSelector.PseudoClass(el => el.IsVisited(), pseudoClassVisited));
-            pseudoSelectors.Add(pseudoClassActive, SimpleSelector.PseudoClass(el => el.IsActive(), pseudoClassActive));
-            pseudoSelectors.Add(pseudoClassHover, SimpleSelector.PseudoClass(el => el.IsHovered(), pseudoClassHover));
-            pseudoSelectors.Add(pseudoClassFocus, SimpleSelector.PseudoClass(el => el.IsFocused(), pseudoClassFocus));
-            pseudoSelectors.Add(pseudoClassTarget, SimpleSelector.PseudoClass(el => el.Owner != null && el.Id == el.Owner.Location.Hash, pseudoClassTarget));
-            pseudoSelectors.Add(pseudoClassEnabled, SimpleSelector.PseudoClass(el => el.IsEnabled(), pseudoClassEnabled));
-            pseudoSelectors.Add(pseudoClassDisabled, SimpleSelector.PseudoClass(el => el.IsDisabled(), pseudoClassDisabled));
-            pseudoSelectors.Add(pseudoClassDefault, SimpleSelector.PseudoClass(el => el.IsDefault(), pseudoClassDefault));
-            pseudoSelectors.Add(pseudoClassChecked, SimpleSelector.PseudoClass(el => el.IsChecked(), pseudoClassChecked));
-            pseudoSelectors.Add(pseudoClassIndeterminate, SimpleSelector.PseudoClass(el => el.IsIndeterminate(), pseudoClassIndeterminate));
-            pseudoSelectors.Add(pseudoClassUnchecked, SimpleSelector.PseudoClass(el => el.IsUnchecked(), pseudoClassUnchecked));
-            pseudoSelectors.Add(pseudoClassValid, SimpleSelector.PseudoClass(el => el.IsValid(), pseudoClassValid));
-            pseudoSelectors.Add(pseudoClassInvalid, SimpleSelector.PseudoClass(el => el.IsInvalid(), pseudoClassInvalid));
-            pseudoSelectors.Add(pseudoClassRequired, SimpleSelector.PseudoClass(el => el.IsRequired(), pseudoClassRequired));
-            pseudoSelectors.Add(pseudoClassReadOnly, SimpleSelector.PseudoClass(el => el.IsReadOnly(), pseudoClassReadOnly));
-            pseudoSelectors.Add(pseudoClassReadWrite, SimpleSelector.PseudoClass(el => el.IsEditable(), pseudoClassReadWrite));
-            pseudoSelectors.Add(pseudoClassInRange, SimpleSelector.PseudoClass(el => el.IsInRange(), pseudoClassInRange));
-            pseudoSelectors.Add(pseudoClassOutOfRange, SimpleSelector.PseudoClass(el => el.IsOutOfRange(), pseudoClassOutOfRange));
-            pseudoSelectors.Add(pseudoClassOptional, SimpleSelector.PseudoClass(el => el.IsOptional(), pseudoClassOptional));
+            pseudoClassSelectors.Add(pseudoClassRoot, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, pseudoClassRoot));
+            pseudoClassSelectors.Add(pseudoClassFirstOfType, SimpleSelector.PseudoClass(el => el.IsFirstOfType(), pseudoClassFirstOfType));
+            pseudoClassSelectors.Add(pseudoClassLastOfType, SimpleSelector.PseudoClass(el => el.IsLastOfType(), pseudoClassLastOfType));
+            pseudoClassSelectors.Add(pseudoClassOnlyChild, SimpleSelector.PseudoClass(el => el.IsOnlyChild(), pseudoClassOnlyChild));
+            pseudoClassSelectors.Add(pseudoClassFirstChild, FirstChildSelector.Instance);
+            pseudoClassSelectors.Add(pseudoClassLastChild, LastChildSelector.Instance);
+            pseudoClassSelectors.Add(pseudoClassEmpty, SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, pseudoClassEmpty));
+            pseudoClassSelectors.Add(pseudoClassLink, SimpleSelector.PseudoClass(el => el.IsLink(), pseudoClassLink));
+            pseudoClassSelectors.Add(pseudoClassVisited, SimpleSelector.PseudoClass(el => el.IsVisited(), pseudoClassVisited));
+            pseudoClassSelectors.Add(pseudoClassActive, SimpleSelector.PseudoClass(el => el.IsActive(), pseudoClassActive));
+            pseudoClassSelectors.Add(pseudoClassHover, SimpleSelector.PseudoClass(el => el.IsHovered(), pseudoClassHover));
+            pseudoClassSelectors.Add(pseudoClassFocus, SimpleSelector.PseudoClass(el => el.IsFocused(), pseudoClassFocus));
+            pseudoClassSelectors.Add(pseudoClassTarget, SimpleSelector.PseudoClass(el => el.Owner != null && el.Id == el.Owner.Location.Hash, pseudoClassTarget));
+            pseudoClassSelectors.Add(pseudoClassEnabled, SimpleSelector.PseudoClass(el => el.IsEnabled(), pseudoClassEnabled));
+            pseudoClassSelectors.Add(pseudoClassDisabled, SimpleSelector.PseudoClass(el => el.IsDisabled(), pseudoClassDisabled));
+            pseudoClassSelectors.Add(pseudoClassDefault, SimpleSelector.PseudoClass(el => el.IsDefault(), pseudoClassDefault));
+            pseudoClassSelectors.Add(pseudoClassChecked, SimpleSelector.PseudoClass(el => el.IsChecked(), pseudoClassChecked));
+            pseudoClassSelectors.Add(pseudoClassIndeterminate, SimpleSelector.PseudoClass(el => el.IsIndeterminate(), pseudoClassIndeterminate));
+            pseudoClassSelectors.Add(pseudoClassUnchecked, SimpleSelector.PseudoClass(el => el.IsUnchecked(), pseudoClassUnchecked));
+            pseudoClassSelectors.Add(pseudoClassValid, SimpleSelector.PseudoClass(el => el.IsValid(), pseudoClassValid));
+            pseudoClassSelectors.Add(pseudoClassInvalid, SimpleSelector.PseudoClass(el => el.IsInvalid(), pseudoClassInvalid));
+            pseudoClassSelectors.Add(pseudoClassRequired, SimpleSelector.PseudoClass(el => el.IsRequired(), pseudoClassRequired));
+            pseudoClassSelectors.Add(pseudoClassReadOnly, SimpleSelector.PseudoClass(el => el.IsReadOnly(), pseudoClassReadOnly));
+            pseudoClassSelectors.Add(pseudoClassReadWrite, SimpleSelector.PseudoClass(el => el.IsEditable(), pseudoClassReadWrite));
+            pseudoClassSelectors.Add(pseudoClassInRange, SimpleSelector.PseudoClass(el => el.IsInRange(), pseudoClassInRange));
+            pseudoClassSelectors.Add(pseudoClassOutOfRange, SimpleSelector.PseudoClass(el => el.IsOutOfRange(), pseudoClassOutOfRange));
+            pseudoClassSelectors.Add(pseudoClassOptional, SimpleSelector.PseudoClass(el => el.IsOptional(), pseudoClassOptional));
             // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
-            pseudoSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoClass(MatchBefore, pseudoElementBefore));
-            pseudoSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoClass(MatchAfter, pseudoElementAfter));
-            pseudoSelectors.Add(pseudoElementFirstLine, SimpleSelector.PseudoClass(MatchFirstLine, pseudoElementFirstLine));
-            pseudoSelectors.Add(pseudoElementFirstLetter, SimpleSelector.PseudoClass(MatchFirstLetter, pseudoElementFirstLetter));
+            pseudoClassSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoClass(MatchBefore, pseudoElementBefore));
+            pseudoClassSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoClass(MatchAfter, pseudoElementAfter));
+            pseudoClassSelectors.Add(pseudoElementFirstLine, SimpleSelector.PseudoClass(MatchFirstLine, pseudoElementFirstLine));
+            pseudoClassSelectors.Add(pseudoElementFirstLetter, SimpleSelector.PseudoClass(MatchFirstLetter, pseudoElementFirstLetter));
+
+            pseudoElementSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoElement(MatchBefore, pseudoElementBefore));
+            pseudoElementSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoElement(MatchAfter, pseudoElementAfter));
+            pseudoElementSelectors.Add(pseudoElementSelection, SimpleSelector.PseudoElement(el => true, pseudoElementSelection));
+            pseudoElementSelectors.Add(pseudoElementFirstLine, SimpleSelector.PseudoElement(MatchFirstLine, pseudoElementFirstLine));
+            pseudoElementSelectors.Add(pseudoElementFirstLetter, SimpleSelector.PseudoElement(MatchFirstLetter, pseudoElementFirstLetter));
         }
 
         #endregion
@@ -461,33 +468,18 @@
 
             if (token.Type == CssTokenType.Ident)
             {
-                var data = token.Data;
+                ISelector selector;
 
-                switch (data)
+                if (pseudoElementSelectors.TryGetValue(token.Data, out selector))
                 {
-                    case pseudoElementBefore:
-                        Insert(SimpleSelector.PseudoElement(MatchBefore, pseudoElementBefore));
-                        break;
-                    case pseudoElementAfter:
-                        Insert(SimpleSelector.PseudoElement(MatchAfter, pseudoElementAfter));
-                        break;
-                    case pseudoElementSelection:
-                        Insert(SimpleSelector.PseudoElement(el => true, pseudoElementSelection));
-                        break;
-                    case pseudoElementFirstLine:
-                        Insert(SimpleSelector.PseudoElement(MatchFirstLine, pseudoElementFirstLine));
-                        break;
-                    case pseudoElementFirstLetter:
-                        Insert(SimpleSelector.PseudoElement(MatchFirstLetter, pseudoElementFirstLetter));
-                        break;
-                    default:
-                        Insert(SimpleSelector.PseudoElement(el => false, data));
-                        valid = false;
-                        break;
+                    Insert(selector);
+                    return;
                 }
+
+                Insert(SimpleSelector.PseudoElement(el => false, token.Data));
             }
-            else
-                valid = false;
+
+            valid = false;
 		}
 
 		/// <summary>
@@ -804,7 +796,7 @@
 		{
             ISelector selector;
 
-            if (pseudoSelectors.TryGetValue(token.Data, out selector))
+            if (pseudoClassSelectors.TryGetValue(token.Data, out selector))
                 return selector;
 
 			return null;
