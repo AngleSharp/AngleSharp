@@ -1085,6 +1085,9 @@ This text should be green.
        <a href=""#missing"">this link</a>, the three paragraphs
        should all return to being unstyled.</p>";
 	        var doc = DocumentBuilder.Html(source);
+
+            var paragraphs = doc.QuerySelectorAll("p");
+            Assert.AreEqual(3, paragraphs.Length);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:target");
 	        Assert.AreEqual(0, selector1.Length);
@@ -1093,18 +1096,31 @@ This text should be green.
 
             var selector2 = doc.QuerySelectorAll("p:target");
             Assert.AreEqual(1, selector2.Length);
+            Assert.AreSame(paragraphs[1], selector2[0]);
+
+            doc.Location.Hash = "#third";
+
+            var selector3 = doc.QuerySelectorAll("p:target");
+            Assert.AreEqual(1, selector3.Length);
+            Assert.AreSame(paragraphs[2], selector3[0]);
+
+            doc.Location.Hash = "#missing";
+
+            var selector4 = doc.QuerySelectorAll("p:target");
+            Assert.AreEqual(0, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-21b.xml
         /// </summary>
+        [Test]
         public void TargetPseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:target");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -1112,6 +1128,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-23.xml
         /// </summary>
+        [Test]
         public void EnabledPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1122,18 +1139,19 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("input");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("button:enabled");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("input:enabled");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-24.xml
         /// </summary>
+        [Test]
         public void DisabledPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1144,18 +1162,19 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("input");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("button:disabled");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("input:disabled");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-25.xml
         /// </summary>
+        [Test]
         public void CheckedPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1163,23 +1182,24 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("input,span");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("input:checked,input:checked+span");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-27.xml
         /// </summary>
+        [Test]
         public void RootPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background of the document should be green</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("html");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("*:root");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
