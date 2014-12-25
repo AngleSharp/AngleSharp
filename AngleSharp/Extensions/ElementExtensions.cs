@@ -99,17 +99,6 @@
         }
 
         /// <summary>
-        /// Checks if the element is currently focused.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <returns>True if the element is currently focused, otherwise false.</returns>
-        public static Boolean IsFocused(this IElement element)
-        {
-            //TODO Connection to Visual Tree ?
-            return false;
-        }
-
-        /// <summary>
         /// Checks if the element is the first of its type among the parent's children.
         /// </summary>
         /// <param name="element">The element to check.</param>

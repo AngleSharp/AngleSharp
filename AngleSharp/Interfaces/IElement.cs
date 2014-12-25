@@ -181,5 +181,10 @@
         /// </summary>
         [DomName("tagName")]
         String TagName { get; }
+
+        /// <summary>
+        /// Gets if the element is currently focused.
+        /// </summary>
+        Boolean IsFocused { get; }
     }
 }

@@ -324,6 +324,12 @@
 
         #region Helpers
 
+        public override void DoFocus()
+        {
+            if (GetAttribute(AttributeNames.Href) != null)
+                IsFocused = true;
+        }
+
         internal override void Close()
         {
             base.Close();

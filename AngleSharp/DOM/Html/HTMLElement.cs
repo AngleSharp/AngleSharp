@@ -245,9 +245,9 @@
             //TODO Perform click on the element.
         }
 
-        public void DoFocus()
+        public virtual void DoFocus()
         {
-            //TODO Focus the element.
+            //Only certain elements can be focused.
         }
 
         public void DoBlur()

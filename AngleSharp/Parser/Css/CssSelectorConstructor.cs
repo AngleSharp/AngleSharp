@@ -100,7 +100,7 @@
             pseudoClassSelectors.Add(pseudoClassVisited, SimpleSelector.PseudoClass(el => el.IsVisited(), pseudoClassVisited));
             pseudoClassSelectors.Add(pseudoClassActive, SimpleSelector.PseudoClass(el => el.IsActive(), pseudoClassActive));
             pseudoClassSelectors.Add(pseudoClassHover, SimpleSelector.PseudoClass(el => el.IsHovered(), pseudoClassHover));
-            pseudoClassSelectors.Add(pseudoClassFocus, SimpleSelector.PseudoClass(el => el.IsFocused(), pseudoClassFocus));
+            pseudoClassSelectors.Add(pseudoClassFocus, SimpleSelector.PseudoClass(el => el.IsFocused, pseudoClassFocus));
             pseudoClassSelectors.Add(pseudoClassTarget, SimpleSelector.PseudoClass(el => el.Owner != null && el.Id == el.Owner.Location.Hash, pseudoClassTarget));
             pseudoClassSelectors.Add(pseudoClassEnabled, SimpleSelector.PseudoClass(el => el.IsEnabled(), pseudoClassEnabled));
             pseudoClassSelectors.Add(pseudoClassDisabled, SimpleSelector.PseudoClass(el => el.IsDisabled(), pseudoClassDisabled));

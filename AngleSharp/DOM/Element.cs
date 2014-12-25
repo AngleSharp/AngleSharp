@@ -292,6 +292,34 @@
             get { return _attributes; }
         }
 
+        /// <summary>
+        /// Gets if the element is currently focused.
+        /// </summary>
+        public Boolean IsFocused
+        {
+            get
+            {
+                var owner = Owner;
+
+                if (owner == null)
+                    return false;
+
+                return owner.FocusElement == this;
+            }
+            protected set
+            {
+                var owner = Owner;
+
+                if (owner == null)
+                    return;
+
+                if (value)
+                    owner.SetFocus(this);
+                else
+                    owner.SetFocus(null);
+            }
+        }
+
         #endregion
 
         #region Methods

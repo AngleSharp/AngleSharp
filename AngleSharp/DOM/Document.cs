@@ -41,6 +41,7 @@
         String _preferredStyleSheetSet;
         Location _location;
         IBrowsingContext _context;
+        IElement _focus;
         IWindow _view;
 
         #endregion
@@ -985,6 +986,14 @@
             get { return false; }
         }
 
+        /// <summary>
+        /// Gets the element that is currently focused.
+        /// </summary>
+        internal IElement FocusElement
+        {
+            get { return _focus; }
+        }
+
         #endregion
 
         #region Methods
@@ -1410,6 +1419,15 @@
         #endregion
 
         #region Internal methods
+
+        /// <summary>
+        /// Sets the focus to the provided element.
+        /// </summary>
+        /// <param name="element">The element to focus on.</param>
+        internal void SetFocus(IElement element)
+        {
+            _focus = element;
+        }
 
         /// <summary>
         /// Finishes writing to a document.
