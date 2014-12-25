@@ -1911,6 +1911,7 @@ This div contains 3 addresses above this sentence.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-39.xml
         /// </summary>
+        [Test]
         public void FirstLetterPseudoElementA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This very long paragraph
@@ -1937,12 +1938,13 @@ text. Dummy text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-39a.xml
         /// </summary>
+        [Test]
         public void FirstLetterPseudoElementWithBeforePseudoElementA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">his very long paragraph should
@@ -1969,14 +1971,15 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:before");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-39b.xml
         /// </summary>
+        [Test]
         public void FirstLetterPseudoElementB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This very long paragraph
@@ -2003,12 +2006,13 @@ text. Dummy text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-39c.xml
         /// </summary>
+        [Test]
         public void FirstLetterPseudoElementWithBeforePseudoElementB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">his very long paragraph should
@@ -2035,21 +2039,22 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p::before");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-41.xml
         /// </summary>
+        [Test]
         public void BeforePseudoElementA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see before this paragraph the words GENERATED CONTENT over green background</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p::before");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
