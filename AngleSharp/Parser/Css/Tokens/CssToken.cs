@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.DOM.Css;
     using System;
     using System.Diagnostics;
 
@@ -49,14 +50,6 @@
         #region Factory
 
         /// <summary>
-        /// Gets the column token.
-        /// </summary>
-        public static CssColumnToken Column
-        {
-            get { return CssColumnToken.Token; }
-        }
-
-        /// <summary>
         /// Creates a new CSS delimiter token.
         /// </summary>
         /// <param name="c">The delim char.</param>
@@ -65,29 +58,6 @@
         public static CssDelimToken Delim(Char c)
         {
             return new CssDelimToken(c);
-        }
-
-        /// <summary>
-        /// Creates a new CSS number token.
-        /// </summary>
-        /// <param name="value">The single precision number.</param>
-        /// <returns>The created token.</returns>
-        [DebuggerStepThrough]
-        public static CssNumberToken Number(String value)
-        {
-            return new CssNumberToken(value);
-        }
-
-        /// <summary>
-        /// Creates a new CSS range token.
-        /// </summary>
-        /// <param name="start">The start of the range.</param>
-        /// <param name="end">The end of the range.</param>
-        /// <returns>The created token.</returns>
-        [DebuggerStepThrough]
-        public static CssRangeToken Range(String start, String end)
-        {
-            return new CssRangeToken(start, end);
         }
 
         #endregion
@@ -101,6 +71,20 @@
         public virtual String ToValue()
         {
             return _data;
+        }
+
+        /// <summary>
+        /// Converts the data to an identifier value. Uses inherit for inherit.
+        /// </summary>
+        /// <returns>The created value.</returns>
+        public ICssValue ToIdentifier()
+        {
+            if (_data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
+                return CssValue.Inherit;
+            else if (_data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
+                return CssValue.Initial;
+
+            return new CssIdentifier(_data);
         }
 
         #endregion

@@ -323,7 +323,7 @@
                     if (current == Specification.Equality)
                         return CssMatchToken.Dash;
                     else if (current == Specification.Pipe)
-                        return CssToken.Column;
+                        return CssColumnToken.Instance;
 
                     return CssToken.Delim(Previous);
 
@@ -786,7 +786,7 @@
                     }
 
                     Back();
-                    return CssToken.Number(FlushBuffer());
+                    return new CssNumberToken(FlushBuffer());
 
                 case '%':
                     return CssUnitToken.Percentage(FlushBuffer());
@@ -800,7 +800,7 @@
 
                 default:
                     Back();
-                    return CssToken.Number(FlushBuffer());
+                    return new CssNumberToken(FlushBuffer());
             }
         }
 
@@ -850,7 +850,7 @@
 
                 default:
                     Back();
-                    return CssToken.Number(FlushBuffer());
+                    return new CssNumberToken(FlushBuffer());
             }
         }
 
@@ -896,7 +896,7 @@
                 else
                 {
                     Back();
-                    return CssToken.Number(FlushBuffer());
+                    return new CssNumberToken(FlushBuffer());
                 }
             }
         }
@@ -1131,7 +1131,7 @@
                 var range = FlushBuffer();
                 var start = range.Replace(Specification.QuestionMark, '0');
                 var end = range.Replace(Specification.QuestionMark, 'F');
-                return CssToken.Range(start, end);
+                return new CssRangeToken(start, end);
             }
             else if (current == Specification.Minus)
             {
@@ -1155,18 +1155,18 @@
                     }
 
                     var end = FlushBuffer();
-                    return CssToken.Range(start, end);
+                    return new CssRangeToken(start, end);
                 }
                 else
                 {
                     Back(2);
-                    return CssToken.Range(FlushBuffer(), null);
+                    return new CssRangeToken(FlushBuffer(), null);
                 }
             }
             else
             {
                 Back();
-                return CssToken.Range(FlushBuffer(), null);
+                return new CssRangeToken(FlushBuffer(), null);
             }
         }
 
@@ -1236,7 +1236,7 @@
             else
             {
                 Back(2);
-                return CssToken.Number(FlushBuffer());
+                return new CssNumberToken(FlushBuffer());
             }
         }
 

@@ -9,7 +9,7 @@
     {
         #region Static instance
 
-        readonly static CssColumnToken token;
+        readonly static CssColumnToken instance;
 
         #endregion
 
@@ -17,7 +17,7 @@
 
         static CssColumnToken()
         {
-            token = new CssColumnToken();
+            instance = new CssColumnToken();
         }
 
         /// <summary>
@@ -35,9 +35,9 @@
         /// <summary>
         /// Gets the token.
         /// </summary>
-        public static CssColumnToken Token
+        public static CssColumnToken Instance
         {
-            get { return token; }
+            get { return instance; }
         }
 
         #endregion

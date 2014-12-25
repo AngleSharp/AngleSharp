@@ -419,7 +419,7 @@
 
                     if (rule == null)
                     {
-                        //TODO RaiseError
+                        RaiseErrorOccurred(ErrorCode.UnknownAtRule);
                         SkipUnknownRule(tokens);
                     }
 
@@ -427,7 +427,7 @@
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
-                    //TODO RaiseError
+                    RaiseErrorOccurred(ErrorCode.InvalidBlockStart);
                     SkipUnknownRule(tokens);
                     return null;
                 }
@@ -437,7 +437,7 @@
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
                 {
-                    //TODO RaiseError
+                    RaiseErrorOccurred(ErrorCode.InvalidToken);
                     SkipUnknownRule(tokens);
                     return null;
                 }
@@ -505,6 +505,9 @@
             }
             while (tokens.MoveNext());
 
+            if (selector.IsValid == false)
+                RaiseErrorOccurred(ErrorCode.InvalidSelector);
+
             tokenizer.IgnoreWhitespace = true;
             return selector.Result;
         }
@@ -524,16 +527,23 @@
                 var propertyName = token.Data;
 
                 if (!tokens.MoveNext())
-                    return null;
-                
-                if (tokens.Current.Type != CssTokenType.Colon)
+                {
+                    RaiseErrorOccurred(ErrorCode.ColonMissing);
+                }
+                else if (tokens.Current.Type != CssTokenType.Colon)
+                {
+                    RaiseErrorOccurred(ErrorCode.ColonMissing);
                     JumpToEndOfDeclaration(tokens);
+                }
                 else if (tokens.MoveNext())
                 {
                     var property = style.CreateProperty(propertyName);
 
                     if (property == null)
+                    {
+                        RaiseErrorOccurred(ErrorCode.UnknownDeclarationName);
                         property = new CSSUnknownProperty(propertyName, style);
+                    }
 
                     var value = InValue(tokens);
 
@@ -546,7 +556,13 @@
                     JumpToEndOfDeclaration(tokens);
                     return property;
                 }
+                else
+                {
+                    RaiseErrorOccurred(ErrorCode.ValueMissing);
+                }
             }
+            else
+                RaiseErrorOccurred(ErrorCode.IdentExpected);
 
             return null;
         }
@@ -870,7 +886,7 @@
                 case CssTokenType.Delim:// e.g. "#"
                     return GetValueFromDelim(token.Data[0], tokens);
                 case CssTokenType.Ident: // e.g. "auto"
-                    value.AddValue(ToIdentifier(token.Data));
+                    value.AddValue(token.ToIdentifier());
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
                     value.AddValue(new CssString(token.Data));
@@ -879,21 +895,24 @@
                     value.AddValue(new CssUrl(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
-                    value.AddValue(ToNumber((CssNumberToken)token));
+                    value.AddValue(((CssNumberToken)token).ToNumber());
                     return tokens.MoveNext();
-                case CssTokenType.Function: //e.g. rgba(...)
+                case CssTokenType.Function: // e.g. "rgba(...)"
                     return GetValueFunction(tokens);
-                case CssTokenType.Comma:
+                case CssTokenType.Comma: // e.g. ","
                     value.NextArgument();
                     return tokens.MoveNext();
-                case CssTokenType.Whitespace:
+                case CssTokenType.Whitespace: // e.g. " "
                     return tokens.MoveNext();
-                case CssTokenType.Semicolon:
+                case CssTokenType.Semicolon: // e.g. ";", "}"
                 case CssTokenType.CurlyBracketClose:
-                    return false;
+                    break;
+                default: // everything else is unexpected
+                    RaiseErrorOccurred(ErrorCode.InputUnexpected);
+                    value.IsFaulted = true;
+                    break;
             }
 
-            value.IsFaulted = true;
             return false;
         }
 
@@ -935,7 +954,7 @@
         /// <returns>The computed function.</returns>
         Boolean GetValueFunction(IEnumerator<CssToken> tokens)
         {
-            var name = ((CssKeywordToken)tokens.Current).Data;
+            var name = tokens.Current.Data;
             value.AddFunction(name);
 
             if (!tokens.MoveNext())
@@ -1283,35 +1302,6 @@
                 return new Percent(token.Value);
 
             return CssUnitFactory.Create(token.Value, token.Unit.ToLowerInvariant());
-        }
-
-        /// <summary>
-        /// Converts the given identifier to a value. Uses inherit for inherit.
-        /// </summary>
-        /// <param name="identifier">The identifier to consider.</param>
-        /// <returns>The created value.</returns>
-        static ICssValue ToIdentifier(String identifier)
-        {
-            if (identifier.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
-                return CssValue.Inherit;
-            else if (identifier.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
-                return CssValue.Initial;
-
-            return new CssIdentifier(identifier);
-        }
-
-        /// <summary>
-        /// Converts the given number to a value. Uses an allocated value for the 0.
-        /// </summary>
-        /// <param name="token">The token to consider.</param>
-        /// <returns>The created value.</returns>
-        static Number ToNumber(CssNumberToken token)
-        {
-            if (token.Value == 0f)
-                return Number.Zero;
-
-            var unit = token.IsInteger ? Number.Unit.Integer : Number.Unit.Float;
-            return new Number(token.Value, unit);
         }
 
         #endregion

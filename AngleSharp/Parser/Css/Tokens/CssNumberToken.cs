@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.DOM.Css;
     using System;
     using System.Globalization;
 
@@ -40,6 +41,25 @@
         public Single Value
         {
             get { return Single.Parse(Data, CultureInfo.InvariantCulture); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Converts the number to a value. Uses an allocated value for the 0.
+        /// </summary>
+        /// <returns>The created value.</returns>
+        public Number ToNumber()
+        {
+            var value = Value;
+
+            if (value == 0f)
+                return Number.Zero;
+
+            var unit = IsInteger ? Number.Unit.Integer : Number.Unit.Float;
+            return new Number(value, unit);
         }
 
         #endregion

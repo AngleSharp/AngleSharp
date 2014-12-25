@@ -698,5 +698,37 @@
         /// (0x312) No parameter reference recursion allowed.
         /// </summary>
         DtdPEReferenceRecursion = 0x312,
+        /// <summary>
+        /// (0x401) The name of the @-rule is unknown.
+        /// </summary>
+        UnknownAtRule = 0x401,
+        /// <summary>
+        /// (0x402) No block can start at the current position.
+        /// </summary>
+        InvalidBlockStart = 0x402,
+        /// <summary>
+        /// (0x403) The given token is not valid at the current position.
+        /// </summary>
+        InvalidToken = 0x403,
+        /// <summary>
+        /// (0x404) The provided selector is invalid.
+        /// </summary>
+        InvalidSelector = 0x404,
+        /// <summary>
+        /// (0x405) An expected colon is missing.
+        /// </summary>
+        ColonMissing = 0x405,
+        /// <summary>
+        /// (0x406) The value of the declaration could not be found.
+        /// </summary>
+        ValueMissing = 0x406,
+        /// <summary>
+        /// (0x407) The name of the declaration is unknown.
+        /// </summary>
+        UnknownDeclarationName = 0x407,
+        /// <summary>
+        /// (0x408) An expected identifier could not be found.
+        /// </summary>
+        IdentExpected = 0x408,
     }
 }
