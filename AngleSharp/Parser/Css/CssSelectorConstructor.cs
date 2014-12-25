@@ -13,7 +13,7 @@
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     sealed class CssSelectorConstructor
     {
         #region Constants
@@ -889,22 +889,25 @@
         {
 			public Boolean Match(IElement element)
             {
-                var parent = element.Parent;
+                var parent = element.ParentElement;
 
                 if (parent == null)
                     return false;
+                else if (step == 0)
+                    return parent.ChildElementCount >= offset && offset > 0 && parent.Children[offset - 1] == element;
 
-                var n = 1;
+                var n = Math.Sign(step);
 
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                for (var i = 0; i < parent.ChildElementCount; i++)
                 {
-                    if (parent.ChildNodes[i] == element)
-                        return step == 0 ? n == offset : (n - offset) % step == 0;
-                    else if (parent.ChildNodes[i] is IElement)
-                        n++;
+                    if (parent.Children[i] == element)
+                    {
+                        var diff = i + 1 - offset;
+                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+                    }
                 }
 
-                return true;
+                return false;
             }
 
             public String Text
@@ -924,18 +927,21 @@
 
                 if (parent == null)
                     return false;
+                else if (step == 0)
+                    return parent.ChildElementCount >= offset && offset > 0 && parent.Children[parent.ChildElementCount - offset] == element;
 
-                var n = 1;
+                var n = Math.Sign(step);
 
-                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                for (var i = parent.ChildElementCount - 1; i >= 0; i--)
                 {
-                    if (parent.ChildNodes[i] == element)
-                        return step == 0 ? n == offset : (n - offset) % step == 0;
-                    else if (parent.ChildNodes[i] is IElement)
-                        n++;
+                    if (parent.Children[i] == element)
+                    {
+                        var diff = i + 1 - offset;
+                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+                    }
                 }
 
-                return true;
+                return false;
             }
 
             public String Text
@@ -976,12 +982,10 @@
                 if (parent == null)
                     return false;
 
-                for (var i = 0; i <= parent.ChildNodes.Length; i++)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    if (parent.ChildNodes[i] == element)
-                        return true;
-                    else if (parent.ChildNodes[i] is IElement)
-                        return false;
+                    if (parent.ChildNodes[i].NodeType == NodeType.Element)
+                        return parent.ChildNodes[i] == element;
                 }
 
                 return false;
@@ -1015,17 +1019,15 @@
 
 			public Boolean Match(IElement element)
             {
-                var parent = element.ParentElement;
+                var parent = element.Parent;
 
                 if (parent == null)
                     return false;
 
                 for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    if (parent.ChildNodes[i] == element)
-                        return true;
-                    else if (parent.ChildNodes[i] is IElement)
-                        return false;
+                    if (parent.ChildNodes[i].NodeType == NodeType.Element)
+                        return parent.ChildNodes[i] == element;
                 }
 
                 return false;
