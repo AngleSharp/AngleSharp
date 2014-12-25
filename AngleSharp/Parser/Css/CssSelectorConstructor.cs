@@ -735,6 +735,11 @@
 					state = State.Class;
                     break;
 
+                case Specification.Pipe:
+                    //TODO Insert namespace selector using
+                    //the previously added selector (ident, or *)
+                    break;
+
                 default:
                     valid = false;
                     break;
