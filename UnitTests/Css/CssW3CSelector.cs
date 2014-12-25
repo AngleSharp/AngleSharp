@@ -2173,6 +2173,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-44.xml
         /// </summary>
+        [Test]
         public void ChildCombinatorA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -2193,16 +2194,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div p.test");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-44b.xml
         /// </summary>
+        [Test]
         public void ChildCombinatorB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -2223,16 +2225,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div p.test");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-44c.xml
         /// </summary>
+        [Test]
         public void ChildCombinatorAndClasses()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml""> This should be unstyled. </div>
@@ -2242,12 +2245,13 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var selector1 = doc.QuerySelectorAll(".fail div");
 	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".control");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-44d.xml
         /// </summary>
+        [Test]
         public void ChildCombinatiorAndIds()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml""> This should be unstyled. </div>
@@ -2257,12 +2261,13 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var selector1 = doc.QuerySelectorAll("#fail div");
 	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-45.xml
         /// </summary>
+        [Test]
         public void DirectAdjacentCombinatorA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
@@ -2275,14 +2280,15 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div.stub p+p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-45b.xml
         /// </summary>
+        [Test]
         public void DirectAdjacentCombinatorB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
@@ -2295,16 +2301,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".white");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div.stub p+p");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-45c.xml
         /// </summary>
+        [Test]
         public void DirectAdjacentCombinatorAndClasses()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml""> This should be unstyled. </div>
@@ -2314,7 +2321,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var selector1 = doc.QuerySelectorAll(".fail+div");
 	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".control");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
@@ -2362,7 +2369,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-47.xml
         /// </summary>
-        public void NEGATEDTypeElementSelector()
+        [Test]
+        public void NegatedTypeElementSelector()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <p>
@@ -2375,18 +2383,19 @@ text. Dummy text. Dummy text. Dummy text.</p>";
  </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub span,div.stub address,div.stub *q,div.stub *r");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("address,*q,*r");
-	        Assert.AreEqual(0, selector2.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub span,div.stub address,div.stub *|q,div.stub *|r");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("address, *|q, *|r");
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div.stub *:not(p)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(4, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-48.xml
         /// </summary>
-        public void NEGATEDUniversalSelector()
+        [Test]
+        public void NegatedUniversalSelector()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <address>This address should have a green background</address>
@@ -2396,16 +2405,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub **");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub **");
+	        var selector1 = doc.QuerySelectorAll("div.stub > *|*");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.stub > *|*:not(*)");
 	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-49.xml
         /// </summary>
-        public void NEGATEDOmittedUniversalSelectorIsForbidden()
+        [Test]
+        public void NegatedOmittedUniversalSelectorIsForbidden()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <address>This address should have a green background</address>
@@ -2415,9 +2425,9 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub **");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub **");
+	        var selector1 = doc.QuerySelectorAll("div.stub > *|*");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.stub > *|*:not()");
 	        Assert.AreEqual(0, selector2.Length);
         }
 
