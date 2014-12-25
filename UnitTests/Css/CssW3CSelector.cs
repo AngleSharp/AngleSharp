@@ -1811,6 +1811,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-34.xml
         /// </summary>
+        [Test]
         public void FirstOfTypePseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">This div contains 3 addresses:
@@ -1821,16 +1822,17 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("address:firstOftype");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("address:first-of-type");
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-35.xml
         /// </summary>
+        [Test]
         public void LastOfTypePseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1841,16 +1843,17 @@ This div contains 3 addresses above this sentence.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("address:lastOftype");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("address:last-of-type");
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-36.xml
         /// </summary>
+        [Test]
         public void OnlyChildPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should have normal background</p>
@@ -1860,9 +1863,9 @@ This div contains 3 addresses above this sentence.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:only-child");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div.testText div p");
 	        Assert.AreEqual(0, selector3.Length);
         }
@@ -1870,6 +1873,7 @@ This div contains 3 addresses above this sentence.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-37.xml
         /// </summary>
+        [Test]
         public void OnlyOfTypePseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">
@@ -1880,14 +1884,15 @@ This div contains 3 addresses above this sentence.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-38.xml
         /// </summary>
+        [Test]
         public void FirstLinePseudoElement()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This very long paragraph should have a
@@ -1900,7 +1905,7 @@ This div contains 3 addresses above this sentence.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
