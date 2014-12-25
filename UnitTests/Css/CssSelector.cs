@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
 using NUnit.Framework;
 using System;
 
@@ -42,7 +41,7 @@ namespace UnitTests
         [Test]
         public void PseudoSelectorLastChild()
         {
-            Assert.AreEqual(7, RunQuery("*:last-child").Length);
+            Assert.AreEqual(8, RunQuery("*:last-child").Length);
             Assert.AreEqual(2, RunQuery("p:last-child").Length);
         }
         
