@@ -977,18 +977,8 @@
 
 			public Boolean Match(IElement element)
             {
-                var parent = element.Parent;
-
-                if (parent == null)
-                    return false;
-
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
-                {
-                    if (parent.ChildNodes[i].NodeType == NodeType.Element)
-                        return parent.ChildNodes[i] == element;
-                }
-
-                return false;
+                var parent = element.ParentElement;
+                return parent != null && parent.ChildElementCount > 0 && parent.Children[0] == element;
             }
         }
 
@@ -1019,18 +1009,8 @@
 
 			public Boolean Match(IElement element)
             {
-                var parent = element.Parent;
-
-                if (parent == null)
-                    return false;
-
-                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
-                {
-                    if (parent.ChildNodes[i].NodeType == NodeType.Element)
-                        return parent.ChildNodes[i] == element;
-                }
-
-                return false;
+                var parent = element.ParentElement;
+                return parent != null && parent.ChildElementCount > 0 && parent.Children[parent.ChildElementCount - 1] == element;
             }
         }
 

@@ -108,7 +108,7 @@
             var parent = element.ParentElement;
 
             if (parent == null)
-                return true;
+                return false;
 
             for (int i = 0; i < parent.ChildNodes.Length; i++)
             {
@@ -129,7 +129,7 @@
             var parent = element.ParentElement;
 
             if (parent == null)
-                return true;
+                return false;
 
             for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
             {
