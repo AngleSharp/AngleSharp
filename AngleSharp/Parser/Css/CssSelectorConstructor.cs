@@ -13,7 +13,7 @@
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class CssSelectorConstructor
     {
         #region Constants
@@ -93,8 +93,8 @@
             pseudoClassSelectors.Add(pseudoClassFirstOfType, SimpleSelector.PseudoClass(el => el.IsFirstOfType(), pseudoClassFirstOfType));
             pseudoClassSelectors.Add(pseudoClassLastOfType, SimpleSelector.PseudoClass(el => el.IsLastOfType(), pseudoClassLastOfType));
             pseudoClassSelectors.Add(pseudoClassOnlyChild, SimpleSelector.PseudoClass(el => el.IsOnlyChild(), pseudoClassOnlyChild));
-            pseudoClassSelectors.Add(pseudoClassFirstChild, FirstChildSelector.Instance);
-            pseudoClassSelectors.Add(pseudoClassLastChild, LastChildSelector.Instance);
+            pseudoClassSelectors.Add(pseudoClassFirstChild, SimpleSelector.PseudoClass(el => el.IsFirstChild(), pseudoClassFirstChild));
+            pseudoClassSelectors.Add(pseudoClassLastChild, SimpleSelector.PseudoClass(el => el.IsLastChild(), pseudoClassLastChild));
             pseudoClassSelectors.Add(pseudoClassEmpty, SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, pseudoClassEmpty));
             pseudoClassSelectors.Add(pseudoClassLink, SimpleSelector.PseudoClass(el => el.IsLink(), pseudoClassLink));
             pseudoClassSelectors.Add(pseudoClassVisited, SimpleSelector.PseudoClass(el => el.IsVisited(), pseudoClassVisited));
@@ -116,6 +116,7 @@
             pseudoClassSelectors.Add(pseudoClassInRange, SimpleSelector.PseudoClass(el => el.IsInRange(), pseudoClassInRange));
             pseudoClassSelectors.Add(pseudoClassOutOfRange, SimpleSelector.PseudoClass(el => el.IsOutOfRange(), pseudoClassOutOfRange));
             pseudoClassSelectors.Add(pseudoClassOptional, SimpleSelector.PseudoClass(el => el.IsOptional(), pseudoClassOptional));
+
             // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
             pseudoClassSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoClass(MatchBefore, pseudoElementBefore));
             pseudoClassSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoClass(MatchAfter, pseudoElementAfter));
@@ -947,70 +948,6 @@
             public String Text
             {
                 get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastChild, step, offset); }
-            }
-        }
-
-		/// <summary>
-		/// The first child selector.
-		/// </summary>
-        sealed class FirstChildSelector : ISelector
-        {
-            FirstChildSelector()
-            { }
-
-            static FirstChildSelector instance;
-
-            public static FirstChildSelector Instance
-            {
-                get { return instance ?? (instance = new FirstChildSelector()); }
-            }
-            
-            public String Text
-            {
-                get { return ":" + CssSelectorConstructor.pseudoClassFirstChild; }
-            }
-
-            public Priority Specifity
-            {
-                get { return Priority.OneClass; }
-            }
-
-			public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-                return parent != null && parent.ChildElementCount > 0 && parent.Children[0] == element;
-            }
-        }
-
-		/// <summary>
-		/// The last child selector.
-		/// </summary>
-        sealed class LastChildSelector : ISelector
-        {
-            LastChildSelector()
-            { }
-
-            static LastChildSelector instance;
-
-            public static LastChildSelector Instance
-            {
-                get { return instance ?? (instance = new LastChildSelector()); }
-            }
-
-            public String Text
-            {
-                get { return ":" + CssSelectorConstructor.pseudoClassLastChild; }
-            }
-
-            public Priority Specifity
-            {
-                get { return Priority.OneClass; }
-            }
-
-			public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-                return parent != null && parent.ChildElementCount > 0 && parent.Children[parent.ChildElementCount - 1] == element;
             }
         }
 

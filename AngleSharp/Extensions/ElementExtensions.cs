@@ -528,15 +528,33 @@
         /// Checks if the element is its parent's only child.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent has no siblings, otherwise false.</returns>
+        /// <returns>True if the element has no siblings, otherwise false.</returns>
         public static Boolean IsOnlyChild(this IElement element)
         {
             var parent = element.ParentElement;
+            return parent != null && parent.ChildElementCount == 1 && parent.Children[0] == element;
+        }
 
-            if (parent == null)
-                return false;
+        /// <summary>
+        /// Checks if the element is its parent's first child.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element's first child is the given one, otherwise false.</returns>
+        public static Boolean IsFirstChild(this IElement element)
+        {
+            var parent = element.ParentElement;
+            return parent != null && parent.ChildElementCount > 0 && parent.Children[0] == element;
+        }
 
-            return parent.ChildElementCount == 1;
+        /// <summary>
+        /// Checks if the element is its parent's last child.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element's last child is the given one, otherwise false.</returns>
+        public static Boolean IsLastChild(this IElement element)
+        {
+            var parent = element.ParentElement;
+            return parent != null && parent.ChildElementCount > 0 && parent.Children[parent.ChildElementCount - 1] == element;
         }
     }
 }
