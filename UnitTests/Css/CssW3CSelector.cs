@@ -2060,42 +2060,46 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-41a.xml
         /// </summary>
+        [Test]
         public void BeforePseudoElementB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see before this paragraph the words GENERATED CONTENT over green background</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:before");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-42.xml
         /// </summary>
+        [Test]
         public void AfterPseudoElementA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see after this paragraph the words GENERATED CONTENT over green background</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p::after");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-42a.xml
         /// </summary>
+        [Test]
         public void AfterPseudoElementB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see after this paragraph the words GENERATED CONTENT over green background</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:after");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-43.xml
         /// </summary>
+        [Test]
         public void DescendantCombinatorA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">
@@ -2122,16 +2126,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div.t1 p");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-43b.xml
         /// </summary>
+        [Test]
         public void DescendantCombinatorB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">
@@ -2158,11 +2163,11 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div.t1 p");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
