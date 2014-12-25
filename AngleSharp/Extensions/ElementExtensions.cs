@@ -141,6 +141,23 @@
         }
 
         /// <summary>
+        /// Checks if the element is currently targeted.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element's ID is equal to the hash.</returns>
+        public static Boolean IsTarget(this IElement element)
+        {
+            var owner = element.Owner;
+            var id = element.Id;
+
+            if (owner == null || id == null)
+                return false;
+
+            var hash = owner.Location.Hash;
+            return String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
+        }
+
+        /// <summary>
         /// Checks if the element is currently enabled.
         /// </summary>
         /// <param name="element">The element to check.</param>
