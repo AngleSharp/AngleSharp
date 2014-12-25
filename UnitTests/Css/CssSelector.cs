@@ -34,14 +34,14 @@ namespace UnitTests
         [Test]
         public void PseudoSelectorFirstChild()
         {
-            Assert.AreEqual(8, RunQuery("*:first-child").Length);
+            Assert.AreEqual(7, RunQuery("*:first-child").Length);
             Assert.AreEqual(1, RunQuery("p:first-child").Length);
         }
 
         [Test]
         public void PseudoSelectorLastChild()
         {
-            Assert.AreEqual(8, RunQuery("*:last-child").Length);
+            Assert.AreEqual(7, RunQuery("*:last-child").Length);
             Assert.AreEqual(2, RunQuery("p:last-child").Length);
         }
         

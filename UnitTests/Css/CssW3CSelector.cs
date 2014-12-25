@@ -1205,6 +1205,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-27a.xml
         /// </summary>
+        [Test]
         public void ImpossibleRulesRootFirstChildEtc()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green (there should be no red on this page).</p>";
@@ -1224,27 +1225,20 @@ This text should be green.
 	        Assert.AreEqual(0, selector6.Length);
 	        var selector7 = doc.QuerySelectorAll(":root:nth-last-child(1n+0)");
 	        Assert.AreEqual(0, selector7.Length);
-	        var selector8 = doc.QuerySelectorAll(":root:firstOftype");
+	        var selector8 = doc.QuerySelectorAll(":root:first-of-type");
 	        Assert.AreEqual(0, selector8.Length);
-	        var selector9 = doc.QuerySelectorAll(":root:lastOftype");
+	        var selector9 = doc.QuerySelectorAll(":root:last-of-type");
 	        Assert.AreEqual(0, selector9.Length);
 	        var selector10 = doc.QuerySelectorAll(":root");
-	        Assert.AreEqual(0, selector10.Length);
-	        var selector11 = doc.QuerySelectorAll(":root");
-	        Assert.AreEqual(0, selector11.Length);
-	        var selector12 = doc.QuerySelectorAll(":root");
-	        Assert.AreEqual(0, selector12.Length);
-	        var selector13 = doc.QuerySelectorAll(":root");
-	        Assert.AreEqual(0, selector13.Length);
-	        var selector14 = doc.QuerySelectorAll(":root");
-	        Assert.AreEqual(0, selector14.Length);
-	        var selector15 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector15.Length);
+	        Assert.AreEqual(1, selector10.Length);
+	        var selector11 = doc.QuerySelectorAll("p");
+	        Assert.AreEqual(1, selector11.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-27b.xml
         /// </summary>
+        [Test]
         public void ImpossibleRulesHtmlRoot()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green (there should be no red on this page).</p>";
@@ -1255,12 +1249,13 @@ This text should be green.
 	        var selector2 = doc.QuerySelectorAll("* :root");
 	        Assert.AreEqual(0, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-28.xml
         /// </summary>
+        [Test]
         public void NthChildPseudoClassA()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1349,20 +1344,21 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(19, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("ul li:nth-child(2n+1)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("ol li:nth-child(2n+0)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:nth-child(-1n+4)");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(4, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:nth-child(3n+1)");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(9, selector5.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-28b.xml
         /// </summary>
+        [Test]
         public void NthChildPseudoClassB()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1451,20 +1447,21 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(19, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("ul li:nth-child(2n+1)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("ol li:nth-child(2n+0)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:nth-child(-1n+4)");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(4, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:nth-child(3n+1)");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(9, selector5.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-29.xml
         /// </summary>
+        [Test]
         public void NthLastChildPseudoClassA()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1553,15 +1550,15 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(19, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("ul li:nth-last-child(2n+1)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("ol li:nth-last-child(2n+0)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:nth-last-child(-1n+4)");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(4, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:nth-last-child(3n+1)");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(9, selector5.Length);
         }
 
         /// <summary>
