@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.DOM;
+using AngleSharp.DOM.Html;
 
 namespace UnitTests
 {
@@ -855,29 +856,28 @@ This text should be green.
 
         #endregion
 
-        //TODO 1.) Add correct numbers of matches for each selector
-        //TODO 2.) Decorate each method as [Test]
-
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-16.xml
         /// </summary>
+        [Test]
         public void LinkPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">
 <a href=""http://unvisited.example.org/css3-modsel-16/"">This link should have green background.</a>
-(Don9t follow this link.)
+(Don't follow this link.)
 </p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p.test a");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p.test *:link");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-17.xml
         /// </summary>
+        [Test]
         public void VisitedPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">
@@ -887,7 +887,7 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p.test a");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p.test *:visited");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -895,6 +895,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-18.xml
         /// </summary>
+        [Test]
         public void HoverPseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of this paragraph should turn to green when
@@ -950,12 +951,13 @@ This text should be green.
 	        var selector4 = doc.QuerySelectorAll("td:hover");
 	        Assert.AreEqual(0, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(1, selector5.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-18a.xml
         /// </summary>
+        [Test]
         public void HoverPseudoClassOnLinksA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""a"">The background color of <a href=""#foo"">this anchor (<strong>here</strong>)</a> should turn to green when the pointing device hovers over it.</p>
@@ -964,15 +966,15 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".a a:hover");
 	        Assert.AreEqual(0, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".b a:hover");
 	        Assert.AreEqual(0, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll(".b a:link");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll(".c :link");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(1, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll(".c :visited:hover");
 	        Assert.AreEqual(0, selector6.Length);
         }
@@ -980,6 +982,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-18b.xml
         /// </summary>
+        [Test]
         public void HoverPseudoClassB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -998,13 +1001,14 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-18c.xml
         /// </summary>
+        [Test]
         public void HoverPseudoClassOnLinksB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml""><a href=""#foo"">Hover <strong>here</strong> and the background of <span>this text should go green</span>.</a></p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(":link,:visited");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(":link:hover span");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -1012,6 +1016,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-19.xml
         /// </summary>
+        [Test]
         public void ActivePseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of <a href=""#foo"">the anchor</a>
@@ -1026,6 +1031,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-19b.xml
         /// </summary>
+        [Test]
         public void ActivePseudoClassOnControls()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml""><button>Activating (e.g. holding the mouse button down on) this button should make it go green.</button></p>";
@@ -1038,20 +1044,33 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-20.xml
         /// </summary>
+        [Test]
         public void FocusPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of <a href=""#foo"">anchors</a>
   in this page should turn <a href=""#foo"">to green</a> when they have the
   <a href=""#foo"">focus</a>.</p>";
 	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("a:focus");
+
+            var anchors = doc.QuerySelectorAll("a");
+            Assert.AreEqual(3, anchors.Length);
+
+            var anchor = anchors[0] as IHtmlAnchorElement;
+            Assert.IsNotNull(anchor);
+
+            var selector1 = doc.QuerySelectorAll("a:focus");
 	        Assert.AreEqual(0, selector1.Length);
+
+            anchor.DoFocus();
+
+            var selector2 = doc.QuerySelectorAll("a:focus");
+            Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-21.xml
         /// </summary>
+        [Test]
         public void TargetPseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""first"">This paragraph should be unstyled.
@@ -1069,6 +1088,11 @@ This text should be green.
 	        
 	        var selector1 = doc.QuerySelectorAll("p:target");
 	        Assert.AreEqual(0, selector1.Length);
+
+            doc.Location.Hash = "#second";
+
+            var selector2 = doc.QuerySelectorAll("p:target");
+            Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
