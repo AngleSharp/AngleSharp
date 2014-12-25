@@ -1564,6 +1564,7 @@ This text should be green.
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-29b.xml
         /// </summary>
+        [Test]
         public void NthLastChildPseudoClassB()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1652,20 +1653,21 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(19, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("ul li:nth-last-child(2n+1)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("ol li:nth-last-child(2n+0)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:nth-last-child(-1n+4)");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(4, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:nth-last-child(3n+1)");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(9, selector5.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-30.xml
         /// </summary>
+        [Test]
         public void NthOfTypePseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph is here only to fill space in the DOM</p>
@@ -1689,16 +1691,17 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(5, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("dl");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-31.xml
         /// </summary>
+        [Test]
         public void NthLastOfTypePseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""red"">This paragraph should have green background</p>
@@ -1722,16 +1725,17 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(5, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("dl");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-32.xml
         /// </summary>
+        [Test]
         public void FirstChildPseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1759,16 +1763,17 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1 td:first-child");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("p *:first-child");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-33.xml
         /// </summary>
+        [Test]
         public void LastChildPseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -1796,11 +1801,11 @@ This text should be green.
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1 td:last-child");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("p *:last-child");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
