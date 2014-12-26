@@ -3441,7 +3441,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-76.xml
         /// </summary>
-        public void NEGATEDNthLastOfTypePseudoClassA()
+        [Test]
+        public void NegatedNthLastOfTypePseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be unstyled.</p>
 <address xmlns=""http://www.w3.org/1999/xhtml"">This address should be unstyled.</address>
@@ -3464,17 +3465,18 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("dl *");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(10, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("p:not(:nth-last-of-type(3))");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("dl > *:not(:nth-last-of-type(3n+1))");
+	        Assert.AreEqual(8, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-76b.xml
         /// </summary>
-        public void NEGATEDNthLastOfTypePseudoClassB()
+        [Test]
+        public void NegatedNthLastOfTypePseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be unstyled.</p>
 <address xmlns=""http://www.w3.org/1999/xhtml"">This address should be unstyled.</address>
@@ -3497,17 +3499,18 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("dl *");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(10, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("p:not(:nth-last-of-type(3))");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("dl > *:not(:nth-last-of-type(3n+1))");
+	        Assert.AreEqual(8, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-77.xml
         /// </summary>
-        public void NEGATEDFirstChildPseudoClassA()
+        [Test]
+        public void NegatedFirstChildPseudoClassA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <table class=""t1"" border=""1"">
@@ -3532,19 +3535,20 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(6, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1 td:not(:first-child)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("p *:not(:first-child)");
+	        Assert.AreEqual(6, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("p > *:not(:first-child)");
 	        Assert.AreEqual(0, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 td");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(9, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-77b.xml
         /// </summary>
-        public void NEGATEDFirstChildPseudoClassB()
+        [Test]
+        public void NegatedFirstChildPseudoClassB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <table class=""t1"" border=""1"">
@@ -3569,19 +3573,20 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(6, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1 td:not(:first-child)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("p *:not(:first-child)");
+	        Assert.AreEqual(6, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("p > *:not(:first-child)");
 	        Assert.AreEqual(0, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 td");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(9, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-78.xml
         /// </summary>
-        public void NEGATEDLastChildPseudoClassA()
+        [Test]
+        public void NegatedLastChildPseudoClassA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <table class=""t1"" border=""1"">
@@ -3606,19 +3611,20 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(6, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1 td:not(:last-child)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("p *:not(:last-child)");
+	        Assert.AreEqual(6, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("p > *:not(:last-child)");
 	        Assert.AreEqual(0, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 td");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(9, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-78b.xml
         /// </summary>
-        public void NEGATEDLastChildPseudoClassB()
+        [Test]
+        public void NegatedLastChildPseudoClassB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <table class=""t1"" border=""1"">
@@ -3643,19 +3649,20 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(6, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".t1 td:not(:last-child)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("p *:not(:last-child)");
+	        Assert.AreEqual(6, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("p > *:not(:last-child)");
 	        Assert.AreEqual(0, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 td");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(9, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-79.xml
         /// </summary>
-        public void NEGATEDFirstOfTypePseudoClass()
+        [Test]
+        public void NegatedFirstOfTypePseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">This div contains 3 addresses :
 <address>A first address with normal background</address>
@@ -3665,17 +3672,18 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("address:not(:firstOftype)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("address:not(:first-of-type)");
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-80.xml
         /// </summary>
-        public void NEGATEDLastOfTypePseudoClass()
+        [Test]
+        public void NegatedLastOfTypePseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
 <address class=""red"">A first address that should have a green background</address>
@@ -3685,17 +3693,18 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("address:not(:lastOftype)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("address:not(:last-of-type)");
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-81.xml
         /// </summary>
-        public void NEGATEDOnlyChildPseudoClassA()
+        [Test]
+        public void NegatedOnlyChildPseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""red"">This paragraph should have a green background.</p>
  <div xmlns=""http://www.w3.org/1999/xhtml"">This div contains only one paragraph.
@@ -3704,17 +3713,18 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:not(:only-child)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.testText div p");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.testText > div > p");
 	        Assert.AreEqual(0, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-81b.xml
         /// </summary>
-        public void NEGATEDOnlyChildPseudoClassB()
+        [Test]
+        public void NegatedOnlyChildPseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""green"">This paragraph should have a green background.</p>
  <div xmlns=""http://www.w3.org/1999/xhtml"">This div contains only one paragraph.
@@ -3723,10 +3733,10 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:not(:only-child)");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.testText div p");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.testText > div > p");
 	        Assert.AreEqual(0, selector3.Length);
         }
 
