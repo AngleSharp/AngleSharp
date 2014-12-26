@@ -480,10 +480,7 @@ namespace UnitTests
         public void AttributeSelectorElementAttrHyphenSeparatedWithDoubleQuotes()
         {
             var results = RunQuery("span[class|=\"separated\"]");
-
-            Assert.AreEqual(1, results.Length);
-            Assert.AreEqual("span", results[0].NodeName);
-            Assert.AreEqual("test", results[0].TextContent);
+            Assert.AreEqual(0, results.Length);
         }
 
         [Test]
