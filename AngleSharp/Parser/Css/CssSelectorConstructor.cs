@@ -78,6 +78,7 @@
 		String attrName;
 		String attrValue;
 		String attrOp;
+        String attrNs;
         Boolean valid;
 
         #endregion
@@ -241,6 +242,7 @@
 		{
 			attrName = null;
 			attrValue = null;
+            attrNs = null;
 			attrOp = String.Empty;
 			state = State.Data;
 			combinator = CssCombinator.Descendent;
@@ -270,6 +272,7 @@
 					attrName = null;
 					attrValue = null;
 					attrOp = String.Empty;
+                    attrNs = null;
 					state = State.Attribute;
 					break;
 
@@ -347,6 +350,14 @@
             {
                 state = State.AttributeValue;
                 attrOp = token.ToValue();
+
+                if (attrOp == "|")
+                {
+                    attrNs = attrName;
+                    attrName = null;
+                    attrOp = String.Empty;
+                    state = State.Attribute;
+                }
             }
             else
             {
@@ -389,37 +400,39 @@
 
             if (token.Type == CssTokenType.SquareBracketClose)
             {
-                switch (attrOp)
-                {
-                    case "=":
-                        Insert(SimpleSelector.AttrMatch(attrName, attrValue));
-                        return;
-                    case "~=":
-                        Insert(SimpleSelector.AttrList(attrName, attrValue));
-                        return;
-                    case "|=":
-                        Insert(SimpleSelector.AttrHyphen(attrName, attrValue));
-                        return;
-                    case "^=":
-                        Insert(SimpleSelector.AttrBegins(attrName, attrValue));
-                        return;
-                    case "$=":
-                        Insert(SimpleSelector.AttrEnds(attrName, attrValue));
-                        return;
-                    case "*=":
-                        Insert(SimpleSelector.AttrContains(attrName, attrValue));
-                        return;
-                    case "!=":
-                        Insert(SimpleSelector.AttrNotMatch(attrName, attrValue));
-                        return;
-                    default:
-                        Insert(SimpleSelector.AttrAvailable(attrName));
-                        return;
-                }
+                var selector = CreateAttrSelector();
+                Insert(selector);
             }
-            
-            valid = false;
-		}
+            else            
+                valid = false;
+        }
+
+        /// <summary>
+        /// Creates an attribute selector using the current state.
+        /// </summary>
+        /// <returns>The created selector.</returns>
+        SimpleSelector CreateAttrSelector()
+        {
+            switch (attrOp)
+            {
+                case "=":
+                    return SimpleSelector.AttrMatch(attrName, attrValue, attrNs);
+                case "~=":
+                    return SimpleSelector.AttrList(attrName, attrValue, attrNs);
+                case "|=":
+                    return SimpleSelector.AttrHyphen(attrName, attrValue, attrNs);
+                case "^=":
+                    return SimpleSelector.AttrBegins(attrName, attrValue, attrNs);
+                case "$=":
+                    return SimpleSelector.AttrEnds(attrName, attrValue, attrNs);
+                case "*=":
+                    return SimpleSelector.AttrContains(attrName, attrValue, attrNs);
+                case "!=":
+                    return SimpleSelector.AttrNotMatch(attrName, attrValue, attrNs);
+                default:
+                    return SimpleSelector.AttrAvailable(attrName, attrNs);
+            }
+        }
 
 		/// <summary>
 		/// Invoked once a colon has been found in the token enumerator.

@@ -144,10 +144,21 @@
         /// Creates a new attribute available selector.
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrAvailable(String match)
+        public static SimpleSelector AttrAvailable(String match, String prefix = null)
         {
-            return new SimpleSelector(_ => _.HasAttribute(match), Priority.OneClass, "[" + match + "]");
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            return new SimpleSelector(_ => _.HasAttribute(match), Priority.OneClass, String.Concat("[", front, "]"));
         }
 
         /// <summary>
@@ -155,10 +166,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The value of the attribute.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrMatch(String match, String value)
+        public static SimpleSelector AttrMatch(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}={1}]", front, GetValueAsString(value));
             return new SimpleSelector(_ => _.GetAttribute(match) == value, Priority.OneClass, code);
         }
 
@@ -167,10 +189,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The value that the attribute should not have.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrNotMatch(String match, String value)
+        public static SimpleSelector AttrNotMatch(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}!={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}!={1}]", front, GetValueAsString(value));
             return new SimpleSelector(_ => _.GetAttribute(match) != value, Priority.OneClass, code);
         }
 
@@ -179,10 +212,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The value (between spaces) of the attribute.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrList(String match, String value)
+        public static SimpleSelector AttrList(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}~={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}~={1}]", front, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, Priority.OneClass, code);
@@ -195,10 +239,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The begin of the value of the attribute.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrBegins(String match, String value)
+        public static SimpleSelector AttrBegins(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}^={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}^={1}]", front, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, Priority.OneClass, code);
@@ -211,10 +266,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The end of the value of the attribute.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrEnds(String match, String value)
+        public static SimpleSelector AttrEnds(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}$={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}$={1}]", front, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, Priority.OneClass, code);
@@ -227,10 +293,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The value that has to be contained in the value of the attribute.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrContains(String match, String value)
+        public static SimpleSelector AttrContains(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}*={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}*={1}]", front, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, Priority.OneClass, code);
@@ -243,10 +320,21 @@
         /// </summary>
         /// <param name="match">The attribute that has to be available.</param>
         /// <param name="value">The value that has to be a hyphen separated list entry of the attribute.</param>
+        /// <param name="prefix">The optional namespace prefix to use.</param>
         /// <returns>The new selector.</returns>
-        public static SimpleSelector AttrHyphen(String match, String value)
+        public static SimpleSelector AttrHyphen(String match, String value, String prefix = null)
         {
-            var code = String.Format("[{0}|={1}]", match, GetValueAsString(value));
+            var front = match;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                front = String.Concat(prefix, "|", match);
+
+                if (prefix != "*")
+                    match = String.Concat(prefix, ":", match);
+            }
+
+            var code = String.Format("[{0}|={1}]", front, GetValueAsString(value));
 
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, Priority.OneClass, code);
