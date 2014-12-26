@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -195,17 +196,16 @@
                             siblings.Add(kid);
                         }
 
-                        //var passed = false;
-                        //for (int i = kids.Length - 1; i >= 0; i--)
-                        //{
-                        //    if (kids[i] == el)
-                        //        passed = true;
-                        //    else if (passed)
-                        //        siblings.Add(kids[i]);
-                        //}
-
                         return siblings;
                     };
+                    break;
+                }
+                case CssCombinator.Namespace:
+                {
+                    var prefix = selector.Text;
+                    delim = Specification.Pipe;
+                    transform = el => Single(el);
+                    selector = new SimpleSelector(el => MatchesCssNamespace(el, prefix), Priority.Zero, prefix);
                     break;
                 }
                 default:
@@ -215,6 +215,7 @@
             selectors.Add(new CombinatorSelector { selector = selector, transform = transform, delimiter = delim });
             return this;
         }
+
 
         /// <summary>
         /// Clears the list of selectors.
@@ -230,6 +231,20 @@
         #endregion
 
         #region Helpers
+
+        static Boolean MatchesCssNamespace(IElement el, String prefix)
+        {
+            if (prefix == "*")
+                return true;
+
+            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix);
+            return !String.IsNullOrEmpty(nsUri) && nsUri == GetCssNamespace(el, prefix);
+        }
+
+        static String GetCssNamespace(IElement el, String prefix)
+        {
+            return el.Owner.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespace(prefix);
+        }
 
         Boolean MatchCascade(int pos, IElement element)
         {
