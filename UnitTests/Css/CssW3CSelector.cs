@@ -2766,7 +2766,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-65.xml
         /// </summary>
-        public void NEGATEDFocusPseudoClass()
+        [Test]
+        public void NegatedFocusPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of all <a href=""#foo"">anchors</a>
   should become <a href=""#foo""> green</a> when they have the
@@ -2774,15 +2775,21 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("a:not(:focus)");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("a");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
+            var anchor = selector2[0] as IHtmlAnchorElement;
+            Assert.IsNotNull(anchor);
+            anchor.DoFocus();
+            var selector3 = doc.QuerySelectorAll("a:not(:focus)");
+            Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-66.xml
         /// </summary>
-        public void NEGATEDTargetPseudoClassA()
+        [Test]
+        public void NegatedTargetPseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""first"">This paragraph should be unstyled.
        The background of the following paragraph should become blue when
@@ -2798,29 +2805,36 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:not(:target)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
+
+            doc.Location.Hash = "#first";
+
+            var selector3 = doc.QuerySelectorAll("p:not(:target)");
+            Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-66b.xml
         /// </summary>
-        public void NEGATEDTargetPseudoClassB()
+        [Test]
+        public void NegatedTargetPseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:not(:target)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-67.xml
         /// </summary>
-        public void NEGATEDLangPseudoClass()
+        [Test]
+        public void NegatedLangPseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" lang=""en"" class=""stub"">
 <p>This paragraph should have a green background because the
@@ -2835,15 +2849,16 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(4, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div.stub *:not(:lang(fr))");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-68.xml
         /// </summary>
-        public void NEGATEDEnabledPseudoClass()
+        [Test]
+        public void NegatedEnabledPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
  <button disabled=""disabled"">A button (disabled) with green background</button>
@@ -2853,19 +2868,20 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("input");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("button:not(:enabled)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("input:not(:enabled)");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-69.xml
         /// </summary>
-        public void NEGATEDDisabledPseudoClass()
+        [Test]
+        public void NegatedDisabledPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
  <button>A button (enabled) with green background</button>
@@ -2875,13 +2891,13 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("input");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("button:not(:disabled)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("input:not(:disabled)");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(1, selector4.Length);
         }
 
         /// <summary>
