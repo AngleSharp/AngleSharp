@@ -2903,22 +2903,24 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-70.xml
         /// </summary>
-        public void NEGATEDCheckedPseudoClass()
+        [Test]
+        public void NegatedCheckedPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
 <input type=""checkbox""></input> <span>Everything in this paragraph should have a green background</span></p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("input,span");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(2, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("input:not(:checked),input:not(:checked)+span");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-72.xml
         /// </summary>
-        public void NEGATEDRootPseudoClassA()
+        [Test]
+        public void NegatedRootPseudoClassA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This paragraph should have a green background and there should be no red anywhere.</p>
@@ -2926,15 +2928,16 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:not(:root)");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div *");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-72b.xml
         /// </summary>
-        public void NEGATEDRootPseudoClassB()
+        [Test]
+        public void NegatedRootPseudoClassB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This paragraph should have a green background and there should be no red anywhere.</p>
@@ -2944,13 +2947,14 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var selector1 = doc.QuerySelectorAll("html:not(:root),test:not(:root)");
 	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-73.xml
         /// </summary>
-        public void NEGATEDNthChildPseudoClassA()
+        [Test]
+        public void NegatedNthChildPseudoClassA()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li>First list item</li>
@@ -3038,23 +3042,24 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("ul li:not(:nth-child(2n+1))");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("ol li:not(:nth-child(2n+0))");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(23, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("ul > li:not(:nth-child(odd))");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("ol > li:not(:nth-child(even))");
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:not(:nth-child(-1n+4))");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(2, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:not(:nth-child(3n+1))");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(15, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll("table.t1 td,table.t2 td");
-	        Assert.AreEqual(0, selector6.Length);
+	        Assert.AreEqual(42, selector6.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-73b.xml
         /// </summary>
-        public void NEGATEDNthChildPseudoClassB()
+        [Test]
+        public void NegatedNthChildPseudoClassB()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li>First list item</li>
@@ -3142,23 +3147,24 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("ul li:not(:nth-child(2n+1))");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("ol li:not(:nth-child(2n+0))");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(23, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("ul > li:not(:nth-child(odd))");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("ol > li:not(:nth-child(even))");
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:not(:nth-child(-1n+4))");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(2, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:not(:nth-child(3n+1))");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(15, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll("table.t1 td,table.t2 td");
-	        Assert.AreEqual(0, selector6.Length);
+	        Assert.AreEqual(42, selector6.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-74.xml
         /// </summary>
-        public void NEGATEDNthLastChildPseudoClassA()
+        [Test]
+        public void NegatedNthLastChildPseudoClassA()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li class=""red"">This first list item should have a green background</li>
@@ -3246,23 +3252,24 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("ul li:not(:nth-last-child(2n+1))");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("ol li:not(:nth-last-child(2n+0))");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("table.t1 tr:not(:nth-last-child(-1n+4))");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(23, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("ul > li:not(:nth-last-child(odd))");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("ol > li:not(:nth-last-child(even))");
+	        Assert.AreEqual(3, selector3.Length);
+	        var selector4 = doc.QuerySelectorAll("table.t1 tr:not(:nth-last-child(-n+4))");
+	        Assert.AreEqual(2, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:not(:nth-last-child(3n+1))");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(15, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll("table.t1 td,table.t2 td");
-	        Assert.AreEqual(0, selector6.Length);
+	        Assert.AreEqual(42, selector6.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-74b.xml
         /// </summary>
-        public void NEGATEDNthLastChildPseudoClassB()
+        [Test]
+        public void NegatedNthLastChildPseudoClassB()
         {
 	        var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li class=""green"">This first list item should have a green background</li>
@@ -3350,23 +3357,24 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("ul li:not(:nth-last-child(2n+1))");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("ol li:not(:nth-last-child(2n+0))");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(23, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("ul > li:not(:nth-last-child(odd))");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("ol > li:not(:nth-last-child(even))");
+	        Assert.AreEqual(3, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("table.t1 tr:not(:nth-last-child(-1n+4))");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(2, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("table.t2 td:not(:nth-last-child(3n+1))");
-	        Assert.AreEqual(0, selector5.Length);
+	        Assert.AreEqual(15, selector5.Length);
 	        var selector6 = doc.QuerySelectorAll("table.t1 td,table.t2 td");
-	        Assert.AreEqual(0, selector6.Length);
+	        Assert.AreEqual(42, selector6.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-75.xml
         /// </summary>
-        public void NEGATEDNthOfTypePseudoClassA()
+        [Test]
+        public void NegatedNthOfTypePseudoClassA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""red"">This paragraph should have green background</p>
 <address xmlns=""http://www.w3.org/1999/xhtml"">And this address should be unstyled.</address>
@@ -3389,17 +3397,18 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("dl *");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(10, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("p:not(:nth-of-type(3))");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("dl > *:not(:nth-of-type(3n+1))");
+	        Assert.AreEqual(8, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-75b.xml
         /// </summary>
-        public void NEGATEDNthOfTypePseudoClassB()
+        [Test]
+        public void NegatedNthOfTypePseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""green"">This paragraph should have green background</p>
 <address xmlns=""http://www.w3.org/1999/xhtml"">And this address should be unstyled.</address>
@@ -3422,11 +3431,11 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("dl *");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(10, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("p:not(:nth-of-type(3))");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("dl > *:not(:nth-of-type(3n+1))");
+	        Assert.AreEqual(8, selector3.Length);
         }
 
         /// <summary>
