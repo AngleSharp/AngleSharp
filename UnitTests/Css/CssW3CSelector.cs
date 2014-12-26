@@ -366,7 +366,7 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14d.xml
         /// </summary>
         [Test]
-        public void NEGATEDMoreThanOneClassSelectorA()
+        public void NegatedMoreThanOneClassSelectorA()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>";
             var doc = DocumentBuilder.Html(source);
@@ -387,7 +387,7 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14e.xml
         /// </summary>
         [Test]
-        public void NEGATEDMoreThanOneClassSelectorB()
+        public void NegatedMoreThanOneClassSelectorB()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" class=""t3"">This line should be green.</div>
@@ -412,7 +412,7 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-15.xml
         /// </summary>
         [Test]
-        public void IDSelectors()
+        public void IdSelectors()
         {
             var source = @"<ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li id=""t1"">This list item should have a green background. because its ID is t1</li>
@@ -666,7 +666,7 @@ This text should be green.
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184d.xml
         /// </summary>
         [Test]
-        public void NEGATEDEndsWithAttributeSelectorWithEmptyValue()
+        public void NegatedEndsWithAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
@@ -682,7 +682,7 @@ This text should be green.
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184e.xml
         /// </summary>
         [Test]
-        public void NEGATEDStartsWithAttributeSelectorWithEmptyValue()
+        public void NegatedStartsWithAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
@@ -698,7 +698,7 @@ This text should be green.
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-184f.xml
         /// </summary>
         [Test]
-        public void NEGATEDContainsAttributeSelectorWithEmptyValue()
+        public void NegatedContainsAttributeSelectorWithEmptyValue()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
@@ -714,7 +714,7 @@ This text should be green.
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-d1.xml
         /// </summary>
         [Test]
-        public void NEGATEDDynamicHandlingOfEmpty()
+        public void NegatedDynamicHandlingOfEmpty()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
 
@@ -2566,7 +2566,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-55.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnEnd()
+        public void NegatedSubstringMatchingAttributeSelectorOnEnd()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p>This paragraph should be in green characters.</p>
@@ -2586,7 +2586,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-56.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnMiddle()
+        public void NegatedSubstringMatchingAttributeSelectorOnMiddle()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p>This paragraph should be in green characters.</p>
