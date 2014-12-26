@@ -251,7 +251,7 @@
             if (String.IsNullOrEmpty(value))
                 return new SimpleSelector(_ => false, Priority.OneClass, code);
 
-            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).SplitHyphens().Contains(value), Priority.OneClass, code);
+            return new SimpleSelector(_ => (_.GetAttribute(match) ?? String.Empty).HasHyphen(value), Priority.OneClass, code);
         }
 
         /// <summary>

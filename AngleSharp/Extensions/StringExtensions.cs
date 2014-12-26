@@ -460,14 +460,16 @@
         }
 
         /// <summary>
-        /// Splits the string on dash characters.
+        /// Checks if the provided string starts with the given value, either by exactly matching it,
+        /// or by comparing against the start including an additional dash character.
         /// </summary>
         /// <param name="str">The string to examine.</param>
-        /// <returns>The list of tokens.</returns>
+        /// <param name="value">The value to check against.</param>
+        /// <returns>True if the string is exactly equal to or starts with the given value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String[] SplitHyphens(this String str)
+        public static Boolean HasHyphen(this String str, String value)
         {
-            return SplitWithTrimming(str, Specification.Minus);
+            return str.Equals(value, StringComparison.Ordinal) || (str.Length > value.Length && str.StartsWith(value, StringComparison.Ordinal) && str[value.Length] == '-');
         }
 
         /// <summary>
