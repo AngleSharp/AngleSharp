@@ -736,8 +736,7 @@
                     break;
 
                 case Specification.Pipe:
-                    //TODO Insert namespace selector using
-                    //the previously added selector (ident, or *)
+                    Insert(CssCombinator.Namespace);
                     break;
 
                 default:

@@ -20,6 +20,10 @@
         /// <summary>
         /// The sibling combinator ~.
         /// </summary>
-        Sibling
+        Sibling,
+        /// <summary>
+        /// The namespace combinator |.
+        /// </summary>
+        Namespace
     }
 }
