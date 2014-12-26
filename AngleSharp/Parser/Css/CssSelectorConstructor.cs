@@ -609,8 +609,11 @@
                 else if (attrName.Equals(pseudoClassFunctionNot, StringComparison.OrdinalIgnoreCase))
                 {
                     var sel = nested.Result;
-                    var code = String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")");
-                    Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), code));
+
+                    if (sel != null)
+                        Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")")));
+                    else
+                        valid = false;
                 }
                 else if (attrName.Equals(pseudoClassFunctionDir, StringComparison.OrdinalIgnoreCase))
                 {
