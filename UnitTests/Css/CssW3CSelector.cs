@@ -2566,6 +2566,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-55.xml
         /// </summary>
+        [Test]
         public void NegatedSubstringMatchingAttributeSelectorOnEnd()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
@@ -2577,15 +2578,16 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub *:not([title$=tait])");
-	        Assert.AreEqual(0, selector2.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub > *");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.stub *:not([title$='tait'])");
+	        Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-56.xml
         /// </summary>
+        [Test]
         public void NegatedSubstringMatchingAttributeSelectorOnMiddle()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
@@ -2597,56 +2599,61 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub *:not([title*=on])");
-	        Assert.AreEqual(0, selector2.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub > *");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.stub *:not([title*=' on'])");
+	        Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-57.xml
         /// </summary>
-        public void NEGATEDAttributeExistenceSelectorWithDeclaredNamespaceA()
+        [Test]
+        public void NegatedAttributeExistenceSelectorWithDeclaredNamespaceA()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <q xmlns=""http://www.example.org/a"" a:title=""a paragraph"">This a:q element should be unstyled.</q>
   <p title=""a paragraph"">This paragraph should have a green background.</p>
   <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This b:r element should have a green background.</r>
  </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*p,*r");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|p, *|r");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *:not([a|title])");
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-57b.xml
         /// </summary>
-        public void NEGATEDAttributeExistenceSelectorWithDeclaredNamespaceB()
+        [Test]
+        public void NegatedAttributeExistenceSelectorWithDeclaredNamespaceB()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <q xmlns=""http://www.example.org/a"" a:title=""a paragraph"">This a:q element should be unstyled.</q>
   <p title=""a paragraph"">This paragraph should have a green background.</p>
   <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This b:r element should have a green background.</r>
  </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*p,*r");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|p, *|r");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *:not([a|title])");
+	        Assert.AreEqual(2, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-59.xml
         /// </summary>
-        public void NEGATEDClassSelector()
+        [Test]
+        public void NegatedClassSelector()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p>This paragraph should be in green characters.</p>
@@ -2657,16 +2664,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub > *");
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div.stub *:not(.foo)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-60.xml
         /// </summary>
-        public void NEGATEDIDSelector()
+        [Test]
+        public void NegatedIdSelector()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p>This paragraph should be in green characters.</p>
@@ -2677,16 +2685,17 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub > *");
+	        Assert.AreEqual(3, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div.stub *:not(#foo)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-61.xml
         /// </summary>
-        public void NEGATEDLinkPseudoClass()
+        [Test]
+        public void NegatedLinkPseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <a href=""http://www.w3.org/"">This anchor should have a green background</a>
@@ -2694,8 +2703,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub > *");
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div.stub *:not(:link)");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -2703,24 +2712,26 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-62.xml
         /// </summary>
-        public void NEGATEDVisitedPseudoClass()
+        [Test]
+        public void NegatedVisitedPseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <a href=""http://unvisited.example.org/css3-modsel-62/"">This anchor should have a green background</a>
-(Don9t follow this link.)
+(Don't follow this link.)
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
+	        var selector1 = doc.QuerySelectorAll("div.stub > *");
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("div.stub *:not(:visited)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-63.xml
         /// </summary>
-        public void NEGATEDHoverPseudoClass()
+        [Test]
+        public void NegatedHoverPseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <p> <span>The color of this text should be green when the pointing device hovers over it.</span> </p>
@@ -2729,15 +2740,16 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub * *:not(:hover)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.stub > * > *:not(:hover)");
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-64.xml
         /// </summary>
-        public void NEGATEDActivePseudoClass()
+        [Test]
+        public void NegatedActivePseudoClass()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
   <p> <a href=""http://dummy.example.org/dummy"">This text should turn green while it is active.</a> </p>
@@ -2746,9 +2758,9 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.stub * *:not(:active)");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.stub > * > *:not(:active)");
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
