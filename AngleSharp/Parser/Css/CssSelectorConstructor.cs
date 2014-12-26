@@ -54,6 +54,7 @@
         static readonly String pseudoClassFunctionDir = "dir";
         static readonly String pseudoClassFunctionNthChild = "nth-child";
         static readonly String pseudoClassFunctionNthLastChild = "nth-last-child";
+        static readonly String pseudoClassFunctionNthOfType = "nth-of-type";
         static readonly String pseudoClassFunctionNot = "not";
         static readonly String pseudoClassFunctionLang = "lang";
         static readonly String pseudoClassFunctionContains = "contains";
@@ -519,7 +520,9 @@
 			if (token.Type == CssTokenType.Whitespace)
 				return;
 
-            if (attrName.Equals(pseudoClassFunctionNthChild, StringComparison.OrdinalIgnoreCase) || attrName.Equals(pseudoClassFunctionNthLastChild, StringComparison.OrdinalIgnoreCase))
+            if (attrName.Equals(pseudoClassFunctionNthChild, StringComparison.OrdinalIgnoreCase) || 
+                attrName.Equals(pseudoClassFunctionNthLastChild, StringComparison.OrdinalIgnoreCase) ||
+                attrName.Equals(pseudoClassFunctionNthOfType, StringComparison.OrdinalIgnoreCase))
             {
                 switch (token.Type)
                 {
@@ -600,6 +603,15 @@
                 else if (attrName.Equals(pseudoClassFunctionNthLastChild, StringComparison.OrdinalIgnoreCase))
                 {
                     var sel = GetChildSelector<NthLastChildSelector>();
+
+                    if (sel != null)
+                        Insert(sel);
+                    else
+                        valid = false;
+                }
+                else if (attrName.Equals(pseudoClassFunctionNthOfType, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sel = GetChildSelector<NthFirstTypeSelector>();
 
                     if (sel != null)
                         Insert(sel);
@@ -937,9 +949,47 @@
             }
         }
 
-		/// <summary>
-		/// The nth-lastchild selector.
-		/// </summary>
+        /// <summary>
+        /// The nth-of-type selector.
+        /// </summary>
+        sealed class NthFirstTypeSelector : NthChildSelector, ISelector
+        {
+            public Boolean Match(IElement element)
+            {
+                var parent = element.ParentElement;
+
+                if (parent == null)
+                    return false;
+
+                var n = Math.Sign(step);
+                var k = 0;
+
+                for (var i = 0; i < parent.Children.Length; i++)
+                {
+                    if (parent.Children[i].NodeName != element.NodeName)
+                        continue;
+
+                    k++;
+
+                    if (parent.Children[i] == element)
+                    {
+                        var diff = k - offset;
+                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+                    }
+                }
+
+                return false;
+            }
+
+            public String Text
+            {
+                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthOfType, step, offset); }
+            }
+        }
+
+        /// <summary>
+        /// The nth-lastchild selector.
+        /// </summary>
         sealed class NthLastChildSelector : NthChildSelector, ISelector
         {
             public Boolean Match(IElement element)
