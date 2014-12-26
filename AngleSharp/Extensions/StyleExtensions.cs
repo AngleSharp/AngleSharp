@@ -136,5 +136,29 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Tries to find the matching namespace url for the given prefix.
+        /// </summary>
+        /// <param name="sheets">The list of style sheets.</param>
+        /// <param name="prefix">The prefix of the namespace to find.</param>
+        public static String LocateNamespace(this IStyleSheetList sheets, String prefix)
+        {
+            foreach (var sheet in sheets)
+            {
+                var css = sheet as CSSStyleSheet;
+
+                if (sheet.IsDisabled || css == null)
+                    continue;
+
+                foreach (var rule in css.Rules.OfType<CSSNamespaceRule>())
+                {
+                    if (rule.Prefix == prefix)
+                        return rule.NamespaceUri;
+                }
+            }
+
+            return null;
+        }
     }
 }
