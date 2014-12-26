@@ -292,10 +292,10 @@
 
                     if (tokens.MoveNext())
                         token = tokens.Current;
-
-                    if (token.Type == CssTokenType.String)
-                        rule.NamespaceUri = ((CssStringToken)token).Data;
                 }
+
+                if (token.Type == CssTokenType.Url)
+                    rule.NamespaceUri = token.Data;
 
                 JumpToNextSemicolon(tokens);
             }
