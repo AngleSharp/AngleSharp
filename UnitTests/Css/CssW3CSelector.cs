@@ -6799,6 +6799,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-173b.xml
         /// </summary>
+        [Test]
         public void NamespacedAttributeSelectorsD()
         {
 	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
@@ -6813,21 +6814,21 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testAattribute");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("testBattributepass");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("testCattributepass");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("testDattributepass");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("testEattributepass");
-	        Assert.AreEqual(0, selector6.Length);
-	        var selector7 = doc.QuerySelectorAll("testFattributepass");
-	        Assert.AreEqual(0, selector7.Length);
-	        var selector8 = doc.QuerySelectorAll("testGattributepass");
-	        Assert.AreEqual(0, selector8.Length);
+	        Assert.AreEqual(8, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("testA[*|attribute]");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("testB[*|attribute=pass]");
+	        Assert.AreEqual(1, selector3.Length);
+	        var selector4 = doc.QuerySelectorAll("testC[*|attribute~='pass']");
+	        Assert.AreEqual(1, selector4.Length);
+	        var selector5 = doc.QuerySelectorAll("testD[*|attribute^='pass']");
+	        Assert.AreEqual(1, selector5.Length);
+	        var selector6 = doc.QuerySelectorAll("testE[*|attribute*=pass]");
+	        Assert.AreEqual(1, selector6.Length);
+	        var selector7 = doc.QuerySelectorAll("testF[*|attribute$=\"pass\"]");
+	        Assert.AreEqual(1, selector7.Length);
+	        var selector8 = doc.QuerySelectorAll("testG[*|attribute|=\"pass\"]");
+	        Assert.AreEqual(1, selector8.Length);
         }
 
         /// <summary>
@@ -6852,7 +6853,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-174b.xml
         /// </summary>
-        public void NEGATEDAttributeSelectorsWithMultipleAttributes()
+        public void NegatedAttributeSelectorsWithMultipleAttributes()
         {
 	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
    <testA attribute=""pass"" test:attribute=""fail"">This should be green.</testA>
@@ -6860,59 +6861,67 @@ This div should have three addresses above it.</div>";
   </tests>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("tests,tests *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testA:not(attribute)");
+	        var selector1 = doc.QuerySelectorAll("tests, tests *");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("testA:not([*|attribute=\"pass\"])");
 	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("testB:not(attribute)");
+	        var selector3 = doc.QuerySelectorAll("testB:not([*|attribute=pass])");
 	        Assert.AreEqual(0, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-175a.xml
         /// </summary>
+        [Test]
         public void ParsingNumbersInClassesA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""13"">This line should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector2 = doc.QuerySelectorAll(".13");
+                Assert.AreEqual(0, selector2.Length);
+            });
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-175b.xml
         /// </summary>
+        [Test]
         public void ParsingNumbersInClassesB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""13"">This line should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(".");
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll(".\\13");
 	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-175c.xml
         /// </summary>
+        [Test]
         public void ParsingNumbersInClassesC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""13"">This line should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(".1 3");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll(".\\31 \\33");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-176.xml
         /// </summary>
+        [Test]
         public void CombinationsClassesAndIds()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""id"" class=""class test"">This line should be green.</p>
@@ -6920,11 +6929,11 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:not(#other).class:not(.fail).test#id#id");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("div:not(#theid).class:not(.fail).test#theid#theid");
 	        Assert.AreEqual(0, selector4.Length);
 	        var selector5 = doc.QuerySelectorAll("div:not(#other).notclass:not(.fail).test#theid#theid");
