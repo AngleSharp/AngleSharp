@@ -3743,7 +3743,8 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-82.xml
         /// </summary>
-        public void NEGATEDOnlyOfTypePseudoClassA()
+        [Test]
+        public void NegatedOnlyOfTypePseudoClassA()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">
 <p class=""red"">This paragraph should have green background.</p>
@@ -3753,15 +3754,16 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(".t1 *");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll(".t1 *:not(:only-of-type)");
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-82b.xml
         /// </summary>
-        public void NEGATEDOnlyOfTypePseudoClassB()
+        [Test]
+        public void NegatedOnlyOfTypePseudoClassB()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">
 <p class=""green"">This paragraph should have green background.</p>
@@ -3771,21 +3773,22 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(".t1 *");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(2, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll(".t1 *:not(:only-of-type)");
+	        Assert.AreEqual(2, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-83.xml
         /// </summary>
+        [Test]
         public void NegationPseudoClassCannotBeAnArgumentOfItself()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should have a green background</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:not(:not(p))");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -3793,6 +3796,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-86.xml
         /// </summary>
+        [Test]
         public void NondeterministicMatchingOfDescendantAndChildCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml"">
@@ -3805,9 +3809,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("blockquote div p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("blockquote > div p");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
@@ -3831,6 +3835,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-88.xml
         /// </summary>
+        [Test]
         public void NondeterministicMatchingOfDescendantAndDirectAdjacentCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml""><div>This text should be unstyled.</div></blockquote>
@@ -3842,9 +3847,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("blockquote+div p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("blockquote + div p");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
