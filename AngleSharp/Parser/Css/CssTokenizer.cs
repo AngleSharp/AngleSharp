@@ -11,7 +11,7 @@
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class CssTokenizer : BaseTokenizer
 	{
 		#region Fields
@@ -1259,7 +1259,9 @@
                         break;
                 }
 
-                current = GetPrevious();
+                if (current != Specification.Space)
+                    Back();
+
                 var code = Int32.Parse(new String(escape.ToArray()), NumberStyles.HexNumber);
                 return Char.ConvertFromUtf32(code);
             }
