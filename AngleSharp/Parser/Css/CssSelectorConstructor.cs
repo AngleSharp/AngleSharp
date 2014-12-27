@@ -345,6 +345,11 @@
                 state = State.Attribute;
                 attrNs = String.Empty;
             }
+            else if (token.Type == CssTokenType.Delim && token.ToValue() == "*")
+            {
+                state = State.AttributeOperator;
+                attrName = token.ToValue();
+            }
             else
             {
                 state = State.Data;
