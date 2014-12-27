@@ -340,6 +340,11 @@
                 state = State.AttributeOperator;
                 attrName = token.Data;
             }
+            else if (token.Type == CssTokenType.Delim && token.ToValue() == "|")
+            {
+                state = State.Attribute;
+                attrNs = String.Empty;
+            }
             else
             {
                 state = State.Data;
