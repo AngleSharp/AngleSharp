@@ -3789,8 +3789,12 @@ This div should have three addresses above it.</div>";
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p:not(:not(p))");
-	        Assert.AreEqual(0, selector2.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector2 = doc.QuerySelectorAll("p:not(:not(p))");
+                Assert.AreEqual(0, selector2.Length);
+            });
         }
 
         /// <summary>
