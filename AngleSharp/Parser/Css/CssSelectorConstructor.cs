@@ -160,6 +160,15 @@
         }
 
         /// <summary>
+        /// Gets if the stored selector is nested below another selector.
+        /// </summary>
+        public Boolean IsNested
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the currently formed selector.
         /// </summary>
         public ISelector Result
@@ -255,6 +264,8 @@
 			group = null;
 			complex = null;
             valid = true;
+            nested = null;
+            IsNested = false;
 			return this;
 		}
 
@@ -456,10 +467,6 @@
                 attrName = token.Data;
                 attrValue = String.Empty;
                 state = State.PseudoClassFunction;
-
-                if (nested != null)
-                    nested.Reset();
-
                 return;
             }
             else if (token.Type == CssTokenType.Ident)
@@ -490,6 +497,9 @@
 
                 if (pseudoElementSelectors.TryGetValue(token.Data, out selector))
                 {
+                    if (IsNested)
+                        valid = false;
+
                     Insert(selector);
                     return;
                 }
@@ -553,7 +563,13 @@
             else if (attrName.Equals(pseudoClassFunctionNot, StringComparison.OrdinalIgnoreCase))
             {
                 if (nested == null)
-                    nested = new CssSelectorConstructor();
+                {
+                    if (IsNested)
+                        valid = false;
+
+                    nested = Pool.NewSelectorConstructor();
+                    nested.IsNested = true;
+                }
 
                 if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
                     nested.Apply(token);
@@ -633,7 +649,8 @@
                 }
                 else if (attrName.Equals(pseudoClassFunctionNot, StringComparison.OrdinalIgnoreCase))
                 {
-                    var sel = nested.Result;
+                    var sel = nested.ToPool();
+                    nested = null;
 
                     if (sel != null)
                         Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")")));
