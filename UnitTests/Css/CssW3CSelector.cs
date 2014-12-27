@@ -3855,6 +3855,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-89.xml
         /// </summary>
+        [Test]
         public void SimpleCombinationOfDescendantAndChildCombinators()
         {
 	        var source = @"<blockquote xmlns=""http://www.w3.org/1999/xhtml"">
@@ -3867,9 +3868,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("blockquote div p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("blockquote div > p");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
@@ -3893,53 +3894,61 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-91.xml
         /// </summary>
+        [Test]
         public void TypeElementSelectorWithDeclaredNamespace()
         {
-	        var source = @"<testa xmlns=""http://www.example.org/a"">This paragraph should have a green background</testa>";
+	        var source = @"<style>@namespace test url(http://www.example.org/a);</style>
+<testa xmlns=""http://www.example.org/a"">This paragraph should have a green background</testa>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("testa");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testtesta");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("test|testa");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-92.xml
         /// </summary>
+        [Test]
         public void TypeElementSelectorWithUniversalNamespace()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""myTest"">
+	        var source = @"<style>@namespace test url(http://www.example.org/b);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""myTest"">
 <testA xmlns=""http://www.example.org/b"">This paragraph should have a green background</testA>
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.myTest *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("div.myTest *testa");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("div.myTest *|testA");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-93.xml
         /// </summary>
+        [Test]
         public void TypeElementSelectorWithoutDeclaredNamespace()
         {
-	        var source = @"<testA>This paragraph has no declared namespace and should have a green background.</testA>";
+	        var source = @"<style>@namespace test url(http://www.example.org/b);</style>
+<testA>This paragraph has no declared namespace and should have a green background.</testA>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*testa");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testa");
-	        Assert.AreEqual(0, selector2.Length);
+	        var selector1 = doc.QuerySelectorAll("*|testa");
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("|testa");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-94.xml
         /// </summary>
+        [Test]
         public void UniversalSelectorWithDeclaredNamespaceA()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be unstyled.</p>
+	        var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
+<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be unstyled.</p>
 <p xmlns=""http://www.example.org/b"">This line should have a green background.</p>
 <q xmlns=""http://www.example.org/b"">This line should have a green background.</q>
 <p xmlns=""http://www.example.org/a"">This line should be unstyleed.</p>
@@ -3947,9 +3956,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p,q");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("b*");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(5, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("b|*");
+	        Assert.AreEqual(3, selector2.Length);
         }
 
         /// <summary>
