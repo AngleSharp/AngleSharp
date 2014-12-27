@@ -23,6 +23,7 @@
         static readonly String nthChildN = "n";
 
         static readonly String pseudoClassRoot = "root";
+        static readonly String pseudoClassOnlyType = "only-of-type";
         static readonly String pseudoClassFirstOfType = "first-of-type";
         static readonly String pseudoClassLastOfType = "last-of-type";
         static readonly String pseudoClassOnlyChild = "only-child";
@@ -93,6 +94,7 @@
         static CssSelectorConstructor()
         {
             pseudoClassSelectors.Add(pseudoClassRoot, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, pseudoClassRoot));
+            pseudoClassSelectors.Add(pseudoClassOnlyType, SimpleSelector.PseudoClass(el => el.IsOnlyOfType(), pseudoClassOnlyType));
             pseudoClassSelectors.Add(pseudoClassFirstOfType, SimpleSelector.PseudoClass(el => el.IsFirstOfType(), pseudoClassFirstOfType));
             pseudoClassSelectors.Add(pseudoClassLastOfType, SimpleSelector.PseudoClass(el => el.IsLastOfType(), pseudoClassLastOfType));
             pseudoClassSelectors.Add(pseudoClassOnlyChild, SimpleSelector.PseudoClass(el => el.IsOnlyChild(), pseudoClassOnlyChild));

@@ -99,6 +99,27 @@
         }
 
         /// <summary>
+        /// Checks if the element is the only of its type among the parent's children.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element is the only of its type among its siblings.</returns>
+        public static Boolean IsOnlyOfType(this IElement element)
+        {
+            var parent = element.ParentElement;
+
+            if (parent == null)
+                return false;
+
+            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            {
+                if (parent.ChildNodes[i].NodeName == element.NodeName && parent.ChildNodes[i] != element)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Checks if the element is the first of its type among the parent's children.
         /// </summary>
         /// <param name="element">The element to check.</param>
