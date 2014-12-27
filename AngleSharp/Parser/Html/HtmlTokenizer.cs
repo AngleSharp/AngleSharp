@@ -79,7 +79,7 @@
                 return token;
             }
 
-            var current = Next;
+            var current = GetNext();
 
             if (IsEnded) 
                 return HtmlToken.EOF;
@@ -150,7 +150,7 @@
                         break;
                 }
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -165,7 +165,7 @@
                 switch (c)
                 {
                     case Specification.Ampersand:
-                        var value = CharacterReference(Next);
+                        var value = CharacterReference(GetNext());
 
                         if (value == null)
                             _buffer.Append(Specification.Ampersand);
@@ -178,7 +178,7 @@
 
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        return Data(Next);
+                        return Data(GetNext());
 
                     case Specification.EndOfFile:
                         return HtmlToken.EOF;
@@ -188,7 +188,7 @@
                         break;
                 }
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -207,7 +207,7 @@
                 switch (c)
                 {
                     case Specification.Ampersand:
-                        var value = CharacterReference(Next);
+                        var value = CharacterReference(GetNext());
 
                         if (value == null)
                             _buffer.Append(Specification.Ampersand);
@@ -218,7 +218,7 @@
                     case Specification.LessThan:
                         // See 8.2.4.11 RCDATA less-than sign state
                         var position = GetCurrentPosition();
-                        c = Next;
+                        c = GetNext();
 
                         if (c == Specification.Solidus)
                         {
@@ -242,7 +242,7 @@
                         break;
                 }
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -253,7 +253,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken RCDataEndTag(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsUppercaseAscii())
             {
@@ -284,7 +284,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
                 var name = _stringBuffer.ToString();
                 var appropriateTag = name == _lastStartTag;
 
@@ -351,7 +351,7 @@
                         break;
                 }
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -361,7 +361,7 @@
         HtmlToken RawtextLT()
         {
             var position = GetCurrentPosition();
-            var c = Next;
+            var c = GetNext();
 
             if (c == Specification.Solidus)
             {
@@ -379,7 +379,7 @@
         /// <param name="position">The start position.</param>
         HtmlToken RawtextEndTag(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsUppercaseAscii())
             {
@@ -410,7 +410,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
                 var name = _stringBuffer.ToString();
                 var appropriateTag = name == _lastStartTag;
 
@@ -460,7 +460,7 @@
 
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.EndOfFile)
                 {
@@ -498,14 +498,14 @@
                 var basis = 1;
                 var num = 0;
                 var nums = new List<Int32>();
-                c = Next;
+                c = GetNext();
                 var isHex = c == 'x' || c == 'X';
 
                 if (isHex)
                 {
                     exp = 16;
 
-                    while ((c = Next).IsHex())
+                    while ((c = GetNext()).IsHex())
                         nums.Add(c.FromHex());
                 }
                 else
@@ -513,7 +513,7 @@
                     while (c.IsDigit())
                     {
                         nums.Add(c.FromHex());
-                        c = Next;
+                        c = GetNext();
                     }
                 }
 
@@ -573,7 +573,7 @@
 
                     reference[index++] = chr;
                     var value = new String(reference, 0, index);
-                    chr = Next;
+                    chr = GetNext();
                     consumed++;
                     value = chr == Specification.Semicolon ? Entities.GetSymbol(value) : Entities.GetSymbolWithoutSemicolon(value);
 
@@ -617,11 +617,11 @@
         HtmlToken TagOpen()
         {
             var position = GetCurrentPosition();
-            var c = Next;
+            var c = GetNext();
 
             if (c == Specification.Solidus)
             {
-                return TagEnd(Next, position);
+                return TagEnd(GetNext(), position);
             }
             else if (c.IsLowercaseAscii())
             {
@@ -678,7 +678,7 @@
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                return Data(Next);
+                return Data(GetNext());
             }
             else if (c == Specification.EndOfFile)
             {
@@ -704,7 +704,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c.IsSpaceCharacter())
                 {
@@ -745,7 +745,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
-            switch (Next)
+            switch (GetNext())
             {
                 case Specification.GreaterThan:
                     tag.IsSelfClosing = true;
@@ -766,7 +766,7 @@
         /// <param name="position">The start position.</param>
         HtmlToken MarkupDeclaration(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (ContinuesWith("--"))
             {
@@ -814,11 +814,11 @@
                         break;
                     case Specification.Null:
                         _stringBuffer.Append(Specification.Replacement);
-                        c = Next;
+                        c = GetNext();
                         continue;
                     default:
                         _stringBuffer.Append(c);
-                        c = Next;
+                        c = GetNext();
                         continue;
                 }
 
@@ -833,7 +833,7 @@
         /// <param name="position">The start position.</param>
         HtmlCommentToken CommentStart(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
             _stringBuffer.Clear();
 
             switch (c)
@@ -866,7 +866,7 @@
         /// <param name="position">The start position.</param>
         HtmlCommentToken CommentDashStart(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             switch (c)
             {
@@ -902,7 +902,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 switch (c)
                 {
@@ -937,7 +937,7 @@
         /// <param name="position">The start position.</param>
         HtmlCommentToken CommentDashEnd(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             switch (c)
             {
@@ -966,7 +966,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 switch (c)
                 {
@@ -1007,7 +1007,7 @@
         /// <param name="position">The start position.</param>
         HtmlCommentToken CommentBangEnd(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             switch (c)
             {
@@ -1051,10 +1051,10 @@
         /// <param name="position">The start position.</param>
         HtmlToken Doctype(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsSpaceCharacter())
-                return DoctypeNameBefore(Next, position);
+                return DoctypeNameBefore(GetNext(), position);
             else if (c == Specification.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
@@ -1077,7 +1077,7 @@
         HtmlToken DoctypeNameBefore(Char c, TextPosition position)
         {
             while (c.IsSpaceCharacter())
-                c = Next;
+                c = GetNext();
 
             if (c.IsUppercaseAscii())
             {
@@ -1130,7 +1130,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c.IsSpaceCharacter())
                 {
@@ -1214,7 +1214,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublic(HtmlDoctypeToken doctype)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
@@ -1308,7 +1308,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.DoubleQuote)
                 {
@@ -1354,7 +1354,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.SingleQuote)
                 {
@@ -1398,7 +1398,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierAfter(HtmlDoctypeToken doctype)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
@@ -1485,7 +1485,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystem(HtmlDoctypeToken doctype)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
@@ -1580,7 +1580,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.DoubleQuote)
                 {
@@ -1626,7 +1626,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 switch (c)
                 {
@@ -1697,7 +1697,7 @@
         {
             while (true)
             {
-                switch (Next)
+                switch (GetNext())
                 {
                     case Specification.GreaterThan:
                         _state = HtmlParseMode.PCData;
@@ -1772,7 +1772,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c.IsSpaceCharacter())
                 {
@@ -1890,7 +1890,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Append(Specification.Replacement);
-                return AttributeUnquotedValue(Next, tag);
+                return AttributeUnquotedValue(GetNext(), tag);
             }
             else if (c == Specification.GreaterThan)
             {
@@ -1901,7 +1901,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
                 _stringBuffer.Clear().Append(c);
-                return AttributeUnquotedValue(Next, tag);
+                return AttributeUnquotedValue(GetNext(), tag);
             }
             else if (c == Specification.EndOfFile)
             {
@@ -1910,7 +1910,7 @@
             else
             {
                 _stringBuffer.Clear().Append(c);
-                return AttributeUnquotedValue(Next, tag);
+                return AttributeUnquotedValue(GetNext(), tag);
             }
         }
 
@@ -1923,7 +1923,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.DoubleQuote)
                 {
@@ -1932,7 +1932,7 @@
                 }
                 else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(Next, Specification.DoubleQuote);
+                    var value = CharacterReference(GetNext(), Specification.DoubleQuote);
 
                     if (value == null)
                         _stringBuffer.Append(Specification.Ampersand);
@@ -1960,7 +1960,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.SingleQuote)
                 {
@@ -1969,7 +1969,7 @@
                 }
                 else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(Next, Specification.SingleQuote);
+                    var value = CharacterReference(GetNext(), Specification.SingleQuote);
 
                     if (value == null)
                         _stringBuffer.Append(Specification.Ampersand);
@@ -2005,7 +2005,7 @@
                 }
                 else if (c == Specification.Ampersand)
                 {
-                    var value = CharacterReference(Next, Specification.GreaterThan);
+                    var value = CharacterReference(GetNext(), Specification.GreaterThan);
 
                     if (value == null)
                         _stringBuffer.Append(Specification.Ampersand);
@@ -2032,7 +2032,7 @@
                 else
                     _stringBuffer.Append(c);
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -2043,7 +2043,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterValue(HtmlTagToken tag)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsSpaceCharacter())
                 return AttributeBeforeName(tag);
@@ -2076,12 +2076,12 @@
                     case Specification.LessThan:
                         //See 8.2.4.17 Script data less-than sign state
                         var position = GetCurrentPosition();
-                        c = Next;
+                        c = GetNext();
 
                         if (c == Specification.Solidus)
                         {
                             //See 8.2.4.18 Script data end tag open state
-                            c = Next;
+                            c = GetNext();
 
                             if (c.IsLetter())
                             {
@@ -2101,13 +2101,13 @@
                         if (c == Specification.ExclamationMark)
                         {
                             //See 8.2.4.20 Script data escape start state
-                            c = Next;
+                            c = GetNext();
                             _buffer.Append(Specification.ExclamationMark);
 
                             if (c == Specification.Minus)
                             {
                                 //See 8.2.4.21 Script data escape start dash state
-                                c = Next;
+                                c = GetNext();
                                 _buffer.Append(Specification.Minus);
 
                                 if (c == Specification.Minus)
@@ -2133,7 +2133,7 @@
                         break;
                 }
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -2146,7 +2146,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
                 var name = _stringBuffer.ToString().ToLowerInvariant();
                 var appropriateEndTag = name == _lastStartTag;
 
@@ -2193,7 +2193,7 @@
                 {
                     case Specification.Minus:
                         _buffer.Append(Specification.Minus);
-                        c = Next;
+                        c = GetNext();
 
                         //See 8.2.4.23 Script data escaped dash state
                         switch (c)
@@ -2227,7 +2227,7 @@
                         return ScriptData(c);
                 }
 
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -2238,7 +2238,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 switch (c)
                 {
@@ -2249,16 +2249,16 @@
                         return ScriptDataEscapedLT();
                     case Specification.GreaterThan:
                         _buffer.Append(Specification.GreaterThan);
-                        return ScriptData(Next);
+                        return ScriptData(GetNext());
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
                         _buffer.Append(Specification.Replacement);
-                        return ScriptDataEscaped(Next);
+                        return ScriptDataEscaped(GetNext());
                     case Specification.EndOfFile:
                         return HtmlToken.EOF;
                     default:
                         _buffer.Append(c);
-                        return ScriptDataEscaped(Next);
+                        return ScriptDataEscaped(GetNext());
                 }
             }
         }
@@ -2269,7 +2269,7 @@
         HtmlToken ScriptDataEscapedLT()
         {
             var position = GetCurrentPosition();
-            var c = Next;
+            var c = GetNext();
 
             if (c == Specification.Solidus)
                 return ScriptDataEscapedEndTag(position);
@@ -2293,7 +2293,7 @@
         /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataEscapedEndTag(TextPosition position)
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c.IsLetter())
             {
@@ -2317,7 +2317,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
                 var name = _stringBuffer.ToString().ToLowerInvariant();
                 var appropriateEndTag = name == _lastStartTag;
 
@@ -2359,16 +2359,16 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c == Specification.Solidus || c == Specification.GreaterThan || c.IsSpaceCharacter())
                 {
                     _buffer.Append(c);
 
                     if (_stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
-                        return ScriptDataEscapedDouble(Next);
+                        return ScriptDataEscapedDouble(GetNext());
 
-                    return ScriptDataEscaped(Next);
+                    return ScriptDataEscaped(GetNext());
                 }
                 else if (c.IsLetter())
                 {
@@ -2393,7 +2393,7 @@
                     case Specification.Minus:
                         _buffer.Append(Specification.Minus);
                         //See 8.2.4.30 Script data double escaped dash state
-                        c = Next;
+                        c = GetNext();
 
                         switch (c)
                         {
@@ -2425,7 +2425,7 @@
                 }
 
                 _buffer.Append(c);
-                c = Next;
+                c = GetNext();
             }
         }
 
@@ -2436,7 +2436,7 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 switch (c)
                 {
@@ -2448,17 +2448,17 @@
                         return ScriptDataEscapedDoubleLT();
                     case Specification.GreaterThan:
                         _buffer.Append(Specification.GreaterThan);
-                        return ScriptData(Next);
+                        return ScriptData(GetNext());
                     case Specification.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
                         _buffer.Append(Specification.Replacement);
-                        return ScriptDataEscapedDouble(Next);
+                        return ScriptDataEscapedDouble(GetNext());
                     case Specification.EndOfFile:
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return HtmlToken.EOF;
                     default:
                         _buffer.Append(c);
-                        return ScriptDataEscapedDouble(Next);
+                        return ScriptDataEscapedDouble(GetNext());
                 }
             }
         }
@@ -2468,7 +2468,7 @@
         /// </summary>
         HtmlToken ScriptDataEscapedDoubleLT()
         {
-            var c = Next;
+            var c = GetNext();
 
             if (c == Specification.Solidus)
             {
@@ -2487,16 +2487,16 @@
         {
             while (true)
             {
-                var c = Next;
+                var c = GetNext();
 
                 if (c.IsSpaceCharacter() || c == Specification.Solidus || c == Specification.GreaterThan)
                 {
                     _buffer.Append(c);
 
                     if (_stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
-                        return ScriptDataEscaped(Next);
+                        return ScriptDataEscaped(GetNext());
 
-                    return ScriptDataEscapedDouble(Next);
+                    return ScriptDataEscapedDouble(GetNext());
                 }
                 else if (c.IsLetter())
                 {

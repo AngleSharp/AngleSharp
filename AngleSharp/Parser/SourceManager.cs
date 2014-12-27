@@ -124,22 +124,6 @@
             get { return _current; }
         }
 
-        /// <summary>
-        /// Gets the next character (by advancing and returning the current character).
-        /// </summary>
-        protected Char Next
-        {
-            get { Advance(); return _current; }
-        }
-
-        /// <summary>
-        /// Gets the previous character (by rewinding and returning the current character).
-        /// </summary>
-        protected Char Previous
-        {
-            get { Back(); return _current; }
-        }
-
         #endregion
 
         #region Methods
@@ -158,12 +142,31 @@
         /// <returns>The next non-space character.</returns>
         protected Char SkipSpaces()
         {
-            var c = Next;
+            var c = GetNext();
 
             while (c.IsSpaceCharacter())
-                c = Next;
+                c = GetNext();
 
             return c;
+        }
+
+        /// <summary>
+        /// Gets the next character (by advancing and returning the current character).
+        /// </summary>
+        protected Char GetNext()
+        {
+            Advance();
+            return _current;
+        }
+
+        /// <summary>
+        /// Gets the previous character (by rewinding and returning the current character).
+        /// </summary>
+        /// <returns>The previous character.</returns>
+        protected Char GetPrevious()
+        {
+            Back();
+            return _current;
         }
 
         /// <summary>
