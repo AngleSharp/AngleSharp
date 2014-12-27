@@ -794,6 +794,9 @@
                     break;
 
                 case Specification.Pipe:
+                    if (hasCombinator && combinator == CssCombinator.Descendent)
+                        Insert(SimpleSelector.Type(String.Empty));
+
                     Insert(CssCombinator.Namespace);
                     break;
 

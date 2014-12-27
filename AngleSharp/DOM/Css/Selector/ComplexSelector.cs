@@ -237,8 +237,12 @@
             if (prefix == "*")
                 return true;
 
-            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix);
-            return !String.IsNullOrEmpty(nsUri) && nsUri == GetCssNamespace(el, prefix);
+            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix) ?? el.NamespaceUri;
+
+            if (prefix == String.Empty)
+                return nsUri == String.Empty;
+
+            return nsUri == GetCssNamespace(el, prefix);
         }
 
         static String GetCssNamespace(IElement el, String prefix)
