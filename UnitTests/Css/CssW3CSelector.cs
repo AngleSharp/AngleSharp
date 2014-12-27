@@ -4086,100 +4086,118 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-97b.xml
         /// </summary>
+        [Test]
         public void AttributeExistenceSelectorWithDeclaredNamespaceB()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""a paragraph"">This paragraph should be unstyled.</p>
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<p xmlns=""http://www.w3.org/1999/xhtml"" title=""a paragraph"">This paragraph should be unstyled.</p>
  <q xmlns=""http://www.example.org/a"" a:title=""a paragraph"">This paragraph should have a green background.</q>
  <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This paragraph should be unstyled.</r>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("*[a|title]");
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-98.xml
         /// </summary>
+        [Test]
         public void AttributeValueSelectorWithDeclaredNamespaceA()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foo"">This paragraph should be unstyled.</p>
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foo"">This paragraph should be unstyled.</p>
  <q xmlns=""http://www.example.org/a"" a:title=""foo"">This paragraph should have a green background</q>
  <s xmlns=""http://www.example.org/a"" a:title=""foobar"">This paragraph should be unstyled.</s>
  <r xmlns=""http://www.example.org/b"" b:title=""foo"">This paragraph should be unstyled.</r>
  <t xmlns=""http://www.example.org/a"" a:title=""footwo"">This paragraph should have a green background</t>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("*foo");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("*footwo");
-	        Assert.AreEqual(0, selector4.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q,*|t");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("*[a|title='foo']");
+	        Assert.AreEqual(1, selector3.Length);
+	        var selector4 = doc.QuerySelectorAll("*[a|title=footwo]");
+	        Assert.AreEqual(1, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-98b.xml
         /// </summary>
+        [Test]
         public void AttributeValueSelectorWithDeclaredNamespaceB()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foo"">This paragraph should be unstyled.</p>
+	        var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
+<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foo"">This paragraph should be unstyled.</p>
  <q xmlns=""http://www.example.org/a"" a:title=""foo"">This paragraph should have a green background</q>
  <s xmlns=""http://www.example.org/a"" a:title=""foobar"">This paragraph should be unstyled.</s>
  <r xmlns=""http://www.example.org/b"" b:title=""foo"">This paragraph should be unstyled.</r>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("*foo");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r,*|s");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("*[a|title=\"foo\"]");
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-99.xml
         /// </summary>
+        [Test]
         public void AttributeSpaceSeparatedValueSelectorWithDeclaredNamespaceA()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t bar u"">This paragraph should have a green background.</p>
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t bar u"">This paragraph should have a green background.</p>
  <q xmlns=""http://www.example.org/a"" a:foo=""hgt bardot f"">This paragraph should be unstyled.</q>
  <r xmlns=""http://www.example.org/a"" a:foo=""hgt bar f"">This paragraph should have a green background.</r>
  <s xmlns=""http://www.example.org/b"" b:foo=""hgt bar f"">This paragraph should be unstyled.</s>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*p,*r");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("**bar,**bar");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("**bar");
+	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r,*|s");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|p,*|r");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("*|*[a|foo~=\"bar\"], *|*[|class~=\"bar\"]");
+	        Assert.AreEqual(2, selector3.Length);
+	        var selector4 = doc.QuerySelectorAll("*|*[html|class~='bar']");
 	        Assert.AreEqual(0, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-99b.xml
         /// </summary>
+        [Test]
         public void AttributeSpaceSeparatedValueSelectorWithDeclaredNamespaceB()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t bar u"">This paragraph should have a green background.</p>
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t bar u"">This paragraph should have a green background.</p>
  <q xmlns=""http://www.example.org/a"" a:foo=""hgt bardot f"">This paragraph should be unstyled.</q>
  <r xmlns=""http://www.example.org/a"" a:foo=""hgt bar f"">This paragraph should have a green background.</r>
  <s xmlns=""http://www.example.org/b"" b:foo=""hgt bar f"">This paragraph should be unstyled.</s>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*p,*r");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("**bar,**bar");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r,*|s");
+	        Assert.AreEqual(4, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|p,*|r");
+	        Assert.AreEqual(2, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("*|*[a|foo~='bar'], *|*[html|class~=\"bar\"]");
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
