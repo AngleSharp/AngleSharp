@@ -226,7 +226,7 @@
             var rule = new CSSSupportsRule();
 
             if (tokens.MoveNext())
-                rule.ConditionText = parser.Condition(tokens);
+                rule.Condition = parser.InCondition(tokens);
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                 parser.FillRules(rule, tokens);
@@ -453,31 +453,6 @@
                     return rule;
                 }
             }
-        }
-
-        /// <summary>
-        /// In the condition text of a supports rule.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The condition text.</returns>
-        String Condition(IEnumerator<CssToken> tokens)
-        {
-            var buffer = Pool.NewStringBuilder();
-            tokenizer.IgnoreWhitespace = false;
-
-            do
-            {
-                var token = tokens.Current;
-
-                if (token.Type == CssTokenType.CurlyBracketOpen)
-                    break;
-
-                buffer.Append(token.ToValue());
-            }
-            while (tokens.MoveNext());
-
-            tokenizer.IgnoreWhitespace = true;
-            return buffer.ToPool();
         }
 
         #endregion
@@ -1020,6 +995,22 @@
 
         #endregion
 
+        #region Condition
+
+        /// <summary>
+        /// Called before any token in the value regime had been seen.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The computed value.</returns>
+        CSSSupportsRule.ICondition InCondition(IEnumerator<CssToken> tokens)
+        {
+            while (tokens.Current.Type != CssTokenType.CurlyBracketOpen && tokens.MoveNext());
+
+            return null;
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>
@@ -1311,12 +1302,12 @@
         /// <summary>
         /// Takes a string and transforms it into a selector object.
         /// </summary>
-        /// <param name="selector">The string to parse.</param>
+        /// <param name="selectorText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The Selector object.</returns>
-        public static ISelector ParseSelector(String selector, IConfiguration configuration = null)
+        public static ISelector ParseSelector(String selectorText, IConfiguration configuration = null)
         {
-            var source = new TextSource(selector);
+            var source = new TextSource(selectorText);
             var tokenizer = new CssTokenizer(source);
             tokenizer.IgnoreComments = true;
             var tokens = tokenizer.Tokens;
@@ -1342,7 +1333,12 @@
             if (!tokens.MoveNext())
                 return null;
 
-            return parser.InKeyframeText(tokens);
+            var selector = parser.InKeyframeText(tokens);
+
+            if (tokens.MoveNext())
+                selector = null;
+
+            return selector;
         }
 
         /// <summary>
@@ -1359,18 +1355,23 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS rule.
         /// </summary>
-        /// <param name="rule">The string to parse.</param>
+        /// <param name="ruleText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSRule object.</returns>
-        internal static CSSRule ParseRule(String rule, IConfiguration configuration = null)
+        internal static CSSRule ParseRule(String ruleText, IConfiguration configuration = null)
         {
-            var parser = new CssParser(rule, configuration ?? Configuration.Default);
-            parser.Parse();
+            var parser = new CssParser(ruleText, configuration ?? Configuration.Default);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
 
-            if (parser.sheet.Rules.Length == 0)
+            if (!tokens.MoveNext())
                 return null;
 
-            return parser.sheet.Rules[0];
+            var rule = parser.CreateRule(tokens);
+
+            if (tokens.MoveNext())
+                rule = null;
+
+            return rule;
         }
 
         /// <summary>
@@ -1389,46 +1390,56 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS declaration (CSS property).
         /// </summary>
-        /// <param name="declaration">The string to parse.</param>
+        /// <param name="declarationText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSProperty object.</returns>
-        internal static CSSProperty ParseDeclaration(String declaration, IConfiguration configuration = null)
+        internal static CSSProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
         {
-            var parser = new CssParser(declaration, configuration ?? Configuration.Default);
+            var parser = new CssParser(declarationText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
 
             if (!tokens.MoveNext())
                 return null;
 
-            return parser.Declaration(tokens, new CSSStyleDeclaration());
+            var declaration = parser.Declaration(tokens, new CSSStyleDeclaration());
+
+            if (tokens.MoveNext())
+                declaration = null;
+
+            return declaration;
         }
 
         /// <summary>
         /// Takes a string and transforms it into a CSS value.
         /// </summary>
-        /// <param name="source">The string to parse.</param>
+        /// <param name="valueText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSValue object.</returns>
-        public static ICssValue ParseValue(String source, IConfiguration configuration = null)
+        public static ICssValue ParseValue(String valueText, IConfiguration configuration = null)
         {
-            var parser = new CssParser(source, configuration ?? Configuration.Default);
+            var parser = new CssParser(valueText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
 
             if (!tokens.MoveNext())
                 return null;
 
-            return parser.InValue(tokens);
+            var value = parser.InValue(tokens);
+
+            if (tokens.MoveNext())
+                value = null;
+
+            return value;
         }
 
         /// <summary>
         /// Takes a string and transforms it into a stream of CSS mediums.
         /// </summary>
-        /// <param name="source">The string to parse.</param>
+        /// <param name="mediaText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The stream of medias.</returns>
-        internal static IEnumerable<CssMedium> ParseMediaList(String source, IConfiguration configuration = null)
+        internal static IEnumerable<CssMedium> ParseMediaList(String mediaText, IConfiguration configuration = null)
         {
-            var parser = new CssParser(source, configuration);
+            var parser = new CssParser(mediaText, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
 
             if (tokens.MoveNext())
@@ -1447,6 +1458,28 @@
 
             if (tokens.MoveNext())
                 throw new DomException(ErrorCode.Syntax);
+        }
+
+        /// <summary>
+        /// Takes a string and transforms it into supports condition.
+        /// </summary>
+        /// <param name="conditionText">The string to parse.</param>
+        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <returns>The condition.</returns>
+        internal static CSSSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(conditionText, configuration ?? Configuration.Default);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (!tokens.MoveNext())
+                return null;
+
+            var condition = parser.InCondition(tokens);
+
+            if (tokens.MoveNext())
+                condition = null;
+
+            return condition;
         }
 
         #endregion

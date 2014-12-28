@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -32,16 +33,33 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the text of the condition of the support rule.
+        /// Gets or sets the text of the condition of the supports rule.
         /// </summary>
         public String ConditionText
         {
             get { return _condition.Text; }
-            set { /* Parse */ }//TODO
+            set
+            {
+                var condition = CssParser.ParseCondition(value);
+
+                if (condition == null)
+                    throw new DomException(ErrorCode.Syntax);
+
+                _condition = condition;
+            }
         }
 
         /// <summary>
-        /// Gets if the rule is used.
+        /// Gets or sets the condition of the supports rule.
+        /// </summary>
+        public ICondition Condition
+        {
+            get { return _condition; }
+            set { _condition = value; }
+        }
+
+        /// <summary>
+        /// Gets if the rule is used, i.e. if the condition is fulfilled.
         /// </summary>
         public Boolean IsSupported
         {
@@ -81,14 +99,14 @@
 
         #region Rules
 
-        interface ICondition
+        public interface ICondition
         {
             Boolean Check();
 
             String Text { get; }
         }
 
-        sealed class AndCondition : ICondition
+        public sealed class AndCondition : ICondition
         {
             readonly ICondition[] _conditions;
 
@@ -114,7 +132,7 @@
             }
         }
 
-        sealed class OrCondition : ICondition
+        public sealed class OrCondition : ICondition
         {
             readonly ICondition[] _conditions;
 
@@ -140,7 +158,7 @@
             }
         }
 
-        sealed class NotCondition : ICondition
+        public sealed class NotCondition : ICondition
         {
             readonly ICondition _content;
 
@@ -173,7 +191,7 @@
             }
         }
 
-        sealed class DeclarationCondition : ICondition
+        public sealed class DeclarationCondition : ICondition
         {
             readonly CSSProperty _property;
             readonly ICssValue _value;
@@ -195,7 +213,7 @@
             }
         }
 
-        sealed class GroupCondition : ICondition
+        public sealed class GroupCondition : ICondition
         {
             readonly ICondition _content;
 
