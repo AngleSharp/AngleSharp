@@ -978,6 +978,11 @@
         public static readonly String And = "and";
 
         /// <summary>
+        /// The or keyword.
+        /// </summary>
+        public static readonly String Or = "or";
+
+        /// <summary>
         /// The not keyword.
         /// </summary>
         public static readonly String Not = "not";
