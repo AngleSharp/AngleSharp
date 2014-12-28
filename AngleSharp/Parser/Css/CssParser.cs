@@ -1004,46 +1004,64 @@
         /// <returns>The computed value.</returns>
         CSSSupportsRule.ICondition InCondition(IEnumerator<CssToken> tokens)
         {
+            var condition = ExtractConditions(tokens);
+
+            if (condition == null)
+                while (tokens.Current.Type != CssTokenType.CurlyBracketOpen && tokens.MoveNext()) ;
+
+            return condition;
+        }
+
+        CSSSupportsRule.ICondition ExtractConditions(IEnumerator<CssToken> tokens)
+        {
+            var condition = ExtractCondition(tokens);
+
+            if (condition == null)
+                return null;
+
+            if (tokens.Current.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
+                return new CSSSupportsRule.AndCondition(Conditions(tokens, condition, Keywords.And));
+            else if (tokens.Current.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
+                return new CSSSupportsRule.OrCondition(Conditions(tokens, condition, Keywords.Or));
+
+            return condition;
+        }
+
+        CSSSupportsRule.ICondition ExtractCondition(IEnumerator<CssToken> tokens)
+        {
             if (tokens.Current.Type == CssTokenType.RoundBracketOpen && tokens.MoveNext())
             {
-                var token = tokens.Current;
-                var condition = (CSSSupportsRule.ICondition)null;
+                var condition = ExtractConditions(tokens);
 
-                if (token.Type == CssTokenType.RoundBracketOpen)
-                    condition = GroupCondition(tokens);
-                else if (token.Type == CssTokenType.Ident)
-                    condition = IdentCondition(tokens);
+                if (condition != null)
+                    condition = new CSSSupportsRule.GroupCondition(condition);
+                else if (tokens.Current.Type == CssTokenType.Ident)
+                    condition = DeclCondition(tokens);
 
-                if (condition != null && tokens.Current.Type == CssTokenType.RoundBracketClose && tokens.MoveNext())
+                if (tokens.Current.Type == CssTokenType.RoundBracketClose && tokens.MoveNext())
                     return condition;
             }
+            else if (tokens.Current.Data.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase) && tokens.MoveNext())
+            {
+                var condition = ExtractCondition(tokens);
 
-            while (tokens.Current.Type != CssTokenType.CurlyBracketOpen && tokens.MoveNext()) ;
+                if (condition != null)
+                    return new CSSSupportsRule.NotCondition(condition);
+            }
+
             return null;
         }
 
-        CSSSupportsRule.ICondition IdentCondition(IEnumerator<CssToken> tokens)
+        CSSSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens)
         {
             var name = tokens.Current.Data;
-
-            if (!tokens.MoveNext())
-                return null;
-
-            if (name.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase))
-                return new CSSSupportsRule.NotCondition(InCondition(tokens));
-
-            return DeclCondition(tokens, name);
-        }
-
-        CSSSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens, String name)
-        {
             var style = new CSSStyleDeclaration();
             var property = CssPropertyFactory.Create(name, style);
 
             if (property == null)
                 property = new CSSUnknownProperty(name, style);
 
-            if (tokens.Current.Type != CssTokenType.Colon || !tokens.MoveNext())
+            if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Colon || !tokens.MoveNext())
                 return null;
 
             value.Reset();
@@ -1065,30 +1083,13 @@
             return new CSSSupportsRule.DeclarationCondition(property, result);
         }
 
-        CSSSupportsRule.ICondition GroupCondition(IEnumerator<CssToken> tokens)
-        {
-            var condition = InCondition(tokens);
-
-            if (tokens.Current.Type == CssTokenType.Ident)
-            {
-                if (tokens.Current.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
-                    return new CSSSupportsRule.AndCondition(Conditions(tokens, condition, Keywords.And));
-                else if (tokens.Current.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
-                    return new CSSSupportsRule.OrCondition(Conditions(tokens, condition, Keywords.Or));
-                else
-                    condition = null;
-            }
-
-            return condition;
-        }
-
         IEnumerable<CSSSupportsRule.ICondition> Conditions(IEnumerator<CssToken> tokens, CSSSupportsRule.ICondition start, String connector)
         {
             yield return start;
 
             while (tokens.MoveNext())
             {
-                var condition = InCondition(tokens);
+                var condition = ExtractCondition(tokens);
 
                 if (condition == null)
                     break;
