@@ -1004,9 +1004,98 @@
         /// <returns>The computed value.</returns>
         CSSSupportsRule.ICondition InCondition(IEnumerator<CssToken> tokens)
         {
-            while (tokens.Current.Type != CssTokenType.CurlyBracketOpen && tokens.MoveNext());
+            if (tokens.Current.Type == CssTokenType.RoundBracketOpen && tokens.MoveNext())
+            {
+                var token = tokens.Current;
+                var condition = (CSSSupportsRule.ICondition)null;
 
+                if (token.Type == CssTokenType.RoundBracketOpen)
+                    condition = GroupCondition(tokens);
+                else if (token.Type == CssTokenType.Ident)
+                    condition = IdentCondition(tokens);
+
+                if (condition != null && tokens.Current.Type == CssTokenType.RoundBracketClose && tokens.MoveNext())
+                    return condition;
+            }
+
+            while (tokens.Current.Type != CssTokenType.CurlyBracketOpen && tokens.MoveNext()) ;
             return null;
+        }
+
+        CSSSupportsRule.ICondition IdentCondition(IEnumerator<CssToken> tokens)
+        {
+            var name = tokens.Current.Data;
+
+            if (!tokens.MoveNext())
+                return null;
+
+            if (name.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase))
+                return new CSSSupportsRule.NotCondition(InCondition(tokens));
+
+            return DeclCondition(tokens, name);
+        }
+
+        CSSSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens, String name)
+        {
+            var style = new CSSStyleDeclaration();
+            var property = CssPropertyFactory.Create(name, style);
+
+            if (property == null)
+                property = new CSSUnknownProperty(name, style);
+
+            if (tokens.Current.Type != CssTokenType.Colon || !tokens.MoveNext())
+                return null;
+
+            value.Reset();
+
+            while (GetSingleValue(tokens))
+            {
+                if (tokens.Current.Type == CssTokenType.RoundBracketClose)
+                    break;
+            }
+
+            var result = value.ToValue();
+
+            if (result == null)
+                return null;
+
+            property.IsImportant = IsImportant(tokens);
+            return new CSSSupportsRule.DeclarationCondition(property, result);
+        }
+
+        CSSSupportsRule.ICondition GroupCondition(IEnumerator<CssToken> tokens)
+        {
+            var condition = InCondition(tokens);
+
+            if (tokens.Current.Type == CssTokenType.Ident)
+            {
+                if (tokens.Current.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
+                    return new CSSSupportsRule.AndCondition(Conditions(tokens, condition, Keywords.And));
+                else if (tokens.Current.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
+                    return new CSSSupportsRule.OrCondition(Conditions(tokens, condition, Keywords.Or));
+                else
+                    condition = null;
+            }
+
+            return condition;
+        }
+
+        IEnumerable<CSSSupportsRule.ICondition> Conditions(IEnumerator<CssToken> tokens, CSSSupportsRule.ICondition start, String connector)
+        {
+            yield return start;
+
+            while (tokens.MoveNext())
+            {
+                var condition = InCondition(tokens);
+
+                if (condition == null)
+                    break;
+
+                yield return condition;
+
+                if (!tokens.Current.Data.Equals(connector, StringComparison.OrdinalIgnoreCase))
+                    break;
+            }
         }
 
         #endregion

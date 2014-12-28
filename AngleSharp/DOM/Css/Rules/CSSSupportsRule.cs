@@ -55,7 +55,7 @@
         public ICondition Condition
         {
             get { return _condition; }
-            set { _condition = value; }
+            set { _condition = value ?? empty; }
         }
 
         /// <summary>
@@ -117,7 +117,7 @@
 
             public String Text
             {
-                get { return String.Join(" and ", _conditions.Select(m => m.Text)); }
+                get { return String.Concat("(", String.Join(" and ", _conditions.Select(m => m.Text)), ")"); }
             }
 
             public Boolean Check()
@@ -143,7 +143,7 @@
 
             public String Text
             {
-                get { return String.Join(" or ", _conditions.Select(m => m.Text)); }
+                get { return String.Concat("(", String.Join(" or ", _conditions.Select(m => m.Text)), ")"); }
             }
 
             public Boolean Check()
@@ -169,7 +169,7 @@
 
             public String Text
             {
-                get { return String.Concat("not ", _content.Text); }
+                get { return String.Concat("(not ", _content.Text, ")"); }
             }
 
             public Boolean Check()
@@ -204,32 +204,17 @@
 
             public String Text
             {
-                get { return CSSProperty.Serialize(_property.Name, _value.CssText, _property.IsImportant); }
+                get
+                {
+                    var important = _property.IsImportant ? " !important" : String.Empty;
+                    var rest = String.Concat(_value.CssText, important, ")");
+                    return String.Concat("(", _property.Name, ": ", rest);
+                }
             }
 
             public Boolean Check()
             {
                 return (_property is CSSUnknownProperty == false) && _property.TrySetValue(_value);
-            }
-        }
-
-        public sealed class GroupCondition : ICondition
-        {
-            readonly ICondition _content;
-
-            public GroupCondition(ICondition content)
-            {
-                _content = content;
-            }
-
-            public String Text
-            {
-                get { return String.Concat("(", _content.Text, ")"); }
-            }
-
-            public Boolean Check()
-            {
-                return _content.Check();
             }
         }
 
