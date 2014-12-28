@@ -69,7 +69,7 @@ namespace UnitTests.Css
             Assert.AreEqual(1, parser.Result.Rules.Length);
             Assert.IsInstanceOf<CSSSupportsRule>(parser.Result.Rules[0]);
             var supports = parser.Result.Rules[0] as CSSSupportsRule;
-            Assert.AreEqual("(background-transparency: zero)", supports.ConditionText);
+            Assert.AreEqual("((background-transparency: zero))", supports.ConditionText);
             Assert.IsFalse(supports.IsSupported);
         }
 
@@ -136,6 +136,83 @@ namespace UnitTests.Css
             var supports = parser.Result.Rules[0] as CSSSupportsRule;
             Assert.AreEqual(String.Empty, supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
+        }
+
+        [Test]
+        public void SupportsDisplayFlexMultipleBracketsRule()
+        {
+            var source = @"@supports ((display: flex)) { }";
+            var parser = new CssParser(source);
+            parser.Parse();
+            Assert.AreEqual(1, parser.Result.Rules.Length);
+            Assert.IsInstanceOf<CSSSupportsRule>(parser.Result.Rules[0]);
+            var supports = parser.Result.Rules[0] as CSSSupportsRule;
+            Assert.AreEqual("((display: flex))", supports.ConditionText);
+            Assert.IsTrue(supports.IsSupported);
+        }
+
+        [Test]
+        public void SupportsTransitionOrAnimationNameAndTransformFrontBracketRule()
+        {
+            var source = @"@supports ((transition-property: color) or
+           (animation-name: foo)) and
+          (transform: rotate(10deg)) { }";
+            var parser = new CssParser(source);
+            parser.Parse();
+            Assert.AreEqual(1, parser.Result.Rules.Length);
+            Assert.IsInstanceOf<CSSSupportsRule>(parser.Result.Rules[0]);
+            var supports = parser.Result.Rules[0] as CSSSupportsRule;
+            Assert.AreEqual("((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg))", supports.ConditionText);
+            Assert.IsTrue(supports.IsSupported);
+        }
+
+        [Test]
+        public void SupportsTransitionOrAnimationNameAndTransformBackBracketRule()
+        {
+            var source = @"@supports (transition-property: color) or
+           ((animation-name: foo) and
+          (transform: rotate(10deg))) { }";
+            var parser = new CssParser(source);
+            parser.Parse();
+            Assert.AreEqual(1, parser.Result.Rules.Length);
+            Assert.IsInstanceOf<CSSSupportsRule>(parser.Result.Rules[0]);
+            var supports = parser.Result.Rules[0] as CSSSupportsRule;
+            Assert.AreEqual("(transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg)))", supports.ConditionText);
+            Assert.IsTrue(supports.IsSupported);
+        }
+
+        [Test]
+        public void SupportsShadowVendorPrefixesRule()
+        {
+            var source = @"@supports ( box-shadow: 0 0 2px black ) or
+          ( -moz-box-shadow: 0 0 2px black ) or
+          ( -webkit-box-shadow: 0 0 2px black ) or
+          ( -o-box-shadow: 0 0 2px black ) { }";
+            var parser = new CssParser(source);
+            parser.Parse();
+            Assert.AreEqual(1, parser.Result.Rules.Length);
+            Assert.IsInstanceOf<CSSSupportsRule>(parser.Result.Rules[0]);
+            var supports = parser.Result.Rules[0] as CSSSupportsRule;
+            Assert.AreEqual("(box-shadow: 0 0 2px black) or (-moz-box-shadow: 0 0 2px black) or (-webkit-box-shadow: 0 0 2px black) or (-o-box-shadow: 0 0 2px black)", supports.ConditionText);
+            Assert.IsTrue(supports.IsSupported);
+        }
+
+        [Test]
+        public void SupportsNegatedDisplayFlexRuleWithDeclarations()
+        {
+            var source = @"@supports not ( display: flex ) {
+  body { width: 100%; height: 100%; background: white; color: black; }
+  #navigation { width: 25%; }
+  #article { width: 75%; }
+}";
+            var parser = new CssParser(source);
+            parser.Parse();
+            Assert.AreEqual(1, parser.Result.Rules.Length);
+            Assert.IsInstanceOf<CSSSupportsRule>(parser.Result.Rules[0]);
+            var supports = parser.Result.Rules[0] as CSSSupportsRule;
+            Assert.AreEqual(3, supports.Rules.Length);
+            Assert.AreEqual("not (display: flex)", supports.ConditionText);
+            Assert.IsFalse(supports.IsSupported);
         }
     }
 }
