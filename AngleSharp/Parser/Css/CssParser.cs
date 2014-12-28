@@ -1059,7 +1059,9 @@
             if (result == null)
                 return null;
 
-            property.IsImportant = IsImportant(tokens);
+            if (property.IsImportant = IsImportant(tokens))
+                tokens.MoveNext();
+
             return new CSSSupportsRule.DeclarationCondition(property, result);
         }
 
