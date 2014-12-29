@@ -451,7 +451,7 @@
         /// Represents a shadow object.
         /// http://dev.w3.org/csswg/css-backgrounds/#shadow
         /// </summary>
-        public static readonly IValueConverter<Shadow> ShadowConverter = WithOrder(
+        public static readonly IValueConverter<Shadow> ShadowConverter = WithAny(
             Assign(Keywords.Inset, true).Option(false),
             LengthConverter.Many(2, 4).Required(),
             ColorConverter.Option(Color.Black)).To(
