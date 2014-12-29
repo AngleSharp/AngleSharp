@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Attributes\Accessors.cs" />
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
+    <Compile Include="Attributes\DomConstructorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
     <Compile Include="Attributes\DomLenientThisAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
