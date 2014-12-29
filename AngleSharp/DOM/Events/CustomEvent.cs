@@ -44,7 +44,7 @@
         public CustomEvent(String type, IDictionary<String, Object> eventInitDict = null)
             : base(type, eventInitDict)
         {
-            Details = eventInitDict.TryGet("details");
+            Details = eventInitDict.TryGet("detail");
         }
 
         #endregion
