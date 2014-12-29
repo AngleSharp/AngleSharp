@@ -88,8 +88,8 @@
 
         #region Initialization
 
-        static Dictionary<String, ISelector> pseudoClassSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
-        static Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, ISelector> pseudoClassSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
 
         static CssSelectorConstructor()
         {
