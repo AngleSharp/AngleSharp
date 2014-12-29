@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Events
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
@@ -35,6 +36,36 @@
             _flags = EventFlags.None;
             _phase = EventPhase.None;
             _time = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="bubbles">If the event is bubbling.</param>
+        /// <param name="cancelable">If the event is cancelable.</param>
+        public Event(String type, Boolean bubbles, Boolean cancelable)
+            : this()
+        {
+            Init(type, bubbles, cancelable);
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="eventInitDict">
+        /// An optional object with optional properties such as
+        /// bubbles (boolean) and cancelable (boolean).
+        /// </param>
+        [DomConstructor]
+        public Event(String type, Object eventInitDict = null)
+            : this()
+        {
+            var values = eventInitDict.ToDictionary();
+            var bubbles = values["bubbles"].TryCast<Boolean>() ?? false;
+            var cancelable = values["cancelable"].TryCast<Boolean>() ?? false;
+            Init(type, bubbles, cancelable);
         }
 
         #endregion
