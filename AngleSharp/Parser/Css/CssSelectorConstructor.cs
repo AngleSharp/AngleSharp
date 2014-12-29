@@ -975,6 +975,19 @@
             {
                 get { return Priority.OneClass; }
             }
+
+            protected String Stringify(String name)
+            {
+                var a = step.ToString();
+                var b = String.Empty;
+
+                if (offset > 0)
+                    b = "+" + offset.ToString();
+                else if (offset < 0)
+                    b = offset.ToString();
+
+                return String.Format(":{0}({1}n{2})", name, a, b);
+            }
         }
 
 		/// <summary>
@@ -1007,7 +1020,7 @@
 
             public String Text
             {
-                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthChild, step, offset); }
+                get { return Stringify(CssSelectorConstructor.pseudoClassFunctionNthChild); }
             }
         }
 
@@ -1045,7 +1058,7 @@
 
             public String Text
             {
-                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthOfType, step, offset); }
+                get { return Stringify(CssSelectorConstructor.pseudoClassFunctionNthOfType); }
             }
         }
 
@@ -1079,7 +1092,7 @@
 
             public String Text
             {
-                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastChild, step, offset); }
+                get { return Stringify(CssSelectorConstructor.pseudoClassFunctionNthLastChild); }
             }
         }
 
@@ -1117,7 +1130,7 @@
 
             public String Text
             {
-                get { return String.Format(":{0}({1}n+{2})", CssSelectorConstructor.pseudoClassFunctionNthLastOfType, step, offset); }
+                get { return Stringify(CssSelectorConstructor.pseudoClassFunctionNthLastOfType); }
             }
         }
 
