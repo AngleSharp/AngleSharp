@@ -5929,6 +5929,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-145a.xml
         /// </summary>
+        [Test]
         public void NthOfTypePseudoClassWithHiddenElementsA()
         {
 	        var source = @"<test xmlns=""http://www.example.org/"">
@@ -5951,18 +5952,19 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(15, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("[type~=odd]");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(8, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("line:nth-of-type(odd)");
+	        Assert.AreEqual(8, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("[hidden]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(4, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-145b.xml
         /// </summary>
+        [Test]
         public void NthOfTypePseudoClassWithHiddenElementsB()
         {
 	        var source = @"<test xmlns=""http://www.example.org/"">
@@ -5985,18 +5987,19 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(15, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("[type~=odd]");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(8, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("line:nth-of-type(odd)");
+	        Assert.AreEqual(8, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("[hidden]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(4, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-146a.xml
         /// </summary>
+        [Test]
         public void NthChildPseudoClassWithHiddenElementsC()
         {
 	        var source = @"<test xmlns=""http://www.example.org/"">
@@ -6025,18 +6028,19 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(21, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("[type~=match]");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("line:nth-child(3n+-1)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(7, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("line:nth-child(3n-1)");
+	        Assert.AreEqual(7, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("[hidden]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(3, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-146b.xml
         /// </summary>
+        [Test]
         public void NthChildPseudoClassWithHiddenElementsD()
         {
 	        var source = @"<test xmlns=""http://www.example.org/"">
@@ -6065,18 +6069,19 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(21, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("[type~=match]");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("line:nth-child(3n+-1)");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(7, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("line:nth-child(3n-1)");
+	        Assert.AreEqual(7, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("[hidden]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(3, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-147a.xml
         /// </summary>
+        [Test]
         public void NthLastOfTypePseudoClassWithCollapsedElementsA()
         {
 	        var source = @"<test xmlns=""http://www.example.org/"">
@@ -6105,13 +6110,13 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(21, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("[type~=match]");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(7, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("line:nth-last-of-type(3n-1)");
+	        Assert.AreEqual(7, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("[hidden]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(3, selector4.Length);
         }
 
         /// <summary>
