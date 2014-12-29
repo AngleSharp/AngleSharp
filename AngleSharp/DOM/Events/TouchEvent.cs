@@ -9,6 +9,8 @@
     [DomName("TouchEvent")]
     public class TouchEvent : UiEvent
     {
+        #region Properties
+
         /// <summary>
         /// Gets a list with all active touch points.
         /// </summary>
@@ -78,5 +80,7 @@
             get;
             private set;
         }
+
+        #endregion
     }
 }

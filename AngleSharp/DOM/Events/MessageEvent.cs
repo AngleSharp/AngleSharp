@@ -63,6 +63,8 @@
 
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// Initializes the message event.
         /// </summary>
@@ -84,5 +86,7 @@
             Source = source;
             Ports = ports;
         }
+
+        #endregion
     }
 }
