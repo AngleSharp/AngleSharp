@@ -6188,6 +6188,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-149b.xml
         /// </summary>
+        [Test]
         public void EmptyPseudoClassAndEmptyElementsB()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""></address>
@@ -6195,17 +6196,18 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address:empty");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".text");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-150.xml
         /// </summary>
-        public void EmptyPseudoClassAndXMLSGMLConstructs()
+        [Test]
+        public void EmptyPseudoClassAndXMLSgmlConstructs()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""><!-- --></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>
@@ -6213,16 +6215,17 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address:empty");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".text");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-151.xml
         /// </summary>
+        [Test]
         public void EmptyPseudoClassAndWhitespace()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""> </address>
@@ -6230,16 +6233,17 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address:empty");
 	        Assert.AreEqual(0, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".text");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-152.xml
         /// </summary>
+        [Test]
         public void EmptyPseudoClassAndElements()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""><span></span></address>
@@ -6247,17 +6251,18 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address:empty");
 	        Assert.AreEqual(0, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".text");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-153.xml
         /// </summary>
-        public void EmptyPseudoClassAndCDATA()
+        [Test]
+        public void EmptyPseudoClassAndCData()
         {
 	        var source = @"<address xmlns=""http://tests.example.org/xml-only/""></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>
@@ -6265,51 +6270,62 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address:empty");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".text");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-154.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector2 = doc.QuerySelectorAll("p,");
+                Assert.AreEqual(0, selector2.Length);
+            });
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-155.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""5cm"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector2 = doc.QuerySelectorAll(".5cm");
+                Assert.AreEqual(0, selector2.Length);
+            });
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-155a.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""5cm"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(@".\5cm");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -6317,27 +6333,29 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-155b.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingD()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""two words"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll(".two words");
+	        Assert.AreEqual(1, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll(".two\\ words");
 	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-155c.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingE()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""one.word"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll(".one.word");
 	        Assert.AreEqual(0, selector2.Length);
         }
