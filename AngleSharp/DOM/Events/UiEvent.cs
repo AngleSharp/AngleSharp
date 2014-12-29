@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.DOM.Events
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the event args for any UI event.
@@ -9,6 +11,46 @@
     [DomName("UIEvent")]
     public class UiEvent : Event
     {
+        #region ctor
+
+        /// <summary>
+        /// Creates a new event.
+        /// </summary>
+        public UiEvent()
+        {
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="bubbles">If the event is bubbling.</param>
+        /// <param name="cancelable">If the event is cancelable.</param>
+        /// <param name="view">Sets the associated view for the UI event.</param>
+        /// <param name="detail">Sets the detail id for the UIevent.</param>
+        public UiEvent(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail)
+        {
+            Init(type, bubbles, cancelable, view, detail);
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="eventInitDict">
+        /// An optional dictionary with optional keys such as
+        /// bubbles (boolean) and cancelable (boolean).
+        /// </param>
+        [DomConstructor]
+        public UiEvent(String type, IDictionary<String, Object> eventInitDict = null)
+            : base(type, eventInitDict)
+        {
+            View = eventInitDict.TryGet("view") as IWindow;
+            Detail = eventInitDict.TryGet<Int32>("detail") ?? 0;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
