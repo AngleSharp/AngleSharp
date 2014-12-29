@@ -6778,14 +6778,14 @@ This div should have three addresses above it.</div>";
         [Test]
         public void NamespacedAttributeSelectorsC()
         {
-	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
-   <testA test:attribute=""pass"">This should be green.</testA>
-   <testB test:attribute=""pass"">This should be green.</testB>
-   <testC test:attribute=""pass"">This should be green.</testC>
-   <testD test:attribute=""pass"">This should be green.</testD>
-   <testE test:attribute=""pass"">This should be green.</testE>
-   <testF test:attribute=""pass"">This should be green.</testF>
-   <testG test:attribute=""pass"">This should be green.</testG>
+	        var source = @"<tests>
+   <testA attribute=""pass"">This should be green.</testA>
+   <testB attribute=""pass"">This should be green.</testB>
+   <testC attribute=""pass"">This should be green.</testC>
+   <testD attribute=""pass"">This should be green.</testD>
+   <testE attribute=""pass"">This should be green.</testE>
+   <testF attribute=""pass"">This should be green.</testF>
+   <testG attribute=""pass"">This should be green.</testG>
   </tests>";
 	        var doc = DocumentBuilder.Html(source);
 	        
