@@ -71,6 +71,89 @@ namespace UnitTests.Css
         }
 
         [Test]
+        public void CssTextShadowLegalInsetAtLast()
+        {
+            var snippet = "text-shadow: 0 0 2px black inset";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-shadow", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CSSTextShadowProperty>(property);
+            var concrete = (CSSTextShadowProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = concrete.Value;
+            Assert.AreEqual("0 0 2px black inset", value.CssText);
+        }
+
+        [Test]
+        public void CssTextShadowLegalColorInFront()
+        {
+            var snippet = "text-shadow: rgba(255,255,255,0.5) 0px 3px 3px";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-shadow", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CSSTextShadowProperty>(property);
+            var concrete = (CSSTextShadowProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = concrete.Value;
+            Assert.AreEqual("rgba(255, 255, 255, 0.5) 0 3px 3px", value.CssText);
+        }
+
+        [Test]
+        public void CssTextShadowLegalMultipleMultilines()
+        {
+            var snippet = @"text-shadow: 0px 3px 0px #b2a98f,
+             0px 14px 10px rgba(0,0,0,0.15),
+             0px 24px 2px rgba(0,0,0,0.1),
+             0px 34px 30px rgba(0,0,0,0.1)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-shadow", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CSSTextShadowProperty>(property);
+            var concrete = (CSSTextShadowProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = concrete.Value;
+            Assert.AreEqual("0 3px 0 rgba(178, 169, 143, 1), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", value.CssText);
+        }
+
+        [Test]
+        public void CssTextShadowLegalMultipleInline()
+        {
+            var snippet = "text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-shadow", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CSSTextShadowProperty>(property);
+            var concrete = (CSSTextShadowProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = concrete.Value;
+            Assert.AreEqual("4px 3px 0 rgba(255, 255, 255, 1), 9px 8px 0 rgba(0, 0, 0, 0.15)", value.CssText);
+        }
+
+        [Test]
+        public void CssTextShadowLegalColorRgbaLast()
+        {
+            var snippet = "text-shadow: 2px 4px 3px rgba(0,0,0,0.3)";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("text-shadow", property.Name);
+            Assert.IsTrue(property.HasValue);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CSSTextShadowProperty>(property);
+            var concrete = (CSSTextShadowProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            var value = concrete.Value;
+            Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", value.CssText);
+        }
+
+        [Test]
         public void CssTextAlignLegalJustify()
         {
             var snippet = "text-align:justify";
