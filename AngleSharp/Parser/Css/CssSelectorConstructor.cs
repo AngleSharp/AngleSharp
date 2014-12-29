@@ -100,7 +100,7 @@
             pseudoClassSelectors.Add(pseudoClassOnlyChild, SimpleSelector.PseudoClass(el => el.IsOnlyChild(), pseudoClassOnlyChild));
             pseudoClassSelectors.Add(pseudoClassFirstChild, SimpleSelector.PseudoClass(el => el.IsFirstChild(), pseudoClassFirstChild));
             pseudoClassSelectors.Add(pseudoClassLastChild, SimpleSelector.PseudoClass(el => el.IsLastChild(), pseudoClassLastChild));
-            pseudoClassSelectors.Add(pseudoClassEmpty, SimpleSelector.PseudoClass(el => el.ChildNodes.Length == 0, pseudoClassEmpty));
+            pseudoClassSelectors.Add(pseudoClassEmpty, SimpleSelector.PseudoClass(el => el.ChildElementCount == 0 && el.TextContent.Equals(String.Empty), pseudoClassEmpty));
             pseudoClassSelectors.Add(pseudoClassLink, SimpleSelector.PseudoClass(el => el.IsLink(), pseudoClassLink));
             pseudoClassSelectors.Add(pseudoClassVisited, SimpleSelector.PseudoClass(el => el.IsVisited(), pseudoClassVisited));
             pseudoClassSelectors.Add(pseudoClassActive, SimpleSelector.PseudoClass(el => el.IsActive(), pseudoClassActive));
@@ -130,7 +130,7 @@
 
             pseudoElementSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoElement(MatchBefore, pseudoElementBefore));
             pseudoElementSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoElement(MatchAfter, pseudoElementAfter));
-            pseudoElementSelectors.Add(pseudoElementSelection, SimpleSelector.PseudoElement(el => true, pseudoElementSelection));
+            pseudoElementSelectors.Add(pseudoElementSelection, SimpleSelector.PseudoElement(el => false, pseudoElementSelection));
             pseudoElementSelectors.Add(pseudoElementFirstLine, SimpleSelector.PseudoElement(MatchFirstLine, pseudoElementFirstLine));
             pseudoElementSelectors.Add(pseudoElementFirstLetter, SimpleSelector.PseudoElement(MatchFirstLetter, pseudoElementFirstLetter));
         }
