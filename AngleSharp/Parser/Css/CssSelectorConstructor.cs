@@ -83,6 +83,7 @@
 		String attrOp;
         String attrNs;
         Boolean valid;
+        Boolean ready;
 
         #endregion
 
@@ -175,7 +176,7 @@
         {
             get
             {
-                if (!valid)
+                if (!valid || !ready)
                     return null;
 
                 if (complex != null)
@@ -266,6 +267,7 @@
             valid = true;
             nested = null;
             IsNested = false;
+            ready = true;
 			return this;
 		}
 
@@ -289,21 +291,25 @@
 					attrOp = String.Empty;
                     attrNs = null;
 					state = State.Attribute;
+                    ready = false;
 					break;
 
 				//Begin of Pseudo :P
 				case CssTokenType.Colon:
 					state = State.PseudoClass;
+                    ready = false;
                     break;
 
                 //Begin of ID #I
                 case CssTokenType.Hash:
 					Insert(SimpleSelector.Id(token.Data));
+                    ready = true;
                     break;
 
                 //Begin of Type E
                 case CssTokenType.Ident:
 					Insert(SimpleSelector.Type(token.Data));
+                    ready = true;
                     break;
 
                 //Whitespace could be significant
@@ -318,6 +324,7 @@
 
 				case CssTokenType.Comma:
 					InsertOr();
+                    ready = false;
                     break;
 
                 default:
@@ -422,6 +429,7 @@
 				return;
 
 			state = State.Data;
+            ready = true;
 
             if (token.Type == CssTokenType.SquareBracketClose)
             {
@@ -466,6 +474,7 @@
 		void OnPseudoClass(CssToken token)
 		{
 			state = State.Data;
+            ready = true;
 
             if (token.Type == CssTokenType.Colon)
             {
@@ -500,6 +509,7 @@
 		void OnPseudoElement(CssToken token)
         {
             state = State.Data;
+            ready = true;
 
             if (token.Type == CssTokenType.Ident)
             {
@@ -527,6 +537,7 @@
 		void OnClass(CssToken token)
 		{
 			state = State.Data;
+            ready = true;
 
             if (token.Type == CssTokenType.Ident)
                 Insert(SimpleSelector.Class(token.Data));
@@ -618,8 +629,9 @@
 		void OnPseudoClassFunctionEnd(CssToken token)
 		{
 			state = State.Data;
+            ready = true;
 
-			if (token.Type == CssTokenType.RoundBracketClose)
+            if (token.Type == CssTokenType.RoundBracketClose)
 			{
                 if (attrName.Equals(pseudoClassFunctionNthChild, StringComparison.OrdinalIgnoreCase))
                 {
@@ -781,26 +793,32 @@
 			{
 				case Specification.Comma:
 					InsertOr();
+                    ready = false;
                     break;
 
                 case Specification.GreaterThan:
 					Insert(CssCombinator.Child);
+                    ready = false;
                     break;
 
                 case Specification.Plus:
 					Insert(CssCombinator.AdjacentSibling);
+                    ready = false;
                     break;
 
                 case Specification.Tilde:
 					Insert(CssCombinator.Sibling);
+                    ready = false;
                     break;
 
                 case Specification.Asterisk:
 					Insert(SimpleSelector.All);
+                    ready = true;
                     break;
 
                 case Specification.Dot:
 					state = State.Class;
+                    ready = false;
                     break;
 
                 case Specification.Pipe:
@@ -808,6 +826,7 @@
                         Insert(SimpleSelector.Type(String.Empty));
 
                     Insert(CssCombinator.Namespace);
+                    ready = false;
                     break;
 
                 default:
