@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.DOM.Events
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the event arguments for a keyboard event.
@@ -12,6 +14,52 @@
         #region Fields
 
         String _modifiers;
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new event.
+        /// </summary>
+        public KeyboardEvent()
+        {
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="bubbles">If the event is bubbling.</param>
+        /// <param name="cancelable">If the event is cancelable.</param>
+        /// <param name="view">Sets the associated view for the UI event.</param>
+        /// <param name="detail">Sets the detail id for the UI event.</param>
+        /// <param name="key">Sets the key that is currently pressed.</param>
+        /// <param name="location">Sets the position of the originating keyboard.</param>
+        /// <param name="modifiersList">A list with keyboard modifiers that have been pressed.</param>
+        /// <param name="repeat">Sets if the key has been pressed again.</param>
+        public KeyboardEvent(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, String key, KeyboardLocation location, String modifiersList, Boolean repeat)
+        {
+            Init(type, bubbles, cancelable, view, detail, key, location, modifiersList, repeat);
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="eventInitDict">
+        /// An optional dictionary with optional keys such as
+        /// bubbles (boolean) and cancelable (boolean).
+        /// </param>
+        [DomConstructor]
+        public KeyboardEvent(String type, IDictionary<String, Object> eventInitDict = null)
+            : base(type, eventInitDict)
+        {
+            Key = (eventInitDict.TryGet("key") ?? String.Empty).ToString();
+            Location = (KeyboardLocation)(eventInitDict.TryGet<Int32>("location") ?? 0);
+            IsRepeated = eventInitDict.TryGet<Boolean>("repeat") ?? false;
+            _modifiers = (eventInitDict.TryGet("code") ?? String.Empty).ToString();
+        }
 
         #endregion
 
