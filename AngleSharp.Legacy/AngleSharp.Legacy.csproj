@@ -67,6 +67,9 @@
     <Compile Include="..\AngleSharp\Attributes\DomAccessorAttribute.cs">
       <Link>Attributes\DomAccessorAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomConstructorAttribute.cs">
+      <Link>Attributes\DomConstructorAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomDescriptionAttribute.cs">
       <Link>Attributes\DomDescriptionAttribute.cs</Link>
     </Compile>
