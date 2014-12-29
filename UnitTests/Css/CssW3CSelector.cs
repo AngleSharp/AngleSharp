@@ -6669,34 +6669,37 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-170d.xml
         /// </summary>
+        [Test]
         public void LongChainsOfSelectorsD()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child:first-child");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-170.xml
         /// </summary>
+        [Test]
         public void LongChainsOfSelectorsE()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml""><span>This line should be green.</span></p>";
             var doc = DocumentBuilder.Html(source);
 
             var selector1 = doc.QuerySelectorAll("span");
-            Assert.AreEqual(0, selector1.Length);
+            Assert.AreEqual(1, selector1.Length);
             var selector2 = doc.QuerySelectorAll("span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span,span");
-            Assert.AreEqual(0, selector2.Length);
+            Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-172a.xml
         /// </summary>
+        [Test]
         public void NamespacedAttributeSelectorsA()
         {
 	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
@@ -6711,29 +6714,31 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testA");
+	        Assert.AreEqual(8, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("testA[|attribute]");
 	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("testBfail");
+	        var selector3 = doc.QuerySelectorAll("testB[|attribute=\"fail\"]");
 	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("testCfail");
+	        var selector4 = doc.QuerySelectorAll("testC[|attribute~='fail']");
 	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("testDfail");
+	        var selector5 = doc.QuerySelectorAll("testD[|attribute^='fail']");
 	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("testEfail");
+	        var selector6 = doc.QuerySelectorAll("testE[|attribute*='fail']");
 	        Assert.AreEqual(0, selector6.Length);
-	        var selector7 = doc.QuerySelectorAll("testFfail");
+	        var selector7 = doc.QuerySelectorAll("testF[|attribute$='fail']");
 	        Assert.AreEqual(0, selector7.Length);
-	        var selector8 = doc.QuerySelectorAll("testGfail");
+	        var selector8 = doc.QuerySelectorAll("testF[|attribute|='fail']");
 	        Assert.AreEqual(0, selector8.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-172b.xml
         /// </summary>
+        [Test]
         public void NamespacedAttributeSelectorsB()
         {
-	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
+	        var source = @"<style>@namespace url(http://css.example.net/);</style>
+<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
    <testA test:attribute=""fail"">This should be green.</testA>
    <testB test:attribute=""fail"">This should be green.</testB>
    <testC test:attribute=""fail"">This should be green.</testC>
@@ -6745,26 +6750,27 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testa");
+	        Assert.AreEqual(8, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("testA[|attribute]");
 	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("testBfail");
+	        var selector3 = doc.QuerySelectorAll("testB[|attribute=\"fail\"]");
 	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("testCfail");
+	        var selector4 = doc.QuerySelectorAll("testC[|attribute~=\"fail\"]");
 	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("testDfail");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("testEfail");
+	        var selector5 = doc.QuerySelectorAll("testD[|attribute^='fail']");
+            Assert.AreEqual(0, selector5.Length);
+            var selector6 = doc.QuerySelectorAll("testE[|attribute*='fail']");
 	        Assert.AreEqual(0, selector6.Length);
-	        var selector7 = doc.QuerySelectorAll("testFfail");
+	        var selector7 = doc.QuerySelectorAll("testF[|attribute$=fail]");
 	        Assert.AreEqual(0, selector7.Length);
-	        var selector8 = doc.QuerySelectorAll("testGfail");
+	        var selector8 = doc.QuerySelectorAll("testG[|attribute|=fail]");
 	        Assert.AreEqual(0, selector8.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-173a.xml
         /// </summary>
+        [Test]
         public void NamespacedAttributeSelectorsC()
         {
 	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
@@ -6779,21 +6785,21 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testAattribute");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("testBattributepass");
-	        Assert.AreEqual(0, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("testCattributepass");
-	        Assert.AreEqual(0, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("testDattributepass");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("testEattributepass");
-	        Assert.AreEqual(0, selector6.Length);
-	        var selector7 = doc.QuerySelectorAll("testFattributepass");
-	        Assert.AreEqual(0, selector7.Length);
-	        var selector8 = doc.QuerySelectorAll("testGattributepass");
-	        Assert.AreEqual(0, selector8.Length);
+	        Assert.AreEqual(8, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("testA[*|attribute]");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("testB[*|attribute='pass']");
+	        Assert.AreEqual(1, selector3.Length);
+	        var selector4 = doc.QuerySelectorAll("testC[*|attribute~='pass']");
+	        Assert.AreEqual(1, selector4.Length);
+	        var selector5 = doc.QuerySelectorAll("testD[*|attribute^='pass']");
+	        Assert.AreEqual(1, selector5.Length);
+	        var selector6 = doc.QuerySelectorAll("testE[*|attribute*='pass']");
+	        Assert.AreEqual(1, selector6.Length);
+	        var selector7 = doc.QuerySelectorAll("testF[*|attribute$='pass']");
+	        Assert.AreEqual(1, selector7.Length);
+	        var selector8 = doc.QuerySelectorAll("testG[*|attribute|='pass']");
+	        Assert.AreEqual(1, selector8.Length);
         }
 
         /// <summary>
