@@ -6345,71 +6345,92 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-155d.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingF()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""one.word"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll(".one.word");
-	        Assert.AreEqual(0, selector1.Length);
+	        var selector1 = doc.QuerySelectorAll(".one\\.word");
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-156.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingG()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("foo address,p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector2 = doc.QuerySelectorAll("foo & address, p");
+                Assert.AreEqual(0, selector2.Length);
+            });
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-156b.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingH()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("foo address,p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector1 = doc.QuerySelectorAll("foo & address, p");
+                Assert.AreEqual(0, selector1.Length);
+            });
+
+            var selector2 = doc.QuerySelectorAll("p");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-156c.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingI()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("foo address,p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector1 = doc.QuerySelectorAll("foo & address, p");
+                Assert.AreEqual(0, selector1.Length);
+            });
+
+            var selector2 = doc.QuerySelectorAll("p");
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-157.xml
         /// </summary>
+        [Test]
         public void SyntaxAndParsingJ()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector1.Length);
+
+            Assert.Catch<DomException>(() =>
+            {
+                var selector2 = doc.QuerySelectorAll("[*=test]");
+                Assert.AreEqual(0, selector2.Length);
+            });
         }
 
         /// <summary>
