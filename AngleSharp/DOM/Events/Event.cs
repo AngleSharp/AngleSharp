@@ -55,16 +55,15 @@
         /// </summary>
         /// <param name="type">The type of the event.</param>
         /// <param name="eventInitDict">
-        /// An optional object with optional properties such as
+        /// An optional dictionary with optional keys such as
         /// bubbles (boolean) and cancelable (boolean).
         /// </param>
         [DomConstructor]
-        public Event(String type, Object eventInitDict = null)
+        public Event(String type, IDictionary<String, Object> eventInitDict = null)
             : this()
         {
-            var values = eventInitDict.ToDictionary();
-            var bubbles = values["bubbles"].TryCast<Boolean>() ?? false;
-            var cancelable = values["cancelable"].TryCast<Boolean>() ?? false;
+            var bubbles = eventInitDict.TryGet<Boolean>("bubbles") ?? false;
+            var cancelable = eventInitDict.TryGet<Boolean>("cancelable") ?? false;
             Init(type, bubbles, cancelable);
         }
 

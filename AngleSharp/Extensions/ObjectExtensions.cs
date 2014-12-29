@@ -33,11 +33,23 @@
             return values.ToDictionary(m => m);
         }
 
-        public static T? TryCast<T>(this Object value)
+        public static T? TryGet<T>(this IDictionary<String, Object> values, String key)
             where T : struct
         {
-            if (value is T)
+            Object value;
+            
+            if (values.TryGetValue(key, out value) && value is T)
                 return (T)value;
+
+            return null;
+        }
+
+        public static Object TryGet(this IDictionary<String, Object> values, String key)
+        {
+            Object value;
+
+            if (values.TryGetValue(key, out value))
+                return value;
 
             return null;
         }
