@@ -1005,9 +1005,7 @@
                      tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
             {
                 ReconstructFormatting();
-                var element = HtmlElementFactory.Create(tagName, doc);
-                AddElement(element, tag);
-                formatting.AddFormatting(element);
+                formatting.AddFormatting(AddElement(tag));
             }
             else if (tagName.IsOneOf(Tags.Caption, Tags.Col, Tags.Colgroup) ||
                      tagName.IsOneOf(Tags.Frame, Tags.Head) ||
@@ -1026,7 +1024,7 @@
                 if (IsInButtonScope())
                     InBodyEndTagParagraph();
 
-                AddElement(new HTMLPreElement(tagName) { Owner = doc }, tag);
+                AddElement(tag);
                 frameset = false;
                 PreventNewLine();
             }
@@ -1142,9 +1140,7 @@
                     ReconstructFormatting();
                 }
 
-                var element = HtmlElementFactory.Create(tagName, doc);
-                AddElement(element, tag);
-                formatting.AddFormatting(element);
+                formatting.AddFormatting(AddElement(tag));
             }
             else if (tagName == Tags.Xmp)
             {
@@ -1873,8 +1869,7 @@
                     if (tagName.IsTableCellElement())
                     {
                         ClearStackBackTo<HTMLTableRowElement>();
-                        var element = HtmlElementFactory.Create(tagName, doc);
-                        AddElement(element, token.AsTag());
+                        AddElement(token.AsTag());
                         insert = HtmlTreeMode.InCell;
                         formatting.AddScopeMarker();
                     }
@@ -2601,8 +2596,7 @@
         /// <param name="tag">The given tag token.</param>
         void RawtextAlgorithm(HtmlTagToken tag)
         {
-            var element = HtmlElementFactory.Create(tag.Name, doc);
-            AddElement(element, tag);
+            AddElement(tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
             tokenizer.State = HtmlParseMode.Rawtext;
@@ -2614,8 +2608,7 @@
         /// <param name="tag">The given tag token.</param>
         void RCDataAlgorithm(HtmlTagToken tag)
         {
-            var element = HtmlElementFactory.Create(tag.Name, doc);
-            AddElement(element, tag);
+            AddElement(tag);
             originalInsert = insert;
             insert = HtmlTreeMode.Text;
             tokenizer.State = HtmlParseMode.RCData;
@@ -2648,8 +2641,7 @@
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HtmlElementFactory.Create(tag.Name, doc);
-            AddElement(element, tag);
+            AddElement(tag);
         }
 
         /// <summary>
@@ -2679,8 +2671,7 @@
             if (IsInButtonScope())
                 InBodyEndTagParagraph();
 
-            var element = HtmlElementFactory.Create(tag.Name, doc);
-            AddElement(element, tag);
+            AddElement(tag);
         }
 
         /// <summary>
@@ -2870,12 +2861,7 @@
         /// <returns>The new element (target).</returns>
         Element CopyElement(Element element)
         {
-            var newElement = HtmlElementFactory.Create(element.NodeName, doc);
-
-            foreach (var attr in element.Attributes)
-                newElement.AddAttribute(attr.Name, attr.Value);
-
-            return newElement;
+            return (Element)element.Clone(false);
         }
 
         /// <summary>
@@ -2949,8 +2935,7 @@
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            var element = HtmlElementFactory.Create(tag.Name, doc);
-            AddElement(element, tag);
+            AddElement(tag);
             CloseCurrentNode();
             frameset = false;
         }

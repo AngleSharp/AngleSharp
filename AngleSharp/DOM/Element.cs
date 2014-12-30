@@ -793,7 +793,7 @@
             target._prefix = source._prefix;
 
             for (int i = 0; i < source._attributes.Count; i++)
-                target.SetAttribute(source._attributes[i].Name, source._attributes[i].Value);
+                target._attributes.Add(new Attr(target, source._attributes[i].Name, source._attributes[i].Value));
         }
 
         protected void RegisterAttributeHandler(String name, Action<String> callback)
