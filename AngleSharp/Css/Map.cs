@@ -203,6 +203,11 @@
         /// </summary>
         public static readonly Dictionary<String, HoverAbility> HoverAbilities = new Dictionary<String, HoverAbility>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-SizeMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, RadialGradient.SizeMode> RadialGradientSizeModes = new Dictionary<String, RadialGradient.SizeMode>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -491,6 +496,11 @@
             HoverAbilities.Add(Keywords.None, HoverAbility.None);
             HoverAbilities.Add(Keywords.OnDemand, HoverAbility.OnDemand);
             HoverAbilities.Add(Keywords.Hover, HoverAbility.Hover);
+
+            RadialGradientSizeModes.Add(Keywords.ClosestSide, RadialGradient.SizeMode.ClosestSide);
+            RadialGradientSizeModes.Add(Keywords.FarthestSide, RadialGradient.SizeMode.FarthestSide);
+            RadialGradientSizeModes.Add(Keywords.ClosestCorner, RadialGradient.SizeMode.ClosestCorner);
+            RadialGradientSizeModes.Add(Keywords.FarthestCorner, RadialGradient.SizeMode.FarthestCorner);
         }
 
         #endregion
