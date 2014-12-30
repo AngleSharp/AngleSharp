@@ -5781,9 +5781,13 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-141.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnBeginningWithoutDeclaredNamespaceA()
+        [Test]
+        public void NegatedSubstringMatchingAttributeSelectorOnBeginningWithoutDeclaredNamespaceA()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p title=""si on chantait"">This paragraph should be unstyled.</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
@@ -5792,20 +5796,24 @@ This div should have three addresses above it.</div>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*s,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub **:not(si)");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
+	        Assert.AreEqual(5, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q, *|s, *|t");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *|*:not([|title^='si on'])");
+	        Assert.AreEqual(3, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-141b.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnBeginningWithoutDeclaredNamespaceB()
+        [Test]
+        public void NegatedSubstringMatchingAttributeSelectorOnBeginningWithoutDeclaredNamespaceB()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p title=""si on chantait"">This paragraph should be unstyled.</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
@@ -5814,20 +5822,24 @@ This div should have three addresses above it.</div>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*s,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub **:not(si)");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
+	        Assert.AreEqual(5, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q,*|s,*|t");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *|*:not([|title^=\"si on\"])");
+	        Assert.AreEqual(3, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-142.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnEndWithoutDeclaredNamespaceA()
+        [Test]
+        public void NegatedSubstringMatchingAttributeSelectorOnEndWithoutDeclaredNamespaceA()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p title=""si on chantait"">This paragraph should be unstyled.</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
@@ -5836,20 +5848,24 @@ This div should have three addresses above it.</div>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*s,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub **:not(tait)");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
+	        Assert.AreEqual(5, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q, *|s, *|t");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *|*:not([|title$=tait])");
+	        Assert.AreEqual(3, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-142b.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnEndWithoutDeclaredNamespaceB()
+        [Test]
+        public void NegatedSubstringMatchingAttributeSelectorOnEndWithoutDeclaredNamespaceB()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p title=""si on chantait"">This paragraph should be unstyled.</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
@@ -5858,20 +5874,24 @@ This div should have three addresses above it.</div>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*s,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub **:not(tait)");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
+	        Assert.AreEqual(5, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q, *|s, *|t");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *|*:not([|title$=tait])");
+	        Assert.AreEqual(3, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-143.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnMiddleWithoutDeclaredNamespaceA()
+        [Test]
+        public void NegatedSubstringMatchingAttributeSelectorOnMiddleWithoutDeclaredNamespaceA()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p title=""si on chantait"">This paragraph should be unstyled.</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
@@ -5880,20 +5900,24 @@ This div should have three addresses above it.</div>";
 </div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*s,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub **:not(on)");
-	        Assert.AreEqual(0, selector3.Length);
+	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
+	        Assert.AreEqual(5, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("*|q,*|s,*|t");
+	        Assert.AreEqual(3, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("div.stub *|*:not([|title*='on ch'])");
+	        Assert.AreEqual(3, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-143b.xml
         /// </summary>
-        public void NEGATEDSubstringMatchingAttributeSelectorOnMiddleWithoutDeclaredNamespaceB()
+        [Test]
+        public void NegatedSubstringMatchingAttributeSelectorOnMiddleWithoutDeclaredNamespaceB()
         {
-	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
+	        var source = @"<style>@namespace a url(http://www.example.org/a);
+@namespace b url(http://www.example.org/b);
+@namespace html url(http://www.w3.org/1999/xhtml);</style>
+<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <p title=""si on chantait"">This paragraph should be unstyled.</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
@@ -5901,19 +5925,20 @@ This div should have three addresses above it.</div>";
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
 	        var doc = DocumentBuilder.Html(source);
-	        
-	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("*q,*s,*t");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("div.stub **:not(on)");
-	        Assert.AreEqual(0, selector3.Length);
+
+            var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
+            Assert.AreEqual(5, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("*|q,*|s,*|t");
+            Assert.AreEqual(3, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("div.stub *|*:not([|title*='on ch'])");
+            Assert.AreEqual(3, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-144.xml
         /// </summary>
-        public void NEGATEDEnabledDisabledPseudoClasses()
+        [Test]
+        public void NegatedEnabledDisabledPseudoClasses()
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This paragraph should have a green background.</p>
@@ -5921,9 +5946,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("div :not(:enabled):not(:disabled)");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
