@@ -6122,6 +6122,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-147b.xml
         /// </summary>
+        [Test]
         public void NthLastOfTypePseudoClassWithCollapsedElementsB()
         {
 	        var source = @"<test xmlns=""http://www.example.org/"">
@@ -6150,25 +6151,26 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(21, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("[type~=match]");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("line");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(7, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("line:nth-last-of-type(3n-1)");
+	        Assert.AreEqual(7, selector3.Length);
 	        var selector4 = doc.QuerySelectorAll("[hidden]");
-	        Assert.AreEqual(0, selector4.Length);
+	        Assert.AreEqual(3, selector4.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-148.xml
         /// </summary>
+        [Test]
         public void EmptyPseudoClassAndText()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:empty");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -6176,6 +6178,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-149.xml
         /// </summary>
+        [Test]
         public void EmptyPseudoClassAndEmptyElementsA()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""></address>
@@ -6183,11 +6186,11 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("address:empty");
-	        Assert.AreEqual(0, selector1.Length);
+	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("address");
-	        Assert.AreEqual(0, selector2.Length);
+	        Assert.AreEqual(1, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll(".text");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
