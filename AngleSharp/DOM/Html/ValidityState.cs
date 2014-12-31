@@ -7,20 +7,33 @@
     /// </summary>
     sealed class ValidityState : IValidityState
     {
+        #region Fields
+
+        ErrorType _err;
+
+        #endregion
+
+        #region ctor
+
         /// <summary>
         /// Creates a new ValidityState instance.
         /// </summary>
         internal ValidityState()
         {
+            _err = ErrorType.None;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets if a required value is missing.
         /// </summary>
         public Boolean IsValueMissing
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.ValueMissing); }
+            set { Set(IsValueMissing, value, ErrorType.ValueMissing); }
         }
 
         /// <summary>
@@ -28,8 +41,8 @@
         /// </summary>
         public Boolean IsTypeMismatch
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.TypeMismatch); }
+            set { Set(IsTypeMismatch, value, ErrorType.TypeMismatch); }
         }
 
         /// <summary>
@@ -37,8 +50,8 @@
         /// </summary>
         public Boolean IsPatternMismatch
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.PatternMismatch); }
+            set { Set(IsPatternMismatch, value, ErrorType.PatternMismatch); }
         }
 
         /// <summary>
@@ -46,8 +59,8 @@
         /// </summary>
         public Boolean IsTooLong
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.TooLong); }
+            set { Set(IsTooLong, value, ErrorType.TooLong); }
         }
 
         /// <summary>
@@ -55,8 +68,8 @@
         /// </summary>
         public Boolean IsRangeUnderflow
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.RangeUnderflow); }
+            set { Set(IsRangeUnderflow, value, ErrorType.RangeUnderflow); }
         }
 
         /// <summary>
@@ -64,8 +77,8 @@
         /// </summary>
         public Boolean IsRangeOverflow
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.RangeOverflow); }
+            set { Set(IsRangeOverflow, value, ErrorType.RangeOverflow); }
         }
 
         /// <summary>
@@ -73,17 +86,17 @@
         /// </summary>
         public Boolean IsStepMismatch
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.StepMismatch); }
+            set { Set(IsStepMismatch, value, ErrorType.StepMismatch); }
         }
 
         /// <summary>
-        /// Gets if validation failed due to a custom error.
+        /// Gets or sets if validation failed due to a custom error.
         /// </summary>
         public Boolean IsCustomError
         {
-            get;
-            internal set;
+            get { return _err.HasFlag(ErrorType.Custom); }
+            set { Set(IsCustomError, value, ErrorType.Custom); }
         }
 
         /// <summary>
@@ -91,8 +104,42 @@
         /// </summary>
         public Boolean IsValid
         {
-            get;
-            internal set;
+            get { return _err == ErrorType.None; }
         }
+
+        #endregion
+
+        #region Methods
+
+        public void Reset()
+        {
+            _err = ErrorType.None;
+        }
+
+        void Set(Boolean oldValue, Boolean newValue, ErrorType err)
+        {
+            if (newValue != oldValue)
+                _err ^= err;
+        }
+
+        #endregion
+
+        #region Flags
+
+        [Flags]
+        enum ErrorType
+        {
+            None,
+            ValueMissing,
+            TypeMismatch,
+            PatternMismatch,
+            TooLong,
+            RangeUnderflow,
+            RangeOverflow,
+            StepMismatch,
+            Custom
+        }
+
+        #endregion
     }
 }
