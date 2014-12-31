@@ -246,20 +246,20 @@
         /// </summary>
         public static readonly IValueConverter<RadialGradient> RadialGradientConverter = Construct(() =>
         {
-            var distance = LengthOrPercentConverter.Required();
-            var defaults = Tuple.Create(Point.RightBottom, Point.Center);
-            var endingShape = Toggle(Keywords.Ellipse, Keywords.Circle);
-            var predefinedSize = IdentifierConverter.Constraint(m => m.IsOneOf(
-                Keywords.ClosestSide, Keywords.ClosestCorner, Keywords.FarthestSide, Keywords.FarthestCorner)).To(m => Point.RightBottom);
-            var size = predefinedSize.Or(LengthConverter.To(m => new Point(m, m))).Or(WithArgs(distance, distance, m => new Point(m.Item1, m.Item2)));
-            var dimensions = WithOrder(WithAny(endingShape.Option(true), size.Option(Point.LeftTop)), WithOrder(
-                Assign(Keywords.At, true).Required(), PointConverter.Required()).Option(Tuple.Create(true, Point.Center))).To(m => Tuple.Create(m.Item1.Item2, m.Item2.Item2));
-            var gradient = new GradientConverter<Tuple<Point, Point>>(dimensions, defaults);
+            var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
+            var defaultValue = new { Width = Length.Zero, Height = Length.Zero, SizeMode = RadialGradient.SizeMode.FarthestCorner };
+            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.To(m => new { Width = m, Height = m, SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
+            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).To(m => new { Width = m[0], Height = m[1], SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
+            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter().To(m => new { Width = Length.Zero, Height = Length.Zero, SizeMode = m })), position);
+
+            var gradient = new GradientConverter<Tuple<Boolean, Length, Length, RadialGradient.SizeMode, Point>>(
+                circle.Or(ellipse.Or(extents)).To(m => Tuple.Create(m.Item1.Item1, m.Item1.Item2.Width, m.Item1.Item2.Height, m.Item1.Item2.SizeMode, m.Item2)), 
+                Tuple.Create(false, defaultValue.Width, defaultValue.Height, defaultValue.SizeMode, Point.Center));
 
             return new FunctionValueConverter<RadialGradient>(FunctionNames.RadialGradient,
-                        gradient.To(m => new RadialGradient(m.Item1.Item2, m.Item1.Item1, m.Item2, false))).Or(
+                        gradient.To(m => new RadialGradient(m.Item1.Item1, m.Item1.Item5, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2, false))).Or(
                    new FunctionValueConverter<RadialGradient>(FunctionNames.RepeatingRadialGradient,
-                        gradient.To(m => new RadialGradient(m.Item1.Item2, m.Item1.Item1, m.Item2, true))));
+                        gradient.To(m => new RadialGradient(m.Item1.Item1, m.Item1.Item5, m.Item1.Item2, m.Item1.Item3, m.Item1.Item4, m.Item2, true))));
         });
 
         /// <summary>

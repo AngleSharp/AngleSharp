@@ -15,7 +15,8 @@
 
         readonly GradientStop[] _stops;
         readonly Point _pt;
-        readonly Point _size;
+        readonly Length _width;
+        readonly Length _height;
         readonly Boolean _repeating;
         readonly Boolean _circle;
         readonly SizeMode _sizeMode;
@@ -27,18 +28,22 @@
         /// <summary>
         /// Creates a new radial gradient.
         /// </summary>
+        /// <param name="circle">Determines if the radial gradient has to be forced to a circle form.</param>
         /// <param name="pt">The center point of the gradient.</param>
-        /// <param name="size">The size of the ellipsoid..</param>
+        /// <param name="width">The width of the ellipsoid.</param>
+        /// <param name="height">The height of the ellipsoid.</param>
+        /// <param name="sizeMode">The size mode of the ellipsoid.</param>
         /// <param name="stops">A collection of stops to use.</param>
         /// <param name="repeating">The repeating setting.</param>
-        public RadialGradient(Point pt, Point size, GradientStop[] stops, Boolean repeating = false)
+        public RadialGradient(Boolean circle, Point pt, Length width, Length height, SizeMode sizeMode, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _pt = pt;
-            _size = size;
+            _width = width;
+            _height = height;
             _repeating = repeating;
-            _circle = false;
-            _sizeMode = SizeMode.None;
+            _circle = circle;
+            _sizeMode = sizeMode;
         }
 
         #endregion
@@ -82,7 +87,7 @@
         /// </summary>
         public Length Width
         {
-            get { return _size.X; }
+            get { return _width; }
         }
 
         /// <summary>
@@ -90,7 +95,7 @@
         /// </summary>
         public Length Height
         {
-            get { return _size.Y; }
+            get { return _height; }
         }
 
         /// <summary>
