@@ -8,6 +8,8 @@
     using System;
     using System.Globalization;
     using System.Threading.Tasks;
+    using System.Text.RegularExpressions;
+
 
     /// <summary>
     /// Represents an HTML input element.
@@ -30,7 +32,6 @@
         public HTMLInputElement()
             : base(Tags.Input, NodeFlags.SelfClosing)
         {
-            WillValidate = true;
             _files = new FileList();
         }
 
@@ -652,7 +653,7 @@
                             for (int i = 0; i > n; i--)
                                 date = date.Subtract(t);
 
-                            if (IsBetween(date))
+                            if (IsBetween(date) == 0)
                             {
                                 ValueAsDate = date;
                                 return;
@@ -671,7 +672,7 @@
                         {
                             t = ValueAsNumber + t * n;
 
-                            if (IsBetween(t))
+                            if (IsBetween(t) == 0)
                             {
                                 ValueAsNumber = t;
                                 return;
@@ -691,16 +692,16 @@
         /// </summary>
         /// <param name="value">The value to check for the range-constraint.</param>
         /// <returns>True if the value is between min, max otherwise false.</returns>
-        Boolean IsBetween(Double value)
+        Int32 IsBetween(Double value)
         {
             var t = 0.0;
 
             if (Minimum != null && Double.TryParse(Minimum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t > value)
-                return false;
+                return -1;
             else if (Maximum != null && Double.TryParse(Maximum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t < value)
-                return false;
+                return 1;
 
-            return true;
+            return 0;
         }
 
         /// <summary>
@@ -708,16 +709,16 @@
         /// </summary>
         /// <param name="value">The value to check for the range-constraint.</param>
         /// <returns>True if the value is between min, max otherwise false.</returns>
-        Boolean IsBetween(DateTime value)
+        Int32 IsBetween(DateTime value)
         {
             var t = DateTime.Now;
 
             if (Minimum != null && DateTime.TryParse(Minimum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t > value)
-                return false;
+                return -1;
             else if (Maximum != null && DateTime.TryParse(Maximum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t < value)
-                return false;
+                return 1;
 
-            return true;
+            return 0;
         }
 
         /// <summary>
@@ -736,7 +737,52 @@
         /// <param name="state">The element's validity state tracker.</param>
         protected override void Check(ValidityState state)
         {
-            //TODO
+            base.Check(state);
+            var value = Value ?? String.Empty;
+            var type = Type.ToEnum(InputType.Text);
+
+            if (!String.IsNullOrEmpty(Pattern))
+            {
+                try
+                {
+                    var regex = new Regex(Pattern, RegexOptions.ECMAScript);
+                    state.IsPatternMismatch = regex.IsMatch(value) == false;
+                }
+                catch { }
+            }
+
+            switch (type)
+            {
+                case InputType.Range:
+                case InputType.Number:
+                    var num = ValueAsNumber;
+                    state.IsTypeMismatch = Double.IsNaN(num);
+
+                    if (state.IsTypeMismatch == false)
+                    {
+                        var range = IsBetween(num);
+                        state.IsRangeOverflow = range == 1;
+                        state.IsRangeUnderflow = range == -1;
+                    }
+                    break;
+                case InputType.Date:
+                case InputType.Datetime:
+                case InputType.Week:
+                case InputType.Month:
+                    var date = ValueAsDate;
+                    state.IsTypeMismatch = date.HasValue == false;
+
+                    if (state.IsTypeMismatch == false)
+                    {
+                        var range = IsBetween(date.Value);
+                        state.IsRangeOverflow = range == 1;
+                        state.IsRangeUnderflow = range == -1;
+                    }
+                    break;
+                case InputType.Email:
+                    //TODO
+                    break;
+            }
         }
 
         #endregion

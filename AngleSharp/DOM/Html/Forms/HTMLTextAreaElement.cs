@@ -17,7 +17,6 @@
         public HTMLTextAreaElement()
             : base(Tags.Textarea, NodeFlags.LineTolerance)
         {
-            WillValidate = true;
         }
 
         #endregion
@@ -99,15 +98,6 @@
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
             ConstructDataSet(dataSet, Type);
-        }
-
-        /// <summary>
-        /// Checks the form control for validity.
-        /// </summary>
-        /// <param name="state">The element's validity state tracker.</param>
-        protected override void Check(ValidityState state)
-        {
-            //TODO
         }
 
         internal override FormControlState SaveControlState()

@@ -185,6 +185,21 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Checks the form control for validity.
+        /// </summary>
+        /// <param name="state">The element's validity state tracker.</param>
+        protected override void Check(ValidityState state)
+        {
+            var value = Value ?? String.Empty;
+
+            if (IsRequired && value == String.Empty)
+                state.IsValueMissing = true;
+
+            if (value.Length > MaxLength)
+                state.IsTooLong = true;
+        }
+
         protected void ConstructDataSet(FormDataSet dataSet, String type)
         {
             dataSet.Append(Name, Value, type);

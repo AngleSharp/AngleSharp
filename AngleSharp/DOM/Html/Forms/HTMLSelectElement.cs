@@ -26,7 +26,6 @@
             : base(Tags.Select)
         {
             _options = new OptionsCollection(this);
-            WillValidate = true;
         }
 
         #endregion

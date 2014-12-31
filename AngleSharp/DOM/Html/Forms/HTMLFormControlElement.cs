@@ -95,8 +95,7 @@
         /// </summary>
         public Boolean WillValidate
         {
-            get;
-            protected set;
+            get { return true; }
         }
 
         /// <summary>
@@ -117,6 +116,7 @@
         /// <returns>True.</returns>
         public Boolean CheckValidity()
         {
+            _vstate.Reset();
             Check(_vstate);
             return _vstate.IsValid;
         }
@@ -129,7 +129,7 @@
         public void SetCustomValidity(String error)
         {
             _vstate.IsCustomError = !String.IsNullOrEmpty(error);
-            this._error = error;
+            _error = error;
         }
 
         #endregion
