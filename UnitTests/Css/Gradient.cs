@@ -156,6 +156,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
             Assert.AreEqual(Color.FromRgb(0, 255, 255), stops[0].Color);
@@ -178,6 +180,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(470f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(new Length(47f, Length.Unit.Px), gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
             Assert.AreEqual(Color.FromRgb(0xFF, 0xFF, 0x80), stops[0].Color);
@@ -200,6 +204,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(new Length(45f, Length.Unit.Px), gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromRgb(255, 0, 0), stops[0].Color);
@@ -221,6 +227,10 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(60f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(Length.Half, gradient.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            Assert.AreEqual(new Length(16f, Length.Unit.Px), gradient.Width);
+            Assert.AreEqual(new Length(16f, Length.Unit.Px), gradient.Height);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(4, stops.Length);
             Assert.AreEqual(Color.FromRgb(0, 0, 0), stops[0].Color);
@@ -244,6 +254,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(Length.Half, gradient.X);
             Assert.AreEqual(Length.Half, gradient.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -265,6 +277,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(Length.Half, gradient.X);
             Assert.AreEqual(Length.Half, gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -286,6 +300,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(Length.Half, gradient.X);
             Assert.AreEqual(Length.Half, gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -307,6 +323,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(Length.Half, gradient.X);
             Assert.AreEqual(Length.Half, gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.FarthestCorner, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(2, stops.Length);
             Assert.AreEqual(Color.FromName("yellow").Value, stops[0].Color);
@@ -328,6 +346,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
             Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
@@ -350,6 +370,10 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
+            Assert.AreEqual(false, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.None, gradient.Mode);
+            Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.Width);
+            Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Height);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
             Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
@@ -372,6 +396,8 @@
             var gradient = image as RadialGradient;
             Assert.AreEqual(new Length(20f, Length.Unit.Px), gradient.X);
             Assert.AreEqual(new Length(30f, Length.Unit.Px), gradient.Y);
+            Assert.AreEqual(true, gradient.IsCircle);
+            Assert.AreEqual(RadialGradient.SizeMode.ClosestSide, gradient.Mode);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(3, stops.Length);
             Assert.AreEqual(Color.FromName("red").Value, stops[0].Color);
