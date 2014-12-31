@@ -41,6 +41,11 @@
         /// </summary>
         public static readonly Length Thick = new Length(5f, Unit.Px);
 
+        /// <summary>
+        /// Gets the missing value.
+        /// </summary>
+        public static readonly Length Missing = new Length(-1f, Unit.Ch);
+
         #endregion
 
         #region Fields

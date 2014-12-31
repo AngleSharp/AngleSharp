@@ -19,14 +19,20 @@
         public static GradientStop[] ToGradientStops(CssValueList values, Int32 offset)
         {
             var stops = new GradientStop[values.Length - offset];
-            var perStop = 100f / (values.Length - 1 - offset);
 
             if (stops.Length < 2)
                 return null;
 
             for (int i = offset, k = 0; i < values.Length; i++, k++)
             {
-                var stop = ToGradientStop(values[i], new Length(perStop * k, Length.Unit.Percent));
+                var location = Length.Missing;
+
+                if (k == 0)
+                    location = Length.Zero;
+                else if (k == stops.Length - 1)
+                    location = Length.Full;
+
+                var stop = ToGradientStop(values[i], location);
 
                 if (stop == null)
                     return null;
