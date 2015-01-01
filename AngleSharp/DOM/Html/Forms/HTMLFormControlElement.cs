@@ -103,7 +103,11 @@
         /// </summary>
         public IValidityState Validity
         {
-            get { return _vstate; }
+            get
+            {
+                Check(_vstate);
+                return _vstate;
+            }
         }
 
         #endregion
@@ -116,13 +120,7 @@
         /// <returns>True.</returns>
         public Boolean CheckValidity()
         {
-            if (WillValidate)
-            {
-                Check(_vstate);
-                return _vstate.IsValid;
-            }
-
-            return false;
+            return WillValidate && Validity.IsValid;
         }
 
         /// <summary>
