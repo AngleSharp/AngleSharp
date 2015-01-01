@@ -10,7 +10,6 @@
     using System.Threading.Tasks;
     using System.Text.RegularExpressions;
 
-
     /// <summary>
     /// Represents an HTML input element.
     /// </summary>
@@ -21,6 +20,8 @@
         Task<IImageInfo> _imageTask;
         Boolean? _checked;
         FileList _files;
+
+        static readonly Regex email = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
 
         #endregion
 
@@ -740,16 +741,10 @@
             base.Check(state);
             var value = Value ?? String.Empty;
             var type = Type.ToEnum(InputType.Text);
-
-            if (!String.IsNullOrEmpty(Pattern))
-            {
-                try
-                {
-                    var regex = new Regex(Pattern, RegexOptions.ECMAScript);
-                    state.IsPatternMismatch = regex.IsMatch(value) == false;
-                }
-                catch { }
-            }
+            state.IsPatternMismatch = IsInvalidPattern(Pattern, value);
+            state.IsRangeOverflow = false;
+            state.IsRangeUnderflow = false;
+            state.IsTypeMismatch = false;
 
             switch (type)
             {
@@ -780,9 +775,38 @@
                     }
                     break;
                 case InputType.Email:
-                    //TODO
+                    state.IsTypeMismatch = email.IsMatch(value) == false;
+                    break;
+                case InputType.Url:
+                    state.IsTypeMismatch = IsInvalidUrl(value);
                     break;
             }
+        }
+
+        static Boolean IsInvalidPattern(String pattern, String value)
+        {
+            if (!String.IsNullOrEmpty(pattern))
+            {
+                try
+                {
+                    var regex = new Regex(pattern, RegexOptions.ECMAScript);
+                    return regex.IsMatch(value) == false;
+                }
+                catch { }
+            }
+
+            return false;
+        }
+
+        static Boolean IsInvalidUrl(String value)
+        {
+            if (!String.IsNullOrEmpty(value))
+            {
+                var url = new Url(value);
+                return url.IsInvalid || url.IsRelative;
+            }
+
+            return false;
         }
 
         #endregion

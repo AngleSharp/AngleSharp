@@ -36,6 +36,12 @@
         Boolean IsTooLong { get; }
 
         /// <summary>
+        /// Gets if the value is below the specified minlength.
+        /// </summary>
+        [DomName("tooShort")]
+        Boolean IsTooShort { get; }
+
+        /// <summary>
         /// Gets if the value is less than the minimum specified by the min attribute.
         /// </summary>
         [DomName("rangeUnderflow")]

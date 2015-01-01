@@ -95,7 +95,7 @@
         /// </summary>
         public Boolean WillValidate
         {
-            get { return true; }
+            get { return !IsDisabled && (this is IHtmlObjectElement == false); }
         }
 
         /// <summary>
@@ -116,8 +116,9 @@
         /// <returns>True.</returns>
         public Boolean CheckValidity()
         {
-            _vstate.Reset();
-            Check(_vstate);
+            if (WillValidate)
+                Check(_vstate);
+
             return _vstate.IsValid;
         }
 

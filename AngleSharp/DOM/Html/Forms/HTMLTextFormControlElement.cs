@@ -50,6 +50,17 @@
         }
 
         /// <summary>
+        /// Gets or sets the minlength HTML attribute, indicating
+        /// the minimum number of characters the user can enter.
+        /// This constraint is evaluated only when the value changes.
+        /// </summary>
+        public Int32 MinLength
+        {
+            get { return GetAttribute(AttributeNames.MinLength).ToInteger(0); }
+            set { SetAttribute(AttributeNames.MinLength, value.ToString()); }
+        }
+
+        /// <summary>
         /// Gets or sets the default value of the input field.
         /// </summary>
         public abstract String DefaultValue
@@ -192,12 +203,12 @@
         protected override void Check(ValidityState state)
         {
             var value = Value ?? String.Empty;
-
-            if (IsRequired && value == String.Empty)
-                state.IsValueMissing = true;
-
-            if (value.Length > MaxLength)
-                state.IsTooLong = true;
+            var length = value.Length;
+            var maxlength = MaxLength;
+            var minlength = MinLength;
+            state.IsValueMissing = IsRequired && length == 0;
+            state.IsTooLong = maxlength > -1 && length > maxlength;
+            state.IsTooShort = length < minlength;
         }
 
         protected void ConstructDataSet(FormDataSet dataSet, String type)

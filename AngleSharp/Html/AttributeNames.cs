@@ -518,6 +518,11 @@
         public static readonly String MaxLength = "maxlength";
 
         /// <summary>
+        /// The minlength attribute.
+        /// </summary>
+        public static readonly String MinLength = "minlength";
+
+        /// <summary>
         /// The placeholder attribute.
         /// </summary>
         public static readonly String Placeholder = "placeholder";

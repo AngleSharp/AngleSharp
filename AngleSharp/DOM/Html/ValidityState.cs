@@ -64,6 +64,15 @@
         }
 
         /// <summary>
+        /// Gets if the input is too short.
+        /// </summary>
+        public Boolean IsTooShort
+        {
+            get { return _err.HasFlag(ErrorType.TooShort); }
+            set { Set(IsTooShort, value, ErrorType.TooShort); }
+        }
+
+        /// <summary>
         /// Gets if the range is too small.
         /// </summary>
         public Boolean IsRangeUnderflow
@@ -129,15 +138,16 @@
         [Flags]
         enum ErrorType
         {
-            None,
-            ValueMissing,
-            TypeMismatch,
-            PatternMismatch,
-            TooLong,
-            RangeUnderflow,
-            RangeOverflow,
-            StepMismatch,
-            Custom
+            None = 0,
+            ValueMissing = 0x0001,
+            TypeMismatch = 0x0002,
+            PatternMismatch = 0x0004,
+            TooLong = 0x0008,
+            TooShort = 0x0010,
+            RangeUnderflow = 0x0020,
+            RangeOverflow = 0x0040,
+            StepMismatch = 0x0080,
+            Custom = 0x0100
         }
 
         #endregion
