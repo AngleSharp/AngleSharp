@@ -130,6 +130,7 @@
             creators.Add(Tags.Output, () => new HTMLOutputElement());
             creators.Add(Tags.Map, () => new HTMLMapElement());
             creators.Add(Tags.Datalist, () => new HTMLDataListElement());
+            creators.Add(Tags.Keygen, () => new HTMLKeygenElement());
         }
 
         protected override HTMLElement CreateDefault(String name, Document document)
