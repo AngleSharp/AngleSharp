@@ -11,7 +11,6 @@
     {
         #region Fields
 
-        String _value;
         SelectionType _direction;
         Int32 _start;
         Int32 _end;
@@ -74,8 +73,8 @@
         /// </summary>
         public String Value
         {
-            get { return _value ?? DefaultValue; }
-            set { _value = value; }
+            get { return GetAttribute(AttributeNames.Value) ?? DefaultValue; }
+            set { SetAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -249,7 +248,7 @@
         /// </summary>
         internal override void Reset()
         {
-            _value = null;
+            Value = null;
             Select(Int32.MaxValue, Int32.MaxValue);
         }
 
