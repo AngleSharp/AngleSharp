@@ -116,9 +116,7 @@
                 for (int i = 0; i < _options.Length; i++)
                 {
                     var option = _options.GetOptionAt(i);
-
-                    if (option.IsSelected)
-                        option.IsSelected = option.Value == value;
+                    option.IsSelected = option.Value == value;
                 }
             }
         }
