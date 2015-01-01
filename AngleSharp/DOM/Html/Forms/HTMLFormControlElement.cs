@@ -116,9 +116,7 @@
         /// <returns>True.</returns>
         public Boolean CheckValidity()
         {
-            if (WillValidate)
-                Check(_vstate);
-
+            Check(_vstate);
             return _vstate.IsValid;
         }
 

@@ -198,7 +198,7 @@
         {
             foreach (var element in _elements)
             {
-                if (!element.CheckValidity())
+                if (element.WillValidate && !element.CheckValidity())
                     return false;
             }
 

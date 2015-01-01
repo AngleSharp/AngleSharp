@@ -3,6 +3,7 @@
     using AngleSharp.DOM.Collections;
     using AngleSharp.Html;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents the HTML fieldset element.
@@ -37,6 +38,28 @@
         public IHtmlFormControlsCollection Elements
         {
             get { return new HtmlFormControlsCollection(this); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            RegisterAttributeHandler(AttributeNames.Disabled, value =>
+            {
+                if (value != null)
+                {
+                    var firstLegend = Children.FirstOrDefault(m => m is HTMLLegendElement);
+
+                    foreach (var element in Elements.OfType<HTMLFormControlElement>())
+                    {
+                        if (element.ParentElement != firstLegend)
+                            element.IsDisabled = true;
+                    }
+                }
+            });
         }
 
         #endregion
