@@ -390,7 +390,7 @@ namespace UnitTests
 
             Assert.IsFalse(element.IsDisabled);
             Assert.IsFalse(element.IsDraggable);
-            Assert.AreEqual("post", element.FormMethod);
+            Assert.AreEqual(String.Empty, element.FormMethod);
 
             element.IsDisabled = true;
             element.IsDraggable = true;

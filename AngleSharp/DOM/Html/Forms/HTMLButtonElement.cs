@@ -64,7 +64,7 @@
         /// </summary>
         public String FormMethod
         {
-            get { if (Form == null) return "post"; return Form.Method; }
+            get { if (Form == null) return String.Empty; return Form.Method; }
             set { if (Form != null) Form.Method = value; }
         }
 

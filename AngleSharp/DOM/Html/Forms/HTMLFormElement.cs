@@ -139,7 +139,7 @@
         /// </summary>
         public String Method
         {
-            get { return GetAttribute(AttributeNames.Method) ?? "post"; }
+            get { return GetAttribute(AttributeNames.Method) ?? String.Empty; }
             set { SetAttribute(AttributeNames.Method, value); }
         }
 
