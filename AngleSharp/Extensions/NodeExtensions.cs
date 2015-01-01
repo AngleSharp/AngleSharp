@@ -117,6 +117,16 @@
         }
 
         /// <summary>
+        /// Checks if any parent is an HTML datalist element..
+        /// </summary>
+        /// <param name="child">The node to use as starting point.</param>
+        /// <returns>True if a datalist element is among the ancestors, otherwise false.</returns>
+        public static Boolean HasDataListAncestor(this INode child)
+        {
+            return child.Ancestors<IHtmlDataListElement>().Any();
+        }
+
+        /// <summary>
         /// Checks if the current node is a sibling of the specified element.
         /// </summary>
         /// <param name="node">The maybe sibling.</param>
