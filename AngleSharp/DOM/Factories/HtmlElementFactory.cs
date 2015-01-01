@@ -129,6 +129,7 @@
             creators.Add(Tags.Progress, () => new HTMLProgressElement());
             creators.Add(Tags.Output, () => new HTMLOutputElement());
             creators.Add(Tags.Map, () => new HTMLMapElement());
+            creators.Add(Tags.Datalist, () => new HTMLDataListElement());
         }
 
         protected override HTMLElement CreateDefault(String name, Document document)
