@@ -211,6 +211,11 @@
             state.IsTooShort = length < minlength;
         }
 
+        protected override Boolean CanBeValidated()
+        {
+            return IsReadOnly == false && this.HasDataListAncestor() == false;
+        }
+
         protected void ConstructDataSet(FormDataSet dataSet, String type)
         {
             dataSet.Append(Name, Value, type);

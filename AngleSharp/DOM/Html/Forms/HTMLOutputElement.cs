@@ -87,7 +87,7 @@
 
         protected override Boolean CanBeValidated()
         {
-            return false;
+            return true;
         }
 
         /// <summary>

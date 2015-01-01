@@ -243,7 +243,7 @@
 
         protected override Boolean CanBeValidated()
         {
-            return true;
+            return this.HasDataListAncestor() == false;
         }
 
         /// <summary>

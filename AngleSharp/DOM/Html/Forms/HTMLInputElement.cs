@@ -785,7 +785,17 @@
 
         protected override Boolean CanBeValidated()
         {
-            return true;
+            var type = Type.ToEnum(InputType.Text);
+
+            switch (type)
+            {
+                case InputType.Reset:
+                case InputType.Button:
+                case InputType.Hidden:
+                    return false;
+                default:
+                    return base.CanBeValidated();
+            }
         }
 
         static Boolean IsInvalidPattern(String pattern, String value)
