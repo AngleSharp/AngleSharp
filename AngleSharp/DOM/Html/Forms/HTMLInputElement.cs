@@ -751,23 +751,27 @@
                 case InputType.Range:
                 case InputType.Number:
                     var num = ValueAsNumber;
-                    state.IsTypeMismatch = Double.IsNaN(num);
+                    var isnan = Double.IsNaN(num);
+                    state.IsValueMissing = IsRequired && isnan;
 
-                    if (state.IsTypeMismatch == false)
+                    if (!isnan)
                     {
                         var range = IsBetween(num);
                         state.IsRangeOverflow = range == 1;
                         state.IsRangeUnderflow = range == -1;
                     }
                     break;
+                case InputType.Checkbox:
+                    state.IsValueMissing = IsRequired && IsChecked == false;
+                    break;
                 case InputType.Date:
                 case InputType.Datetime:
                 case InputType.Week:
                 case InputType.Month:
                     var date = ValueAsDate;
-                    state.IsTypeMismatch = date.HasValue == false;
+                    state.IsValueMissing = IsRequired && date.HasValue == false;
 
-                    if (state.IsTypeMismatch == false)
+                    if (date.HasValue)
                     {
                         var range = IsBetween(date.Value);
                         state.IsRangeOverflow = range == 1;
