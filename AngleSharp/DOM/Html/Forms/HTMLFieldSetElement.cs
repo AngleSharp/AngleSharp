@@ -44,6 +44,11 @@
 
         #region Methods
 
+        protected override Boolean CanBeValidated()
+        {
+            return true;
+        }
+
         internal override void Close()
         {
             base.Close();

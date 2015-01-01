@@ -783,6 +783,11 @@
             }
         }
 
+        protected override Boolean CanBeValidated()
+        {
+            return true;
+        }
+
         static Boolean IsInvalidPattern(String pattern, String value)
         {
             if (!String.IsNullOrEmpty(pattern))

@@ -111,10 +111,15 @@
                 Value = state.Value;
         }
 
+        protected override Boolean CanBeValidated()
+        {
+            return true;
+        }
+
         #endregion
 
         #region Enumeration
-        
+
         /// <summary>
         /// An enumeration with possible wrap types.
         /// </summary>

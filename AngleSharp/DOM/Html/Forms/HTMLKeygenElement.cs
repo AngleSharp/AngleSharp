@@ -63,6 +63,11 @@
                 Challenge = state.Value;
         }
 
+        protected override Boolean CanBeValidated()
+        {
+            return true;
+        }
+
         #endregion
 
         #region Enumeration

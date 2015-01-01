@@ -125,6 +125,11 @@
 
         #region Methods
 
+        protected override Boolean CanBeValidated()
+        {
+            return false;
+        }
+
         internal override void Close()
         {
             base.Close();

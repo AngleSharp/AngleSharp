@@ -85,6 +85,11 @@
 
         #region Helpers
 
+        protected override Boolean CanBeValidated()
+        {
+            return false;
+        }
+
         /// <summary>
         /// Resets the form control to its initial value.
         /// </summary>

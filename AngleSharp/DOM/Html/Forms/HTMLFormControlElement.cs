@@ -95,7 +95,7 @@
         /// </summary>
         public Boolean WillValidate
         {
-            get { return !IsDisabled && (this is IHtmlObjectElement == false); }
+            get { return !IsDisabled && CanBeValidated(); }
         }
 
         /// <summary>
@@ -116,8 +116,13 @@
         /// <returns>True.</returns>
         public Boolean CheckValidity()
         {
-            Check(_vstate);
-            return _vstate.IsValid;
+            if (WillValidate)
+            {
+                Check(_vstate);
+                return _vstate.IsValid;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -155,6 +160,8 @@
         /// <param name="state">The element's validity state tracker.</param>
         protected virtual void Check(ValidityState state)
         { }
+
+        protected abstract Boolean CanBeValidated();
 
         #endregion
     }

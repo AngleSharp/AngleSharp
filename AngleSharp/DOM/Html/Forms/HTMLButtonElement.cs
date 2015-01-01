@@ -123,6 +123,11 @@
 
         #region Helper
 
+        protected override Boolean CanBeValidated()
+        {
+            return Type.ToEnum(ButtonType.Submit) == ButtonType.Submit && this.HasDataListAncestor() == false;
+        }
+
         /// <summary>
         /// Constucts the data set (called from a form).
         /// </summary>

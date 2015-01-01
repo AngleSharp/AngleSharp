@@ -241,6 +241,11 @@
             Value = GetAttribute(AttributeNames.Value);
         }
 
+        protected override Boolean CanBeValidated()
+        {
+            return true;
+        }
+
         /// <summary>
         /// Resets the form control to its initial value.
         /// </summary>
