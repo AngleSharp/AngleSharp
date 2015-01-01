@@ -42,6 +42,12 @@
         Boolean IsTooShort { get; }
 
         /// <summary>
+        /// Gets if the value is regarded is invalid input.
+        /// </summary>
+        [DomName("badInput")]
+        Boolean IsBadInput { get; }
+
+        /// <summary>
         /// Gets if the value is less than the minimum specified by the min attribute.
         /// </summary>
         [DomName("rangeUnderflow")]

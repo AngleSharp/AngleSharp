@@ -28,7 +28,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets if a required value is missing.
+        /// Gets or sets if a required value is missing.
         /// </summary>
         public Boolean IsValueMissing
         {
@@ -37,7 +37,7 @@
         }
 
         /// <summary>
-        /// Gets if the given type is wrong.
+        /// Gets or sets if the given type is wrong.
         /// </summary>
         public Boolean IsTypeMismatch
         {
@@ -46,7 +46,7 @@
         }
 
         /// <summary>
-        /// Gets if the input does not match a given pattern.
+        /// Gets or sets if the input does not match a given pattern.
         /// </summary>
         public Boolean IsPatternMismatch
         {
@@ -55,7 +55,16 @@
         }
 
         /// <summary>
-        /// Gets if the input is too long.
+        /// Gets or sets if the input is regarded as invalid.
+        /// </summary>
+        public Boolean IsBadInput
+        {
+            get { return _err.HasFlag(ErrorType.BadInput); }
+            set { Set(IsBadInput, value, ErrorType.BadInput); }
+        }
+
+        /// <summary>
+        /// Gets or sets if the input is too long.
         /// </summary>
         public Boolean IsTooLong
         {
@@ -64,7 +73,7 @@
         }
 
         /// <summary>
-        /// Gets if the input is too short.
+        /// Gets or sets if the input is too short.
         /// </summary>
         public Boolean IsTooShort
         {
@@ -73,7 +82,7 @@
         }
 
         /// <summary>
-        /// Gets if the range is too small.
+        /// Gets or sets if the range is too small.
         /// </summary>
         public Boolean IsRangeUnderflow
         {
@@ -82,7 +91,7 @@
         }
 
         /// <summary>
-        /// Gets if the range is too big.
+        /// Gets or sets if the range is too big.
         /// </summary>
         public Boolean IsRangeOverflow
         {
@@ -91,7 +100,7 @@
         }
 
         /// <summary>
-        /// Gets if the new value is invalid.
+        /// Gets or sets if the new value is invalid.
         /// </summary>
         public Boolean IsStepMismatch
         {
@@ -147,7 +156,8 @@
             RangeUnderflow = 0x0020,
             RangeOverflow = 0x0040,
             StepMismatch = 0x0080,
-            Custom = 0x0100
+            BadInput = 0x0100,
+            Custom = 0x0200
         }
 
         #endregion
