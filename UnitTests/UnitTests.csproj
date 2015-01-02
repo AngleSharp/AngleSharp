@@ -94,6 +94,8 @@
     <Compile Include="Css\CssMediaFeatures.cs" />
     <Compile Include="Html\Validation.cs" />
     <Compile Include="Html\ValidityPatternMismatch.cs" />
+    <Compile Include="Html\ValidityTooLong.cs" />
+    <Compile Include="Html\ValidityTooShort.cs" />
     <Compile Include="Html\ValidityValueMissing.cs" />
     <Compile Include="Html\WillValidate.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
