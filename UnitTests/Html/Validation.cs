@@ -79,5 +79,109 @@ namespace UnitTests.Html
             input.Type = "url";
             Assert.IsFalse(form.CheckValidity());
         }
+
+        [Test]
+        public void TestCustomErrorInput1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.SetCustomValidity("My custom error");
+            Assert.AreEqual(true, element.Validity.IsCustomError);
+            Assert.AreEqual("My custom error", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorInput2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.SetCustomValidity("");
+            Assert.AreEqual(false, element.Validity.IsCustomError);
+            Assert.AreEqual("", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorButton1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("button") as HTMLButtonElement;
+            Assert.IsNotNull(element);
+            element.SetCustomValidity("My custom error");
+            Assert.AreEqual(true, element.Validity.IsCustomError);
+            Assert.AreEqual("My custom error", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorButton2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("button") as HTMLButtonElement;
+            Assert.IsNotNull(element);
+            element.SetCustomValidity("");
+            Assert.AreEqual(false, element.Validity.IsCustomError);
+            Assert.AreEqual("", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorSelect1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("select") as HTMLSelectElement;
+            Assert.IsNotNull(element);
+            var option1 = document.CreateElement<IHtmlOptionElement>();
+            option1.Text = "test1";
+            option1.Value = "";
+            var option2 = document.CreateElement<IHtmlOptionElement>();
+            option2.Text = "test1";
+            option2.Value = "1";
+            element.AddOption(option1);
+            element.AddOption(option2);
+            element.SetCustomValidity("My custom error");
+            Assert.AreEqual(true, element.Validity.IsCustomError);
+            Assert.AreEqual("My custom error", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorSelect2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("select") as HTMLSelectElement;
+            Assert.IsNotNull(element);
+            var option1 = document.CreateElement<IHtmlOptionElement>();
+            option1.Text = "test1";
+            option1.Value = "";
+            var option2 = document.CreateElement<IHtmlOptionElement>();
+            option2.Text = "test1";
+            option2.Value = "1";
+            element.AddOption(option1);
+            element.AddOption(option2);
+            element.SetCustomValidity("");
+            Assert.AreEqual(false, element.Validity.IsCustomError);
+            Assert.AreEqual("", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorTextarea1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("textarea") as HTMLTextAreaElement;
+            Assert.IsNotNull(element);
+            element.SetCustomValidity("My custom error");
+            Assert.AreEqual(true, element.Validity.IsCustomError);
+            Assert.AreEqual("My custom error", element.ValidationMessage);
+        }
+
+        [Test]
+        public void TestCustomErrorTextarea2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("textarea") as HTMLTextAreaElement;
+            Assert.IsNotNull(element);
+            element.SetCustomValidity("");
+            Assert.AreEqual(false, element.Validity.IsCustomError);
+            Assert.AreEqual("", element.ValidationMessage);
+        }
     }
 }
