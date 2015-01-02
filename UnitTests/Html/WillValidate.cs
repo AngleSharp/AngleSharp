@@ -1,7 +1,6 @@
 using AngleSharp;
 using AngleSharp.DOM.Html;
 using NUnit.Framework;
-using System;
 
 namespace UnitTests.Html
 {

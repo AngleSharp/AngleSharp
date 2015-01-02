@@ -1,11 +1,14 @@
 using AngleSharp;
 using AngleSharp.DOM.Html;
 using NUnit.Framework;
-using System;
 
 namespace UnitTests.Html
 {
-	[TestFixture]
+    /// <summary>
+    /// Tests generated according to the W3C-Test.org page:
+    /// http://www.w3c-test.org/html/semantics/forms/constraints/form-validation-validity-tooLong.html
+    /// </summary>
+    [TestFixture]
 	public class ValidityTooLongTests
 	{
 		[Test]
