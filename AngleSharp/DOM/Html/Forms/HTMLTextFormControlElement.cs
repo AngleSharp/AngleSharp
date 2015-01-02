@@ -11,6 +11,7 @@
     {
         #region Fields
 
+        Boolean _dirty;
         String _value;
         SelectionType _direction;
         Int32 _start;
@@ -28,6 +29,15 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets if the value has been modified.
+        /// </summary>
+        public Boolean IsDirty
+        {
+            get { return _dirty; }
+            set { _dirty = value; }
+        }
 
         /// <summary>
         /// Gets or sets the dirname HTML attribute.
@@ -207,8 +217,8 @@
             var maxlength = MaxLength;
             var minlength = MinLength;
             state.IsValueMissing = IsRequired && length == 0;
-            state.IsTooLong = maxlength > -1 && length > maxlength;
-            state.IsTooShort = length < minlength;
+            state.IsTooLong = _dirty && maxlength > -1 && length > maxlength;
+            state.IsTooShort = _dirty && length > 0 && length < minlength;
         }
 
         protected override Boolean CanBeValidated()
