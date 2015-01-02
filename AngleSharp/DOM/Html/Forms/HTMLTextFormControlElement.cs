@@ -11,6 +11,7 @@
     {
         #region Fields
 
+        String _value;
         SelectionType _direction;
         Int32 _start;
         Int32 _end;
@@ -73,8 +74,8 @@
         /// </summary>
         public String Value
         {
-            get { return GetAttribute(AttributeNames.Value) ?? DefaultValue; }
-            set { SetAttribute(AttributeNames.Value, value); }
+            get { return _value ?? DefaultValue; }
+            set { _value = value; }
         }
 
         /// <summary>
