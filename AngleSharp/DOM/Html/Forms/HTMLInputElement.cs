@@ -769,48 +769,59 @@
                     {
                         state.IsValueMissing = IsRequired;
                         state.IsBadInput = !String.IsNullOrEmpty(value);
-                        EvaluateDate(state, ValueAsDate);
                     }
+                    else
+                        EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Date:
                     if (date.IsMatch(value) == false)
                     {
                         state.IsValueMissing = IsRequired;
                         state.IsBadInput = !String.IsNullOrEmpty(value);
-                        EvaluateDate(state, ValueAsDate);
                     }
+                    else
+                        EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Datetime:
                     if (datetime.IsMatch(value) == false)
                     {
                         state.IsValueMissing = IsRequired;
                         state.IsBadInput = !String.IsNullOrEmpty(value);
-                        EvaluateDate(state, ValueAsDate);
                     }
+                    else
+                        EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Week:
                     if (week.IsMatch(value) == false)
                     {
                         state.IsValueMissing = IsRequired;
                         state.IsBadInput = !String.IsNullOrEmpty(value);
-                        EvaluateDate(state, ValueAsDate);
                     }
+                    else
+                        EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Month:
                     if (month.IsMatch(value) == false)
                     {
                         state.IsValueMissing = IsRequired;
                         state.IsBadInput = !String.IsNullOrEmpty(value);
-                        EvaluateDate(state, ValueAsDate);
                     }
+                    else
+                        EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Email:
-                    state.IsTypeMismatch = !String.IsNullOrEmpty(value) && IsInvalidEmail(IsMultiple, value);
-                    state.IsBadInput = state.IsTypeMismatch;
+                    if (IsInvalidEmail(IsMultiple, value))
+                    {
+                        state.IsTypeMismatch = !String.IsNullOrEmpty(value);
+                        state.IsBadInput = state.IsTypeMismatch;
+                    }
                     break;
                 case InputType.Url:
-                    state.IsTypeMismatch = !String.IsNullOrEmpty(value) && IsInvalidUrl(value);
-                    state.IsBadInput = state.IsTypeMismatch;
+                    if (IsInvalidUrl(value))
+                    {
+                        state.IsTypeMismatch = !String.IsNullOrEmpty(value);
+                        state.IsBadInput = state.IsTypeMismatch;
+                    }
                     break;
                 case InputType.Color:
                     state.IsBadInput = color.IsMatch(value) == false;
