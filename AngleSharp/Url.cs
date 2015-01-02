@@ -602,6 +602,7 @@
                 _query = String.Empty;
                 _path = String.Empty;
                 _fragment = String.Empty;
+                return false;
             }
 
             return true;
