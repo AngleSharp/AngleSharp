@@ -785,10 +785,10 @@
                     EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Email:
-                    state.IsTypeMismatch = email.IsMatch(value) == false;
+                    state.IsTypeMismatch = !String.IsNullOrEmpty(value) && IsInvalidEmail(IsMultiple, value);
                     break;
                 case InputType.Url:
-                    state.IsTypeMismatch = IsInvalidUrl(value);
+                    state.IsTypeMismatch = !String.IsNullOrEmpty(value) && IsInvalidUrl(value);
                     break;
                 case InputType.Color:
                     state.IsValueMissing = IsRequired && color.IsMatch(value) == false;
@@ -829,6 +829,24 @@
                 default:
                     return base.CanBeValidated();
             }
+        }
+
+        static Boolean IsInvalidEmail(Boolean multiple, String value)
+        {
+            if (multiple)
+            {
+                var mails = value.Split(',');
+
+                foreach (var mail in mails)
+                {
+                    if (email.IsMatch(mail.Trim()) == false)
+                        return true;
+                }
+
+                return false;
+            }
+
+            return email.IsMatch(value.Trim()) == false;
         }
 
         static Boolean IsInvalidPattern(String pattern, String value)
