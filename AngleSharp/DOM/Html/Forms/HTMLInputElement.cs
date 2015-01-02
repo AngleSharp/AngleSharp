@@ -22,6 +22,13 @@
         FileList _files;
 
         static readonly Regex email = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
+        static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
+        static readonly Regex time = new Regex("^([01][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9](\\.[0-9]{1,3})?)?$");
+        static readonly Regex week = new Regex("^\\d{4,}\\-W([0][1-9]|[1-4][0-9]|[5][0-3])$");
+        static readonly Regex month = new Regex("^\\d{4,}\\-(0[1-9]|1[0-2])$");
+        static readonly Regex date = new Regex("^\\d{4,}\\-(0[1-9]|1[0-2])\\-([0][1-9]|[12][0-9]|[3][01])$");
+        static readonly Regex datetime = new Regex("^\\d{4,}\\-(0[1-9]|1[0-2])\\-([0][1-9]|[12][0-9]|[3][01])[T ]([01][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9](\\.[0-9]{1,3})?)?(Z|[\\-\\+][0-2][0-9]:[0-5][0-9])$");
+        static readonly Regex color = new Regex("^\\#[0-9A-Fa-f]{6}$");
 
         #endregion
 
@@ -750,33 +757,32 @@
             {
                 case InputType.Range:
                 case InputType.Number:
-                    var num = ValueAsNumber;
-                    var isnan = Double.IsNaN(num);
-                    state.IsValueMissing = IsRequired && isnan;
-
-                    if (!isnan)
-                    {
-                        var range = IsBetween(num);
-                        state.IsRangeOverflow = range == 1;
-                        state.IsRangeUnderflow = range == -1;
-                    }
+                    state.IsValueMissing = IsRequired && number.IsMatch(value) == false;
+                    EvaluateNumber(state, ValueAsNumber);
                     break;
+                case InputType.Radio:
                 case InputType.Checkbox:
                     state.IsValueMissing = IsRequired && IsChecked == false;
                     break;
+                case InputType.Time:
+                    state.IsValueMissing = IsRequired && time.IsMatch(value) == false;
+                    EvaluateDate(state, ValueAsDate);
+                    break;
                 case InputType.Date:
+                    state.IsValueMissing = IsRequired && date.IsMatch(value) == false;
+                    EvaluateDate(state, ValueAsDate);
+                    break;
                 case InputType.Datetime:
+                    state.IsValueMissing = IsRequired && datetime.IsMatch(value) == false;
+                    EvaluateDate(state, ValueAsDate);
+                    break;
                 case InputType.Week:
+                    state.IsValueMissing = IsRequired && week.IsMatch(value) == false;
+                    EvaluateDate(state, ValueAsDate);
+                    break;
                 case InputType.Month:
-                    var date = ValueAsDate;
-                    state.IsValueMissing = IsRequired && date.HasValue == false;
-
-                    if (date.HasValue)
-                    {
-                        var range = IsBetween(date.Value);
-                        state.IsRangeOverflow = range == 1;
-                        state.IsRangeUnderflow = range == -1;
-                    }
+                    state.IsValueMissing = IsRequired && month.IsMatch(value) == false;
+                    EvaluateDate(state, ValueAsDate);
                     break;
                 case InputType.Email:
                     state.IsTypeMismatch = email.IsMatch(value) == false;
@@ -784,6 +790,29 @@
                 case InputType.Url:
                     state.IsTypeMismatch = IsInvalidUrl(value);
                     break;
+                case InputType.Color:
+                    state.IsValueMissing = IsRequired && color.IsMatch(value) == false;
+                    break;
+            }
+        }
+
+        void EvaluateNumber(ValidityState state, Double num)
+        {
+            if (!Double.IsNaN(num))
+            {
+                var range = IsBetween(num);
+                state.IsRangeOverflow = range == 1;
+                state.IsRangeUnderflow = range == -1;
+            }
+        }
+
+        void EvaluateDate(ValidityState state, DateTime? date)
+        {
+            if (date.HasValue)
+            {
+                var range = IsBetween(date.Value);
+                state.IsRangeOverflow = range == 1;
+                state.IsRangeUnderflow = range == -1;
             }
         }
 
