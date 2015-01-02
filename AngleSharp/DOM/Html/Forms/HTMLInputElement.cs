@@ -23,11 +23,6 @@
 
         static readonly Regex email = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
         static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
-        static readonly Regex time = new Regex("^([01][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9](\\.[0-9]{1,3})?)?$");
-        static readonly Regex week = new Regex("^\\d{4,}\\-W([0][1-9]|[1-4][0-9]|[5][0-3])$");
-        static readonly Regex month = new Regex("^\\d{4,}\\-(0[1-9]|1[0-2])$");
-        static readonly Regex date = new Regex("^\\d{4,}\\-(0[1-9]|1[0-2])\\-([0][1-9]|[12][0-9]|[3][01])$");
-        static readonly Regex datetime = new Regex("^\\d{4,}\\-(0[1-9]|1[0-2])\\-([0][1-9]|[12][0-9]|[3][01])[T ]([01][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9](\\.[0-9]{1,3})?)?(Z|[\\-\\+][0-2][0-9]:[0-5][0-9])$");
         static readonly Regex color = new Regex("^\\#[0-9A-Fa-f]{6}$");
 
         #endregion
@@ -661,7 +656,7 @@
                             for (int i = 0; i > n; i--)
                                 date = date.Subtract(t);
 
-                            if (IsBetween(date) == 0)
+                            if (IsBetween(date))
                             {
                                 ValueAsDate = date;
                                 return;
@@ -680,7 +675,7 @@
                         {
                             t = ValueAsNumber + t * n;
 
-                            if (IsBetween(t) == 0)
+                            if (IsBetween(t))
                             {
                                 ValueAsNumber = t;
                                 return;
@@ -700,16 +695,16 @@
         /// </summary>
         /// <param name="value">The value to check for the range-constraint.</param>
         /// <returns>True if the value is between min, max otherwise false.</returns>
-        Int32 IsBetween(Double value)
+        Boolean IsBetween(Double value)
         {
             var t = 0.0;
 
             if (Minimum != null && Double.TryParse(Minimum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t > value)
-                return -1;
+                return false;
             else if (Maximum != null && Double.TryParse(Maximum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t < value)
-                return 1;
+                return false;
 
-            return 0;
+            return true;
         }
 
         /// <summary>
@@ -717,16 +712,16 @@
         /// </summary>
         /// <param name="value">The value to check for the range-constraint.</param>
         /// <returns>True if the value is between min, max otherwise false.</returns>
-        Int32 IsBetween(DateTime value)
+        Boolean IsBetween(DateTime value)
         {
             var t = DateTime.Now;
 
             if (Minimum != null && DateTime.TryParse(Minimum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t > value)
-                return -1;
+                return false;
             else if (Maximum != null && DateTime.TryParse(Maximum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t < value)
-                return 1;
+                return false;
 
-            return 0;
+            return true;
         }
 
         /// <summary>
@@ -757,57 +752,26 @@
             {
                 case InputType.Range:
                 case InputType.Number:
-                    state.IsValueMissing = IsRequired && number.IsMatch(value) == false;
-                    EvaluateNumber(state, ValueAsNumber);
+                    EvaluateNumber(state, value, ConvertFromNumber);
                     break;
                 case InputType.Radio:
                 case InputType.Checkbox:
                     state.IsValueMissing = IsRequired && IsChecked == false;
                     break;
                 case InputType.Time:
-                    if (time.IsMatch(value) == false)
-                    {
-                        state.IsValueMissing = IsRequired;
-                        state.IsBadInput = !String.IsNullOrEmpty(value);
-                    }
-                    else
-                        EvaluateDate(state, ValueAsDate);
+                    EvaluateDate(state, value, ConvertFromTime);
                     break;
                 case InputType.Date:
-                    if (date.IsMatch(value) == false)
-                    {
-                        state.IsValueMissing = IsRequired;
-                        state.IsBadInput = !String.IsNullOrEmpty(value);
-                    }
-                    else
-                        EvaluateDate(state, ValueAsDate);
+                    EvaluateDate(state, value, ConvertFromDate);
                     break;
                 case InputType.Datetime:
-                    if (datetime.IsMatch(value) == false)
-                    {
-                        state.IsValueMissing = IsRequired;
-                        state.IsBadInput = !String.IsNullOrEmpty(value);
-                    }
-                    else
-                        EvaluateDate(state, ValueAsDate);
+                    EvaluateDate(state, value, ConvertFromDateTime);
                     break;
                 case InputType.Week:
-                    if (week.IsMatch(value) == false)
-                    {
-                        state.IsValueMissing = IsRequired;
-                        state.IsBadInput = !String.IsNullOrEmpty(value);
-                    }
-                    else
-                        EvaluateDate(state, ValueAsDate);
+                    EvaluateDate(state, value, ConvertFromWeek);
                     break;
                 case InputType.Month:
-                    if (month.IsMatch(value) == false)
-                    {
-                        state.IsValueMissing = IsRequired;
-                        state.IsBadInput = !String.IsNullOrEmpty(value);
-                    }
-                    else
-                        EvaluateDate(state, ValueAsDate);
+                    EvaluateDate(state, value, ConvertFromMonth);
                     break;
                 case InputType.Email:
                     if (IsInvalidEmail(IsMultiple, value))
@@ -830,23 +794,46 @@
             }
         }
 
-        void EvaluateNumber(ValidityState state, Double num)
+        void EvaluateNumber(ValidityState state, String value, Func<String, Double?> converter)
         {
-            if (!Double.IsNaN(num))
+            var num = converter(value);
+
+            if (num.HasValue)
             {
-                var range = IsBetween(num);
-                state.IsRangeOverflow = range == 1;
-                state.IsRangeUnderflow = range == -1;
+                var min = converter(Minimum);
+                var max = converter(Maximum);
+
+                if (min.HasValue)
+                    state.IsRangeUnderflow = num < min.Value;
+                
+                if (max.HasValue)
+                    state.IsRangeOverflow = num > max.Value;
+            }
+            else
+            {
+                state.IsValueMissing = IsRequired;
             }
         }
 
-        void EvaluateDate(ValidityState state, DateTime? date)
+        void EvaluateDate(ValidityState state, String value, Func<String, DateTime?> converter)
         {
+            var date = converter(value);
+
             if (date.HasValue)
             {
-                var range = IsBetween(date.Value);
-                state.IsRangeOverflow = range == 1;
-                state.IsRangeUnderflow = range == -1;
+                var min = converter(Minimum);
+                var max = converter(Maximum);
+
+                if (min.HasValue)
+                    state.IsRangeUnderflow = date < min.Value;
+                
+                if (max.HasValue)
+                    state.IsRangeOverflow = date > max.Value;
+            }
+            else
+            {
+                state.IsValueMissing = IsRequired;
+                state.IsBadInput = !String.IsNullOrEmpty(value);
             }
         }
 
@@ -907,6 +894,290 @@
             }
 
             return false;
+        }
+
+        static Double? ConvertFromNumber(String value)
+        {
+            if (!String.IsNullOrEmpty(value) && number.IsMatch(value))
+                return Double.Parse(value);
+
+            return null;
+        }
+        
+        static DateTime? ConvertFromWeek(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var week = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 || 
+                position != value.Length - 4 || 
+                value[position + 0] != Specification.Minus || 
+                value[position + 1] != 'W' || 
+                value[position + 2].IsDigit() == false || 
+                value[position + 3].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            week = Int32.Parse(value.Substring(position + 2)) - 1;
+
+            if (year < 0 || year > 9999)
+                return null;
+
+            var endOfYear = new DateTime(year, 12, 31);
+            var cal = CultureInfo.InvariantCulture.Calendar;
+            var numOfWeeks = cal.GetWeekOfYear(endOfYear, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            if (week < 0 || week >= numOfWeeks)
+                return null;
+
+            var startOfYear = new DateTime(year, 1, 1);
+            var day = cal.GetDayOfWeek(startOfYear);
+
+            if (day == DayOfWeek.Sunday)
+                startOfYear = startOfYear.AddDays(1);
+            else if (day > DayOfWeek.Monday)
+                startOfYear = startOfYear.AddDays(8 - (Int32)day);
+
+            return startOfYear.AddDays(7 * week);
+        }
+
+        static DateTime? ConvertFromMonth(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var month = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 ||
+                position != value.Length - 3 ||
+                value[position + 0] != Specification.Minus ||
+                value[position + 1].IsDigit() == false ||
+                value[position + 2].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            month = Int32.Parse(value.Substring(position + 1));
+
+            if (year < 0 || year > 9999 || month < 1 || month > 12)
+                return null;
+
+            return new DateTime(year, month, 1);
+        }
+
+        static DateTime? ConvertFromDate(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var month = 0;
+            var day = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 ||
+                position != value.Length - 6 ||
+                value[position + 0] != Specification.Minus ||
+                value[position + 1].IsDigit() == false ||
+                value[position + 2].IsDigit() == false ||
+                value[position + 3] != Specification.Minus ||
+                value[position + 4].IsDigit() == false ||
+                value[position + 5].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            month = Int32.Parse(value.Substring(position + 1, 2));
+            day = Int32.Parse(value.Substring(position + 4, 2));
+            var cal = CultureInfo.InvariantCulture.Calendar;
+
+            if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month))
+                return null;
+
+            return new DateTime(year, month, day);
+        }
+
+        static TimeSpan? ConvertFromTime(String value, ref Int32 position)
+        {
+            var offset = position;
+            var hour = 0;
+            var minute = 0;
+            var second = 0;
+            var ms = 0;
+
+            if (value.Length < 5 + offset || value[position++].IsDigit() == false || value[position++].IsDigit() == false || value[position++] != Specification.Colon)
+                return null;
+
+            hour = Int32.Parse(value.Substring(offset, 2));
+
+            if (hour < 0 || hour > 23)
+                return null;
+
+            if (value[position++].IsDigit() == false || value[position++].IsDigit() == false)
+                return null;
+
+            minute = Int32.Parse(value.Substring(3 + offset, 2));
+
+            if (minute < 0 || minute > 59)
+                return null;
+
+            if (value.Length >= 8 + offset && value[position] == Specification.Colon)
+            {
+                position++;
+
+                if (value[position++].IsDigit() == false || value[position++].IsDigit() == false)
+                    return null;
+
+                second = Int32.Parse(value.Substring(6 + offset, 2));
+
+                if (second < 0 || second > 59)
+                    return null;
+
+                if (position + 1 < value.Length && value[position] == Specification.Dot)
+                {
+                    position++;
+                    var start = position;
+
+                    while (position < value.Length)
+                    {
+                        if (value[position].IsDigit())
+                            position++;
+                        else
+                            break;
+                    }
+
+                    var fraction = value.Substring(start, position - start);
+                    ms = Int32.Parse(fraction) * (Int32)Math.Pow(10, 3 - fraction.Length);
+                }
+            }
+
+            return new TimeSpan(0, hour, minute, second, ms);
+        }
+
+        static DateTime? ConvertFromTime(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var ts = ConvertFromTime(value, ref position);
+
+            if (ts == null || position != value.Length)
+                return null;
+
+            return new DateTime().Add(ts.Value);
+        }
+
+        static DateTime? ConvertFromDateTime(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var month = 0;
+            var day = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 ||
+                position > value.Length - 13 ||
+                value[position + 0] != Specification.Minus ||
+                value[position + 1].IsDigit() == false ||
+                value[position + 2].IsDigit() == false ||
+                value[position + 3] != Specification.Minus ||
+                value[position + 4].IsDigit() == false ||
+                value[position + 5].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            month = Int32.Parse(value.Substring(position + 1, 2));
+            day = Int32.Parse(value.Substring(position + 4, 2));
+            position += 6;
+            var cal = CultureInfo.InvariantCulture.Calendar;
+            var requireOffset = value[position] == ' ';
+
+            if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month) || (requireOffset == false && value[position] != 'T'))
+                return null;
+
+            position++;
+            var ts = ConvertFromTime(value, ref position);
+            var dt = new DateTime(year, month, day);
+
+            if (ts == null)
+                return null;
+
+            dt = dt.Add(ts.Value);
+
+            if (position == value.Length)
+            {
+                if (requireOffset)
+                    return null;
+
+                return dt;
+            }
+
+            if (value[position] != 'Z')
+            {
+                if (position + 6 != value.Length ||
+                    value[position + 1].IsDigit() == false ||
+                    value[position + 2].IsDigit() == false ||
+                    value[position + 3] != Specification.Colon ||
+                    value[position + 4].IsDigit() == false ||
+                    value[position + 5].IsDigit() == false)
+                    return null;
+
+                var hours = Int32.Parse(value.Substring(position + 1, 2));
+                var minutes = Int32.Parse(value.Substring(position + 4, 2));
+                var offset = new TimeSpan(hours, minutes, 0);
+
+                if (value[position] == '+')
+                    dt = dt.Add(offset);
+                else if (value[position] == '-')
+                    dt = dt.Subtract(offset);
+                else
+                    return null;
+            }
+            else if (position + 1 != value.Length)
+                return null;
+            else
+                dt = dt.ToUniversalTime();
+
+            return dt;
         }
 
         #endregion
