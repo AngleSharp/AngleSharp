@@ -833,7 +833,7 @@
 
         static Boolean IsInvalidPattern(String pattern, String value)
         {
-            if (!String.IsNullOrEmpty(pattern))
+            if (!String.IsNullOrEmpty(pattern) && !String.IsNullOrEmpty(value))
             {
                 try
                 {
