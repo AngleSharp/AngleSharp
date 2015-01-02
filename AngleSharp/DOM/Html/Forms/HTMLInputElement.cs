@@ -3,12 +3,12 @@
     using AngleSharp.DOM.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Services.Media;
     using AngleSharp.Network;
+    using AngleSharp.Services.Media;
     using System;
     using System.Globalization;
-    using System.Threading.Tasks;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -104,12 +104,8 @@
         {
             get 
             {
-                var date = DateTime.Now;
-
-                if (DateTime.TryParse(Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
-                    return date;
-
-                return null;
+                var converter = GetDateConverter(Type.ToEnum(InputType.Text));
+                return converter(Value);
             }
             set { Value = value.HasValue ? value.Value.ToString(CultureInfo.InvariantCulture) : null; }
         }
@@ -122,15 +118,8 @@
         {
             get 
             {
-                var date = ValueAsDate;
-                var test = 0.0;
-
-                if (date.HasValue)
-                    Value = date.Value.ToBinary().ToString();
-                else if (Double.TryParse(Value, NumberStyles.Any, CultureInfo.InvariantCulture, out test))
-                    return test;
-
-                return Double.NaN;
+                var converter = GetNumberConverter(Type.ToEnum(InputType.Text));
+                return converter(Value) ?? Double.NaN;
             }
             set { Value = value.ToString(CultureInfo.InvariantCulture); }
         }
@@ -451,7 +440,82 @@
                     _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
                     _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
                 }
-            }      
+            }
+        }
+
+        Double GetStep(InputType type)
+        {
+            var step = Step;
+
+            if (String.IsNullOrEmpty(step))
+                return GetDefaultStep(type) * GetStepScaleFactor(type);
+            else if (step.Equals(Keywords.Any, StringComparison.OrdinalIgnoreCase))
+                return 0.0;
+
+            var num = ConvertFromNumber(step);
+
+            if (num.HasValue == false || num <= 0.0)
+                return GetDefaultStep(type) * GetStepScaleFactor(type);
+
+            return num.Value * GetStepScaleFactor(type);
+        }
+
+        Double GetStepBase(InputType type)
+        {
+            var converter = GetNumberConverter(type);
+            var num = converter(Minimum);
+
+            if (num.HasValue)
+                return num.Value;
+
+            num = converter(Value);
+
+            if (num.HasValue)
+                return num.Value;
+
+            switch (type)
+            {
+                case InputType.Month:
+                case InputType.Time:
+                case InputType.Datetime:
+                case InputType.Date:
+                case InputType.Week:
+                    break;
+            }
+
+            return 0.0;
+        }
+
+        Double GetDefaultStep(InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Datetime:
+                case InputType.Time:
+                    return 60.0;
+                case InputType.Month:
+                case InputType.Date:
+                case InputType.Week:
+                default:
+                    return 1.0;
+            }
+        }
+
+        Double GetStepScaleFactor(InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Datetime:
+                case InputType.Time:
+                    return 1000.0;
+                case InputType.Date:
+                    return 86400000.0;
+                case InputType.Week:
+                    return 604800000;
+                case InputType.Month:
+                default:
+                    return 1.0;
+            }
         }
 
         #endregion
@@ -752,26 +816,26 @@
             {
                 case InputType.Range:
                 case InputType.Number:
-                    EvaluateNumber(state, value, ConvertFromNumber);
+                    EvaluateNumber(state, value, type);
                     break;
                 case InputType.Radio:
                 case InputType.Checkbox:
                     state.IsValueMissing = IsRequired && IsChecked == false;
                     break;
                 case InputType.Time:
-                    EvaluateDate(state, value, ConvertFromTime);
+                    EvaluateDate(state, value, type);
                     break;
                 case InputType.Date:
-                    EvaluateDate(state, value, ConvertFromDate);
+                    EvaluateDate(state, value, type);
                     break;
                 case InputType.Datetime:
-                    EvaluateDate(state, value, ConvertFromDateTime);
+                    EvaluateDate(state, value, type);
                     break;
                 case InputType.Week:
-                    EvaluateDate(state, value, ConvertFromWeek);
+                    EvaluateDate(state, value, type);
                     break;
                 case InputType.Month:
-                    EvaluateDate(state, value, ConvertFromMonth);
+                    EvaluateDate(state, value, type);
                     break;
                 case InputType.Email:
                     if (IsInvalidEmail(IsMultiple, value))
@@ -794,12 +858,14 @@
             }
         }
 
-        void EvaluateNumber(ValidityState state, String value, Func<String, Double?> converter)
+        void EvaluateNumber(ValidityState state, String value, InputType type)
         {
+            var converter = GetNumberConverter(type);
             var num = converter(value);
 
             if (num.HasValue)
             {
+                var step = GetStep(type);
                 var min = converter(Minimum);
                 var max = converter(Maximum);
 
@@ -808,6 +874,8 @@
                 
                 if (max.HasValue)
                     state.IsRangeOverflow = num > max.Value;
+
+                state.IsStepMismatch = step != 0.0 && GetStepBase(type) % step != 0.0;
             }
             else
             {
@@ -815,12 +883,14 @@
             }
         }
 
-        void EvaluateDate(ValidityState state, String value, Func<String, DateTime?> converter)
+        void EvaluateDate(ValidityState state, String value, InputType type)
         {
+            var converter = GetDateConverter(type);
             var date = converter(value);
 
             if (date.HasValue)
             {
+                var step = GetStep(type);
                 var min = converter(Minimum);
                 var max = converter(Maximum);
 
@@ -829,6 +899,8 @@
                 
                 if (max.HasValue)
                     state.IsRangeOverflow = date > max.Value;
+
+                state.IsStepMismatch = step != 0.0 && GetStepBase(type) % step != 0.0;
             }
             else
             {
@@ -1178,6 +1250,84 @@
                 dt = dt.ToUniversalTime();
 
             return dt;
+        }
+
+        static Func<String, Double?> GetNumberConverter(InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Month:
+                    return value =>
+                    {
+                        var dt = ConvertFromMonth(value);
+
+                        if (dt.HasValue)
+                            return dt.Value.Month - 1;
+
+                        return null;
+                    };
+                case InputType.Time:
+                    return value =>
+                    {
+                        var dt = ConvertFromTime(value);
+
+                        if (dt.HasValue)
+                            return dt.Value.Subtract(new DateTime()).TotalMilliseconds;
+
+                        return null;
+                    };
+                case InputType.Datetime:
+                    return value =>
+                    {
+                        var dt = ConvertFromDateTime(value);
+
+                        if (dt.HasValue)
+                            return dt.Value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+
+                        return null;
+                    };
+                case InputType.Date:
+                    return value =>
+                    {
+                        var dt = ConvertFromDate(value);
+
+                        if (dt.HasValue)
+                            return dt.Value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0).AddDays(-1)).TotalMilliseconds;
+
+                        return null;
+                    };
+                case InputType.Week:
+                    return value =>
+                    {
+                        var dt = ConvertFromWeek(value);
+
+                        if (dt.HasValue)
+                            return dt.Value.Subtract(new DateTime(1970, 1, 5, 0, 0, 0)).TotalMilliseconds;
+
+                        return null;
+                    };
+                default:
+                    return ConvertFromNumber;
+            }
+        }
+
+        static Func<String, DateTime?> GetDateConverter(InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Month:
+                    return ConvertFromMonth;
+                case InputType.Time:
+                    return ConvertFromTime;
+                case InputType.Datetime:
+                    return ConvertFromDateTime;
+                case InputType.Date:
+                    return ConvertFromDate;
+                case InputType.Week:
+                    return ConvertFromWeek;
+                default:
+                    return ConvertFromDateTime;
+            }
         }
 
         #endregion

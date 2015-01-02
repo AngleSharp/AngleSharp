@@ -1301,5 +1301,10 @@
         /// The hover keyword.
         /// </summary>
         public static readonly String Hover = "hover";
+
+        /// <summary>
+        /// The any keyword.
+        /// </summary>
+        public static readonly String Any = "any";
     }
 }
