@@ -96,6 +96,7 @@
     <Compile Include="Html\ValidityPatternMismatch.cs" />
     <Compile Include="Html\ValidityRangeOverflow.cs" />
     <Compile Include="Html\ValidityRangeUnderflow.cs" />
+    <Compile Include="Html\ValidityStepMismatch.cs" />
     <Compile Include="Html\ValidityTooLong.cs" />
     <Compile Include="Html\ValidityTooShort.cs" />
     <Compile Include="Html\ValidityValueMissing.cs" />
