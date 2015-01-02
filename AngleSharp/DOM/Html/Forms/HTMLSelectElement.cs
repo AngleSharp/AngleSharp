@@ -263,7 +263,7 @@
         protected override void Check(ValidityState state)
         {
             var value = Value;
-            state.IsValueMissing = IsRequired && value == null;
+            state.IsValueMissing = IsRequired && String.IsNullOrEmpty(value);
         }
 
         #endregion
