@@ -318,7 +318,7 @@
 
             if (parentNode == null)
                 throw new DomException(ErrorCode.NotSupported);
-            else if (child.Parent != parent)
+            else if (child == null || child.Parent != parent)
                 throw new DomException(ErrorCode.NotFound);
 
             parentNode.RemoveChild(child as Node, false);
