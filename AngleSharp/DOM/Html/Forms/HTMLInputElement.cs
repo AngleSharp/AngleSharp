@@ -70,7 +70,7 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
+            get { return _type.Name; }
             set { SetAttribute(AttributeNames.Type, value); }
         }
 
