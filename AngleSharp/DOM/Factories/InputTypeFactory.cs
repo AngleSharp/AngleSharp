@@ -41,7 +41,7 @@
         /// Returns a InputType provider for the element.
         /// </summary>
         /// <param name="type">The type of the input element.</param>
-        /// <returns>The InputType provider or null, if the type is unknown.</returns>
+        /// <returns>The InputType provider or text, if the type is unknown.</returns>
         public static BaseInputType Create(String type)
         {
             BaseInputType instance;
@@ -49,7 +49,7 @@
             if (values.TryGetValue(type, out instance))
                 return instance;
 
-            return null;
+            return values[Keywords.Text];
         }
     }
 }
