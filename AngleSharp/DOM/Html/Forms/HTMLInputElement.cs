@@ -3,11 +3,10 @@
     using AngleSharp.DOM.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Html.InputTypes;
     using AngleSharp.Services.Media;
     using System;
     using System.Globalization;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -18,13 +17,9 @@
         #region Fields
 
         readonly FileList _files;
-
+        BaseInputType _type;
         Task<IImageInfo> _imageTask;
         Boolean? _checked;
-
-        static readonly Regex email = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
-        static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
-        static readonly Regex color = new Regex("^\\#[0-9A-Fa-f]{6}$");
 
         #endregion
 
@@ -103,11 +98,7 @@
         /// </summary>
         public DateTime? ValueAsDate
         {
-            get 
-            {
-                var converter = GetDateConverter(Type.ToEnum(InputType.Text));
-                return converter(Value);
-            }
+            get { return _type.ConvertToDate(Value); }
             set { Value = value.HasValue ? value.Value.ToString(CultureInfo.InvariantCulture) : null; }
         }
 
@@ -117,11 +108,7 @@
         /// </summary>
         public Double ValueAsNumber
         {
-            get 
-            {
-                var converter = GetNumberConverter(Type.ToEnum(InputType.Text));
-                return converter(Value) ?? Double.NaN;
-            }
+            get { return _type.ConvertToNumber(Value) ?? Double.NaN; }
             set { Value = value.ToString(CultureInfo.InvariantCulture); }
         }
 
@@ -402,7 +389,7 @@
         /// <param name="n">Optional: The number of steps to take.</param>
         public void StepUp(Int32 n = 1)
         {
-            DoStep(n);
+            _type.DoStep(this, n);
         }
 
         /// <summary>
@@ -411,7 +398,7 @@
         /// <param name="n">Optional: The number of steps to take.</param>
         public void StepDown(Int32 n = 1)
         {
-            DoStep(-n);
+            _type.DoStep(this, -n);
         }
 
         #endregion
@@ -429,93 +416,28 @@
 
         internal override void Close()
         {
-            var type = Type.ToEnum(InputType.Text);
-
-            if (type == InputType.Image)
-            {
-                var src = Source;
-
-                if (src != null)
-                {
-                    var url = this.HyperRef(src);
-                    _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
-                    _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
-                }
-            }
+            base.Close();
+            RegisterAttributeHandler(AttributeNames.Type, value => UpdateType(value));
+            UpdateType(GetAttribute(AttributeNames.Type));
         }
 
-        Double GetStep(InputType type)
+        void UpdateType(String type)
         {
-            var step = Step;
+            _type = InputTypeFactory.Create(type ?? Keywords.Text);
 
-            if (String.IsNullOrEmpty(step))
-                return GetDefaultStep(type) * GetStepScaleFactor(type);
-            else if (step.Equals(Keywords.Any, StringComparison.OrdinalIgnoreCase))
-                return 0.0;
-
-            var num = ConvertFromNumber(step);
-
-            if (num.HasValue == false || num <= 0.0)
-                return GetDefaultStep(type) * GetStepScaleFactor(type);
-
-            return num.Value * GetStepScaleFactor(type);
-        }
-
-        Double GetStepBase(InputType type)
-        {
-            var converter = GetNumberConverter(type);
-            var num = converter(Minimum);
-
-            if (num.HasValue)
-                return num.Value;
-
-            num = converter(Value);
-
-            if (num.HasValue)
-                return num.Value;
-
-            switch (type)
+            switch (type.ToEnum(InputType.Text))
             {
-                case InputType.Month:
-                case InputType.Time:
-                case InputType.Datetime:
-                case InputType.Date:
-                case InputType.Week:
+                case InputType.Image:
+                    var src = Source;
+
+                    if (src != null)
+                    {
+                        var url = this.HyperRef(src);
+                        _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
+                        _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
+                    }
+
                     break;
-            }
-
-            return 0.0;
-        }
-
-        Double GetDefaultStep(InputType type)
-        {
-            switch (type)
-            {
-                case InputType.Datetime:
-                case InputType.Time:
-                    return 60.0;
-                case InputType.Month:
-                case InputType.Date:
-                case InputType.Week:
-                default:
-                    return 1.0;
-            }
-        }
-
-        Double GetStepScaleFactor(InputType type)
-        {
-            switch (type)
-            {
-                case InputType.Datetime:
-                case InputType.Time:
-                    return 1000.0;
-                case InputType.Date:
-                    return 86400000.0;
-                case InputType.Week:
-                    return 604800000;
-                case InputType.Month:
-                default:
-                    return 1.0;
             }
         }
 
@@ -629,164 +551,7 @@
         /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            var type = Type.ToEnum(InputType.Text);
-
-            switch (type)
-            {
-                case InputType.Radio:
-                case InputType.Checkbox:
-                {
-                    if (IsChecked)
-                    {
-                        var value = Keywords.On;
-
-                        if (!String.IsNullOrEmpty(Value))
-                            value = Value;
-
-                        dataSet.Append(Name, value, Type);
-                    }
-
-                    break;
-                }
-                case InputType.Image:
-                {
-                    if (!String.IsNullOrEmpty(Name))
-                    {
-                        var name = String.Empty;
-
-                        if (!String.IsNullOrEmpty(Value))
-                            name = Value + ".";
-
-                        var namex = name + "x";
-                        var namey = name + "y";
-
-                        //TODO get x and y of submitter and save those
-                        dataSet.Append(namex, "0", Type);
-                        dataSet.Append(namey, "0", Type);
-                    }
-
-                    break;
-                }
-                case InputType.File:
-                {
-                    if(_files.Count == 0)
-                        dataSet.Append(Name, String.Empty, MimeTypes.Binary);
-
-                    foreach (var file in _files)
-                        dataSet.Append(Name, file, Type);
-
-                    break;
-                }
-                case InputType.Text:
-                case InputType.Search:
-                {
-                    ConstructDataSet(dataSet, Type);
-                    break;
-                }
-                default:
-                {
-                    dataSet.Append(Name, Value, Type);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Takes the given number of steps.
-        /// </summary>
-        /// <param name="n">The number of steps (pos. or neg.) to take.</param>
-        void DoStep(Int32 n)
-        {
-            var type = Type.ToEnum(InputType.Text);
-            var step = Step;
-
-            if (step != null)
-            {
-                switch (type)
-                {
-                    case InputType.Date:
-                    case InputType.Datetime:
-                    case InputType.Week:
-                    case InputType.Time:
-                    {
-                        var t = TimeSpan.Zero;
-
-                        if (ValueAsDate.HasValue && TimeSpan.TryParse(step, CultureInfo.InvariantCulture, out t))
-                        {
-                            var date = ValueAsDate.Value;
-
-                            for (int i = 0; i < n; i++)
-                                date = date.Add(t);
-
-                            for (int i = 0; i > n; i--)
-                                date = date.Subtract(t);
-
-                            if (IsBetween(date))
-                            {
-                                ValueAsDate = date;
-                                return;
-                            }
-                        }
-
-                        break;
-                    }
-
-                    case InputType.Range:
-                    case InputType.Number:
-                    {
-                        var t = 0.0;
-
-                        if (!Double.IsNaN(ValueAsNumber) && Double.TryParse(step, NumberStyles.Any, CultureInfo.InvariantCulture, out t))
-                        {
-                            t = ValueAsNumber + t * n;
-
-                            if (IsBetween(t))
-                            {
-                                ValueAsNumber = t;
-                                return;
-                            }
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            throw new DomException(ErrorCode.InvalidState);
-        }
-
-        /// <summary>
-        /// Checks if the numeric value is between min and max.
-        /// </summary>
-        /// <param name="value">The value to check for the range-constraint.</param>
-        /// <returns>True if the value is between min, max otherwise false.</returns>
-        Boolean IsBetween(Double value)
-        {
-            var t = 0.0;
-
-            if (Minimum != null && Double.TryParse(Minimum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t > value)
-                return false;
-            else if (Maximum != null && Double.TryParse(Maximum, NumberStyles.Any, CultureInfo.InvariantCulture, out t) && t < value)
-                return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Checks if the date value is between min and max.
-        /// </summary>
-        /// <param name="value">The value to check for the range-constraint.</param>
-        /// <returns>True if the value is between min, max otherwise false.</returns>
-        Boolean IsBetween(DateTime value)
-        {
-            var t = DateTime.Now;
-
-            if (Minimum != null && DateTime.TryParse(Minimum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t > value)
-                return false;
-            else if (Maximum != null && DateTime.TryParse(Maximum, CultureInfo.InvariantCulture, DateTimeStyles.None, out t) && t < value)
-                return false;
-
-            return true;
+            _type.ConstructDataSet(this, dataSet);
         }
 
         /// <summary>
@@ -806,529 +571,12 @@
         protected override void Check(ValidityState state)
         {
             base.Check(state);
-            var value = Value ?? String.Empty;
-            var type = Type.ToEnum(InputType.Text);
-            state.IsPatternMismatch = IsInvalidPattern(Pattern, value);
-            state.IsRangeOverflow = false;
-            state.IsRangeUnderflow = false;
-            state.IsTypeMismatch = false;
-
-            switch (type)
-            {
-                case InputType.Range:
-                case InputType.Number:
-                    EvaluateNumber(state, value, type);
-                    break;
-                case InputType.Radio:
-                case InputType.Checkbox:
-                    state.IsValueMissing = IsRequired && IsChecked == false;
-                    break;
-                case InputType.Time:
-                    EvaluateDate(state, value, type);
-                    break;
-                case InputType.Date:
-                    EvaluateDate(state, value, type);
-                    break;
-                case InputType.Datetime:
-                    EvaluateDate(state, value, type);
-                    break;
-                case InputType.Week:
-                    EvaluateDate(state, value, type);
-                    break;
-                case InputType.Month:
-                    EvaluateDate(state, value, type);
-                    break;
-                case InputType.Email:
-                    if (IsInvalidEmail(IsMultiple, value))
-                    {
-                        state.IsTypeMismatch = !String.IsNullOrEmpty(value);
-                        state.IsBadInput = state.IsTypeMismatch;
-                    }
-                    break;
-                case InputType.Url:
-                    if (IsInvalidUrl(value))
-                    {
-                        state.IsTypeMismatch = !String.IsNullOrEmpty(value);
-                        state.IsBadInput = state.IsTypeMismatch;
-                    }
-                    break;
-                case InputType.Color:
-                    state.IsBadInput = color.IsMatch(value) == false;
-                    state.IsValueMissing = IsRequired && state.IsBadInput;
-                    break;
-            }
-        }
-
-        void EvaluateNumber(ValidityState state, String value, InputType type)
-        {
-            var converter = GetNumberConverter(type);
-            var num = converter(value);
-
-            if (num.HasValue)
-            {
-                var step = GetStep(type);
-                var min = converter(Minimum);
-                var max = converter(Maximum);
-
-                if (min.HasValue)
-                    state.IsRangeUnderflow = num < min.Value;
-                
-                if (max.HasValue)
-                    state.IsRangeOverflow = num > max.Value;
-
-                state.IsStepMismatch = step != 0.0 && GetStepBase(type) % step != 0.0;
-            }
-            else
-            {
-                state.IsValueMissing = IsRequired;
-            }
-        }
-
-        void EvaluateDate(ValidityState state, String value, InputType type)
-        {
-            var converter = GetDateConverter(type);
-            var date = converter(value);
-
-            if (date.HasValue)
-            {
-                var step = GetStep(type);
-                var min = converter(Minimum);
-                var max = converter(Maximum);
-
-                if (min.HasValue)
-                    state.IsRangeUnderflow = date < min.Value;
-                
-                if (max.HasValue)
-                    state.IsRangeOverflow = date > max.Value;
-
-                state.IsStepMismatch = step != 0.0 && GetStepBase(type) % step != 0.0;
-            }
-            else
-            {
-                state.IsValueMissing = IsRequired;
-                state.IsBadInput = !String.IsNullOrEmpty(value);
-            }
+            _type.Check(this, state);
         }
 
         protected override Boolean CanBeValidated()
         {
-            var type = Type.ToEnum(InputType.Text);
-
-            switch (type)
-            {
-                case InputType.Reset:
-                case InputType.Button:
-                case InputType.Hidden:
-                    return false;
-                default:
-                    return base.CanBeValidated();
-            }
-        }
-
-        static Boolean IsInvalidEmail(Boolean multiple, String value)
-        {
-            if (multiple)
-            {
-                var mails = value.Split(',');
-
-                foreach (var mail in mails)
-                {
-                    if (email.IsMatch(mail.Trim()) == false)
-                        return true;
-                }
-
-                return false;
-            }
-
-            return email.IsMatch(value.Trim()) == false;
-        }
-
-        static Boolean IsInvalidPattern(String pattern, String value)
-        {
-            if (!String.IsNullOrEmpty(pattern) && !String.IsNullOrEmpty(value))
-            {
-                try
-                {
-                    var regex = new Regex(pattern, RegexOptions.ECMAScript);
-                    return regex.IsMatch(value) == false;
-                }
-                catch { }
-            }
-
-            return false;
-        }
-
-        static Boolean IsInvalidUrl(String value)
-        {
-            if (!String.IsNullOrEmpty(value))
-            {
-                var url = new Url(value);
-                return url.IsInvalid || url.IsRelative;
-            }
-
-            return false;
-        }
-
-        static Double? ConvertFromNumber(String value)
-        {
-            if (!String.IsNullOrEmpty(value) && number.IsMatch(value))
-                return Double.Parse(value);
-
-            return null;
-        }
-        
-        static DateTime? ConvertFromWeek(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var week = 0;
-
-            while (position < value.Length)
-            {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
-            }
-
-            if (position < 4 || 
-                position != value.Length - 4 || 
-                value[position + 0] != Specification.Minus || 
-                value[position + 1] != 'W' || 
-                value[position + 2].IsDigit() == false || 
-                value[position + 3].IsDigit() == false)
-                return null;
-
-            year = Int32.Parse(value.Substring(0, position));
-            week = Int32.Parse(value.Substring(position + 2)) - 1;
-
-            if (year < 0 || year > 9999)
-                return null;
-
-            var endOfYear = new DateTime(year, 12, 31);
-            var cal = CultureInfo.InvariantCulture.Calendar;
-            var numOfWeeks = cal.GetWeekOfYear(endOfYear, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            if (week < 0 || week >= numOfWeeks)
-                return null;
-
-            var startOfYear = new DateTime(year, 1, 1);
-            var day = cal.GetDayOfWeek(startOfYear);
-
-            if (day == DayOfWeek.Sunday)
-                startOfYear = startOfYear.AddDays(1);
-            else if (day > DayOfWeek.Monday)
-                startOfYear = startOfYear.AddDays(8 - (Int32)day);
-
-            return startOfYear.AddDays(7 * week);
-        }
-
-        static DateTime? ConvertFromMonth(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var month = 0;
-
-            while (position < value.Length)
-            {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
-            }
-
-            if (position < 4 ||
-                position != value.Length - 3 ||
-                value[position + 0] != Specification.Minus ||
-                value[position + 1].IsDigit() == false ||
-                value[position + 2].IsDigit() == false)
-                return null;
-
-            year = Int32.Parse(value.Substring(0, position));
-            month = Int32.Parse(value.Substring(position + 1));
-
-            if (year < 0 || year > 9999 || month < 1 || month > 12)
-                return null;
-
-            return new DateTime(year, month, 1);
-        }
-
-        static DateTime? ConvertFromDate(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var month = 0;
-            var day = 0;
-
-            while (position < value.Length)
-            {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
-            }
-
-            if (position < 4 ||
-                position != value.Length - 6 ||
-                value[position + 0] != Specification.Minus ||
-                value[position + 1].IsDigit() == false ||
-                value[position + 2].IsDigit() == false ||
-                value[position + 3] != Specification.Minus ||
-                value[position + 4].IsDigit() == false ||
-                value[position + 5].IsDigit() == false)
-                return null;
-
-            year = Int32.Parse(value.Substring(0, position));
-            month = Int32.Parse(value.Substring(position + 1, 2));
-            day = Int32.Parse(value.Substring(position + 4, 2));
-            var cal = CultureInfo.InvariantCulture.Calendar;
-
-            if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month))
-                return null;
-
-            return new DateTime(year, month, day);
-        }
-
-        static TimeSpan? ConvertFromTime(String value, ref Int32 position)
-        {
-            var offset = position;
-            var hour = 0;
-            var minute = 0;
-            var second = 0;
-            var ms = 0;
-
-            if (value.Length < 5 + offset || value[position++].IsDigit() == false || value[position++].IsDigit() == false || value[position++] != Specification.Colon)
-                return null;
-
-            hour = Int32.Parse(value.Substring(offset, 2));
-
-            if (hour < 0 || hour > 23)
-                return null;
-
-            if (value[position++].IsDigit() == false || value[position++].IsDigit() == false)
-                return null;
-
-            minute = Int32.Parse(value.Substring(3 + offset, 2));
-
-            if (minute < 0 || minute > 59)
-                return null;
-
-            if (value.Length >= 8 + offset && value[position] == Specification.Colon)
-            {
-                position++;
-
-                if (value[position++].IsDigit() == false || value[position++].IsDigit() == false)
-                    return null;
-
-                second = Int32.Parse(value.Substring(6 + offset, 2));
-
-                if (second < 0 || second > 59)
-                    return null;
-
-                if (position + 1 < value.Length && value[position] == Specification.Dot)
-                {
-                    position++;
-                    var start = position;
-
-                    while (position < value.Length)
-                    {
-                        if (value[position].IsDigit())
-                            position++;
-                        else
-                            break;
-                    }
-
-                    var fraction = value.Substring(start, position - start);
-                    ms = Int32.Parse(fraction) * (Int32)Math.Pow(10, 3 - fraction.Length);
-                }
-            }
-
-            return new TimeSpan(0, hour, minute, second, ms);
-        }
-
-        static DateTime? ConvertFromTime(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var ts = ConvertFromTime(value, ref position);
-
-            if (ts == null || position != value.Length)
-                return null;
-
-            return new DateTime().Add(ts.Value);
-        }
-
-        static DateTime? ConvertFromDateTime(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var month = 0;
-            var day = 0;
-
-            while (position < value.Length)
-            {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
-            }
-
-            if (position < 4 ||
-                position > value.Length - 13 ||
-                value[position + 0] != Specification.Minus ||
-                value[position + 1].IsDigit() == false ||
-                value[position + 2].IsDigit() == false ||
-                value[position + 3] != Specification.Minus ||
-                value[position + 4].IsDigit() == false ||
-                value[position + 5].IsDigit() == false)
-                return null;
-
-            year = Int32.Parse(value.Substring(0, position));
-            month = Int32.Parse(value.Substring(position + 1, 2));
-            day = Int32.Parse(value.Substring(position + 4, 2));
-            position += 6;
-            var cal = CultureInfo.InvariantCulture.Calendar;
-            var requireOffset = value[position] == ' ';
-
-            if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month) || (requireOffset == false && value[position] != 'T'))
-                return null;
-
-            position++;
-            var ts = ConvertFromTime(value, ref position);
-            var dt = new DateTime(year, month, day);
-
-            if (ts == null)
-                return null;
-
-            dt = dt.Add(ts.Value);
-
-            if (position == value.Length)
-            {
-                if (requireOffset)
-                    return null;
-
-                return dt;
-            }
-
-            if (value[position] != 'Z')
-            {
-                if (position + 6 != value.Length ||
-                    value[position + 1].IsDigit() == false ||
-                    value[position + 2].IsDigit() == false ||
-                    value[position + 3] != Specification.Colon ||
-                    value[position + 4].IsDigit() == false ||
-                    value[position + 5].IsDigit() == false)
-                    return null;
-
-                var hours = Int32.Parse(value.Substring(position + 1, 2));
-                var minutes = Int32.Parse(value.Substring(position + 4, 2));
-                var offset = new TimeSpan(hours, minutes, 0);
-
-                if (value[position] == '+')
-                    dt = dt.Add(offset);
-                else if (value[position] == '-')
-                    dt = dt.Subtract(offset);
-                else
-                    return null;
-            }
-            else if (position + 1 != value.Length)
-                return null;
-            else
-                dt = dt.ToUniversalTime();
-
-            return dt;
-        }
-
-        static Func<String, Double?> GetNumberConverter(InputType type)
-        {
-            switch (type)
-            {
-                case InputType.Month:
-                    return value =>
-                    {
-                        var dt = ConvertFromMonth(value);
-
-                        if (dt.HasValue)
-                            return dt.Value.Month - 1;
-
-                        return null;
-                    };
-                case InputType.Time:
-                    return value =>
-                    {
-                        var dt = ConvertFromTime(value);
-
-                        if (dt.HasValue)
-                            return dt.Value.Subtract(new DateTime()).TotalMilliseconds;
-
-                        return null;
-                    };
-                case InputType.Datetime:
-                    return value =>
-                    {
-                        var dt = ConvertFromDateTime(value);
-
-                        if (dt.HasValue)
-                            return dt.Value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-
-                        return null;
-                    };
-                case InputType.Date:
-                    return value =>
-                    {
-                        var dt = ConvertFromDate(value);
-
-                        if (dt.HasValue)
-                            return dt.Value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0).AddDays(-1)).TotalMilliseconds;
-
-                        return null;
-                    };
-                case InputType.Week:
-                    return value =>
-                    {
-                        var dt = ConvertFromWeek(value);
-
-                        if (dt.HasValue)
-                            return dt.Value.Subtract(new DateTime(1970, 1, 5, 0, 0, 0)).TotalMilliseconds;
-
-                        return null;
-                    };
-                default:
-                    return ConvertFromNumber;
-            }
-        }
-
-        static Func<String, DateTime?> GetDateConverter(InputType type)
-        {
-            switch (type)
-            {
-                case InputType.Month:
-                    return ConvertFromMonth;
-                case InputType.Time:
-                    return ConvertFromTime;
-                case InputType.Datetime:
-                    return ConvertFromDateTime;
-                case InputType.Date:
-                    return ConvertFromDate;
-                case InputType.Week:
-                    return ConvertFromWeek;
-                default:
-                    return ConvertFromDateTime;
-            }
+            return _type.CanBeValidated && base.CanBeValidated();
         }
 
         #endregion
