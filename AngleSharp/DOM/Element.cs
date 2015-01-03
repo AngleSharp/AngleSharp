@@ -393,6 +393,7 @@
             var node = new Element(NodeName, Flags);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
+            node.Close();
             return node;
         }
 

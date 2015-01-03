@@ -33,6 +33,7 @@
             var node = MathElementFactory.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
+            node.Close();
             return node;
         }
 
