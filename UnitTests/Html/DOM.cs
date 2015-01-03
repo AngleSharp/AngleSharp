@@ -546,5 +546,18 @@ namespace UnitTests
             Assert.IsInstanceOf<HTMLTitleElement>(head.LastChild);
             Assert.IsNull(head.LastChild.FirstChild);
         }
+
+        [Test]
+        public void HeadDuplicatedAndInserted()
+        {
+            var document = DocumentBuilder.Html("");
+            var head = document.GetElementsByTagName("head")[0];
+            Assert.AreEqual(head, document.Head);
+            document.DocumentElement.AppendChild(document.CreateElement("head"));
+            Assert.AreEqual(head, document.Head);
+            var head2 = document.CreateElement("head");
+            document.DocumentElement.InsertBefore(head2, head);
+            Assert.AreEqual(head2, document.Head);
+        }
     }
 }
