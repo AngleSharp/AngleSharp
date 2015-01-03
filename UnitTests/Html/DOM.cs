@@ -533,5 +533,18 @@ namespace UnitTests
 
             fs.Dispose();
         }
+
+        [Test]
+        public void TitleRemovalAndAssignment()
+        {
+            var document = DocumentBuilder.Html("<title>sample</title>");
+            var head = document.DocumentElement.FirstChild;
+            head.RemoveChild(head.FirstChild);
+            Assert.AreEqual("", document.Title);
+            document.Title = "";
+            Assert.AreEqual("", document.Title);
+            Assert.IsInstanceOf<HTMLTitleElement>(head.LastChild);
+            Assert.IsNull(head.LastChild.FirstChild);
+        }
     }
 }
