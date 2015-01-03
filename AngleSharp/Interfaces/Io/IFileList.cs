@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a list of files.

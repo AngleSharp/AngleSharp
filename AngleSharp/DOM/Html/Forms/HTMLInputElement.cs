@@ -17,9 +17,10 @@
     {
         #region Fields
 
+        readonly FileList _files;
+
         Task<IImageInfo> _imageTask;
         Boolean? _checked;
-        FileList _files;
 
         static readonly Regex email = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
         static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
@@ -82,9 +83,9 @@
         /// Gets or sets if the state if indeterminate.
         /// </summary>
         public Boolean IsIndeterminate 
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -795,7 +796,7 @@
         {
             base.Reset();
             _checked = null;
-            _files = new FileList();
+            _files.Clear();
         }
 
         /// <summary>
