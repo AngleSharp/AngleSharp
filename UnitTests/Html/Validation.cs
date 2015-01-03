@@ -666,5 +666,1141 @@ namespace UnitTests.Html
             Assert.AreEqual("color", element.Type);
             Assert.AreEqual(true, element.Validity.IsBadInput);
         }
+
+        [Test]
+        public void TestIsvalidInputText1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "text";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("maxLength", "4");
+            element.SetAttribute("value", "abcdef");
+            element.IsDirty = true;
+            Assert.AreEqual("text", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputText2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "text";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("pattern", "[A-Z]");
+            element.SetAttribute("value", "abc");
+            Assert.AreEqual("text", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputText3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "text";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("text", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputSearch1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "search";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("maxLength", "4");
+            element.SetAttribute("value", "abcdef");
+            element.IsDirty = true;
+            Assert.AreEqual("search", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputSearch2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "search";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("pattern", "[A-Z]");
+            element.SetAttribute("value", "abc");
+            Assert.AreEqual("search", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputSearch3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "search";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("search", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTel1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "tel";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("maxLength", "4");
+            element.SetAttribute("value", "abcdef");
+            element.IsDirty = true;
+            Assert.AreEqual("tel", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTel2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "tel";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("pattern", "[A-Z]");
+            element.SetAttribute("value", "abc");
+            Assert.AreEqual("tel", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTel3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "tel";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("tel", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputPassword1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "password";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("maxLength", "4");
+            element.SetAttribute("value", "abcdef");
+            element.IsDirty = true;
+            Assert.AreEqual("password", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputPassword2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "password";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("pattern", "[A-Z]");
+            element.SetAttribute("value", "abc");
+            Assert.AreEqual("password", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputPassword3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "password";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("password", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputUrl1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "url";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("maxLength", "20");
+            element.SetAttribute("value", "http://www.example.com");
+            element.IsDirty = true;
+            Assert.AreEqual("url", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputUrl2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "url";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("pattern", "http://www.example.com");
+            element.SetAttribute("value", "http://www.example.net");
+            Assert.AreEqual("url", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputUrl3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "url";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("value", "abc");
+            Assert.AreEqual("url", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputUrl4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "url";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("url", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputEmail1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "email";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("maxLength", "10");
+            element.SetAttribute("value", "test@example.com");
+            element.IsDirty = true;
+            Assert.AreEqual("email", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputEmail2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "email";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("pattern", "test@example.com");
+            element.SetAttribute("value", "test@example.net");
+            Assert.AreEqual("email", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputEmail3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "email";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("value", "abc");
+            Assert.AreEqual("email", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputEmail4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "email";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("email", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDatetime1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "datetime";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "2000-01-01T12:00:00Z");
+            element.SetAttribute("value", "2001-01-01T12:00:00Z");
+            Assert.AreEqual("datetime", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDatetime2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "datetime";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "2001-01-01T12:00:00Z");
+            element.SetAttribute("value", "2000-01-01T12:00:00Z");
+            Assert.AreEqual("datetime", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDatetime3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "datetime";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("step", "120");
+            element.SetAttribute("value", "2001-01-01T12:03:00Z");
+            Assert.AreEqual("datetime", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDatetime4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "datetime";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("datetime", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDate1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "date";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "2000-01-01");
+            element.SetAttribute("value", "2001-01-01");
+            Assert.AreEqual("date", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDate2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "date";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "2001-01-01");
+            element.SetAttribute("value", "2000-01-01");
+            Assert.AreEqual("date", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDate3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "date";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("step", "3");
+            element.SetAttribute("value", "2000-01-03");
+            Assert.AreEqual("date", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputDate4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "date";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("date", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputMonth1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "month";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "2000-01");
+            element.SetAttribute("value", "2001-01");
+            Assert.AreEqual("month", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputMonth2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "month";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "2001-01");
+            element.SetAttribute("value", "2000-01");
+            Assert.AreEqual("month", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputMonth3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "month";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("step", "3");
+            element.SetAttribute("value", "2001-03");
+            Assert.AreEqual("month", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputMonth4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "month";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("month", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputWeek1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "week";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "2000-W01");
+            element.SetAttribute("value", "2001-W01");
+            Assert.AreEqual("week", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputWeek2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "week";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "2001-W01");
+            element.SetAttribute("value", "2000-W01");
+            Assert.AreEqual("week", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputWeek3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "week";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("step", "2");
+            element.SetAttribute("value", "2001-W03");
+            Assert.AreEqual("week", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputWeek4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "week";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("week", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTime1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "time";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "12:00:00");
+            element.SetAttribute("value", "13:00:00");
+            Assert.AreEqual("time", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTime2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "time";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "12:00:00");
+            element.SetAttribute("value", "11:00:00");
+            Assert.AreEqual("time", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTime3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "time";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("step", "120");
+            element.SetAttribute("value", "12:03:00");
+            Assert.AreEqual("time", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputTime4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "time";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("time", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputNumber1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "5");
+            element.SetAttribute("value", "6");
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputNumber2()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "5");
+            element.SetAttribute("value", "4");
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputNumber3()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("step", "2");
+            element.SetAttribute("value", "3");
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputNumber4()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputCheckbox1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "checkbox";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("checked", null);
+            element.SetAttribute("name", "test1");
+            Assert.AreEqual("checkbox", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputRadio1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "radio";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("checked", null);
+            element.SetAttribute("name", "test1");
+            Assert.AreEqual("radio", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidInputFile1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("input") as HTMLInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "file";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            Assert.AreEqual("file", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidSelect1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("select") as HTMLSelectElement;
+            Assert.IsNotNull(element);
+            var option1 = document.CreateElement<IHtmlOptionElement>();
+            option1.Text = "test1";
+            option1.Value = "";
+            var option2 = document.CreateElement<IHtmlOptionElement>();
+            option2.Text = "test1";
+            option2.Value = "1";
+            element.AddOption(option1);
+            element.AddOption(option2);
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.SetAttribute("value", "");
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
+
+        [Test]
+        public void TestIsvalidTextarea1()
+        {
+            var document = DocumentBuilder.Html("");
+            var element = document.CreateElement("textarea") as HTMLTextAreaElement;
+            Assert.IsNotNull(element);
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.Value = "";
+            Assert.AreEqual(false, element.Validity.IsValid);
+        }
     }
 }
