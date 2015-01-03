@@ -1257,6 +1257,9 @@
     <Compile Include="..\AngleSharp\DOM\Factories\HtmlElementFactory.cs">
       <Link>DOM\Factories\HtmlElementFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Factories\InputTypeFactory.cs">
+      <Link>DOM\Factories\InputTypeFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Factories\MathElementFactory.cs">
       <Link>DOM\Factories\MathElementFactory.cs</Link>
     </Compile>
@@ -1763,6 +1766,57 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\FormDataSet.cs">
       <Link>Html\FormDataSet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\BaseInputType.cs">
+      <Link>Html\InputTypes\BaseInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\ButtonInputType.cs">
+      <Link>Html\InputTypes\ButtonInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\CheckedInputType.cs">
+      <Link>Html\InputTypes\CheckedInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\ColorInputType.cs">
+      <Link>Html\InputTypes\ColorInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\DateInputType.cs">
+      <Link>Html\InputTypes\DateInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\DatetimeInputType.cs">
+      <Link>Html\InputTypes\DatetimeInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\EmailInputType.cs">
+      <Link>Html\InputTypes\EmailInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\FileInputType.cs">
+      <Link>Html\InputTypes\FileInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\ImageInputType.cs">
+      <Link>Html\InputTypes\ImageInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\MonthInputType.cs">
+      <Link>Html\InputTypes\MonthInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\NumberInputType.cs">
+      <Link>Html\InputTypes\NumberInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\PatternInputType.cs">
+      <Link>Html\InputTypes\PatternInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\SubmitInputType.cs">
+      <Link>Html\InputTypes\SubmitInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\TextInputType.cs">
+      <Link>Html\InputTypes\TextInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\TimeInputType.cs">
+      <Link>Html\InputTypes\TimeInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\UrlInputType.cs">
+      <Link>Html\InputTypes\UrlInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
+      <Link>Html\InputTypes\WeekInputType.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
