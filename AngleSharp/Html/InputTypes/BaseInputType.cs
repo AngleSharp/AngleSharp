@@ -14,24 +14,31 @@
         static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
 
         readonly Boolean _validate;
+        readonly String _name;
 
         #endregion
 
         #region ctor
 
-        public BaseInputType()
-            : this(true)
+        public BaseInputType(String name)
+            : this(name, true)
         {
         }
 
-        public BaseInputType(Boolean validate)
+        public BaseInputType(String name, Boolean validate)
         {
             _validate = validate;
+            _name = name;
         }
 
         #endregion
 
         #region Properties
+
+        public String Name
+        {
+            get { return _name; }
+        }
 
         public Boolean CanBeValidated
         {

@@ -9,8 +9,8 @@
     {
         #region ctor
 
-        public FileInputType()
-            : base(validate: true)
+        public FileInputType(String name)
+            : base(name, validate: true)
         {
         }
 

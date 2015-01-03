@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public UrlInputType()
-            : base(validate: true)
+        public UrlInputType(String name)
+            : base(name, validate: true)
         {
         }
 

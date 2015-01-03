@@ -14,8 +14,8 @@
 
         #region ctor
 
-        public EmailInputType()
-            : base(validate: true)
+        public EmailInputType(String name)
+            : base(name, validate: true)
         {
         }
 

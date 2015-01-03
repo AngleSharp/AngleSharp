@@ -5,6 +5,15 @@
 
     class MonthInputType : BaseInputType
     {
+        #region ctor
+
+        public MonthInputType(String name)
+            : base(name, validate: true)
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         public override void Check(IHtmlInputElement input, ValidityState state)

@@ -5,6 +5,15 @@
 
     class WeekInputType : BaseInputType
     {
+        #region ctor
+
+        public WeekInputType(String name)
+            : base(name, validate: true)
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         public override void Check(IHtmlInputElement input, ValidityState state)

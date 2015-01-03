@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public TextInputType()
-            : base(validate: true)
+        public TextInputType(String name)
+            : base(name, validate: true)
         {
         }
 

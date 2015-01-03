@@ -13,28 +13,33 @@
 
         static InputTypeFactory()
         {
-            values.Add("text", new TextInputType());
-            values.Add("date", new DateInputType());
-            values.Add("week", new WeekInputType());
-            values.Add("datetime", new DatetimeInputType());
-            values.Add("time", new TimeInputType());
-            values.Add("month", new MonthInputType());
-            values.Add("range", new NumberInputType());
-            values.Add("number", new NumberInputType());
-            values.Add("hidden", new ButtonInputType());
-            values.Add("search", new TextInputType());
-            values.Add("email", new EmailInputType());
-            values.Add("tel", new PatternInputType());
-            values.Add("url", new UrlInputType());
-            values.Add("password", new PatternInputType());
-            values.Add("color", new ColorInputType());
-            values.Add("checkbox", new CheckedInputType());
-            values.Add("radio", new CheckedInputType());
-            values.Add("file", new FileInputType());
-            values.Add("submit", new SubmitInputType());
-            values.Add("reset", new ButtonInputType());
-            values.Add("image", new ImageInputType());
-            values.Add("button", new ButtonInputType());
+            Add(new TextInputType("text"));
+            Add(new DateInputType("date"));
+            Add(new WeekInputType("week"));
+            Add(new DatetimeInputType("datetime"));
+            Add(new TimeInputType("time"));
+            Add(new MonthInputType("month"));
+            Add(new NumberInputType("range"));
+            Add(new NumberInputType("number"));
+            Add(new ButtonInputType("hidden"));
+            Add(new TextInputType("search"));
+            Add(new EmailInputType("email"));
+            Add(new PatternInputType("tel"));
+            Add(new UrlInputType("url"));
+            Add(new PatternInputType("password"));
+            Add(new ColorInputType("color"));
+            Add(new CheckedInputType("checkbox"));
+            Add(new CheckedInputType("radio"));
+            Add(new FileInputType("file"));
+            Add(new SubmitInputType("submit"));
+            Add(new ButtonInputType("reset"));
+            Add(new ImageInputType("image"));
+            Add(new ButtonInputType("button"));
+        }
+
+        static void Add(BaseInputType value)
+        {
+            values.Add(value.Name, value);
         }
 
         /// <summary>

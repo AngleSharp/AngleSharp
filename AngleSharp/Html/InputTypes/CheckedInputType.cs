@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public CheckedInputType()
-            : base(validate: true)
+        public CheckedInputType(String name)
+            : base(name, validate: true)
         {
         }
 

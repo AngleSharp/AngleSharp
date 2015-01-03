@@ -5,6 +5,15 @@
 
     class DateInputType : BaseInputType
     {
+        #region ctor
+
+        public DateInputType(String name)
+            : base(name, validate: true)
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         public override void Check(IHtmlInputElement input, ValidityState state)

@@ -14,8 +14,8 @@
 
         #region ctor
 
-        public ColorInputType()
-            : base(validate: true)
+        public ColorInputType(String name)
+            : base(name, validate: true)
         {
         }
 

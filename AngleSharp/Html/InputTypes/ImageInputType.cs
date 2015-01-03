@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public ImageInputType()
-            : base(validate: true)
+        public ImageInputType(String name)
+            : base(name, validate: true)
         {
         }
 

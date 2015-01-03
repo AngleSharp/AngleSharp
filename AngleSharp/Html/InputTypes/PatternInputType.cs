@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public PatternInputType()
-            : base(validate: true)
+        public PatternInputType(String name)
+            : base(name, validate: true)
         {
         }
 
