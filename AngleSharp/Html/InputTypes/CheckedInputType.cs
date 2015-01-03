@@ -16,6 +16,11 @@
 
         #region Methods
 
+        public override void Check(IHtmlInputElement input, ValidityState state)
+        {
+            state.IsValueMissing = input.IsRequired && input.IsChecked == false;
+        }
+
         public override void ConstructDataSet(IHtmlInputElement input, FormDataSet dataSet)
         {
             if (input.IsChecked)

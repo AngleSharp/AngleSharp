@@ -11,7 +11,6 @@
         {
             var value = input.Value;
             var date = ConvertFromMonth(value);
-            state.Reset();
 
             if (date.HasValue)
             {
@@ -19,16 +18,17 @@
                 var min = ConvertFromMonth(input.Minimum);
                 var max = ConvertFromMonth(input.Maximum);
 
-                if (min.HasValue)
-                    state.IsRangeUnderflow = date < min.Value;
-
-                if (max.HasValue)
-                    state.IsRangeOverflow = date > max.Value;
-
+                state.IsRangeUnderflow = min.HasValue && date < min.Value;
+                state.IsRangeOverflow = max.HasValue && date > max.Value;
+                state.IsValueMissing = false;
+                state.IsBadInput = false;
                 state.IsStepMismatch = step != 0.0 && GetStepBase(input) % step != 0.0;
             }
             else
             {
+                state.IsRangeUnderflow = false;
+                state.IsRangeOverflow = false;
+                state.IsStepMismatch = false;
                 state.IsValueMissing = input.IsRequired;
                 state.IsBadInput = !String.IsNullOrEmpty(value);
             }

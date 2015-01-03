@@ -11,7 +11,6 @@
         {
             var value = input.Value;
             var date = ConvertFromTime(value);
-            state.Reset();
 
             if (date.HasValue)
             {
@@ -19,16 +18,17 @@
                 var min = ConvertFromTime(input.Minimum);
                 var max = ConvertFromTime(input.Maximum);
 
-                if (min.HasValue)
-                    state.IsRangeUnderflow = date < min.Value;
-
-                if (max.HasValue)
-                    state.IsRangeOverflow = date > max.Value;
-
+                state.IsRangeUnderflow = min.HasValue && date < min.Value;
+                state.IsRangeOverflow = max.HasValue && date > max.Value;
+                state.IsValueMissing = false;
+                state.IsBadInput = false;
                 state.IsStepMismatch = step != 0.0 && GetStepBase(input) % step != 0.0;
             }
             else
             {
+                state.IsRangeUnderflow = false;
+                state.IsRangeOverflow = false;
+                state.IsStepMismatch = false;
                 state.IsValueMissing = input.IsRequired;
                 state.IsBadInput = !String.IsNullOrEmpty(value);
             }
@@ -39,7 +39,7 @@
             var dt = ConvertFromTime(value);
 
             if (dt.HasValue)
-                return dt.Value.Month - 1;
+                return dt.Value.Subtract(new DateTime()).TotalMilliseconds;
 
             return null;
         }
