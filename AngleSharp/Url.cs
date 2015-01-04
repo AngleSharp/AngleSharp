@@ -584,8 +584,8 @@
                     case Specification.ReverseSolidus:
                     case Specification.Num:
                     case Specification.QuestionMark:
-                        _host = input.Substring(start, index - start);
-
+                        _host = SanatizeHost(input.Substring(start, index - start));
+                        
                         if (onlyHost)
                             return true;
 
@@ -606,6 +606,43 @@
             }
 
             return true;
+        }
+
+        static String SanatizeHost(String hostName)
+        {
+            if (hostName.Length > 1 && hostName[0] == Specification.SquareBracketOpen && hostName[hostName.Length - 1] == Specification.SquareBracketClose)
+                return hostName;
+
+            var chars = new Char[hostName.Length];
+            var count = 0;
+
+            for (var i = 0; i < hostName.Length; i++)
+            {
+                switch (hostName[i])
+                {
+                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"
+                    case Specification.Null:
+                    case Specification.Tab:
+                    case Specification.Space:
+                    case Specification.LineFeed:
+                    case Specification.CarriageReturn:
+                    case Specification.Num:
+                    case Specification.Percent:
+                    case Specification.Solidus:
+                    case Specification.Colon:
+                    case Specification.QuestionMark:
+                    case Specification.At:
+                    case Specification.SquareBracketOpen:
+                    case Specification.SquareBracketClose:
+                    case Specification.ReverseSolidus:
+                        break;
+                    default:
+                        chars[count++] = hostName[i];
+                        break;
+                }
+            }
+
+            return new String(chars, 0, count);
         }
 
         Boolean ParsePort(String input, Int32 index, Boolean onlyPort = false)
