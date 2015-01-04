@@ -41,5 +41,21 @@
         }
 
         #endregion
+
+        #region Methods
+
+        internal override void Close()
+        {
+            base.Close();
+            RegisterAttributeHandler(AttributeNames.Href, value => UpdateUrl(value));
+            UpdateUrl(GetAttribute(AttributeNames.Href));
+        }
+
+        void UpdateUrl(String url)
+        {
+            Owner.BaseUri = url;
+        }
+
+        #endregion
     }
 }
