@@ -26,7 +26,6 @@
 
             if (date.HasValue)
             {
-                var step = GetStep(input);
                 var min = ConvertFromDateTime(input.Minimum);
                 var max = ConvertFromDateTime(input.Maximum);
 
@@ -34,7 +33,7 @@
                 state.IsRangeOverflow = max.HasValue && date > max.Value;
                 state.IsValueMissing = false;
                 state.IsBadInput = false;
-                state.IsStepMismatch = step != 0.0 && GetStepBase(input) % step != 0.0;
+                state.IsStepMismatch = IsStepMismatch(input);
             }
             else
             {

@@ -29,20 +29,21 @@
 
             if (num.HasValue)
             {
-                var step = GetStep(input);
                 var min = ConvertToNumber(input.Minimum);
                 var max = ConvertToNumber(input.Maximum);
 
-                if (min.HasValue)
-                    state.IsRangeUnderflow = num < min.Value;
-
-                if (max.HasValue)
-                    state.IsRangeOverflow = num > max.Value;
-
-                state.IsStepMismatch = step != 0.0 && GetStepBase(input) % step != 0.0;
+                state.IsRangeUnderflow = min.HasValue && num < min.Value;
+                state.IsRangeOverflow = max.HasValue && num > max.Value;
+                state.IsValueMissing = false;
+                state.IsStepMismatch = IsStepMismatch(input);
             }
             else
+            {
+                state.IsRangeUnderflow = false;
+                state.IsRangeOverflow = false;
                 state.IsValueMissing = input.IsRequired;
+                state.IsStepMismatch = false;
+            }
         }
 
         public override void DoStep(IHtmlInputElement input, Int32 n)

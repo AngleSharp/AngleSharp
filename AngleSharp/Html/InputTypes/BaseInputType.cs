@@ -76,6 +76,13 @@
 
         #region Step
 
+        protected Boolean IsStepMismatch(IHtmlInputElement input)
+        {
+            var step = GetStep(input);
+            var value = GetStepBase(input);
+            return step != 0.0 && value % step != 0.0;
+        }
+
         protected Double GetStep(IHtmlInputElement input)
         {
             var step = input.Step;
@@ -93,7 +100,7 @@
             return num.Value * GetStepScaleFactor(input);
         }
 
-        protected Double GetStepBase(IHtmlInputElement input)
+        Double GetStepBase(IHtmlInputElement input)
         {
             var num = ConvertToNumber(input.Minimum);
 
