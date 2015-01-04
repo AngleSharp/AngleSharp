@@ -55,7 +55,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("maxLength", "4");
-			element.SetAttribute("value", "abcdef");
+			element.Value = "abcdef";
 			element.IsDirty = true;
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true) as HTMLInputElement;
@@ -85,7 +85,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -113,7 +113,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -167,7 +167,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("maxLength", "4");
-			element.SetAttribute("value", "abcdef");
+			element.Value = "abcdef";
 			element.IsDirty = true;
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true) as HTMLInputElement;
@@ -197,7 +197,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -225,7 +225,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -279,7 +279,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("maxLength", "4");
-			element.SetAttribute("value", "abcdef");
+			element.Value = "abcdef";
 			element.IsDirty = true;
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true) as HTMLInputElement;
@@ -309,7 +309,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -337,7 +337,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -391,7 +391,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("maxLength", "4");
-			element.SetAttribute("value", "abcdef");
+			element.Value = "abcdef";
 			element.IsDirty = true;
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true) as HTMLInputElement;
@@ -421,7 +421,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -449,7 +449,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -503,7 +503,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("maxLength", "20");
-			element.SetAttribute("value", "http://www.example.com");
+			element.Value = "http://www.example.com";
 			element.IsDirty = true;
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true) as HTMLInputElement;
@@ -533,7 +533,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "http://www.example.com");
-			element.SetAttribute("value", "http://www.example.net");
+			element.Value = "http://www.example.net";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -560,7 +560,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -588,7 +588,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -642,7 +642,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("maxLength", "10");
-			element.SetAttribute("value", "test@example.com");
+			element.Value = "test@example.com";
 			element.IsDirty = true;
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true) as HTMLInputElement;
@@ -672,7 +672,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "test@example.com");
-			element.SetAttribute("value", "test@example.net");
+			element.Value = "test@example.net";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -699,7 +699,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -727,7 +727,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -781,7 +781,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00Z");
-			element.SetAttribute("value", "2001-01-01T12:00:00Z");
+			element.Value = "2001-01-01T12:00:00Z";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -809,7 +809,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("min", "2001-01-01T12:00:00Z");
-			element.SetAttribute("value", "2000-01-01T12:00:00Z");
+			element.Value = "2000-01-01T12:00:00Z";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -837,7 +837,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120000");
-			element.SetAttribute("value", "2001-01-01T12:03:00Z");
+			element.Value = "2001-01-01T12:03:00Z";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -865,7 +865,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -919,7 +919,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01");
-			element.SetAttribute("value", "2001-01-01");
+			element.Value = "2001-01-01";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -947,7 +947,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("min", "2001-01-01");
-			element.SetAttribute("value", "2000-01-01");
+			element.Value = "2000-01-01";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -975,7 +975,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "172800000");
-			element.SetAttribute("value", "2001-01-03");
+			element.Value = "2001-01-03";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1003,7 +1003,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1057,7 +1057,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01");
-			element.SetAttribute("value", "2001-01");
+			element.Value = "2001-01";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1085,7 +1085,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("min", "2001-01");
-			element.SetAttribute("value", "2000-01");
+			element.Value = "2000-01";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1113,7 +1113,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "3");
-			element.SetAttribute("value", "2001-03");
+			element.Value = "2001-03";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1141,7 +1141,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1195,7 +1195,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W01");
-			element.SetAttribute("value", "2001-W01");
+			element.Value = "2001-W01";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1223,7 +1223,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("min", "2001-W01");
-			element.SetAttribute("value", "2000-W01");
+			element.Value = "2000-W01";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1251,7 +1251,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "1209600000");
-			element.SetAttribute("value", "2001-W03");
+			element.Value = "2001-W03";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1279,7 +1279,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1333,7 +1333,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00");
-			element.SetAttribute("value", "13:00:00");
+			element.Value = "13:00:00";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1361,7 +1361,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("min", "12:00:00");
-			element.SetAttribute("value", "11:00:00");
+			element.Value = "11:00:00";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1389,7 +1389,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120000");
-			element.SetAttribute("value", "12:03:00");
+			element.Value = "12:03:00";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1417,7 +1417,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1445,7 +1445,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "5");
-			element.SetAttribute("value", "6");
+			element.Value = "6";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1473,7 +1473,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("min", "5");
-			element.SetAttribute("value", "4");
+			element.Value = "4";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1501,7 +1501,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "3");
+			element.Value = "3";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1529,7 +1529,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);
@@ -1760,7 +1760,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			var fm = document.CreateElement("form") as IHtmlFormElement;
 			var element2 = element.Clone(true);
 			fm.AppendChild(element2);

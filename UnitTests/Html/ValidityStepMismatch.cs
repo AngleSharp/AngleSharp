@@ -29,7 +29,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "");
-			element.SetAttribute("value", "2000-01-01T12:00:00Z");
+			element.Value = "2000-01-01T12:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -52,7 +52,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -75,7 +75,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120");
-			element.SetAttribute("value", "2000-01-01T12:58Z");
+			element.Value = "2000-01-01T12:58Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -98,7 +98,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120");
-			element.SetAttribute("value", "2000-01-01T12:59Z");
+			element.Value = "2000-01-01T12:59Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
@@ -121,7 +121,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "");
-			element.SetAttribute("value", "2000-01-01");
+			element.Value = "2000-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -144,7 +144,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -167,7 +167,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "1970-01-02");
+			element.Value = "1970-01-02";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -190,7 +190,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "1970-01-03");
+			element.Value = "1970-01-03";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
@@ -213,7 +213,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "");
-			element.SetAttribute("value", "2000-01");
+			element.Value = "2000-01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -236,7 +236,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -259,7 +259,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "1970-03");
+			element.Value = "1970-03";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -282,7 +282,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "1970-04");
+			element.Value = "1970-04";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
@@ -305,7 +305,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "");
-			element.SetAttribute("value", "1970-W01");
+			element.Value = "1970-W01";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -328,7 +328,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -351,7 +351,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "1970-W03");
+			element.Value = "1970-W03";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -374,7 +374,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "1970-W04");
+			element.Value = "1970-W04";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
@@ -397,7 +397,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "");
-			element.SetAttribute("value", "12:00:00");
+			element.Value = "12:00:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -420,7 +420,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -443,7 +443,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120");
-			element.SetAttribute("value", "12:02:00");
+			element.Value = "12:02:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -466,7 +466,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "120");
-			element.SetAttribute("value", "12:03:00");
+			element.Value = "12:03:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
@@ -489,7 +489,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "");
-			element.SetAttribute("value", "1");
+			element.Value = "1";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -512,7 +512,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -535,7 +535,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "2");
+			element.Value = "2";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
@@ -558,7 +558,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("step", "2");
-			element.SetAttribute("value", "3");
+			element.Value = "3";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}

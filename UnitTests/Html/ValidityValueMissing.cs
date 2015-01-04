@@ -29,7 +29,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -52,7 +52,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -75,7 +75,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -98,7 +98,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -121,7 +121,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -144,7 +144,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -167,7 +167,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -190,7 +190,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -213,7 +213,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -236,7 +236,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -259,7 +259,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -282,7 +282,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -305,7 +305,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -328,7 +328,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -351,7 +351,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -374,7 +374,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -397,7 +397,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -420,7 +420,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -443,7 +443,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -466,7 +466,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-12-10T12:00:00Z");
+			element.Value = "2000-12-10T12:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -489,7 +489,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-12-10 12:00Z");
+			element.Value = "2000-12-10 12:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -512,7 +512,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1979-10-14T12:00:00.001-04:00");
+			element.Value = "1979-10-14T12:00:00.001-04:00";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -535,7 +535,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "8592-01-01T02:09+02:09");
+			element.Value = "8592-01-01T02:09+02:09";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -558,7 +558,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1234567");
+			element.Value = "1234567";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -581,7 +581,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2015-01-01T14:11:21.695Z");
+			element.Value = "2015-01-01T14:11:21.695Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -604,7 +604,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1979-10-99 99:99Z");
+			element.Value = "1979-10-99 99:99Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -627,7 +627,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1979-10-14 12:00:00");
+			element.Value = "1979-10-14 12:00:00";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -650,7 +650,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2001-12-21  12:00Z");
+			element.Value = "2001-12-21  12:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -673,7 +673,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -696,7 +696,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -719,7 +719,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -742,7 +742,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-12-10");
+			element.Value = "2000-12-10";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -765,7 +765,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "9999-01-01");
+			element.Value = "9999-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -788,7 +788,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1234567");
+			element.Value = "1234567";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -811,7 +811,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2015-01-01T14:11:21.695Z");
+			element.Value = "2015-01-01T14:11:21.695Z";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -834,7 +834,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "9999-99-99");
+			element.Value = "9999-99-99";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -857,7 +857,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "37/01/01");
+			element.Value = "37/01/01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -880,7 +880,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000/01/01");
+			element.Value = "2000/01/01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -903,7 +903,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -926,7 +926,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -949,7 +949,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-12");
+			element.Value = "2000-12";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -972,7 +972,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "9999-01");
+			element.Value = "9999-01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -995,7 +995,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1234567");
+			element.Value = "1234567";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1018,7 +1018,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2015-01-01T14:11:21.695Z");
+			element.Value = "2015-01-01T14:11:21.695Z";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1041,7 +1041,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-99");
+			element.Value = "2000-99";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1064,7 +1064,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "37-01");
+			element.Value = "37-01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1087,7 +1087,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000/01");
+			element.Value = "2000/01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1110,7 +1110,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1133,7 +1133,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1156,7 +1156,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-W12");
+			element.Value = "2000-W12";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1179,7 +1179,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "9999-W01");
+			element.Value = "9999-W01";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1202,7 +1202,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1234567");
+			element.Value = "1234567";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1225,7 +1225,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2015-01-01T14:11:21.695Z");
+			element.Value = "2015-01-01T14:11:21.695Z";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1248,7 +1248,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-W99");
+			element.Value = "2000-W99";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1271,7 +1271,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-W00");
+			element.Value = "2000-W00";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1294,7 +1294,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2000-w01");
+			element.Value = "2000-w01";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1317,7 +1317,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1340,7 +1340,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1363,7 +1363,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00:00");
+			element.Value = "12:00:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1386,7 +1386,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00");
+			element.Value = "12:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1409,7 +1409,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00:00.001");
+			element.Value = "12:00:00.001";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1432,7 +1432,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00:00.01");
+			element.Value = "12:00:00.01";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1455,7 +1455,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00:00.1");
+			element.Value = "12:00:00.1";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1478,7 +1478,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1234567");
+			element.Value = "1234567";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1501,7 +1501,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "2015-01-01T14:11:21.695Z");
+			element.Value = "2015-01-01T14:11:21.695Z";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1524,7 +1524,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "25:00:00");
+			element.Value = "25:00:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1547,7 +1547,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:60:00");
+			element.Value = "12:60:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1570,7 +1570,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00:60");
+			element.Value = "12:00:60";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1593,7 +1593,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "12:00:00:001");
+			element.Value = "12:00:00:001";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1616,7 +1616,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1639,7 +1639,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1662,7 +1662,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "123");
+			element.Value = "123";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1685,7 +1685,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "-123.45");
+			element.Value = "-123.45";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1708,7 +1708,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "123.01e-10");
+			element.Value = "123.01e-10";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1731,7 +1731,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "123.01E+10");
+			element.Value = "123.01E+10";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1754,7 +1754,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "-0");
+			element.Value = "-0";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
@@ -1777,7 +1777,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", " 123 ");
+			element.Value = " 123 ";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1800,7 +1800,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "null");
+			element.Value = "null";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1823,7 +1823,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "null");
+			element.Value = "null";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1846,7 +1846,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -1869,7 +1869,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
@@ -2089,7 +2089,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", null);
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
 		
@@ -2118,7 +2118,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "1");
+			element.Value = "1";
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
 		}
 		
@@ -2147,7 +2147,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("required", "required");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual(true, element.Validity.IsValueMissing);
 		}
 		

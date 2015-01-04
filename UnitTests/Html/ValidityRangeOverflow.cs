@@ -29,7 +29,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "");
-			element.SetAttribute("value", "2000-01-01T12:00:00Z");
+			element.Value = "2000-01-01T12:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -52,7 +52,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00Z");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -75,7 +75,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01  12:00:00Z");
-			element.SetAttribute("value", "2001-01-01T12:00:00Z");
+			element.Value = "2001-01-01T12:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -98,7 +98,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00Z");
-			element.SetAttribute("value", "2000-01-01T11:00:00Z");
+			element.Value = "2000-01-01T11:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -121,7 +121,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T23:59:59Z");
-			element.SetAttribute("value", "2001-01-01T24:00:00Z");
+			element.Value = "2001-01-01T24:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -144,7 +144,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "1970-01-01T12:00Z");
-			element.SetAttribute("value", "80-01-01T12:00Z");
+			element.Value = "80-01-01T12:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -167,7 +167,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00Z");
-			element.SetAttribute("value", "2001-01-01T13:00:00Z");
+			element.Value = "2001-01-01T13:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -190,7 +190,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00.1Z");
-			element.SetAttribute("value", "2000-01-01T12:00:00.2Z");
+			element.Value = "2000-01-01T12:00:00.2Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -213,7 +213,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00.01Z");
-			element.SetAttribute("value", "2000-01-01T12:00:00.02Z");
+			element.Value = "2000-01-01T12:00:00.02Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -236,7 +236,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00.001Z");
-			element.SetAttribute("value", "2000-01-01T12:00:00.002Z");
+			element.Value = "2000-01-01T12:00:00.002Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -259,7 +259,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01T12:00:00");
-			element.SetAttribute("value", "9999-01-01T12:00:00");
+			element.Value = "9999-01-01T12:00:00";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -282,7 +282,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "8592-01-01T02:09+02:09");
-			element.SetAttribute("value", "8593-01-01T02:09+02:09");
+			element.Value = "8593-01-01T02:09+02:09";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -305,7 +305,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "");
-			element.SetAttribute("value", "2000-01-01");
+			element.Value = "2000-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -328,7 +328,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -351,7 +351,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000/01/01");
-			element.SetAttribute("value", "2002-01-01");
+			element.Value = "2002-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -374,7 +374,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01");
-			element.SetAttribute("value", "2000-2-2");
+			element.Value = "2000-2-2";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -397,7 +397,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "987-01-01");
-			element.SetAttribute("value", "988-01-01");
+			element.Value = "988-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -420,7 +420,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01");
-			element.SetAttribute("value", "2000-13-01");
+			element.Value = "2000-13-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -443,7 +443,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01-01");
-			element.SetAttribute("value", "2000-02-30");
+			element.Value = "2000-02-30";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -466,7 +466,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-12-01");
-			element.SetAttribute("value", "2000-01-01");
+			element.Value = "2000-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -489,7 +489,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-12-01");
-			element.SetAttribute("value", "2001-01-01");
+			element.Value = "2001-01-01";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -512,7 +512,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "9999-01-01");
-			element.SetAttribute("value", "9999-01-02");
+			element.Value = "9999-01-02";
 			Assert.AreEqual("date", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -535,7 +535,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "");
-			element.SetAttribute("value", "2000-01");
+			element.Value = "2000-01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -558,7 +558,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -581,7 +581,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000/01");
-			element.SetAttribute("value", "2001-02");
+			element.Value = "2001-02";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -604,7 +604,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01");
-			element.SetAttribute("value", "2000-1");
+			element.Value = "2000-1";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -627,7 +627,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "987-01");
-			element.SetAttribute("value", "988-01");
+			element.Value = "988-01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -650,7 +650,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01");
-			element.SetAttribute("value", "2000-13");
+			element.Value = "2000-13";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -673,7 +673,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-12");
-			element.SetAttribute("value", "2000-01");
+			element.Value = "2000-01";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -696,7 +696,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-01");
-			element.SetAttribute("value", "2000-12");
+			element.Value = "2000-12";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -719,7 +719,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "9999-01");
-			element.SetAttribute("value", "9999-02");
+			element.Value = "9999-02";
 			Assert.AreEqual("month", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -742,7 +742,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "");
-			element.SetAttribute("value", "2000-W01");
+			element.Value = "2000-W01";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -765,7 +765,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W01");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -788,7 +788,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000/W01");
-			element.SetAttribute("value", "2001-W02");
+			element.Value = "2001-W02";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -811,7 +811,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W01");
-			element.SetAttribute("value", "2000-W2");
+			element.Value = "2000-W2";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -834,7 +834,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W01");
-			element.SetAttribute("value", "2000-w02");
+			element.Value = "2000-w02";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -857,7 +857,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "987-W01");
-			element.SetAttribute("value", "988-W01");
+			element.Value = "988-W01";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -880,7 +880,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W01");
-			element.SetAttribute("value", "2000-W57");
+			element.Value = "2000-W57";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -903,7 +903,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W12");
-			element.SetAttribute("value", "2000-W01");
+			element.Value = "2000-W01";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -926,7 +926,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "2000-W01");
-			element.SetAttribute("value", "2000-W12");
+			element.Value = "2000-W12";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -949,7 +949,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "9999-W01");
-			element.SetAttribute("value", "9999-W02");
+			element.Value = "9999-W02";
 			Assert.AreEqual("week", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -972,7 +972,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "");
-			element.SetAttribute("value", "12:00:00");
+			element.Value = "12:00:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -995,7 +995,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1018,7 +1018,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12.00.00");
-			element.SetAttribute("value", "12:00:01");
+			element.Value = "12:00:01";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1041,7 +1041,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00");
-			element.SetAttribute("value", "12.00.01");
+			element.Value = "12.00.01";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1064,7 +1064,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "23:59:59");
-			element.SetAttribute("value", "24:00:00");
+			element.Value = "24:00:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1087,7 +1087,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "23:59:59");
-			element.SetAttribute("value", "23:60:00");
+			element.Value = "23:60:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1110,7 +1110,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "23:59:59");
-			element.SetAttribute("value", "23:59:60");
+			element.Value = "23:59:60";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1133,7 +1133,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "13:00:00");
-			element.SetAttribute("value", "12:00:00");
+			element.Value = "12:00:00";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1156,7 +1156,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00");
-			element.SetAttribute("value", "13");
+			element.Value = "13";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1179,7 +1179,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00");
-			element.SetAttribute("value", "12:00:02");
+			element.Value = "12:00:02";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1202,7 +1202,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00.1");
-			element.SetAttribute("value", "12:00:00.2");
+			element.Value = "12:00:00.2";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1225,7 +1225,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00.01");
-			element.SetAttribute("value", "12:00:00.02");
+			element.Value = "12:00:00.02";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1248,7 +1248,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00.001");
-			element.SetAttribute("value", "12:00:00.002");
+			element.Value = "12:00:00.002";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1271,7 +1271,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "12:00:00");
-			element.SetAttribute("value", "12:01");
+			element.Value = "12:01";
 			Assert.AreEqual("time", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1294,7 +1294,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "");
-			element.SetAttribute("value", "10");
+			element.Value = "10";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1317,7 +1317,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "5");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1340,7 +1340,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "5");
-			element.SetAttribute("value", "4");
+			element.Value = "4";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1363,7 +1363,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "-5.5");
-			element.SetAttribute("value", "-5.6");
+			element.Value = "-5.6";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1386,7 +1386,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "-0");
-			element.SetAttribute("value", "0");
+			element.Value = "0";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1409,7 +1409,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "5");
-			element.SetAttribute("value", "1abc");
+			element.Value = "1abc";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeOverflow);
 		}
@@ -1432,7 +1432,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "5");
-			element.SetAttribute("value", "6");
+			element.Value = "6";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1455,7 +1455,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "-5.5");
-			element.SetAttribute("value", "-5.4");
+			element.Value = "-5.4";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}
@@ -1478,7 +1478,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("max", "-5e-1");
-			element.SetAttribute("value", "5e+2");
+			element.Value = "5e+2";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
 		}

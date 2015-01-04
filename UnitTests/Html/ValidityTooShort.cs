@@ -29,7 +29,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -52,7 +52,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -75,7 +75,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -98,7 +98,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -121,7 +121,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -144,7 +144,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			element.IsDirty = true;
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -168,7 +168,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "AAAAA");
+			element.Value = "AAAAA";
 			element.IsDirty = true;
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -192,7 +192,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			element.IsDirty = true;
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -216,7 +216,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			element.IsDirty = true;
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(true, element.Validity.IsTooShort);
@@ -240,7 +240,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -263,7 +263,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -286,7 +286,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -309,7 +309,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -332,7 +332,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -355,7 +355,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			element.IsDirty = true;
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -379,7 +379,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "AAAAA");
+			element.Value = "AAAAA";
 			element.IsDirty = true;
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -403,7 +403,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			element.IsDirty = true;
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -427,7 +427,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			element.IsDirty = true;
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(true, element.Validity.IsTooShort);
@@ -451,7 +451,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -474,7 +474,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -497,7 +497,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -520,7 +520,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -543,7 +543,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -566,7 +566,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			element.IsDirty = true;
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -590,7 +590,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "AAAAA");
+			element.Value = "AAAAA";
 			element.IsDirty = true;
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -614,7 +614,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			element.IsDirty = true;
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -638,7 +638,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			element.IsDirty = true;
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(true, element.Validity.IsTooShort);
@@ -662,7 +662,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -685,7 +685,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -708,7 +708,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -731,7 +731,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -754,7 +754,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -777,7 +777,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			element.IsDirty = true;
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -801,7 +801,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "AAAAA");
+			element.Value = "AAAAA";
 			element.IsDirty = true;
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -825,7 +825,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			element.IsDirty = true;
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -849,7 +849,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			element.IsDirty = true;
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(true, element.Validity.IsTooShort);
@@ -873,7 +873,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -896,7 +896,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -919,7 +919,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -942,7 +942,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -965,7 +965,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -988,7 +988,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			element.IsDirty = true;
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -1012,7 +1012,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "AAAAA");
+			element.Value = "AAAAA";
 			element.IsDirty = true;
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -1036,7 +1036,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			element.IsDirty = true;
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -1060,7 +1060,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			element.IsDirty = true;
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(true, element.Validity.IsTooShort);
@@ -1084,7 +1084,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -1107,7 +1107,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -1130,7 +1130,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -1153,7 +1153,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -1176,7 +1176,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
 		}
@@ -1199,7 +1199,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcde");
+			element.Value = "abcde";
 			element.IsDirty = true;
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -1223,7 +1223,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "AAAAA");
+			element.Value = "AAAAA";
 			element.IsDirty = true;
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -1247,7 +1247,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abcd");
+			element.Value = "abcd";
 			element.IsDirty = true;
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsTooShort);
@@ -1271,7 +1271,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("minLength", "4");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			element.IsDirty = true;
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(true, element.Validity.IsTooShort);

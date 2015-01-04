@@ -28,7 +28,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -51,7 +51,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -74,7 +74,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]{1}");
-			element.SetAttribute("value", "A");
+			element.Value = "A";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -97,7 +97,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "ABC");
+			element.Value = "ABC";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -120,7 +120,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[a-z]{3,}");
-			element.SetAttribute("value", "ABCD");
+			element.Value = "ABCD";
 			Assert.AreEqual("text", element.Type);
 			Assert.AreEqual(true, element.Validity.IsPatternMismatch);
 		}
@@ -142,7 +142,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -165,7 +165,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -188,7 +188,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]{1}");
-			element.SetAttribute("value", "A");
+			element.Value = "A";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -211,7 +211,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "ABC");
+			element.Value = "ABC";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -234,7 +234,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[a-z]{3,}");
-			element.SetAttribute("value", "ABCD");
+			element.Value = "ABCD";
 			Assert.AreEqual("search", element.Type);
 			Assert.AreEqual(true, element.Validity.IsPatternMismatch);
 		}
@@ -256,7 +256,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -279,7 +279,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -302,7 +302,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]{1}");
-			element.SetAttribute("value", "A");
+			element.Value = "A";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -325,7 +325,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "ABC");
+			element.Value = "ABC";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -348,7 +348,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[a-z]{3,}");
-			element.SetAttribute("value", "ABCD");
+			element.Value = "ABCD";
 			Assert.AreEqual("tel", element.Type);
 			Assert.AreEqual(true, element.Validity.IsPatternMismatch);
 		}
@@ -370,7 +370,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -393,7 +393,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -416,7 +416,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]{1}");
-			element.SetAttribute("value", "A");
+			element.Value = "A";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -439,7 +439,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "ABC");
+			element.Value = "ABC";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -462,7 +462,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[a-z]{3,}");
-			element.SetAttribute("value", "ABCD");
+			element.Value = "ABCD";
 			Assert.AreEqual("url", element.Type);
 			Assert.AreEqual(true, element.Validity.IsPatternMismatch);
 		}
@@ -484,7 +484,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -507,7 +507,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -530,7 +530,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]{1}");
-			element.SetAttribute("value", "A");
+			element.Value = "A";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -553,7 +553,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "ABC");
+			element.Value = "ABC";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -576,7 +576,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[a-z]{3,}");
-			element.SetAttribute("value", "ABCD");
+			element.Value = "ABCD";
 			Assert.AreEqual("email", element.Type);
 			Assert.AreEqual(true, element.Validity.IsPatternMismatch);
 		}
@@ -598,7 +598,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("multiple");
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
-			element.SetAttribute("value", "abc");
+			element.Value = "abc";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -621,7 +621,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "");
+			element.Value = "";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -644,7 +644,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]{1}");
-			element.SetAttribute("value", "A");
+			element.Value = "A";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -667,7 +667,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[A-Z]+");
-			element.SetAttribute("value", "ABC");
+			element.Value = "ABC";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(false, element.Validity.IsPatternMismatch);
 		}
@@ -690,7 +690,7 @@ namespace UnitTests.Html
 			element.RemoveAttribute("checked");
 			element.RemoveAttribute("selected");
 			element.SetAttribute("pattern", "[a-z]{3,}");
-			element.SetAttribute("value", "ABCD");
+			element.Value = "ABCD";
 			Assert.AreEqual("password", element.Type);
 			Assert.AreEqual(true, element.Validity.IsPatternMismatch);
 		}
