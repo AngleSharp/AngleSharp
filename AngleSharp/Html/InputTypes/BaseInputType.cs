@@ -79,8 +79,9 @@
         protected Boolean IsStepMismatch(IHtmlInputElement input)
         {
             var step = GetStep(input);
-            var value = GetStepBase(input);
-            return step != 0.0 && value % step != 0.0;
+            var value = ConvertToNumber(input.Value);
+            var offset = GetStepBase(input);
+            return step != 0.0 && (value - offset) % step != 0.0;
         }
 
         protected Double GetStep(IHtmlInputElement input)
@@ -107,7 +108,7 @@
             if (num.HasValue)
                 return num.Value;
 
-            num = ConvertToNumber(input.Value);
+            num = ConvertToNumber(input.DefaultValue);
 
             if (num.HasValue)
                 return num.Value;
