@@ -16,6 +16,11 @@
 
         #region Methods
 
+        public override Double? ConvertToNumber(String value)
+        {
+            return ConvertFromNumber(value);
+        }
+
         public override void Check(IHtmlInputElement input, ValidityState state)
         {
             var value = input.Value;

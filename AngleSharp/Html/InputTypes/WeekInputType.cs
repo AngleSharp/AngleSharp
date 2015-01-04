@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.DOM.Html;
+    using AngleSharp.Extensions;
     using System;
+    using System.Globalization;
 
     class WeekInputType : BaseInputType
     {
@@ -90,6 +92,59 @@
         protected override Double GetStepScaleFactor(IHtmlInputElement input)
         {
             return 604800000.0;
+        }
+
+        #endregion
+
+        #region Helper
+
+        protected static DateTime? ConvertFromWeek(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var week = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 ||
+                position != value.Length - 4 ||
+                value[position + 0] != Specification.Minus ||
+                value[position + 1] != 'W' ||
+                value[position + 2].IsDigit() == false ||
+                value[position + 3].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            week = Int32.Parse(value.Substring(position + 2)) - 1;
+
+            if (year < 0 || year > 9999)
+                return null;
+
+            var endOfYear = new DateTime(year, 12, 31);
+            var cal = CultureInfo.InvariantCulture.Calendar;
+            var numOfWeeks = cal.GetWeekOfYear(endOfYear, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            if (week < 0 || week >= numOfWeeks)
+                return null;
+
+            var startOfYear = new DateTime(year, 1, 1);
+            var day = cal.GetDayOfWeek(startOfYear);
+
+            if (day == DayOfWeek.Sunday)
+                startOfYear = startOfYear.AddDays(1);
+            else if (day > DayOfWeek.Monday)
+                startOfYear = startOfYear.AddDays(8 - (Int32)day);
+
+            return startOfYear.AddDays(7 * week);
         }
 
         #endregion

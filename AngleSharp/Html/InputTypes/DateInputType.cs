@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.DOM.Html;
+    using AngleSharp.Extensions;
     using System;
+    using System.Globalization;
 
     class DateInputType : BaseInputType
     {
@@ -90,6 +92,49 @@
         protected override Double GetStepScaleFactor(IHtmlInputElement input)
         {
             return 86400000.0;
+        }
+
+        #endregion
+
+        #region Helper
+
+        protected static DateTime? ConvertFromDate(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var month = 0;
+            var day = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 ||
+                position != value.Length - 6 ||
+                value[position + 0] != Specification.Minus ||
+                value[position + 1].IsDigit() == false ||
+                value[position + 2].IsDigit() == false ||
+                value[position + 3] != Specification.Minus ||
+                value[position + 4].IsDigit() == false ||
+                value[position + 5].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            month = Int32.Parse(value.Substring(position + 1, 2));
+            day = Int32.Parse(value.Substring(position + 4, 2));
+            var cal = CultureInfo.InvariantCulture.Calendar;
+
+            if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month))
+                return null;
+
+            return new DateTime(year, month, day);
         }
 
         #endregion

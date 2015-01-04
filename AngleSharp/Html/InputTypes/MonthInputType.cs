@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.DOM.Html;
+    using AngleSharp.Extensions;
     using System;
 
     class MonthInputType : BaseInputType
@@ -90,6 +91,43 @@
         protected override Double GetStepScaleFactor(IHtmlInputElement input)
         {
             return 1.0;
+        }
+
+        #endregion
+
+        #region Helper
+
+        protected static DateTime? ConvertFromMonth(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var year = 0;
+            var month = 0;
+
+            while (position < value.Length)
+            {
+                if (value[position].IsDigit())
+                    position++;
+                else
+                    break;
+            }
+
+            if (position < 4 ||
+                position != value.Length - 3 ||
+                value[position + 0] != Specification.Minus ||
+                value[position + 1].IsDigit() == false ||
+                value[position + 2].IsDigit() == false)
+                return null;
+
+            year = Int32.Parse(value.Substring(0, position));
+            month = Int32.Parse(value.Substring(position + 1));
+
+            if (year < 0 || year > 9999 || month < 1 || month > 12)
+                return null;
+
+            return new DateTime(year, month, 1);
         }
 
         #endregion

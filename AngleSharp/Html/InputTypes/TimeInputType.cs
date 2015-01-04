@@ -93,5 +93,23 @@
         }
 
         #endregion
+
+        #region Helper
+
+        protected static DateTime? ConvertFromTime(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return null;
+
+            var position = 0;
+            var ts = ConvertFromTime(value, ref position);
+
+            if (ts == null || position != value.Length)
+                return null;
+
+            return new DateTime().Add(ts.Value);
+        }
+
+        #endregion
     }
 }
