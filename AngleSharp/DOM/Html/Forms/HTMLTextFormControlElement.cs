@@ -157,6 +157,17 @@
 
         #region Methods
 
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = (HTMLTextFormControlElement)base.Clone(deep);
+            node._dirty = _dirty;
+            node._value = _value;
+            node._direction = _direction;
+            node._start = _start;
+            node._end = _end;
+            return node;
+        }
+
         /// <summary>
         /// Selects a range of text, and sets selectionStart and selectionEnd.
         /// If either argument is greater than the length of the value, it is treated

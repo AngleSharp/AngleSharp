@@ -372,6 +372,17 @@
 
         #region Methods
 
+        public sealed override INode Clone(Boolean deep = true)
+        {
+            var node = (HTMLInputElement)base.Clone(deep);
+            node._checked = _checked;
+
+            foreach (var file in _files)
+                node._files.Add(file);
+
+            return node;
+        }
+
         internal override FormControlState SaveControlState()
         {
             return new FormControlState(Name, Type, Value);

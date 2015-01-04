@@ -114,6 +114,13 @@
 
         #region Methods
 
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = (HTMLFormControlElement)base.Clone(deep);
+            node.SetCustomValidity(_error);
+            return node;
+        }
+
         /// <summary>
         /// Checks the validity of the current element.
         /// </summary>
