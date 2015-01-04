@@ -4,6 +4,10 @@ using NUnit.Framework;
 
 namespace UnitTests.Html
 {
+    /// <summary>
+    /// Tests (automatically modified and adjusted originally) taken from
+    /// http://w3c-test.org/html/dom/documents/dom-tree-accessors/document.body-getter.html
+    /// </summary>
     [TestFixture]
     public class DomManipulation
     {
@@ -160,6 +164,55 @@ namespace UnitTests.Html
             var doc = CreateDocument();
             doc.AppendChild(doc.CreateElement("http://example.org/test", "frameset"));
             Assert.IsNull(doc.Body);
+        }
+
+        [Test]
+        public void DocumentTitleExactMatch()
+        {
+            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            Assert.AreEqual("document.title with head blown away", doc.Title);
+        }
+
+        [Test]
+        public void DocumentRemoveHeadAndReadOutTitle()
+        {
+            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var head = doc.GetElementsByTagName("head")[0];
+            Assert.IsNotNull(head);
+            head.Parent.RemoveChild(head);
+            Assert.IsNull(doc.GetElementsByTagName("head")[0]);
+            doc.Title = "FAIL";
+            Assert.AreEqual("", doc.Title);
+        }
+        
+        [Test]
+        public void DocumentFreshTitleAppendedAfterHeadRemoved()
+        {
+            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var head = doc.GetElementsByTagName("head")[0];
+            Assert.IsNotNull(head);
+            head.Parent.RemoveChild(head);
+            var title2 = doc.CreateElement("title");
+            title2.AppendChild(doc.CreateTextNode("PASS"));
+            doc.Body.AppendChild(title2);
+            Assert.AreEqual("PASS", doc.Title);
+        }
+        
+        [Test]
+        public void DocumentInsertTitleBeforePreviouslyInsertedTitle()
+        {
+            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var head = doc.GetElementsByTagName("head")[0];
+            Assert.IsNotNull(head);
+            head.Parent.RemoveChild(head);
+            var title2 = doc.CreateElement("title");
+            title2.AppendChild(doc.CreateTextNode("PASS"));
+            doc.Body.AppendChild(title2);
+            Assert.AreEqual("PASS", doc.Title);
+            var title3 = doc.CreateElement("title");
+            title3.AppendChild(doc.CreateTextNode("PASS2"));
+            doc.DocumentElement.InsertBefore(title3, doc.Body);
+            Assert.AreEqual("PASS2", doc.Title);
         }
     }
 }
