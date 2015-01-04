@@ -670,7 +670,7 @@
         /// </summary>
         public IElement DocumentElement
         {
-            get { return this.FindChild<Element>(); }
+            get { return this.FindChild<HTMLHtmlElement>(); }
         }
 
         /// <summary>
@@ -810,7 +810,28 @@
         /// </summary>
         public IHtmlElement Body
         {
-            get { return DocumentElement.FindChild<IHtmlBodyElement>() as IHtmlElement ?? DocumentElement.FindChild<HTMLFrameSetElement>(); }
+            get
+            {
+                var root = DocumentElement;
+
+                if (root != null)
+                {
+                    foreach (var child in root.ChildNodes)
+                    {
+                        var body = child as HTMLBodyElement;
+
+                        if (body != null)
+                            return body;
+
+                        var frameset = child as HTMLFrameSetElement;
+
+                        if (frameset != null)
+                            return frameset;
+                    }
+                }
+
+                return null;
+            }
             set 
             {
                 if (value is IHtmlBodyElement == false && value is HTMLFrameSetElement == false)
