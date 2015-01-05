@@ -4,10 +4,8 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
-    using AngleSharp.Services.Media;
     using System;
     using System.Globalization;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -16,9 +14,7 @@
     {
         #region Fields
 
-        readonly FileList _files;
         BaseInputType _type;
-        Task<IImageInfo> _imageTask;
         Boolean? _checked;
 
         #endregion
@@ -31,7 +27,6 @@
         public HTMLInputElement()
             : base(Tags.Input, NodeFlags.SelfClosing)
         {
-            _files = new FileList();
         }
 
         #endregion
@@ -209,7 +204,15 @@
         /// </summary>
         public IFileList Files
         {
-            get { return _files; }
+            get
+            {
+                var type = _type as FileInputType;
+
+                if (type != null)
+                    return type.Files;
+
+                return null;
+            }
         }
 
         /// <summary>
@@ -335,7 +338,15 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Width : 0) : 0; }
+            get
+            {
+                var type = _type as ImageInputType;
+
+                if (type != null)
+                    return type.Width;
+
+                return 0;
+            }
         }
 
         /// <summary>
@@ -343,7 +354,15 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Height : 0) : 0; }
+            get
+            {
+                var type = _type as ImageInputType;
+
+                if (type != null)
+                    return type.Height;
+
+                return 0;
+            }
         }
 
         #endregion
@@ -376,10 +395,6 @@
         {
             var node = (HTMLInputElement)base.Clone(deep);
             node._checked = _checked;
-
-            foreach (var file in _files)
-                node._files.Add(file);
-
             return node;
         }
 
@@ -435,18 +450,6 @@
         void UpdateType(String type)
         {
             _type = InputTypeFactory.Create(this, type);
-
-            if (_type.Name == InputTypeNames.Image)
-            {
-                var src = Source;
-
-                if (src != null)
-                {
-                    var url = this.HyperRef(src);
-                    _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
-                    _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
-                }
-            }
         }
 
         #endregion
@@ -470,7 +473,7 @@
         {
             base.Reset();
             _checked = null;
-            _files.Clear();
+            UpdateType(Type);
         }
 
         /// <summary>

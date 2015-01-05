@@ -7,11 +7,27 @@
 
     class FileInputType : BaseInputType
     {
+        #region Fields
+
+        readonly FileList _files;
+
+        #endregion
+
         #region ctor
 
         public FileInputType(IHtmlInputElement input, String name)
             : base(input, name, validate: true)
         {
+            _files = new FileList();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public FileList Files
+        {
+            get { return _files; }
         }
 
         #endregion
@@ -20,13 +36,11 @@
 
         public override void ConstructDataSet(FormDataSet dataSet)
         {
-            var files = Input.Files;
-
-            if (files.Length == 0)
+            if (_files.Length == 0)
                 dataSet.Append(Input.Name, String.Empty, MimeTypes.Binary);
 
-            for (var i = 0; i < files.Length; i++)
-                dataSet.Append(Input.Name, files[i] as FileEntry, Input.Type);
+            foreach (var file in _files)
+                dataSet.Append(Input.Name, file, Input.Type);
         }
 
         #endregion
