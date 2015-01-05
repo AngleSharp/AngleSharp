@@ -148,7 +148,7 @@
         /// the type attribute's value is hidden, checkbox, radio, file, or a button type.
         /// </summary>
         [DomName("list")]
-        IHtmlElement List { get; }
+        IHtmlDataListElement List { get; }
 
         /// <summary>
         /// Gets or sets the URI of a resource that processes information submitted by the button.

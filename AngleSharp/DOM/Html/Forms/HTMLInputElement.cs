@@ -218,14 +218,14 @@
         /// be displayed. This attribute is ignored when the type
         /// attribute's value is hidden, checkbox, radio, file, or a button type.
         /// </summary>
-        public IHtmlElement List
+        public IHtmlDataListElement List
         {
             get 
             {
                 var owner = Owner;
 
                 if (owner != null)
-                    return owner.GetElementById(GetAttribute(AttributeNames.List)) as IHtmlElement; 
+                    return owner.GetElementById(GetAttribute(AttributeNames.List)) as IHtmlDataListElement; 
 
                 return null;
             }
