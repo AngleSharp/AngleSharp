@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Linq;
@@ -19,7 +18,7 @@
         readonly NodeFlags _flags;
 
         Document _owner;
-        String _baseUri;
+        Url _baseUri;
         Node _parent;
         NodeList _children;
 
@@ -52,21 +51,37 @@
         }
 
         /// <summary>
-        /// Gets or sets the absolute base URI of a node or null if
+        /// Gets the absolute base URI of a node or null if
         /// unable to obtain an absolute URI.
         /// </summary>
         public String BaseUri
         {
             get 
             {
+                var url = BaseUrl;
+
+                if (url != null)
+                    return url.Href;
+
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the base url of the node.
+        /// </summary>
+        public Url BaseUrl
+        {
+            get
+            {
                 if (_baseUri != null)
                     return _baseUri;
                 else if (_parent != null)
-                    return _parent.BaseUri;
+                    return _parent.BaseUrl;
                 else if (_owner != null)
-                    return _owner.DocumentUri;
+                    return _owner.DocumentUrl;
 
-                return String.Empty;
+                return null;
             }
             set { _baseUri = value; }
         }

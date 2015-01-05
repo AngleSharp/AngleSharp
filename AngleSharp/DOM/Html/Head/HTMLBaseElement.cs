@@ -53,7 +53,7 @@
 
         void UpdateUrl(String url)
         {
-            Owner.BaseUri = url;
+            Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
         }
 
         #endregion

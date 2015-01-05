@@ -46,6 +46,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the original url object.
+        /// </summary>
+        internal Url Original
+        {
+            get { return _url; }
+        }
+
+        /// <summary>
         /// Gets the origin of the url.
         /// </summary>
         public String Origin

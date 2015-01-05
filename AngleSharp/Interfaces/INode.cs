@@ -17,6 +17,11 @@
         String BaseUri { get; }
 
         /// <summary>
+        /// Gets the base url.
+        /// </summary>
+        Url BaseUrl { get; }
+
+        /// <summary>
         /// Gets a string containing the name of the Node. The structure
         /// of the name will differ with the name type. 
         /// </summary>

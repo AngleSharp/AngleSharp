@@ -97,7 +97,7 @@
                     doc.AppendChild(element);
             }
 
-            doc.BaseUri = _owner.BaseUri;
+            doc.BaseUrl = _owner.BaseUrl;
             return doc;
         }
 
@@ -122,7 +122,7 @@
             }
 
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
-            doc.BaseUri = _owner.BaseUri;
+            doc.BaseUrl = _owner.BaseUrl;
             return doc;
         }
 

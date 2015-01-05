@@ -641,6 +641,14 @@
         }
 
         /// <summary>
+        /// Gets the url of the current document.
+        /// </summary>
+        public Url DocumentUrl
+        {
+            get { return _location.Original; }
+        }
+
+        /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
         public IWindow DefaultView 
