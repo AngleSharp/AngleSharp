@@ -52,19 +52,22 @@
         internal override void Close()
         {
             base.Close();
-            RegisterAttributeHandler(AttributeNames.Disabled, value =>
-            {
-                if (value != null)
-                {
-                    var firstLegend = Children.FirstOrDefault(m => m is HTMLLegendElement);
+            RegisterAttributeHandler(AttributeNames.Disabled, UpdateDisabled);
+            UpdateDisabled(GetAttribute(AttributeNames.Disabled));
+        }
 
-                    foreach (var element in Elements.OfType<HTMLFormControlElement>())
-                    {
-                        if (element.ParentElement != firstLegend)
-                            element.IsDisabled = true;
-                    }
+        void UpdateDisabled(String value)
+        {
+            if (value != null)
+            {
+                var firstLegend = Children.FirstOrDefault(m => m is HTMLLegendElement);
+
+                foreach (var element in Elements.OfType<HTMLFormControlElement>())
+                {
+                    if (element.ParentElement != firstLegend)
+                        element.IsDisabled = true;
                 }
-            });
+            }
         }
 
         #endregion

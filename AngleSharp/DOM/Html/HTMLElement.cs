@@ -320,7 +320,7 @@
 
             if (Owner.Options.IsStyling)
             {
-                RegisterAttributeHandler(AttributeNames.Style, value => UpdateStyle(value));
+                RegisterAttributeHandler(AttributeNames.Style, UpdateStyle);
                 UpdateStyle(GetAttribute(AttributeNames.Style));
             }
         }

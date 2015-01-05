@@ -443,7 +443,7 @@
         internal override void Close()
         {
             base.Close();
-            RegisterAttributeHandler(AttributeNames.Type, value => UpdateType(value));
+            RegisterAttributeHandler(AttributeNames.Type, UpdateType);
             UpdateType(GetAttribute(AttributeNames.Type));
         }
 

@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        Url _href;
         TokenList _relList;
         SettableTokenList _ping;
 

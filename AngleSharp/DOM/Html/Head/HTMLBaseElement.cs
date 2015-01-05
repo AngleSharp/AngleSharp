@@ -47,7 +47,7 @@
         internal override void Close()
         {
             base.Close();
-            RegisterAttributeHandler(AttributeNames.Href, value => UpdateUrl(value));
+            RegisterAttributeHandler(AttributeNames.Href, UpdateUrl);
             UpdateUrl(GetAttribute(AttributeNames.Href));
         }
 
