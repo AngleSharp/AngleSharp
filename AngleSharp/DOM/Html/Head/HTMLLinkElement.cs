@@ -15,6 +15,7 @@
     {
         #region Fields
 
+        Url _url;
         IStyleSheet _sheet;
         String _buffer;
         TokenList _relList;
@@ -66,7 +67,7 @@
         /// </summary>
         public String Href
         {
-            get { return this.HyperRef(GetAttribute(AttributeNames.Href)).Href; }
+            get { return _url != null ? _url.Href : String.Empty; }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 
@@ -146,14 +147,7 @@
         public Boolean IsDisabled
         {
             get { return GetAttribute(AttributeNames.Disabled).ToBoolean(); }
-            set 
-            { 
-                SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); 
-                var sheet = Sheet;
-                
-                if (sheet != null)
-                    sheet.IsDisabled = value; 
-            }
+            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -203,8 +197,23 @@
                 if (_sheet != null)
                     _sheet.Media.MediaText = value;
             });
-            RegisterAttributeHandler(AttributeNames.Href, value => TargetChanged());
+            RegisterAttributeHandler(AttributeNames.Disabled, UpdateDisabled);
+            RegisterAttributeHandler(AttributeNames.Href, UpdateLink);
             RegisterAttributeHandler(AttributeNames.Type, value => TargetChanged());
+            UpdateLink(GetAttribute(AttributeNames.Href));
+        }
+
+        void UpdateDisabled(String value)
+        {
+            var sheet = Sheet;
+
+            if (sheet != null)
+                sheet.IsDisabled = value != null;
+        }
+
+        void UpdateLink(String value)
+        {
+            _url = this.HyperRef(value);
             TargetChanged();
         }
 

@@ -36,8 +36,10 @@
         /// <returns>The absolute URL.</returns>
         public static Url HyperRef(this INode node, String url)
         {
-            var baseUrl = new Url(node.BaseUri);
-            return new Url(baseUrl, url ?? String.Empty);
+            if (url == null)
+                return null;
+
+            return new Url(node.BaseUrl, url);
         }
 
         /// <summary>

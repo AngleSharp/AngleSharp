@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        Url _href;
+        Location _location;
         TokenList _relList;
         SettableTokenList _ping;
 
@@ -57,7 +57,7 @@
         /// </summary>
         public String Href
         {
-            get { return this.HyperRef(GetAttribute(AttributeNames.Href)).Href; }
+            get { return _location.Href; }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 
@@ -67,13 +67,8 @@
         /// </summary>
         public String Hash
         {
-            get { return new Location(Href).Hash; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.Hash = value;
-                Href = loc.Href;
-            }
+            get { return _location.Hash; }
+            set { _location.Hash = value; }
         }
 
         /// <summary>
@@ -82,13 +77,8 @@
         /// </summary>
         public String Host
         {
-            get { return new Location(Href).Host; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.Host = value;
-                Href = loc.Href;
-            }
+            get { return _location.Host; }
+            set { _location.Host = value; }
         }
 
         /// <summary>
@@ -96,13 +86,8 @@
         /// </summary>
         public String HostName
         {
-            get { return new Location(Href).HostName; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.HostName = value;
-                Href = loc.Href;
-            }
+            get { return _location.HostName; }
+            set { _location.HostName = value; }
         }
 
         /// <summary>
@@ -111,13 +96,8 @@
         /// </summary>
         public String PathName
         {
-            get { return new Location(Href).PathName; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.PathName = value;
-                Href = loc.Href;
-            }
+            get { return _location.PathName; }
+            set { _location.PathName = value; }
         }
 
         /// <summary>
@@ -125,13 +105,8 @@
         /// </summary>
         public String Port
         {
-            get { return new Location(Href).Port; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.Port = value;
-                Href = loc.Href;
-            }
+            get { return _location.Port; }
+            set { _location.Port = value; }
         }
 
         /// <summary>
@@ -140,13 +115,8 @@
         /// </summary>
         public String Protocol
         {
-            get { return new Location(Href).Protocol; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.Protocol = value;
-                Href = loc.Href;
-            }
+            get { return _location.Protocol; }
+            set { _location.Protocol = value; }
         }
 
         /// <summary>
@@ -154,13 +124,8 @@
         /// </summary>
         public String UserName
         {
-            get { return new Location(Href).UserName; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.UserName = value;
-                Href = loc.Href;
-            }
+            get { return _location.UserName; }
+            set { _location.UserName = value; }
         }
 
         /// <summary>
@@ -168,13 +133,8 @@
         /// </summary>
         public String Password
         {
-            get { return new Location(Href).Password; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.Password = value;
-                Href = loc.Href;
-            }
+            get { return _location.Password; }
+            set { _location.Password = value; }
         }
 
         /// <summary>
@@ -183,13 +143,8 @@
         /// </summary>
         public String Search
         {
-            get { return new Location(Href).Search; }
-            set
-            {
-                var loc = new Location(Href);
-                loc.Search = value;
-                Href = loc.Href;
-            }
+            get { return _location.Search; }
+            set { _location.Search = value; }
         }
 
         /// <summary>
@@ -197,7 +152,7 @@
         /// </summary>
         public String Origin
         {
-            get { return new Location(Href).Origin; }
+            get { return _location.Origin; }
         }
 
         /// <summary>
@@ -339,6 +294,13 @@
                 if (_relList != null)
                     _relList.Update(value);
             });
+            RegisterAttributeHandler(AttributeNames.Href, UpdateLink);
+            UpdateLink(GetAttribute(AttributeNames.Href));
+        }
+
+        void UpdateLink(String value)
+        {
+            _location = new Location(this.HyperRef(value));
         }
 
         #endregion

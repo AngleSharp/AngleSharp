@@ -37,8 +37,17 @@
         /// </summary>
         /// <param name="url">The URL to represent.</param>
         internal Location(String url)
+            : this(new Url(url))
         {
-            _url = new Url(url);
+        }
+
+        /// <summary>
+        /// Creates a new location based on the given URL.
+        /// </summary>
+        /// <param name="url">The URL to wrap.</param>
+        internal Location(Url url)
+        {
+            _url = url ?? new Url(String.Empty);
         }
 
         #endregion
