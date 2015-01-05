@@ -14,8 +14,8 @@
 
         #region ctor
 
-        public ColorInputType(String name)
-            : base(name, validate: true)
+        public ColorInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -23,11 +23,11 @@
 
         #region Methods
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            var value = input.Value ?? String.Empty;
+            var value = Input.Value ?? String.Empty;
             state.IsBadInput = color.IsMatch(value) == false;
-            state.IsValueMissing = input.IsRequired && state.IsBadInput;
+            state.IsValueMissing = Input.IsRequired && state.IsBadInput;
         }
 
         #endregion

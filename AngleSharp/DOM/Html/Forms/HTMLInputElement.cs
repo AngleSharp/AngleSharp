@@ -400,7 +400,7 @@
         /// <param name="n">Optional: The number of steps to take.</param>
         public void StepUp(Int32 n = 1)
         {
-            _type.DoStep(this, n);
+            _type.DoStep(n);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@
         /// <param name="n">Optional: The number of steps to take.</param>
         public void StepDown(Int32 n = 1)
         {
-            _type.DoStep(this, -n);
+            _type.DoStep(-n);
         }
 
         #endregion
@@ -434,121 +434,19 @@
 
         void UpdateType(String type)
         {
-            _type = InputTypeFactory.Create(type ?? Keywords.Text);
+            _type = InputTypeFactory.Create(this, type);
 
-            switch (type.ToEnum(InputType.Text))
+            if (_type.Name == InputTypeNames.Image)
             {
-                case InputType.Image:
-                    var src = Source;
+                var src = Source;
 
-                    if (src != null)
-                    {
-                        var url = this.HyperRef(src);
-                        _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
-                        _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
-                    }
-
-                    break;
+                if (src != null)
+                {
+                    var url = this.HyperRef(src);
+                    _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
+                    _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
+                }
             }
-        }
-
-        #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration with possible input types.
-        /// </summary>
-        public enum InputType : ushort
-        {
-            /// <summary>
-            /// The input will be hidden.
-            /// </summary>
-            Hidden,
-            /// <summary>
-            /// A standard (1-line) text input.
-            /// </summary>
-            Text,
-            /// <summary>
-            /// A search input.
-            /// </summary>
-            Search,
-            /// <summary>
-            /// A telephone number input.
-            /// </summary>
-            Tel,
-            /// <summary>
-            /// An URL input field.
-            /// </summary>
-            Url,
-            /// <summary>
-            /// An email input field.
-            /// </summary>
-            Email,
-            /// <summary>
-            /// A password input field.
-            /// </summary>
-            Password,
-            /// <summary>
-            /// A datetime input field.
-            /// </summary>
-            Datetime,
-            /// <summary>
-            /// A date input field.
-            /// </summary>
-            Date,
-            /// <summary>
-            /// A month picker input field.
-            /// </summary>
-            Month,
-            /// <summary>
-            /// A week picker input field.
-            /// </summary>
-            Week,
-            /// <summary>
-            /// A time picker input field.
-            /// </summary>
-            Time,
-            /// <summary>
-            /// A number input field.
-            /// </summary>
-            Number,
-            /// <summary>
-            /// A range picker.
-            /// </summary>
-            Range,
-            /// <summary>
-            /// A color picker input field.
-            /// </summary>
-            Color,
-            /// <summary>
-            /// A checkbox.
-            /// </summary>
-            Checkbox,
-            /// <summary>
-            /// A radio box.
-            /// </summary>
-            Radio,
-            /// <summary>
-            /// A file upload box.
-            /// </summary>
-            File,
-            /// <summary>
-            /// A submit button.
-            /// </summary>
-            Submit,
-            /// <summary>
-            /// An image input box.
-            /// </summary>
-            Image,
-            /// <summary>
-            /// A reset form button.
-            /// </summary>
-            Reset,
-            /// <summary>
-            /// A simple button.
-            /// </summary>
-            Button
         }
 
         #endregion
@@ -562,7 +460,7 @@
         /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
         {
-            _type.ConstructDataSet(this, dataSet);
+            _type.ConstructDataSet(dataSet);
         }
 
         /// <summary>
@@ -582,7 +480,7 @@
         protected override void Check(ValidityState state)
         {
             base.Check(state);
-            _type.Check(this, state);
+            _type.Check(state);
         }
 
         protected override Boolean CanBeValidated()

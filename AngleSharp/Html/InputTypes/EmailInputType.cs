@@ -14,8 +14,8 @@
 
         #region ctor
 
-        public EmailInputType(String name)
-            : base(name, validate: true)
+        public EmailInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -23,12 +23,12 @@
 
         #region Methods
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            var value = input.Value ?? String.Empty;
-            state.IsPatternMismatch = IsInvalidPattern(input.Pattern, value);
+            var value = Input.Value ?? String.Empty;
+            state.IsPatternMismatch = IsInvalidPattern(Input.Pattern, value);
 
-            if (IsInvalidEmail(input.IsMultiple, value))
+            if (IsInvalidEmail(Input.IsMultiple, value))
             {
                 state.IsTypeMismatch = !String.IsNullOrEmpty(value);
                 state.IsBadInput = state.IsTypeMismatch;

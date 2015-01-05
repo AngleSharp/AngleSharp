@@ -6,12 +6,17 @@
     using System;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Base type for the all input field types. Primarely from:
+    /// http://www.w3.org/TR/html5/forms.html#range-state-(type=range)
+    /// </summary>
     abstract class BaseInputType
     {
         #region Fields
 
         static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
 
+        readonly IHtmlInputElement _input;
         readonly Boolean _validate;
         readonly String _name;
 
@@ -19,13 +24,9 @@
 
         #region ctor
 
-        public BaseInputType(String name)
-            : this(name, true)
+        public BaseInputType(IHtmlInputElement input, String name, Boolean validate)
         {
-        }
-
-        public BaseInputType(String name, Boolean validate)
-        {
+            _input = input;
             _validate = validate;
             _name = name;
         }
@@ -44,11 +45,16 @@
             get { return _validate; }
         }
 
+        public IHtmlInputElement Input
+        {
+            get { return _input; }
+        }
+
         #endregion
 
         #region Methods
 
-        public virtual void Check(IHtmlInputElement input, ValidityState state)
+        public virtual void Check(ValidityState state)
         {
         }
 
@@ -62,12 +68,12 @@
             return null;
         }
 
-        public virtual void ConstructDataSet(IHtmlInputElement input, FormDataSet dataSet)
+        public virtual void ConstructDataSet(FormDataSet dataSet)
         {
-            dataSet.Append(input.Name, input.Value, input.Type);
+            dataSet.Append(_input.Name, _input.Value, _input.Type);
         }
 
-        public virtual void DoStep(IHtmlInputElement input, Int32 n)
+        public virtual void DoStep(Int32 n)
         {
             throw new DomException(ErrorCode.InvalidState);
         }
@@ -76,57 +82,57 @@
 
         #region Step
 
-        protected Boolean IsStepMismatch(IHtmlInputElement input)
+        protected Boolean IsStepMismatch()
         {
-            var step = GetStep(input);
-            var value = ConvertToNumber(input.Value);
-            var offset = GetStepBase(input);
+            var step = GetStep();
+            var value = ConvertToNumber(_input.Value);
+            var offset = GetStepBase();
             return step != 0.0 && (value - offset) % step != 0.0;
         }
 
-        protected Double GetStep(IHtmlInputElement input)
+        protected Double GetStep()
         {
-            var step = input.Step;
+            var step = _input.Step;
 
             if (String.IsNullOrEmpty(step))
-                return GetDefaultStep(input) * GetStepScaleFactor(input);
+                return GetDefaultStep() * GetStepScaleFactor();
             else if (step.Equals(Keywords.Any, StringComparison.OrdinalIgnoreCase))
                 return 0.0;
 
             var num = ConvertFromNumber(step);
 
             if (num.HasValue == false || num <= 0.0)
-                return GetDefaultStep(input) * GetStepScaleFactor(input);
+                return GetDefaultStep() * GetStepScaleFactor();
 
-            return num.Value * GetStepScaleFactor(input);
+            return num.Value * GetStepScaleFactor();
         }
 
-        Double GetStepBase(IHtmlInputElement input)
+        Double GetStepBase()
         {
-            var num = ConvertToNumber(input.Minimum);
+            var num = ConvertToNumber(_input.Minimum);
 
             if (num.HasValue)
                 return num.Value;
 
-            num = ConvertToNumber(input.DefaultValue);
+            num = ConvertToNumber(_input.DefaultValue);
 
             if (num.HasValue)
                 return num.Value;
 
-            return GetDefaultStepBase(input);
+            return GetDefaultStepBase();
         }
 
-        protected virtual Double GetDefaultStepBase(IHtmlInputElement input)
+        protected virtual Double GetDefaultStepBase()
         {
             return 0.0;
         }
 
-        protected virtual Double GetDefaultStep(IHtmlInputElement input)
+        protected virtual Double GetDefaultStep()
         {
             return 1.0;
         }
 
-        protected virtual Double GetStepScaleFactor(IHtmlInputElement input)
+        protected virtual Double GetStepScaleFactor()
         {
             return 1.0;
         }

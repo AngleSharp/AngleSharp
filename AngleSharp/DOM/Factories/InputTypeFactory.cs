@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
     using System;
     using System.Collections.Generic;
@@ -9,52 +10,51 @@
     /// </summary>
     static class InputTypeFactory
     {
-        static readonly Dictionary<String, BaseInputType> values = new Dictionary<String, BaseInputType>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Func<IHtmlInputElement, BaseInputType>> values = new Dictionary<String, Func<IHtmlInputElement, BaseInputType>>(StringComparer.OrdinalIgnoreCase);
 
         static InputTypeFactory()
         {
-            Add(new TextInputType("text"));
-            Add(new DateInputType("date"));
-            Add(new WeekInputType("week"));
-            Add(new DatetimeInputType("datetime"));
-            Add(new TimeInputType("time"));
-            Add(new MonthInputType("month"));
-            Add(new NumberInputType("range"));
-            Add(new NumberInputType("number"));
-            Add(new ButtonInputType("hidden"));
-            Add(new TextInputType("search"));
-            Add(new EmailInputType("email"));
-            Add(new PatternInputType("tel"));
-            Add(new UrlInputType("url"));
-            Add(new PatternInputType("password"));
-            Add(new ColorInputType("color"));
-            Add(new CheckedInputType("checkbox"));
-            Add(new CheckedInputType("radio"));
-            Add(new FileInputType("file"));
-            Add(new SubmitInputType("submit"));
-            Add(new ButtonInputType("reset"));
-            Add(new ImageInputType("image"));
-            Add(new ButtonInputType("button"));
-        }
-
-        static void Add(BaseInputType value)
-        {
-            values.Add(value.Name, value);
+            values.Add(InputTypeNames.Text, input => new TextInputType(input, InputTypeNames.Text));
+            values.Add(InputTypeNames.Date, input => new DateInputType(input, InputTypeNames.Date));
+            values.Add(InputTypeNames.Week, input => new WeekInputType(input, InputTypeNames.Week));
+            values.Add(InputTypeNames.Datetime, input => new DatetimeInputType(input, InputTypeNames.Datetime));
+            values.Add(InputTypeNames.Time, input => new TimeInputType(input, InputTypeNames.Time));
+            values.Add(InputTypeNames.Month, input => new MonthInputType(input, InputTypeNames.Month));
+            values.Add(InputTypeNames.Range, input => new NumberInputType(input, InputTypeNames.Range));
+            values.Add(InputTypeNames.Number, input => new NumberInputType(input, InputTypeNames.Number));
+            values.Add(InputTypeNames.Hidden, input => new ButtonInputType(input, InputTypeNames.Hidden));
+            values.Add(InputTypeNames.Search, input => new TextInputType(input, InputTypeNames.Search));
+            values.Add(InputTypeNames.Email, input => new EmailInputType(input, InputTypeNames.Email));
+            values.Add(InputTypeNames.Tel, input => new PatternInputType(input, InputTypeNames.Tel));
+            values.Add(InputTypeNames.Url, input => new UrlInputType(input, InputTypeNames.Url));
+            values.Add(InputTypeNames.Password, input => new PatternInputType(input, InputTypeNames.Password));
+            values.Add(InputTypeNames.Color, input => new ColorInputType(input, InputTypeNames.Color));
+            values.Add(InputTypeNames.Checkbox, input => new CheckedInputType(input, InputTypeNames.Checkbox));
+            values.Add(InputTypeNames.Radio, input => new CheckedInputType(input, InputTypeNames.Radio));
+            values.Add(InputTypeNames.File, input => new FileInputType(input, InputTypeNames.File));
+            values.Add(InputTypeNames.Submit, input => new SubmitInputType(input, InputTypeNames.Submit));
+            values.Add(InputTypeNames.Reset, input => new ButtonInputType(input, InputTypeNames.Reset));
+            values.Add(InputTypeNames.Image, input => new ImageInputType(input, InputTypeNames.Image));
+            values.Add(InputTypeNames.Button, input => new ButtonInputType(input, InputTypeNames.Button));
         }
 
         /// <summary>
-        /// Returns a InputType provider for the element.
+        /// Creates an InputType provider for the provided element.
         /// </summary>
-        /// <param name="type">The type of the input element.</param>
+        /// <param name="input">The input element.</param>
+        /// <param name="type">The current value of the type attribute.</param>
         /// <returns>The InputType provider or text, if the type is unknown.</returns>
-        public static BaseInputType Create(String type)
+        public static BaseInputType Create(IHtmlInputElement input, String type)
         {
-            BaseInputType instance;
+            Func<IHtmlInputElement, BaseInputType> creator;
 
-            if (values.TryGetValue(type, out instance))
-                return instance;
+            if (String.IsNullOrEmpty(type))
+                type = InputTypeNames.Text;
 
-            return values[Keywords.Text];
+            if (!values.TryGetValue(type, out creator))
+                creator = values[InputTypeNames.Text];
+
+            return creator(input);
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
+    using AngleSharp.DOM.Html;
     using System;
 
     class SubmitInputType : BaseInputType
     {
         #region ctor
 
-        public SubmitInputType(String name)
-            : base(name, validate: true)
+        public SubmitInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 

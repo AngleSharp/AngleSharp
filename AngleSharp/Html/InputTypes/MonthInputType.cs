@@ -8,8 +8,8 @@
     {
         #region ctor
 
-        public MonthInputType(String name)
-            : base(name, validate: true)
+        public MonthInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -17,28 +17,28 @@
 
         #region Methods
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            var value = input.Value;
+            var value = Input.Value;
             var date = ConvertFromMonth(value);
 
             if (date.HasValue)
             {
-                var min = ConvertFromMonth(input.Minimum);
-                var max = ConvertFromMonth(input.Maximum);
+                var min = ConvertFromMonth(Input.Minimum);
+                var max = ConvertFromMonth(Input.Maximum);
 
                 state.IsRangeUnderflow = min.HasValue && date < min.Value;
                 state.IsRangeOverflow = max.HasValue && date > max.Value;
                 state.IsValueMissing = false;
                 state.IsBadInput = false;
-                state.IsStepMismatch = IsStepMismatch(input);
+                state.IsStepMismatch = IsStepMismatch();
             }
             else
             {
                 state.IsRangeUnderflow = false;
                 state.IsRangeOverflow = false;
                 state.IsStepMismatch = false;
-                state.IsValueMissing = input.IsRequired;
+                state.IsValueMissing = Input.IsRequired;
                 state.IsBadInput = !String.IsNullOrEmpty(value);
             }
         }
@@ -58,18 +58,18 @@
             return ConvertFromMonth(value);
         }
 
-        public override void DoStep(IHtmlInputElement input, Int32 n)
+        public override void DoStep(Int32 n)
         {
-            var dt = ConvertFromMonth(input.Value);
+            var dt = ConvertFromMonth(Input.Value);
 
             if (dt.HasValue)
             {
-                var date = dt.Value.AddMilliseconds(GetStep(input) * n);
-                var min = ConvertFromMonth(input.Minimum);
-                var max = ConvertFromMonth(input.Maximum);
+                var date = dt.Value.AddMilliseconds(GetStep() * n);
+                var min = ConvertFromMonth(Input.Minimum);
+                var max = ConvertFromMonth(Input.Maximum);
 
                 if ((min.HasValue == false || min.Value <= date) && (max.HasValue == false || max.Value >= date))
-                    input.ValueAsDate = date;
+                    Input.ValueAsDate = date;
             }
         }
 
@@ -77,17 +77,17 @@
 
         #region Step
 
-        protected override Double GetDefaultStepBase(IHtmlInputElement input)
+        protected override Double GetDefaultStepBase()
         {
             return 0.0;
         }
 
-        protected override Double GetDefaultStep(IHtmlInputElement input)
+        protected override Double GetDefaultStep()
         {
             return 1.0;
         }
 
-        protected override Double GetStepScaleFactor(IHtmlInputElement input)
+        protected override Double GetStepScaleFactor()
         {
             return 1.0;
         }

@@ -9,8 +9,8 @@
     {
         #region ctor
 
-        public FileInputType(String name)
-            : base(name, validate: true)
+        public FileInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -18,15 +18,15 @@
 
         #region Methods
 
-        public override void ConstructDataSet(IHtmlInputElement input, FormDataSet dataSet)
+        public override void ConstructDataSet(FormDataSet dataSet)
         {
-            var files = input.Files;
+            var files = Input.Files;
 
             if (files.Length == 0)
-                dataSet.Append(input.Name, String.Empty, MimeTypes.Binary);
+                dataSet.Append(Input.Name, String.Empty, MimeTypes.Binary);
 
             for (var i = 0; i < files.Length; i++)
-                dataSet.Append(input.Name, files[i] as FileEntry, input.Type);
+                dataSet.Append(Input.Name, files[i] as FileEntry, Input.Type);
         }
 
         #endregion

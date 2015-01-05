@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public UrlInputType(String name)
-            : base(name, validate: true)
+        public UrlInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -16,10 +16,10 @@
 
         #region Methods
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            var value = input.Value ?? String.Empty;
-            state.IsPatternMismatch = IsInvalidPattern(input.Pattern, value);
+            var value = Input.Value ?? String.Empty;
+            state.IsPatternMismatch = IsInvalidPattern(Input.Pattern, value);
 
             if (IsInvalidUrl(value))
             {

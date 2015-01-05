@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public CheckedInputType(String name)
-            : base(name, validate: true)
+        public CheckedInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -16,21 +16,21 @@
 
         #region Methods
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            state.IsValueMissing = input.IsRequired && input.IsChecked == false;
+            state.IsValueMissing = Input.IsRequired && Input.IsChecked == false;
         }
 
-        public override void ConstructDataSet(IHtmlInputElement input, FormDataSet dataSet)
+        public override void ConstructDataSet(FormDataSet dataSet)
         {
-            if (input.IsChecked)
+            if (Input.IsChecked)
             {
                 var value = Keywords.On;
 
-                if (!String.IsNullOrEmpty(input.Value))
-                    value = input.Value;
+                if (!String.IsNullOrEmpty(Input.Value))
+                    value = Input.Value;
 
-                dataSet.Append(input.Name, value, input.Type);
+                dataSet.Append(Input.Name, value, Input.Type);
             }
         }
 

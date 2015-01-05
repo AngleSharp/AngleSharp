@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public TimeInputType(String name)
-            : base(name, validate: true)
+        public TimeInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -16,28 +16,28 @@
 
         #region Methods
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            var value = input.Value;
+            var value = Input.Value;
             var date = ConvertFromTime(value);
 
             if (date.HasValue)
             {
-                var min = ConvertFromTime(input.Minimum);
-                var max = ConvertFromTime(input.Maximum);
+                var min = ConvertFromTime(Input.Minimum);
+                var max = ConvertFromTime(Input.Maximum);
 
                 state.IsRangeUnderflow = min.HasValue && date < min.Value;
                 state.IsRangeOverflow = max.HasValue && date > max.Value;
                 state.IsValueMissing = false;
                 state.IsBadInput = false;
-                state.IsStepMismatch = IsStepMismatch(input);
+                state.IsStepMismatch = IsStepMismatch();
             }
             else
             {
                 state.IsRangeUnderflow = false;
                 state.IsRangeOverflow = false;
                 state.IsStepMismatch = false;
-                state.IsValueMissing = input.IsRequired;
+                state.IsValueMissing = Input.IsRequired;
                 state.IsBadInput = !String.IsNullOrEmpty(value);
             }
         }
@@ -57,18 +57,18 @@
             return ConvertFromTime(value);
         }
 
-        public override void DoStep(IHtmlInputElement input, Int32 n)
+        public override void DoStep(Int32 n)
         {
-            var dt = ConvertFromTime(input.Value);
+            var dt = ConvertFromTime(Input.Value);
 
             if (dt.HasValue)
             {
-                var date = dt.Value.AddMilliseconds(GetStep(input) * n);
-                var min = ConvertFromTime(input.Minimum);
-                var max = ConvertFromTime(input.Maximum);
+                var date = dt.Value.AddMilliseconds(GetStep() * n);
+                var min = ConvertFromTime(Input.Minimum);
+                var max = ConvertFromTime(Input.Maximum);
 
                 if ((min.HasValue == false || min.Value <= date) && (max.HasValue == false || max.Value >= date))
-                    input.ValueAsDate = date;
+                    Input.ValueAsDate = date;
             }
         }
 
@@ -76,17 +76,17 @@
 
         #region Step
 
-        protected override Double GetDefaultStepBase(IHtmlInputElement input)
+        protected override Double GetDefaultStepBase()
         {
             return 0.0;
         }
 
-        protected override Double GetDefaultStep(IHtmlInputElement input)
+        protected override Double GetDefaultStep()
         {
             return 60.0;
         }
 
-        protected override Double GetStepScaleFactor(IHtmlInputElement input)
+        protected override Double GetStepScaleFactor()
         {
             return 1000.0;
         }

@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public NumberInputType(String name)
-            : base(name, validate: true)
+        public NumberInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -21,43 +21,43 @@
             return ConvertFromNumber(value);
         }
 
-        public override void Check(IHtmlInputElement input, ValidityState state)
+        public override void Check(ValidityState state)
         {
-            var value = input.Value;
+            var value = Input.Value;
             var num = ConvertToNumber(value);
             state.Reset();
 
             if (num.HasValue)
             {
-                var min = ConvertToNumber(input.Minimum);
-                var max = ConvertToNumber(input.Maximum);
+                var min = ConvertToNumber(Input.Minimum);
+                var max = ConvertToNumber(Input.Maximum);
 
                 state.IsRangeUnderflow = min.HasValue && num < min.Value;
                 state.IsRangeOverflow = max.HasValue && num > max.Value;
                 state.IsValueMissing = false;
-                state.IsStepMismatch = IsStepMismatch(input);
+                state.IsStepMismatch = IsStepMismatch();
             }
             else
             {
                 state.IsRangeUnderflow = false;
                 state.IsRangeOverflow = false;
-                state.IsValueMissing = input.IsRequired;
+                state.IsValueMissing = Input.IsRequired;
                 state.IsStepMismatch = false;
             }
         }
 
-        public override void DoStep(IHtmlInputElement input, Int32 n)
+        public override void DoStep(Int32 n)
         {
-            var num = ConvertFromNumber(input.Value);
+            var num = ConvertFromNumber(Input.Value);
 
             if (num.HasValue)
             {
-                var res = num.Value + GetStep(input) * n;
-                var min = ConvertFromNumber(input.Minimum);
-                var max = ConvertFromNumber(input.Maximum);
+                var res = num.Value + GetStep() * n;
+                var min = ConvertFromNumber(Input.Minimum);
+                var max = ConvertFromNumber(Input.Maximum);
 
                 if ((min.HasValue == false || min.Value <= res) && (max.HasValue == false || max.Value >= res))
-                    input.ValueAsNumber = res;
+                    Input.ValueAsNumber = res;
             }
         }
 
@@ -65,17 +65,17 @@
 
         #region Step
 
-        protected override Double GetDefaultStepBase(IHtmlInputElement input)
+        protected override Double GetDefaultStepBase()
         {
             return 0.0;
         }
 
-        protected override Double GetDefaultStep(IHtmlInputElement input)
+        protected override Double GetDefaultStep()
         {
             return 1.0;
         }
 
-        protected override Double GetStepScaleFactor(IHtmlInputElement input)
+        protected override Double GetStepScaleFactor()
         {
             return 1.0;
         }

@@ -7,8 +7,8 @@
     {
         #region ctor
 
-        public ImageInputType(String name)
-            : base(name, validate: true)
+        public ImageInputType(IHtmlInputElement input, String name)
+            : base(input, name, validate: true)
         {
         }
 
@@ -16,21 +16,21 @@
 
         #region Methods
 
-        public override void ConstructDataSet(IHtmlInputElement input, FormDataSet dataSet)
+        public override void ConstructDataSet(FormDataSet dataSet)
         {
-            if (!String.IsNullOrEmpty(input.Name))
+            if (!String.IsNullOrEmpty(Input.Name))
             {
                 var name = String.Empty;
 
-                if (!String.IsNullOrEmpty(input.Value))
-                    name = input.Value + ".";
+                if (!String.IsNullOrEmpty(Input.Value))
+                    name = Input.Value + ".";
 
                 var namex = name + "x";
                 var namey = name + "y";
 
                 //TODO get x and y of submitter and save those
-                dataSet.Append(namex, "0", input.Type);
-                dataSet.Append(namey, "0", input.Type);
+                dataSet.Append(namex, "0", Input.Type);
+                dataSet.Append(namey, "0", Input.Type);
             }
         }
 
