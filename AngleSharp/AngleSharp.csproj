@@ -114,6 +114,7 @@
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\MutationHost.cs" />
+    <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
     <Compile Include="Html\InputTypes\CheckedInputType.cs" />
     <Compile Include="Html\InputTypes\ColorInputType.cs" />
