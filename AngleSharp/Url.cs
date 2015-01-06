@@ -416,6 +416,8 @@
 
                         if (_scheme == KnownProtocols.File)
                         {
+                            _host = String.Empty;
+                            _port = String.Empty;
                             return RelativeState(input, index + 1);
                         }
                         else if (!_relative)
@@ -737,6 +739,7 @@
                 }
             }
 
+            var originalCount = paths.Count;
             var buffer = Pool.NewStringBuilder();
 
             while (index <= input.Length)
@@ -764,8 +767,11 @@
                     }
                     else if (!path.Equals(currentDirectory))
                     {
-                        if (_scheme == KnownProtocols.File && paths.Count == 0 && path.Length == 2 && path[0].IsLetter() && path[1] == Specification.Pipe)
+                        if (_scheme == KnownProtocols.File && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Specification.Pipe)
+                        {
                             path = path.Replace(Specification.Pipe, Specification.Colon);
+                            paths.Clear();
+                        }
 
                         paths.Add(path);
                     }
