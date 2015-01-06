@@ -4,6 +4,8 @@
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
+    using System.Text;
+
 
     /// <summary>
     /// Represents an Url class according to RFC3986.
@@ -341,14 +343,15 @@
                 {
                     output.Append(Specification.Solidus).Append(Specification.Solidus);
 
-                    if (!String.IsNullOrEmpty(_username))
+                    if (String.IsNullOrEmpty(_username) == false || _password != null)
+                    {
                         output.Append(_username);
 
-                    if (!String.IsNullOrEmpty(_password))
-                        output.Append(Specification.Colon).Append(_password);
+                        if (_password != null)
+                            output.Append(Specification.Colon).Append(_password);
 
-                    if (!String.IsNullOrEmpty(_username) || !String.IsNullOrEmpty(_password))
                         output.Append(Specification.At);
+                    }
 
                     output.Append(_host);
 
@@ -543,8 +546,8 @@
         {
             var start = index;
             var buffer = Pool.NewStringBuilder();
-            String user = null;
-            String pass = null;
+            var user = default(String);
+            var pass = default(String);
 
             while (index < input.Length)
             {
@@ -553,15 +556,13 @@
                 if (c == Specification.At)
                 {
                     if (user == null)
-                    {
                         user = buffer.ToString();
-                        buffer.Clear();
-                    }
+                    else
+                        pass = buffer.ToString();
 
-                    pass = buffer.ToString();
-                    start = index + 1;
                     _username = user;
                     _password = pass;
+                    start = index + 1;
                     break;
                 }
                 else if (c == Specification.Colon)
@@ -571,13 +572,25 @@
                     buffer.Clear();
                 }
                 else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
+                }
+                else if (c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn)
+                {
+                    // Parse Error
+                }
                 else if (c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num || c == Specification.QuestionMark)
+                {
                     break;
-                else if (c.IsInRange(0x20, 0x7e) && c != Specification.Space && c != Specification.DoubleQuote && c != Specification.CurvedQuote && c != Specification.LessThan && c != Specification.GreaterThan)
+                }
+                else if (c == Specification.Num || c == Specification.QuestionMark || c.IsNormalPathCharacter())
+                {
                     buffer.Append(c);
+                }
                 else
-                    buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
+                {
+                    Utf8PercentEncode(buffer, c);
+                }
 
                 index++;
             }
@@ -604,7 +617,7 @@
             var length = index - start;
 
             if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Specification.Pipe || input[index - 1] == Specification.Colon))
-                return ParsePath(input, index);
+                return ParsePath(input, index - 2);
             else if (length != 0)
                 _host = SanatizeHost(input, start, length);
 
@@ -773,10 +786,7 @@
                 }
                 else
                 {
-                    var bytes = DocumentEncoding.UTF8.GetBytes(new[] { c });
-
-                    for (var i = 0; i < bytes.Length; i++)
-                        buffer.Append(Specification.Percent).Append(bytes[i].ToString("X2"));
+                    Utf8PercentEncode(buffer, c);
                 }
 
                 index++;
@@ -856,6 +866,14 @@
 
         #region Helpers
 
+        static void Utf8PercentEncode(StringBuilder buffer, Char c)
+        {
+            var bytes = DocumentEncoding.UTF8.GetBytes(new[] { c });
+
+            for (var i = 0; i < bytes.Length; i++)
+                buffer.Append(Specification.Percent).Append(bytes[i].ToString("X2"));
+        }
+
         static String SanatizeHost(String hostName, Int32 start, Int32 length)
         {
             if (length > 1 && hostName[start] == Specification.SquareBracketOpen && hostName[start + length - 1] == Specification.SquareBracketClose)
@@ -885,7 +903,7 @@
                     case Specification.ReverseSolidus:
                         break;
                     default:
-                        chars[count++] = hostName[i];
+                        chars[count++] = Char.ToLowerInvariant(hostName[i]);
                         break;
                 }
             }
