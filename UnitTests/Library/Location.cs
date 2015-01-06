@@ -86,13 +86,15 @@
         [Test]
         public void DataLocationComplete()
         {
-            var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
+            var data = "image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
+            var scheme = "data:";
+            var url = scheme + data;
             var location = new Location(url);
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
-            Assert.AreEqual("data:", location.Protocol);
+            Assert.AreEqual(data, location.PathName);
+            Assert.AreEqual(scheme, location.Protocol);
             Assert.AreEqual("", location.Host);
             Assert.AreEqual("", location.HostName);
             Assert.AreEqual(url, location.Href);
@@ -293,9 +295,8 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("telnet:", location.Protocol);
-            Assert.AreEqual("//192.0.2.16:80/", location.Data);
+            Assert.AreEqual("//192.0.2.16:80/", location.PathName);
             Assert.AreEqual("", location.Host);
             Assert.AreEqual("", location.HostName);
             Assert.AreEqual(url, location.Href);
@@ -310,9 +311,8 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("tel:", location.Protocol);
-            Assert.AreEqual("+1-816-555-1212", location.Data);
+            Assert.AreEqual("+1-816-555-1212", location.PathName);
             Assert.AreEqual("", location.Host);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
@@ -326,9 +326,8 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("news:", location.Protocol);
-            Assert.AreEqual("comp.infosystems.www.servers.unix", location.Data);
+            Assert.AreEqual("comp.infosystems.www.servers.unix", location.PathName);
             Assert.AreEqual("", location.Host);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
@@ -344,7 +343,6 @@
             Assert.AreEqual("?to=addr1@an.example,addr2@an.example", location.Search);
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("mailto:", location.Protocol);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("", location.Host);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
@@ -358,9 +356,8 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("mailto:", location.Protocol);
-            Assert.AreEqual("John.Doe@example.com", location.Data);
+            Assert.AreEqual("John.Doe@example.com", location.PathName);
             Assert.AreEqual("", location.Host);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
@@ -374,10 +371,9 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("?objectClass?one", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("ldap:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("//[2001:db8::7]/c=GB", location.Data);
+            Assert.AreEqual("//[2001:db8::7]/c=GB", location.PathName);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -405,10 +401,9 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("urn:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("oasis:names:specification:docbook:dtd:xml:4.1.2", location.Data);
+            Assert.AreEqual("oasis:names:specification:docbook:dtd:xml:4.1.2", location.PathName);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -424,7 +419,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url + "/", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -441,7 +435,6 @@
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("127.0.0.1:8080", location.Host);
             Assert.AreEqual("127.0.0.1", location.HostName);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -457,7 +450,6 @@
             Assert.AreEqual("/pub/WWW/TheProject.html", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("www.w3.org", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -473,7 +465,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("[3ffe:1900:4545:3:200:f8ff:fe21:67cf]", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -489,7 +480,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("[::1]", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -505,7 +495,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/?", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -521,7 +510,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/#", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -537,7 +525,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/?#", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -553,7 +540,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/#", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -569,7 +555,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/?", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -585,7 +570,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/?#", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -601,7 +585,6 @@
             Assert.AreEqual("/~smith/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -617,7 +600,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -633,7 +615,6 @@
             Assert.AreEqual("/a/g", location.PathName);
             Assert.AreEqual("", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("a/g", location.Href);
             Assert.IsTrue(location.IsRelative);
         }
@@ -649,7 +630,6 @@
             Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
             Assert.AreEqual("file:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("file:///c:/windows/My%20Documents%20100%20/foo.txt", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -665,7 +645,6 @@
             Assert.AreEqual("/%E8", location.PathName);
             Assert.AreEqual("https:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -681,7 +660,6 @@
             Assert.AreEqual("/%25C3%2587", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -697,7 +675,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -713,7 +690,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -729,7 +705,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -745,7 +720,6 @@
             Assert.AreEqual("/mid/6", location.PathName);
             Assert.AreEqual("", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("mid/6", location.Href);
             Assert.IsTrue(location.IsRelative);
         }
@@ -761,7 +735,6 @@
             Assert.AreEqual("//", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("www.example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://www.example.com//", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -777,7 +750,6 @@
             Assert.AreEqual("/file.txt;parameter", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -790,10 +762,9 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("tag:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("example.com,2006-08-18:/path/to/something", location.Data);
+            Assert.AreEqual("example.com,2006-08-18:/path/to/something", location.PathName);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -811,7 +782,6 @@
             Assert.AreEqual("/path/to/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -824,10 +794,9 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("view-source:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("http://example.com/", location.Data);
+            Assert.AreEqual("http://example.com/", location.PathName);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -845,7 +814,6 @@
             Assert.AreEqual("/path/to/resource", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -861,7 +829,6 @@
             Assert.AreEqual("/search", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -877,7 +844,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -893,7 +859,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -909,7 +874,6 @@
             Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
             Assert.AreEqual("file:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("file:///c:/windows/My%20Documents%20100%20/foo.txt", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -925,7 +889,6 @@
             Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
             Assert.AreEqual("file:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -941,7 +904,6 @@
             Assert.AreEqual("/c:/windows/My%20Documents%20100%20/foo.txt", location.PathName);
             Assert.AreEqual("file:", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("file:///c:/windows/My%20Documents%20100%20/foo.txt", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -959,7 +921,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://example.com/", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -975,7 +936,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsTrue(location.IsRelative);
         }
@@ -991,7 +951,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsTrue(location.IsRelative);
         }
@@ -1007,7 +966,6 @@
             Assert.AreEqual("/atomtests/iri/%E8%A9%B9.html", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("www.詹姆斯.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("http://www.詹姆斯.com/atomtests/iri/%E8%A9%B9.html", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -1023,7 +981,6 @@
             Assert.AreEqual("/b/c/d;p", location.PathName);
             Assert.AreEqual("ftp:", location.Protocol);
             Assert.AreEqual("a", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -1039,7 +996,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsTrue(location.IsRelative);
         }
@@ -1055,7 +1011,6 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("", location.Protocol);
             Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual("", location.Href);
             Assert.IsTrue(location.IsRelative);
         }
@@ -1071,7 +1026,6 @@
             Assert.AreEqual("/:@-._~!$&'()*+,=;:@-._~!$&'()*+,=:@-._~!$&'()*+,==", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -1087,7 +1041,6 @@
             Assert.AreEqual("/blue%2Fred%3Fand+green", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("", location.Data);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }

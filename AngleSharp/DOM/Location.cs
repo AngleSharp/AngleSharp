@@ -98,15 +98,6 @@
         }
 
         /// <summary>
-        /// Gets the additional stored data of the URL.
-        /// This is data that could not be assigned.
-        /// </summary>
-        public String Data
-        {
-            get { return _url.Data; }
-        }
-
-        /// <summary>
         /// Gets or sets the hash, e.g.  "#myhash".
         /// </summary>
         public String Hash
@@ -191,7 +182,11 @@
         /// </summary>
         public String PathName
         {
-            get { return "/" + _url.Path; }
+            get
+            {
+                var data = _url.Data;
+                return String.IsNullOrEmpty(data) ? "/" + _url.Path : data;
+            }
             set 
             {
                 var old = _url.Href;
