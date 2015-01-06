@@ -509,7 +509,7 @@
                     return ParsePath(input, index - 1);
             }
 
-            if (input[index].IsLetter() && _scheme == "file" && index + 1 < input.Length && (input[index + 1] == Specification.Colon || input[index + 1] == Specification.Solidus) &&
+            if (input[index].IsLetter() && _scheme == KnownProtocols.File && index + 1 < input.Length && (input[index + 1] == Specification.Colon || input[index + 1] == Specification.Solidus) &&
                 (index + 2 >= input.Length || input[index + 2] == Specification.Solidus || input[index + 2] == Specification.ReverseSolidus || input[index + 2] == Specification.Num || input[index + 2] == Specification.QuestionMark))
             {
                 _host = String.Empty;
@@ -583,6 +583,7 @@
         Boolean ParseFileHost(String input, Int32 index)
         {
             var start = index;
+            _path = String.Empty;
 
             while (index < input.Length)
             {
@@ -699,7 +700,15 @@
             var paths = new List<String>();
 
             if (!onlyPath && !String.IsNullOrEmpty(_path) && index - init == 0)
-                paths.AddRange(_path.Split(Specification.Solidus));
+            {
+                var split = _path.Split(Specification.Solidus);
+
+                if (split.Length > 1)
+                {
+                    paths.AddRange(split);
+                    paths.RemoveAt(split.Length - 1);
+                }
+            }
 
             var buffer = Pool.NewStringBuilder();
 
@@ -711,6 +720,7 @@
                 if (c == Specification.EndOfFile || c == Specification.Solidus || c == Specification.ReverseSolidus || breakNow)
                 {
                     var path = buffer.ToString();
+                    var close = false;
                     buffer.Clear();
 
                     if (path.Equals("%2e", StringComparison.OrdinalIgnoreCase))
@@ -722,6 +732,8 @@
                     {
                         if (paths.Count > 0)
                             paths.RemoveAt(paths.Count - 1);
+
+                        close = true;
                     }
                     else if (!path.Equals(currentDirectory))
                     {
@@ -730,6 +742,11 @@
 
                         paths.Add(path);
                     }
+                    else
+                        close = true;
+
+                    if (close && c != Specification.Solidus && c != Specification.ReverseSolidus)
+                        paths.Add(String.Empty);
 
                     if (breakNow)
                         break;
