@@ -13,6 +13,9 @@
     {
         #region Fields
 
+        static readonly String currentDirectory = ".";
+        static readonly String upperDirectory = "..";
+
         String _fragment;
         String _query;
         String _path;
@@ -503,7 +506,7 @@
                         _port = String.Empty;
                     }
 
-                    return ParsePath(input, index);
+                    return ParsePath(input, index - 1);
             }
 
             if (input[index].IsLetter() && _scheme == "file" && index + 1 < input.Length && (input[index + 1] == Specification.Colon || input[index + 1] == Specification.Solidus) &&
@@ -669,10 +672,10 @@
 
                 if (c == Specification.QuestionMark || c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num)
                     break;
-                else if (!c.IsDigit())
+                else if (c.IsDigit() || c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn)
+                    index++;
+                else
                     return false;
-
-                index++;
             }
 
             _port = SanatizePort(input, start, index - start);
@@ -688,10 +691,16 @@
 
         Boolean ParsePath(String input, Int32 index, Boolean onlyPath = false)
         {
+            var init = index;
+
             while (index < input.Length && (input[index] == Specification.Solidus || input[index] == Specification.ReverseSolidus))
                 index++;
 
             var paths = new List<String>();
+
+            if (!onlyPath && !String.IsNullOrEmpty(_path) && index - init == 0)
+                paths.AddRange(_path.Split(Specification.Solidus));
+
             var buffer = Pool.NewStringBuilder();
 
             while (index <= input.Length)
@@ -705,16 +714,16 @@
                     buffer.Clear();
 
                     if (path.Equals("%2e", StringComparison.OrdinalIgnoreCase))
-                        path = ".";
+                        path = currentDirectory;
                     else if (path.Equals(".%2e", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e.", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e%2e", StringComparison.OrdinalIgnoreCase))
-                        path = "..";
+                        path = upperDirectory;
 
-                    if (path.Equals(".."))
+                    if (path.Equals(upperDirectory))
                     {
                         if (paths.Count > 0)
                             paths.RemoveAt(paths.Count - 1);
                     }
-                    else if (!path.Equals("."))
+                    else if (!path.Equals(currentDirectory))
                     {
                         if (_scheme == KnownProtocols.File && paths.Count == 0 && path.Length == 2 && path[0].IsLetter() && path[1] == Specification.Pipe)
                             path = path.Replace(Specification.Pipe, Specification.Colon);
@@ -858,8 +867,20 @@
 
             for (int i = start, n = start + length; i < n; i++)
             {
-                if (count != 0 || i == n - 1 || port[i] != '0')
-                    chars[count++] = port[i];
+                switch (port[i])
+                {
+                    case Specification.Tab:
+                    case Specification.LineFeed:
+                    case Specification.CarriageReturn:
+                        break;
+                    default:
+                        if (count == 1 && chars[0] == '0')
+                            chars[0] = port[i];
+                        else
+                            chars[count++] = port[i];
+
+                        break;
+                }
             }
 
             return new String(chars, 0, count);
