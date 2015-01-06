@@ -357,10 +357,10 @@
             else
                 output.Append(_schemeData);
 
-            if (!String.IsNullOrEmpty(_query))
+            if (_query != null)
                 output.Append(Specification.QuestionMark).Append(_query);
 
-            if (!String.IsNullOrEmpty(_fragment))
+            if (_fragment != null)
                 output.Append(Specification.Num).Append(_fragment);
 
             return output.ToPool();
@@ -654,9 +654,9 @@
 
             if (!onlyHost)
             {
-                _query = String.Empty;
                 _path = String.Empty;
-                _fragment = String.Empty;
+                _query = null;
+                _fragment = null;
                 return false;
             }
 
@@ -694,7 +694,7 @@
         {
             var init = index;
 
-            while (index < input.Length && (input[index] == Specification.Solidus || input[index] == Specification.ReverseSolidus))
+            if (index < input.Length && (input[index] == Specification.Solidus || input[index] == Specification.ReverseSolidus))
                 index++;
 
             var paths = new List<String>();
@@ -757,11 +757,21 @@
                     buffer.Append(input[index++]);
                     buffer.Append(input[index]);
                 }
-                else if (c.IsInRange(0x20, 0x7e) && c != Specification.Space && c != Specification.DoubleQuote && c != Specification.CurvedQuote &&
-                    c != Specification.Num && c != Specification.LessThan && c != Specification.GreaterThan && c != Specification.QuestionMark)
+                else if (c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn)
+                {
+                    // Parse Error
+                }
+                else if (c.IsNormalPathCharacter())
+                {
                     buffer.Append(c);
+                }
                 else
-                    buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
+                {
+                    var bytes = DocumentEncoding.UTF8.GetBytes(new[] { c });
+
+                    for (var i = 0; i < bytes.Length; i++)
+                        buffer.Append(Specification.Percent).Append(bytes[i].ToString("X2"));
+                }
 
                 index++;
             }
@@ -783,12 +793,13 @@
         Boolean ParseQuery(String input, Int32 index, Boolean onlyQuery = false)
         {
             var buffer = Pool.NewStringBuilder();
+            var fragment = false;
 
             while (index < input.Length)
             {
                 var c = input[index];
 
-                if (!onlyQuery && input[index] == Specification.Num)
+                if (fragment = (!onlyQuery && input[index] == Specification.Num))
                     break;
 
                 if (c.IsInRange(0x21, 0x7e) && c != Specification.DoubleQuote && c != Specification.Num && c != Specification.LessThan && c != Specification.GreaterThan && c != Specification.CurvedQuote)
@@ -801,10 +812,10 @@
 
             _query = buffer.ToPool();
 
-            if (onlyQuery)
-                return true;
+            if (fragment)
+                return ParseFragment(input, index + 1);
 
-            return ParseFragment(input, index + 1);
+            return true;
         }
 
         Boolean ParseFragment(String input, Int32 index)
