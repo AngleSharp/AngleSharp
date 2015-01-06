@@ -1185,6 +1185,9 @@
     <Compile Include="..\AngleSharp\DOM\Element.cs">
       <Link>DOM\Element.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\ElementLocation.cs">
+      <Link>DOM\ElementLocation.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Entity.cs">
       <Link>DOM\Entity.cs</Link>
     </Compile>
