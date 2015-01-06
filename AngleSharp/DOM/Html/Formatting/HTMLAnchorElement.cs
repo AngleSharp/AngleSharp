@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -12,7 +11,7 @@
     {
         #region Fields
 
-        Location _location;
+        readonly ElementLocation _location;
         TokenList _relList;
         SettableTokenList _ping;
 
@@ -26,6 +25,7 @@
         public HTMLAnchorElement()
             : base(Tags.A, NodeFlags.HtmlFormatting)
         {
+            _location = new ElementLocation(this);
         }
 
         #endregion
@@ -58,7 +58,7 @@
         public String Href
         {
             get { return _location.Href; }
-            set { SetAttribute(AttributeNames.Href, value); }
+            set { _location.Href = value; }
         }
 
         /// <summary>
@@ -294,13 +294,6 @@
                 if (_relList != null)
                     _relList.Update(value);
             });
-            RegisterAttributeHandler(AttributeNames.Href, UpdateLink);
-            UpdateLink(GetAttribute(AttributeNames.Href));
-        }
-
-        void UpdateLink(String value)
-        {
-            _location = new Location(this.HyperRef(value));
         }
 
         #endregion

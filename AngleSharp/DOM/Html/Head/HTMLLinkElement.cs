@@ -15,9 +15,8 @@
     {
         #region Fields
 
-        Url _url;
         IStyleSheet _sheet;
-        String _buffer;
+        Url _buffer;
         TokenList _relList;
         SettableTokenList _sizes;
         Task _current;
@@ -63,11 +62,19 @@
         #region Properties
 
         /// <summary>
+        /// Gets the url of the link elements address.
+        /// </summary>
+        public Url Url
+        {
+            get { return this.HyperRef(GetAttribute(AttributeNames.Href)); }
+        }
+
+        /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
         public String Href
         {
-            get { return _url != null ? _url.Href : String.Empty; }
+            get { return Url.Href; }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 
@@ -197,23 +204,15 @@
                 if (_sheet != null)
                     _sheet.Media.MediaText = value;
             });
-            RegisterAttributeHandler(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeHandler(AttributeNames.Href, UpdateLink);
+            RegisterAttributeHandler(AttributeNames.Disabled, value =>
+            {
+                var sheet = Sheet;
+
+                if (sheet != null)
+                    sheet.IsDisabled = value != null;
+            });
+            RegisterAttributeHandler(AttributeNames.Href, value => TargetChanged());
             RegisterAttributeHandler(AttributeNames.Type, value => TargetChanged());
-            UpdateLink(GetAttribute(AttributeNames.Href));
-        }
-
-        void UpdateDisabled(String value)
-        {
-            var sheet = Sheet;
-
-            if (sheet != null)
-                sheet.IsDisabled = value != null;
-        }
-
-        void UpdateLink(String value)
-        {
-            _url = this.HyperRef(value);
             TargetChanged();
         }
 
@@ -225,13 +224,12 @@
         {
             if (Owner.Options.IsStyling)
             {
-                var href = Href;
+                var url = Url;
 
-                if (href != null && _buffer != href && Owner != null)
+                if (url != null && (_buffer == null || !url.Equals(_buffer)))
                 {
-                    _buffer = href;
+                    _buffer = url;
                     TryCancelCurrent();
-                    var url = new Url(href);
                     var requester = Owner.Options.GetRequester(url.Scheme);
 
                     if (requester == null)
