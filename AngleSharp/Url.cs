@@ -478,7 +478,7 @@
                 else if (c.IsInRange(0x20, 0x7e))
                     buffer.Append(c);
                 else if (c != Specification.Tab && c != Specification.LineFeed && c != Specification.CarriageReturn)
-                    Utf8PercentEncode(buffer, c);
+                    index += Utf8PercentEncode(buffer, input, index);
 
                 index++;
             }
@@ -569,10 +569,10 @@
 
                     _username = user;
                     _password = pass;
+                    buffer.Append("%40");
                     start = index + 1;
-                    break;
                 }
-                else if (c == Specification.Colon)
+                else if (c == Specification.Colon && user == null)
                 {
                     user = buffer.ToString();
                     pass = String.Empty;
@@ -590,13 +590,13 @@
                 {
                     break;
                 }
-                else if (c == Specification.Num || c == Specification.QuestionMark || c.IsNormalPathCharacter())
+                else if (c != Specification.Colon && (c == Specification.Num || c == Specification.QuestionMark || c.IsNormalPathCharacter()))
                 {
                     buffer.Append(c);
                 }
                 else
                 {
-                    Utf8PercentEncode(buffer, c);
+                    index += Utf8PercentEncode(buffer, input, index);
                 }
 
                 index++;
@@ -713,6 +713,7 @@
             if (onlyPort)
                 return true;
 
+            _path = String.Empty;
             return ParsePath(input, index);
         }
 
@@ -793,7 +794,7 @@
                 }
                 else
                 {
-                    Utf8PercentEncode(buffer, c);
+                    index += Utf8PercentEncode(buffer, input, index);
                 }
 
                 index++;
@@ -873,12 +874,15 @@
 
         #region Helpers
 
-        static void Utf8PercentEncode(StringBuilder buffer, Char c)
+        static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
         {
-            var bytes = DocumentEncoding.UTF8.GetBytes(new[] { c });
+            var length = Char.IsSurrogatePair(source, index) ? 2 : 1;
+            var bytes = DocumentEncoding.UTF8.GetBytes(source.Substring(index, length));
 
             for (var i = 0; i < bytes.Length; i++)
                 buffer.Append(Specification.Percent).Append(bytes[i].ToString("X2"));
+
+            return length - 1;
         }
 
         static String SanatizeHost(String hostName, Int32 start, Int32 length)
