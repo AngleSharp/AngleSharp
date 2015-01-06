@@ -281,15 +281,20 @@
         /// <returns>True if the given url is equal to the current url, otherwise false.</returns>
         public Boolean Equals(Url other)
         {
-            return _fragment.Equals(other._fragment, StringComparison.Ordinal) &&
-                _query.Equals(other._query, StringComparison.Ordinal) &&
+            return Compare(_fragment, other._fragment) &&
+                Compare(_query, other._query) &&
                 _path.Equals(other._path, StringComparison.Ordinal) &&
                 _scheme.Equals(other._scheme, StringComparison.OrdinalIgnoreCase) &&
                 _port.Equals(other._port, StringComparison.Ordinal) &&
                 _host.Equals(other._host, StringComparison.OrdinalIgnoreCase) &&
-                _username.Equals(other._username, StringComparison.Ordinal) &&
-                _password.Equals(other._password, StringComparison.Ordinal) &&
+                Compare(_username, other._username) &&
+                Compare(_password, other._password) &&
                 _schemeData.Equals(other._schemeData, StringComparison.Ordinal);
+        }
+
+        static Boolean Compare(String a, String b)
+        {
+            return Object.ReferenceEquals(a, b) || (a != null && b != null && a.Equals(b, StringComparison.Ordinal));
         }
 
         #endregion
