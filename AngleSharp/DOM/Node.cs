@@ -79,7 +79,7 @@
                 else if (_parent != null)
                     return _parent.BaseUrl;
                 else if (_owner != null)
-                    return _owner.DocumentUrl;
+                    return _owner._baseUri ?? _owner.DocumentUrl;
 
                 return null;
             }
