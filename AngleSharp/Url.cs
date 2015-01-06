@@ -415,9 +415,16 @@
                         _relative = KnownProtocols.IsRelative(_scheme);
 
                         if (_scheme == KnownProtocols.File)
+                        {
                             return RelativeState(input, index + 1);
+                        }
                         else if (!_relative)
+                        {
+                            _host = String.Empty;
+                            _port = String.Empty;
+                            _path = String.Empty;
                             return ParseSchemeData(input, index + 1);
+                        }
                         else if (originalScheme == _scheme)
                         {
                             c = input[++index];
@@ -470,8 +477,8 @@
                 }
                 else if (c.IsInRange(0x20, 0x7e))
                     buffer.Append(c);
-                else
-                    buffer.Append(Specification.Percent).Append(((Byte)input[index]).ToString("X2"));
+                else if (c != Specification.Tab && c != Specification.LineFeed && c != Specification.CarriageReturn)
+                    Utf8PercentEncode(buffer, c);
 
                 index++;
             }
