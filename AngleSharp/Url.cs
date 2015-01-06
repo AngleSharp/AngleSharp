@@ -9,7 +9,7 @@
     /// Represents an Url class according to RFC3986.
     /// This is the base for all internal Url manipulation.
     /// </summary>
-    public class Url
+    public class Url : IEquatable<Url>
     {
         #region Fields
 
@@ -244,6 +244,52 @@
         {
             get { return _query; }
             set { ParseQuery(value ?? String.Empty, 0, true); }
+        }
+
+        #endregion
+
+        #region Equality
+
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>A hash code for the current url.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>True if the object is equal to the current object, otherwise false.</returns>
+        public override Boolean Equals(Object obj)
+        {
+            var url = obj as Url;
+
+            if (url != null)
+                return Equals(url);
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified url is equal to the current object.
+        /// </summary>
+        /// <param name="other">The url to compare with the current one.</param>
+        /// <returns>True if the given url is equal to the current url, otherwise false.</returns>
+        public Boolean Equals(Url other)
+        {
+            return _fragment.Equals(other._fragment, StringComparison.Ordinal) &&
+                _query.Equals(other._query, StringComparison.Ordinal) &&
+                _path.Equals(other._path, StringComparison.Ordinal) &&
+                _scheme.Equals(other._scheme, StringComparison.OrdinalIgnoreCase) &&
+                _port.Equals(other._port, StringComparison.Ordinal) &&
+                _host.Equals(other._host, StringComparison.OrdinalIgnoreCase) &&
+                _username.Equals(other._username, StringComparison.Ordinal) &&
+                _password.Equals(other._password, StringComparison.Ordinal) &&
+                _schemeData.Equals(other._schemeData, StringComparison.Ordinal);
         }
 
         #endregion
