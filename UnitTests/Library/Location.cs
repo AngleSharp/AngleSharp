@@ -921,7 +921,7 @@
             Assert.AreEqual("/", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("example.com", location.Host);
-            Assert.AreEqual("http://example.com/", location.Href);
+            Assert.AreEqual("http://:@example.com/", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
 
