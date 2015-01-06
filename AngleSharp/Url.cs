@@ -596,7 +596,7 @@
             if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Specification.Pipe || input[index - 1] == Specification.Colon))
                 return ParsePath(input, index);
             else if (length != 0)
-                _host = input.Substring(start, length);
+                _host = SanatizeHost(input.Substring(start, length));
 
             return ParsePath(input, index);
         }
@@ -624,7 +624,7 @@
                         if (inBracket)
                             break;
 
-                        _host = input.Substring(start, index - start);
+                        _host = SanatizeHost(input.Substring(start, index - start));
 
                         if (onlyHost)
                             return true;
@@ -646,7 +646,7 @@
                 index++;
             }
 
-            _host = input.Substring(start, index - start);
+            _host = SanatizeHost(input.Substring(start, index - start));
 
             if (!onlyHost)
             {
