@@ -183,7 +183,13 @@
         public String Fragment
         {
             get { return _fragment; }
-            set { ParseFragment(value ?? String.Empty, 0); }
+            set
+            {
+                if (value == null)
+                    _fragment = null;
+                else
+                    ParseFragment(value, 0);
+            }
         }
 
         /// <summary>
@@ -826,18 +832,17 @@
             {
                 var c = input[index];
 
-                if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                switch (c)
                 {
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index++]);
-                    buffer.Append(input[index]);
-                }
-                else if (c.IsUrlCodePoint())
-                {
-                    if (c.IsInRange(0x20, 0x7e))
+                    case Specification.EndOfFile:
+                    case Specification.Null:
+                    case Specification.Tab:
+                    case Specification.LineFeed:
+                    case Specification.CarriageReturn:
+                        break;
+                    default:
                         buffer.Append(c);
-                    else
-                        buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
+                        break;
                 }
 
                 index++;

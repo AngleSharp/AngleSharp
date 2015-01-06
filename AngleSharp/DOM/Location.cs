@@ -116,10 +116,18 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Fragment) 
+                if (value != null)
+                {
+                    if (value.Length > 0 && value[0] == Specification.Num)
+                        value = value.Substring(1);
+                    else if (value.Length == 0)
+                        value = null;
+                }
+
+                if (value != _url.Fragment)
                 { 
                     _url.Fragment = value; 
-                    RaiseChanged(old, true); 
+                    RaiseChanged(old, true);
                 } 
             }
         }
