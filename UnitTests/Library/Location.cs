@@ -758,11 +758,11 @@
             Assert.AreEqual("", location.Hash);
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("", location.Search);
-            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("//", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
             Assert.AreEqual("www.example.com", location.Host);
             Assert.AreEqual("", location.Data);
-            Assert.AreEqual("http://www.example.com/", location.Href);
+            Assert.AreEqual("http://www.example.com//", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
 
