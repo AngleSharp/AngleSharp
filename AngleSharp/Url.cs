@@ -596,7 +596,7 @@
             if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Specification.Pipe || input[index - 1] == Specification.Colon))
                 return ParsePath(input, index);
             else if (length != 0)
-                _host = SanatizeHost(input.Substring(start, length));
+                _host = SanatizeHost(input, start, length);
 
             return ParsePath(input, index);
         }
@@ -624,7 +624,7 @@
                         if (inBracket)
                             break;
 
-                        _host = SanatizeHost(input.Substring(start, index - start));
+                        _host = SanatizeHost(input, start, index - start);
 
                         if (onlyHost)
                             return true;
@@ -635,7 +635,7 @@
                     case Specification.ReverseSolidus:
                     case Specification.Num:
                     case Specification.QuestionMark:
-                        _host = SanatizeHost(input.Substring(start, index - start));
+                        _host = SanatizeHost(input, start, index - start);
                         
                         if (onlyHost)
                             return true;
@@ -646,7 +646,7 @@
                 index++;
             }
 
-            _host = SanatizeHost(input.Substring(start, index - start));
+            _host = SanatizeHost(input, start, index - start);
 
             if (!onlyHost)
             {
@@ -657,43 +657,6 @@
             }
 
             return true;
-        }
-
-        static String SanatizeHost(String hostName)
-        {
-            if (hostName.Length > 1 && hostName[0] == Specification.SquareBracketOpen && hostName[hostName.Length - 1] == Specification.SquareBracketClose)
-                return hostName;
-
-            var chars = new Char[hostName.Length];
-            var count = 0;
-
-            for (var i = 0; i < hostName.Length; i++)
-            {
-                switch (hostName[i])
-                {
-                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"
-                    case Specification.Null:
-                    case Specification.Tab:
-                    case Specification.Space:
-                    case Specification.LineFeed:
-                    case Specification.CarriageReturn:
-                    case Specification.Num:
-                    case Specification.Percent:
-                    case Specification.Solidus:
-                    case Specification.Colon:
-                    case Specification.QuestionMark:
-                    case Specification.At:
-                    case Specification.SquareBracketOpen:
-                    case Specification.SquareBracketClose:
-                    case Specification.ReverseSolidus:
-                        break;
-                    default:
-                        chars[count++] = hostName[i];
-                        break;
-                }
-            }
-
-            return new String(chars, 0, count);
         }
 
         Boolean ParsePort(String input, Int32 index, Boolean onlyPort = false)
@@ -712,7 +675,7 @@
                 index++;
             }
 
-            _port = input.Substring(start, index - start).TrimStart(new[] { '0' });
+            _port = SanatizePort(input, start, index - start);
 
             if (DefaultPorts.GetDefaultPort(_scheme) == _port)
                 _port = String.Empty;
@@ -845,6 +808,61 @@
 
             _fragment = buffer.ToPool();
             return true;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static String SanatizeHost(String hostName, Int32 start, Int32 length)
+        {
+            if (length > 1 && hostName[start] == Specification.SquareBracketOpen && hostName[start + length - 1] == Specification.SquareBracketClose)
+                return hostName.Substring(start, length);
+
+            var chars = new Char[length];
+            var count = 0;
+
+            for (int i = start, n = start + length; i < n; i++)
+            {
+                switch (hostName[i])
+                {
+                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"
+                    case Specification.Null:
+                    case Specification.Tab:
+                    case Specification.Space:
+                    case Specification.LineFeed:
+                    case Specification.CarriageReturn:
+                    case Specification.Num:
+                    case Specification.Percent:
+                    case Specification.Solidus:
+                    case Specification.Colon:
+                    case Specification.QuestionMark:
+                    case Specification.At:
+                    case Specification.SquareBracketOpen:
+                    case Specification.SquareBracketClose:
+                    case Specification.ReverseSolidus:
+                        break;
+                    default:
+                        chars[count++] = hostName[i];
+                        break;
+                }
+            }
+
+            return new String(chars, 0, count);
+        }
+
+        static String SanatizePort(String port, Int32 start, Int32 length)
+        {
+            var chars = new Char[length];
+            var count = 0;
+
+            for (int i = start, n = start + length; i < n; i++)
+            {
+                if (count != 0 || i == n - 1 || port[i] != '0')
+                    chars[count++] = port[i];
+            }
+
+            return new String(chars, 0, count);
         }
 
         #endregion
