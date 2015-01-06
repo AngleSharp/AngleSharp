@@ -57,6 +57,19 @@
         }
 
         /// <summary>
+        /// Determines if the given character is allowed as-it-is in paths.
+        /// </summary>
+        /// <param name="c">The character to examine.</param>
+        /// <returns>The result of the test.</returns>
+        public static Boolean IsNormalPathCharacter(this Char c)
+        {
+            return c.IsInRange(0x20, 0x7e) && c != Specification.Space &&
+                c != Specification.DoubleQuote && c != Specification.CurvedQuote &&
+                c != Specification.Num && c != Specification.LessThan &&
+                c != Specification.GreaterThan && c != Specification.QuestionMark;
+        }
+
+        /// <summary>
         /// Determines if the given character is a uppercase character (A-Z) as specified here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#uppercase-ascii-letters
         /// </summary>
