@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an unknown CSS rule.
     /// </summary>
-    sealed class CSSUnknownRule : CSSGroupingRule
+    sealed class CssUnknownRule : CssGroupingRule
     {
         #region Fields
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new unknown rule.
         /// </summary>
-        public CSSUnknownRule(String name)
+        public CssUnknownRule(String name)
             : base(CssRuleType.Unknown)
         {
             _name = name;
@@ -54,7 +54,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSUnknownRule;
+            var newRule = rule as CssUnknownRule;
             _prelude = newRule._prelude;
             base.ReplaceWith(rule);
         }

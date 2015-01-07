@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="rules">The list of CSS rules.</param>
         /// <returns>The block string representation.</returns>
-        public static String ToCssBlock(this CSSRuleList rules)
+        public static String ToCssBlock(this CssRuleList rules)
         {
             return String.Concat("{ ", rules.CssText, rules.Length > 0 ? " }" : "}");
         }

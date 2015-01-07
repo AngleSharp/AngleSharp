@@ -9,11 +9,11 @@
     /// <summary>
     /// Represents an array like structure containing CSS rules.
     /// </summary>
-    sealed class CSSRuleList : ICssRuleList
+    sealed class CssRuleList : ICssRuleList
     {
         #region Fields
 
-        readonly List<CSSRule> _rules;
+        readonly List<CssRule> _rules;
 
         #endregion
 
@@ -22,9 +22,9 @@
         /// <summary>
         /// Creates a new list of CSS rules.
         /// </summary>
-        internal CSSRuleList()
+        internal CssRuleList()
         {
-            _rules = new List<CSSRule>();
+            _rules = new List<CssRule>();
         }
 
         #endregion
@@ -69,7 +69,7 @@
 
         #region Internal Methods
 
-        internal CSSRule this[Int32 index]
+        internal CssRule this[Int32 index]
         {
             get { return _rules[index]; }
         }
@@ -91,7 +91,7 @@
             }
         }
 
-        internal void Import(CSSRuleList rules, ICssStyleSheet owner, ICssRule parent)
+        internal void Import(CssRuleList rules, ICssStyleSheet owner, ICssRule parent)
         {
             while (rules._rules.Count > 0)
             {
@@ -118,7 +118,7 @@
             oldRule.Owner = null;
         }
 
-        internal void Insert(CSSRule value, Int32 index, ICssStyleSheet owner, ICssRule parent)
+        internal void Insert(CssRule value, Int32 index, ICssStyleSheet owner, ICssRule parent)
         {
             if (value == null)
                 throw new DomException(ErrorCode.Syntax);
@@ -134,7 +134,7 @@
             value.Parent = parent;
         }
 
-        internal void Add(CSSRule value, ICssStyleSheet owner, ICssRule parent)
+        internal void Add(CssRule value, ICssStyleSheet owner, ICssRule parent)
         {
             _rules.Add(value);
             value.Owner = owner;

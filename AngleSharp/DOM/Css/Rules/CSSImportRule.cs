@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS import rule.
     /// </summary>
-    sealed class CSSImportRule : CSSRule, ICssImportRule
+    sealed class CssImportRule : CssRule, ICssImportRule
     {
         #region Fields
 
@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new CSS import rule
         /// </summary>
-        internal CSSImportRule()
+        internal CssImportRule()
             : base(CssRuleType.Import)
         {
         }
@@ -69,7 +69,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSImportRule;
+            var newRule = rule as CssImportRule;
             _href = newRule._href;
             _media.Import(newRule._media);
             _styleSheet = newRule._styleSheet;

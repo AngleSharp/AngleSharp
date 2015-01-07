@@ -10,7 +10,7 @@
     /// Contains the rules specified by a
     /// @document { /* ... */ } rule.
     /// </summary>
-    sealed class CSSDocumentRule : CSSGroupingRule, ICssDocumentRule
+    sealed class CssDocumentRule : CssGroupingRule, ICssDocumentRule
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSDocumentRule()
+        internal CssDocumentRule()
             : base(CssRuleType.Document)
         {
             _conditions = new List<Tuple<DocumentFunction, String>>();
@@ -80,7 +80,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
-            var newRule = rule as CSSDocumentRule;
+            var newRule = rule as CssDocumentRule;
             _conditions.Clear();
             _conditions.AddRange(newRule._conditions);
         }

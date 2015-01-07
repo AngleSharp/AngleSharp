@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
-    sealed class CSSPageRule : CSSGroupingRule, ICssPageRule
+    sealed class CssPageRule : CssGroupingRule, ICssPageRule
     {
         #region Fields
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new @page rule.
         /// </summary>
-        internal CSSPageRule()
+        internal CssPageRule()
             : base(CssRuleType.Page)
         {
             _style = new CssStyleDeclaration(this);
@@ -34,7 +34,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
-            var newRule = rule as CSSPageRule;
+            var newRule = rule as CssPageRule;
             _style.TakeFrom(newRule._style);
             _selector = newRule._selector;
         }

@@ -12,7 +12,7 @@
     [DebuggerStepThrough]
     static class CssAtRule
     {
-        delegate CSSRule Creator(CssParser parser, IEnumerator<CssToken> tokens);
+        delegate CssRule Creator(CssParser parser, IEnumerator<CssToken> tokens);
 
         static readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>();
 
@@ -36,7 +36,7 @@
         /// <param name="name">The name of the @-rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule or null, if no rule could be created.</returns>
-        public static CSSRule CreateAtRule(this CssParser parser, String name, IEnumerator<CssToken> tokens)
+        public static CssRule CreateAtRule(this CssParser parser, String name, IEnumerator<CssToken> tokens)
         {
             Creator creator;
 

@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
-	sealed class CSSFontFaceRule : CSSRule, ICssFontFaceRule, IPropertyCreator
+	sealed class CssFontFaceRule : CssRule, ICssFontFaceRule, IPropertyCreator
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        static CSSFontFaceRule()
+        static CssFontFaceRule()
         {
             _creators.Add(PropertyNames.FontFamily, style => new CSSFontFamilyProperty(style));
             _creators.Add(PropertyNames.FontStyle, style => new CSSFontStyleProperty(style));
@@ -34,7 +34,7 @@
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
-        internal CSSFontFaceRule()
+        internal CssFontFaceRule()
             : base(CssRuleType.FontFace)
         {
             _style = new CssStyleDeclaration(this);
@@ -127,7 +127,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSFontFaceRule;
+            var newRule = rule as CssFontFaceRule;
             _style.TakeFrom(newRule._style);
         }
 

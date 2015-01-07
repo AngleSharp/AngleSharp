@@ -9,7 +9,7 @@ namespace UnitTests.Css
     [TestFixture]
     public class CssKeyframeRuleTests
     {
-        CSSKeyframeRule Create(String source)
+        CssKeyframeRule Create(String source)
         {
             return CssParser.ParseKeyframeRule(source);
         }

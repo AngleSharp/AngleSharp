@@ -7,11 +7,11 @@
     /// <summary>
     /// Represents the CSSGroupingRule interface.
     /// </summary>
-    abstract class CSSGroupingRule : CSSRule, ICssGroupingRule
+    abstract class CssGroupingRule : CssRule, ICssGroupingRule
     {
         #region Fields
 
-        readonly CSSRuleList _rules;
+        readonly CssRuleList _rules;
 
         #endregion
 
@@ -20,10 +20,10 @@
         /// <summary>
         /// Creates a new CSS grouping rule.
         /// </summary>
-        internal CSSGroupingRule(CssRuleType type)
+        internal CssGroupingRule(CssRuleType type)
             : base(type)
         {
-            _rules = new CSSRuleList();
+            _rules = new CssRuleList();
         }
 
         #endregion
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets a list of all CSS rules contained within the grouping block.
         /// </summary>
-        public CSSRuleList Rules
+        public CssRuleList Rules
         {
             get { return _rules; }
         }
@@ -49,7 +49,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSGroupingRule;
+            var newRule = rule as CssGroupingRule;
             _rules.Clear();
             _rules.Import(newRule._rules, Owner, Parent);
         }

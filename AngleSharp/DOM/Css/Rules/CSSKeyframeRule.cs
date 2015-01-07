@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
-    sealed class CSSKeyframeRule : CSSRule, ICssKeyframeRule
+    sealed class CssKeyframeRule : CssRule, ICssKeyframeRule
     {
         #region Fields
 
@@ -21,7 +21,7 @@
         /// <summary>
         /// Creates a new @keyframe rule.
         /// </summary>
-        internal CSSKeyframeRule()
+        internal CssKeyframeRule()
             : base(CssRuleType.Keyframe)
         {
             _style = new CssStyleDeclaration(this);
@@ -77,7 +77,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSKeyframeRule;
+            var newRule = rule as CssKeyframeRule;
             _selector = newRule._selector;
             _style.TakeFrom(newRule._style);
         }

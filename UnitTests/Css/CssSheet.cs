@@ -19,7 +19,7 @@ h1 {
  color: red;
  font-weight: bold");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual("red", h1.Style.Color);
@@ -33,7 +33,7 @@ h1 {
             var stylesheet = CssParser.ParseStyleSheet(css);
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var rule = stylesheet.Rules[0];
-            Assert.IsInstanceOf<CSSStyleRule>(rule);
+            Assert.IsInstanceOf<CssStyleRule>(rule);
             Assert.AreEqual(css, rule.CssText);
         }
 
@@ -47,7 +47,7 @@ h1 {
         color: green;
       }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
@@ -62,7 +62,7 @@ h1 {
 #something {
  content: 'hi there");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var id = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("#something", id.SelectorText);
             Assert.AreEqual("\"hi there\"", id.Style.Content);
@@ -74,11 +74,11 @@ h1 {
             var sheet = CssParser.ParseStyleSheet(@"  @media screen {
     p:before { content: 'Hello");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSMediaRule>(sheet.Rules[0]);
-            var media = sheet.Rules[0] as CSSMediaRule;
+            Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
+            var media = sheet.Rules[0] as CssMediaRule;
             Assert.AreEqual("screen", media.Media.MediaText);
             Assert.AreEqual(1, media.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(media.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(media.Rules[0]);
             var p = media.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p:before", p.SelectorText);
             Assert.AreEqual("\"Hello\"", p.Style.Content);
@@ -89,7 +89,7 @@ h1 {
         {
             var sheet = CssParser.ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
@@ -162,7 +162,7 @@ h1 {
 }
 h1 { color: blue }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
@@ -175,7 +175,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"img { float: left }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(1, img.Style.Length);
@@ -188,7 +188,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"img { float: left here }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
@@ -199,7 +199,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"img { background: ""red"" }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
@@ -210,7 +210,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"img { border-width: 3 }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("img", img.SelectorText);
             Assert.AreEqual(0, img.Style.Length);
@@ -221,7 +221,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -234,7 +234,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -247,7 +247,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color; color:green }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -260,7 +260,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color: }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -273,7 +273,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:green; color{;color:maroon} }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -286,7 +286,7 @@ h1 { color: blue }");
         {
             var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color{;color:maroon}; color:green }");
             Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<CSSStyleRule>(sheet.Rules[0]);
+            Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
@@ -622,8 +622,8 @@ h1 { color: blue }");
             var rule = "@import url(fonts.css);";
             var decl = CssParser.ParseRule(rule);
             Assert.IsNotNull(decl);
-            Assert.IsInstanceOf<CSSImportRule>(decl);
-            var importRule = (CSSImportRule)decl;
+            Assert.IsInstanceOf<CssImportRule>(decl);
+            var importRule = (CssImportRule)decl;
             Assert.AreEqual("fonts.css", importRule.Href);
         }
 
@@ -702,7 +702,7 @@ h1 { color: blue }");
             var sheet = CssParser.ParseStyleSheet(".App_Header_ .logo { background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\"); background-size: 71px 28px; background-position: 0 19px; width: 71px; }");
             Assert.IsNotNull(sheet);
             Assert.AreEqual(1, sheet.Rules.Length);
-            var rule = sheet.Rules[0] as CSSStyleRule;
+            var rule = sheet.Rules[0] as CssStyleRule;
             Assert.IsNotNull(rule);
             Assert.AreEqual(4, rule.Style.Length);
             Assert.AreEqual(".App_Header_ .logo", rule.SelectorText);

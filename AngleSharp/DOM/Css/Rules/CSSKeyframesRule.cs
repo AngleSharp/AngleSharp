@@ -8,11 +8,11 @@
     /// <summary>
     /// Represents an @keyframes rule.
     /// </summary>
-    sealed class CSSKeyframesRule : CSSRule, ICssKeyframesRule
+    sealed class CssKeyframesRule : CssRule, ICssKeyframesRule
     {
         #region Fields
 
-        readonly CSSRuleList _rules;
+        readonly CssRuleList _rules;
         String _name;
 
         #endregion
@@ -22,10 +22,10 @@
         /// <summary>
         /// Creates a new @keyframes rule.
         /// </summary>
-        internal CSSKeyframesRule()
+        internal CssKeyframesRule()
             : base(CssRuleType.Keyframes)
         {
-            _rules = new CSSRuleList();
+            _rules = new CssRuleList();
         }
 
         #endregion
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the media rule.
         /// </summary>
-        public CSSRuleList Rules
+        public CssRuleList Rules
         {
             get { return _rules; }
         }
@@ -105,7 +105,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSKeyframesRule;
+            var newRule = rule as CssKeyframesRule;
             _name = newRule._name;
             _rules.Clear();
             _rules.Import(newRule._rules, Owner, Parent);

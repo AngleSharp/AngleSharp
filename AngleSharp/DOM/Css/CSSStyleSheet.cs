@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CSSRuleList _rules;
+        readonly CssRuleList _rules;
         readonly ITextSource _source;
 
         ICssRule _ownerRule;
@@ -45,7 +45,7 @@
         internal CssStyleSheet(ITextSource source)
         {
             _source = source;
-            _rules = new CSSRuleList();
+            _rules = new CssRuleList();
         }
 
         #endregion
@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
-        internal CSSRuleList Rules
+        internal CssRuleList Rules
         {
             get { return _rules; }
         }

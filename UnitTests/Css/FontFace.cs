@@ -14,8 +14,8 @@ namespace UnitTests.Css
             var css = CssParser.ParseStyleSheet(src);
             Assert.IsNotNull(css);
             Assert.AreEqual(1, css.Rules.Length);
-            Assert.IsInstanceOf<CSSFontFaceRule>(css.Rules[0]);
-            var fontface = (CSSFontFaceRule)css.Rules[0];
+            Assert.IsInstanceOf<CssFontFaceRule>(css.Rules[0]);
+            var fontface = (CssFontFaceRule)css.Rules[0];
             Assert.AreEqual(3, fontface.Style.Length);
         }
 
@@ -26,8 +26,8 @@ namespace UnitTests.Css
             var css = CssParser.ParseStyleSheet(src);
             Assert.IsNotNull(css);
             Assert.AreEqual(1, css.Rules.Length);
-            Assert.IsInstanceOf<CSSFontFaceRule>(css.Rules[0]);
-            var fontface = (CSSFontFaceRule)css.Rules[0];
+            Assert.IsInstanceOf<CssFontFaceRule>(css.Rules[0]);
+            var fontface = (CssFontFaceRule)css.Rules[0];
             Assert.AreEqual(2, fontface.Style.Length);
         }
     }

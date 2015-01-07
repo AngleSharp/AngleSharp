@@ -7,14 +7,14 @@
     /// Represents the abstract base class for
     /// CSS media and CSS supports rules.
     /// </summary>
-    abstract class CSSConditionRule : CSSGroupingRule
+    abstract class CssConditionRule : CssGroupingRule
     {
         #region ctor
 
         /// <summary>
         /// Constructs a new CSS condition rule.
         /// </summary>
-        internal CSSConditionRule (CssRuleType type)
+        internal CssConditionRule (CssRuleType type)
             : base(type)
 	    { 
         }

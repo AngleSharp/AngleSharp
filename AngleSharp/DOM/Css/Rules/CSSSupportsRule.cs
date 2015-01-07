@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents an @supports rule.
     /// </summary>
-    sealed class CSSSupportsRule : CSSConditionRule, ICssSupportsRule
+    sealed class CssSupportsRule : CssConditionRule, ICssSupportsRule
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSSupportsRule()
+        internal CssSupportsRule()
             : base(CssRuleType.Supports)
         {
             _condition = empty;
@@ -73,7 +73,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
-            var newRule = rule as CSSSupportsRule;
+            var newRule = rule as CssSupportsRule;
             ConditionText = newRule.ConditionText;
         }
 

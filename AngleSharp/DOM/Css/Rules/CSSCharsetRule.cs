@@ -6,11 +6,11 @@
     /// <summary>
     /// Represents the CSS @charset rule.
     /// </summary>
-    sealed class CSSCharsetRule : CSSRule, ICssCharsetRule
+    sealed class CssCharsetRule : CssRule, ICssCharsetRule
     {
         #region ctor
 
-        internal CSSCharsetRule()
+        internal CssCharsetRule()
             : base(CssRuleType.Charset)
         {
         }
@@ -34,7 +34,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSCharsetRule;
+            var newRule = rule as CssCharsetRule;
             CharacterSet = newRule.CharacterSet;
         }
 

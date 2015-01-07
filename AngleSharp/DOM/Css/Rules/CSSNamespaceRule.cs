@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an @namespace rule.
     /// </summary>
-    sealed class CSSNamespaceRule : CSSRule, ICssNamespaceRule
+    sealed class CssNamespaceRule : CssRule, ICssNamespaceRule
     {
         #region Fields
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new @namespace rule.
         /// </summary>
-        internal CSSNamespaceRule()
+        internal CssNamespaceRule()
             : base(CssRuleType.Namespace)
         {
         }
@@ -64,7 +64,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSNamespaceRule;
+            var newRule = rule as CssNamespaceRule;
             _namespaceURI = newRule._namespaceURI;
             _prefix = newRule._prefix;
         }

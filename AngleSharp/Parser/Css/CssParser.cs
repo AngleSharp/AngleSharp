@@ -168,10 +168,10 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created media rule.</returns>
-        internal static CSSMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var list = tokens.MoveNext() ? parser.InMediaList(tokens) : new MediaList();
-            var rule = new CSSMediaRule(list);
+            var rule = new CssMediaRule(list);
 
             if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
                 return null;
@@ -186,9 +186,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created page rule.</returns>
-        internal static CSSPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSPageRule();
+            var rule = new CssPageRule();
 
             if (tokens.MoveNext())
                 rule.Selector = parser.InSelector(tokens);
@@ -205,9 +205,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created font-face rule.</returns>
-        internal static CSSFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSFontFaceRule();
+            var rule = new CssFontFaceRule();
 
             if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                 parser.FillDeclarations(rule.Style, tokens);
@@ -221,9 +221,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created supports rule.</returns>
-        internal static CSSSupportsRule CreateSupportsRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssSupportsRule CreateSupportsRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSSupportsRule();
+            var rule = new CssSupportsRule();
 
             if (tokens.MoveNext())
                 rule.Condition = parser.InCondition(tokens);
@@ -240,9 +240,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated document rule.</returns>
-        internal static CSSDocumentRule CreateDocumentRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssDocumentRule CreateDocumentRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSDocumentRule();
+            var rule = new CssDocumentRule();
 
             if (tokens.MoveNext())
                 rule.Conditions.AddRange(parser.InDocumentFunctions(tokens));
@@ -259,9 +259,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframes rule.</returns>
-        internal static CSSKeyframesRule CreateKeyframesRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssKeyframesRule CreateKeyframesRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSKeyframesRule();
+            var rule = new CssKeyframesRule();
 
             if (tokens.MoveNext())
                 rule.Name = parser.InKeyframesName(tokens);
@@ -278,9 +278,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated namespace rule.</returns>
-        internal static CSSNamespaceRule CreateNamespaceRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssNamespaceRule CreateNamespaceRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSNamespaceRule();
+            var rule = new CssNamespaceRule();
 
             if (tokens.MoveNext())
             {
@@ -309,9 +309,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated rule.</returns>
-        internal static CSSCharsetRule CreateCharsetRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssCharsetRule CreateCharsetRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSCharsetRule();
+            var rule = new CssCharsetRule();
 
             if (tokens.MoveNext())
             {
@@ -335,9 +335,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule.</returns>
-        internal static CSSImportRule CreateImportRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssImportRule CreateImportRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var import = new CSSImportRule();
+            var import = new CssImportRule();
 
             if (tokens.MoveNext())
             {
@@ -363,9 +363,9 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule.</returns>
-        static CSSUnknownRule CreateUnknownRule(CssParser parser, IEnumerator<CssToken> tokens)
+        static CssUnknownRule CreateUnknownRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSUnknownRule(tokens.Current.Data);
+            var rule = new CssUnknownRule(tokens.Current.Data);
             var prelude = Pool.NewStringBuilder();
             var round = 0;
             var square = 0;
@@ -407,7 +407,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated CSS rule.</returns>
-        CSSRule CreateRule(IEnumerator<CssToken> tokens)
+        CssRule CreateRule(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
@@ -443,7 +443,7 @@
                 }
                 default:
                 {
-                    var rule = new CSSStyleRule();
+                    var rule = new CssStyleRule();
                     rule.Selector = InSelector(tokens);
                     FillDeclarations(rule.Style, tokens);
 
@@ -562,7 +562,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The iteration over all found document functions.</returns>
-        IEnumerable<Tuple<CSSDocumentRule.DocumentFunction, String>> InDocumentFunctions(IEnumerator<CssToken> tokens)
+        IEnumerable<Tuple<CssDocumentRule.DocumentFunction, String>> InDocumentFunctions(IEnumerator<CssToken> tokens)
         {
             do
             {
@@ -579,20 +579,20 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>A single document function or null if none has been found.</returns>
-        Tuple<CSSDocumentRule.DocumentFunction, String> InDocumentFunction(IEnumerator<CssToken> tokens)
+        Tuple<CssDocumentRule.DocumentFunction, String> InDocumentFunction(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
             switch (token.Type)
             {
                 case CssTokenType.Url:
-                    return Tuple.Create(CSSDocumentRule.DocumentFunction.Url, ((CssStringToken)token).Data);
+                    return Tuple.Create(CssDocumentRule.DocumentFunction.Url, ((CssStringToken)token).Data);
 
                 case CssTokenType.UrlPrefix:
-                    return Tuple.Create(CSSDocumentRule.DocumentFunction.UrlPrefix, ((CssStringToken)token).Data);
+                    return Tuple.Create(CssDocumentRule.DocumentFunction.UrlPrefix, ((CssStringToken)token).Data);
 
                 case CssTokenType.Domain:
-                    return Tuple.Create(CSSDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data);
+                    return Tuple.Create(CssDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data);
 
                 case CssTokenType.Function:
                     if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
@@ -603,7 +603,7 @@
                         token = tokens.Current;
 
                         if (token.Type == CssTokenType.String)
-                            return Tuple.Create(CSSDocumentRule.DocumentFunction.RegExp, ((CssStringToken)token).Data);
+                            return Tuple.Create(CssDocumentRule.DocumentFunction.RegExp, ((CssStringToken)token).Data);
 
                         JumpToClosedArguments(tokens);
                     }
@@ -640,9 +640,9 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframe data.</returns>
-        CSSKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
+        CssKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
-            var rule = new CSSKeyframeRule();
+            var rule = new CssKeyframeRule();
             rule.Key = InKeyframeText(tokens);
             FillDeclarations(rule.Style, tokens);
 
@@ -1002,7 +1002,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The computed value.</returns>
-        CSSSupportsRule.ICondition InCondition(IEnumerator<CssToken> tokens)
+        CssSupportsRule.ICondition InCondition(IEnumerator<CssToken> tokens)
         {
             var condition = ExtractConditions(tokens);
 
@@ -1012,7 +1012,7 @@
             return condition;
         }
 
-        CSSSupportsRule.ICondition ExtractConditions(IEnumerator<CssToken> tokens)
+        CssSupportsRule.ICondition ExtractConditions(IEnumerator<CssToken> tokens)
         {
             var condition = ExtractCondition(tokens);
 
@@ -1020,21 +1020,21 @@
                 return null;
 
             if (tokens.Current.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
-                return new CSSSupportsRule.AndCondition(Conditions(tokens, condition, Keywords.And));
+                return new CssSupportsRule.AndCondition(Conditions(tokens, condition, Keywords.And));
             else if (tokens.Current.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
-                return new CSSSupportsRule.OrCondition(Conditions(tokens, condition, Keywords.Or));
+                return new CssSupportsRule.OrCondition(Conditions(tokens, condition, Keywords.Or));
 
             return condition;
         }
 
-        CSSSupportsRule.ICondition ExtractCondition(IEnumerator<CssToken> tokens)
+        CssSupportsRule.ICondition ExtractCondition(IEnumerator<CssToken> tokens)
         {
             if (tokens.Current.Type == CssTokenType.RoundBracketOpen && tokens.MoveNext())
             {
                 var condition = ExtractConditions(tokens);
 
                 if (condition != null)
-                    condition = new CSSSupportsRule.GroupCondition(condition);
+                    condition = new CssSupportsRule.GroupCondition(condition);
                 else if (tokens.Current.Type == CssTokenType.Ident)
                     condition = DeclCondition(tokens);
 
@@ -1046,13 +1046,13 @@
                 var condition = ExtractCondition(tokens);
 
                 if (condition != null)
-                    return new CSSSupportsRule.NotCondition(condition);
+                    return new CssSupportsRule.NotCondition(condition);
             }
 
             return null;
         }
 
-        CSSSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens)
+        CssSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens)
         {
             var name = tokens.Current.Data;
             var style = new CssStyleDeclaration();
@@ -1080,10 +1080,10 @@
             if (property.IsImportant = IsImportant(tokens))
                 tokens.MoveNext();
 
-            return new CSSSupportsRule.DeclarationCondition(property, result);
+            return new CssSupportsRule.DeclarationCondition(property, result);
         }
 
-        IEnumerable<CSSSupportsRule.ICondition> Conditions(IEnumerator<CssToken> tokens, CSSSupportsRule.ICondition start, String connector)
+        IEnumerable<CssSupportsRule.ICondition> Conditions(IEnumerator<CssToken> tokens, CssSupportsRule.ICondition start, String connector)
         {
             yield return start;
 
@@ -1155,7 +1155,7 @@
         /// </summary>
         /// <param name="parentRule">The parent rule to fill.</param>
         /// <param name="tokens">The stream of tokens.</param>
-        void FillRules(CSSGroupingRule parentRule, IEnumerator<CssToken> tokens)
+        void FillRules(CssGroupingRule parentRule, IEnumerator<CssToken> tokens)
         {
             while (tokens.MoveNext())
             {
@@ -1176,7 +1176,7 @@
         /// </summary>
         /// <param name="parentRule">The parent rule to fill.</param>
         /// <param name="tokens">The stream of tokens.</param>
-        void FillRules(CSSKeyframesRule parentRule, IEnumerator<CssToken> tokens)
+        void FillRules(CssKeyframesRule parentRule, IEnumerator<CssToken> tokens)
         {
             while (tokens.MoveNext())
             {
@@ -1450,7 +1450,7 @@
         /// <param name="ruleText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSRule object.</returns>
-        internal static CSSRule ParseRule(String ruleText, IConfiguration configuration = null)
+        internal static CssRule ParseRule(String ruleText, IConfiguration configuration = null)
         {
             var parser = new CssParser(ruleText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
@@ -1558,7 +1558,7 @@
         /// <param name="conditionText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The condition.</returns>
-        internal static CSSSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
+        internal static CssSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
         {
             var parser = new CssParser(conditionText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
@@ -1578,13 +1578,13 @@
 
         #region Internal static methods
 
-        internal static IEnumerable<Tuple<CSSDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
+        internal static IEnumerable<Tuple<CssDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
 
             if (!tokens.MoveNext())
-                return Enumerable.Empty<Tuple<CSSDocumentRule.DocumentFunction, String>>();
+                return Enumerable.Empty<Tuple<CssDocumentRule.DocumentFunction, String>>();
 
             return parser.InDocumentFunctions(tokens);
         }
@@ -1672,13 +1672,13 @@
         /// <param name="rule">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSKeyframeRule object.</returns>
-        internal static CSSKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
+        internal static CssKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
 
             if (!tokens.MoveNext())
-                return new CSSKeyframeRule();
+                return new CssKeyframeRule();
 
             return parser.CreateKeyframeRule(tokens);
         }

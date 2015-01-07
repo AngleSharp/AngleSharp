@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a CSS style rule.
     /// </summary>
-	sealed class CSSStyleRule : CSSRule, ICssStyleRule
+	sealed class CssStyleRule : CssRule, ICssStyleRule
     {
         #region Fields
 
@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new CSS style rule.
         /// </summary>
-        internal CSSStyleRule()
+        internal CssStyleRule()
             : base(CssRuleType.Style)
         {
             _style = new CssStyleDeclaration(this);
@@ -76,7 +76,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CSSStyleRule;
+            var newRule = rule as CssStyleRule;
             _style.TakeFrom(newRule._style);
             _selector = newRule._selector;
         }

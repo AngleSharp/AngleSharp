@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a CSS @media rule.
     /// </summary>
-    sealed class CSSMediaRule : CSSConditionRule, ICssMediaRule
+    sealed class CssMediaRule : CssConditionRule, ICssMediaRule
     {
         #region Fields
 
@@ -21,7 +21,7 @@
         /// <summary>
         /// Creates a new CSS @media rule with a new media list.
         /// </summary>
-        internal CSSMediaRule()
+        internal CssMediaRule()
             : this(new MediaList())
         {
         }
@@ -30,7 +30,7 @@
         /// Creates a new CSS @media rule with the given media list.
         /// </summary>
         /// <param name="media">The media list.</param>
-        internal CSSMediaRule(MediaList media)
+        internal CssMediaRule(MediaList media)
             : base(CssRuleType.Media)
         {
             _media = media;
@@ -64,7 +64,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
-            var newRule = rule as CSSMediaRule;
+            var newRule = rule as CssMediaRule;
             _media.Import(newRule._media);
         }
 

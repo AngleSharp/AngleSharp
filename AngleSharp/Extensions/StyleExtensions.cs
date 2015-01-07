@@ -151,7 +151,7 @@
                 if (sheet.IsDisabled || css == null)
                     continue;
 
-                foreach (var rule in css.Rules.OfType<CSSNamespaceRule>())
+                foreach (var rule in css.Rules.OfType<CssNamespaceRule>())
                 {
                     if (rule.Prefix == prefix)
                         return rule.NamespaceUri;

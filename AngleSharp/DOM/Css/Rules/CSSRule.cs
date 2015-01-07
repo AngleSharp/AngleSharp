@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    abstract class CSSRule : ICssRule
+    abstract class CssRule : ICssRule
     {
         #region Fields
 
@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new CSS rule.
         /// </summary>
-        internal CSSRule(CssRuleType type)
+        internal CssRule(CssRuleType type)
         {
             _type = type;
         }
