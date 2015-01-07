@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    sealed class CSSStyleSheet : StyleSheet, ICssStyleSheet
+    sealed class CssStyleSheet : StyleSheet, ICssStyleSheet
     {
         #region Fields
 
@@ -24,7 +24,7 @@
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
-        internal CSSStyleSheet()
+        internal CssStyleSheet()
             : this(String.Empty)
         {
         }
@@ -33,7 +33,7 @@
         /// Creates a new CSS Stylesheet.
         /// </summary>
         /// <param name="source">The CSS source code.</param>
-        internal CSSStyleSheet(String source)
+        internal CssStyleSheet(String source)
             : this(new TextSource(source))
         {
         }
@@ -42,7 +42,7 @@
         /// Creates a new CSS Stylesheet.
         /// </summary>
         /// <param name="source">The underlying source.</param>
-        internal CSSStyleSheet(ITextSource source)
+        internal CssStyleSheet(ITextSource source)
         {
             _source = source;
             _rules = new CSSRuleList();

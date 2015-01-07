@@ -24,7 +24,7 @@ namespace UnitTests.Library
             var engine = new CssStyleEngine();
             Assert.IsNotNull(engine.Default);
             Assert.AreEqual("text/css", engine.Type);
-            var sheet = engine.Default as CSSStyleSheet;
+            var sheet = engine.Default as CssStyleSheet;
             Assert.IsNotNull(sheet);
             Assert.AreEqual(49, sheet.Rules.Length);
         }

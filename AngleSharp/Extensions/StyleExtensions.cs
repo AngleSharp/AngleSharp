@@ -28,7 +28,7 @@
             var parents = element.GetAncestorsOf().OfType<IElement>().Reverse().ToArray();
             var bag = new PropertyBag();
 
-            foreach (var stylesheet in stylesheets.OfType<CSSStyleSheet>())
+            foreach (var stylesheet in stylesheets.OfType<CssStyleSheet>())
             {
                 if (!stylesheet.IsDisabled && stylesheet.Media.Validate(device))
                 {
@@ -146,7 +146,7 @@
         {
             foreach (var sheet in sheets)
             {
-                var css = sheet as CSSStyleSheet;
+                var css = sheet as CssStyleSheet;
 
                 if (sheet.IsDisabled || css == null)
                     continue;

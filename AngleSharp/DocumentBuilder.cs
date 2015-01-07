@@ -376,7 +376,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode);
-            var sheet = new CSSStyleSheet(stream) { Options = configuration };
+            var sheet = new CssStyleSheet(stream) { Options = configuration };
             return Construct(sheet, configuration).Result;
         }
 
@@ -422,7 +422,7 @@
             using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
             {
                 var source = new TextSource(response.Content, configuration.DefaultEncoding());
-                var sheet = new CSSStyleSheet(source) { Href = url.OriginalString, Options = configuration };
+                var sheet = new CssStyleSheet(source) { Href = url.OriginalString, Options = configuration };
                 return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
             }
         }
@@ -443,7 +443,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet(source) { Options = configuration };
+            var sheet = new CssStyleSheet(source) { Options = configuration };
             return Construct(sheet, configuration).Result;
         }
 
@@ -476,7 +476,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CSSStyleSheet(source) { Href = url, Options = configuration };
+            var sheet = new CssStyleSheet(source) { Href = url, Options = configuration };
             return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
         }
 
@@ -501,7 +501,7 @@
         /// </summary>
         /// <param name="sheet">The document to fill.</param>
         /// <param name="configuration">Options to use for the document generation.</param>
-        static CssParser Construct(CSSStyleSheet sheet, IConfiguration configuration)
+        static CssParser Construct(CssStyleSheet sheet, IConfiguration configuration)
         {
             var parser = new CssParser(sheet);
             parser.ParseError += (s, e) => configuration.ReportError(e);

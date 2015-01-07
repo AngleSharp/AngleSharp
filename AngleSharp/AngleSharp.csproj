@@ -840,7 +840,7 @@
     <Compile Include="DOM\Collections\StringList.cs" />
     <Compile Include="DOM\DomException.cs" />
     <Compile Include="DOM\Attr.cs" />
-    <Compile Include="DOM\Css\CSSStyleSheet.cs" />
+    <Compile Include="DOM\Css\CssStyleSheet.cs" />
     <Compile Include="DOM\Document.cs" />
     <Compile Include="DOM\Html\Objects\HTMLMarqueeElement.cs" />
     <Compile Include="DOM\Html\Objects\HTMLNoEmbedElement.cs" />

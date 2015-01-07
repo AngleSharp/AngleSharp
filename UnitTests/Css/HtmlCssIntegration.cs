@@ -29,7 +29,7 @@ namespace UnitTests
 
             var doc = DocumentBuilder.Html(html);
             Assert.AreEqual(1, doc.StyleSheets.Length);
-            var css = doc.StyleSheets[0] as CSSStyleSheet;
+            var css = doc.StyleSheets[0] as CssStyleSheet;
             Assert.AreEqual(1, css.Rules.Length);
             var style = css.Rules[0] as CSSStyleRule;
             Assert.AreEqual("body", style.SelectorText);

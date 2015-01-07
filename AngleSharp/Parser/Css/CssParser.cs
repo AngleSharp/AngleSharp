@@ -26,7 +26,7 @@
         readonly CssValueBuilder value;
         readonly CssTokenizer tokenizer;
         readonly Object sync;
-        readonly CSSStyleSheet sheet;
+        readonly CssStyleSheet sheet;
 
         Boolean started;
         Task<ICssStyleSheet> task;
@@ -55,7 +55,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CSSStyleSheet(new TextSource(source)) { Options = configuration })
+            : this(new CssStyleSheet(new TextSource(source)) { Options = configuration })
         { }
 
         /// <summary>
@@ -65,7 +65,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CSSStyleSheet(new TextSource(stream, configuration.DefaultEncoding())) { Options = configuration })
+            : this(new CssStyleSheet(new TextSource(stream, configuration.DefaultEncoding())) { Options = configuration })
         { }
 
         /// <summary>
@@ -73,7 +73,7 @@
         /// based on the given source manager.
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
-        internal CssParser(CSSStyleSheet stylesheet)
+        internal CssParser(CssStyleSheet stylesheet)
         {
             var owner = stylesheet.OwnerNode as Element;
             selector = new CssSelectorConstructor();
