@@ -93,6 +93,7 @@
     <Compile Include="DOM\Css\Properties\Font\CSSSrcProperty.cs" />
     <Compile Include="DOM\Css\Properties\List\CSSCounterProperty.cs" />
     <Compile Include="DOM\Css\Properties\Sizing\CSSObjectFitProperty.cs" />
+    <Compile Include="DOM\Css\Properties\Sizing\CSSObjectPositionProperty.cs" />
     <Compile Include="DOM\Css\Rules\CSSUnknownRule.cs" />
     <Compile Include="DOM\Css\Selector\KeyframeSelector.cs" />
     <Compile Include="DOM\Css\Values\CssFunction.cs" />

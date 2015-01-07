@@ -1161,5 +1161,10 @@
         /// The object-fit declaration.
         /// </summary>
         public static readonly String ObjectFit = "object-fit";
+
+        /// <summary>
+        /// The object-position declaration.
+        /// </summary>
+        public static readonly String ObjectPosition = "object-position";
     }
 }

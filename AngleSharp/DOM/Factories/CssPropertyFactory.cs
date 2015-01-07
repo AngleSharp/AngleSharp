@@ -301,6 +301,7 @@
             AddLonghand(PropertyNames.WordSpacing, style => new CSSWordSpacingProperty(style), animatable: true);
             AddLonghand(PropertyNames.ZIndex, style => new CSSZIndexProperty(style), animatable: true);
             AddLonghand(PropertyNames.ObjectFit, style => new CSSObjectFitProperty(style), animatable: false);
+            AddLonghand(PropertyNames.ObjectPosition, style => new CSSObjectPositionProperty(style), animatable: true);
         }
 
         static void AddShorthand(String name, ShorthandCreator creator, params String[] longhands)
