@@ -33,6 +33,15 @@
 
         #endregion
 
+        #region Properties
+
+        public IEnumerable<MutationObserver> Observers
+        {
+            get { return _observers; }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
