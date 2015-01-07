@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
     /// </summary>
-    sealed class CSSBackgroundPositionProperty : CssProperty, ICssBackgroundPositionProperty
+    sealed class CssBackgroundPositionProperty : CssProperty, ICssBackgroundPositionProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBackgroundPositionProperty(CssStyleDeclaration rule)
+        internal CssBackgroundPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundPosition, rule, PropertyFlags.Animatable)
         {
             _positions = new List<Point>();

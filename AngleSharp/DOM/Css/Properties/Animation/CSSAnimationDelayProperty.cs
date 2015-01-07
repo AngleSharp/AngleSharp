@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-delay
     /// </summary>
-    sealed class CSSAnimationDelayProperty : CssProperty, ICssAnimationDelayProperty
+    sealed class CssAnimationDelayProperty : CssProperty, ICssAnimationDelayProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationDelayProperty(CssStyleDeclaration rule)
+        internal CssAnimationDelayProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationDelay, rule)
         {
             _times = new List<Time>();

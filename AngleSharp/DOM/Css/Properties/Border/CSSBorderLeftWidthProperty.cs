@@ -6,11 +6,11 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-width
     /// </summary>
-    sealed class CSSBorderLeftWidthProperty : CSSBorderPartWidthProperty, ICssBorderWidthProperty
+    sealed class CssBorderLeftWidthProperty : CssBorderPartWidthProperty, ICssBorderWidthProperty
     {
         #region ctor
 
-        internal CSSBorderLeftWidthProperty(CssStyleDeclaration rule)
+        internal CssBorderLeftWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderLeftWidth, rule)
         {
         }

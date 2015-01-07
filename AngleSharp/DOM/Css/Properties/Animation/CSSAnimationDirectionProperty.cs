@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-direction
     /// </summary>
-    sealed class CSSAnimationDirectionProperty : CssProperty, ICssAnimationDirectionProperty
+    sealed class CssAnimationDirectionProperty : CssProperty, ICssAnimationDirectionProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationDirectionProperty(CssStyleDeclaration rule)
+        internal CssAnimationDirectionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationDirection, rule)
         {
             _directions = new List<AnimationDirection>();

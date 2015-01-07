@@ -8,24 +8,24 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom
     /// </summary>
-    sealed class CSSBorderBottomProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderBottomProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
-        readonly CSSBorderBottomColorProperty _color;
-        readonly CSSBorderBottomStyleProperty _style;
-        readonly CSSBorderBottomWidthProperty _width;
+        readonly CssBorderBottomColorProperty _color;
+        readonly CssBorderBottomStyleProperty _style;
+        readonly CssBorderBottomWidthProperty _width;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderBottomProperty(CssStyleDeclaration rule)
+        internal CssBorderBottomProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderBottom, rule, PropertyFlags.Animatable)
         {
-            _color = Get<CSSBorderBottomColorProperty>();
-            _style = Get<CSSBorderBottomStyleProperty>();
-            _width = Get<CSSBorderBottomWidthProperty>();
+            _color = Get<CssBorderBottomColorProperty>();
+            _style = Get<CssBorderBottomStyleProperty>();
+            _width = Get<CssBorderBottomWidthProperty>();
         }
 
         #endregion
@@ -62,7 +62,7 @@
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return CSSBorderProperty.Converter.TryConvert(value, m =>
+            return CssBorderProperty.Converter.TryConvert(value, m =>
             {
                 _width.TrySetValue(m.Item1);
                 _style.TrySetValue(m.Item2);

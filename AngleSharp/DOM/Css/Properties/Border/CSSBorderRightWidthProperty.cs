@@ -6,11 +6,11 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-width
     /// </summary>
-    sealed class CSSBorderRightWidthProperty : CSSBorderPartWidthProperty, ICssBorderWidthProperty
+    sealed class CssBorderRightWidthProperty : CssBorderPartWidthProperty, ICssBorderWidthProperty
     {
         #region ctor
 
-        internal CSSBorderRightWidthProperty(CssStyleDeclaration rule)
+        internal CssBorderRightWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRightWidth, rule)
         {
         }

@@ -9,28 +9,28 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
     /// </summary>
-    sealed class CSSBorderColorProperty : CssShorthandProperty, ICssBorderColorsProperty
+    sealed class CssBorderColorProperty : CssShorthandProperty, ICssBorderColorsProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
-            CSSBorderPartColorProperty.Converter.Val().Periodic();
-        readonly CSSBorderTopColorProperty _top;
-        readonly CSSBorderRightColorProperty _right;
-        readonly CSSBorderBottomColorProperty _bottom;
-        readonly CSSBorderLeftColorProperty _left;
+            CssBorderPartColorProperty.Converter.Val().Periodic();
+        readonly CssBorderTopColorProperty _top;
+        readonly CssBorderRightColorProperty _right;
+        readonly CssBorderBottomColorProperty _bottom;
+        readonly CssBorderLeftColorProperty _left;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderColorProperty(CssStyleDeclaration rule)
+        internal CssBorderColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
-            _top = Get<CSSBorderTopColorProperty>();
-            _right = Get<CSSBorderRightColorProperty>();
-            _bottom = Get<CSSBorderBottomColorProperty>();
-            _left = Get<CSSBorderLeftColorProperty>();
+            _top = Get<CssBorderTopColorProperty>();
+            _right = Get<CssBorderRightColorProperty>();
+            _bottom = Get<CssBorderBottomColorProperty>();
+            _left = Get<CssBorderLeftColorProperty>();
         }
 
         #endregion

@@ -9,28 +9,28 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-width
     /// </summary>
-    sealed class CSSBorderWidthProperty : CssShorthandProperty, ICssBorderWidthsProperty
+    sealed class CssBorderWidthProperty : CssShorthandProperty, ICssBorderWidthsProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
-            CSSBorderPartWidthProperty.Converter.Val().Periodic();
-        readonly CSSBorderTopWidthProperty _top;
-        readonly CSSBorderRightWidthProperty _right;
-        readonly CSSBorderBottomWidthProperty _bottom;
-        readonly CSSBorderLeftWidthProperty _left;
+            CssBorderPartWidthProperty.Converter.Val().Periodic();
+        readonly CssBorderTopWidthProperty _top;
+        readonly CssBorderRightWidthProperty _right;
+        readonly CssBorderBottomWidthProperty _bottom;
+        readonly CssBorderLeftWidthProperty _left;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderWidthProperty(CssStyleDeclaration rule)
+        internal CssBorderWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
         {
-            _top = Get<CSSBorderTopWidthProperty>();
-            _right = Get<CSSBorderRightWidthProperty>();
-            _bottom = Get<CSSBorderBottomWidthProperty>();
-            _left = Get<CSSBorderLeftWidthProperty>();
+            _top = Get<CssBorderTopWidthProperty>();
+            _right = Get<CssBorderRightWidthProperty>();
+            _bottom = Get<CssBorderBottomWidthProperty>();
+            _left = Get<CssBorderLeftWidthProperty>();
         }
 
         #endregion

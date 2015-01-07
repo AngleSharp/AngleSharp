@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
     /// </summary>
-    sealed class CSSBorderCollapseProperty : CssProperty, ICssBorderCollapseProperty
+    sealed class CssBorderCollapseProperty : CssProperty, ICssBorderCollapseProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSBorderCollapseProperty(CssStyleDeclaration rule)
+        internal CssBorderCollapseProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderCollapse, rule, PropertyFlags.Inherited)
         {
             Reset();

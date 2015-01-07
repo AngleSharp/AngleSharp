@@ -6,7 +6,7 @@
     /// <summary>
     /// The abstract base class for all border-width sub properties.
     /// </summary>
-    abstract class CSSBorderPartWidthProperty : CssProperty
+    abstract class CssBorderPartWidthProperty : CssProperty
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal CSSBorderPartWidthProperty(String name, CssStyleDeclaration rule)
+        internal CssBorderPartWidthProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

@@ -8,24 +8,24 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right
     /// </summary>
-    sealed class CSSBorderRightProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderRightProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
-        readonly CSSBorderRightColorProperty _color;
-        readonly CSSBorderRightStyleProperty _style;
-        readonly CSSBorderRightWidthProperty _width;
+        readonly CssBorderRightColorProperty _color;
+        readonly CssBorderRightStyleProperty _style;
+        readonly CssBorderRightWidthProperty _width;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderRightProperty(CssStyleDeclaration rule)
+        internal CssBorderRightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRight, rule, PropertyFlags.Animatable)
         {
-            _color = Get<CSSBorderRightColorProperty>();
-            _style = Get<CSSBorderRightStyleProperty>();
-            _width = Get<CSSBorderRightWidthProperty>();
+            _color = Get<CssBorderRightColorProperty>();
+            _style = Get<CssBorderRightStyleProperty>();
+            _width = Get<CssBorderRightWidthProperty>();
         }
 
         #endregion
@@ -62,7 +62,7 @@
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return CSSBorderProperty.Converter.TryConvert(value, m =>
+            return CssBorderProperty.Converter.TryConvert(value, m =>
             {
                 _width.TrySetValue(m.Item1);
                 _style.TrySetValue(m.Item2);

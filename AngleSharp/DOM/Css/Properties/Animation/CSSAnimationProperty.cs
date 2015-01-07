@@ -11,44 +11,44 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation
     /// </summary>
-    sealed class CSSAnimationProperty : CssShorthandProperty, ICssAnimationProperty
+    sealed class CssAnimationProperty : CssShorthandProperty, ICssAnimationProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<Time, ITimingFunction, Time, Single, AnimationDirection, AnimationFillStyle, PlayState, Tuple<String>>[]> Converter = Converters.WithAny(
-            CSSAnimationDurationProperty.SingleConverter.Option(CSSAnimationDurationProperty.Default),
-            CSSAnimationTimingFunctionProperty.SingleConverter.Option(CSSAnimationTimingFunctionProperty.Default),
-            CSSAnimationDelayProperty.SingleConverter.Option(CSSAnimationDelayProperty.Default),
-            CSSAnimationIterationCountProperty.SingleConverter.Option(CSSAnimationIterationCountProperty.Default),
-            CSSAnimationDirectionProperty.SingleConverter.Option(CSSAnimationDirectionProperty.Default),
-            CSSAnimationFillModeProperty.SingleConverter.Option(CSSAnimationFillModeProperty.Default),
-            CSSAnimationPlayStateProperty.SingleConverter.Option(CSSAnimationPlayStateProperty.Default),
-            CSSAnimationNameProperty.SingleConverter.Option(CSSAnimationNameProperty.Default)).FromList();
+            CssAnimationDurationProperty.SingleConverter.Option(CssAnimationDurationProperty.Default),
+            CssAnimationTimingFunctionProperty.SingleConverter.Option(CssAnimationTimingFunctionProperty.Default),
+            CssAnimationDelayProperty.SingleConverter.Option(CssAnimationDelayProperty.Default),
+            CssAnimationIterationCountProperty.SingleConverter.Option(CssAnimationIterationCountProperty.Default),
+            CssAnimationDirectionProperty.SingleConverter.Option(CssAnimationDirectionProperty.Default),
+            CssAnimationFillModeProperty.SingleConverter.Option(CssAnimationFillModeProperty.Default),
+            CssAnimationPlayStateProperty.SingleConverter.Option(CssAnimationPlayStateProperty.Default),
+            CssAnimationNameProperty.SingleConverter.Option(CssAnimationNameProperty.Default)).FromList();
 
-        readonly CSSAnimationDelayProperty _delay;
-        readonly CSSAnimationDirectionProperty _direction;
-        readonly CSSAnimationDurationProperty _duration;
-        readonly CSSAnimationFillModeProperty _fillMode;
-        readonly CSSAnimationIterationCountProperty _iterationCount;
-        readonly CSSAnimationNameProperty _name;
-        readonly CSSAnimationTimingFunctionProperty _timingFunction;
-        readonly CSSAnimationPlayStateProperty _playState;
+        readonly CssAnimationDelayProperty _delay;
+        readonly CssAnimationDirectionProperty _direction;
+        readonly CssAnimationDurationProperty _duration;
+        readonly CssAnimationFillModeProperty _fillMode;
+        readonly CssAnimationIterationCountProperty _iterationCount;
+        readonly CssAnimationNameProperty _name;
+        readonly CssAnimationTimingFunctionProperty _timingFunction;
+        readonly CssAnimationPlayStateProperty _playState;
 
         #endregion
 
         #region ctor
 
-        internal CSSAnimationProperty(CssStyleDeclaration rule)
+        internal CssAnimationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Animation, rule)
         {
-            _delay = Get<CSSAnimationDelayProperty>();
-            _direction = Get<CSSAnimationDirectionProperty>();
-            _duration = Get<CSSAnimationDurationProperty>();
-            _fillMode = Get<CSSAnimationFillModeProperty>();
-            _iterationCount = Get<CSSAnimationIterationCountProperty>();
-            _name = Get<CSSAnimationNameProperty>();
-            _timingFunction = Get<CSSAnimationTimingFunctionProperty>();
-            _playState = Get<CSSAnimationPlayStateProperty>();
+            _delay = Get<CssAnimationDelayProperty>();
+            _direction = Get<CssAnimationDirectionProperty>();
+            _duration = Get<CssAnimationDurationProperty>();
+            _fillMode = Get<CssAnimationFillModeProperty>();
+            _iterationCount = Get<CssAnimationIterationCountProperty>();
+            _name = Get<CssAnimationNameProperty>();
+            _timingFunction = Get<CssAnimationTimingFunctionProperty>();
+            _playState = Get<CssAnimationPlayStateProperty>();
         }
 
         #endregion

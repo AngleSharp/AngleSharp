@@ -7,7 +7,7 @@
     /// <summary>
     /// The abstract base class for all border-style sub-properties.
     /// </summary>
-    abstract class CSSBorderPartStyleProperty : CssProperty
+    abstract class CssBorderPartStyleProperty : CssProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSBorderPartStyleProperty(String name, CssStyleDeclaration rule)
+        internal CssBorderPartStyleProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
         }

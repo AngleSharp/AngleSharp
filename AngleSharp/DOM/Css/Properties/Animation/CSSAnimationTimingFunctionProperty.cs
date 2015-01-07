@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-timing-function
     /// </summary>
-    sealed class CSSAnimationTimingFunctionProperty : CssProperty, ICssAnimationTimingFunctionProperty
+    sealed class CssAnimationTimingFunctionProperty : CssProperty, ICssAnimationTimingFunctionProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSAnimationTimingFunctionProperty(CssStyleDeclaration rule)
+        internal CssAnimationTimingFunctionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationTimingFunction, rule)
         {
             _functions = new List<ITimingFunction>();

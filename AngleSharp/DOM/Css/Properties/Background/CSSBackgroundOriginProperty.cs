@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-origins
     /// </summary>
-    sealed class CSSBackgroundOriginProperty : CssProperty, ICssBackgroundOriginProperty
+    sealed class CssBackgroundOriginProperty : CssProperty, ICssBackgroundOriginProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBackgroundOriginProperty(CssStyleDeclaration rule)
+        internal CssBackgroundOriginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundOrigin, rule)
         {
             _origins = new List<BoxModel>();

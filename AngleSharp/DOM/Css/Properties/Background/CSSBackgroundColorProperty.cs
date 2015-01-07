@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-color
     /// </summary>
-    sealed class CSSBackgroundColorProperty : CssProperty, ICssBackgroundColorProperty
+    sealed class CssBackgroundColorProperty : CssProperty, ICssBackgroundColorProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSBackgroundColorProperty(CssStyleDeclaration rule)
+        internal CssBackgroundColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             Reset();

@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
     /// </summary>
-    sealed class CSSBackgroundRepeatProperty : CssProperty, ICssBackgroundRepeatProperty
+    sealed class CssBackgroundRepeatProperty : CssProperty, ICssBackgroundRepeatProperty
     {
         #region Fields
 
@@ -26,7 +26,7 @@
 
         #region ctor
 
-        internal CSSBackgroundRepeatProperty(CssStyleDeclaration rule)
+        internal CssBackgroundRepeatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundRepeat, rule)
         {
             _repeats = new List<Repeat>();

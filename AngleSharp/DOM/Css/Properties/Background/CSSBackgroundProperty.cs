@@ -12,59 +12,59 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background
     /// </summary>
-    sealed class CSSBackgroundProperty : CssShorthandProperty, ICssBackgroundProperty
+    sealed class CssBackgroundProperty : CssShorthandProperty, ICssBackgroundProperty
     {
         #region Fields
 
         static readonly IValueConverter<BgLayer> NormalLayerConverter = Converters.WithAny(
-            CSSBackgroundImageProperty.Converter.Val().Option(),
+            CssBackgroundImageProperty.Converter.Val().Option(),
             Converters.WithOrder(
-                CSSBackgroundPositionProperty.Converter.Val().Option(),
-                CSSBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
-            CSSBackgroundRepeatProperty.Converter.Val().Option(),
-            CSSBackgroundAttachmentProperty.Converter.Val().Option(),
-            CSSBackgroundOriginProperty.Converter.Val().Option(),
-            CSSBackgroundClipProperty.Converter.Val().Option()
+                CssBackgroundPositionProperty.Converter.Val().Option(),
+                CssBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
+            CssBackgroundRepeatProperty.Converter.Val().Option(),
+            CssBackgroundAttachmentProperty.Converter.Val().Option(),
+            CssBackgroundOriginProperty.Converter.Val().Option(),
+            CssBackgroundClipProperty.Converter.Val().Option()
         );
 
         static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = Converters.WithAny(
-            CSSBackgroundImageProperty.Converter.Val().Option(),
+            CssBackgroundImageProperty.Converter.Val().Option(),
             Converters.WithOrder(
-                CSSBackgroundPositionProperty.Converter.Val().Option(),
-                CSSBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
-            CSSBackgroundRepeatProperty.Converter.Val().Option(),
-            CSSBackgroundAttachmentProperty.Converter.Val().Option(),
-            CSSBackgroundOriginProperty.Converter.Val().Option(),
-            CSSBackgroundClipProperty.Converter.Val().Option(),
-            CSSBackgroundColorProperty.Converter.Val().Option()
+                CssBackgroundPositionProperty.Converter.Val().Option(),
+                CssBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
+            CssBackgroundRepeatProperty.Converter.Val().Option(),
+            CssBackgroundAttachmentProperty.Converter.Val().Option(),
+            CssBackgroundOriginProperty.Converter.Val().Option(),
+            CssBackgroundClipProperty.Converter.Val().Option(),
+            CssBackgroundColorProperty.Converter.Val().Option()
         );
 
         static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> Converter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
 
-        readonly CSSBackgroundImageProperty _image;
-        readonly CSSBackgroundPositionProperty _position;
-        readonly CSSBackgroundSizeProperty _size;
-        readonly CSSBackgroundRepeatProperty _repeat;
-        readonly CSSBackgroundAttachmentProperty _attachment;
-        readonly CSSBackgroundOriginProperty _origin;
-        readonly CSSBackgroundClipProperty _clip;
-        readonly CSSBackgroundColorProperty _color;
+        readonly CssBackgroundImageProperty _image;
+        readonly CssBackgroundPositionProperty _position;
+        readonly CssBackgroundSizeProperty _size;
+        readonly CssBackgroundRepeatProperty _repeat;
+        readonly CssBackgroundAttachmentProperty _attachment;
+        readonly CssBackgroundOriginProperty _origin;
+        readonly CssBackgroundClipProperty _clip;
+        readonly CssBackgroundColorProperty _color;
 
         #endregion
 
         #region ctor
 
-        internal CSSBackgroundProperty(CssStyleDeclaration rule)
+        internal CssBackgroundProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Background, rule, PropertyFlags.Animatable)
         {
-            _image = Get<CSSBackgroundImageProperty>();
-            _position = Get<CSSBackgroundPositionProperty>();
-            _size = Get<CSSBackgroundSizeProperty>();
-            _repeat = Get<CSSBackgroundRepeatProperty>();
-            _attachment = Get<CSSBackgroundAttachmentProperty>();
-            _origin = Get<CSSBackgroundOriginProperty>();
-            _clip = Get<CSSBackgroundClipProperty>();
-            _color = Get<CSSBackgroundColorProperty>();
+            _image = Get<CssBackgroundImageProperty>();
+            _position = Get<CssBackgroundPositionProperty>();
+            _size = Get<CssBackgroundSizeProperty>();
+            _repeat = Get<CssBackgroundRepeatProperty>();
+            _attachment = Get<CssBackgroundAttachmentProperty>();
+            _origin = Get<CssBackgroundOriginProperty>();
+            _clip = Get<CssBackgroundClipProperty>();
+            _color = Get<CssBackgroundColorProperty>();
         }
 
         #endregion

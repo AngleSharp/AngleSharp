@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
     /// </summary>
-    sealed class CSSBackgroundImageProperty : CssProperty, ICssBackgroundImageProperty
+    sealed class CssBackgroundImageProperty : CssProperty, ICssBackgroundImageProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBackgroundImageProperty(CssStyleDeclaration rule)
+        internal CssBackgroundImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundImage, rule)
         {
             _images = new List<IImageSource>();

@@ -8,24 +8,24 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top
     /// </summary>
-    sealed class CSSBorderTopProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderTopProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
-        readonly CSSBorderTopColorProperty _color;
-        readonly CSSBorderTopStyleProperty _style;
-        readonly CSSBorderTopWidthProperty _width;
+        readonly CssBorderTopColorProperty _color;
+        readonly CssBorderTopStyleProperty _style;
+        readonly CssBorderTopWidthProperty _width;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderTopProperty(CssStyleDeclaration rule)
+        internal CssBorderTopProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderTop, rule, PropertyFlags.Animatable)
         {
-            _color = Get<CSSBorderTopColorProperty>();
-            _style = Get<CSSBorderTopStyleProperty>();
-            _width = Get<CSSBorderTopWidthProperty>();
+            _color = Get<CssBorderTopColorProperty>();
+            _style = Get<CssBorderTopStyleProperty>();
+            _width = Get<CssBorderTopWidthProperty>();
         }
 
         #endregion
@@ -62,7 +62,7 @@
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return CSSBorderProperty.Converter.TryConvert(value, m =>
+            return CssBorderProperty.Converter.TryConvert(value, m =>
             {
                 _width.TrySetValue(m.Item1);
                 _style.TrySetValue(m.Item2);

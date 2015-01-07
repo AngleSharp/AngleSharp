@@ -8,24 +8,24 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-left
     /// </summary>
-    sealed class CSSBorderLeftProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderLeftProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
-        readonly CSSBorderLeftColorProperty _color;
-        readonly CSSBorderLeftStyleProperty _style;
-        readonly CSSBorderLeftWidthProperty _width;
+        readonly CssBorderLeftColorProperty _color;
+        readonly CssBorderLeftStyleProperty _style;
+        readonly CssBorderLeftWidthProperty _width;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderLeftProperty(CssStyleDeclaration rule)
+        internal CssBorderLeftProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderLeft, rule, PropertyFlags.Animatable)
         {
-            _color = Get<CSSBorderLeftColorProperty>();
-            _style = Get<CSSBorderLeftStyleProperty>();
-            _width = Get<CSSBorderLeftWidthProperty>();
+            _color = Get<CssBorderLeftColorProperty>();
+            _style = Get<CssBorderLeftStyleProperty>();
+            _width = Get<CssBorderLeftWidthProperty>();
         }
 
         #endregion
@@ -62,7 +62,7 @@
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return CSSBorderProperty.Converter.TryConvert(value, m =>
+            return CssBorderProperty.Converter.TryConvert(value, m =>
             {
                 _width.TrySetValue(m.Item1);
                 _style.TrySetValue(m.Item2);

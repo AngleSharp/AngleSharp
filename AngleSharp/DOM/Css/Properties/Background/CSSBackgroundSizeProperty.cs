@@ -11,7 +11,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
     /// </summary>
-    sealed class CSSBackgroundSizeProperty : CssProperty, ICssBackgroundSizeProperty
+    sealed class CssBackgroundSizeProperty : CssProperty, ICssBackgroundSizeProperty
     {
         #region Fields
 
@@ -27,7 +27,7 @@
 
         #region ctor
 
-        internal CSSBackgroundSizeProperty(CssStyleDeclaration rule)
+        internal CssBackgroundSizeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundSize, rule, PropertyFlags.Animatable)
         {
             _sizes = new List<BackgroundSize>();

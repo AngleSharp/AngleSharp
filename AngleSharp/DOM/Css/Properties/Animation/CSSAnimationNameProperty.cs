@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-name
     /// </summary>
-    sealed class CSSAnimationNameProperty : CssProperty, ICssAnimationNameProperty
+    sealed class CssAnimationNameProperty : CssProperty, ICssAnimationNameProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationNameProperty(CssStyleDeclaration rule)
+        internal CssAnimationNameProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationName, rule)
         {
             _names = new List<String>();

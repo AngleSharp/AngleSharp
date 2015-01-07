@@ -6,7 +6,7 @@
     /// <summary>
     /// The abstract base class for all border-color sub-properties.
     /// </summary>
-    abstract class CSSBorderPartColorProperty : CssProperty
+    abstract class CssBorderPartColorProperty : CssProperty
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal CSSBorderPartColorProperty(String name, CssStyleDeclaration rule)
+        internal CssBorderPartColorProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             Reset();

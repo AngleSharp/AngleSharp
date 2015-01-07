@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-fill-mode
     /// </summary>
-    sealed class CSSAnimationFillModeProperty : CssProperty, ICssAnimationFillModeProperty
+    sealed class CssAnimationFillModeProperty : CssProperty, ICssAnimationFillModeProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationFillModeProperty(CssStyleDeclaration rule)
+        internal CssAnimationFillModeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationFillMode, rule)
         {
             _fillModes = new List<AnimationFillStyle>();

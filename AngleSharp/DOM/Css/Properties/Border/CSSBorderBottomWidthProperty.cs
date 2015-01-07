@@ -6,11 +6,11 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-width
     /// </summary>
-    sealed class CSSBorderBottomWidthProperty : CSSBorderPartWidthProperty, ICssBorderWidthProperty
+    sealed class CssBorderBottomWidthProperty : CssBorderPartWidthProperty, ICssBorderWidthProperty
     {
         #region ctor
 
-        internal CSSBorderBottomWidthProperty(CssStyleDeclaration rule)
+        internal CssBorderBottomWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderBottomWidth, rule)
         {
         }

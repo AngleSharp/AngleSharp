@@ -7,11 +7,11 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-style
     /// </summary>
-    sealed class CSSBorderLeftStyleProperty : CSSBorderPartStyleProperty, ICssBorderStyleProperty
+    sealed class CssBorderLeftStyleProperty : CssBorderPartStyleProperty, ICssBorderStyleProperty
     {
         #region ctor
 
-        internal CSSBorderLeftStyleProperty(CssStyleDeclaration rule)
+        internal CssBorderLeftStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderLeftStyle, rule)
         {
         }

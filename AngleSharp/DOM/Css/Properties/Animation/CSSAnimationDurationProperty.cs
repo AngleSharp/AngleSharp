@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-duration
     /// </summary>
-    sealed class CSSAnimationDurationProperty : CssProperty, ICssAnimationDurationProperty
+    sealed class CssAnimationDurationProperty : CssProperty, ICssAnimationDurationProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationDurationProperty(CssStyleDeclaration rule)
+        internal CssAnimationDurationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationDuration, rule)
         {
             _times = new List<Time>();

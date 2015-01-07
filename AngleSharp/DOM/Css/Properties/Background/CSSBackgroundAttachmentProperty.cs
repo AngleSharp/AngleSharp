@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment
     /// </summary>
-    sealed class CSSBackgroundAttachmentProperty : CssProperty, ICssBackgroundAttachmentProperty
+    sealed class CssBackgroundAttachmentProperty : CssProperty, ICssBackgroundAttachmentProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBackgroundAttachmentProperty(CssStyleDeclaration rule)
+        internal CssBackgroundAttachmentProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundAttachment, rule)
         {
             _attachments = new List<BackgroundAttachment>();

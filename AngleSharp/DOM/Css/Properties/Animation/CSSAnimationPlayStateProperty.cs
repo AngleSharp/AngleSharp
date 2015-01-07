@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-play-state
     /// </summary>
-    sealed class CSSAnimationPlayStateProperty : CssProperty, ICssAnimationPlayStateProperty
+    sealed class CssAnimationPlayStateProperty : CssProperty, ICssAnimationPlayStateProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationPlayStateProperty(CssStyleDeclaration rule)
+        internal CssAnimationPlayStateProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationPlayState, rule)
         {
             _states = new List<PlayState>();

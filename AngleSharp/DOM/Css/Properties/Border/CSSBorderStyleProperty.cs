@@ -9,28 +9,28 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-style
     /// </summary>
-    sealed class CSSBorderStyleProperty : CssShorthandProperty, ICssBorderStylesProperty
+    sealed class CssBorderStyleProperty : CssShorthandProperty, ICssBorderStylesProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
-            CSSBorderPartStyleProperty.Converter.Val().Periodic();
-        readonly CSSBorderTopStyleProperty _top;
-        readonly CSSBorderRightStyleProperty _right;
-        readonly CSSBorderBottomStyleProperty _bottom;
-        readonly CSSBorderLeftStyleProperty _left;
+            CssBorderPartStyleProperty.Converter.Val().Periodic();
+        readonly CssBorderTopStyleProperty _top;
+        readonly CssBorderRightStyleProperty _right;
+        readonly CssBorderBottomStyleProperty _bottom;
+        readonly CssBorderLeftStyleProperty _left;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderStyleProperty(CssStyleDeclaration rule)
+        internal CssBorderStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderStyle, rule)
         {
-            _top = Get<CSSBorderTopStyleProperty>();
-            _right = Get<CSSBorderRightStyleProperty>();
-            _bottom = Get<CSSBorderBottomStyleProperty>();
-            _left = Get<CSSBorderLeftStyleProperty>();
+            _top = Get<CssBorderTopStyleProperty>();
+            _right = Get<CssBorderRightStyleProperty>();
+            _bottom = Get<CssBorderBottomStyleProperty>();
+            _left = Get<CssBorderLeftStyleProperty>();
         }
 
         #endregion

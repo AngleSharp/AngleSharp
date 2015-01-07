@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-iteration-count
     /// </summary>
-    sealed class CSSAnimationIterationCountProperty : CssProperty, ICssAnimationIterationCountProperty
+    sealed class CssAnimationIterationCountProperty : CssProperty, ICssAnimationIterationCountProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationIterationCountProperty(CssStyleDeclaration rule)
+        internal CssAnimationIterationCountProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationIterationCount, rule)
         {
             _iterations = new List<Single>();

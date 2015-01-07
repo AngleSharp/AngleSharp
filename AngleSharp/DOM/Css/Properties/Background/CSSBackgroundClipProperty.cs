@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
     /// </summary>
-    sealed class CSSBackgroundClipProperty : CssProperty, ICssBackgroundClipProperty
+    sealed class CssBackgroundClipProperty : CssProperty, ICssBackgroundClipProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBackgroundClipProperty(CssStyleDeclaration rule)
+        internal CssBackgroundClipProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundClip, rule)
         {
             _clips = new List<BoxModel>();

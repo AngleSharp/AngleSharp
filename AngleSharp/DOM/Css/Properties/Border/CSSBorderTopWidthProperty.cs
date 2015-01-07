@@ -6,11 +6,11 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-width
     /// </summary>
-    sealed class CSSBorderTopWidthProperty : CSSBorderPartWidthProperty, ICssBorderWidthProperty
+    sealed class CssBorderTopWidthProperty : CssBorderPartWidthProperty, ICssBorderWidthProperty
     {
         #region ctor
 
-        internal CSSBorderTopWidthProperty(CssStyleDeclaration rule)
+        internal CssBorderTopWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderTopWidth, rule)
         {
         }

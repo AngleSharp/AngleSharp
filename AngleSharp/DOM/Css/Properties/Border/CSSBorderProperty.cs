@@ -9,47 +9,47 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border
     /// </summary>
-    sealed class CSSBorderProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
-            CSSBorderPartWidthProperty.Converter.Val().Option(CssValue.Initial),
-            CSSBorderPartStyleProperty.Converter.Val().Option(CssValue.Initial),
-            CSSBorderPartColorProperty.Converter.Val().Option(CssValue.Initial));
+            CssBorderPartWidthProperty.Converter.Val().Option(CssValue.Initial),
+            CssBorderPartStyleProperty.Converter.Val().Option(CssValue.Initial),
+            CssBorderPartColorProperty.Converter.Val().Option(CssValue.Initial));
 
-        readonly CSSBorderTopColorProperty _topColor;
-        readonly CSSBorderTopStyleProperty _topStyle;
-        readonly CSSBorderTopWidthProperty _topWidth;
-        readonly CSSBorderRightColorProperty _rightColor;
-        readonly CSSBorderRightStyleProperty _rightStyle;
-        readonly CSSBorderRightWidthProperty _rightWidth;
-        readonly CSSBorderBottomColorProperty _bottomColor;
-        readonly CSSBorderBottomStyleProperty _bottomStyle;
-        readonly CSSBorderBottomWidthProperty _bottomWidth;
-        readonly CSSBorderLeftColorProperty _leftColor;
-        readonly CSSBorderLeftStyleProperty _leftStyle;
-        readonly CSSBorderLeftWidthProperty _leftWidth;
+        readonly CssBorderTopColorProperty _topColor;
+        readonly CssBorderTopStyleProperty _topStyle;
+        readonly CssBorderTopWidthProperty _topWidth;
+        readonly CssBorderRightColorProperty _rightColor;
+        readonly CssBorderRightStyleProperty _rightStyle;
+        readonly CssBorderRightWidthProperty _rightWidth;
+        readonly CssBorderBottomColorProperty _bottomColor;
+        readonly CssBorderBottomStyleProperty _bottomStyle;
+        readonly CssBorderBottomWidthProperty _bottomWidth;
+        readonly CssBorderLeftColorProperty _leftColor;
+        readonly CssBorderLeftStyleProperty _leftStyle;
+        readonly CssBorderLeftWidthProperty _leftWidth;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderProperty(CssStyleDeclaration rule)
+        internal CssBorderProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Border, rule, PropertyFlags.Animatable)
         {
-            _topColor = Get<CSSBorderTopColorProperty>();
-            _topStyle = Get<CSSBorderTopStyleProperty>();
-            _topWidth = Get<CSSBorderTopWidthProperty>();
-            _rightColor = Get<CSSBorderRightColorProperty>();
-            _rightStyle = Get<CSSBorderRightStyleProperty>();
-            _rightWidth = Get<CSSBorderRightWidthProperty>();
-            _bottomColor = Get<CSSBorderBottomColorProperty>();
-            _bottomStyle = Get<CSSBorderBottomStyleProperty>();
-            _bottomWidth = Get<CSSBorderBottomWidthProperty>();
-            _leftColor = Get<CSSBorderLeftColorProperty>();
-            _leftStyle = Get<CSSBorderLeftStyleProperty>();
-            _leftWidth = Get<CSSBorderLeftWidthProperty>();
+            _topColor = Get<CssBorderTopColorProperty>();
+            _topStyle = Get<CssBorderTopStyleProperty>();
+            _topWidth = Get<CssBorderTopWidthProperty>();
+            _rightColor = Get<CssBorderRightColorProperty>();
+            _rightStyle = Get<CssBorderRightStyleProperty>();
+            _rightWidth = Get<CssBorderRightWidthProperty>();
+            _bottomColor = Get<CssBorderBottomColorProperty>();
+            _bottomStyle = Get<CssBorderBottomStyleProperty>();
+            _bottomWidth = Get<CssBorderBottomWidthProperty>();
+            _leftColor = Get<CssBorderLeftColorProperty>();
+            _leftStyle = Get<CssBorderLeftStyleProperty>();
+            _leftWidth = Get<CssBorderLeftWidthProperty>();
         }
 
         #endregion
