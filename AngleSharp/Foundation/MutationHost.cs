@@ -44,6 +44,18 @@
 
         #region Methods
 
+        public void Register(MutationObserver observer)
+        {
+            if (_observers.Contains(observer) == false)
+                _observers.Add(observer);
+        }
+
+        public void Unregister(MutationObserver observer)
+        {
+            if (_observers.Contains(observer) == true)
+                _observers.Remove(observer);
+        }
+
         /// <summary>
         /// Enqueues the flushing of the mutation observers in the event loop.
         /// </summary>

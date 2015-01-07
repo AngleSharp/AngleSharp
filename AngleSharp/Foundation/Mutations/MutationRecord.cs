@@ -6,9 +6,9 @@
     {
         #region Fields
 
-        static readonly String characterData = "characterData";
-        static readonly String attributes = "attributes";
-        static readonly String childList = "childList";
+        static readonly String CharacterDataType = "characterData";
+        static readonly String AttributesType = "attributes";
+        static readonly String ChildListType = "childList";
 
         #endregion
 
@@ -24,7 +24,7 @@
         {
             return new MutationRecord
             {
-                Type = characterData,
+                Type = CharacterDataType,
                 Target = target,
                 PreviousValue = previousValue
             };
@@ -34,7 +34,7 @@
         {
             return new MutationRecord
             {
-                Type = childList,
+                Type = ChildListType,
                 Target = target,
                 Added = addedNodes,
                 Removed = removedNodes,
@@ -47,7 +47,7 @@
         {
             return new MutationRecord
             {
-                Type = attributes,
+                Type = AttributesType,
                 Target = target,
                 AttributeName = attributeName,
                 AttributeNamespace = attributeNamespace,
@@ -58,6 +58,21 @@
         #endregion
 
         #region Properties
+
+        public Boolean IsAttribute
+        {
+            get { return Type == AttributesType; }
+        }
+
+        public Boolean IsCharacterData
+        {
+            get { return Type == CharacterDataType; }
+        }
+
+        public Boolean IsChildList
+        {
+            get { return Type == ChildListType; }
+        }
 
         public String Type
         {
