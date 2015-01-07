@@ -10,7 +10,7 @@
     /// or even better:
     /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
     /// </summary>
-    sealed class CSSBorderImageSliceProperty : CSSProperty, ICssBorderImageSliceProperty
+    sealed class CssBorderImageSliceProperty : CssProperty, ICssBorderImageSliceProperty
     {
         #region Fields
 
@@ -33,7 +33,7 @@
 
         #region ctor
 
-        internal CSSBorderImageSliceProperty(CssStyleDeclaration rule)
+        internal CssBorderImageSliceProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageSlice, rule)
         {
             Reset();

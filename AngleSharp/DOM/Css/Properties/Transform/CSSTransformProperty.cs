@@ -10,7 +10,7 @@
     /// More information available at MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform
     /// </summary>
-    sealed class CSSTransformProperty : CSSProperty, ICssTransformProperty
+    sealed class CssTransformProperty : CssProperty, ICssTransformProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTransformProperty(CssStyleDeclaration rule)
+        internal CssTransformProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Transform, rule, PropertyFlags.Animatable)
         {
             _transforms = new List<ITransform>();

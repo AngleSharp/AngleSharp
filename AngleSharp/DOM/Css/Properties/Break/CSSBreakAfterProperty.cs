@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-after
     /// </summary>
-    sealed class CSSBreakAfterProperty : CSSProperty, ICssBreakAfterProperty
+    sealed class CssBreakAfterProperty : CssProperty, ICssBreakAfterProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSBreakAfterProperty(CssStyleDeclaration rule)
+        internal CssBreakAfterProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BreakAfter, rule)
         {
             Reset();

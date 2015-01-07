@@ -8,7 +8,7 @@
     /// Information:
     /// http://dev.w3.org/csswg/css-fonts/#propdef-font-size-adjust
     /// </summary>
-    sealed class CSSFontSizeAdjustProperty : CSSProperty
+    sealed class CssFontSizeAdjustProperty : CssProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFontSizeAdjustProperty(CssStyleDeclaration rule)
+        internal CssFontSizeAdjustProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontSizeAdjust, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

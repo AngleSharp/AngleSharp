@@ -10,7 +10,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content
     /// </summary>
-    sealed class CSSContentProperty : CSSProperty, ICssContentProperty
+    sealed class CssContentProperty : CssProperty, ICssContentProperty
     {
         #region Fields
 
@@ -24,7 +24,7 @@
 
         #region ctor
 
-        static CSSContentProperty()
+        static CssContentProperty()
         {
             ContentModes = new Dictionary<String, ContentMode>(StringComparer.OrdinalIgnoreCase);
             ContentModes.Add(Keywords.OpenQuote, new OpenQuoteContentMode());
@@ -43,7 +43,7 @@
                 );
         }
 
-        internal CSSContentProperty(CssStyleDeclaration rule)
+        internal CssContentProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Content, rule)
         {
             Reset();

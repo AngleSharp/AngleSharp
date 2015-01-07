@@ -11,32 +11,32 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition
     /// </summary>
-    sealed class CSSTransitionProperty : CSSShorthandProperty, ICssTransitionProperty
+    sealed class CssTransitionProperty : CssShorthandProperty, ICssTransitionProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<String, Time, ITimingFunction, Time>[]> Converter = Converters.WithAny(
-            CSSTransitionPropertyProperty.SingleConverter.Option(CSSTransitionPropertyProperty.Default),
-            CSSTransitionDurationProperty.SingleConverter.Option(CSSTransitionDurationProperty.Default),
-            CSSTransitionTimingFunctionProperty.SingleConverter.Option(CSSTransitionTimingFunctionProperty.Default),
-            CSSTransitionDelayProperty.SingleConverter.Option(CSSTransitionDelayProperty.Default)).FromList();
+            CssTransitionPropertyProperty.SingleConverter.Option(CssTransitionPropertyProperty.Default),
+            CssTransitionDurationProperty.SingleConverter.Option(CssTransitionDurationProperty.Default),
+            CssTransitionTimingFunctionProperty.SingleConverter.Option(CssTransitionTimingFunctionProperty.Default),
+            CssTransitionDelayProperty.SingleConverter.Option(CssTransitionDelayProperty.Default)).FromList();
 
-        readonly CSSTransitionDelayProperty _delay;
-        readonly CSSTransitionDurationProperty _duration;
-        readonly CSSTransitionTimingFunctionProperty _timingFunction;
-        readonly CSSTransitionPropertyProperty _property;
+        readonly CssTransitionDelayProperty _delay;
+        readonly CssTransitionDurationProperty _duration;
+        readonly CssTransitionTimingFunctionProperty _timingFunction;
+        readonly CssTransitionPropertyProperty _property;
 
         #endregion
 
         #region ctor
 
-        internal CSSTransitionProperty(CssStyleDeclaration rule)
+        internal CssTransitionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Transition, rule)
         {
-            _delay = Get<CSSTransitionDelayProperty>();
-            _duration = Get<CSSTransitionDurationProperty>();
-            _timingFunction = Get<CSSTransitionTimingFunctionProperty>();
-            _property = Get<CSSTransitionPropertyProperty>();
+            _delay = Get<CssTransitionDelayProperty>();
+            _duration = Get<CssTransitionDurationProperty>();
+            _timingFunction = Get<CssTransitionTimingFunctionProperty>();
+            _property = Get<CssTransitionPropertyProperty>();
         }
 
         #endregion
@@ -95,7 +95,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!properties.Contains(_property) || !properties.Contains(_duration))
                 return String.Empty;

@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-source
     /// </summary>
-    sealed class CSSBorderImageSourceProperty : CSSProperty, ICssBorderImageSourceProperty
+    sealed class CssBorderImageSourceProperty : CssProperty, ICssBorderImageSourceProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSBorderImageSourceProperty(CssStyleDeclaration rule)
+        internal CssBorderImageSourceProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageSource, rule)
         {
             Reset();

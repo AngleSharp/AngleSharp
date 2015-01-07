@@ -9,26 +9,26 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/columns
     /// </summary>
-    sealed class CSSColumnsProperty : CSSShorthandProperty, ICssColumnsProperty
+    sealed class CssColumnsProperty : CssShorthandProperty, ICssColumnsProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<Length?, Int32?>> Converter = Converters.WithAny(
-            CSSColumnWidthProperty.Converter.Option(CSSColumnWidthProperty.Default),
-            CSSColumnCountProperty.Converter.Option(CSSColumnCountProperty.Default));
+            CssColumnWidthProperty.Converter.Option(CssColumnWidthProperty.Default),
+            CssColumnCountProperty.Converter.Option(CssColumnCountProperty.Default));
 
-        readonly CSSColumnCountProperty _count;
-        readonly CSSColumnWidthProperty _width;
+        readonly CssColumnCountProperty _count;
+        readonly CssColumnWidthProperty _width;
 
         #endregion
 
         #region ctor
 
-        internal CSSColumnsProperty(CssStyleDeclaration rule)
+        internal CssColumnsProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Columns, rule, PropertyFlags.Animatable)
         {
-            _count = Get<CSSColumnCountProperty>();
-            _width = Get<CSSColumnWidthProperty>();
+            _count = Get<CssColumnCountProperty>();
+            _width = Get<CssColumnWidthProperty>();
         }
 
         #endregion
@@ -69,7 +69,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

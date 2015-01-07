@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/orphans
     /// </summary>
-    sealed class CSSOrphansProperty : CSSProperty, ICssOrphansProperty
+    sealed class CssOrphansProperty : CssProperty, ICssOrphansProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSOrphansProperty(CssStyleDeclaration rule)
+        internal CssOrphansProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Orphans, rule, PropertyFlags.Inherited)
         {
             Reset();

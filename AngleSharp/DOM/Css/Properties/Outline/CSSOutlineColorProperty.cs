@@ -8,7 +8,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color
     /// </summary>
-    sealed class CSSOutlineColorProperty : CSSProperty, ICssOutlineColorProperty
+    sealed class CssOutlineColorProperty : CssProperty, ICssOutlineColorProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOutlineColorProperty(CssStyleDeclaration rule)
+        internal CssOutlineColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineColor, rule, PropertyFlags.Animatable)
         {
             Reset();

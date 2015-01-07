@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
     /// </summary>
-    sealed class CSSBorderColorProperty : CSSShorthandProperty, ICssBorderColorsProperty
+    sealed class CSSBorderColorProperty : CssShorthandProperty, ICssBorderColorsProperty
     {
         #region Fields
 
@@ -89,7 +89,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

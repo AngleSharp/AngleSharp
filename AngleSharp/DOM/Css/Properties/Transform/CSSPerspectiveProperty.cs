@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/perspective
     /// </summary>
-    sealed class CSSPerspectiveProperty : CSSProperty, ICssPerspectiveProperty
+    sealed class CssPerspectiveProperty : CssProperty, ICssPerspectiveProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSPerspectiveProperty(CssStyleDeclaration rule)
+        internal CssPerspectiveProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Perspective, rule, PropertyFlags.Animatable)
         {
             Reset();

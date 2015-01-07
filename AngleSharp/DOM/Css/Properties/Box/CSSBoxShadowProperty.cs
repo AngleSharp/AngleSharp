@@ -10,7 +10,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
     /// </summary>
-    sealed class CSSBoxShadowProperty : CSSProperty, ICssBoxShadowProperty
+    sealed class CssBoxShadowProperty : CssProperty, ICssBoxShadowProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBoxShadowProperty(CssStyleDeclaration rule)
+        internal CssBoxShadowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BoxShadow, rule, PropertyFlags.Animatable)
         {
             _shadows = new List<Shadow>();

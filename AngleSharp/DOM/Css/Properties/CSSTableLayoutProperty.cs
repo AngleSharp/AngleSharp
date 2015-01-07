@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
     /// </summary>
-    sealed class CSSTableLayoutProperty : CSSProperty, ICssTableLayoutProperty
+    sealed class CssTableLayoutProperty : CssProperty, ICssTableLayoutProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTableLayoutProperty(CssStyleDeclaration rule)
+        internal CssTableLayoutProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TableLayout, rule)
         {
             Reset();

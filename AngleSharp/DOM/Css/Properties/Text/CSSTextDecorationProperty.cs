@@ -9,30 +9,30 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
     /// </summary>
-    sealed class CSSTextDecorationProperty : CSSShorthandProperty, ICssTextDecorationProperty
+    sealed class CssTextDecorationProperty : CssShorthandProperty, ICssTextDecorationProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
-            CSSTextDecorationColorProperty.Converter.Val().Option(),
-            CSSTextDecorationStyleProperty.Converter.Val().Option(),
-            CSSTextDecorationLineProperty.Converter.Val().Option()
+            CssTextDecorationColorProperty.Converter.Val().Option(),
+            CssTextDecorationStyleProperty.Converter.Val().Option(),
+            CssTextDecorationLineProperty.Converter.Val().Option()
         );
 
-        readonly CSSTextDecorationColorProperty _color;
-        readonly CSSTextDecorationLineProperty _line;
-        readonly CSSTextDecorationStyleProperty _style;
+        readonly CssTextDecorationColorProperty _color;
+        readonly CssTextDecorationLineProperty _line;
+        readonly CssTextDecorationStyleProperty _style;
 
         #endregion
 
         #region ctor
 
-        internal CSSTextDecorationProperty(CssStyleDeclaration rule)
+        internal CssTextDecorationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecoration, rule, PropertyFlags.Animatable)
         {
-            _color = Get<CSSTextDecorationColorProperty>();
-            _line = Get<CSSTextDecorationLineProperty>();
-            _style = Get<CSSTextDecorationStyleProperty>();
+            _color = Get<CssTextDecorationColorProperty>();
+            _line = Get<CssTextDecorationLineProperty>();
+            _style = Get<CssTextDecorationStyleProperty>();
         }
 
         #endregion
@@ -82,7 +82,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

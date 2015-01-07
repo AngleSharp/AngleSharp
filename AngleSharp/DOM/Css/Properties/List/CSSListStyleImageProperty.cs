@@ -9,7 +9,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-image
     /// </summary>
-    sealed class CSSListStyleImageProperty : CSSProperty, ICssListStyleImageProperty
+    sealed class CssListStyleImageProperty : CssProperty, ICssListStyleImageProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSListStyleImageProperty(CssStyleDeclaration rule)
+        internal CssListStyleImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyleImage, rule, PropertyFlags.Inherited)
         {
             Reset();

@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing
     /// </summary>
-    sealed class CSSLetterSpacingProperty : CSSProperty, ICssLetterSpacingProperty
+    sealed class CssLetterSpacingProperty : CssProperty, ICssLetterSpacingProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSLetterSpacingProperty(CssStyleDeclaration rule)
+        internal CssLetterSpacingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.LetterSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
             Reset();

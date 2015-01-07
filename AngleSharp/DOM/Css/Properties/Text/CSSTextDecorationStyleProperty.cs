@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style
     /// </summary>
-    sealed class CSSTextDecorationStyleProperty : CSSProperty, ICssTextDecorationStyleProperty
+    sealed class CssTextDecorationStyleProperty : CssProperty, ICssTextDecorationStyleProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTextDecorationStyleProperty(CssStyleDeclaration rule)
+        internal CssTextDecorationStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecorationStyle, rule)
         {
             Reset();

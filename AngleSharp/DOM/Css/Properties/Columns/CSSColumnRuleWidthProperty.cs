@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-width
     /// </summary>
-    sealed class CSSColumnRuleWidthProperty : CSSProperty, ICssColumnRuleWidthProperty
+    sealed class CssColumnRuleWidthProperty : CssProperty, ICssColumnRuleWidthProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleWidthProperty(CssStyleDeclaration rule)
+        internal CssColumnRuleWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleWidth, rule, PropertyFlags.Animatable)
         {
             Reset();

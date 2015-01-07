@@ -6,7 +6,7 @@
     /// <summary>
     /// The abstract base class for all border-color sub-properties.
     /// </summary>
-    abstract class CSSBorderPartColorProperty : CSSProperty
+    abstract class CSSBorderPartColorProperty : CssProperty
     {
         #region Fields
 

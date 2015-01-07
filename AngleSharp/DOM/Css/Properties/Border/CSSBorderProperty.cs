@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border
     /// </summary>
-    sealed class CSSBorderProperty : CSSShorthandProperty, ICssBorderProperty
+    sealed class CSSBorderProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
@@ -103,7 +103,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

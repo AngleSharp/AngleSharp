@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/direction
     /// </summary>
-    sealed class CSSDirectionProperty : CSSProperty, ICssDirectionProperty
+    sealed class CssDirectionProperty : CssProperty, ICssDirectionProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSDirectionProperty(CssStyleDeclaration rule)
+        internal CssDirectionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Direction, rule, PropertyFlags.Inherited)
         {
             Reset();

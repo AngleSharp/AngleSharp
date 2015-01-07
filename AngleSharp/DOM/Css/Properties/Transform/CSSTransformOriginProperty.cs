@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
     /// </summary>
-    sealed class CSSTransformOriginProperty : CSSProperty, ICssTransformOriginProperty
+    sealed class CssTransformOriginProperty : CssProperty, ICssTransformOriginProperty
     {
         #region Fields
 
@@ -32,7 +32,7 @@
 
         #region ctor
 
-        internal CSSTransformOriginProperty(CssStyleDeclaration rule)
+        internal CssTransformOriginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransformOrigin, rule, PropertyFlags.Animatable)
         {
             Reset();

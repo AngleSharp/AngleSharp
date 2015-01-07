@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
     /// </summary>
-    sealed class CSSBackgroundPositionProperty : CSSProperty, ICssBackgroundPositionProperty
+    sealed class CSSBackgroundPositionProperty : CssProperty, ICssBackgroundPositionProperty
     {
         #region Fields
 

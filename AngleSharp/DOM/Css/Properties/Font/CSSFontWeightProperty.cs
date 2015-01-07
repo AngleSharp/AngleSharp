@@ -9,7 +9,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
     /// </summary>
-    sealed class CSSFontWeightProperty : CSSProperty, ICssFontWeightProperty
+    sealed class CssFontWeightProperty : CssProperty, ICssFontWeightProperty
     {
         #region Fields
 
@@ -31,7 +31,7 @@
 
         #region ctor
         
-        internal CSSFontWeightProperty(CssStyleDeclaration rule)
+        internal CssFontWeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontWeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
     /// </summary>
-    sealed class CSSColumnRuleStyleProperty : CSSProperty, ICssColumnRuleStyleProperty
+    sealed class CssColumnRuleStyleProperty : CssProperty, ICssColumnRuleStyleProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleStyleProperty(CssStyleDeclaration rule)
+        internal CssColumnRuleStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleStyle, rule)
         {
             Reset();

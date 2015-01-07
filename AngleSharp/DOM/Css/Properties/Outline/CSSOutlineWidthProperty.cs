@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-width
     /// </summary>
-    sealed class CSSOutlineWidthProperty : CSSProperty, ICssOutlineWidthProperty
+    sealed class CssOutlineWidthProperty : CssProperty, ICssOutlineWidthProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSOutlineWidthProperty(CssStyleDeclaration rule)
+        internal CssOutlineWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineWidth, rule, PropertyFlags.Animatable)
         {
             Reset();

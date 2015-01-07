@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        static Dictionary<String, Func<CssStyleDeclaration, CSSProperty>> _creators = new Dictionary<String, Func<CssStyleDeclaration, CSSProperty>>(StringComparer.OrdinalIgnoreCase);
+        static Dictionary<String, Func<CssStyleDeclaration, CssProperty>> _creators = new Dictionary<String, Func<CssStyleDeclaration, CssProperty>>(StringComparer.OrdinalIgnoreCase);
         readonly CssStyleDeclaration _style;
 
         #endregion
@@ -21,14 +21,14 @@
 
         static CssFontFaceRule()
         {
-            _creators.Add(PropertyNames.FontFamily, style => new CSSFontFamilyProperty(style));
-            _creators.Add(PropertyNames.FontStyle, style => new CSSFontStyleProperty(style));
-            _creators.Add(PropertyNames.FontVariant, style => new CSSFontVariantProperty(style));
-            _creators.Add(PropertyNames.FontWeight, style => new CSSFontWeightProperty(style));
-            _creators.Add(PropertyNames.FontStretch, style => new CSSFontStretchProperty(style));
+            _creators.Add(PropertyNames.FontFamily, style => new CssFontFamilyProperty(style));
+            _creators.Add(PropertyNames.FontStyle, style => new CssFontStyleProperty(style));
+            _creators.Add(PropertyNames.FontVariant, style => new CssFontVariantProperty(style));
+            _creators.Add(PropertyNames.FontWeight, style => new CssFontWeightProperty(style));
+            _creators.Add(PropertyNames.FontStretch, style => new CssFontStretchProperty(style));
             //_creators.Add(PropertyNames.FontFeatureSettings, style => new CSSFontFeatureSettingsProperty(style));
-            _creators.Add(PropertyNames.UnicodeRange, style => new CSSUnicodeRangeProperty(style));
-            _creators.Add(PropertyNames.Src, style => new CSSSrcProperty(style));
+            _creators.Add(PropertyNames.UnicodeRange, style => new CssUnicodeRangeProperty(style));
+            _creators.Add(PropertyNames.Src, style => new CssSrcProperty(style));
         }
 
         /// <summary>
@@ -148,9 +148,9 @@
 
         #region Property Creator
 
-        CSSProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
+        CssProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
         {
-            Func<CssStyleDeclaration, CSSProperty> creator;
+            Func<CssStyleDeclaration, CssProperty> creator;
 
             if (_creators.TryGetValue(name, out creator))
                 return creator(style);

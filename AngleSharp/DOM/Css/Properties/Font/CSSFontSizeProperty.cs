@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
     /// </summary>
-    sealed class CSSFontSizeProperty : CSSProperty, ICssFontSizeProperty
+    sealed class CssFontSizeProperty : CssProperty, ICssFontSizeProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFontSizeProperty(CssStyleDeclaration rule)
+        internal CssFontSizeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontSize, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

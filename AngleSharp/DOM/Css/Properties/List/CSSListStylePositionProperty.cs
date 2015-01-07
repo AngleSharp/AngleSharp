@@ -8,7 +8,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position
     /// </summary>
-    sealed class CSSListStylePositionProperty : CSSProperty, ICssListStylePositionProperty
+    sealed class CssListStylePositionProperty : CssProperty, ICssListStylePositionProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSListStylePositionProperty(CssStyleDeclaration rule)
+        internal CssListStylePositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStylePosition, rule, PropertyFlags.Inherited)
         {
             Reset();

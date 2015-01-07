@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/right
     /// </summary>
-    sealed class CSSRightProperty : CSSCoordinateProperty, ICssRightProperty
+    sealed class CssRightProperty : CssCoordinateProperty, ICssRightProperty
     {
         #region ctor
 
-        internal CSSRightProperty(CssStyleDeclaration rule)
+        internal CssRightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Right, rule)
         {
         }

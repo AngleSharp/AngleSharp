@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-left
     /// </summary>
-    sealed class CSSPaddingLeftProperty : CSSPaddingPartProperty, ICssPaddingLeftProperty
+    sealed class CssPaddingLeftProperty : CssPaddingPartProperty, ICssPaddingLeftProperty
     {
         #region ctor
 
-        internal CSSPaddingLeftProperty(CssStyleDeclaration rule)
+        internal CssPaddingLeftProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PaddingLeft, rule)
         {
         }

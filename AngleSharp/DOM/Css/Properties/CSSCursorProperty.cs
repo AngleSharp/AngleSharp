@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
     /// </summary>
-    sealed class CSSCursorProperty : CSSProperty, ICssCursorProperty
+    sealed class CssCursorProperty : CssProperty, ICssCursorProperty
     {
         #region Fields
 
@@ -28,7 +28,7 @@
 
         #region ctor
 
-        internal CSSCursorProperty(CssStyleDeclaration rule)
+        internal CssCursorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Cursor, rule, PropertyFlags.Inherited)
         {
             Reset();

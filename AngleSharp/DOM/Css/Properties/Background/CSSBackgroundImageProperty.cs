@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
     /// </summary>
-    sealed class CSSBackgroundImageProperty : CSSProperty, ICssBackgroundImageProperty
+    sealed class CSSBackgroundImageProperty : CssProperty, ICssBackgroundImageProperty
     {
         #region Fields
 

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-height
     /// </summary>
-    sealed class CSSMaxHeightProperty : CSSProperty, ICssMaxHeightProperty
+    sealed class CssMaxHeightProperty : CssProperty, ICssMaxHeightProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSMaxHeightProperty(CssStyleDeclaration rule)
+        internal CssMaxHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MaxHeight, rule, PropertyFlags.Animatable)
         {
             Reset();

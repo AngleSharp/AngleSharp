@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
     /// </summary>
-    sealed class CSSWordSpacingProperty : CSSProperty, ICssWordSpacingProperty
+    sealed class CssWordSpacingProperty : CssProperty, ICssWordSpacingProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSWordSpacingProperty(CssStyleDeclaration rule)
+        internal CssWordSpacingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.WordSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

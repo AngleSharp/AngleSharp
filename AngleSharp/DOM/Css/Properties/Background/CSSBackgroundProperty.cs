@@ -12,7 +12,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background
     /// </summary>
-    sealed class CSSBackgroundProperty : CSSShorthandProperty, ICssBackgroundProperty
+    sealed class CSSBackgroundProperty : CssShorthandProperty, ICssBackgroundProperty
     {
         #region Fields
 
@@ -205,7 +205,7 @@
             return list;
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

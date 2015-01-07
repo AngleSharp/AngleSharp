@@ -8,7 +8,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-style
     /// </summary>
-    sealed class CSSOutlineStyleProperty : CSSProperty, ICssOutlineStyleProperty
+    sealed class CssOutlineStyleProperty : CssProperty, ICssOutlineStyleProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOutlineStyleProperty(CssStyleDeclaration rule)
+        internal CssOutlineStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineStyle, rule)
         {
             Reset();

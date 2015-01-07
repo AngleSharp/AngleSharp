@@ -9,31 +9,31 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
     /// </summary>
-    sealed class CSSBorderRadiusProperty : CSSShorthandProperty, ICssBorderRadiusProperty
+    sealed class CssBorderRadiusProperty : CssShorthandProperty, ICssBorderRadiusProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = Converters.WithOrder(
-            CSSBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().Required(),
-            CSSBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option()
+            CssBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().Required(),
+            CssBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option()
         );
 
-        readonly CSSBorderTopLeftRadiusProperty _topLeft;
-        readonly CSSBorderTopRightRadiusProperty _topRight;
-        readonly CSSBorderBottomRightRadiusProperty _bottomRight;
-        readonly CSSBorderBottomLeftRadiusProperty _bottomLeft;
+        readonly CssBorderTopLeftRadiusProperty _topLeft;
+        readonly CssBorderTopRightRadiusProperty _topRight;
+        readonly CssBorderBottomRightRadiusProperty _bottomRight;
+        readonly CssBorderBottomLeftRadiusProperty _bottomLeft;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderRadiusProperty(CssStyleDeclaration rule)
+        internal CssBorderRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRadius, rule, PropertyFlags.Animatable)
         {
-            _topLeft = Get<CSSBorderTopLeftRadiusProperty>();
-            _topRight = Get<CSSBorderTopRightRadiusProperty>();
-            _bottomRight = Get<CSSBorderBottomRightRadiusProperty>();
-            _bottomLeft = Get<CSSBorderBottomLeftRadiusProperty>();
+            _topLeft = Get<CssBorderTopLeftRadiusProperty>();
+            _topRight = Get<CssBorderTopRightRadiusProperty>();
+            _bottomRight = Get<CssBorderBottomRightRadiusProperty>();
+            _bottomLeft = Get<CssBorderBottomLeftRadiusProperty>();
         }
 
         #endregion
@@ -124,7 +124,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

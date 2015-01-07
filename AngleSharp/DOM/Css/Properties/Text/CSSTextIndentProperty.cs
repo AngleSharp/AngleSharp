@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent
     /// </summary>
-    sealed class CSSTextIndentProperty : CSSProperty, ICssTextIndentProperty
+    sealed class CssTextIndentProperty : CssProperty, ICssTextIndentProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSTextIndentProperty(CssStyleDeclaration rule)
+        internal CssTextIndentProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextIndent, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

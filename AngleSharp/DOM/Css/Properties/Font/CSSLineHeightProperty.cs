@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
     /// </summary>
-    sealed class CSSLineHeightProperty : CSSProperty, ICssLineHeightProperty
+    sealed class CssLineHeightProperty : CssProperty, ICssLineHeightProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSLineHeightProperty(CssStyleDeclaration rule)
+        internal CssLineHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.LineHeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

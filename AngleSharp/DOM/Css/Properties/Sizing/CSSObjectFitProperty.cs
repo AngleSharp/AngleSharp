@@ -8,7 +8,7 @@
     /// More information available:
     /// http://dev.w3.org/csswg/css-images-3/#the-object-fit
     /// </summary>
-    sealed class CSSObjectFitProperty : CSSProperty
+    sealed class CssObjectFitProperty : CssProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSObjectFitProperty(CssStyleDeclaration rule)
+        internal CssObjectFitProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ObjectFit, rule)
         {
             Reset();

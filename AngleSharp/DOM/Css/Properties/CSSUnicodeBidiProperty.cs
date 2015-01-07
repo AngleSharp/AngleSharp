@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi
     /// </summary>
-    sealed class CSSUnicodeBidiProperty : CSSProperty, ICssUnicodeBidiProperty
+    sealed class CssUnicodeBidiProperty : CssProperty, ICssUnicodeBidiProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSUnicodeBidiProperty(CssStyleDeclaration rule)
+        internal CssUnicodeBidiProperty(CssStyleDeclaration rule)
             : base(PropertyNames.UnicodeBidi, rule)
         {
             Reset();

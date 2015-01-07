@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/position
     /// </summary>
-    sealed class CSSPositionProperty : CSSProperty, ICssPositionProperty
+    sealed class CssPositionProperty : CssProperty, ICssPositionProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSPositionProperty(CssStyleDeclaration rule)
+        internal CssPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Position, rule)
         {
             Reset();

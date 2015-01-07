@@ -9,28 +9,28 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin
     /// </summary>
-    sealed class CSSMarginProperty : CSSShorthandProperty, ICssMarginProperty
+    sealed class CssMarginProperty : CssShorthandProperty, ICssMarginProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
-            CSSMarginPartProperty.Converter.Val().Periodic();
-        readonly CSSMarginTopProperty _top;
-        readonly CSSMarginRightProperty _right;
-        readonly CSSMarginBottomProperty _bottom;
-        readonly CSSMarginLeftProperty _left;
+            CssMarginPartProperty.Converter.Val().Periodic();
+        readonly CssMarginTopProperty _top;
+        readonly CssMarginRightProperty _right;
+        readonly CssMarginBottomProperty _bottom;
+        readonly CssMarginLeftProperty _left;
 
         #endregion
 
         #region ctor
 
-        internal CSSMarginProperty(CssStyleDeclaration rule)
+        internal CssMarginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Margin, rule)
         {
-            _top = Get<CSSMarginTopProperty>();
-            _right = Get<CSSMarginRightProperty>();
-            _bottom = Get<CSSMarginBottomProperty>();
-            _left = Get<CSSMarginLeftProperty>();
+            _top = Get<CssMarginTopProperty>();
+            _right = Get<CssMarginRightProperty>();
+            _bottom = Get<CssMarginBottomProperty>();
+            _left = Get<CssMarginLeftProperty>();
         }
 
         #endregion
@@ -89,7 +89,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

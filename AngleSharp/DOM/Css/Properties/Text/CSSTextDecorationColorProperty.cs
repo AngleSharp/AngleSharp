@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
     /// </summary>
-    sealed class CSSTextDecorationColorProperty : CSSProperty, ICssTextDecorationColorProperty
+    sealed class CssTextDecorationColorProperty : CssProperty, ICssTextDecorationColorProperty
     {
         #region Fields
 
@@ -20,7 +19,7 @@
 
         #region ctor
 
-        internal CSSTextDecorationColorProperty(CssStyleDeclaration rule)
+        internal CssTextDecorationColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecorationColor, rule, PropertyFlags.Animatable)
         {
             Reset();

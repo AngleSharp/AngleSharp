@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-spacing
     /// </summary>
-    sealed class CSSBorderSpacingProperty : CSSProperty, ICssBorderSpacingProperty
+    sealed class CSSBorderSpacingProperty : CssProperty, ICssBorderSpacingProperty
     {
         #region Fields
 

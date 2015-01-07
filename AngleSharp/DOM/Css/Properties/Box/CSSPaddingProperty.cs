@@ -9,29 +9,29 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding
     /// </summary>
-    sealed class CSSPaddingProperty : CSSShorthandProperty, ICssPaddingProperty
+    sealed class CssPaddingProperty : CssShorthandProperty, ICssPaddingProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter = 
-            CSSPaddingPartProperty.Converter.Val().Periodic();
+            CssPaddingPartProperty.Converter.Val().Periodic();
 
-        readonly CSSPaddingTopProperty _top;
-        readonly CSSPaddingRightProperty _right;
-        readonly CSSPaddingBottomProperty _bottom;
-        readonly CSSPaddingLeftProperty _left;
+        readonly CssPaddingTopProperty _top;
+        readonly CssPaddingRightProperty _right;
+        readonly CssPaddingBottomProperty _bottom;
+        readonly CssPaddingLeftProperty _left;
 
         #endregion
 
         #region ctor
 
-        internal CSSPaddingProperty(CssStyleDeclaration rule)
+        internal CssPaddingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Padding, rule)
         {
-            _top = Get<CSSPaddingTopProperty>();
-            _right = Get<CSSPaddingRightProperty>();
-            _bottom = Get<CSSPaddingBottomProperty>();
-            _left = Get<CSSPaddingLeftProperty>();
+            _top = Get<CssPaddingTopProperty>();
+            _right = Get<CssPaddingRightProperty>();
+            _bottom = Get<CssPaddingBottomProperty>();
+            _left = Get<CssPaddingLeftProperty>();
         }
 
         #endregion
@@ -90,7 +90,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

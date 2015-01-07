@@ -7,7 +7,7 @@
     /// <summary>
     /// Basis for all elementary border-radius properties.
     /// </summary>
-    abstract class CSSBorderRadiusPartProperty : CSSProperty
+    abstract class CssBorderRadiusPartProperty : CssProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBorderRadiusPartProperty(String name, CssStyleDeclaration rule)
+        internal CssBorderRadiusPartProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
     /// </summary>
-    sealed class CSSZIndexProperty : CSSProperty, ICssZIndexProperty
+    sealed class CssZIndexProperty : CssProperty, ICssZIndexProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSZIndexProperty(CssStyleDeclaration rule)
+        internal CssZIndexProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ZIndex, rule, PropertyFlags.Animatable)
         {
             Reset();

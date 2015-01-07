@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap
     /// </summary>
-    sealed class CSSColumnGapProperty : CSSProperty, ICssColumnGapProperty
+    sealed class CssColumnGapProperty : CssProperty, ICssColumnGapProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSColumnGapProperty(CssStyleDeclaration rule)
+        internal CssColumnGapProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnGap, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -6,7 +6,7 @@
     /// <summary>
     /// Basis for all elementary padding properties.
     /// </summary>
-    abstract class CSSPaddingPartProperty : CSSProperty
+    abstract class CssPaddingPartProperty : CssProperty
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal CSSPaddingPartProperty(String name, CssStyleDeclaration rule)
+        internal CssPaddingPartProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

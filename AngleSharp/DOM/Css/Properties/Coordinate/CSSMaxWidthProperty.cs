@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-width
     /// </summary>
-    sealed class CSSMaxWidthProperty : CSSProperty, ICssMaxWidthProperty
+    sealed class CssMaxWidthProperty : CssProperty, ICssMaxWidthProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSMaxWidthProperty(CssStyleDeclaration rule)
+        internal CssMaxWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MaxWidth, rule, PropertyFlags.Animatable)
         {
             Reset();

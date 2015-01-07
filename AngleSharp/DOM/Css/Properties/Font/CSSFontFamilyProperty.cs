@@ -9,7 +9,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
     /// </summary>
-    sealed class CSSFontFamilyProperty : CSSProperty, ICssFontFamilyProperty
+    sealed class CssFontFamilyProperty : CssProperty, ICssFontFamilyProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSFontFamilyProperty(CssStyleDeclaration rule)
+        internal CssFontFamilyProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontFamily, rule, PropertyFlags.Inherited)
         {
             _families = new List<String>();

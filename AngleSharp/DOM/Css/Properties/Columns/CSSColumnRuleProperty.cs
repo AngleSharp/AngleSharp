@@ -9,29 +9,29 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule
     /// </summary>
-    sealed class CSSColumnRuleProperty : CSSShorthandProperty, ICssColumnRuleProperty
+    sealed class CssColumnRuleProperty : CssShorthandProperty, ICssColumnRuleProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<Color, Length, LineStyle>> Converter = Converters.WithAny(
-            CSSColumnRuleColorProperty.Converter.Option(CSSColumnRuleColorProperty.Default),
-            CSSColumnRuleWidthProperty.Converter.Option(CSSColumnRuleWidthProperty.Default),
-            CSSColumnRuleStyleProperty.Converter.Option(CSSColumnRuleStyleProperty.Default));
+            CssColumnRuleColorProperty.Converter.Option(CssColumnRuleColorProperty.Default),
+            CssColumnRuleWidthProperty.Converter.Option(CssColumnRuleWidthProperty.Default),
+            CssColumnRuleStyleProperty.Converter.Option(CssColumnRuleStyleProperty.Default));
 
-        readonly CSSColumnRuleColorProperty _color;
-        readonly CSSColumnRuleStyleProperty _style;
-        readonly CSSColumnRuleWidthProperty _width;
+        readonly CssColumnRuleColorProperty _color;
+        readonly CssColumnRuleStyleProperty _style;
+        readonly CssColumnRuleWidthProperty _width;
 
         #endregion
 
         #region ctor
 
-        internal CSSColumnRuleProperty(CssStyleDeclaration rule)
+        internal CssColumnRuleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRule, rule, PropertyFlags.Animatable)
         {
-            _color = Get<CSSColumnRuleColorProperty>();
-            _style = Get<CSSColumnRuleStyleProperty>();
-            _width = Get<CSSColumnRuleWidthProperty>();
+            _color = Get<CssColumnRuleColorProperty>();
+            _style = Get<CssColumnRuleStyleProperty>();
+            _width = Get<CssColumnRuleWidthProperty>();
         }
 
         #endregion
@@ -81,7 +81,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

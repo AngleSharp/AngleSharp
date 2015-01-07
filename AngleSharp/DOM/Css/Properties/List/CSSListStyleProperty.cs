@@ -10,29 +10,29 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style
     /// </summary>
-    sealed class CSSListStyleProperty : CSSShorthandProperty, ICssListStyleProperty
+    sealed class CssListStyleProperty : CssShorthandProperty, ICssListStyleProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = Converters.WithAny(
-            CSSListStyleTypeProperty.Converter.Option(CSSListStyleTypeProperty.Default),
-            CSSListStylePositionProperty.Converter.Option(CSSListStylePositionProperty.Default),
-            CSSListStyleImageProperty.Converter.Option(CSSListStyleImageProperty.Default));
+            CssListStyleTypeProperty.Converter.Option(CssListStyleTypeProperty.Default),
+            CssListStylePositionProperty.Converter.Option(CssListStylePositionProperty.Default),
+            CssListStyleImageProperty.Converter.Option(CssListStyleImageProperty.Default));
 
-        readonly CSSListStyleTypeProperty _type;
-        readonly CSSListStyleImageProperty _image;
-        readonly CSSListStylePositionProperty _position;
+        readonly CssListStyleTypeProperty _type;
+        readonly CssListStyleImageProperty _image;
+        readonly CssListStylePositionProperty _position;
 
         #endregion
 
         #region ctor
 
-        internal CSSListStyleProperty(CssStyleDeclaration rule)
+        internal CssListStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited)
         {
-            _type = Get<CSSListStyleTypeProperty>();
-            _image = Get<CSSListStyleImageProperty>();
-            _position = Get<CSSListStylePositionProperty>();
+            _type = Get<CssListStyleTypeProperty>();
+            _image = Get<CssListStyleImageProperty>();
+            _position = Get<CssListStylePositionProperty>();
         }
 
         #endregion
@@ -82,7 +82,7 @@
                 });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

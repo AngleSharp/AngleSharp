@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/height
     /// </summary>
-    sealed class CSSHeightProperty : CSSCoordinateProperty, ICssHeightProperty
+    sealed class CssHeightProperty : CssCoordinateProperty, ICssHeightProperty
     {
         #region ctor
 
-        internal CSSHeightProperty(CssStyleDeclaration rule)
+        internal CssHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Height, rule)
         {
         }

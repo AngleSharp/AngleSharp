@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style
     /// </summary>
-    sealed class CSSTransformStyleProperty : CSSProperty, ICssTransformStyleProperty
+    sealed class CssTransformStyleProperty : CssProperty, ICssTransformStyleProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTransformStyleProperty(CssStyleDeclaration rule)
+        internal CssTransformStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransformStyle, rule)
         {
             Reset();

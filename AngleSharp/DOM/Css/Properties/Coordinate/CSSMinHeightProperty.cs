@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-height
     /// </summary>
-    sealed class CSSMinHeightProperty : CSSProperty, ICssMinHeightProperty
+    sealed class CssMinHeightProperty : CssProperty, ICssMinHeightProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSMinHeightProperty(CssStyleDeclaration rule)
+        internal CssMinHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MinHeight, rule, PropertyFlags.Animatable)
         {
             Reset();

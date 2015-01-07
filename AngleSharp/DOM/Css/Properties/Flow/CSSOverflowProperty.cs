@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow
     /// </summary>
-    sealed class CSSOverflowProperty : CSSProperty, ICssOverflowProperty
+    sealed class CssOverflowProperty : CssProperty, ICssOverflowProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOverflowProperty(CssStyleDeclaration rule)
+        internal CssOverflowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Overflow, rule)
         {
             Reset();

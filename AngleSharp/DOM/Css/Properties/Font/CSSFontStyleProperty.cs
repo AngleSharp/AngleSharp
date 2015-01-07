@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
     /// </summary>
-    sealed class CSSFontStyleProperty : CSSProperty, ICssFontStyleProperty
+    sealed class CssFontStyleProperty : CssProperty, ICssFontStyleProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFontStyleProperty(CssStyleDeclaration rule)
+        internal CssFontStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontStyle, rule, PropertyFlags.Inherited)
         {
             Reset();

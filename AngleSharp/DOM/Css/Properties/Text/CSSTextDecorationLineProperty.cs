@@ -9,7 +9,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
     /// </summary>
-    sealed class CSSTextDecorationLineProperty : CSSProperty, ICssTextDecorationLineProperty
+    sealed class CssTextDecorationLineProperty : CssProperty, ICssTextDecorationLineProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTextDecorationLineProperty(CssStyleDeclaration rule)
+        internal CssTextDecorationLineProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecorationLine, rule)
         {
             _lines = new List<TextDecorationLine>();

@@ -7,7 +7,7 @@
     /// Fore more information about CSS properties see:
     /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    abstract class CSSProperty : ICssProperty
+    abstract class CssProperty : ICssProperty
     {
         #region Fields
 
@@ -28,7 +28,7 @@
         /// <param name="name">The name of the property</param>
         /// <param name="rule">The parent style declaration.</param>
         /// <param name="flags">The property flags, if any.</param>
-        internal CSSProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
+        internal CssProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
         {
             _rule = rule;
             _name = name;

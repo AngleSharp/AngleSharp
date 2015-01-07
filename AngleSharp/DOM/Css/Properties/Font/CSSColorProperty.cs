@@ -7,7 +7,7 @@
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
     /// </summary>
-    sealed class CSSColorProperty : CSSProperty, ICssColorProperty
+    sealed class CssColorProperty : CssProperty, ICssColorProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSColorProperty(CssStyleDeclaration rule)
+        internal CssColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Color, rule, PropertyFlags.Inherited | PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             Reset();

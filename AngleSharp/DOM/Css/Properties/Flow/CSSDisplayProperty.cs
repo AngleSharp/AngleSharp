@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/display
     /// </summary>
-    sealed class CSSDisplayProperty : CSSProperty, ICssDisplayProperty
+    sealed class CssDisplayProperty : CssProperty, ICssDisplayProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSDisplayProperty(CssStyleDeclaration rule)
+        internal CssDisplayProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Display, rule)
         {
             Reset();

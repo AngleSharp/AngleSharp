@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
     /// </summary>
-    sealed class CSSBackgroundClipProperty : CSSProperty, ICssBackgroundClipProperty
+    sealed class CSSBackgroundClipProperty : CssProperty, ICssBackgroundClipProperty
     {
         #region Fields
 

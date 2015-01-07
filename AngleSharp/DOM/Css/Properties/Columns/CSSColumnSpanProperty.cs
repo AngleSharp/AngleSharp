@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-span
     /// </summary>
-    sealed class CSSColumnSpanProperty : CSSProperty, ICssColumnSpanProperty
+    sealed class CssColumnSpanProperty : CssProperty, ICssColumnSpanProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSColumnSpanProperty(CssStyleDeclaration rule)
+        internal CssColumnSpanProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnSpan, rule)
         {
             Reset();

@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-reset
     /// </summary>
-    sealed class CSSCounterResetProperty : CSSCounterProperty, ICssCounterResetProperty
+    sealed class CssCounterResetProperty : CssCounterProperty, ICssCounterResetProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSCounterResetProperty(CssStyleDeclaration rule)
+        internal CssCounterResetProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CounterReset, rule)
         {
         }

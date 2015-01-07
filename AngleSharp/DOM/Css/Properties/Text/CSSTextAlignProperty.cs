@@ -3,13 +3,12 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-align
     /// </summary>
-    sealed class CSSTextAlignProperty : CSSProperty, ICssTextAlignProperty
+    sealed class CssTextAlignProperty : CssProperty, ICssTextAlignProperty
     {
         #region Fields
 
@@ -21,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTextAlignProperty(CssStyleDeclaration rule)
+        internal CssTextAlignProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextAlign, rule, PropertyFlags.Inherited)
         {
             Reset();

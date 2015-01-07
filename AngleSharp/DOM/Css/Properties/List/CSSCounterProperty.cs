@@ -6,7 +6,7 @@
     /// <summary>
     /// Base class for all counter properties.
     /// </summary>
-    abstract class CSSCounterProperty : CSSProperty
+    abstract class CssCounterProperty : CssProperty
     {
         #region Fields
         
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        internal CSSCounterProperty(String name, CssStyleDeclaration rule)
+        internal CssCounterProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
             _counters = new Dictionary<String, Int32>();

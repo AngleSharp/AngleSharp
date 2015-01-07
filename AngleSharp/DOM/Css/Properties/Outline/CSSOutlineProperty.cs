@@ -9,29 +9,29 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline
     /// </summary>
-    sealed class CSSOutlineProperty : CSSShorthandProperty, ICssOutlineProperty
+    sealed class CssOutlineProperty : CssShorthandProperty, ICssOutlineProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<Length, LineStyle, Color?>> Converter = Converters.WithAny(
-            CSSOutlineWidthProperty.Converter.Option(CSSOutlineWidthProperty.Default),
-            CSSOutlineStyleProperty.Converter.Option(CSSOutlineStyleProperty.Default),
-            CSSOutlineColorProperty.Converter.Option(CSSOutlineColorProperty.Default));
+            CssOutlineWidthProperty.Converter.Option(CssOutlineWidthProperty.Default),
+            CssOutlineStyleProperty.Converter.Option(CssOutlineStyleProperty.Default),
+            CssOutlineColorProperty.Converter.Option(CssOutlineColorProperty.Default));
 
-        readonly CSSOutlineStyleProperty _style;
-        readonly CSSOutlineWidthProperty _width;
-        readonly CSSOutlineColorProperty _color;
+        readonly CssOutlineStyleProperty _style;
+        readonly CssOutlineWidthProperty _width;
+        readonly CssOutlineColorProperty _color;
 
         #endregion
 
         #region ctor
 
-        internal CSSOutlineProperty(CssStyleDeclaration rule)
+        internal CssOutlineProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Outline, rule, PropertyFlags.Animatable)
         {
-            _style = Get<CSSOutlineStyleProperty>();
-            _width = Get<CSSOutlineWidthProperty>();
-            _color = Get<CSSOutlineColorProperty>();
+            _style = Get<CssOutlineStyleProperty>();
+            _width = Get<CssOutlineWidthProperty>();
+            _color = Get<CssOutlineColorProperty>();
         }
 
         #endregion
@@ -89,7 +89,7 @@
                 });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

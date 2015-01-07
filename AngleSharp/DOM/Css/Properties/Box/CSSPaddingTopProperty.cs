@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-top
     /// </summary>
-    sealed class CSSPaddingTopProperty : CSSPaddingPartProperty, ICssPaddingTopProperty
+    sealed class CssPaddingTopProperty : CssPaddingPartProperty, ICssPaddingTopProperty
     {
         #region ctor
 
-        internal CSSPaddingTopProperty(CssStyleDeclaration rule)
+        internal CssPaddingTopProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PaddingTop, rule)
         {
         }

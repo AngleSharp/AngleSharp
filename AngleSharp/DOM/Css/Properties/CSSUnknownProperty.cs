@@ -5,11 +5,11 @@
     /// <summary>
     /// Represents an unknown property that takes every value.
     /// </summary>
-    sealed class CSSUnknownProperty : CSSProperty
+    sealed class CssUnknownProperty : CssProperty
     {
         #region ctor
 
-        internal CSSUnknownProperty(String name, CssStyleDeclaration rule)
+        internal CssUnknownProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
             Reset();

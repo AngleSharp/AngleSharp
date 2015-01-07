@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
     /// </summary>
-    sealed class CSSVerticalAlignProperty : CSSProperty, ICssVerticalAlignProperty
+    sealed class CssVerticalAlignProperty : CssProperty, ICssVerticalAlignProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSVerticalAlignProperty(CssStyleDeclaration rule)
+        internal CssVerticalAlignProperty(CssStyleDeclaration rule)
             : base(PropertyNames.VerticalAlign, rule, PropertyFlags.Animatable)
         {
             Reset();

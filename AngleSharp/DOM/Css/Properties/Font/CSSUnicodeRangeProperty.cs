@@ -7,9 +7,9 @@
     /// More information available at:
     /// https://developer.mozilla.org/en/docs/Web/CSS/@font-face
     /// </summary>
-    sealed class CSSUnicodeRangeProperty : CSSProperty
+    sealed class CssUnicodeRangeProperty : CssProperty
     {
-        public CSSUnicodeRangeProperty(CssStyleDeclaration style)
+        public CssUnicodeRangeProperty(CssStyleDeclaration style)
             : base(PropertyNames.UnicodeRange, style)
         {
         }

@@ -7,7 +7,7 @@
     /// Basis for all properties that have either a length
     /// or percentage value or an auto value - nothing else.
     /// </summary>
-    abstract class CSSCoordinateProperty : CSSProperty
+    abstract class CssCoordinateProperty : CssProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSCoordinateProperty(String name, CssStyleDeclaration rule)
+        internal CssCoordinateProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

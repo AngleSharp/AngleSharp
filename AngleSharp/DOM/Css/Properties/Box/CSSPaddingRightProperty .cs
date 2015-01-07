@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-right
     /// </summary>
-    sealed class CSSPaddingRightProperty : CSSPaddingPartProperty, ICssPaddingRightProperty
+    sealed class CssPaddingRightProperty : CssPaddingPartProperty, ICssPaddingRightProperty
     {
         #region ctor
 
-        internal CSSPaddingRightProperty(CssStyleDeclaration rule)
+        internal CssPaddingRightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PaddingRight, rule)
         {
         }

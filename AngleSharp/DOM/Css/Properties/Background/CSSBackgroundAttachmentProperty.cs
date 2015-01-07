@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment
     /// </summary>
-    sealed class CSSBackgroundAttachmentProperty : CSSProperty, ICssBackgroundAttachmentProperty
+    sealed class CSSBackgroundAttachmentProperty : CssProperty, ICssBackgroundAttachmentProperty
     {
         #region Fields
 

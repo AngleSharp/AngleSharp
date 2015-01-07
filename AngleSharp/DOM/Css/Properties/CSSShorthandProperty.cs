@@ -8,17 +8,17 @@
     /// <summary>
     /// Base class for all shorthand properties
     /// </summary>
-    abstract class CSSShorthandProperty : CSSProperty
+    abstract class CssShorthandProperty : CssProperty
     {
         #region Fields
 
-        readonly CSSProperty[] _properties;
+        readonly CssProperty[] _properties;
 
         #endregion
 
         #region ctor
 
-        public CSSShorthandProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
+        public CssShorthandProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
             : base(name, rule, flags | PropertyFlags.Shorthand)
         {
             _properties = CssPropertyFactory.CreateLonghandsFor(name, rule).ToArray();
@@ -29,7 +29,7 @@
 
         #region Properties
 
-        public CSSProperty[] Properties
+        public CssProperty[] Properties
         {
             get { return _properties; }
         }
@@ -43,7 +43,7 @@
             return _properties.OfType<TProperty>().FirstOrDefault();
         }
 
-        protected Boolean IsComplete(IEnumerable<CSSProperty> properties)
+        protected Boolean IsComplete(IEnumerable<CssProperty> properties)
         {
             foreach (var property in _properties)
             {
@@ -71,7 +71,7 @@
             return true;
         }
 
-        protected static String SerializePeriodic(CSSProperty t, CSSProperty r, CSSProperty b, CSSProperty l)
+        protected static String SerializePeriodic(CssProperty t, CssProperty r, CssProperty b, CssProperty l)
         {
             var top = t.SerializeValue();
             var right = r.SerializeValue();
@@ -113,7 +113,7 @@
         /// </summary>
         /// <param name="properties">The properties to use.</param>
         /// <returns>The serialized value or an empty string, if serialization is not possible.</returns>
-        internal abstract String SerializeValue(IEnumerable<CSSProperty> properties);
+        internal abstract String SerializeValue(IEnumerable<CssProperty> properties);
 
         #endregion
     }

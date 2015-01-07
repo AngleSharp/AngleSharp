@@ -10,7 +10,7 @@
     /// or even better
     /// http://dev.w3.org/csswg/css-break/#break-inside
     /// </summary>
-    sealed class CSSBreakInsideProperty : CSSProperty, ICssBreakInsideProperty
+    sealed class CssBreakInsideProperty : CssProperty, ICssBreakInsideProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBreakInsideProperty(CssStyleDeclaration rule)
+        internal CssBreakInsideProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BreakInside, rule)
         {
             Reset();

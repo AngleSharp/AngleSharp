@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-right-radius
     /// </summary>
-    sealed class CSSBorderBottomRightRadiusProperty : CSSBorderRadiusPartProperty, ICssBorderBottomRightRadiusProperty
+    sealed class CssBorderBottomRightRadiusProperty : CssBorderRadiusPartProperty, ICssBorderBottomRightRadiusProperty
     {
         #region ctor
 
-        internal CSSBorderBottomRightRadiusProperty(CssStyleDeclaration rule)
+        internal CssBorderBottomRightRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderBottomRightRadius, rule)
         {
         }

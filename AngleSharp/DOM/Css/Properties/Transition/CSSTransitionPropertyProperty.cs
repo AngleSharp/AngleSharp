@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-property
     /// </summary>
-    sealed class CSSTransitionPropertyProperty : CSSProperty, ICssTransitionPropertyProperty
+    sealed class CssTransitionPropertyProperty : CssProperty, ICssTransitionPropertyProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTransitionPropertyProperty(CssStyleDeclaration rule)
+        internal CssTransitionPropertyProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransitionProperty, rule)
         {
             _properties = new List<String>();

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
     /// </summary>
-    sealed class CSSTextTransformProperty : CSSProperty, ICssTextTransformProperty
+    sealed class CssTextTransformProperty : CssProperty, ICssTextTransformProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTextTransformProperty(CssStyleDeclaration rule)
+        internal CssTextTransformProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextTransform, rule, PropertyFlags.Inherited)
         {
             Reset();

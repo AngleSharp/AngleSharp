@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-width
     /// </summary>
-    sealed class CSSMinWidthProperty : CSSProperty, ICssMinWidthProperty
+    sealed class CssMinWidthProperty : CssProperty, ICssMinWidthProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSMinWidthProperty(CssStyleDeclaration rule)
+        internal CssMinWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MinWidth, rule, PropertyFlags.Animatable)
         {
             Reset();

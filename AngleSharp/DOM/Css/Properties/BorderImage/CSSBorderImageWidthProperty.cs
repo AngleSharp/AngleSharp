@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-width
     /// </summary>
-    sealed class CSSBorderImageWidthProperty : CSSProperty, ICssBorderImageWidthProperty
+    sealed class CssBorderImageWidthProperty : CssProperty, ICssBorderImageWidthProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBorderImageWidthProperty(CssStyleDeclaration rule)
+        internal CssBorderImageWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageWidth, rule)
         {
         }

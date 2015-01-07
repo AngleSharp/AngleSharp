@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-right-radius
     /// </summary>
-    sealed class CSSBorderTopRightRadiusProperty : CSSBorderRadiusPartProperty, ICssBorderTopRightRadiusProperty
+    sealed class CssBorderTopRightRadiusProperty : CssBorderRadiusPartProperty, ICssBorderTopRightRadiusProperty
     {
         #region ctor
 
-        internal CSSBorderTopRightRadiusProperty(CssStyleDeclaration rule)
+        internal CssBorderTopRightRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderTopRightRadius, rule)
         {
         }

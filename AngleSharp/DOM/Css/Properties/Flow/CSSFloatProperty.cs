@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/float
     /// </summary>
-    sealed class CSSFloatProperty : CSSProperty, ICssFloatProperty
+    sealed class CssFloatProperty : CssProperty, ICssFloatProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFloatProperty(CssStyleDeclaration rule)
+        internal CssFloatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Float, rule)
         {
             Reset();

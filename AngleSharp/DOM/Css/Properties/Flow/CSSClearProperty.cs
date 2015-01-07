@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clear
     /// </summary>
-    sealed class CSSClearProperty : CSSProperty, ICssClearProperty
+    sealed class CssClearProperty : CssProperty, ICssClearProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSClearProperty(CssStyleDeclaration rule)
+        internal CssClearProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Clear, rule)
         {
             Reset();

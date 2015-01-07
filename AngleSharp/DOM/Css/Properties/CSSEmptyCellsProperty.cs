@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/empty-cells
     /// </summary>
-    sealed class CSSEmptyCellsProperty : CSSProperty, ICssEmptyCellsProperty
+    sealed class CssEmptyCellsProperty : CssProperty, ICssEmptyCellsProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSEmptyCellsProperty(CssStyleDeclaration rule)
+        internal CssEmptyCellsProperty(CssStyleDeclaration rule)
             : base(PropertyNames.EmptyCells, rule, PropertyFlags.Inherited)
         {
             Reset();

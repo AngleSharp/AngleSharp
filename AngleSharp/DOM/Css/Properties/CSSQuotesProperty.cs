@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/quotes
     /// </summary>
-    sealed class CSSQuotesProperty : CSSProperty, ICssQuotesProperty
+    sealed class CssQuotesProperty : CssProperty, ICssQuotesProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSQuotesProperty(CssStyleDeclaration rule)
+        internal CssQuotesProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Quotes, rule, PropertyFlags.Inherited)
         {
             Reset();

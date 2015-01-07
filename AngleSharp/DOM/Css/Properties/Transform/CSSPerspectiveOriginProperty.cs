@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/perspective-origin
     /// </summary>
-    sealed class CSSPerspectiveOriginProperty : CSSProperty, ICssPerspectiveOriginProperty
+    sealed class CssPerspectiveOriginProperty : CssProperty, ICssPerspectiveOriginProperty
     {
         #region Fields
 
@@ -31,7 +31,7 @@
 
         #region ctor
 
-        internal CSSPerspectiveOriginProperty(CssStyleDeclaration rule)
+        internal CssPerspectiveOriginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PerspectiveOrigin, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -193,10 +193,10 @@
 
         public sealed class DeclarationCondition : ICondition
         {
-            readonly CSSProperty _property;
+            readonly CssProperty _property;
             readonly ICssValue _value;
 
-            public DeclarationCondition(CSSProperty property, ICssValue value)
+            public DeclarationCondition(CssProperty property, ICssValue value)
             {
                 _property = property;
                 _value = value;
@@ -214,7 +214,7 @@
 
             public Boolean Check()
             {
-                return (_property is CSSUnknownProperty == false) && _property.TrySetValue(_value);
+                return (_property is CssUnknownProperty == false) && _property.TrySetValue(_value);
             }
         }
 

@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-name
     /// </summary>
-    sealed class CSSAnimationNameProperty : CSSProperty, ICssAnimationNameProperty
+    sealed class CSSAnimationNameProperty : CssProperty, ICssAnimationNameProperty
     {
         #region Fields
 

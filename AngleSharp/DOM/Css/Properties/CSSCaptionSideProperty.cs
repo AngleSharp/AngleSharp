@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/caption-side
     /// </summary>
-    sealed class CSSCaptionSideProperty : CSSProperty, ICssCaptionSideProperty
+    sealed class CssCaptionSideProperty : CssProperty, ICssCaptionSideProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSCaptionSideProperty(CssStyleDeclaration rule)
+        internal CssCaptionSideProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CaptionSide, rule)
         {
             Reset();

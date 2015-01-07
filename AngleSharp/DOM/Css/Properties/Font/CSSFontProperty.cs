@@ -10,40 +10,40 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font
     /// </summary>
-    sealed class CSSFontProperty : CSSShorthandProperty, ICssFontProperty
+    sealed class CssFontProperty : CssShorthandProperty, ICssFontProperty
     {
         #region Fields
 
         static readonly Dictionary<String, SystemFont> _parts = new Dictionary<String, SystemFont>();
-        readonly CSSFontStyleProperty _style;
-        readonly CSSFontVariantProperty _variant;
-        readonly CSSFontWeightProperty _weight;
-        readonly CSSFontStretchProperty _stretch;
-        readonly CSSFontSizeProperty _size;
-        readonly CSSLineHeightProperty _height;
-        readonly CSSFontFamilyProperty _families;
+        readonly CssFontStyleProperty _style;
+        readonly CssFontVariantProperty _variant;
+        readonly CssFontWeightProperty _weight;
+        readonly CssFontStretchProperty _stretch;
+        readonly CssFontSizeProperty _size;
+        readonly CssLineHeightProperty _height;
+        readonly CssFontFamilyProperty _families;
 
         internal static readonly IValueConverter<SystemFont> SystemFontConverter = _parts.ToConverter();
 
         internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = Converters.WithOrder(
             Converters.WithAny(
-                CSSFontStyleProperty.Converter.Val().Option(),
-                CSSFontVariantProperty.Converter.Val().Option(),
-                CSSFontWeightProperty.Converter.Val().Option(),
-                CSSFontStretchProperty.Converter.Val().Option()
+                CssFontStyleProperty.Converter.Val().Option(),
+                CssFontVariantProperty.Converter.Val().Option(),
+                CssFontWeightProperty.Converter.Val().Option(),
+                CssFontStretchProperty.Converter.Val().Option()
             ),
             Converters.WithOrder(
-                CSSFontSizeProperty.Converter.Val().Required(),
-                CSSLineHeightProperty.Converter.Val().StartsWithDelimiter().Option()
+                CssFontSizeProperty.Converter.Val().Required(),
+                CssLineHeightProperty.Converter.Val().StartsWithDelimiter().Option()
             ),
-            CSSFontFamilyProperty.Converter.Val().Required()
+            CssFontFamilyProperty.Converter.Val().Required()
         );
 
         #endregion
 
         #region ctor
 
-        static CSSFontProperty()
+        static CssFontProperty()
         {
             _parts.Add(Keywords.Caption, SystemFont.Caption);
             _parts.Add(Keywords.Icon, SystemFont.Icon);
@@ -53,16 +53,16 @@
             _parts.Add(Keywords.StatusBar, SystemFont.StatusBar);
         }
 
-        internal CSSFontProperty(CssStyleDeclaration rule)
+        internal CssFontProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Font, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            _style = Get<CSSFontStyleProperty>();
-            _variant = Get<CSSFontVariantProperty>();
-            _weight = Get<CSSFontWeightProperty>();
-            _stretch = Get<CSSFontStretchProperty>();
-            _size = Get<CSSFontSizeProperty>();
-            _height = Get<CSSLineHeightProperty>();
-            _families = Get<CSSFontFamilyProperty>();
+            _style = Get<CssFontStyleProperty>();
+            _variant = Get<CssFontVariantProperty>();
+            _weight = Get<CssFontWeightProperty>();
+            _stretch = Get<CssFontStretchProperty>();
+            _size = Get<CssFontSizeProperty>();
+            _height = Get<CssLineHeightProperty>();
+            _families = Get<CssFontFamilyProperty>();
         }
 
         #endregion
@@ -173,7 +173,7 @@
             }
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!properties.Contains(_families) || !properties.Contains(_size))
                 return String.Empty;

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/widows
     /// </summary>
-    sealed class CSSWidowsProperty : CSSProperty, ICssWidowsProperty
+    sealed class CssWidowsProperty : CssProperty, ICssWidowsProperty
     {
         #region Fields
 
@@ -25,7 +25,7 @@
 
         #region ctor
 
-        internal CSSWidowsProperty(CssStyleDeclaration rule)
+        internal CssWidowsProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Widows, rule, PropertyFlags.Inherited)
         {
             Reset();

@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/bottom
     /// </summary>
-    sealed class CSSBottomProperty : CSSCoordinateProperty, ICssBottomProperty
+    sealed class CssBottomProperty : CssCoordinateProperty, ICssBottomProperty
     {
         #region ctor
 
-        internal CSSBottomProperty(CssStyleDeclaration rule)
+        internal CssBottomProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Bottom, rule)
         {
         }

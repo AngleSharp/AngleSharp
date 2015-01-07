@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-left
     /// </summary>
-    sealed class CSSMarginLeftProperty : CSSMarginPartProperty, ICssMarginLeftProperty
+    sealed class CssMarginLeftProperty : CssMarginPartProperty, ICssMarginLeftProperty
     {
         #region ctor
 
-        internal CSSMarginLeftProperty(CssStyleDeclaration rule)
+        internal CssMarginLeftProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MarginLeft, rule)
         {
         }

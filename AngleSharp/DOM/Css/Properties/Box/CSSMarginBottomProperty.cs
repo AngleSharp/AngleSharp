@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-bottom
     /// </summary>
-    sealed class CSSMarginBottomProperty : CSSMarginPartProperty, ICssMarginBottomProperty
+    sealed class CssMarginBottomProperty : CssMarginPartProperty, ICssMarginBottomProperty
     {
         #region ctor
 
-        internal CSSMarginBottomProperty(CssStyleDeclaration rule)
+        internal CssMarginBottomProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MarginBottom, rule)
         {
         }

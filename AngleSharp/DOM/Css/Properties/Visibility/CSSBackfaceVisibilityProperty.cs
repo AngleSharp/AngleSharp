@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
     /// </summary>
-    sealed class CSSBackfaceVisibilityProperty : CSSProperty, ICssBackfaceVisibilityProperty
+    sealed class CssBackfaceVisibilityProperty : CssProperty, ICssBackfaceVisibilityProperty
     {
         #region Fields
 
@@ -20,7 +19,7 @@
 
         #region ctor
 
-        internal CSSBackfaceVisibilityProperty(CssStyleDeclaration rule)
+        internal CssBackfaceVisibilityProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackfaceVisibility, rule)
         {
             Reset();

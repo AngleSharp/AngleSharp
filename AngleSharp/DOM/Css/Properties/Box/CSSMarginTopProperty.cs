@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-top
     /// </summary>
-    sealed class CSSMarginTopProperty : CSSMarginPartProperty, ICssMarginTopProperty
+    sealed class CssMarginTopProperty : CssMarginPartProperty, ICssMarginTopProperty
     {
         #region ctor
 
-        internal CSSMarginTopProperty(CssStyleDeclaration rule)
+        internal CssMarginTopProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MarginTop, rule)
         {
         }

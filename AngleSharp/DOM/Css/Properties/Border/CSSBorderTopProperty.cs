@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top
     /// </summary>
-    sealed class CSSBorderTopProperty : CSSShorthandProperty, ICssBorderProperty
+    sealed class CSSBorderTopProperty : CssShorthandProperty, ICssBorderProperty
     {
         #region Fields
 
@@ -70,7 +70,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

@@ -8,7 +8,7 @@
     /// More information available:
     /// http://dev.w3.org/csswg/css-images-3/#the-object-position
     /// </summary>
-    sealed class CSSObjectPositionProperty : CSSProperty
+    sealed class CssObjectPositionProperty : CssProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSObjectPositionProperty(CssStyleDeclaration rule)
+        internal CssObjectPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ObjectPosition, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-timing-function
     /// </summary>
-    sealed class CSSTransitionTimingFunctionProperty : CSSProperty, ICssTransitionTimingFunctionProperty
+    sealed class CssTransitionTimingFunctionProperty : CssProperty, ICssTransitionTimingFunctionProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSTransitionTimingFunctionProperty(CssStyleDeclaration rule)
+        internal CssTransitionTimingFunctionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransitionTimingFunction, rule)
         {
             _functions = new List<ITimingFunction>();

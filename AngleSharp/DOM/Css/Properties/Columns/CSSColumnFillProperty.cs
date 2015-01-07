@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-fill
     /// </summary>
-    sealed class CSSColumnFillProperty : CSSProperty, ICssColumnFillProperty
+    sealed class CssColumnFillProperty : CssProperty, ICssColumnFillProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSColumnFillProperty(CssStyleDeclaration rule)
+        internal CssColumnFillProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnFill, rule)
         {
             Reset();

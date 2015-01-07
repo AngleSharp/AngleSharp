@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        readonly List<CSSProperty> _declarations;
+        readonly List<CssProperty> _declarations;
         readonly Boolean _readOnly;
         readonly CssRule _parent;
         readonly IPropertyCreator _creator;
@@ -34,7 +34,7 @@
             _readOnly = readOnly;
             _parent = parent;
             _creator = parent as IPropertyCreator ?? this;
-            _declarations = new List<CSSProperty>();
+            _declarations = new List<CssProperty>();
         }
 
         /// <summary>
@@ -63,7 +63,7 @@
         internal CssStyleDeclaration(IEnumerable<ICssProperty> properties)
             : this(true, null)
         {
-            foreach (CSSProperty property in properties)
+            foreach (CssProperty property in properties)
                 _declarations.Add(property);
         }
 
@@ -113,7 +113,7 @@
                             if (String.IsNullOrEmpty(value))
                                 continue;
 
-                            value = CSSProperty.Serialize(shorthand, value, important != 0);
+                            value = CssProperty.Serialize(shorthand, value, important != 0);
                             list.Add(value);
 
                             foreach (var longhand in currentLonghands)
@@ -183,7 +183,7 @@
             }
         }
 
-        internal IEnumerable<CSSProperty> Declarations 
+        internal IEnumerable<CssProperty> Declarations 
         {
             get { return _declarations; }
         }
@@ -2492,7 +2492,7 @@
         /// </summary>
         /// <param name="name">The name of the property to retrieve or create.</param>
         /// <returns>The created / existing property.</returns>
-        internal CSSProperty CreateProperty(String name)
+        internal CssProperty CreateProperty(String name)
         {
             return GetProperty(name) ?? _creator.Create(name, this);
         }
@@ -2502,7 +2502,7 @@
         /// </summary>
         /// <param name="name">The name of the property to get.</param>
         /// <returns>The property with the specified name or null.</returns>
-        internal CSSProperty GetProperty(String name)
+        internal CssProperty GetProperty(String name)
         {
             foreach (var declaration in _declarations)
             {
@@ -2517,10 +2517,10 @@
         /// Sets the given CSS property, if the property is equal or higher.
         /// </summary>
         /// <param name="property">The property to set.</param>
-        internal void SetProperty(CSSProperty property)
+        internal void SetProperty(CssProperty property)
         {
-            if (property is CSSShorthandProperty)
-                SetShorthand((CSSShorthandProperty)property);
+            if (property is CssShorthandProperty)
+                SetShorthand((CssShorthandProperty)property);
             else
                 SetLonghand(property);
         }
@@ -2565,13 +2565,13 @@
 
         #region Helpers
 
-        void SetLonghand(CSSProperty property)
+        void SetLonghand(CssProperty property)
         {
             if (!_declarations.Contains(property))
                 _declarations.Add(property);
         }
 
-        void SetShorthand(CSSShorthandProperty shorthand)
+        void SetShorthand(CssShorthandProperty shorthand)
         {
             var properties = shorthand.Properties;
 
@@ -2589,7 +2589,7 @@
 
         #region Interface implementation
 
-        CSSProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
+        CssProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
         {
             return CssPropertyFactory.Create(name, this);
         }

@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-bottom
     /// </summary>
-    sealed class CSSPaddingBottomProperty : CSSPaddingPartProperty, ICssPaddingBottomProperty
+    sealed class CssPaddingBottomProperty : CssPaddingPartProperty, ICssPaddingBottomProperty
     {
         #region ctor
 
-        internal CSSPaddingBottomProperty(CssStyleDeclaration rule)
+        internal CssPaddingBottomProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PaddingBottom, rule)
         {
         }

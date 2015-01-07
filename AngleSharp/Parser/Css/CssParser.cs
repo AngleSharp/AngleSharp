@@ -493,7 +493,7 @@
         /// <param name="tokens">The stream of tokens.</param>
         /// <param name="style">The style to populate.</param>
         /// <returns>The created property.</returns>
-        CSSProperty Declaration(IEnumerator<CssToken> tokens, CssStyleDeclaration style)
+        CssProperty Declaration(IEnumerator<CssToken> tokens, CssStyleDeclaration style)
         {
             var token = tokens.Current;
 
@@ -517,7 +517,7 @@
                     if (property == null)
                     {
                         RaiseErrorOccurred(ErrorCode.UnknownDeclarationName);
-                        property = new CSSUnknownProperty(propertyName, style);
+                        property = new CssUnknownProperty(propertyName, style);
                     }
 
                     var value = InValue(tokens);
@@ -1059,7 +1059,7 @@
             var property = CssPropertyFactory.Create(name, style);
 
             if (property == null)
-                property = new CSSUnknownProperty(name, style);
+                property = new CssUnknownProperty(name, style);
 
             if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Colon || !tokens.MoveNext())
                 return null;
@@ -1485,7 +1485,7 @@
         /// <param name="declarationText">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSProperty object.</returns>
-        internal static CSSProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
+        internal static CssProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
         {
             var parser = new CssParser(declarationText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();

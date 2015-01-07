@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
     /// </summary>
-    sealed class CSSFontStretchProperty : CSSProperty, ICssFontStretchProperty
+    sealed class CssFontStretchProperty : CssProperty, ICssFontStretchProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFontStretchProperty(CssStyleDeclaration rule)
+        internal CssFontStretchProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontStretch, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
     /// </summary>
-    sealed class CSSWhiteSpaceProperty : CSSProperty, ICssWhitespaceProperty
+    sealed class CssWhiteSpaceProperty : CssProperty, ICssWhitespaceProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSWhiteSpaceProperty(CssStyleDeclaration rule)
+        internal CssWhiteSpaceProperty(CssStyleDeclaration rule)
             : base(PropertyNames.WhiteSpace, rule, PropertyFlags.Inherited)
         {
             Reset();

@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-repeat
     /// </summary>
-    sealed class CSSBorderImageRepeatProperty : CSSProperty, ICssBorderImageRepeatProperty
+    sealed class CssBorderImageRepeatProperty : CssProperty, ICssBorderImageRepeatProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSBorderImageRepeatProperty(CssStyleDeclaration rule)
+        internal CssBorderImageRepeatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageRepeat, rule)
         {
         }

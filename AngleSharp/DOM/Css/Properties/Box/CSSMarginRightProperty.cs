@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-right
     /// </summary>
-    sealed class CSSMarginRightProperty : CSSMarginPartProperty, ICssMarginRightProperty
+    sealed class CssMarginRightProperty : CssMarginPartProperty, ICssMarginRightProperty
     {
         #region ctor
 
-        internal CSSMarginRightProperty(CssStyleDeclaration rule)
+        internal CssMarginRightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MarginRight, rule)
         {
         }

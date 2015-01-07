@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.DOM.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/opacity
     /// </summary>
-    sealed class CSSOpacityProperty : CSSProperty, ICssOpacityProperty
+    sealed class CssOpacityProperty : CssProperty, ICssOpacityProperty
     {
         #region Fields
 
@@ -20,7 +19,7 @@
 
         #region ctor
 
-        internal CSSOpacityProperty(CssStyleDeclaration rule)
+        internal CssOpacityProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Opacity, rule, PropertyFlags.Animatable)
         {
             Reset();

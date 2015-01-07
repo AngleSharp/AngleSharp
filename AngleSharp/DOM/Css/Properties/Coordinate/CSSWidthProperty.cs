@@ -6,11 +6,11 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/width
     /// </summary>
-    sealed class CSSWidthProperty : CSSCoordinateProperty, ICssWidthProperty
+    sealed class CssWidthProperty : CssCoordinateProperty, ICssWidthProperty
     {
         #region ctor
 
-        internal CSSWidthProperty(CssStyleDeclaration rule)
+        internal CssWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Width, rule)
         {
         }

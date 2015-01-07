@@ -9,7 +9,7 @@
     /// More information can be found:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clip
     /// </summary>
-    sealed class CSSClipProperty : CSSProperty, ICssClipProperty
+    sealed class CssClipProperty : CssProperty, ICssClipProperty
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSClipProperty(CssStyleDeclaration rule)
+        internal CssClipProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Clip, rule, PropertyFlags.Animatable)
         {
             Reset();

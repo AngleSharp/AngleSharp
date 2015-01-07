@@ -8,7 +8,7 @@
     /// in condensed form at 
     /// http://css-infos.net/property/box-decoration-break
     /// </summary>
-    sealed class CSSBoxDecorationBreak : CSSProperty, ICssBoxDecorationBreak
+    sealed class CssBoxDecorationBreak : CssProperty, ICssBoxDecorationBreak
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSBoxDecorationBreak(CssStyleDeclaration rule)
+        internal CssBoxDecorationBreak(CssStyleDeclaration rule)
             : base(PropertyNames.BoxDecorationBreak, rule)
         {
         }

@@ -11,7 +11,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation
     /// </summary>
-    sealed class CSSAnimationProperty : CSSShorthandProperty, ICssAnimationProperty
+    sealed class CSSAnimationProperty : CssShorthandProperty, ICssAnimationProperty
     {
         #region Fields
 
@@ -140,7 +140,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!properties.Contains(_name) || !properties.Contains(_duration))
                 return String.Empty;

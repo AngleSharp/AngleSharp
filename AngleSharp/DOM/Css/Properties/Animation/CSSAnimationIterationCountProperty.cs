@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-iteration-count
     /// </summary>
-    sealed class CSSAnimationIterationCountProperty : CSSProperty, ICssAnimationIterationCountProperty
+    sealed class CSSAnimationIterationCountProperty : CssProperty, ICssAnimationIterationCountProperty
     {
         #region Fields
 

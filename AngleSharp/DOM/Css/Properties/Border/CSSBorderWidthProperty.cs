@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-width
     /// </summary>
-    sealed class CSSBorderWidthProperty : CSSShorthandProperty, ICssBorderWidthsProperty
+    sealed class CSSBorderWidthProperty : CssShorthandProperty, ICssBorderWidthsProperty
     {
         #region Fields
 
@@ -89,7 +89,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!IsComplete(properties))
                 return String.Empty;

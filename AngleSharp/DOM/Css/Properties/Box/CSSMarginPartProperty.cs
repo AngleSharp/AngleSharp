@@ -7,7 +7,7 @@
     /// <summary>
     /// Basis for all elementary margin properties.
     /// </summary>
-    abstract class CSSMarginPartProperty : CSSProperty
+    abstract class CssMarginPartProperty : CssProperty
     {
         #region Fields
 
@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSMarginPartProperty(String name, CssStyleDeclaration rule)
+        internal CssMarginPartProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

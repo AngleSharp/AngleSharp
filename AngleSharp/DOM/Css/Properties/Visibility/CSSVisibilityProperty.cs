@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/visibility
     /// </summary>
-    sealed class CSSVisibilityProperty : CSSProperty, ICssVisibilityProperty
+    sealed class CssVisibilityProperty : CssProperty, ICssVisibilityProperty
     {
         #region Fields
 
@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSVisibilityProperty(CssStyleDeclaration rule)
+        internal CssVisibilityProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Visibility, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

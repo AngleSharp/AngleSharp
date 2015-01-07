@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-increment
     /// </summary>
-    sealed class CSSCounterIncrementProperty : CSSCounterProperty, ICssCounterIncrementProperty
+    sealed class CssCounterIncrementProperty : CssCounterProperty, ICssCounterIncrementProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSCounterIncrementProperty(CssStyleDeclaration rule)
+        internal CssCounterIncrementProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CounterIncrement, rule)
         {
         }

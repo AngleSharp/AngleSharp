@@ -10,7 +10,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow
     /// </summary>
-    sealed class CSSTextShadowProperty : CSSProperty, ICssTextShadowProperty
+    sealed class CssTextShadowProperty : CssProperty, ICssTextShadowProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTextShadowProperty(CssStyleDeclaration rule)
+        internal CssTextShadowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextShadow, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _shadows = new List<Shadow>();

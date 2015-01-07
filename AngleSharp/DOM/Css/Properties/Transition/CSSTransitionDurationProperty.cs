@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-duration
     /// </summary>
-    sealed class CSSTransitionDurationProperty : CSSProperty, ICssTransitionDurationProperty
+    sealed class CssTransitionDurationProperty : CssProperty, ICssTransitionDurationProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTransitionDurationProperty(CssStyleDeclaration rule)
+        internal CssTransitionDurationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransitionDuration, rule)
         {
             _times = new List<Time>();

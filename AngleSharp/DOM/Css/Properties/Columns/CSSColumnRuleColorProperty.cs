@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-color
     /// </summary>
-    sealed class CSSColumnRuleColorProperty : CSSProperty, ICssColumnRuleColorProperty
+    sealed class CssColumnRuleColorProperty : CssProperty, ICssColumnRuleColorProperty
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleColorProperty(CssStyleDeclaration rule)
+        internal CssColumnRuleColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleColor, rule, PropertyFlags.Animatable)
         {
             Reset();

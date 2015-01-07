@@ -6,7 +6,7 @@
     /// <summary>
     /// The abstract base class for all border-width sub properties.
     /// </summary>
-    abstract class CSSBorderPartWidthProperty : CSSProperty
+    abstract class CSSBorderPartWidthProperty : CssProperty
     {
         #region Fields
 

@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-count
     /// </summary>
-    sealed class CSSColumnCountProperty : CSSProperty, ICssColumnCountProperty
+    sealed class CssColumnCountProperty : CssProperty, ICssColumnCountProperty
     {
         #region Fields
 
@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSColumnCountProperty(CssStyleDeclaration rule)
+        internal CssColumnCountProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnCount, rule, PropertyFlags.Animatable)
         {
             Reset();

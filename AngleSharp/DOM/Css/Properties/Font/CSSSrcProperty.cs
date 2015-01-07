@@ -7,9 +7,9 @@
     /// More information available at:
     /// https://developer.mozilla.org/en/docs/Web/CSS/@font-face
     /// </summary>
-    sealed class CSSSrcProperty : CSSProperty
+    sealed class CssSrcProperty : CssProperty
     {
-        public CSSSrcProperty(CssStyleDeclaration style)
+        public CssSrcProperty(CssStyleDeclaration style)
             : base(PropertyNames.Src, style)
         {
         }

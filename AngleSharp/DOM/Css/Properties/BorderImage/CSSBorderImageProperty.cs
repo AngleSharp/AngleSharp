@@ -11,37 +11,37 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image
     /// </summary>
-    sealed class CSSBorderImageProperty : CSSShorthandProperty, ICssBorderImageProperty
+    sealed class CssBorderImageProperty : CssShorthandProperty, ICssBorderImageProperty
     {
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, Tuple<ICssValue, ICssValue, ICssValue>, ICssValue>> Converter = Converters.WithAny(
-            CSSBorderImageSourceProperty.Converter.Val().Option(),
+            CssBorderImageSourceProperty.Converter.Val().Option(),
             Converters.WithOrder(
-                CSSBorderImageSliceProperty.Converter.Val().Option(),
-                CSSBorderImageWidthProperty.Converter.Val().StartsWithDelimiter().Option(),
-                CSSBorderImageOutsetProperty.Converter.Val().StartsWithDelimiter().Option()),
-            CSSBorderImageRepeatProperty.Converter.Val().Option()
+                CssBorderImageSliceProperty.Converter.Val().Option(),
+                CssBorderImageWidthProperty.Converter.Val().StartsWithDelimiter().Option(),
+                CssBorderImageOutsetProperty.Converter.Val().StartsWithDelimiter().Option()),
+            CssBorderImageRepeatProperty.Converter.Val().Option()
         );
 
-        readonly CSSBorderImageOutsetProperty _outset;
-        readonly CSSBorderImageRepeatProperty _repeat;
-        readonly CSSBorderImageSliceProperty _slice;
-        readonly CSSBorderImageWidthProperty _width;
-        readonly CSSBorderImageSourceProperty _source;
+        readonly CssBorderImageOutsetProperty _outset;
+        readonly CssBorderImageRepeatProperty _repeat;
+        readonly CssBorderImageSliceProperty _slice;
+        readonly CssBorderImageWidthProperty _width;
+        readonly CssBorderImageSourceProperty _source;
 
         #endregion
 
         #region ctor
 
-        internal CSSBorderImageProperty(CssStyleDeclaration rule)
+        internal CssBorderImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImage, rule)
         {
-            _outset = Get<CSSBorderImageOutsetProperty>();
-            _repeat = Get<CSSBorderImageRepeatProperty>();
-            _slice = Get<CSSBorderImageSliceProperty>();
-            _source = Get<CSSBorderImageSourceProperty>();
-            _width = Get<CSSBorderImageWidthProperty>();
+            _outset = Get<CssBorderImageOutsetProperty>();
+            _repeat = Get<CssBorderImageRepeatProperty>();
+            _slice = Get<CssBorderImageSliceProperty>();
+            _source = Get<CssBorderImageSourceProperty>();
+            _width = Get<CssBorderImageWidthProperty>();
         }
 
         #endregion
@@ -185,7 +185,7 @@
             });
         }
 
-        internal override String SerializeValue(IEnumerable<CSSProperty> properties)
+        internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
             if (!properties.Contains(_source))
                 return String.Empty;
