@@ -75,15 +75,15 @@
 
                     if (options == null)
                         continue;
-                    else if (node != record.Target && options.ObserveTargetDescendents == false)
+                    else if (node != record.Target && options.IsObservingSubtree == false)
                         continue;
-                    else if (record.IsAttribute && options.ObserveTargetAttributes.Value == false)
+                    else if (record.IsAttribute && options.IsObservingAttributes.Value == false)
                         continue;
                     else if (record.IsAttribute && options.AttributeFilters != null && (options.AttributeFilters.Contains(record.AttributeName) == false || record.AttributeNamespace != null))
                         continue;
-                    else if (record.IsCharacterData && options.ObserveTargetData.Value == false)
+                    else if (record.IsCharacterData && options.IsObservingCharacterData.Value == false)
                         continue;
-                    else if (record.IsChildList && options.ObserveTargetChildNodes == false)
+                    else if (record.IsChildList && options.IsObservingChildNodes == false)
                         continue;
 
                     observer.Enqueue(record);

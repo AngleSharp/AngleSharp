@@ -17,19 +17,19 @@
         /// </summary>
         public MutationObserverInit()
         {
-            ObserveTargetChildNodes = false;
-            ObserveTargetDescendents = false;
+            IsObservingChildNodes = false;
+            IsObservingSubtree = false;
         }
 
         internal MutationObserverInit(MutationObserverInit original)
         {
-            ObserveTargetAttributes = original.ObserveTargetAttributes;
+            IsObservingAttributes = original.IsObservingAttributes;
             AttributeFilters = original.AttributeFilters.ToArray();
-            ObserveTargetChildNodes = original.ObserveTargetChildNodes;
-            ObserveTargetData = original.ObserveTargetData;
-            ObserveTargetDescendents = original.ObserveTargetDescendents;
-            StorePreviousAttributeValue = original.StorePreviousAttributeValue;
-            StorePreviousDataValue = original.StorePreviousDataValue;
+            IsObservingChildNodes = original.IsObservingChildNodes;
+            IsObservingCharacterData = original.IsObservingCharacterData;
+            IsObservingSubtree = original.IsObservingSubtree;
+            IsExaminingOldAttributeValue = original.IsExaminingOldAttributeValue;
+            IsExaminingOldCharacterData = original.IsExaminingOldCharacterData;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// elements (including text nodes) are to be observed.
         /// </summary>
         [DomName("childList")]
-        public Boolean ObserveTargetChildNodes
+        public Boolean IsObservingChildNodes
         {
             get;
             set;
@@ -48,7 +48,7 @@
         /// target's descendants are to be observed.
         /// </summary>
         [DomName("subtree")]
-        public Boolean ObserveTargetDescendents
+        public Boolean IsObservingSubtree
         {
             get;
             set;
@@ -58,7 +58,7 @@
         /// Gets or sets if mutations to target's attributes are to be observed.
         /// </summary>
         [DomName("attributes")]
-        public Boolean? ObserveTargetAttributes
+        public Boolean? IsObservingAttributes
         {
             get;
             set;
@@ -68,7 +68,7 @@
         /// Gets or sets if mutations to target's data are to be observed.
         /// </summary>
         [DomName("characterData")]
-        public Boolean? ObserveTargetData
+        public Boolean? IsObservingCharacterData
         {
             get;
             set;
@@ -79,7 +79,7 @@
         /// value before the mutation needs to be recorded.
         /// </summary>
         [DomName("attributeOldValue")]
-        public Boolean? StorePreviousAttributeValue
+        public Boolean? IsExaminingOldAttributeValue
         {
             get;
             set;
@@ -90,7 +90,7 @@
         /// data before the mutation needs to be recorded.
         /// </summary>
         [DomName("characterDataOldValue")]
-        public Boolean? StorePreviousDataValue
+        public Boolean? IsExaminingOldCharacterData
         {
             get;
             set;

@@ -25,7 +25,7 @@ namespace UnitTests.Library
 
             observer.Connect(document.Body, new MutationObserverInit
             {
-                ObserveTargetChildNodes = true
+                IsObservingChildNodes = true
             });
 
             document.Body.AppendChild(document.CreateElement("span"));
@@ -52,7 +52,7 @@ namespace UnitTests.Library
 
             observer.Connect(document.Body, new MutationObserverInit
             {
-                ObserveTargetAttributes = true
+                IsObservingAttributes = true
             });
 
             document.Body.SetAttribute(attrName, attrValue);
@@ -79,8 +79,8 @@ namespace UnitTests.Library
 
             observer1.Connect(document.DocumentElement, new MutationObserverInit
             {
-                ObserveTargetAttributes = true,
-                ObserveTargetDescendents = true
+                IsObservingAttributes = true,
+                IsObservingSubtree = true
             });
 
             var observer2 = new MutationObserver((mut, obs) =>
@@ -91,8 +91,8 @@ namespace UnitTests.Library
 
             observer2.Connect(document.DocumentElement, new MutationObserverInit
             {
-                ObserveTargetAttributes = true,
-                ObserveTargetDescendents = false
+                IsObservingAttributes = true,
+                IsObservingSubtree = false
             });
 
             var observer3 = new MutationObserver((mut, obs) =>
@@ -103,7 +103,7 @@ namespace UnitTests.Library
 
             observer3.Connect(document.Body, new MutationObserverInit
             {
-                ObserveTargetAttributes = true
+                IsObservingAttributes = true
             });
 
             document.Body.SetAttribute(attrName, attrValue);
@@ -136,8 +136,8 @@ namespace UnitTests.Library
 
             observer.Connect(document.Body, new MutationObserverInit
             {
-                ObserveTargetData = true,
-                ObserveTargetDescendents = true
+                IsObservingCharacterData = true,
+                IsObservingSubtree = true
             });
 
             document.Body.TextContent = text;
@@ -164,8 +164,8 @@ namespace UnitTests.Library
 
             observer.Connect(document.Body, new MutationObserverInit
             {
-                ObserveTargetData = true,
-                ObserveTargetDescendents = false
+                IsObservingCharacterData = true,
+                IsObservingSubtree = false
             });
 
             document.Body.TextContent = text;
@@ -193,8 +193,8 @@ namespace UnitTests.Library
 
             observer.Connect(document.Body, new MutationObserverInit
             {
-                ObserveTargetDescendents = false,
-                ObserveTargetChildNodes = true
+                IsObservingSubtree = false,
+                IsObservingChildNodes = true
             });
 
             document.Body.TextContent = text;

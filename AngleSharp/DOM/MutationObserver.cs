@@ -114,25 +114,25 @@
 
             node.Owner.Mutations.Register(this);
 
-            if (options.StorePreviousDataValue.HasValue == false)
-                options.StorePreviousDataValue = false;
+            if (options.IsExaminingOldCharacterData.HasValue == false)
+                options.IsExaminingOldCharacterData = false;
 
-            if (options.StorePreviousAttributeValue.HasValue == false)
-                options.StorePreviousAttributeValue = false;
+            if (options.IsExaminingOldAttributeValue.HasValue == false)
+                options.IsExaminingOldAttributeValue = false;
 
-            if (options.ObserveTargetAttributes.HasValue == false)
-                options.ObserveTargetAttributes = options.StorePreviousAttributeValue.Value || options.AttributeFilters != null;
+            if (options.IsObservingAttributes.HasValue == false)
+                options.IsObservingAttributes = options.IsExaminingOldAttributeValue.Value || options.AttributeFilters != null;
 
-            if (options.ObserveTargetData.HasValue == false)
-                options.ObserveTargetData = options.StorePreviousDataValue.HasValue && options.StorePreviousDataValue.Value;
+            if (options.IsObservingCharacterData.HasValue == false)
+                options.IsObservingCharacterData = options.IsExaminingOldCharacterData.HasValue && options.IsExaminingOldCharacterData.Value;
 
-            if (options.StorePreviousAttributeValue.Value && options.ObserveTargetAttributes.Value == false)
+            if (options.IsExaminingOldAttributeValue.Value && options.IsObservingAttributes.Value == false)
                 throw new DomException(ErrorCode.TypeMismatch);
 
-            if (options.AttributeFilters != null && options.ObserveTargetAttributes.Value == false)
+            if (options.AttributeFilters != null && options.IsObservingAttributes.Value == false)
                 throw new DomException(ErrorCode.TypeMismatch);
 
-            if (options.StorePreviousDataValue.Value && options.ObserveTargetData.Value == false)
+            if (options.IsExaminingOldCharacterData.Value && options.IsObservingCharacterData.Value == false)
                 throw new DomException(ErrorCode.TypeMismatch);
 
             if (_observing.ContainsKey(target))
@@ -156,12 +156,12 @@
             var init = new MutationObserverInit();
 
             init.AttributeFilters = options.TryGet("attributeFilter") as IEnumerable<String>;
-            init.ObserveTargetAttributes = options.TryGet<Boolean>("attributes");
-            init.ObserveTargetChildNodes = options.TryGet<Boolean>("childList") ?? false;
-            init.ObserveTargetData = options.TryGet<Boolean>("characterData");
-            init.ObserveTargetDescendents = options.TryGet<Boolean>("subtree") ?? false;
-            init.StorePreviousAttributeValue = options.TryGet<Boolean>("attributeOldValue");
-            init.StorePreviousDataValue = options.TryGet<Boolean>("characterDataOldValue");
+            init.IsObservingAttributes = options.TryGet<Boolean>("attributes");
+            init.IsObservingChildNodes = options.TryGet<Boolean>("childList") ?? false;
+            init.IsObservingCharacterData = options.TryGet<Boolean>("characterData");
+            init.IsObservingSubtree = options.TryGet<Boolean>("subtree") ?? false;
+            init.IsExaminingOldAttributeValue = options.TryGet<Boolean>("attributeOldValue");
+            init.IsExaminingOldCharacterData = options.TryGet<Boolean>("characterDataOldValue");
 
             Connect(target, init);
         }
