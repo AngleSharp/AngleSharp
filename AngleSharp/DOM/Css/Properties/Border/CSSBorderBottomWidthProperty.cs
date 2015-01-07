@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSBorderBottomWidthProperty(CSSStyleDeclaration rule)
+        internal CSSBorderBottomWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderBottomWidth, rule)
         {
         }

@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationIterationCountProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationIterationCountProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationIterationCount, rule)
         {
             _iterations = new List<Single>();

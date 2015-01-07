@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CSSStyleDeclaration _style;
+        readonly CssStyleDeclaration _style;
 
         #endregion
 
@@ -24,7 +24,7 @@
             : base(name, flags | NodeFlags.SvgMember)
         {
             NamespaceUri = Namespaces.SvgUri;
-            _style = new CSSStyleDeclaration();
+            _style = new CssStyleDeclaration();
         }
 
         #endregion

@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleWidthProperty(CSSStyleDeclaration rule)
+        internal CSSColumnRuleWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleWidth, rule, PropertyFlags.Animatable)
         {
             Reset();

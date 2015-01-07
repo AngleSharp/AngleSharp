@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSHeightProperty(CSSStyleDeclaration rule)
+        internal CSSHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Height, rule)
         {
         }

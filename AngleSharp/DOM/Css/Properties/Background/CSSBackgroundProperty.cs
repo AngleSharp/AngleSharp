@@ -54,7 +54,7 @@
 
         #region ctor
 
-        internal CSSBackgroundProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Background, rule, PropertyFlags.Animatable)
         {
             _image = Get<CSSBackgroundImageProperty>();

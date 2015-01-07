@@ -25,7 +25,7 @@
 
         #region ctor
 
-        internal CSSWidowsProperty(CSSStyleDeclaration rule)
+        internal CSSWidowsProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Widows, rule, PropertyFlags.Inherited)
         {
             Reset();

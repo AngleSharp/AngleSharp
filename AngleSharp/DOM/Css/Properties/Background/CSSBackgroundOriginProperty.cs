@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBackgroundOriginProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundOriginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundOrigin, rule)
         {
             _origins = new List<BoxModel>();

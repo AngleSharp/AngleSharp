@@ -31,7 +31,7 @@
 
         #region ctor
 
-        internal CSSPerspectiveOriginProperty(CSSStyleDeclaration rule)
+        internal CSSPerspectiveOriginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PerspectiveOrigin, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="style">The list of CSS declarations.</param>
         /// <returns>The block string representation.</returns>
-        public static String ToCssBlock(this CSSStyleDeclaration style)
+        public static String ToCssBlock(this CssStyleDeclaration style)
         {
             return String.Concat("{ ", style.CssText, style.Length > 0 ? " }" : "}");
         }

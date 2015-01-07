@@ -25,7 +25,7 @@
 
         #region ctor
 
-        internal CSSPaddingProperty(CSSStyleDeclaration rule)
+        internal CSSPaddingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Padding, rule)
         {
             _top = Get<CSSPaddingTopProperty>();

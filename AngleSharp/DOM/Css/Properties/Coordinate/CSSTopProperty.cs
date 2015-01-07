@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSTopProperty(CSSStyleDeclaration rule)
+        internal CSSTopProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Top, rule)
         {
         }

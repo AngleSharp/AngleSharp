@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        internal CSSBorderBottomColorProperty(CSSStyleDeclaration rule)
+        internal CSSBorderBottomColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderBottomColor, rule)
         {
         }

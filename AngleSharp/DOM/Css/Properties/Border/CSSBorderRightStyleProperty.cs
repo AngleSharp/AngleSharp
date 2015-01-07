@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        internal CSSBorderRightStyleProperty(CSSStyleDeclaration rule)
+        internal CSSBorderRightStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRightStyle, rule)
         {
         }

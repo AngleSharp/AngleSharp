@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSBorderImageRepeatProperty(CSSStyleDeclaration rule)
+        internal CSSBorderImageRepeatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageRepeat, rule)
         {
         }

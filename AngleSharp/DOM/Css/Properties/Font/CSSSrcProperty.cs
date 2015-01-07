@@ -9,7 +9,7 @@
     /// </summary>
     sealed class CSSSrcProperty : CSSProperty
     {
-        public CSSSrcProperty(CSSStyleDeclaration style)
+        public CSSSrcProperty(CssStyleDeclaration style)
             : base(PropertyNames.Src, style)
         {
         }

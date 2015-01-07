@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBackgroundPositionProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundPosition, rule, PropertyFlags.Animatable)
         {
             _positions = new List<Point>();

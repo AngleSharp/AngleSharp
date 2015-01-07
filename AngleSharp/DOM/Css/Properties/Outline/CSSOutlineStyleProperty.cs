@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOutlineStyleProperty(CSSStyleDeclaration rule)
+        internal CSSOutlineStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineStyle, rule)
         {
             Reset();

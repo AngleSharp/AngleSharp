@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSPositionProperty(CSSStyleDeclaration rule)
+        internal CSSPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Position, rule)
         {
             Reset();

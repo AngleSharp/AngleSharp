@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSWidthProperty(CSSStyleDeclaration rule)
+        internal CSSWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Width, rule)
         {
         }

@@ -26,7 +26,7 @@
 
         #region ctor
 
-        internal CSSOutlineProperty(CSSStyleDeclaration rule)
+        internal CSSOutlineProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Outline, rule, PropertyFlags.Animatable)
         {
             _style = Get<CSSOutlineStyleProperty>();

@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSBorderTopProperty(CSSStyleDeclaration rule)
+        internal CSSBorderTopProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderTop, rule, PropertyFlags.Animatable)
         {
             _color = Get<CSSBorderTopColorProperty>();

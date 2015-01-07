@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSColumnGapProperty(CSSStyleDeclaration rule)
+        internal CSSColumnGapProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnGap, rule, PropertyFlags.Animatable)
         {
             Reset();

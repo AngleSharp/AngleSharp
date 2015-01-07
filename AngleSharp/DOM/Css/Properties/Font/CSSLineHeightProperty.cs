@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSLineHeightProperty(CSSStyleDeclaration rule)
+        internal CSSLineHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.LineHeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSMarginPartProperty(String name, CSSStyleDeclaration rule)
+        internal CSSMarginPartProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

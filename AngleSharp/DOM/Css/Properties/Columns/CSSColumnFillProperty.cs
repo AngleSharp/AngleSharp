@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSColumnFillProperty(CSSStyleDeclaration rule)
+        internal CSSColumnFillProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnFill, rule)
         {
             Reset();

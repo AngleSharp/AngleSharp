@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTextDecorationLineProperty(CSSStyleDeclaration rule)
+        internal CSSTextDecorationLineProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecorationLine, rule)
         {
             _lines = new List<TextDecorationLine>();

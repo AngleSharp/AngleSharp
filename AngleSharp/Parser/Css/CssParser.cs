@@ -493,7 +493,7 @@
         /// <param name="tokens">The stream of tokens.</param>
         /// <param name="style">The style to populate.</param>
         /// <returns>The created property.</returns>
-        CSSProperty Declaration(IEnumerator<CssToken> tokens, CSSStyleDeclaration style)
+        CSSProperty Declaration(IEnumerator<CssToken> tokens, CssStyleDeclaration style)
         {
             var token = tokens.Current;
 
@@ -1055,7 +1055,7 @@
         CSSSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens)
         {
             var name = tokens.Current.Data;
-            var style = new CSSStyleDeclaration();
+            var style = new CssStyleDeclaration();
             var property = CssPropertyFactory.Create(name, style);
 
             if (property == null)
@@ -1197,7 +1197,7 @@
         /// </summary>
         /// <param name="style">The style to declare.</param>
         /// <param name="tokens">The stream of tokens.</param>
-        void FillDeclarations(CSSStyleDeclaration style, IEnumerator<CssToken> tokens)
+        void FillDeclarations(CssStyleDeclaration style, IEnumerator<CssToken> tokens)
         {
             while (tokens.MoveNext())
             {
@@ -1472,9 +1472,9 @@
         /// <param name="declarations">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
         /// <returns>The CSSStyleDeclaration object.</returns>
-        internal static CSSStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
+        internal static CssStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
         {
-            var decl = new CSSStyleDeclaration();
+            var decl = new CssStyleDeclaration();
             AppendDeclarations(decl, declarations, configuration);
             return decl;
         }
@@ -1493,7 +1493,7 @@
             if (!tokens.MoveNext())
                 return null;
 
-            var declaration = parser.Declaration(tokens, new CSSStyleDeclaration());
+            var declaration = parser.Declaration(tokens, new CssStyleDeclaration());
 
             if (tokens.MoveNext())
                 declaration = null;
@@ -1689,7 +1689,7 @@
         /// <param name="list">The list of css properties to append to.</param>
         /// <param name="declarations">The string to parse.</param>
         /// <param name="configuration">Optional: The configuration to use for construction.</param>
-        internal static void AppendDeclarations(CSSStyleDeclaration list, String declarations, IConfiguration configuration = null)
+        internal static void AppendDeclarations(CssStyleDeclaration list, String declarations, IConfiguration configuration = null)
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();

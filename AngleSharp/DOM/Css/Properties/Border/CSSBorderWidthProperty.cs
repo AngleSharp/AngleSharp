@@ -24,7 +24,7 @@
 
         #region ctor
 
-        internal CSSBorderWidthProperty(CSSStyleDeclaration rule)
+        internal CSSBorderWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
         {
             _top = Get<CSSBorderTopWidthProperty>();

@@ -27,7 +27,7 @@
 
         #region ctor
 
-        internal CSSTextDecorationProperty(CSSStyleDeclaration rule)
+        internal CSSTextDecorationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecoration, rule, PropertyFlags.Animatable)
         {
             _color = Get<CSSTextDecorationColorProperty>();

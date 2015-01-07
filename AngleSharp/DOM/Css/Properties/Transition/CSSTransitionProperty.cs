@@ -30,7 +30,7 @@
 
         #region ctor
 
-        internal CSSTransitionProperty(CSSStyleDeclaration rule)
+        internal CSSTransitionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Transition, rule)
         {
             _delay = Get<CSSTransitionDelayProperty>();

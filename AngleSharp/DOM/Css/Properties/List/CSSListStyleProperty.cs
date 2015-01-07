@@ -27,7 +27,7 @@
 
         #region ctor
 
-        internal CSSListStyleProperty(CSSStyleDeclaration rule)
+        internal CSSListStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited)
         {
             _type = Get<CSSListStyleTypeProperty>();

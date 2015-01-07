@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleStyleProperty(CSSStyleDeclaration rule)
+        internal CSSColumnRuleStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleStyle, rule)
         {
             Reset();

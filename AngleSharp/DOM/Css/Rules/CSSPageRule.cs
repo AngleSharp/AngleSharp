@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly CSSStyleDeclaration _style;
+        readonly CssStyleDeclaration _style;
         ISelector _selector;
 
         #endregion
@@ -23,7 +23,7 @@
         internal CSSPageRule()
             : base(CssRuleType.Page)
         {
-            _style = new CSSStyleDeclaration(this);
+            _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;
         }
 
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets the  declaration-block of this rule.
         /// </summary>
-        public CSSStyleDeclaration Style
+        public CssStyleDeclaration Style
         {
             get { return _style; }
         }

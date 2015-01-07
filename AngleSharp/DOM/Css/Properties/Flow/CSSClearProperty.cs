@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSClearProperty(CSSStyleDeclaration rule)
+        internal CSSClearProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Clear, rule)
         {
             Reset();

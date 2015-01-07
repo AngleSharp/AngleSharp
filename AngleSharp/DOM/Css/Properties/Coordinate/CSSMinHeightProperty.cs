@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSMinHeightProperty(CSSStyleDeclaration rule)
+        internal CSSMinHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MinHeight, rule, PropertyFlags.Animatable)
         {
             Reset();

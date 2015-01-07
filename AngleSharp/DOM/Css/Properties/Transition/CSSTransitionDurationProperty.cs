@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTransitionDurationProperty(CSSStyleDeclaration rule)
+        internal CSSTransitionDurationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransitionDuration, rule)
         {
             _times = new List<Time>();

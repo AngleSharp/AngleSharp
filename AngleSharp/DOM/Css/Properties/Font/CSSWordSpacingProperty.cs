@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSWordSpacingProperty(CSSStyleDeclaration rule)
+        internal CSSWordSpacingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.WordSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

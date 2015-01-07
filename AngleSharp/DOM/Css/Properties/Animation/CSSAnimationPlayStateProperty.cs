@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationPlayStateProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationPlayStateProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationPlayState, rule)
         {
             _states = new List<PlayState>();

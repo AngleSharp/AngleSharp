@@ -23,7 +23,7 @@
         /// <param name="element">The element that is questioned.</param>
         /// <param name="device">The render device to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static CSSStyleDeclaration ComputeDeclarations(this IEnumerable<IStyleSheet> stylesheets, IElement element, RenderDevice device)
+        public static CssStyleDeclaration ComputeDeclarations(this IEnumerable<IStyleSheet> stylesheets, IElement element, RenderDevice device)
         {
             var parents = element.GetAncestorsOf().OfType<IElement>().Reverse().ToArray();
             var bag = new PropertyBag();
@@ -46,7 +46,7 @@
             if (htmlElement != null)
                 htmlElement.Style.ApplyTo(bag, Priority.Inline);
 
-            return new CSSStyleDeclaration(bag);
+            return new CssStyleDeclaration(bag);
         }
 
         /// <summary>

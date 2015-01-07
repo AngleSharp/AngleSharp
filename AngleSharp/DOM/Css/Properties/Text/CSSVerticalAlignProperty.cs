@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSVerticalAlignProperty(CSSStyleDeclaration rule)
+        internal CSSVerticalAlignProperty(CssStyleDeclaration rule)
             : base(PropertyNames.VerticalAlign, rule, PropertyFlags.Animatable)
         {
             Reset();

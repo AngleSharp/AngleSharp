@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBoxShadowProperty(CSSStyleDeclaration rule)
+        internal CSSBoxShadowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BoxShadow, rule, PropertyFlags.Animatable)
         {
             _shadows = new List<Shadow>();

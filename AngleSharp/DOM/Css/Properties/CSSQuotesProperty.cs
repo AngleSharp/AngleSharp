@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSQuotesProperty(CSSStyleDeclaration rule)
+        internal CSSQuotesProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Quotes, rule, PropertyFlags.Inherited)
         {
             Reset();

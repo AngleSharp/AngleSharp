@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSCounterIncrementProperty(CSSStyleDeclaration rule)
+        internal CSSCounterIncrementProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CounterIncrement, rule)
         {
         }

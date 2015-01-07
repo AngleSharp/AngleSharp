@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSCounterResetProperty(CSSStyleDeclaration rule)
+        internal CSSCounterResetProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CounterReset, rule)
         {
         }

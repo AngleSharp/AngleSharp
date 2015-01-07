@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBorderRadiusPartProperty(String name, CSSStyleDeclaration rule)
+        internal CSSBorderRadiusPartProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Animatable)
         {
             Reset();

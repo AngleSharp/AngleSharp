@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSOutlineWidthProperty(CSSStyleDeclaration rule)
+        internal CSSOutlineWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineWidth, rule, PropertyFlags.Animatable)
         {
             Reset();

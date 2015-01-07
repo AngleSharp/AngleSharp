@@ -16,7 +16,7 @@
 
         #region ctor
 
-        internal CSSCounterProperty(String name, CSSStyleDeclaration rule)
+        internal CSSCounterProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
             _counters = new Dictionary<String, Int32>();

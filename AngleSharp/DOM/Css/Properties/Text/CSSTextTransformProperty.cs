@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTextTransformProperty(CSSStyleDeclaration rule)
+        internal CSSTextTransformProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextTransform, rule, PropertyFlags.Inherited)
         {
             Reset();

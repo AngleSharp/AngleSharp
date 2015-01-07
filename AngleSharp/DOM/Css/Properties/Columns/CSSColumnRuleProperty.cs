@@ -26,7 +26,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleProperty(CSSStyleDeclaration rule)
+        internal CSSColumnRuleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRule, rule, PropertyFlags.Animatable)
         {
             _color = Get<CSSColumnRuleColorProperty>();

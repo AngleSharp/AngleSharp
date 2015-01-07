@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationDirectionProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationDirectionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationDirection, rule)
         {
             _directions = new List<AnimationDirection>();

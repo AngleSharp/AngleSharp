@@ -13,6 +13,6 @@
         /// <param name="name">The name of the declaration.</param>
         /// <param name="style">The parent declarations.</param>
         /// <returns>The created property, if any.</returns>
-        CSSProperty Create(String name, CSSStyleDeclaration style);
+        CSSProperty Create(String name, CssStyleDeclaration style);
     }
 }

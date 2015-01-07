@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CSSStyleDeclaration : ICssStyleDeclaration, IPropertyCreator
+    sealed class CssStyleDeclaration : ICssStyleDeclaration, IPropertyCreator
     {
         #region Fields
 
@@ -29,7 +29,7 @@
 
         #region ctor
 
-        CSSStyleDeclaration(Boolean readOnly, CSSRule parent)
+        CssStyleDeclaration(Boolean readOnly, CSSRule parent)
         {
             _readOnly = readOnly;
             _parent = parent;
@@ -41,7 +41,7 @@
         /// Creates a new CSS style declaration with no parent.
         /// </summary>
         /// <param name="source">The source to start with.</param>
-        internal CSSStyleDeclaration(String source = null)
+        internal CssStyleDeclaration(String source = null)
             : this(false, null)
         {
             Update(source);
@@ -51,7 +51,7 @@
         /// Creates a new CSS style declaration.
         /// </summary>
         /// <param name="parent">The parent of the style declaration.</param>
-        internal CSSStyleDeclaration(CSSRule parent)
+        internal CssStyleDeclaration(CSSRule parent)
             : this(false, parent)
         {
         }
@@ -60,7 +60,7 @@
         /// Creates a new read-only CSS style declaration.
         /// </summary>
         /// <param name="properties">The properties to show.</param>
-        internal CSSStyleDeclaration(IEnumerable<ICssProperty> properties)
+        internal CssStyleDeclaration(IEnumerable<ICssProperty> properties)
             : this(true, null)
         {
             foreach (CSSProperty property in properties)
@@ -2542,7 +2542,7 @@
         /// Clears the other style declarations.
         /// </summary>
         /// <param name="style">The style to take the declarations from.</param>
-        internal void TakeFrom(CSSStyleDeclaration style)
+        internal void TakeFrom(CssStyleDeclaration style)
         {
             _declarations.Clear();
             _declarations.AddRange(style._declarations);
@@ -2589,7 +2589,7 @@
 
         #region Interface implementation
 
-        CSSProperty IPropertyCreator.Create(String name, CSSStyleDeclaration style)
+        CSSProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
         {
             return CssPropertyFactory.Create(name, this);
         }

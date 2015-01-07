@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSColorProperty(CSSStyleDeclaration rule)
+        internal CSSColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Color, rule, PropertyFlags.Inherited | PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             Reset();

@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBreakInsideProperty(CSSStyleDeclaration rule)
+        internal CSSBreakInsideProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BreakInside, rule)
         {
             Reset();

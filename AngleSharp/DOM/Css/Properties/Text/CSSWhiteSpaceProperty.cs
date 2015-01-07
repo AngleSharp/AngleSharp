@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSWhiteSpaceProperty(CSSStyleDeclaration rule)
+        internal CSSWhiteSpaceProperty(CssStyleDeclaration rule)
             : base(PropertyNames.WhiteSpace, rule, PropertyFlags.Inherited)
         {
             Reset();

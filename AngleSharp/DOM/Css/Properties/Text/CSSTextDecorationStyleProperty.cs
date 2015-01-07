@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTextDecorationStyleProperty(CSSStyleDeclaration rule)
+        internal CSSTextDecorationStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecorationStyle, rule)
         {
             Reset();

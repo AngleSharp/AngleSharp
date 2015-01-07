@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSTableLayoutProperty(CSSStyleDeclaration rule)
+        internal CSSTableLayoutProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TableLayout, rule)
         {
             Reset();

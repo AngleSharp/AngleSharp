@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSPageBreakAfterProperty(CSSStyleDeclaration rule)
+        internal CSSPageBreakAfterProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PageBreakAfter, rule)
         {
             Reset();

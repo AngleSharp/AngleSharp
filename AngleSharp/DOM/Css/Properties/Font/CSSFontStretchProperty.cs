@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFontStretchProperty(CSSStyleDeclaration rule)
+        internal CSSFontStretchProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontStretch, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

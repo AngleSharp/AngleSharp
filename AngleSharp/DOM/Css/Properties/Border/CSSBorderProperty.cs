@@ -35,7 +35,7 @@
 
         #region ctor
 
-        internal CSSBorderProperty(CSSStyleDeclaration rule)
+        internal CSSBorderProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Border, rule, PropertyFlags.Animatable)
         {
             _topColor = Get<CSSBorderTopColorProperty>();

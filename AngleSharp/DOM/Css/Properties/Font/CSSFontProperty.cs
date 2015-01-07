@@ -53,7 +53,7 @@
             _parts.Add(Keywords.StatusBar, SystemFont.StatusBar);
         }
 
-        internal CSSFontProperty(CSSStyleDeclaration rule)
+        internal CSSFontProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Font, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _style = Get<CSSFontStyleProperty>();

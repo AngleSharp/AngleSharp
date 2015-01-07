@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSBreakBeforeProperty(CSSStyleDeclaration rule)
+        internal CSSBreakBeforeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BreakBefore, rule)
         {
             Reset();

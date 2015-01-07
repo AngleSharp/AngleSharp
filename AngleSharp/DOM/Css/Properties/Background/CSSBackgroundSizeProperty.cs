@@ -27,7 +27,7 @@
 
         #region ctor
 
-        internal CSSBackgroundSizeProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundSizeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundSize, rule, PropertyFlags.Animatable)
         {
             _sizes = new List<BackgroundSize>();

@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal CSSBorderPartColorProperty(String name, CSSStyleDeclaration rule)
+        internal CSSBorderPartColorProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
             Reset();

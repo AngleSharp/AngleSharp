@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTransformProperty(CSSStyleDeclaration rule)
+        internal CSSTransformProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Transform, rule, PropertyFlags.Animatable)
         {
             _transforms = new List<ITransform>();

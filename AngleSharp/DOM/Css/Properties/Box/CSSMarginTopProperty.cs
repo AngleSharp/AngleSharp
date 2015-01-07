@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSMarginTopProperty(CSSStyleDeclaration rule)
+        internal CSSMarginTopProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MarginTop, rule)
         {
         }

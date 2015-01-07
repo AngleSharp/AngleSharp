@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CSSStyleDeclaration _style;
+        readonly CssStyleDeclaration _style;
         IKeyframeSelector _selector;
 
         #endregion
@@ -24,7 +24,7 @@
         internal CSSKeyframeRule()
             : base(CssRuleType.Keyframe)
         {
-            _style = new CSSStyleDeclaration(this);
+            _style = new CssStyleDeclaration(this);
         }
 
         #endregion
@@ -66,7 +66,7 @@
             get { return _style; }
         }
 
-        public CSSStyleDeclaration Style
+        public CssStyleDeclaration Style
         {
             get { return _style; }
         }

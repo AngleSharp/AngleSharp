@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSListStyleImageProperty(CSSStyleDeclaration rule)
+        internal CSSListStyleImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyleImage, rule, PropertyFlags.Inherited)
         {
             Reset();

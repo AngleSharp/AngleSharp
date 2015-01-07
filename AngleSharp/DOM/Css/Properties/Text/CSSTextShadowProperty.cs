@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTextShadowProperty(CSSStyleDeclaration rule)
+        internal CSSTextShadowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextShadow, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             _shadows = new List<Shadow>();

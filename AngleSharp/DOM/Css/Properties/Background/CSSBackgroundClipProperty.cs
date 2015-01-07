@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBackgroundClipProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundClipProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundClip, rule)
         {
             _clips = new List<BoxModel>();

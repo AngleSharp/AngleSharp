@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOpacityProperty(CSSStyleDeclaration rule)
+        internal CSSOpacityProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Opacity, rule, PropertyFlags.Animatable)
         {
             Reset();

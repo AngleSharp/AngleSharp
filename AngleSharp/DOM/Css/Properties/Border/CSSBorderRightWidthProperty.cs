@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSBorderRightWidthProperty(CSSStyleDeclaration rule)
+        internal CSSBorderRightWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRightWidth, rule)
         {
         }

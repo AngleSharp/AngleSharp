@@ -9,7 +9,7 @@
     {
         #region ctor
 
-        internal CSSUnknownProperty(String name, CSSStyleDeclaration rule)
+        internal CSSUnknownProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
             Reset();

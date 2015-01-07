@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSBackgroundAttachmentProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundAttachmentProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundAttachment, rule)
         {
             _attachments = new List<BackgroundAttachment>();

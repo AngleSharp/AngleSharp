@@ -13,7 +13,7 @@
 
         readonly PropertyFlags _flags;
         readonly String _name;
-        readonly CSSStyleDeclaration _rule;
+        readonly CssStyleDeclaration _rule;
 
         Boolean _important;
         ICssValue _value;
@@ -28,7 +28,7 @@
         /// <param name="name">The name of the property</param>
         /// <param name="rule">The parent style declaration.</param>
         /// <param name="flags">The property flags, if any.</param>
-        internal CSSProperty(String name, CSSStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
+        internal CSSProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
         {
             _rule = rule;
             _name = name;
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets or sets the assigned rule.
         /// </summary>
-        internal CSSStyleDeclaration Rule
+        internal CssStyleDeclaration Rule
         {
             get { return _rule; }
         }

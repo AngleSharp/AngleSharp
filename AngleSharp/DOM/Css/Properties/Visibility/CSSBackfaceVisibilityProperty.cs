@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSBackfaceVisibilityProperty(CSSStyleDeclaration rule)
+        internal CSSBackfaceVisibilityProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackfaceVisibility, rule)
         {
             Reset();

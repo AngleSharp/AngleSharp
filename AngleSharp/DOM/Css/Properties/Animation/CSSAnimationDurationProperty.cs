@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationDurationProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationDurationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationDuration, rule)
         {
             _times = new List<Time>();

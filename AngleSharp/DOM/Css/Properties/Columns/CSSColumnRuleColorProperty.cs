@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSColumnRuleColorProperty(CSSStyleDeclaration rule)
+        internal CSSColumnRuleColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleColor, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBorderImageOutsetProperty(CSSStyleDeclaration rule)
+        internal CSSBorderImageOutsetProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageOutset, rule)
         {
         }

@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFontVariantProperty(CSSStyleDeclaration rule)
+        internal CSSFontVariantProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontVariant, rule, PropertyFlags.Inherited)
         {
             Reset();

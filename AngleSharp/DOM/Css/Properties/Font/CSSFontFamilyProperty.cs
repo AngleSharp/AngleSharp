@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSFontFamilyProperty(CSSStyleDeclaration rule)
+        internal CSSFontFamilyProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontFamily, rule, PropertyFlags.Inherited)
         {
             _families = new List<String>();

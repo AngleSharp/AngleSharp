@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSMarginRightProperty(CSSStyleDeclaration rule)
+        internal CSSMarginRightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MarginRight, rule)
         {
         }

@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationFillModeProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationFillModeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationFillMode, rule)
         {
             _fillModes = new List<AnimationFillStyle>();

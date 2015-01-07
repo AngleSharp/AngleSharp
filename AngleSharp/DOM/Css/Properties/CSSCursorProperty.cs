@@ -28,7 +28,7 @@
 
         #region ctor
 
-        internal CSSCursorProperty(CSSStyleDeclaration rule)
+        internal CSSCursorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Cursor, rule, PropertyFlags.Inherited)
         {
             Reset();

@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal CSSBorderPartWidthProperty(String name, CSSStyleDeclaration rule)
+        internal CSSBorderPartWidthProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

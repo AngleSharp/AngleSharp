@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSCoordinateProperty(String name, CSSStyleDeclaration rule)
+        internal CSSCoordinateProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

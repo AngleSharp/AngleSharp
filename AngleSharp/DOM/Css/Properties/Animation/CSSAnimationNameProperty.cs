@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSAnimationNameProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationNameProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationName, rule)
         {
             _names = new List<String>();

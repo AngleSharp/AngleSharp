@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSObjectPositionProperty(CSSStyleDeclaration rule)
+        internal CSSObjectPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ObjectPosition, rule, PropertyFlags.Animatable)
         {
             Reset();

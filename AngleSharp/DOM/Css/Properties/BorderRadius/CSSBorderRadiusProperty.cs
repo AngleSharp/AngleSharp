@@ -27,7 +27,7 @@
 
         #region ctor
 
-        internal CSSBorderRadiusProperty(CSSStyleDeclaration rule)
+        internal CSSBorderRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRadius, rule, PropertyFlags.Animatable)
         {
             _topLeft = Get<CSSBorderTopLeftRadiusProperty>();

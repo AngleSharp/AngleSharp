@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSBackgroundImageProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundImage, rule)
         {
             _images = new List<IImageSource>();

@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSBorderSpacingProperty(CSSStyleDeclaration rule)
+        internal CSSBorderSpacingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderSpacing, rule, PropertyFlags.Inherited)
         {
             Reset();

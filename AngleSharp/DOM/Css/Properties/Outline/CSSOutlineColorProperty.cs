@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOutlineColorProperty(CSSStyleDeclaration rule)
+        internal CSSOutlineColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineColor, rule, PropertyFlags.Animatable)
         {
             Reset();

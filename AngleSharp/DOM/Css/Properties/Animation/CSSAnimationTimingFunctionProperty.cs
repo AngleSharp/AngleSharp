@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSAnimationTimingFunctionProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationTimingFunctionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationTimingFunction, rule)
         {
             _functions = new List<ITimingFunction>();

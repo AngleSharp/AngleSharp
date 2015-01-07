@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSCaptionSideProperty(CSSStyleDeclaration rule)
+        internal CSSCaptionSideProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CaptionSide, rule)
         {
             Reset();

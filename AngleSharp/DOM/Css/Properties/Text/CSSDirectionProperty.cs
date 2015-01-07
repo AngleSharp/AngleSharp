@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSDirectionProperty(CSSStyleDeclaration rule)
+        internal CSSDirectionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Direction, rule, PropertyFlags.Inherited)
         {
             Reset();

@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSLetterSpacingProperty(CSSStyleDeclaration rule)
+        internal CSSLetterSpacingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.LetterSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
             Reset();

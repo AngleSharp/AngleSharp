@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSTextAlignProperty(CSSStyleDeclaration rule)
+        internal CSSTextAlignProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextAlign, rule, PropertyFlags.Inherited)
         {
             Reset();

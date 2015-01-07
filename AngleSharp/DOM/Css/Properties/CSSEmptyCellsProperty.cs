@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSEmptyCellsProperty(CSSStyleDeclaration rule)
+        internal CSSEmptyCellsProperty(CssStyleDeclaration rule)
             : base(PropertyNames.EmptyCells, rule, PropertyFlags.Inherited)
         {
             Reset();

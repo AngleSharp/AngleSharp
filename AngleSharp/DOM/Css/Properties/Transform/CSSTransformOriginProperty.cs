@@ -32,7 +32,7 @@
 
         #region ctor
 
-        internal CSSTransformOriginProperty(CSSStyleDeclaration rule)
+        internal CSSTransformOriginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransformOrigin, rule, PropertyFlags.Animatable)
         {
             Reset();

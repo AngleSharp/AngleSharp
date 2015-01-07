@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSColumnCountProperty(CSSStyleDeclaration rule)
+        internal CSSColumnCountProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnCount, rule, PropertyFlags.Animatable)
         {
             Reset();

@@ -22,7 +22,7 @@
 
         #region ctor
 
-        internal CSSTransitionPropertyProperty(CSSStyleDeclaration rule)
+        internal CSSTransitionPropertyProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransitionProperty, rule)
         {
             _properties = new List<String>();

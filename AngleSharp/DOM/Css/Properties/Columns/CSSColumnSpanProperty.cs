@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSColumnSpanProperty(CSSStyleDeclaration rule)
+        internal CSSColumnSpanProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnSpan, rule)
         {
             Reset();

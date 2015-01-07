@@ -26,7 +26,7 @@
 
         #region ctor
 
-        internal CSSBackgroundRepeatProperty(CSSStyleDeclaration rule)
+        internal CSSBackgroundRepeatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundRepeat, rule)
         {
             _repeats = new List<Repeat>();

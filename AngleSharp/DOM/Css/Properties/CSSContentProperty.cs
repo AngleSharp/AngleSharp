@@ -43,7 +43,7 @@
                 );
         }
 
-        internal CSSContentProperty(CSSStyleDeclaration rule)
+        internal CSSContentProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Content, rule)
         {
             Reset();

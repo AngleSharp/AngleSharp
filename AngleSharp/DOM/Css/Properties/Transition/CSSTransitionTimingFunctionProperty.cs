@@ -23,7 +23,7 @@
 
         #region ctor
 
-        internal CSSTransitionTimingFunctionProperty(CSSStyleDeclaration rule)
+        internal CSSTransitionTimingFunctionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TransitionTimingFunction, rule)
         {
             _functions = new List<ITimingFunction>();

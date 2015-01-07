@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSBorderPartStyleProperty(String name, CSSStyleDeclaration rule)
+        internal CSSBorderPartStyleProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
         }

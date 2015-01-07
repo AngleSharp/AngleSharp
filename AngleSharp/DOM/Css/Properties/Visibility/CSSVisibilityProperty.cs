@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSVisibilityProperty(CSSStyleDeclaration rule)
+        internal CSSVisibilityProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Visibility, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
             Reset();

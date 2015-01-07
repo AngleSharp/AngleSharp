@@ -740,7 +740,7 @@
     <Compile Include="Network\DefaultResponse.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
-    <Compile Include="DOM\Css\CSSStyleDeclaration.cs" />
+    <Compile Include="DOM\Css\CssStyleDeclaration.cs" />
     <Compile Include="DOM\Collections\StringMap.cs" />
     <Compile Include="DOM\Io\FileList.cs" />
     <Compile Include="DOM\Constants\ContentEditableMode.cs" />

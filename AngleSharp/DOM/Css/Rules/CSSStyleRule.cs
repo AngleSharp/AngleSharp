@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly CSSStyleDeclaration _style;
+        readonly CssStyleDeclaration _style;
         ISelector _selector;
 
         #endregion
@@ -25,7 +25,7 @@
         internal CSSStyleRule()
             : base(CssRuleType.Style)
         {
-            _style = new CSSStyleDeclaration(this);
+            _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;
         }
 
@@ -65,7 +65,7 @@
             get { return _style; }
         }
 
-        public CSSStyleDeclaration Style
+        public CssStyleDeclaration Style
         {
             get { return _style; }
         }

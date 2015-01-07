@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSBorderBottomRightRadiusProperty(CSSStyleDeclaration rule)
+        internal CSSBorderBottomRightRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderBottomRightRadius, rule)
         {
         }

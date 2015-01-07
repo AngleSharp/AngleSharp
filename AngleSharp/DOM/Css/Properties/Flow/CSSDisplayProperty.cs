@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSDisplayProperty(CSSStyleDeclaration rule)
+        internal CSSDisplayProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Display, rule)
         {
             Reset();

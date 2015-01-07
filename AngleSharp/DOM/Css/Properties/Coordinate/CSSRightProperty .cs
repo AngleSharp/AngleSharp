@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSRightProperty(CSSStyleDeclaration rule)
+        internal CSSRightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Right, rule)
         {
         }

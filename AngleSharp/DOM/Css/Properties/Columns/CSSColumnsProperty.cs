@@ -24,7 +24,7 @@
 
         #region ctor
 
-        internal CSSColumnsProperty(CSSStyleDeclaration rule)
+        internal CSSColumnsProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Columns, rule, PropertyFlags.Animatable)
         {
             _count = Get<CSSColumnCountProperty>();

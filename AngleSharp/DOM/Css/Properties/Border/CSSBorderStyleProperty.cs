@@ -24,7 +24,7 @@
 
         #region ctor
 
-        internal CSSBorderStyleProperty(CSSStyleDeclaration rule)
+        internal CSSBorderStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderStyle, rule)
         {
             _top = Get<CSSBorderTopStyleProperty>();

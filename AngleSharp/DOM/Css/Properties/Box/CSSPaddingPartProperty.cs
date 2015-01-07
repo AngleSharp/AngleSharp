@@ -18,7 +18,7 @@
 
         #region ctor
 
-        internal CSSPaddingPartProperty(String name, CSSStyleDeclaration rule)
+        internal CSSPaddingPartProperty(String name, CssStyleDeclaration rule)
             : base(name, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
             Reset();

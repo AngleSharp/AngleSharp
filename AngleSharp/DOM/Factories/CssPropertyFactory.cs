@@ -13,8 +13,8 @@
     {
         #region Delegates
 
-        delegate CSSProperty LonghandCreator(CSSStyleDeclaration style);
-        delegate CSSShorthandProperty ShorthandCreator(CSSStyleDeclaration style);
+        delegate CSSProperty LonghandCreator(CssStyleDeclaration style);
+        delegate CSSShorthandProperty ShorthandCreator(CssStyleDeclaration style);
 
         #endregion
 
@@ -328,7 +328,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created property.</returns>
-        public static CSSProperty Create(String name, CSSStyleDeclaration style)
+        public static CSSProperty Create(String name, CssStyleDeclaration style)
         {
             return CreateLonghand(name, style) ?? CreateShorthand(name, style);
         }
@@ -339,7 +339,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created longhand property.</returns>
-        public static CSSProperty CreateLonghand(String name, CSSStyleDeclaration style)
+        public static CSSProperty CreateLonghand(String name, CssStyleDeclaration style)
         {
             LonghandCreator longhand;
             var property = style.GetProperty(name);
@@ -356,7 +356,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created shorthand property.</returns>
-        public static CSSShorthandProperty CreateShorthand(String name, CSSStyleDeclaration style)
+        public static CSSShorthandProperty CreateShorthand(String name, CssStyleDeclaration style)
         {
             ShorthandCreator shorthand;
 
@@ -372,7 +372,7 @@
         /// <param name="name">The name of the corresponding shorthand property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created longhand properties.</returns>
-        public static IEnumerable<CSSProperty> CreateLonghandsFor(String name, CSSStyleDeclaration style)
+        public static IEnumerable<CSSProperty> CreateLonghandsFor(String name, CssStyleDeclaration style)
         {
             return GetLonghands(name).Select(m => CreateLonghand(m, style));
         }

@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSZIndexProperty(CSSStyleDeclaration rule)
+        internal CSSZIndexProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ZIndex, rule, PropertyFlags.Animatable)
         {
             Reset();

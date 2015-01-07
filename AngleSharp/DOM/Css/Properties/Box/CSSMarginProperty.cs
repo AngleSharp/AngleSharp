@@ -24,7 +24,7 @@
 
         #region ctor
 
-        internal CSSMarginProperty(CSSStyleDeclaration rule)
+        internal CSSMarginProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Margin, rule)
         {
             _top = Get<CSSMarginTopProperty>();

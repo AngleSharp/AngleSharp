@@ -38,7 +38,7 @@
 
         #region ctor
 
-        internal CSSAnimationProperty(CSSStyleDeclaration rule)
+        internal CSSAnimationProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Animation, rule)
         {
             _delay = Get<CSSAnimationDelayProperty>();

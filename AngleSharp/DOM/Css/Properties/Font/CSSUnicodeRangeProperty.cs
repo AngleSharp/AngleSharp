@@ -9,7 +9,7 @@
     /// </summary>
     sealed class CSSUnicodeRangeProperty : CSSProperty
     {
-        public CSSUnicodeRangeProperty(CSSStyleDeclaration style)
+        public CSSUnicodeRangeProperty(CssStyleDeclaration style)
             : base(PropertyNames.UnicodeRange, style)
         {
         }

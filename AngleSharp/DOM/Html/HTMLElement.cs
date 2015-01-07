@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        CSSStyleDeclaration _style;
+        CssStyleDeclaration _style;
         StringMap _dataset;
         IHtmlMenuElement _menu;
         SettableTokenList _dropZone;
@@ -164,13 +164,13 @@
         /// <summary>
         /// Gets an object representing the declarations of an element's style attributes.
         /// </summary>
-        public CSSStyleDeclaration Style
+        public CssStyleDeclaration Style
         {
             get 
             {
                 if (_style == null)
                 {
-                    _style = new CSSStyleDeclaration(GetAttribute(AttributeNames.Style));
+                    _style = new CssStyleDeclaration(GetAttribute(AttributeNames.Style));
                     _style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);
                 }
 

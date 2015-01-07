@@ -19,7 +19,7 @@
 
         #region ctor
 
-        internal CSSOrphansProperty(CSSStyleDeclaration rule)
+        internal CSSOrphansProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Orphans, rule, PropertyFlags.Inherited)
         {
             Reset();

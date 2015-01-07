@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSFloatProperty(CSSStyleDeclaration rule)
+        internal CSSFloatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Float, rule)
         {
             Reset();

@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSListStylePositionProperty(CSSStyleDeclaration rule)
+        internal CSSListStylePositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStylePosition, rule, PropertyFlags.Inherited)
         {
             Reset();

@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSMaxHeightProperty(CSSStyleDeclaration rule)
+        internal CSSMaxHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MaxHeight, rule, PropertyFlags.Animatable)
         {
             Reset();

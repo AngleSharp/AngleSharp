@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSObjectFitProperty(CSSStyleDeclaration rule)
+        internal CSSObjectFitProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ObjectFit, rule)
         {
             Reset();

@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSPaddingBottomProperty(CSSStyleDeclaration rule)
+        internal CSSPaddingBottomProperty(CssStyleDeclaration rule)
             : base(PropertyNames.PaddingBottom, rule)
         {
         }

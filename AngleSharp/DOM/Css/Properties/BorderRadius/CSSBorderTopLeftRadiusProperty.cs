@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        internal CSSBorderTopLeftRadiusProperty(CSSStyleDeclaration rule)
+        internal CSSBorderTopLeftRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderTopLeftRadius, rule)
         {
         }

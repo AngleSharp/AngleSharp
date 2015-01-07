@@ -341,7 +341,7 @@ namespace UnitTests
         [Test]
         public void CSSStyleDeclarationEmpty()
         {
-            var css = new CSSStyleDeclaration();
+            var css = new CssStyleDeclaration();
             Assert.AreEqual("", css.CssText);
             Assert.AreEqual(0, css.Length);
         }
@@ -349,7 +349,7 @@ namespace UnitTests
         [Test]
         public void CSSStyleDeclarationUnbound()
         {
-            var css = new CSSStyleDeclaration();
+            var css = new CssStyleDeclaration();
             var text = "background-color: red; color: black;";
             css.CssText = text;
             Assert.AreEqual(text, css.CssText);

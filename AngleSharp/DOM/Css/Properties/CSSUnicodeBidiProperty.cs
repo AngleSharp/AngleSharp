@@ -21,7 +21,7 @@
 
         #region ctor
 
-        internal CSSUnicodeBidiProperty(CSSStyleDeclaration rule)
+        internal CSSUnicodeBidiProperty(CssStyleDeclaration rule)
             : base(PropertyNames.UnicodeBidi, rule)
         {
             Reset();

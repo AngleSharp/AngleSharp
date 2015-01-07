@@ -12,8 +12,8 @@
     {
         #region Fields
 
-        static Dictionary<String, Func<CSSStyleDeclaration, CSSProperty>> _creators = new Dictionary<String, Func<CSSStyleDeclaration, CSSProperty>>(StringComparer.OrdinalIgnoreCase);
-        readonly CSSStyleDeclaration _style;
+        static Dictionary<String, Func<CssStyleDeclaration, CSSProperty>> _creators = new Dictionary<String, Func<CssStyleDeclaration, CSSProperty>>(StringComparer.OrdinalIgnoreCase);
+        readonly CssStyleDeclaration _style;
 
         #endregion
 
@@ -37,14 +37,14 @@
         internal CSSFontFaceRule()
             : base(CssRuleType.FontFace)
         {
-            _style = new CSSStyleDeclaration(this);
+            _style = new CssStyleDeclaration(this);
         }
 
         #endregion
 
         #region Properties
 
-        public CSSStyleDeclaration Style
+        public CssStyleDeclaration Style
         {
             get { return _style; }
         }
@@ -148,9 +148,9 @@
 
         #region Property Creator
 
-        CSSProperty IPropertyCreator.Create(String name, CSSStyleDeclaration style)
+        CSSProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
         {
-            Func<CSSStyleDeclaration, CSSProperty> creator;
+            Func<CssStyleDeclaration, CSSProperty> creator;
 
             if (_creators.TryGetValue(name, out creator))
                 return creator(style);

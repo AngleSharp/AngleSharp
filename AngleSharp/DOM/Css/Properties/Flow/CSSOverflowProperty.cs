@@ -20,7 +20,7 @@
 
         #region ctor
 
-        internal CSSOverflowProperty(CSSStyleDeclaration rule)
+        internal CSSOverflowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Overflow, rule)
         {
             Reset();
