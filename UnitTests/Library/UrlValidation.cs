@@ -3992,7 +3992,7 @@ org");
 			Assert.AreEqual("http://192.168.0.1/", anchor.Href);
 		}
 
-        //TODO [Test]
+        [Test]
         public void DocumentUrlTest258()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
