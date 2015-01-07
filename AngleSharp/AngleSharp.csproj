@@ -817,9 +817,9 @@
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Network\MimeTypes.cs" />
     <Compile Include="Delegates\MutationCallback.cs" />
-    <Compile Include="Foundation\Mutations\MutationObserver.cs" />
-    <Compile Include="Foundation\Mutations\MutationObserverInit.cs" />
-    <Compile Include="Foundation\Mutations\MutationRecord.cs" />
+    <Compile Include="DOM\MutationObserver.cs" />
+    <Compile Include="DOM\MutationObserverInit.cs" />
+    <Compile Include="DOM\MutationRecord.cs" />
     <Compile Include="Html\Namespaces.cs" />
     <Compile Include="DOM\Css\Selector\ComplexSelector.cs" />
     <Compile Include="DOM\Css\Selector\CompoundSelector.cs" />
