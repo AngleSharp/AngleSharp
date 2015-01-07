@@ -1626,6 +1626,15 @@
     <Compile Include="..\AngleSharp\DOM\Mathml\MathTextElement.cs">
       <Link>DOM\Mathml\MathTextElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\MutationObserver.cs">
+      <Link>DOM\MutationObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\MutationObserverInit.cs">
+      <Link>DOM\MutationObserverInit.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\MutationRecord.cs">
+      <Link>DOM\MutationRecord.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Node.cs">
       <Link>DOM\Node.cs</Link>
     </Compile>
@@ -1742,15 +1751,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\MutationHost.cs">
       <Link>Foundation\MutationHost.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserver.cs">
-      <Link>Foundation\Mutations\MutationObserver.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Mutations\MutationObserverInit.cs">
-      <Link>Foundation\Mutations\MutationObserverInit.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Mutations\MutationRecord.cs">
-      <Link>Foundation\Mutations\MutationRecord.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
