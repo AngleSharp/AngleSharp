@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Extensions;
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -48,16 +50,30 @@
 
         #region Methods
 
+        /// <summary>
+        /// Queues a record.
+        /// </summary>
+        /// <param name="record">The record to queue up.</param>
         internal void Enqueue(MutationRecord record)
         {
             _records.Enqueue(record);
         }
 
+        /// <summary>
+        /// Triggers the execution with the provided records.
+        /// </summary>
+        /// <param name="records">The records to supply as argument.</param>
         internal void TriggerWith(IMutationRecord[] records)
         {
             _callback(records, this);
         }
 
+        /// <summary>
+        /// Gets the options, if any, for the given node. If null is returned
+        /// then the node is not being observed.
+        /// </summary>
+        /// <param name="node">The node of interest.</param>
+        /// <returns>The options set for the provided node.</returns>
         internal MutationObserverInit OptionsFor(INode node)
         {
             MutationObserverInit result;
@@ -89,7 +105,6 @@
         /// </summary>
         /// <param name="target">The Node on which to observe DOM mutations.</param>
         /// <param name="options">Specifies which DOM mutations should be reported.</param>
-        [DomName("observe")]
         public void Connect(INode target, MutationObserverInit options)
         {
             var node = target as Node;
@@ -127,6 +142,28 @@
             }
 
             _observing[target] = options;
+        }
+
+        /// <summary>
+        /// Registers the MutationObserver instance to receive
+        /// notifications of DOM mutations on the specified node.
+        /// </summary>
+        /// <param name="target">The Node on which to observe DOM mutations.</param>
+        /// <param name="options">A dictionary with options.</param>
+        [DomName("observe")]
+        public void Connect(INode target, IDictionary<String, Object> options)
+        {
+            var init = new MutationObserverInit();
+
+            init.AttributeFilters = options.TryGet("attributeFilter") as IEnumerable<String>;
+            init.ObserveTargetAttributes = options.TryGet<Boolean>("attributes");
+            init.ObserveTargetChildNodes = options.TryGet<Boolean>("childList") ?? false;
+            init.ObserveTargetData = options.TryGet<Boolean>("characterData");
+            init.ObserveTargetDescendents = options.TryGet<Boolean>("subtree") ?? false;
+            init.StorePreviousAttributeValue = options.TryGet<Boolean>("attributeOldValue");
+            init.StorePreviousDataValue = options.TryGet<Boolean>("characterDataOldValue");
+
+            Connect(target, init);
         }
 
         /// <summary>
