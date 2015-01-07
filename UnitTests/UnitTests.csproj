@@ -70,6 +70,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
+    <Compile Include="Css\CssObjectSizing.cs" />
     <Compile Include="Css\CssProperty.cs" />
     <Compile Include="Css\CssFontProperty.cs" />
     <Compile Include="Css\CssPaddingProperty.cs" />
