@@ -656,8 +656,6 @@
     <Compile Include="Interfaces\IHtmlCollection.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
     <Compile Include="Interfaces\ILocation.cs" />
-    <Compile Include="Interfaces\IMutationObserver.cs" />
-    <Compile Include="Interfaces\IMutationObserverInit.cs" />
     <Compile Include="Interfaces\IMutationRecord.cs" />
     <Compile Include="Interfaces\Io\IBlob.cs" />
     <Compile Include="Interfaces\Io\IFile.cs" />

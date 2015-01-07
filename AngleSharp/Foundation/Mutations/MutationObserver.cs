@@ -1,8 +1,13 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Attributes;
     using System.Collections.Generic;
 
-    sealed class MutationObserver : IMutationObserver
+    /// <summary>
+    /// MutationObserver provides developers a way to react to changes in a DOM.
+    /// </summary>
+    [DomName("MutationObserver")]
+    public sealed class MutationObserver
     {
         #region Fields
 
@@ -14,6 +19,11 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new mutation observer with the provided callback.
+        /// </summary>
+        /// <param name="callback">The callback to trigger.</param>
+        [DomConstructor]
         public MutationObserver(MutationCallback callback)
         {
             _records = new Queue<IMutationRecord>();
@@ -25,7 +35,7 @@
 
         #region Methods
 
-        public void Enqueue(MutationRecord record)
+        internal void Enqueue(MutationRecord record)
         {
             //TODO Mutation
             //1. Let interested observers be an initially empty set of MutationObserver objects optionally paired with a string. 
@@ -50,6 +60,17 @@
             //5. Queue a mutation observer compound microtask.
         }
 
+        internal void TriggerWith(IMutationRecord[] records)
+        {
+            _callback(records, this);
+        }
+
+        /// <summary>
+        /// Stops the MutationObserver instance from receiving
+        /// notifications of DOM mutations. Until the observe()
+        /// method is used again, observer's callback will not be invoked.
+        /// </summary>
+        [DomName("disconnect")]
         public void Disconnect()
         {
             //TODO Mutation
@@ -59,12 +80,14 @@
             //also empty context object's record queue. 
         }
 
-        internal void TriggerWith(IMutationRecord[] records)
-        {
-            _callback(records, this);
-        }
-
-        public void Connect(INode target, IMutationObserverInit options)
+        /// <summary>
+        /// Registers the MutationObserver instance to receive
+        /// notifications of DOM mutations on the specified node.
+        /// </summary>
+        /// <param name="target">The Node on which to observe DOM mutations.</param>
+        /// <param name="options">Specifies which DOM mutations should be reported.</param>
+        [DomName("observe")]
+        public void Connect(INode target, MutationObserverInit options)
         {
             //TODO Mutation
 
@@ -103,6 +126,12 @@
             }
         }
 
+        /// <summary>
+        /// Empties the MutationObserver instance's record queue and
+        /// returns what was in there.
+        /// </summary>
+        /// <returns>Returns an Array of MutationRecords.</returns>
+        [DomName("takeRecords")]
         public IEnumerable<IMutationRecord> Flush()
         {
             while (_records.Count != 0)
