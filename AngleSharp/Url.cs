@@ -6,7 +6,6 @@
     using System.Collections.Generic;
     using System.Text;
 
-
     /// <summary>
     /// Represents an Url class according to RFC3986.
     /// This is the base for all internal Url manipulation.
@@ -896,7 +895,7 @@
             if (length > 1 && hostName[start] == Specification.SquareBracketOpen && hostName[start + length - 1] == Specification.SquareBracketClose)
                 return hostName.Substring(start, length);
 
-            var chars = new Char[length];
+            var chars = new Byte[4 * length];
             var count = 0;
 
             for (int i = start, n = start + length; i < n; i++)
@@ -910,7 +909,6 @@
                     case Specification.LineFeed:
                     case Specification.CarriageReturn:
                     case Specification.Num:
-                    case Specification.Percent:
                     case Specification.Solidus:
                     case Specification.Colon:
                     case Specification.QuestionMark:
@@ -919,13 +917,39 @@
                     case Specification.SquareBracketClose:
                     case Specification.ReverseSolidus:
                         break;
+                    case Specification.Percent:
+                        if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
+                        {
+                            var weight = hostName[i + 1].FromHex() * 16 + hostName[i + 2].FromHex();
+                            chars[count++] = (Byte)weight;
+                            i += 2;
+                        }
+                        else
+                            chars[count++] = (Byte)Specification.Percent;
+
+                        break;
                     default:
-                        chars[count++] = Char.ToLowerInvariant(hostName[i]);
+                        if (!hostName[i].IsAlphanumericAscii())
+                        {
+                            var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
+                            var bytes = DocumentEncoding.UTF8.GetBytes(hostName.Substring(i, l));
+
+                            for (var j = 0; j < bytes.Length; j++)
+                                chars[count++] = bytes[j];
+
+                            i += (l - 1);
+                        }
+                        else
+                            chars[count++] = (Byte)Char.ToLowerInvariant(hostName[i]);
+
                         break;
                 }
             }
 
-            return new String(chars, 0, count);
+            //TODO finish with
+            //https://url.spec.whatwg.org/#concept-host-parser
+            //missing IPv6/4 parsing, Punycode [no normalization in WP app.]
+            return DocumentEncoding.UTF8.GetString(chars, 0, count);
         }
 
         static String SanatizePort(String port, Int32 start, Int32 length)
