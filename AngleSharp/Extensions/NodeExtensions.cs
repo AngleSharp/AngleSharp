@@ -108,6 +108,18 @@
         }
 
         /// <summary>
+        /// Gets the inclusive ancestor nodes of the provided node, in tree order.
+        /// </summary>
+        /// <param name="node">The child of the ancestors.</param>
+        /// <returns>An iterator over all ancestors including the given node.</returns>
+        public static IEnumerable<INode> GetInclusiveAncestorsOf(this INode node)
+        {
+            do
+                yield return node;
+            while ((node = node.Parent) != null);
+        }
+
+        /// <summary>
         /// Checks if the parent is an inclusive ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
@@ -303,7 +315,8 @@
             if (referenceChild == node)
                 referenceChild = newNode.NextSibling;
 
-            parent.Owner.AdoptNode(node);
+            var document = parent.Owner ?? parent as IDocument;
+            document.AdoptNode(node);
             parentNode.InsertBefore(newNode, referenceChild, false);
             return node;
         }
