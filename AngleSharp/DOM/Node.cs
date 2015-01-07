@@ -650,6 +650,7 @@
             if (newElement is IDocument || newElement.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
 
+            var addedNodes = new NodeList();
             var n = _children.Index(referenceElement);
 
             if (n == -1)
@@ -668,12 +669,27 @@
                 }
 
                 while (start < n)
-                    NodeIsInserted(_children[start++]);
+                {
+                    var child = _children[start];
+                    addedNodes.Add(child);
+                    NodeIsInserted(child);
+                    start++;
+                }
             }
             else
             {
+                addedNodes.Add(newElement);
                 InsertNode(n, newElement);
                 NodeIsInserted(newElement);
+            }
+
+            if (!suppressObservers)
+            {
+                _owner.QueueMutation(MutationRecord.ChildList(
+                    target: this,
+                    addedNodes: addedNodes,
+                    previousSibling: referenceElement != null ? referenceElement.PreviousSibling : LastChild,
+                    nextSibling: referenceElement));
             }
 
             return newElement;
@@ -775,13 +791,15 @@
                 else
                     addedNodes.Add(node);
 
-                _owner.QueueMutation(MutationRecord.ChildList(
-                    target: this, 
-                    addedNodes: addedNodes, 
-                    removedNodes: removedNodes, 
-                    previousSibling: 
-                    child.PreviousSibling, 
-                    nextSibling: referenceChild));
+                if (!suppressObservers)
+                {
+                    _owner.QueueMutation(MutationRecord.ChildList(
+                        target: this,
+                        addedNodes: addedNodes,
+                        removedNodes: removedNodes,
+                        previousSibling: child.PreviousSibling,
+                        nextSibling: referenceChild));
+                }
 
                 return child;
             }
