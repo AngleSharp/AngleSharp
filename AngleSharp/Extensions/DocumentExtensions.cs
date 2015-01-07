@@ -53,10 +53,10 @@
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <param name="record">The record to enqueue.</param>
-        public static void QueueMutation(this Document document, IMutationRecord record)
+        public static void QueueMutation(this Document document, MutationRecord record)
         {
-            //TODO Mutation
-            //Add to list of mutation observers, if any.
+            foreach (var observer in document.Mutations.Observers)
+                observer.Enqueue(record);
         }
 
         /// <summary>
