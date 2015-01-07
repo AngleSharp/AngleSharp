@@ -104,6 +104,7 @@
     <Compile Include="Html\ValidityValueMissing.cs" />
     <Compile Include="Html\WillValidate.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
+    <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
