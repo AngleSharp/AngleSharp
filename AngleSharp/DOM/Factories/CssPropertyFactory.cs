@@ -40,14 +40,14 @@
                 PropertyNames.AnimationFillMode, 
                 PropertyNames.AnimationIterationCount, 
                 PropertyNames.AnimationPlayState);
-            AddLonghand(PropertyNames.AnimationDelay, style => new CSSAnimationDelayProperty(style));
-            AddLonghand(PropertyNames.AnimationDirection, style => new CSSAnimationDirectionProperty(style));
-            AddLonghand(PropertyNames.AnimationDuration, style => new CSSAnimationDurationProperty(style));
-            AddLonghand(PropertyNames.AnimationFillMode, style => new CSSAnimationFillModeProperty(style));
-            AddLonghand(PropertyNames.AnimationIterationCount, style => new CSSAnimationIterationCountProperty(style));
-            AddLonghand(PropertyNames.AnimationName, style => new CSSAnimationNameProperty(style));
-            AddLonghand(PropertyNames.AnimationPlayState, style => new CSSAnimationPlayStateProperty(style));
-            AddLonghand(PropertyNames.AnimationTimingFunction, style => new CSSAnimationTimingFunctionProperty(style));
+            AddLonghand(PropertyNames.AnimationDelay, style => new CSSAnimationDelayProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationDirection, style => new CSSAnimationDirectionProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationDuration, style => new CSSAnimationDurationProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationFillMode, style => new CSSAnimationFillModeProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationIterationCount, style => new CSSAnimationIterationCountProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationName, style => new CSSAnimationNameProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationPlayState, style => new CSSAnimationPlayStateProperty(style), animatable: false);
+            AddLonghand(PropertyNames.AnimationTimingFunction, style => new CSSAnimationTimingFunctionProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.Background, style => new CSSBackgroundProperty(style),
                 PropertyNames.BackgroundAttachment,
@@ -58,23 +58,23 @@
                 PropertyNames.BackgroundPosition,
                 PropertyNames.BackgroundRepeat,
                 PropertyNames.BackgroundSize);
-            AddLonghand(PropertyNames.BackgroundAttachment, style => new CSSBackgroundAttachmentProperty(style));
+            AddLonghand(PropertyNames.BackgroundAttachment, style => new CSSBackgroundAttachmentProperty(style), animatable: false);
             AddLonghand(PropertyNames.BackgroundColor, style => new CSSBackgroundColorProperty(style), animatable: true);
-            AddLonghand(PropertyNames.BackgroundClip, style => new CSSBackgroundClipProperty(style));
-            AddLonghand(PropertyNames.BackgroundOrigin, style => new CSSBackgroundOriginProperty(style));
+            AddLonghand(PropertyNames.BackgroundClip, style => new CSSBackgroundClipProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BackgroundOrigin, style => new CSSBackgroundOriginProperty(style), animatable: false);
             AddLonghand(PropertyNames.BackgroundSize, style => new CSSBackgroundSizeProperty(style), animatable: true);
-            AddLonghand(PropertyNames.BackgroundImage, style => new CSSBackgroundImageProperty(style));
+            AddLonghand(PropertyNames.BackgroundImage, style => new CSSBackgroundImageProperty(style), animatable: false);
             AddLonghand(PropertyNames.BackgroundPosition, style => new CSSBackgroundPositionProperty(style), animatable: true);
-            AddLonghand(PropertyNames.BackgroundRepeat, style => new CSSBackgroundRepeatProperty(style));
+            AddLonghand(PropertyNames.BackgroundRepeat, style => new CSSBackgroundRepeatProperty(style), animatable: false);
 
-            AddLonghand(PropertyNames.BorderSpacing, style => new CSSBorderSpacingProperty(style));
-            AddLonghand(PropertyNames.BorderCollapse, style => new CSSBorderCollapseProperty(style));
+            AddLonghand(PropertyNames.BorderSpacing, style => new CSSBorderSpacingProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderCollapse, style => new CSSBorderCollapseProperty(style), animatable: false);
             AddLonghand(PropertyNames.BoxShadow, style => new CSSBoxShadowProperty(style), animatable: true);
-            AddLonghand(PropertyNames.BoxDecorationBreak, style => new CSSBoxDecorationBreak(style));
-            AddLonghand(PropertyNames.BreakAfter, style => new CSSBreakAfterProperty(style));
-            AddLonghand(PropertyNames.BreakBefore, style => new CSSBreakBeforeProperty(style));
-            AddLonghand(PropertyNames.BreakInside, style => new CSSBreakInsideProperty(style));
-            AddLonghand(PropertyNames.BackfaceVisibility, style => new CSSBackfaceVisibilityProperty(style));
+            AddLonghand(PropertyNames.BoxDecorationBreak, style => new CSSBoxDecorationBreak(style), animatable: false);
+            AddLonghand(PropertyNames.BreakAfter, style => new CSSBreakAfterProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BreakBefore, style => new CSSBreakBeforeProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BreakInside, style => new CSSBreakInsideProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BackfaceVisibility, style => new CSSBackfaceVisibilityProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.BorderRadius, style => new CSSBorderRadiusProperty(style),
                 PropertyNames.BorderTopLeftRadius,
@@ -92,11 +92,11 @@
                 PropertyNames.BorderImageSlice,
                 PropertyNames.BorderImageSource,
                 PropertyNames.BorderImageWidth);
-            AddLonghand(PropertyNames.BorderImageOutset, style => new CSSBorderImageOutsetProperty(style));
-            AddLonghand(PropertyNames.BorderImageRepeat, style => new CSSBorderImageRepeatProperty(style));
-            AddLonghand(PropertyNames.BorderImageSource, style => new CSSBorderImageSourceProperty(style));
-            AddLonghand(PropertyNames.BorderImageSlice, style => new CSSBorderImageSliceProperty(style));
-            AddLonghand(PropertyNames.BorderImageWidth, style => new CSSBorderImageWidthProperty(style));
+            AddLonghand(PropertyNames.BorderImageOutset, style => new CSSBorderImageOutsetProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderImageRepeat, style => new CSSBorderImageRepeatProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderImageSource, style => new CSSBorderImageSourceProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderImageSlice, style => new CSSBorderImageSliceProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderImageWidth, style => new CSSBorderImageWidthProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.BorderColor, style => new CSSBorderColorProperty(style),
                 PropertyNames.BorderTopColor,
@@ -147,10 +147,10 @@
             AddLonghand(PropertyNames.BorderLeftColor, style => new CSSBorderLeftColorProperty(style), animatable: true);
             AddLonghand(PropertyNames.BorderRightColor, style => new CSSBorderRightColorProperty(style), animatable: true);
             AddLonghand(PropertyNames.BorderBottomColor, style => new CSSBorderBottomColorProperty(style), animatable: true);
-            AddLonghand(PropertyNames.BorderTopStyle, style => new CSSBorderTopStyleProperty(style));
-            AddLonghand(PropertyNames.BorderLeftStyle, style => new CSSBorderLeftStyleProperty(style));
-            AddLonghand(PropertyNames.BorderRightStyle, style => new CSSBorderRightStyleProperty(style));
-            AddLonghand(PropertyNames.BorderBottomStyle, style => new CSSBorderBottomStyleProperty(style));
+            AddLonghand(PropertyNames.BorderTopStyle, style => new CSSBorderTopStyleProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderLeftStyle, style => new CSSBorderLeftStyleProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderRightStyle, style => new CSSBorderRightStyleProperty(style), animatable: false);
+            AddLonghand(PropertyNames.BorderBottomStyle, style => new CSSBorderBottomStyleProperty(style), animatable: false);
             AddLonghand(PropertyNames.BorderTopWidth, style => new CSSBorderTopWidthProperty(style), animatable: true);
             AddLonghand(PropertyNames.BorderLeftWidth, style => new CSSBorderLeftWidthProperty(style), animatable: true);
             AddLonghand(PropertyNames.BorderRightWidth, style => new CSSBorderRightWidthProperty(style), animatable: true);
@@ -164,30 +164,30 @@
             AddLonghand(PropertyNames.ColumnCount, style => new CSSColumnCountProperty(style), animatable: true);
             AddLonghand(PropertyNames.ColumnWidth, style => new CSSColumnWidthProperty(style), animatable: true);
 
-            AddLonghand(PropertyNames.ColumnFill, style => new CSSColumnFillProperty(style));
+            AddLonghand(PropertyNames.ColumnFill, style => new CSSColumnFillProperty(style), animatable: false);
             AddLonghand(PropertyNames.ColumnGap, style => new CSSColumnGapProperty(style), animatable: true);
-            AddLonghand(PropertyNames.ColumnSpan, style => new CSSColumnSpanProperty(style));
+            AddLonghand(PropertyNames.ColumnSpan, style => new CSSColumnSpanProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.ColumnRule, style => new CSSColumnRuleProperty(style),
                 PropertyNames.ColumnRuleWidth,
                 PropertyNames.ColumnRuleStyle,
                 PropertyNames.ColumnRuleColor);
             AddLonghand(PropertyNames.ColumnRuleColor, style => new CSSColumnRuleColorProperty(style), animatable: true);
-            AddLonghand(PropertyNames.ColumnRuleStyle, style => new CSSColumnRuleStyleProperty(style));
+            AddLonghand(PropertyNames.ColumnRuleStyle, style => new CSSColumnRuleStyleProperty(style), animatable: false);
             AddLonghand(PropertyNames.ColumnRuleWidth, style => new CSSColumnRuleWidthProperty(style), animatable: true);
 
-            AddLonghand(PropertyNames.CaptionSide, style => new CSSCaptionSideProperty(style));
-            AddLonghand(PropertyNames.Clear, style => new CSSClearProperty(style));
+            AddLonghand(PropertyNames.CaptionSide, style => new CSSCaptionSideProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Clear, style => new CSSClearProperty(style), animatable: false);
             AddLonghand(PropertyNames.Clip, style => new CSSClipProperty(style), animatable: true);
             AddLonghand(PropertyNames.Color, style => new CSSColorProperty(style), animatable: true);
-            AddLonghand(PropertyNames.Content, style => new CSSContentProperty(style));
+            AddLonghand(PropertyNames.Content, style => new CSSContentProperty(style), animatable: false);
             AddLonghand(PropertyNames.CounterIncrement, style => new CSSCounterIncrementProperty(style));
-            AddLonghand(PropertyNames.CounterReset, style => new CSSCounterResetProperty(style));
-            AddLonghand(PropertyNames.Cursor, style => new CSSCursorProperty(style));
-            AddLonghand(PropertyNames.Direction, style => new CSSDirectionProperty(style));
-            AddLonghand(PropertyNames.Display, style => new CSSDisplayProperty(style));
-            AddLonghand(PropertyNames.EmptyCells, style => new CSSEmptyCellsProperty(style));
-            AddLonghand(PropertyNames.Float, style => new CSSFloatProperty(style));
+            AddLonghand(PropertyNames.CounterReset, style => new CSSCounterResetProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Cursor, style => new CSSCursorProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Direction, style => new CSSDirectionProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Display, style => new CSSDisplayProperty(style), animatable: false);
+            AddLonghand(PropertyNames.EmptyCells, style => new CSSEmptyCellsProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Float, style => new CSSFloatProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.Font, style => new CSSFontProperty(style),
                 PropertyNames.FontFamily,
@@ -197,26 +197,26 @@
                 PropertyNames.FontVariant,
                 PropertyNames.FontWeight,
                 PropertyNames.LineHeight);
-            AddLonghand(PropertyNames.FontFamily, style => new CSSFontFamilyProperty(style));
+            AddLonghand(PropertyNames.FontFamily, style => new CSSFontFamilyProperty(style), animatable: false);
             AddLonghand(PropertyNames.FontSize, style => new CSSFontSizeProperty(style), animatable: true);
             AddLonghand(PropertyNames.FontSizeAdjust, style => new CSSFontSizeAdjustProperty(style), animatable: true);
-            AddLonghand(PropertyNames.FontStyle, style => new CSSFontStyleProperty(style));
-            AddLonghand(PropertyNames.FontVariant, style => new CSSFontVariantProperty(style));
+            AddLonghand(PropertyNames.FontStyle, style => new CSSFontStyleProperty(style), animatable: false);
+            AddLonghand(PropertyNames.FontVariant, style => new CSSFontVariantProperty(style), animatable: false);
             AddLonghand(PropertyNames.FontWeight, style => new CSSFontWeightProperty(style), animatable: true);
             AddLonghand(PropertyNames.FontStretch, style => new CSSFontStretchProperty(style), animatable: true);
             AddLonghand(PropertyNames.LineHeight, style => new CSSLineHeightProperty(style), animatable: true);
 
             AddLonghand(PropertyNames.Height, style => new CSSHeightProperty(style), animatable: true);
             AddLonghand(PropertyNames.Left, style => new CSSLeftProperty(style), animatable: true);
-            AddLonghand(PropertyNames.LetterSpacing, style => new CSSLetterSpacingProperty(style));
+            AddLonghand(PropertyNames.LetterSpacing, style => new CSSLetterSpacingProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.ListStyle, style => new CSSListStyleProperty(style),
                 PropertyNames.ListStyleType,
                 PropertyNames.ListStyleImage,
                 PropertyNames.ListStylePosition);
-            AddLonghand(PropertyNames.ListStyleImage, style => new CSSListStyleImageProperty(style));
-            AddLonghand(PropertyNames.ListStylePosition, style => new CSSListStylePositionProperty(style));
-            AddLonghand(PropertyNames.ListStyleType, style => new CSSListStyleTypeProperty(style));
+            AddLonghand(PropertyNames.ListStyleImage, style => new CSSListStyleImageProperty(style), animatable: false);
+            AddLonghand(PropertyNames.ListStylePosition, style => new CSSListStylePositionProperty(style), animatable: false);
+            AddLonghand(PropertyNames.ListStyleType, style => new CSSListStyleTypeProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.Margin, style => new CSSMarginProperty(style),
                 PropertyNames.MarginTop,
@@ -233,17 +233,17 @@
             AddLonghand(PropertyNames.MinHeight, style => new CSSMinHeightProperty(style), animatable: true);
             AddLonghand(PropertyNames.MinWidth, style => new CSSMinWidthProperty(style), animatable: true);
             AddLonghand(PropertyNames.Opacity, style => new CSSOpacityProperty(style), animatable: true);
-            AddLonghand(PropertyNames.Orphans, style => new CSSOrphansProperty(style));
+            AddLonghand(PropertyNames.Orphans, style => new CSSOrphansProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.Outline, style => new CSSOutlineProperty(style),
                 PropertyNames.OutlineWidth,
                 PropertyNames.OutlineStyle,
                 PropertyNames.OutlineColor);
             AddLonghand(PropertyNames.OutlineColor, style => new CSSOutlineColorProperty(style), animatable: true);
-            AddLonghand(PropertyNames.OutlineStyle, style => new CSSOutlineStyleProperty(style));
+            AddLonghand(PropertyNames.OutlineStyle, style => new CSSOutlineStyleProperty(style), animatable: false);
             AddLonghand(PropertyNames.OutlineWidth, style => new CSSOutlineWidthProperty(style), animatable: true);
 
-            AddLonghand(PropertyNames.Overflow, style => new CSSOverflowProperty(style));
+            AddLonghand(PropertyNames.Overflow, style => new CSSOverflowProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.Padding, style => new CSSPaddingProperty(style),
                 PropertyNames.PaddingTop,
@@ -255,31 +255,31 @@
             AddLonghand(PropertyNames.PaddingLeft, style => new CSSPaddingLeftProperty(style), animatable: true);
             AddLonghand(PropertyNames.PaddingBottom, style => new CSSPaddingBottomProperty(style), animatable: true);
 
-            AddLonghand(PropertyNames.PageBreakAfter, style => new CSSPageBreakAfterProperty(style));
-            AddLonghand(PropertyNames.PageBreakBefore, style => new CSSPageBreakBeforeProperty(style));
-            AddLonghand(PropertyNames.PageBreakInside, style => new CSSPageBreakInsideProperty(style));
+            AddLonghand(PropertyNames.PageBreakAfter, style => new CSSPageBreakAfterProperty(style), animatable: false);
+            AddLonghand(PropertyNames.PageBreakBefore, style => new CSSPageBreakBeforeProperty(style), animatable: false);
+            AddLonghand(PropertyNames.PageBreakInside, style => new CSSPageBreakInsideProperty(style), animatable: false);
             AddLonghand(PropertyNames.Perspective, style => new CSSPerspectiveProperty(style), animatable: true);
             AddLonghand(PropertyNames.PerspectiveOrigin, style => new CSSPerspectiveOriginProperty(style), animatable: true);
-            AddLonghand(PropertyNames.Position, style => new CSSPositionProperty(style));
-            AddLonghand(PropertyNames.Quotes, style => new CSSQuotesProperty(style));
+            AddLonghand(PropertyNames.Position, style => new CSSPositionProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Quotes, style => new CSSQuotesProperty(style), animatable: false);
             AddLonghand(PropertyNames.Right, style => new CSSRightProperty(style), animatable: true);
-            AddLonghand(PropertyNames.TableLayout, style => new CSSTableLayoutProperty(style));
-            AddLonghand(PropertyNames.TextAlign, style => new CSSTextAlignProperty(style));
+            AddLonghand(PropertyNames.TableLayout, style => new CSSTableLayoutProperty(style), animatable: false);
+            AddLonghand(PropertyNames.TextAlign, style => new CSSTextAlignProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.TextDecoration, style => new CSSTextDecorationProperty(style),
                 PropertyNames.TextDecorationLine,
                 PropertyNames.TextDecorationStyle,
                 PropertyNames.TextDecorationColor);
-            AddLonghand(PropertyNames.TextDecorationStyle, style => new CSSTextDecorationStyleProperty(style));
-            AddLonghand(PropertyNames.TextDecorationLine, style => new CSSTextDecorationLineProperty(style));
+            AddLonghand(PropertyNames.TextDecorationStyle, style => new CSSTextDecorationStyleProperty(style), animatable: false);
+            AddLonghand(PropertyNames.TextDecorationLine, style => new CSSTextDecorationLineProperty(style), animatable: false);
             AddLonghand(PropertyNames.TextDecorationColor, style => new CSSTextDecorationColorProperty(style), animatable: true);
 
             AddLonghand(PropertyNames.TextIndent, style => new CSSTextIndentProperty(style), animatable: true);
-            AddLonghand(PropertyNames.TextTransform, style => new CSSTextTransformProperty(style));
+            AddLonghand(PropertyNames.TextTransform, style => new CSSTextTransformProperty(style), animatable: false);
             AddLonghand(PropertyNames.TextShadow, style => new CSSTextShadowProperty(style), animatable: true);
             AddLonghand(PropertyNames.Transform, style => new CSSTransformProperty(style), animatable: true);
             AddLonghand(PropertyNames.TransformOrigin, style => new CSSTransformOriginProperty(style), animatable: true);
-            AddLonghand(PropertyNames.TransformStyle, style => new CSSTransformStyleProperty(style));
+            AddLonghand(PropertyNames.TransformStyle, style => new CSSTransformStyleProperty(style), animatable: false);
 
             AddShorthand(PropertyNames.Transition, style => new CSSTransitionProperty(style),
                 PropertyNames.TransitionProperty,
@@ -292,14 +292,15 @@
             AddLonghand(PropertyNames.TransitionProperty, style => new CSSTransitionPropertyProperty(style));
 
             AddLonghand(PropertyNames.Top, style => new CSSTopProperty(style), animatable: true);
-            AddLonghand(PropertyNames.UnicodeBidi, style => new CSSUnicodeBidiProperty(style));
+            AddLonghand(PropertyNames.UnicodeBidi, style => new CSSUnicodeBidiProperty(style), animatable: false);
             AddLonghand(PropertyNames.VerticalAlign, style => new CSSVerticalAlignProperty(style), animatable: true);
             AddLonghand(PropertyNames.Visibility, style => new CSSVisibilityProperty(style), animatable: true);
-            AddLonghand(PropertyNames.WhiteSpace, style => new CSSWhiteSpaceProperty(style));
-            AddLonghand(PropertyNames.Widows, style => new CSSWidowsProperty(style));
+            AddLonghand(PropertyNames.WhiteSpace, style => new CSSWhiteSpaceProperty(style), animatable: false);
+            AddLonghand(PropertyNames.Widows, style => new CSSWidowsProperty(style), animatable: false);
             AddLonghand(PropertyNames.Width, style => new CSSWidthProperty(style), animatable: true);
             AddLonghand(PropertyNames.WordSpacing, style => new CSSWordSpacingProperty(style), animatable: true);
             AddLonghand(PropertyNames.ZIndex, style => new CSSZIndexProperty(style), animatable: true);
+            AddLonghand(PropertyNames.ObjectFit, style => new CSSObjectFitProperty(style), animatable: false);
         }
 
         static void AddShorthand(String name, ShorthandCreator creator, params String[] longhands)

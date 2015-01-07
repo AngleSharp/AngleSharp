@@ -208,6 +208,11 @@
         /// </summary>
         public static readonly Dictionary<String, RadialGradient.SizeMode> RadialGradientSizeModes = new Dictionary<String, RadialGradient.SizeMode>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-ObjectFitting mapping.
+        /// </summary>
+        public static readonly Dictionary<String, ObjectFitting> ObjectFittings = new Dictionary<String, ObjectFitting>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -501,6 +506,12 @@
             RadialGradientSizeModes.Add(Keywords.FarthestSide, RadialGradient.SizeMode.FarthestSide);
             RadialGradientSizeModes.Add(Keywords.ClosestCorner, RadialGradient.SizeMode.ClosestCorner);
             RadialGradientSizeModes.Add(Keywords.FarthestCorner, RadialGradient.SizeMode.FarthestCorner);
+
+            ObjectFittings.Add(Keywords.None, ObjectFitting.None);
+            ObjectFittings.Add(Keywords.Cover, ObjectFitting.Cover);
+            ObjectFittings.Add(Keywords.Contain, ObjectFitting.Contain);
+            ObjectFittings.Add(Keywords.Fill, ObjectFitting.Fill);
+            ObjectFittings.Add(Keywords.ScaleDown, ObjectFitting.ScaleDown);
         }
 
         #endregion

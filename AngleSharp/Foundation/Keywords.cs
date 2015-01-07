@@ -1306,5 +1306,10 @@
         /// The any keyword.
         /// </summary>
         public static readonly String Any = "any";
+
+        /// <summary>
+        /// The scale-down keyword.
+        /// </summary>
+        public static readonly String ScaleDown = "scale-down";
     }
 }

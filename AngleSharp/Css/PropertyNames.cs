@@ -1156,5 +1156,10 @@
         /// The src declaration.
         /// </summary>
         public static readonly String Src = "src";
+
+        /// <summary>
+        /// The object-fit declaration.
+        /// </summary>
+        public static readonly String ObjectFit = "object-fit";
     }
 }
