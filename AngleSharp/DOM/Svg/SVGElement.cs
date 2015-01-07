@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    class SVGElement : Element, ISvgElement
+    class SvgElement : Element, ISvgElement
     {
         #region Fields
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new SVG element.
         /// </summary>
-        internal SVGElement(String name, NodeFlags flags = NodeFlags.None)
+        internal SvgElement(String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.SvgMember)
         {
             NamespaceUri = Namespaces.SvgUri;

@@ -5,9 +5,9 @@
     /// <summary>
     /// Represents the desc element of the SVG DOM.
     /// </summary>
-    sealed class SVGDescElement : SVGElement
+    sealed class SvgDescElement : SvgElement
     {
-        internal SVGDescElement()
+        internal SvgDescElement()
             : base(Tags.Desc, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }

@@ -5,9 +5,9 @@
     /// <summary>
     /// Represents the foreign object element of the SVG DOM.
     /// </summary>
-    sealed class SVGForeignObjectElement : SVGElement
+    sealed class SvgForeignObjectElement : SvgElement
     {
-        internal SVGForeignObjectElement()
+        internal SvgForeignObjectElement()
             : base(Tags.ForeignObject, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }

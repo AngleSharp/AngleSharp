@@ -781,7 +781,7 @@
 
                     if (title == null)
                     {
-                        title = new SVGTitleElement { Owner = this };
+                        title = new SvgTitleElement { Owner = this };
                         DocumentElement.AppendChild(title);
                     }
 

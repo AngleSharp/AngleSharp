@@ -6,22 +6,22 @@
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
-    internal class SvgElementFactory : ElementFactory<SVGElement>
+    internal class SvgElementFactory : ElementFactory<SvgElement>
     {
         static readonly SvgElementFactory Instance = new SvgElementFactory();
 
         SvgElementFactory()
         {
-            creators.Add(Tags.Svg, () => new SVGSVGElement());
-            creators.Add(Tags.Circle, () => new SVGCircleElement());
-            creators.Add(Tags.Desc, () => new SVGDescElement());
-            creators.Add(Tags.ForeignObject, () => new SVGForeignObjectElement());
-            creators.Add(Tags.Title, () => new SVGTitleElement());
+            creators.Add(Tags.Svg, () => new SvgSvgElement());
+            creators.Add(Tags.Circle, () => new SvgCircleElement());
+            creators.Add(Tags.Desc, () => new SvgDescElement());
+            creators.Add(Tags.ForeignObject, () => new SvgForeignObjectElement());
+            creators.Add(Tags.Title, () => new SvgTitleElement());
         }
 
-        protected override SVGElement CreateDefault(String name, Document document)
+        protected override SvgElement CreateDefault(String name, Document document)
         {
-            return new SVGElement(name) { Owner = document };
+            return new SvgElement(name) { Owner = document };
         }
 
         /// <summary>
@@ -30,7 +30,7 @@
         /// <param name="tagName">The given tag name.</param>
         /// <param name="document">The document that owns the element.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public static SVGElement Create(String tagName, Document document)
+        public static SvgElement Create(String tagName, Document document)
         {
             return Instance.CreateSpecific(tagName, document);
         }

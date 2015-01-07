@@ -5,9 +5,9 @@
     /// <summary>
     /// Represents the circle element of the SVG DOM.
     /// </summary>
-    sealed class SVGCircleElement : SVGElement
+    sealed class SvgCircleElement : SvgElement
     {
-        internal SVGCircleElement()
+        internal SvgCircleElement()
             : base(Tags.Circle)
         {
         }

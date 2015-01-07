@@ -5,9 +5,9 @@
     /// <summary>
     /// Represents the title element of the SVG DOM.
     /// </summary>
-    sealed class SVGTitleElement : SVGElement, ISvgTitleElement
+    sealed class SvgTitleElement : SvgElement, ISvgTitleElement
     {
-        internal SVGTitleElement()
+        internal SvgTitleElement()
             : base(Tags.Title, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
