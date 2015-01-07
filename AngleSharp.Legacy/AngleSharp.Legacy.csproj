@@ -516,6 +516,9 @@
     <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
       <Link>DOM\Css\Constants\ListStyle.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\ObjectFitting.cs">
+      <Link>DOM\Css\Constants\ObjectFitting.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Constants\OverflowMode.cs">
       <Link>DOM\Css\Constants\OverflowMode.cs</Link>
     </Compile>
@@ -983,6 +986,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs">
       <Link>DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Properties\Sizing\CSSObjectFitProperty.cs">
+      <Link>DOM\Css\Properties\Sizing\CSSObjectFitProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSDirectionProperty.cs">
       <Link>DOM\Css\Properties\Text\CSSDirectionProperty.cs</Link>
