@@ -7,6 +7,7 @@
     using AngleSharp.Services;
     using System;
     using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// Useful methods for document objects.
@@ -55,8 +56,41 @@
         /// <param name="record">The record to enqueue.</param>
         public static void QueueMutation(this Document document, MutationRecord record)
         {
-            foreach (var observer in document.Mutations.Observers)
-                observer.Enqueue(record);
+            if (document == null)
+                return;
+
+            var observers = document.Mutations.Observers.ToArray();
+
+            if (observers.Length == 0)
+                return;
+
+            var nodes = record.Target.GetInclusiveAncestorsOf();
+
+            foreach (var node in nodes)
+            {
+                for (var i = 0; i < observers.Length; i++)
+                {
+                    var observer = observers[i];
+                    var options = observer.OptionsFor(node);
+
+                    if (options == null)
+                        continue;
+                    else if (node != record.Target && options.ObserveTargetDescendents == false)
+                        continue;
+                    else if (record.IsAttribute && options.ObserveTargetAttributes.Value == false)
+                        continue;
+                    else if (record.IsAttribute && options.AttributeFilters != null && (options.AttributeFilters.Contains(record.AttributeName) == false || record.AttributeNamespace != null))
+                        continue;
+                    else if (record.IsCharacterData && options.ObserveTargetData.Value == false)
+                        continue;
+                    else if (record.IsChildList && options.ObserveTargetChildNodes == false)
+                        continue;
+
+                    observer.Enqueue(record);
+                }
+            }
+
+            document.PerformMicrotaskCheckpoint();
         }
 
         /// <summary>
@@ -89,6 +123,7 @@
 
         /// <summary>
         /// Performs a microtask checkpoint using the mutations host.
+        /// Queue a mutation observer compound microtask.
         /// </summary>
         /// <param name="document">The document to use.</param>
         public static void PerformMicrotaskCheckpoint(this Document document)
