@@ -1328,7 +1328,7 @@ namespace UnitTests.Css
             Assert.IsNotNull(color);
             Assert.IsNotNull(colorAgain);
 
-            Assert.IsInstanceOf<CSSBorderProperty>(border);
+            Assert.IsInstanceOf<CssBorderProperty>(border);
             Assert.IsInstanceOf<CssColorProperty>(color);
             Assert.AreEqual(color, colorAgain);
         }

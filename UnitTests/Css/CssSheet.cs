@@ -475,7 +475,7 @@ h1 { color: blue }");
                 Assert.IsFalse(decl.IsImportant);
                 Assert.AreEqual(CssValueType.Primitive, decl.Value.Type);
 
-                var property = (CSSBorderPartColorProperty)decl;
+                var property = (CssBorderPartColorProperty)decl;
                 var color = property.Color;
                 Assert.AreEqual(new Color(82, 168, 236, 0.8f), color);
             }
