@@ -5,10 +5,12 @@
     using AngleSharp.Html;
     using AngleSharp.Linq;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
+    [DebuggerStepThrough]
     public class Node : EventTarget, INode
     {
         #region Fields

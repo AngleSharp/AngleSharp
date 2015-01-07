@@ -5,11 +5,13 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Represents an element node.
     /// </summary>
+    [DebuggerStepThrough]
     class Element : Node, IElement
     {
         #region Fields
