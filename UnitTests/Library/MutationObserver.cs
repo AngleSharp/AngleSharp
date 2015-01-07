@@ -59,5 +59,147 @@ namespace UnitTests.Library
             observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
         }
+
+        [Test]
+        public void ConnectMutationObserverMultipleAttributesDescendentTriggerManually()
+        {
+            var called1 = false;
+            var called2 = false;
+            var called3 = false;
+            var attrName = "something";
+            var attrValue = "test";
+
+            var document = DocumentBuilder.Html("");
+
+            var observer1 = new MutationObserver((mut, obs) =>
+            {
+                called1 = true;
+                Assert.AreEqual(1, mut.Length);
+            });
+
+            observer1.Connect(document.DocumentElement, new MutationObserverInit
+            {
+                ObserveTargetAttributes = true,
+                ObserveTargetDescendents = true
+            });
+
+            var observer2 = new MutationObserver((mut, obs) =>
+            {
+                called2 = true;
+                Assert.AreEqual(0, mut.Length);
+            });
+
+            observer2.Connect(document.DocumentElement, new MutationObserverInit
+            {
+                ObserveTargetAttributes = true,
+                ObserveTargetDescendents = false
+            });
+
+            var observer3 = new MutationObserver((mut, obs) =>
+            {
+                called3 = true;
+                Assert.AreEqual(1, mut.Length);
+            });
+
+            observer3.Connect(document.Body, new MutationObserverInit
+            {
+                ObserveTargetAttributes = true
+            });
+
+            document.Body.SetAttribute(attrName, attrValue);
+            observer1.TriggerWith(observer1.Flush().ToArray());
+            observer2.TriggerWith(observer2.Flush().ToArray());
+            observer3.TriggerWith(observer3.Flush().ToArray());
+            Assert.IsTrue(called1);
+            Assert.IsTrue(called2);
+            Assert.IsTrue(called3);
+        }
+
+        [Test]
+        public void ConnectMutationObserverTextWithDescendentsTriggerManually()
+        {
+            var called = false;
+            var text = "something";
+            var replaced = "different";
+
+            var observer = new MutationObserver((mut, obs) =>
+            {
+                called = true;
+                Assert.AreEqual(1, mut.Length);
+                Assert.AreEqual(text, mut[0].PreviousValue);
+                var tn = mut[0].Target as TextNode;
+                Assert.IsNotNull(tn);
+                Assert.AreEqual(text + replaced, tn.TextContent);
+            });
+
+            var document = DocumentBuilder.Html("");
+
+            observer.Connect(document.Body, new MutationObserverInit
+            {
+                ObserveTargetData = true,
+                ObserveTargetDescendents = true
+            });
+
+            document.Body.TextContent = text;
+            var textNode = document.Body.ChildNodes[0] as TextNode;
+            textNode.Replace(text.Length, 0, replaced);
+            observer.TriggerWith(observer.Flush().ToArray());
+            Assert.IsTrue(called);
+        }
+
+        [Test]
+        public void ConnectMutationObserverTextNoDescendentsTriggerManually()
+        {
+            var called = false;
+            var text = "something";
+            var replaced = "different";
+
+            var observer = new MutationObserver((mut, obs) =>
+            {
+                called = true;
+                Assert.AreEqual(0, mut.Length);
+            });
+
+            var document = DocumentBuilder.Html("");
+
+            observer.Connect(document.Body, new MutationObserverInit
+            {
+                ObserveTargetData = true,
+                ObserveTargetDescendents = false
+            });
+
+            document.Body.TextContent = text;
+            var textNode = document.Body.ChildNodes[0] as TextNode;
+            textNode.Replace(text.Length, 0, replaced);
+            observer.TriggerWith(observer.Flush().ToArray());
+            Assert.IsTrue(called);
+        }
+
+        [Test]
+        public void ConnectMutationObserverTextNoDescendentsButCreatedTriggerManually()
+        {
+            var called = false;
+            var text = "something";
+
+            var observer = new MutationObserver((mut, obs) =>
+            {
+                called = true;
+                Assert.AreEqual(1, mut.Length);
+                Assert.AreEqual(1, mut[0].Added.Length);
+                Assert.AreEqual(text, mut[0].Added[0].TextContent);
+            });
+
+            var document = DocumentBuilder.Html("");
+
+            observer.Connect(document.Body, new MutationObserverInit
+            {
+                ObserveTargetDescendents = false,
+                ObserveTargetChildNodes = true
+            });
+
+            document.Body.TextContent = text;
+            observer.TriggerWith(observer.Flush().ToArray());
+            Assert.IsTrue(called);
+        }
     }
 }
