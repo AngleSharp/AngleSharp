@@ -91,7 +91,7 @@
         /// Checks if the element is currently hovered.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently hovered, otherwise false.</returns>
+        /// <returns>True if the element is currently hovered, otherwise false.</returns>
         public static Boolean IsHovered(this IElement element)
         {
             //TODO Connection to Visual Tree ?
@@ -182,7 +182,7 @@
         /// Checks if the element is currently enabled.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently enabled, otherwise false.</returns>
+        /// <returns>True if the element is currently enabled, otherwise false.</returns>
         public static Boolean IsEnabled(this IElement element)
         {
             if (element is HTMLAnchorElement || element is HTMLAreaElement || element is HTMLLinkElement)
@@ -207,7 +207,7 @@
         /// Checks if the element is currently disabled.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently disabled, otherwise false.</returns>
+        /// <returns>True if the element is currently disabled, otherwise false.</returns>
         public static Boolean IsDisabled(this IElement element)
         {
             if (element is HTMLButtonElement)
@@ -230,7 +230,7 @@
         /// Checks if the element is an input element that is currently in its default state.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently in its default state, otherwise false.</returns>
+        /// <returns>True if the element is currently in its default state, otherwise false.</returns>
         public static Boolean IsDefault(this IElement element)
         {
             if (element is HTMLButtonElement)
@@ -265,22 +265,22 @@
         }
 
         /// <summary>
-        /// Checks if the element is a pseudo element (before or after) of the given parent.
+        /// Checks if the element is a pseudo element (before or after).
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <param name="parent">The pseudo element's parent.</param>
-        /// <returns>True if the elemnent is a pseudo element, otherwise false.</returns>
-        public static Boolean IsPseudo(this IElement element, IElement parent)
+        /// <param name="name">The pseudo element's name.</param>
+        /// <returns>True if the element is a pseudo element, otherwise false.</returns>
+        public static Boolean IsPseudo(this IElement element, String name)
         {
-            //TODO
-            return true;
+            var pseudoElement = element as PseudoElement;
+            return pseudoElement != null && pseudoElement.PseudoName == name;
         }
 
         /// <summary>
         /// Checks if the element is currently checked.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently checked, otherwise false.</returns>
+        /// <returns>True if the element is currently checked, otherwise false.</returns>
         public static Boolean IsChecked(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -307,7 +307,7 @@
         /// Checks if the element is currently in its indeterminate state.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently indeterminate, otherwise false.</returns>
+        /// <returns>True if the element is currently indeterminate, otherwise false.</returns>
         public static Boolean IsIndeterminate(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -325,7 +325,7 @@
         /// Checks if the element is currently unchecked.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently unchecked, otherwise false.</returns>
+        /// <returns>True if the element is currently unchecked, otherwise false.</returns>
         public static Boolean IsUnchecked(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -352,7 +352,7 @@
         /// Checks if the element is currently active.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is currently active, otherwise false.</returns>
+        /// <returns>True if the element is currently active, otherwise false.</returns>
         public static Boolean IsActive(this IElement element)
         {
             if (element is HTMLAnchorElement)
@@ -379,7 +379,7 @@
         /// Checks if the element has already been visited.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent has been visited, otherwise false.</returns>
+        /// <returns>True if the element has been visited, otherwise false.</returns>
         public static Boolean IsVisited(this IElement element)
         {
             if (element is HTMLAnchorElement)
@@ -396,7 +396,7 @@
         /// Checks if the element is a link.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is a link, otherwise false.</returns>
+        /// <returns>True if the element is a link, otherwise false.</returns>
         public static Boolean IsLink(this IElement element)
         {
             if (element is HTMLAnchorElement)
@@ -413,7 +413,7 @@
         /// Checks if the element is only optional and not required.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is optional, otherwise false.</returns>
+        /// <returns>True if the element is optional, otherwise false.</returns>
         public static Boolean IsOptional(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -430,7 +430,7 @@
         /// Checks if the element is required and must be filled out.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is required, otherwise false.</returns>
+        /// <returns>True if the element is required, otherwise false.</returns>
         public static Boolean IsRequired(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -447,7 +447,7 @@
         /// Checks if the element does not validate.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is invalid, otherwise false.</returns>
+        /// <returns>True if the element is invalid, otherwise false.</returns>
         public static Boolean IsInvalid(this IElement element)
         {
             if (element is IValidation)
@@ -462,7 +462,7 @@
         /// Checks if the element does validate.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is valid, otherwise false.</returns>
+        /// <returns>True if the element is valid, otherwise false.</returns>
         public static Boolean IsValid(this IElement element)
         {
             if (element is IValidation)
@@ -477,7 +477,7 @@
         /// Checks if the element is readonly.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is readonly, otherwise false.</returns>
+        /// <returns>True if the element is readonly, otherwise false.</returns>
         public static Boolean IsReadOnly(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -494,7 +494,7 @@
         /// Checks if the element is editable.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent can be edited, otherwise false.</returns>
+        /// <returns>True if the element can be edited, otherwise false.</returns>
         public static Boolean IsEditable(this IElement element)
         {
             if (element is HTMLInputElement)
@@ -511,7 +511,7 @@
         /// Checks if the element's value is out-of-range.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is invalid, otherwise false.</returns>
+        /// <returns>True if the element is invalid, otherwise false.</returns>
         public static Boolean IsOutOfRange(this IElement element)
         {
             var validation = element as IValidation;
@@ -529,7 +529,7 @@
         /// Checks if the element's value is within the range.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <returns>True if the elemnent is valid, otherwise false.</returns>
+        /// <returns>True if the element is valid, otherwise false.</returns>
         public static Boolean IsInRange(this IElement element)
         {
             var validation = element as IValidation;

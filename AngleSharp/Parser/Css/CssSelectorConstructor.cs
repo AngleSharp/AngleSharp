@@ -929,7 +929,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchBefore(IElement element)
         {
-            return element.PreviousElementSibling.IsPseudo(element);
+            return element.IsPseudo("::" + pseudoElementBefore);
         }
 
         /// <summary>
@@ -939,7 +939,7 @@
         /// <returns>An indicator if the match has been successful.</returns>
         static Boolean MatchAfter(IElement element)
         {
-            return element.NextElementSibling.IsPseudo(element);
+            return element.IsPseudo("::" + pseudoElementAfter);
         }
 
         /// <summary>
