@@ -1800,6 +1800,9 @@
     <Compile Include="..\AngleSharp\Html\InputTypes\DatetimeInputType.cs">
       <Link>Html\InputTypes\DatetimeInputType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\InputTypes\DatetimeLocalInputType.cs">
+      <Link>Html\InputTypes\DatetimeLocalInputType.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypes\EmailInputType.cs">
       <Link>Html\InputTypes\EmailInputType.cs</Link>
     </Compile>
