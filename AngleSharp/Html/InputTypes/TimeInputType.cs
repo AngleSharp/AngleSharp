@@ -123,7 +123,7 @@
             if (ts == null || position != value.Length)
                 return null;
 
-            return new DateTime().Add(ts.Value);
+            return new DateTime(0, DateTimeKind.Utc).Add(ts.Value);
         }
 
         #endregion

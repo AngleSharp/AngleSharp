@@ -144,7 +144,7 @@
             if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month))
                 return null;
 
-            return new DateTime(year, month, day);
+            return new DateTime(year, month, day, 0, 0, 0, 0, DateTimeKind.Utc);
         }
 
         #endregion

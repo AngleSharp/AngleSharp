@@ -145,13 +145,13 @@
             if (year < 0 || year > 9999)
                 return null;
 
-            var endOfYear = new DateTime(year, 12, 31);
+            var endOfYear = new DateTime(year, 12, 31, 0, 0, 0, 0, DateTimeKind.Utc);
             var numOfWeeks = GetWeekOfYear(endOfYear);
 
             if (week < 0 || week >= numOfWeeks)
                 return null;
 
-            var startOfYear = new DateTime(year, 1, 1);
+            var startOfYear = new DateTime(year, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             var day = startOfYear.DayOfWeek;
 
             if (day == DayOfWeek.Sunday)

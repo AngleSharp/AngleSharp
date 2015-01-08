@@ -138,7 +138,7 @@
             if (year < 0 || year > 9999 || month < 1 || month > 12)
                 return null;
 
-            return new DateTime(year, month, 1);
+            return new DateTime(year, month, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         }
 
         #endregion

@@ -150,7 +150,7 @@
 
             position++;
             var ts = ToTime(value, ref position);
-            var dt = new DateTime(year, month, day);
+            var dt = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
 
             if (ts == null)
                 return null;
