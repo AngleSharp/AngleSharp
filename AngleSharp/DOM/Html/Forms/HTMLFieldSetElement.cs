@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Linq;
@@ -64,7 +65,7 @@
 
                 foreach (var element in Elements.OfType<HTMLFormControlElement>())
                 {
-                    if (element.ParentElement != firstLegend)
+                    if (element.IsDescendantOf(firstLegend) == false)
                         element.IsDisabled = true;
                 }
             }
