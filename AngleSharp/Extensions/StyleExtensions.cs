@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.DOM;
+    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Html;
     using System;
@@ -17,29 +18,18 @@
     {
         /// <summary>
         /// Computes the declarations for the given element in the context of
-        /// the specified stylesheets and render device.
+        /// the specified styling rules.
         /// </summary>
-        /// <param name="stylesheets">The stylesheets to use.</param>
+        /// <param name="rules">The styles to use.</param>
         /// <param name="element">The element that is questioned.</param>
-        /// <param name="device">The render device to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static CssStyleDeclaration ComputeDeclarations(this IEnumerable<IStyleSheet> stylesheets, IElement element, RenderDevice device)
+        public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element)
         {
-            var parents = element.GetAncestorsOf().OfType<IElement>().Reverse().ToArray();
+            var nodes = element.GetInclusiveAncestorsOf().OfType<IElement>().Reverse().ToArray();
             var bag = new PropertyBag();
 
-            foreach (var stylesheet in stylesheets.OfType<CssStyleSheet>())
-            {
-                if (!stylesheet.IsDisabled && stylesheet.Media.Validate(device))
-                {
-                    var rules = stylesheet.Rules;
-
-                    foreach (var parent in parents)
-                        rules.ComputeStyle(bag, device, parent);
-
-                    rules.ComputeStyle(bag, device, element);
-                }
-            }
+            foreach (var node in nodes)
+                rules.ComputeStyle(bag, node);
 
             var htmlElement = element as HTMLElement;
 
@@ -47,6 +37,17 @@
                 htmlElement.Style.ApplyTo(bag, Priority.Inline);
 
             return new CssStyleDeclaration(bag);
+        }
+
+        public static void ComputeStyle(this StyleCollection rules, PropertyBag bag, IElement element)
+        {
+            foreach (var rule in rules)
+            {
+                var selector = rule.Selector;
+
+                if (selector.Match(element))
+                    rule.Style.ApplyTo(bag, selector.Specifity);
+            }
         }
 
         /// <summary>

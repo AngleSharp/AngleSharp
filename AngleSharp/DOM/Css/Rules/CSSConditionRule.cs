@@ -23,12 +23,6 @@
 
         #region Internal Methods
 
-        internal override void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
-        {
-            if (IsValid(device))
-                base.ComputeStyle(style, device, element);
-        }
-
         internal abstract Boolean IsValid(RenderDevice device);
 
         #endregion

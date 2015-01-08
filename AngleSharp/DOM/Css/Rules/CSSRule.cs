@@ -88,18 +88,6 @@
         /// <param name="rule">The new rule.</param>
         protected abstract void ReplaceWith(ICssRule rule);
 
-        /// <summary>
-        /// Computes the style for the given element within the specified window
-        /// context. Writes the properties into the specified style declaration.
-        /// </summary>
-        /// <param name="style">The declaration that is used.</param>
-        /// <param name="device">The given render device.</param>
-        /// <param name="element">The element that is computed.</param>
-        internal virtual void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
-        {
-            //By default nothing gets computed.
-        }
-
         #endregion
 
         #region String representation

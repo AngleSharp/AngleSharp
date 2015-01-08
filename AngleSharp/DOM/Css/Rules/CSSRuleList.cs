@@ -74,12 +74,6 @@
             get { return _rules[index]; }
         }
 
-        internal void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
-        {
-            foreach (var rule in _rules)
-                rule.ComputeStyle(style, device, element);
-        }
-
         internal void Clear()
         {
             for (var i = _rules.Count - 1; i >= 0; i--)

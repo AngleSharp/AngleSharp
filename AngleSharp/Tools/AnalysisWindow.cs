@@ -2,12 +2,14 @@
 {
     using AngleSharp.Css;
     using AngleSharp.DOM;
+    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents a sample browsing Window implementation for
@@ -140,8 +142,9 @@
             // if pseudo is :before OR ::before then use the corresponding pseudo-element
             // else if pseudo is :after OR ::after then use the corresponding pseudo-element
             var device = new RenderDevice(OuterWidth, OuterHeight);
-            var stylesheets = Document.GetStyleSheets();
-            return stylesheets.ComputeDeclarations(element, device);
+            var stylesheets = Document.GetStyleSheets().OfType<CssStyleSheet>();
+            var styleCollection = new StyleCollection(stylesheets, device);
+            return styleCollection.ComputeDeclarations(element);
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
@@ -79,12 +78,6 @@
             var newRule = rule as CssStyleRule;
             _style.TakeFrom(newRule._style);
             _selector = newRule._selector;
-        }
-
-        internal override void ComputeStyle(PropertyBag style, RenderDevice device, IElement element)
-        {
-            if (_selector.Match(element))
-                _style.ApplyTo(style, _selector.Specifity);
         }
 
         #endregion
