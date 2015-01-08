@@ -215,6 +215,12 @@
             _cancelable = cancelable;
         }
 
+        /// <summary>
+        /// Dispatch the event as described in the specification.
+        /// http://www.w3.org/TR/DOM-Level-3-Events/
+        /// </summary>
+        /// <param name="target">The target of the event.</param>
+        /// <returns>A boolean if the event has been cancelled.</returns>
         internal Boolean Dispatch(EventTarget target)
         {
             _flags |= EventFlags.Dispatch;
@@ -245,7 +251,7 @@
             _flags &= ~EventFlags.Dispatch;
             _phase = EventPhase.None;
             _current = null;
-            return !_flags.HasFlag(EventFlags.Canceled);
+            return _flags.HasFlag(EventFlags.Canceled);
         }
 
         void CallListeners(EventTarget target)
