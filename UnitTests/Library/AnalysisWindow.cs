@@ -191,5 +191,69 @@ em { font-style: italic !important; }
             Assert.AreEqual("italic", style.FontStyle);
             Assert.AreEqual("20px", style.FontSize);
         }
+
+        [Test]
+        public void GetComputedStylePseudoInitialScenarioSingleColon()
+        {
+            var sourceCode = "<!doctype html><head><style>p > span::after { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
+
+            var document = DocumentBuilder.Html(sourceCode);
+            Assert.IsNotNull(document);
+            window.Document = document;
+
+            var element = document.QuerySelector("span.bold");
+            Assert.IsNotNull(element);
+
+            Assert.AreEqual("span", element.LocalName);
+            Assert.AreEqual("bold", element.ClassName);
+
+            var style = window.GetComputedStyle(element, ":after");
+            Assert.IsNotNull(style);
+            Assert.AreEqual(2, style.Length);
+        }
+
+        [Test]
+        public void GetComputedStylePseudoInitialScenarioDoubleColon()
+        {
+            var sourceCode = "<!doctype html><head><style>p > span::after { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
+
+            var document = DocumentBuilder.Html(sourceCode);
+            Assert.IsNotNull(document);
+            window.Document = document;
+
+            var element = document.QuerySelector("span.bold");
+            Assert.IsNotNull(element);
+
+            Assert.AreEqual("span", element.LocalName);
+            Assert.AreEqual("bold", element.ClassName);
+
+            var style = window.GetComputedStyle(element, "::after");
+            Assert.IsNotNull(style);
+            Assert.AreEqual(2, style.Length);
+        }
+
+        [Test]
+        public void GetComputedStyleMixedTrivialAndPseudoScenario()
+        {
+            var sourceCode = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; } span.bold::before { color: red; content: 'Important!'; }</style></head><body><div><p><span class='bold'>Bold text";
+
+            var document = DocumentBuilder.Html(sourceCode);
+            Assert.IsNotNull(document);
+            window.Document = document;
+
+            var element = document.QuerySelector("span.bold");
+            Assert.IsNotNull(element);
+
+            Assert.AreEqual("span", element.LocalName);
+            Assert.AreEqual("bold", element.ClassName);
+
+            var styleNormal = window.GetComputedStyle(element);
+            Assert.IsNotNull(styleNormal);
+            Assert.AreEqual(2, styleNormal.Length);
+
+            var stylePseudo = window.GetComputedStyle(element, ":before");
+            Assert.IsNotNull(stylePseudo);
+            Assert.AreEqual(3, stylePseudo.Length);
+        }
     }
 }
