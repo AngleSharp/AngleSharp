@@ -49,14 +49,25 @@
             var dt = ConvertFromDate(value);
 
             if (dt.HasValue)
-                return dt.Value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0).AddDays(-1)).TotalMilliseconds;
+                return dt.Value.Subtract(OriginTime).TotalMilliseconds;
 
             return null;
+        }
+
+        public override String ConvertFromNumber(Double value)
+        {
+            var dt = OriginTime.AddMilliseconds(value);
+            return ConvertFromDate(dt);
         }
 
         public override DateTime? ConvertToDate(String value)
         {
             return ConvertFromDate(value);
+        }
+
+        public override String ConvertFromDate(DateTime value)
+        {
+            return String.Format(CultureInfo.InvariantCulture, "{0:0000}-{1:00}-{2:00}", value.Year, value.Month, value.Day);
         }
 
         public override void DoStep(Int32 n)

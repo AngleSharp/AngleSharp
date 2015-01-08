@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Html;
     using System;
+    using System.Globalization;
 
     class NumberInputType : BaseInputType
     {
@@ -18,7 +19,12 @@
 
         public override Double? ConvertToNumber(String value)
         {
-            return ConvertFromNumber(value);
+            return ToNumber(value);
+        }
+
+        public override String ConvertFromNumber(Double value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         public override void Check(ValidityState state)
@@ -48,13 +54,13 @@
 
         public override void DoStep(Int32 n)
         {
-            var num = ConvertFromNumber(Input.Value);
+            var num = ToNumber(Input.Value);
 
             if (num.HasValue)
             {
                 var res = num.Value + GetStep() * n;
-                var min = ConvertFromNumber(Input.Minimum);
-                var max = ConvertFromNumber(Input.Maximum);
+                var min = ToNumber(Input.Minimum);
+                var max = ToNumber(Input.Maximum);
 
                 if ((min.HasValue == false || min.Value <= res) && (max.HasValue == false || max.Value >= res))
                     Input.ValueAsNumber = res;

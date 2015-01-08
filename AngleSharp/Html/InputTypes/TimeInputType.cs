@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Html;
     using System;
+    using System.Globalization;
 
     class TimeInputType : BaseInputType
     {
@@ -52,9 +53,25 @@
             return null;
         }
 
+        public override String ConvertFromNumber(Double value)
+        {
+            var dt = new DateTime().AddMilliseconds(value);
+            return ConvertFromDate(dt);
+        }
+
         public override DateTime? ConvertToDate(String value)
         {
-            return ConvertFromTime(value);
+            var time = ConvertFromTime(value);
+
+            if (time == null)
+                return null;
+
+            return OriginTime.Add(time.Value.Subtract(new DateTime()));
+        }
+
+        public override String ConvertFromDate(DateTime value)
+        {
+            return String.Format(CultureInfo.InvariantCulture, "{0:00}:{1:00}:{2:00},{3:000}", value.Hour, value.Minute, value.Second, value.Millisecond);
         }
 
         public override void DoStep(Int32 n)
@@ -101,7 +118,7 @@
                 return null;
 
             var position = 0;
-            var ts = ConvertFromTime(value, ref position);
+            var ts = ToTime(value, ref position);
 
             if (ts == null || position != value.Length)
                 return null;

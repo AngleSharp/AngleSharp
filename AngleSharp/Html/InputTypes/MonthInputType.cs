@@ -3,6 +3,7 @@
     using AngleSharp.DOM.Html;
     using AngleSharp.Extensions;
     using System;
+    using System.Globalization;
 
     class MonthInputType : BaseInputType
     {
@@ -48,14 +49,25 @@
             var dt = ConvertFromMonth(value);
 
             if (dt.HasValue)
-                return dt.Value.Month - 1;
+                return (dt.Value.Year - 1970) * 12 + dt.Value.Month - 1;
 
             return null;
+        }
+
+        public override String ConvertFromNumber(Double value)
+        {
+            var dt = OriginTime.AddMonths((Int32)value);
+            return ConvertFromDate(dt);
         }
 
         public override DateTime? ConvertToDate(String value)
         {
             return ConvertFromMonth(value);
+        }
+
+        public override String ConvertFromDate(DateTime value)
+        {
+            return String.Format(CultureInfo.InvariantCulture, "{0:0000}-{1:00}", value.Year, value.Month);
         }
 
         public override void DoStep(Int32 n)

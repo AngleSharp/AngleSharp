@@ -14,6 +14,7 @@
     {
         #region Fields
 
+        protected static readonly DateTime OriginTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
 
         readonly IHtmlInputElement _input;
@@ -63,9 +64,19 @@
             return null;
         }
 
+        public virtual String ConvertFromNumber(Double value)
+        {
+            throw new DomException(ErrorCode.InvalidState);
+        }
+
         public virtual DateTime? ConvertToDate(String value)
         {
             return null;
+        }
+
+        public virtual String ConvertFromDate(DateTime value)
+        {
+            throw new DomException(ErrorCode.InvalidState);
         }
 
         public virtual void ConstructDataSet(FormDataSet dataSet)
@@ -99,7 +110,7 @@
             else if (step.Equals(Keywords.Any, StringComparison.OrdinalIgnoreCase))
                 return 0.0;
 
-            var num = ConvertFromNumber(step);
+            var num = ToNumber(step);
 
             if (num.HasValue == false || num <= 0.0)
                 return GetDefaultStep() * GetStepScaleFactor();
@@ -156,7 +167,7 @@
             return false;
         }
 
-        protected static Double? ConvertFromNumber(String value)
+        protected static Double? ToNumber(String value)
         {
             if (!String.IsNullOrEmpty(value) && number.IsMatch(value))
                 return Double.Parse(value);
@@ -164,7 +175,7 @@
             return null;
         }
 
-        protected static TimeSpan? ConvertFromTime(String value, ref Int32 position)
+        protected static TimeSpan? ToTime(String value, ref Int32 position)
         {
             var offset = position;
             var hour = 0;

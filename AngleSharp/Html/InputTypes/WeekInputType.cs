@@ -49,14 +49,26 @@
             var dt = ConvertFromWeek(value);
 
             if (dt.HasValue)
-                return dt.Value.Subtract(new DateTime(1970, 1, 5, 0, 0, 0)).TotalMilliseconds;
+                return dt.Value.Subtract(OriginTime).TotalMilliseconds;
 
             return null;
+        }
+
+        public override String ConvertFromNumber(Double value)
+        {
+            var dt = OriginTime.AddMilliseconds(value);
+            return ConvertFromDate(dt);
         }
 
         public override DateTime? ConvertToDate(String value)
         {
             return ConvertFromWeek(value);
+        }
+
+        public override String ConvertFromDate(DateTime value)
+        {
+            var week = GetWeekOfYear(value);
+            return String.Format(CultureInfo.InvariantCulture, "{0:0000}-W{1:00}", value.Year, week);
         }
 
         public override void DoStep(Int32 n)
@@ -80,7 +92,7 @@
 
         protected override Double GetDefaultStepBase()
         {
-            return 0.0;
+            return -259200000;
         }
 
         protected override Double GetDefaultStep()
@@ -96,6 +108,11 @@
         #endregion
 
         #region Helper
+
+        static Int32 GetWeekOfYear(DateTime value)
+        {
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+        }
 
         protected static DateTime? ConvertFromWeek(String value)
         {
@@ -129,19 +146,18 @@
                 return null;
 
             var endOfYear = new DateTime(year, 12, 31);
-            var cal = CultureInfo.InvariantCulture.Calendar;
-            var numOfWeeks = cal.GetWeekOfYear(endOfYear, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            var numOfWeeks = GetWeekOfYear(endOfYear);
 
             if (week < 0 || week >= numOfWeeks)
                 return null;
 
             var startOfYear = new DateTime(year, 1, 1);
-            var day = cal.GetDayOfWeek(startOfYear);
+            var day = startOfYear.DayOfWeek;
 
             if (day == DayOfWeek.Sunday)
-                startOfYear = startOfYear.AddDays(1);
+                startOfYear = startOfYear.AddDays(-6);
             else if (day > DayOfWeek.Monday)
-                startOfYear = startOfYear.AddDays(8 - (Int32)day);
+                startOfYear = startOfYear.AddDays(1 - (Int32)day);
 
             return startOfYear.AddDays(7 * week);
         }

@@ -5,7 +5,6 @@
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -94,7 +93,13 @@
         public DateTime? ValueAsDate
         {
             get { return _type.ConvertToDate(Value); }
-            set { Value = value.HasValue ? value.Value.ToString(CultureInfo.InvariantCulture) : null; }
+            set
+            {
+                if (value == null)
+                    Value = String.Empty;
+                else
+                    Value = _type.ConvertFromDate(value.Value);
+            }
         }
 
         /// <summary>
@@ -104,7 +109,15 @@
         public Double ValueAsNumber
         {
             get { return _type.ConvertToNumber(Value) ?? Double.NaN; }
-            set { Value = value.ToString(CultureInfo.InvariantCulture); }
+            set
+            {
+                if (Double.IsInfinity(value))
+                    throw new DomException(ErrorCode.TypeMismatch);
+                else if (Double.IsNaN(value))
+                    Value = String.Empty;
+                else
+                    Value = _type.ConvertFromNumber(value);
+            }
         }
 
         /// <summary>
