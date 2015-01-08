@@ -45,7 +45,7 @@
         /// </summary>
         public String Type
         {
-            get { return NodeName; }
+            get { return Tags.Keygen; }
         }
 
         #endregion
