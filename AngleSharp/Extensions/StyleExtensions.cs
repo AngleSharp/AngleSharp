@@ -22,9 +22,15 @@
         /// </summary>
         /// <param name="rules">The styles to use.</param>
         /// <param name="element">The element that is questioned.</param>
+        /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
         /// <returns>The style declaration containing all the declarations.</returns>
-        public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element)
+        public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
+            var pseudoElement = PseudoElement.Create(element, pseudoSelector);
+
+            if (pseudoElement != null)
+                element = pseudoElement;
+
             var nodes = element.GetInclusiveAncestorsOf().OfType<IElement>().Reverse().ToArray();
             var bag = new PropertyBag();
 

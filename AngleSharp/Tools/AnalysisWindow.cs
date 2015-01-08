@@ -139,12 +139,10 @@
             if (Document == null)
                 throw new ArgumentException("A valid HTML document is required for computing the style of an element.");
 
-            // if pseudo is :before OR ::before then use the corresponding pseudo-element
-            // else if pseudo is :after OR ::after then use the corresponding pseudo-element
             var device = new RenderDevice(OuterWidth, OuterHeight);
             var stylesheets = Document.GetStyleSheets().OfType<CssStyleSheet>();
             var styleCollection = new StyleCollection(stylesheets, device);
-            return styleCollection.ComputeDeclarations(element);
+            return styleCollection.ComputeDeclarations(element, pseudo);
         }
 
         #endregion

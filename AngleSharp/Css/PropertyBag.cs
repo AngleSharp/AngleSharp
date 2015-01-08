@@ -46,7 +46,6 @@
 
             if (!_bag.TryGetValue(property.Name, out value))
                 _bag[property.Name] = new KeyValuePair<CssProperty, Priority>(property, Priority.Zero);
-
         }
 
         public CssProperty this[String name]
