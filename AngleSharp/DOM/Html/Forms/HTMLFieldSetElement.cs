@@ -37,7 +37,7 @@
         /// </summary>
         public IHtmlFormControlsCollection Elements
         {
-            get { return new HtmlFormControlsCollection(this); }
+            get { return new HtmlFormControlsCollection(Form, this); }
         }
 
         #endregion

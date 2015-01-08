@@ -2,6 +2,7 @@
 {
     using AngleSharp.DOM.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -20,9 +21,23 @@
 
         #region ctor
 
-        public HtmlFormControlsCollection(IElement parent)
+        public HtmlFormControlsCollection(IElement form, IElement root = null)
         {
-            _elements = parent.GetElements<HTMLFormControlElement>();
+            if (root == null)
+                root = form.Owner.DocumentElement;
+
+            _elements = root.GetElements<HTMLFormControlElement>().Where(m =>
+            {
+                if (m.Form == form)
+                {
+                    var input = m as IHtmlInputElement;
+
+                    if (input == null || input.Type != InputTypeNames.Image)
+                        return true;
+                }
+
+                return false;
+            });
         }
 
         #endregion
