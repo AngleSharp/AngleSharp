@@ -247,12 +247,12 @@
 
         public virtual void DoFocus()
         {
-            //Only certain elements can be focused.
+            //Only certain elements can be focused
         }
 
         public void DoBlur()
         {
-            //TODO Remove focus.
+            //Only certain elements can be focused
         }
 
         /// <summary>

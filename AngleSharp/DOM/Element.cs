@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.DOM
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.DOM.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
@@ -316,9 +317,15 @@
                     return;
 
                 if (value)
+                {
                     owner.SetFocus(this);
+                    this.Fire<FocusEvent>(m => m.Init(EventNames.Focus, false, false));
+                }
                 else
+                {
                     owner.SetFocus(null);
+                    this.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
+                }
             }
         }
 
