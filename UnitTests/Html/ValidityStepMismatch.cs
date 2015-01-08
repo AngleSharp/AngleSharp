@@ -169,7 +169,7 @@ namespace UnitTests.Html
 			element.SetAttribute("step", "2");
 			element.Value = "1970-01-02";
 			Assert.AreEqual("date", element.Type);
-			Assert.AreEqual(false, element.Validity.IsStepMismatch);
+			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
 		
 		[Test]
@@ -192,7 +192,7 @@ namespace UnitTests.Html
 			element.SetAttribute("step", "2");
 			element.Value = "1970-01-03";
 			Assert.AreEqual("date", element.Type);
-			Assert.AreEqual(true, element.Validity.IsStepMismatch);
+			Assert.AreEqual(false, element.Validity.IsStepMismatch);
 		}
 		
 		[Test]

@@ -1289,7 +1289,7 @@ namespace UnitTests.Html
             element.SetAttribute("step", "3");
             element.Value = "2000-01-03";
             Assert.AreEqual("date", element.Type);
-            Assert.AreEqual(false, element.Validity.IsValid);
+            Assert.AreEqual(true, element.Validity.IsValid);
         }
 
         [Test]
@@ -1473,7 +1473,7 @@ namespace UnitTests.Html
             element.SetAttribute("step", "2");
             element.Value = "2001-W03";
             Assert.AreEqual("week", element.Type);
-            Assert.AreEqual(false, element.Validity.IsValid);
+            Assert.AreEqual(true, element.Validity.IsValid);
         }
 
         [Test]
