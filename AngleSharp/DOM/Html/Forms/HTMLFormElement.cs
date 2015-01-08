@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -17,8 +18,7 @@
     {
         #region Fields
 
-        readonly HtmlFormControlsCollection _elements;
-
+        HtmlFormControlsCollection _elements;
         Task _plannedNavigation;
         CancellationTokenSource _cancel;
 
@@ -33,7 +33,6 @@
             : base(Tags.Form, NodeFlags.Special)
         {
             _cancel = new CancellationTokenSource();
-            _elements = new HtmlFormControlsCollection(this);
         }
 
         #endregion
@@ -47,7 +46,7 @@
         /// <returns>The element or null.</returns>
         public IElement this[Int32 index]
         {
-            get { return _elements[index]; }
+            get { return Elements[index]; }
         }
 
         /// <summary>
@@ -57,7 +56,7 @@
         /// <returns>A collection with elements, an element or null.</returns>
         public IElement this[String name]
         {
-            get { return _elements[name]; }
+            get { return Elements[name]; }
         }
 
         #endregion
@@ -78,15 +77,23 @@
         /// </summary>
         public Int32 Length
         {
-            get { return _elements.Length; }
+            get { return Elements.Length; }
         }
 
         /// <summary>
         /// Gets all the form controls belonging to this form element.
         /// </summary>
-        public IHtmlFormControlsCollection Elements
+        public HtmlFormControlsCollection Elements
         {
-            get { return _elements; }
+            get { return _elements ?? (_elements = new HtmlFormControlsCollection(this)); }
+        }
+
+        /// <summary>
+        /// Gets all the form controls belonging to this form element.
+        /// </summary>
+        IHtmlFormControlsCollection IHtmlFormElement.Elements
+        {
+            get { return Elements; }
         }
 
         /// <summary>
@@ -186,7 +193,7 @@
         /// </summary>
         public void Reset()
         {
-            foreach (var element in _elements)
+            foreach (var element in Elements)
                 element.Reset();
         }
 
@@ -196,20 +203,49 @@
         /// <returns>True if the form is valid, otherwise false.</returns>
         public Boolean CheckValidity()
         {
-            foreach (var element in _elements)
+            var controls = GetInvalidControls();
+            var result = true;
+
+            foreach (var control in controls)
             {
-                if (element.WillValidate && !element.CheckValidity())
-                    return false;
+                if (control.FireSimpleEvent(EventNames.Invalid, false, true) == false)
+                    result = false;
             }
 
-            return true;
+            return result;
+        }
+
+        /// <summary>
+        /// Evaluates the form controls according to the spec:
+        /// https://html.spec.whatwg.org/multipage/forms.html#statically-validate-the-constraints
+        /// </summary>
+        /// <returns>A list over all invalid controls.</returns>
+        IEnumerable<HTMLFormControlElement> GetInvalidControls()
+        {
+            foreach (var element in Elements)
+            {
+                if (element.WillValidate && element.CheckValidity() == false)
+                    yield return element;
+            }
         }
 
         public Boolean ReportValidity()
         {
-            //TODO see:
-            //http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#dom-form-reportvalidity
-            return CheckValidity();
+            var controls = GetInvalidControls();
+            var result = true;
+
+            foreach (var control in controls)
+            {
+                if (control.FireSimpleEvent(EventNames.Invalid, false, true))
+                    continue;
+
+                //TODO Report Problems (interactively, i.e. focus on certain elements etc.)
+                //maybe use an event for this
+                //If unhandled:
+                result = false;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -476,7 +512,7 @@
         {
             var formDataSet = new FormDataSet();
 
-            foreach (var field in _elements)
+            foreach (var field in Elements)
             {
                 if (field.ParentElement is IHtmlDataListElement)
                     continue;
