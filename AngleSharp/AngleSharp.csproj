@@ -123,6 +123,7 @@
     <Compile Include="Html\InputTypes\CheckedInputType.cs" />
     <Compile Include="Html\InputTypes\ColorInputType.cs" />
     <Compile Include="Html\InputTypes\DatetimeInputType.cs" />
+    <Compile Include="Html\InputTypes\DatetimeLocalInputType.cs" />
     <Compile Include="Html\InputTypes\TimeInputType.cs" />
     <Compile Include="Html\InputTypes\WeekInputType.cs" />
     <Compile Include="Html\InputTypes\MonthInputType.cs" />

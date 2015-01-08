@@ -48,6 +48,11 @@
         public static readonly String Datetime = "datetime";
 
         /// <summary>
+        /// A datetime-local input field.
+        /// </summary>
+        public static readonly String DatetimeLocal = "datetime-local";
+
+        /// <summary>
         /// A date input field.
         /// </summary>
         public static readonly String Date = "date";

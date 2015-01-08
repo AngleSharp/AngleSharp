@@ -18,6 +18,7 @@
             values.Add(InputTypeNames.Date, input => new DateInputType(input, InputTypeNames.Date));
             values.Add(InputTypeNames.Week, input => new WeekInputType(input, InputTypeNames.Week));
             values.Add(InputTypeNames.Datetime, input => new DatetimeInputType(input, InputTypeNames.Datetime));
+            values.Add(InputTypeNames.DatetimeLocal, input => new DatetimeLocalInputType(input, InputTypeNames.DatetimeLocal));
             values.Add(InputTypeNames.Time, input => new TimeInputType(input, InputTypeNames.Time));
             values.Add(InputTypeNames.Month, input => new MonthInputType(input, InputTypeNames.Month));
             values.Add(InputTypeNames.Range, input => new NumberInputType(input, InputTypeNames.Range));
