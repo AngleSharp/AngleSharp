@@ -363,6 +363,9 @@
     <Compile Include="..\AngleSharp\DOM\Collections\StringMap.cs">
       <Link>DOM\Collections\StringMap.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Collections\StyleCollection.cs">
+      <Link>DOM\Collections\StyleCollection.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Collections\TokenList.cs">
       <Link>DOM\Collections\TokenList.cs</Link>
     </Compile>
