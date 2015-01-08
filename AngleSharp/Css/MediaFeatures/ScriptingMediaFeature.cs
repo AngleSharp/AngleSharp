@@ -3,6 +3,7 @@
     using AngleSharp.DOM.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.Linq;
 
     sealed class ScriptingMediaFeature : MediaFeature
     {
@@ -47,8 +48,13 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            //TODO
-            return _state == ScriptingState.None;
+            var options = device.Options;
+            var available = ScriptingState.None;
+
+            if (options != null && options.IsScripting && options.ScriptEngines.Any())
+                available = device.DeviceType == RenderDevice.Kind.Screen ? ScriptingState.Enabled : ScriptingState.InitialOnly;
+
+            return _state == available;
         }
 
         #endregion
