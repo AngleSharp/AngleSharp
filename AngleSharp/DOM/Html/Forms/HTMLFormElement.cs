@@ -18,6 +18,8 @@
     {
         #region Fields
 
+        static readonly String UsAscii = "us-ascii";
+
         HtmlFormControlsCollection _elements;
         Task _plannedNavigation;
         CancellationTokenSource _cancel;
@@ -270,8 +272,7 @@
             //sandboxing flag set has its sandboxed forms browsing context flag
             //set, then abort these steps without doing anything.
 
-            //TODO
-            //var browsingContext = new object();
+            var browsingContext = Owner.Context;
 
             if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate)
             {
@@ -323,9 +324,13 @@
                     MailAsBody(action);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
+            {
                 GetActionUrl(action);
+            }
             else
+            {
                 MutateActionUrl(action);
+            }
         }
 
         /// <summary>
@@ -357,12 +362,12 @@
 
             if (action.Href.Contains("%%%%"))
             {
-                result = result.UrlEncode(DocumentEncoding.Resolve("us-ascii"));
+                result = result.UrlEncode(DocumentEncoding.Resolve(UsAscii));
                 action.Href = action.Href.ReplaceFirst("%%%%", result);
             }
             else if (action.Href.Contains("%%"))
             {
-                result = result.UrlEncode(System.Text.Encoding.UTF8);
+                result = result.UrlEncode(DocumentEncoding.UTF8);
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
@@ -376,7 +381,7 @@
         void MailWithHeaders(Url action)
         {
             var formDataSet = ConstructDataSet();
-            var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve("us-ascii"));
+            var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(UsAscii));
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
@@ -394,7 +399,7 @@
         {
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var encoding = DocumentEncoding.Resolve("us-ascii");
+            var encoding = DocumentEncoding.Resolve(UsAscii);
             var body = String.Empty;
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
