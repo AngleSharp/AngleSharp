@@ -113,6 +113,7 @@
     <Compile Include="DOM\Events\PageTransitionEvent.cs" />
     <Compile Include="DOM\Factories\InputTypeFactory.cs" />
     <Compile Include="DOM\Factories\MediaFeatureFactory.cs" />
+    <Compile Include="DOM\PseudoElement.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
