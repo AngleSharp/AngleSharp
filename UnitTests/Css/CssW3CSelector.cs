@@ -567,7 +567,7 @@ should be green.</div>";
             var selector2 = doc.QuerySelectorAll("p:not(:first-line)");
             Assert.AreEqual(0, selector2.Length);
             var selector3 = doc.QuerySelectorAll("p:not(:after)");
-            Assert.AreEqual(0, selector3.Length);
+            Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>
@@ -1973,7 +1973,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
 	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:before");
-	        Assert.AreEqual(1, selector2.Length);
+	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -2041,7 +2041,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
 	        Assert.AreEqual(1, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p::before");
-	        Assert.AreEqual(1, selector2.Length);
+	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -2054,7 +2054,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p::before");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -2067,7 +2067,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:before");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -2080,7 +2080,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p::after");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -2093,7 +2093,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("p:after");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -6715,9 +6715,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("span:before");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("span::before");
-	        Assert.AreEqual(1, selector2.Length);
+	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6731,9 +6731,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("span::before");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("span:before");
-	        Assert.AreEqual(1, selector2.Length);
+	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6747,9 +6747,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("span:after");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("span::after");
-	        Assert.AreEqual(1, selector2.Length);
+	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6763,9 +6763,9 @@ This div should have three addresses above it.</div>";
 	        var doc = DocumentBuilder.Html(source);
 	        
 	        var selector1 = doc.QuerySelectorAll("span::after");
-	        Assert.AreEqual(1, selector1.Length);
+	        Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("span:after");
-	        Assert.AreEqual(1, selector2.Length);
+	        Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
