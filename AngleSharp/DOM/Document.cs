@@ -1539,7 +1539,7 @@
                 return;
             
             _shown = true;
-            this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
+            this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
         }
 
         void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
