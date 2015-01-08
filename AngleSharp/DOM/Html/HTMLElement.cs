@@ -281,7 +281,7 @@
         {
             var parent = Parent as INode;
 
-            while (!(parent is IHtmlFormElement))
+            while (parent is IHtmlFormElement == false)
             {
                 if (parent == null)
                     break;
@@ -297,7 +297,7 @@
                 var formid = GetAttribute(AttributeNames.Form);
 
                 if (parent == null && !String.IsNullOrEmpty(formid))
-                    parent = Owner.GetElementById(formid) as IHtmlFormElement;
+                    parent = Owner.GetElementById(formid);
                 else
                     return null;
             }
