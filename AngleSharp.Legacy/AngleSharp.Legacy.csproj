@@ -1647,6 +1647,9 @@
     <Compile Include="..\AngleSharp\DOM\ProcessingInstruction.cs">
       <Link>DOM\ProcessingInstruction.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\PseudoElement.cs">
+      <Link>DOM\PseudoElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\StyleSheet.cs">
       <Link>DOM\StyleSheet.cs</Link>
     </Compile>
