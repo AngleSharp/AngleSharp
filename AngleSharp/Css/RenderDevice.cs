@@ -29,6 +29,15 @@
         }
 
         /// <summary>
+        /// Gets or sets the options of the viewport.
+        /// </summary>
+        public IConfiguration Options
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the width of the viewport in pixels.
         /// </summary>
         public Int32 ViewPortWidth
