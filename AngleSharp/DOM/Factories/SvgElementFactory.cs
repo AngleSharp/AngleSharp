@@ -12,11 +12,11 @@
 
         SvgElementFactory()
         {
-            creators.Add(Tags.Svg, () => new SvgSvgElement());
-            creators.Add(Tags.Circle, () => new SvgCircleElement());
-            creators.Add(Tags.Desc, () => new SvgDescElement());
-            creators.Add(Tags.ForeignObject, () => new SvgForeignObjectElement());
-            creators.Add(Tags.Title, () => new SvgTitleElement());
+            creators.Add(Tags.Svg, document => new SvgSvgElement { Owner = document });
+            creators.Add(Tags.Circle, document => new SvgCircleElement { Owner = document });
+            creators.Add(Tags.Desc, document => new SvgDescElement { Owner = document });
+            creators.Add(Tags.ForeignObject, document => new SvgForeignObjectElement { Owner = document });
+            creators.Add(Tags.Title, document => new SvgTitleElement { Owner = document });
         }
 
         protected override SvgElement CreateDefault(String name, Document document)

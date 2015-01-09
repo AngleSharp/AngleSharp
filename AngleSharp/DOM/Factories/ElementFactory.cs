@@ -6,14 +6,14 @@
     abstract class ElementFactory<T>
         where T : Element
     {
-        protected readonly Dictionary<String, Func<T>> creators;
+        protected readonly Dictionary<String, Func<Document, T>> creators;
 
         /// <summary>
         /// Creates a new element factory.
         /// </summary>
         public ElementFactory()
 	    {
-            creators = new Dictionary<String, Func<T>>(StringComparer.OrdinalIgnoreCase);
+            creators = new Dictionary<String, Func<Document, T>>(StringComparer.OrdinalIgnoreCase);
 	    }
 
         /// <summary>
@@ -32,14 +32,10 @@
         /// <returns>The specialized SVGElement instance.</returns>
         protected T CreateSpecific(String name, Document document)
         {
-            Func<T> creator;
+            Func<Document, T> creator;
 
             if (creators.TryGetValue(name, out creator))
-            {
-                var element = creator();
-                element.Owner = document;
-                return element;
-            }
+                return creator(document);
 
             return CreateDefault(name, document);
         }

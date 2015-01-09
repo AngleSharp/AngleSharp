@@ -12,12 +12,12 @@
 
         MathElementFactory()
         {
-            creators.Add(Tags.Mn, () => new MathNumberElement());
-            creators.Add(Tags.Mo, () => new MathOperatorElement());
-            creators.Add(Tags.Mi, () => new MathIdentifierElement());
-            creators.Add(Tags.Ms, () => new MathStringElement());
-            creators.Add(Tags.Mtext, () => new MathTextElement());
-            creators.Add(Tags.AnnotationXml, () => new MathAnnotationXmlElement());
+            creators.Add(Tags.Mn, document => new MathNumberElement { Owner = document });
+            creators.Add(Tags.Mo, document => new MathOperatorElement { Owner = document });
+            creators.Add(Tags.Mi, document => new MathIdentifierElement { Owner = document });
+            creators.Add(Tags.Ms, document => new MathStringElement { Owner = document });
+            creators.Add(Tags.Mtext, document => new MathTextElement { Owner = document });
+            creators.Add(Tags.AnnotationXml, document => new MathAnnotationXmlElement { Owner = document });
         }
 
         protected override MathElement CreateDefault(String name, Document document)
