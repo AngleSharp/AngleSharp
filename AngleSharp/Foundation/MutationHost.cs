@@ -59,7 +59,7 @@
         /// <summary>
         /// Enqueues the flushing of the mutation observers in the event loop.
         /// </summary>
-        public void Enqueue()
+        public void ScheduleCallback()
         {
             if (_queued)
                 return;
@@ -75,7 +75,7 @@
                 return;
 
             _queued = true;
-            Func<Task> task = Notify;
+            Func<Task> task = DispatchCallback;
             eventLoop.Enqueue(new MicroDomTask(_document, task));
         }
 
@@ -83,7 +83,7 @@
         /// Notifies the registered observers with all registered changes.
         /// </summary>
         /// <returns>The awaitable task.</returns>
-        public async Task Notify()
+        public async Task DispatchCallback()
         {
             var notifyList = _observers.ToArray();
             var context = _document.Context;
@@ -103,9 +103,7 @@
                 await eventLoop.Execute(() =>
                 {
                     var queue = mo.Flush().ToArray();
-
-                    //TODO Mutation
-                    //Remove all transient registered observers whose observer is mo.
+                    mo.ClearTransients();
 
                     if (queue.Length != 0)
                         mo.TriggerWith(queue);
