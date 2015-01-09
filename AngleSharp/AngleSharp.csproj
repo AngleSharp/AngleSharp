@@ -140,7 +140,6 @@
     <Compile Include="Html\InputTypes\DateInputType.cs" />
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
-    <Compile Include="Interfaces\Css\IGetStyleUtils.cs" />
     <Compile Include="Interfaces\Css\IKeyframeSelector.cs" />
     <Compile Include="Interfaces\Css\IPseudoElement.cs" />
     <Compile Include="Linq\ElementExtensions.cs" />

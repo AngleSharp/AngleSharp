@@ -16,6 +16,13 @@
         ICssStyleDeclaration CascadedStyle { get; }
 
         /// <summary>
+        /// Gets a live CSS declaration block with only the default
+        /// properties representing the value for the context object.
+        /// </summary>
+        [DomName("defaultStyle")]
+        ICssStyleDeclaration DefaultStyle { get; }
+
+        /// <summary>
         /// Gets a live CSS declaration block with properties
         /// that represent the value computed for the context object.
         /// </summary>
