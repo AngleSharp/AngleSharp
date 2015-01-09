@@ -341,24 +341,6 @@
         }
 
         /// <summary>
-        /// Adopts the given node for the provided document context.
-        /// </summary>
-        /// <param name="document">The new owner of the node.</param>
-        /// <param name="node">The node to change its owner.</param>
-        public static void AdoptNode(this IDocument document, INode node)
-        {
-            var adoptedNode = node as Node;
-
-            if (adoptedNode == null)
-                throw new DomException(ErrorCode.NotSupported);
-
-            if (adoptedNode.Parent != null)
-                adoptedNode.Parent.RemoveChild(adoptedNode, false);
-
-            adoptedNode.Owner = document as Document;
-        }
-
-        /// <summary>
         /// Checks if the node has any text node children.
         /// </summary>
         /// <param name="node">The parent of the potential text nodes.</param>

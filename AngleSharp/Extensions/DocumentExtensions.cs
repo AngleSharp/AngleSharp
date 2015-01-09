@@ -24,14 +24,32 @@
         /// <param name="action">The action to apply to the range.</param>
         public static void ForEachRange(this Document document, Predicate<Range> condition, Action<Range> action)
         {
-            if (document == null)
-                return;
-
-            foreach (var range in document.Ranges)
+            if (document != null)
             {
-                if (condition(range))
-                    action(range);
+                foreach (var range in document.Ranges)
+                {
+                    if (condition(range))
+                        action(range);
+                }
             }
+        }
+
+        /// <summary>
+        /// Adopts the given node for the provided document context.
+        /// </summary>
+        /// <param name="document">The new owner of the node.</param>
+        /// <param name="node">The node to change its owner.</param>
+        public static void AdoptNode(this IDocument document, INode node)
+        {
+            var adoptedNode = node as Node;
+
+            if (adoptedNode == null)
+                throw new DomException(ErrorCode.NotSupported);
+
+            if (adoptedNode.Parent != null)
+                adoptedNode.Parent.RemoveChild(adoptedNode, false);
+
+            adoptedNode.Owner = document as Document;
         }
 
         /// <summary>
@@ -71,7 +89,7 @@
                 for (var i = 0; i < observers.Length; i++)
                 {
                     var observer = observers[i];
-                    var options = observer.OptionsFor(node);
+                    var options = observer.ResolveOptions(node);
 
                     if (options == null)
                         continue;
@@ -91,6 +109,26 @@
             }
 
             document.PerformMicrotaskCheckpoint();
+        }
+
+        /// <summary>
+        /// Adds a transient observer for the given node.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <param name="node">The node to be removed.</param>
+        public static void AddTransientObserver(this Document document, INode node)
+        {
+            if (document == null)
+                return;
+
+            var ancestors = node.GetAncestorsOf();
+            var observers = document.Mutations.Observers;
+
+            foreach (var ancestor in ancestors)
+            {
+                foreach (var observer in observers)
+                    observer.AddTransient(ancestor, node);
+            }
         }
 
         /// <summary>
@@ -128,7 +166,7 @@
         /// <param name="document">The document to use.</param>
         public static void PerformMicrotaskCheckpoint(this Document document)
         {
-            document.Mutations.Enqueue();
+            document.Mutations.ScheduleCallback();
         }
 
         /// <summary>
