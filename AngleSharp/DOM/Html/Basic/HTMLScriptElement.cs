@@ -147,7 +147,9 @@
         /// </summary>
         internal void Run()
         {
-            if (_load == null)
+            var owner = Owner;
+
+            if (_load == null || owner == null)
                 return;
 
             if (_load.Exception != null || _load.IsFaulted)
@@ -160,12 +162,12 @@
                 return;
 
             using (var result = _load.Result)
-                Owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
+                owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
 
             AfterScriptExecute();
 
             if (Source != null) Load();
-            else Owner.QueueTask(Load);
+            else owner.QueueTask(Load);
         }
 
         /// <summary>
@@ -174,17 +176,19 @@
         /// </summary>
         internal void Prepare()
         {
-            var options = Owner.Options;
+            var owner = Owner;
 
-            if (_started)
+            if (_started || owner == null)
                 return;
+
+            var options = owner.Options;
 
             _wasParserInserted = _parserInserted;
             _parserInserted = false;
 
             _forceAsync = _wasParserInserted && !IsAsync;
 
-            if ((String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text)) || Owner == null)
+            if ((String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text)) || owner == null)
                 return;
 
             if (options.GetScriptEngine(ScriptLanguage) == null)
@@ -198,7 +202,7 @@
 
             _started = true;
 
-            if (!Owner.Options.IsScripting)
+            if (!owner.Options.IsScripting)
                 return;
 
             var eventAttr = GetAttribute(AttributeNames.Event);
@@ -222,7 +226,7 @@
             {
                 if (src == String.Empty)
                 {
-                    Owner.QueueTask(Error);
+                    owner.QueueTask(Error);
                     return;
                 }
 
@@ -232,12 +236,12 @@
                 if (requester == null)
                     return;
 
-                _load = requester.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint);
+                _load = requester.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), owner.Origin, OriginBehavior.Taint);
 
                 if (_parserInserted && !IsAsync)
                 {
                     if (IsDeferred)
-                        Owner.AddScript(this);
+                        owner.AddScript(this);
 
                     _load.ContinueWith(task => _readyToBeExecuted = true);
                 }
@@ -245,13 +249,13 @@
                 {
                     //The element must be added to the end of the list of scripts that will execute in order as soon as possible associated
                     //with the Document of the script element at the time the prepare a script algorithm started.
-                    Owner.AddScript(this);
+                    owner.AddScript(this);
                 }
                 else
                 {
                     //The element must be added to the set of scripts that will execute as soon as possible of the Document of the
                     //script element at the time the prepare a script algorithm started.
-                    Owner.AddScript(this);
+                    owner.AddScript(this);
                 }
             }
             else if (_parserInserted)
