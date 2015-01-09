@@ -724,10 +724,7 @@
                     previousSibling: oldPreviousSibling, 
                     nextSibling: node.NextSibling));
 
-                //TODO Mutation
-                // For each ancestor ancestor of node, if ancestor has any registered observers whose options's subtree is true,
-                // then for each such registered observer registered, append a transient registered observer whose observer and
-                // options are identical to those of registered and source which is registered to node's list of registered observers. 
+                _owner.AddTransientObserver(node);
             }
 
             RemoveNode(index, node);
