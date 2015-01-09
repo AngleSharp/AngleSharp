@@ -51,7 +51,7 @@
         /// <param name="otherNode">The node to be compared to the node that is executing the method.</param>
         /// <returns>True if the node specified in the otherNode parameter is equal to the current node.</returns>
         [DomName("isEqualNode")]
-        Boolean IsEqualNode(INode otherNode);
+        Boolean Equals(INode otherNode);
 
         /// <summary>
         /// Compares the position of two nodes in a document.

@@ -11,7 +11,7 @@
     /// Represents a node in the generated tree.
     /// </summary>
     [DebuggerStepThrough]
-    public class Node : EventTarget, INode
+    public class Node : EventTarget, INode, IEquatable<INode>
     {
         #region Fields
 
@@ -517,14 +517,14 @@
         /// </summary>
         /// <param name="otherNode">The node to compare equality with.</param>
         /// <returns>True if they are equal, otherwise false.</returns>
-        public virtual Boolean IsEqualNode(INode otherNode)
+        public virtual Boolean Equals(INode otherNode)
         {
             if (BaseUri != otherNode.BaseUri || NodeName != otherNode.NodeName || ChildNodes.Length != otherNode.ChildNodes.Length)
                 return false;
 
             for (int i = 0; i < _children.Length; i++)
             {
-                if (!_children[i].IsEqualNode(otherNode.ChildNodes[i]))
+                if (!_children[i].Equals(otherNode.ChildNodes[i]))
                     return false;
             }
 

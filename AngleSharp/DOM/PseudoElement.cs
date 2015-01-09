@@ -288,9 +288,9 @@
             return _host.Clone(deep);
         }
 
-        public Boolean IsEqualNode(INode otherNode)
+        public Boolean Equals(INode otherNode)
         {
-            return _host.IsEqualNode(otherNode);
+            return _host.Equals(otherNode);
         }
 
         public DocumentPositions CompareDocumentPosition(INode otherNode)

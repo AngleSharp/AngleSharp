@@ -604,7 +604,7 @@
             this.AppendNodes(nodes);
         }
 
-        public override Boolean IsEqualNode(INode otherNode)
+        public override Boolean Equals(INode otherNode)
         {
             var otherElement = otherNode as IElement;
 
@@ -622,7 +622,7 @@
                         return false;
                 }
 
-                return base.IsEqualNode(otherNode);
+                return base.Equals(otherNode);
             }
 
             return false;
