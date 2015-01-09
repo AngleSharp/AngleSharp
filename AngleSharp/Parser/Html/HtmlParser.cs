@@ -930,7 +930,8 @@
                 }
 
                 ReconstructFormatting();
-                var element = AddElement<HTMLAnchorElement>(tag);
+                var element = new HTMLAnchorElement(doc);
+                AddElement(element, tag);
                 formatting.AddFormatting(element);
             }
             else if (tagName == Tags.Span)
@@ -973,7 +974,7 @@
             else if (tagName == Tags.Input)
             {
                 ReconstructFormatting();
-                AddElement<HTMLInputElement>(tag, true);
+                AddElement(new HTMLInputElement(doc), tag, true);
                 CloseCurrentNode();
 
                 if (!tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
@@ -1039,7 +1040,7 @@
                 else
                 {
                     ReconstructFormatting();
-                    AddElement<HTMLButtonElement>(tag);
+                    AddElement(new HTMLButtonElement(doc), tag);
                     frameset = false;
                 }
             }
@@ -1583,7 +1584,7 @@
                         if (tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
                         {
                             RaiseErrorOccurred(ErrorCode.InputUnexpected);
-                            AddElement<HTMLInputElement>(tag, true);
+                            AddElement(new HTMLInputElement(doc), tag, true);
                             CloseCurrentNode();
                         }
                         else
