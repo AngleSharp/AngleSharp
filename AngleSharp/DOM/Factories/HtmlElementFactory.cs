@@ -12,12 +12,12 @@
 
         HtmlElementFactory()
         {
-            creators.Add(Tags.Base, document => new HTMLBaseElement { Owner = document });
-            creators.Add(Tags.BaseFont, document => new HTMLBaseFontElement { Owner = document });
-            creators.Add(Tags.Link, document => new HTMLLinkElement { Owner = document });
-            creators.Add(Tags.A, document => new HTMLAnchorElement { Owner = document });
-            creators.Add(Tags.Button, document => new HTMLButtonElement { Owner = document });
-            creators.Add(Tags.Input, document => new HTMLInputElement { Owner = document });
+            creators.Add(Tags.Base, document => new HTMLBaseElement(document));
+            creators.Add(Tags.BaseFont, document => new HTMLBaseFontElement(document));
+            creators.Add(Tags.Link, document => new HTMLLinkElement(document));
+            creators.Add(Tags.A, document => new HTMLAnchorElement(document));
+            creators.Add(Tags.Button, document => new HTMLButtonElement(document));
+            creators.Add(Tags.Input, document => new HTMLInputElement(document));
             creators.Add(Tags.Html, document => new HTMLHtmlElement { Owner = document });
             creators.Add(Tags.IsIndex, document => new HTMLIsIndexElement { Owner = document });
             creators.Add(Tags.Br, document => new HTMLBRElement { Owner = document });
