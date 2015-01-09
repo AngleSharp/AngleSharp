@@ -100,9 +100,9 @@ namespace UnitTests.Library
             Assert.AreEqual(divOne, divThree);
             Assert.AreEqual(divTwo, divThree);
 
-            Assert.IsTrue(divOne.IsEqualNode(divTwo));
-            Assert.IsTrue(divOne.IsEqualNode(divThree));
-            Assert.IsTrue(divTwo.IsEqualNode(divThree));
+            Assert.IsTrue(divOne.Equals(divTwo));
+            Assert.IsTrue(divOne.Equals(divThree));
+            Assert.IsTrue(divTwo.Equals(divThree));
         }
 
         [Test]
@@ -123,8 +123,8 @@ namespace UnitTests.Library
             var clone = original.Clone();
 
             Assert.AreNotEqual(original, clone);
-            Assert.IsTrue(original.IsEqualNode(clone));
-            Assert.IsFalse(original.IsEqualNode(doc.Body));
+            Assert.IsTrue(original.Equals(clone));
+            Assert.IsFalse(original.Equals(doc.Body));
         }
 
         [Test]
