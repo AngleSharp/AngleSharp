@@ -155,7 +155,7 @@
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
         [DomName("getElementsByTagNameNS")]
-        IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
+        IHtmlCollection GetElementsByTagName(String namespaceUri, String tagName);
 
         /// <summary>
         /// Creates an event of the type specified. 

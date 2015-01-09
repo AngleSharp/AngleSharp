@@ -104,10 +104,10 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlElementCollection GetElementsByTagNameNS(this INodeList elements, String namespaceUri, String localName)
+        public static HtmlElementCollection GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagNameNS(namespaceUri, localName != "*" ? localName : null, result);
+            elements.GetElementsByTagName(namespaceUri, localName != "*" ? localName : null, result);
             return new HtmlElementCollection(result);
         }
 
@@ -254,7 +254,7 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByTagNameNS(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
+        public static void GetElementsByTagName(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
         {
             for (int i = 0; i < elements.Length; i++)
             {
@@ -266,7 +266,7 @@
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)
-                        GetElementsByTagNameNS(element.ChildNodes, namespaceUri, localName, result);
+                        GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
                 }
             }
         }

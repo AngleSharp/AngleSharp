@@ -1416,9 +1416,9 @@
         /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
         /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A collection of elements in the order they appear in the tree.</returns>
-        public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
+        public IHtmlCollection GetElementsByTagName(String namespaceURI, String tagName)
         {
-            return ChildNodes.GetElementsByTagNameNS(namespaceURI, tagName);
+            return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }
 
         /// <summary>

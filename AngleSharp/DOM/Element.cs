@@ -384,7 +384,7 @@
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
         public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
-            return ChildNodes.GetElementsByTagNameNS(namespaceURI, tagName);
+            return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }
 
         public Boolean Matches(String selectors)
