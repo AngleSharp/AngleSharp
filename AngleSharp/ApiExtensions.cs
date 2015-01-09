@@ -35,11 +35,15 @@
                 return default(TElement);
 
             var ctor = type.GetConstructor();
+            var parameterLess = ctor != null;
+            
+            if (parameterLess == false)
+                ctor = type.GetConstructor(new Type[] { typeof(Document) });
 
             if (ctor == null)
                 return default(TElement);
 
-            var element = (TElement)ctor.Invoke(null);
+            var element = (TElement)(parameterLess ? ctor.Invoke(null) : ctor.Invoke(new Object[] { document }));
             var el = element as Element;
 
             if (element != null)
