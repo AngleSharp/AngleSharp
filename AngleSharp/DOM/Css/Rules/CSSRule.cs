@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -67,7 +66,6 @@
             get { return _ownerSheet; }
             internal set { _ownerSheet = value; }
         }
-
 
         /// <summary>
         /// Gets the type constant indicating the type of CSS rule.
