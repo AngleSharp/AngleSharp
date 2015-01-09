@@ -15,7 +15,7 @@
 
         readonly Queue<IMutationRecord> _records;
         readonly MutationCallback _callback;
-        readonly Dictionary<INode, MutationObserverInit> _observing;
+        readonly List<MutationObserving> _observing;
 
         #endregion
 
@@ -30,19 +30,24 @@
         {
             _records = new Queue<IMutationRecord>();
             _callback = callback;
-            _observing = new Dictionary<INode, MutationObserverInit>();
+            _observing = new List<MutationObserving>();
         }
 
         #endregion
 
         #region Properties
 
-        internal IEnumerable<INode> Nodes
+        MutationObserving this[INode node]
         {
             get
             {
-                foreach (var target in _observing)
-                    yield return target.Key;
+                foreach (var observing in _observing)
+                {
+                    if (Object.ReferenceEquals(observing.Target, node))
+                        return observing;
+                }
+
+                return null;
             }
         }
 
@@ -74,11 +79,38 @@
         /// </summary>
         /// <param name="node">The node of interest.</param>
         /// <returns>The options set for the provided node.</returns>
-        internal MutationObserverInit OptionsFor(INode node)
+        internal MutationObserverInit ResolveOptions(INode node)
         {
-            MutationObserverInit result;
-            _observing.TryGetValue(node, out result);
-            return result;
+            foreach (var observing in _observing)
+            {
+                if (Object.ReferenceEquals(observing.Target, node) || observing.TransientNodes.Contains(node))
+                    return observing.Options;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Adds a transient observer for the given node with the provided ancestor,
+        /// if the node's ancestor is currently observed.
+        /// </summary>
+        /// <param name="ancestor">The ancestor that is currently observed.</param>
+        /// <param name="node">The node to observe as a transient observer.</param>
+        internal void AddTransient(INode ancestor, INode node)
+        {
+            var obs = this[ancestor];
+
+            if (obs != null && obs.Options.IsObservingSubtree)
+                obs.TransientNodes.Add(node);
+        }
+
+        /// <summary>
+        /// Clears all transient observers.
+        /// </summary>
+        internal void ClearTransients()
+        {
+            foreach (var observing in _observing)
+                observing.TransientNodes.Clear();
         }
 
         /// <summary>
@@ -89,9 +121,9 @@
         [DomName("disconnect")]
         public void Disconnect()
         {
-            foreach (var key in _observing.Keys)
+            foreach (var observing in _observing)
             {
-                var node = (Node)key;
+                var node = (Node)observing.Target;
                 node.Owner.Mutations.Unregister(this);
             }
 
@@ -111,8 +143,6 @@
 
             if (node == null)
                 return;
-
-            node.Owner.Mutations.Register(this);
 
             if (options.IsExaminingOldCharacterData.HasValue == false)
                 options.IsExaminingOldCharacterData = false;
@@ -135,13 +165,19 @@
             if (options.IsExaminingOldCharacterData.Value && options.IsObservingCharacterData.Value == false)
                 throw new DomException(ErrorCode.TypeMismatch);
 
-            if (_observing.ContainsKey(target))
+            if (options.IsObservingChildNodes == false && options.IsObservingCharacterData.Value == false && options.IsObservingAttributes.Value == false)
+                throw new DomException(ErrorCode.Syntax);
+
+            node.Owner.Mutations.Register(this);
+            var existing = this[target];
+
+            if (existing != null)
             {
-                //TODO Mutation
-                //6.1 Remove all transient registered observers whose source is registered. 
+                existing.TransientNodes.Clear();
+                _observing.Remove(existing);
             }
 
-            _observing[target] = options;
+            _observing.Add(new MutationObserving(target, options));
         }
 
         /// <summary>
@@ -176,6 +212,39 @@
         {
             while (_records.Count != 0)
                 yield return _records.Dequeue();
+        }
+
+        #endregion
+
+        #region Options
+
+        class MutationObserving
+        {
+            readonly INode _target;
+            readonly MutationObserverInit _options;
+            readonly List<INode> _transientNodes;
+
+            public MutationObserving(INode target, MutationObserverInit options)
+            {
+                _target = target;
+                _options = options;
+                _transientNodes = new List<INode>();
+            }
+
+            public INode Target
+            {
+                get { return _target; }
+            }
+
+            public MutationObserverInit Options
+            {
+                get { return _options; }
+            }
+
+            public List<INode> TransientNodes
+            {
+                get { return _transientNodes; }
+            }
         }
 
         #endregion
