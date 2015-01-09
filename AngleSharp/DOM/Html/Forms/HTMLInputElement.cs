@@ -23,9 +23,10 @@
         /// <summary>
         /// Creates a new HTML input element.
         /// </summary>
-        public HTMLInputElement()
+        public HTMLInputElement(Document owner)
             : base(Tags.Input, NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

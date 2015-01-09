@@ -29,9 +29,10 @@
         /// <summary>
         /// Creates a new HTML link element.
         /// </summary>
-        internal HTMLLinkElement()
+        public HTMLLinkElement(Document owner)
             : base(Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
             _cts = new CancellationTokenSource();
         }
 

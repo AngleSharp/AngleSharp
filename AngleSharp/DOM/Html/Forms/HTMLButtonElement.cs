@@ -20,9 +20,10 @@
         /// <summary>
         /// Creates a new HTML button element.
         /// </summary>
-        public HTMLButtonElement()
+        public HTMLButtonElement(Document owner)
             : base(Tags.Button)
         {
+            Owner = owner;
         }
 
         #endregion

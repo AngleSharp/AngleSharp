@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a HTML base element.
         /// </summary>
-        internal HTMLBaseElement()
+        public HTMLBaseElement(Document owner)
             : base(Tags.Base, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion
