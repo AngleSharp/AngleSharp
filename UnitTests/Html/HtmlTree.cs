@@ -46,27 +46,12 @@ namespace UnitTests
         [Test]
         public void TreeNonConformingTable()
         {
+            var expected = @"<html><head></head><body><a href=""a"">a<a href=""b"">b</a><table></table></a><a href=""b"">x</a></body></html>";
+            var source = @"<a href=""a"">a<table><a href=""b"">b</table>x";
             //8.2.5.4.7 The "in body" insertion mode - "In the non-conforming ..."
-            var doc = DocumentBuilder.Html(@"<a href=""a"">a<table><a href=""b"">b</table>x");
-            var anchorA = new HTMLAnchorElement();
-            anchorA.SetAttribute("href", "a");
-            var anchorB = new HTMLAnchorElement();
-            anchorB.SetAttribute("href", "b");
-            var anchorC = new HTMLAnchorElement();
-            anchorC.SetAttribute("href", "b");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(anchorA)
-                        .AppendChild(new TextNode("a")).Parent
-                        .AppendChild(anchorB)
-                            .AppendChild(new TextNode("b")).Parent.Parent
-                        .AppendChild(new HTMLTableElement()).Parent.Parent
-                    .AppendChild(anchorC)
-                        .AppendChild(new TextNode("x")).Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]

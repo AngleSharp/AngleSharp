@@ -151,12 +151,13 @@ namespace UnitTests
         [Test]
         public void NormalizeRemovesEmptyTextNodes()
         {
-            var div = new HTMLDivElement();
-            div.AppendChild(new HTMLAnchorElement());
-            div.AppendChild(new TextNode());
-            div.AppendChild(new HTMLDivElement());
-            div.AppendChild(new TextNode("Hi there!"));
-            div.AppendChild(new HTMLImageElement());
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement("div");
+            div.AppendChild(document.CreateElement("a"));
+            div.AppendChild(document.CreateTextNode(String.Empty));
+            div.AppendChild(document.CreateElement("div"));
+            div.AppendChild(document.CreateTextNode("Hi there!"));
+            div.AppendChild(document.CreateElement("img"));
             div.Normalize();
             Assert.AreEqual(div.ChildNodes.Length, 4);
         }
@@ -164,15 +165,16 @@ namespace UnitTests
         [Test]
         public void NormalizeRemovesEmptyTextNodesNested()
         {
-            var div = new HTMLDivElement();
-            var a = new HTMLAnchorElement();
-            a.AppendChild(new TextNode());
-            a.AppendChild(new TextNode("Not empty."));
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement("div");
+            var a = document.CreateElement("a");
+            a.AppendChild(document.CreateTextNode(""));
+            a.AppendChild(document.CreateTextNode("Not empty."));
             div.AppendChild(a);
-            div.AppendChild(new TextNode());
-            div.AppendChild(new HTMLDivElement());
-            div.AppendChild(new TextNode("Certainly not empty!"));
-            div.AppendChild(new HTMLImageElement());
+            div.AppendChild(document.CreateTextNode(""));
+            div.AppendChild(document.CreateElement("div"));
+            div.AppendChild(document.CreateTextNode("Certainly not empty!"));
+            div.AppendChild(document.CreateElement("img"));
             div.Normalize();
             Assert.AreEqual(a.ChildNodes.Length, 1);
         }
@@ -180,18 +182,19 @@ namespace UnitTests
         [Test]
         public void NormalizeMergeTextNodes()
         {
-            var div = new HTMLDivElement();
-            var a = new HTMLAnchorElement();
-            a.AppendChild(new TextNode());
-            a.AppendChild(new TextNode("Not empty."));
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement("div");
+            var a = document.CreateElement("a");
+            a.AppendChild(document.CreateTextNode(""));
+            a.AppendChild(document.CreateTextNode("Not empty."));
             div.AppendChild(a);
-            div.AppendChild(new TextNode());
-            div.AppendChild(new HTMLDivElement());
-            div.AppendChild(new TextNode("Certainly not empty!"));
-            div.AppendChild(new TextNode("Certainly not empty!"));
-            div.AppendChild(new TextNode("Certainly not empty!"));
-            div.AppendChild(new TextNode("Certainly not empty!"));
-            div.AppendChild(new HTMLImageElement());
+            div.AppendChild(document.CreateTextNode(""));
+            div.AppendChild(document.CreateElement("div"));
+            div.AppendChild(document.CreateTextNode("Certainly not empty!"));
+            div.AppendChild(document.CreateTextNode("Certainly not empty!"));
+            div.AppendChild(document.CreateTextNode("Certainly not empty!"));
+            div.AppendChild(document.CreateTextNode("Certainly not empty!"));
+            div.AppendChild(document.CreateElement("img"));
             div.Normalize();
             Assert.AreEqual(div.ChildNodes.Length, 4);
         }
