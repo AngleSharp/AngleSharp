@@ -140,7 +140,7 @@ namespace UnitTests
             var doc = new Document();
             var root = new HTMLHtmlElement(document);
             doc.AppendChild(root);
-            var head = new HTMLHeadElement();
+            var head = new HTMLHeadElement(document);
             root.AppendChild(head);
             Assert.AreEqual(head, doc.Head);
         }
@@ -151,7 +151,7 @@ namespace UnitTests
             var doc = new Document();
             var root = new HTMLHtmlElement(document);
             doc.AppendChild(root);
-            var body = new HTMLBodyElement();
+            var body = new HTMLBodyElement(document);
             root.AppendChild(body);
             Assert.AreEqual(body, doc.Body);
         }
