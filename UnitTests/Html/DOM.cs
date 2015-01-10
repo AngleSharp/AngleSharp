@@ -439,7 +439,7 @@ namespace UnitTests
         [Test]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
-            var element = new HTMLSpanElement();
+            var element = new HTMLSpanElement(document);
             var text = "background-color: red; color: black;";
             element.Style.CssText = text;
             Assert.AreEqual(text, element.GetAttribute("style"));
