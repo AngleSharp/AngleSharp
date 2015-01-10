@@ -716,5 +716,10 @@
         /// The manifest attribute.
         /// </summary>
         public static readonly String Manifest = "manifest";
+
+        /// <summary>
+        /// The datetime attribute.
+        /// </summary>
+        public static readonly String Datetime = "datetime";
     }
 }
