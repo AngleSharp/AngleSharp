@@ -10,9 +10,11 @@
     {
         #region ctor
 
-        internal HTMLSemanticElement(String name)
+        public HTMLSemanticElement(Document owner, String name)
             : base(name, NodeFlags.Special)
-        { }
+        {
+            Owner = owner;
+        }
 
         #endregion
     }

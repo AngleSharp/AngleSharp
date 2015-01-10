@@ -9,9 +9,11 @@
     {
         #region ctor
 
-        internal HTMLNoFramesElement()
+        public HTMLNoFramesElement(Document owner)
             : base(Tags.NoFrames, NodeFlags.Special | NodeFlags.LiteralText)
-        { }
+        {
+            Owner = owner;
+        }
 
         #endregion
     }

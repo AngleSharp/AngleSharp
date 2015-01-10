@@ -9,9 +9,11 @@
     {
         #region ctor
 
-        internal HTMLNoEmbedElement()
+        public HTMLNoEmbedElement(Document owner)
             : base(Tags.NoEmbed, NodeFlags.Special | NodeFlags.LiteralText)
-        { }
+        {
+            Owner = owner;
+        }
 
         #endregion
     }

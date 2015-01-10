@@ -9,9 +9,10 @@
     [DomHistorical]
     sealed class HTMLBgsoundElement : HTMLElement
     {
-        internal HTMLBgsoundElement()
+        public HTMLBgsoundElement(Document owner)
             : base(Tags.Bgsound, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
     }
 }
