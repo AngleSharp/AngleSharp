@@ -1198,7 +1198,7 @@
             }
             else if (tagName == Tags.Svg)
             {
-                var element = new SvgElement(tagName) { Owner = doc };
+                var element = new SvgElement(doc, tagName);
                 ReconstructFormatting();
 
                 for (int i = 0; i < tag.Attributes.Count; i++)

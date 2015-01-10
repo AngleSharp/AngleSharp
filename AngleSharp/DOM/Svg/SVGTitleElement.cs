@@ -7,8 +7,8 @@
     /// </summary>
     sealed class SvgTitleElement : SvgElement, ISvgTitleElement
     {
-        internal SvgTitleElement()
-            : base(Tags.Title, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
+        public SvgTitleElement(Document owner)
+            : base(owner, Tags.Title, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

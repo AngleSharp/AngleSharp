@@ -7,8 +7,8 @@
     /// </summary>
     sealed class SvgSvgElement : SvgElement
     {
-        internal SvgSvgElement()
-            : base(Tags.Svg)
+        public SvgSvgElement(Document owner)
+            : base(owner, Tags.Svg)
         {
         }
     }

@@ -7,8 +7,8 @@
     /// </summary>
     sealed class SvgCircleElement : SvgElement
     {
-        internal SvgCircleElement()
-            : base(Tags.Circle)
+        public SvgCircleElement(Document owner)
+            : base(owner, Tags.Circle)
         {
         }
     }

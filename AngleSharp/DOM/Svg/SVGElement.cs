@@ -20,10 +20,11 @@
         /// <summary>
         /// Creates a new SVG element.
         /// </summary>
-        internal SvgElement(String name, NodeFlags flags = NodeFlags.None)
+        public SvgElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.SvgMember)
         {
             NamespaceUri = Namespaces.SvgUri;
+            Owner = owner;
             _style = new CssStyleDeclaration();
         }
 

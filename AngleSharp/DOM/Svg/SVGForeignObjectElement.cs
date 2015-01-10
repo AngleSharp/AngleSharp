@@ -7,8 +7,8 @@
     /// </summary>
     sealed class SvgForeignObjectElement : SvgElement
     {
-        internal SvgForeignObjectElement()
-            : base(Tags.ForeignObject, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
+        public SvgForeignObjectElement(Document owner)
+            : base(owner, Tags.ForeignObject, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

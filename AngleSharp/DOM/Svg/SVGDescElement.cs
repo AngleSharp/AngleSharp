@@ -7,8 +7,8 @@
     /// </summary>
     sealed class SvgDescElement : SvgElement
     {
-        internal SvgDescElement()
-            : base(Tags.Desc, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
+        public SvgDescElement(Document owner)
+            : base(owner, Tags.Desc, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }
