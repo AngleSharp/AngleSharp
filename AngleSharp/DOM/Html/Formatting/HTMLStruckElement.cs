@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLStruckElement : HTMLElement
     {
-        internal HTMLStruckElement()
+        public HTMLStruckElement(Document owner)
             : base(Tags.S, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

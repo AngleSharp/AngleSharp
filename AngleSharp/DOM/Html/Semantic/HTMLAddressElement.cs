@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLAddressElement : HTMLElement
     {
-        internal HTMLAddressElement()
+        public HTMLAddressElement(Document owner)
             : base(Tags.Address, NodeFlags.Special)
         {
+            Owner = owner;
         }
     }
 }

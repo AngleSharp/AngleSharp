@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLItalicElement : HTMLElement
     {
-        internal HTMLItalicElement()
+        public HTMLItalicElement(Document owner)
             : base(Tags.I, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

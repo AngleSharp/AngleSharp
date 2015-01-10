@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLUnderlineElement : HTMLElement
     {
-        internal HTMLUnderlineElement()
+        public HTMLUnderlineElement(Document owner)
             : base(Tags.U, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

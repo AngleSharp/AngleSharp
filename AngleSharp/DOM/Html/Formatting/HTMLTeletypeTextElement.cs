@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLTeletypeTextElement : HTMLElement
     {
-        internal HTMLTeletypeTextElement()
+        public HTMLTeletypeTextElement(Document owner)
             : base(Tags.Tt, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

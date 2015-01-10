@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLNoNewlineElement : HTMLElement
     {
-        internal HTMLNoNewlineElement()
+        public HTMLNoNewlineElement(Document owner)
             : base(Tags.NoBr, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }
