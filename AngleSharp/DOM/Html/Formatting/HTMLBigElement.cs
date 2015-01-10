@@ -8,9 +8,8 @@
     sealed class HTMLBigElement : HTMLElement
     {
         public HTMLBigElement(Document owner)
-            : base(Tags.Big, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.Big, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

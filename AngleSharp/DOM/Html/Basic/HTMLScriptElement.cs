@@ -29,9 +29,8 @@
         /// Creates a new HTML script element.
         /// </summary>
         public HTMLScriptElement(Document owner)
-            : base(Tags.Script, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, Tags.Script, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            Owner = owner;
         }
 
         #endregion

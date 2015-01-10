@@ -8,9 +8,8 @@
     sealed class HTMLStrongElement : HTMLElement
     {
         public HTMLStrongElement(Document owner)
-            : base(Tags.Strong, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.Strong, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

@@ -25,8 +25,8 @@
         /// <summary>
         /// Creates a standard HTML element.
         /// </summary>
-        internal HTMLElement(String name, NodeFlags flags = NodeFlags.None)
-            : base(name, flags | NodeFlags.HtmlMember)
+        public HTMLElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, flags | NodeFlags.HtmlMember)
         {
             NamespaceUri = Namespaces.HtmlUri;
         }

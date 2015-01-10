@@ -30,9 +30,8 @@
         /// Creates a new HTML link element.
         /// </summary>
         public HTMLLinkElement(Document owner)
-            : base(Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
             _cts = new CancellationTokenSource();
         }
 

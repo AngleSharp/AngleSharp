@@ -14,9 +14,8 @@
         /// Creates a new HTML optgroup element.
         /// </summary>
         public HTMLOptGroupElement(Document owner)
-            : base(Tags.Optgroup, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+            : base(owner, Tags.Optgroup, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
-            Owner = owner;
         }
 
         #endregion

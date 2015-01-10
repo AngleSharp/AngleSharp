@@ -22,9 +22,8 @@
         #region ctor
 
         public HTMLObjectElement(Document owner)
-            : base(Tags.Object, NodeFlags.Scoped)
+            : base(owner, Tags.Object, NodeFlags.Scoped)
         {
-            Owner = owner;
             _contentDocument = null;
             _contentWindow = null;
         }

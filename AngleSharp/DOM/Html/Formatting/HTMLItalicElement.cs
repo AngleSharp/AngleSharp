@@ -8,9 +8,8 @@
     sealed class HTMLItalicElement : HTMLElement
     {
         public HTMLItalicElement(Document owner)
-            : base(Tags.I, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.I, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

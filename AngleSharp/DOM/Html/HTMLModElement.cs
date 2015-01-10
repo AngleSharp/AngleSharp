@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
+    using AngleSharp.Html;
     using System;
 
     /// <summary>
@@ -10,9 +11,8 @@
         #region ctor
 
         public HTMLModElement(Document owner, String name)
-            : base(name)
+            : base(owner, name)
         {
-            Owner = owner;
         }
 
         #endregion
@@ -25,8 +25,8 @@
         /// </summary>
         public String Citation
         {
-            get { return GetAttribute("cite"); }
-            set { SetAttribute("cite", value); }
+            get { return GetAttribute(AttributeNames.Cite); }
+            set { SetAttribute(AttributeNames.Cite, value); }
         }
 
         /// <summary>
@@ -35,8 +35,8 @@
         /// </summary>
         public String DateTime
         {
-            get { return GetAttribute("datetime"); }
-            set { SetAttribute("datetime", value); }
+            get { return GetAttribute(AttributeNames.Datetime); }
+            set { SetAttribute(AttributeNames.Datetime, value); }
         }
 
         #endregion

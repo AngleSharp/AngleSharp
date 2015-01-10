@@ -14,9 +14,8 @@
         /// Creates a new HTML menu element.
         /// </summary>
         public HTMLMenuElement(Document owner)
-            : base(Tags.Menu, NodeFlags.Special)
+            : base(owner, Tags.Menu, NodeFlags.Special)
         {
-            Owner = owner;
         }
 
         #endregion

@@ -2,7 +2,6 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents the HTML caption element.
@@ -12,9 +11,8 @@
         #region ctor
 
         public HTMLTableCaptionElement(Document owner)
-            : base(Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
         {
-            Owner = owner;
         }
 
         #endregion

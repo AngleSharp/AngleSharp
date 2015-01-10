@@ -15,9 +15,8 @@
         #region ctor
 
         public HTMLFrameSetElement(Document owner)
-            : base(Tags.Frameset, NodeFlags.Special)
+            : base(owner, Tags.Frameset, NodeFlags.Special)
         {
-            Owner = owner;
         }
 
         #endregion

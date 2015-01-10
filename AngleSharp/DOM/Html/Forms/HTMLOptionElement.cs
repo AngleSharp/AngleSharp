@@ -21,9 +21,8 @@
         /// Creates a new HTML option element.
         /// </summary>
         public HTMLOptionElement(Document owner)
-            : base(Tags.Option, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+            : base(owner, Tags.Option, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
-            Owner = owner;
         }
 
         #endregion           

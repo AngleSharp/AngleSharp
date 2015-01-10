@@ -10,9 +10,8 @@
         #region ctor
 
         public HTMLLegendElement(Document owner)
-            : base(Tags.Legend)
+            : base(owner, Tags.Legend)
         {
-            Owner = owner;
         }
 
         #endregion

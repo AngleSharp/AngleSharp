@@ -12,9 +12,8 @@
         #region ctor
 
         public HTMLFrameElement(Document owner)
-            : base(Tags.Frame, NodeFlags.SelfClosing)
+            : base(owner, Tags.Frame, NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
 
         #endregion

@@ -10,9 +10,8 @@
     sealed class HTMLAppletElement : HTMLElement
     {
         public HTMLAppletElement(Document owner)
-            : base(Tags.Applet, NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, Tags.Applet, NodeFlags.Special | NodeFlags.Scoped)
         {
-            Owner = owner;
         }
     }
 }

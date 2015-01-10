@@ -32,11 +32,12 @@
         /// <summary>
         /// Creates a new element node.
         /// </summary>
-        internal Element(String name, NodeFlags flags = NodeFlags.None)
+        public Element(Document owner, String name, NodeFlags flags = NodeFlags.None)
             : base(name, NodeType.Element, flags)
         {
             _attributes = new List<IAttr>();
             _attributeHandlers = new Dictionary<String, Action<String>>();
+            Owner = owner;
         }
 
         #endregion
@@ -399,7 +400,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Element(NodeName, Flags);
+            var node = new Element(Owner, NodeName, Flags);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             node.Close();

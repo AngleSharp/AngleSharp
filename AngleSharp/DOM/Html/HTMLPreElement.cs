@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents the HTML pre element.
@@ -11,9 +10,8 @@
         #region ctor
 
         public HTMLPreElement(Document owner)
-            : base(Tags.Pre, NodeFlags.Special | NodeFlags.LineTolerance)
+            : base(owner, Tags.Pre, NodeFlags.Special | NodeFlags.LineTolerance)
         {
-            Owner = owner;
         }
 
         #endregion

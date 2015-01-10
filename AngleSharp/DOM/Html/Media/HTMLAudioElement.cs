@@ -21,9 +21,8 @@
         /// Creates a new HTML audio element.
         /// </summary>
         public HTMLAudioElement(Document owner)
-            : base(Tags.Audio)
+            : base(owner, Tags.Audio)
         {
-            Owner = owner;
             _audios = null;
         }
 

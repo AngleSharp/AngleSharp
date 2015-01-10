@@ -23,9 +23,8 @@
         /// Creates a new anchor element.
         /// </summary>
         public HTMLAnchorElement(Document owner)
-            : base(Tags.A, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.A, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
             _location = new ElementLocation(this);
         }
 

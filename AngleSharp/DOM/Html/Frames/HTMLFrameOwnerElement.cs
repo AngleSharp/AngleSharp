@@ -11,8 +11,8 @@
     {
         #region ctor
 
-        internal HTMLFrameOwnerElement(String name, NodeFlags flags = NodeFlags.None)
-            : base(name, flags)
+        public HTMLFrameOwnerElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, flags)
         {
         }
 

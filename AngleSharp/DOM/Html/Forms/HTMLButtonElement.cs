@@ -21,9 +21,8 @@
         /// Creates a new HTML button element.
         /// </summary>
         public HTMLButtonElement(Document owner)
-            : base(Tags.Button)
+            : base(owner, Tags.Button)
         {
-            Owner = owner;
         }
 
         #endregion
@@ -35,7 +34,7 @@
         /// </summary>
         public String Type
         {
-            get { return (GetAttribute(AttributeNames.Type) ?? "submit").ToLower(); }
+            get { return (GetAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLower(); }
             set { SetAttribute(AttributeNames.Type, value); }
         }
 

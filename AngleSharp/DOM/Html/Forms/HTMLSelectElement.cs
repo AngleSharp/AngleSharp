@@ -23,9 +23,8 @@
         /// Creates a new HTML select element.
         /// </summary>
         public HTMLSelectElement(Document owner)
-            : base(Tags.Select)
+            : base(owner, Tags.Select)
         {
-            Owner = owner;
             _options = new OptionsCollection(this);
         }
 

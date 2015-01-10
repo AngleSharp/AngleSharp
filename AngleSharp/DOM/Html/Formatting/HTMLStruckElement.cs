@@ -8,9 +8,8 @@
     sealed class HTMLStruckElement : HTMLElement
     {
         public HTMLStruckElement(Document owner)
-            : base(Tags.S, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.S, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

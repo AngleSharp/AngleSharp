@@ -10,7 +10,7 @@
         #region ctor
 
         public HTMLSpanElement(Document owner)
-            : base(Tags.Span)
+            : base(owner, Tags.Span)
         {
             Owner = owner;
         }

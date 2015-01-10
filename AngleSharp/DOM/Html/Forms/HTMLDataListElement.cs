@@ -20,9 +20,8 @@
         /// Creates a new datalist element.
         /// </summary>
         public HTMLDataListElement(Document owner)
-            : base(Tags.Datalist)
+            : base(owner, Tags.Datalist)
         {
-            Owner = owner;
             _options = new HtmlCollection<HTMLOptionElement>(this);
         }
 

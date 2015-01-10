@@ -8,9 +8,8 @@
     sealed class HTMLNoNewlineElement : HTMLElement
     {
         public HTMLNoNewlineElement(Document owner)
-            : base(Tags.NoBr, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.NoBr, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

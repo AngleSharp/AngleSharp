@@ -13,9 +13,8 @@
         /// Creates a new HTML br element
         /// </summary>
         public HTMLBRElement(Document owner)
-            : base(Tags.Br, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Br, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
 
         #endregion

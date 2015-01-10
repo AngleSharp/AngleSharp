@@ -17,9 +17,8 @@
         /// Creates a new HTML fieldset element.
         /// </summary>
         public HTMLFieldSetElement(Document owner)
-            : base(Tags.Fieldset)
+            : base(owner, Tags.Fieldset)
         {
-            Owner = owner;
         }
 
         #endregion

@@ -8,9 +8,8 @@
     sealed class HTMLAddressElement : HTMLElement
     {
         public HTMLAddressElement(Document owner)
-            : base(Tags.Address, NodeFlags.Special)
+            : base(owner, Tags.Address, NodeFlags.Special)
         {
-            Owner = owner;
         }
     }
 }

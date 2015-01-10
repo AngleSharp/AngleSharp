@@ -10,9 +10,8 @@
         #region ctor
 
         public HTMLNoEmbedElement(Document owner)
-            : base(Tags.NoEmbed, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, Tags.NoEmbed, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            Owner = owner;
         }
 
         #endregion

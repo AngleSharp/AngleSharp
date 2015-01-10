@@ -10,9 +10,8 @@
         #region ctor
 
         public HTMLNoScriptElement(Document owner)
-            : base(Tags.NoScript, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, Tags.NoScript, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            Owner = owner;
         }
 
         #endregion

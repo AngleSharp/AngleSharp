@@ -14,9 +14,8 @@
         /// Creates a new HTML html tag.
         /// </summary>
         public HTMLHtmlElement(Document owner)
-            : base(Tags.Html, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, Tags.Html, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
-            Owner = owner;
         }
 
         #endregion

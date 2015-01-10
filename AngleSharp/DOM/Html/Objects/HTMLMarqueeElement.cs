@@ -14,9 +14,8 @@
         #region ctor
 
         public HTMLMarqueeElement(Document owner)
-            : base(Tags.Marquee, NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, Tags.Marquee, NodeFlags.Special | NodeFlags.Scoped)
         {
-            Owner = owner;
         }
 
         #endregion

@@ -11,9 +11,8 @@
     sealed class HTMLFontElement : HTMLElement
     {
         public HTMLFontElement(Document owner)
-            : base(Tags.Font, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.Font, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

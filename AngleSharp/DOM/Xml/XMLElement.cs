@@ -14,10 +14,9 @@
         /// Creates a new XML element.
         /// </summary>
         public XmlElement(Document owner, String name)
-            : base(name)
+            : base(owner, name)
         {
             NamespaceUri = Namespaces.XmlUri;
-            Owner = owner;
         }
 
         #endregion

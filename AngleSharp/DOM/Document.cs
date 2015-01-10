@@ -1306,7 +1306,7 @@
             else if (namespaceUri == Namespaces.MathMlUri)
                 element = MathElementFactory.Create(localName, this);
             else
-                element = new Element(localName) { NamespaceUri = namespaceUri, Owner = this };
+                element = new Element(this, localName) { NamespaceUri = namespaceUri };
 
             element.Prefix = prefix;
             element.Close();

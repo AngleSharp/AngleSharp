@@ -102,7 +102,6 @@
             creators.Add(Tags.Address, document => new HTMLAddressElement(document));
             creators.Add(Tags.Main, document => new HTMLSemanticElement(document, Tags.Main));
             creators.Add(Tags.Summary, document => new HTMLSemanticElement(document, Tags.Summary));
-            creators.Add(Tags.Xmp, document => new HTMLSemanticElement(document, Tags.Xmp));
             creators.Add(Tags.Center, document => new HTMLSemanticElement(document, Tags.Center));
             creators.Add(Tags.Listing, document => new HTMLSemanticElement(document, Tags.Listing));
             creators.Add(Tags.Nav, document => new HTMLSemanticElement(document, Tags.Nav));
@@ -121,7 +120,7 @@
             creators.Add(Tags.NoFrames, document => new HTMLNoFramesElement(document));
             creators.Add(Tags.NoScript, document => new HTMLNoScriptElement(document));
             creators.Add(Tags.MenuItem, document => new HTMLMenuItemElement(document));
-            creators.Add(Tags.Cite, document => new HTMLElement(Tags.Cite) { Owner = document });
+            creators.Add(Tags.Cite, document => new HTMLElement(document, Tags.Cite));
             creators.Add(Tags.Ruby, document => new HTMLRubyElement(document));
             creators.Add(Tags.Rt, document => new HTMLRTElement(document));
             creators.Add(Tags.Rp, document => new HTMLRPElement(document));
@@ -131,11 +130,13 @@
             creators.Add(Tags.Map, document => new HTMLMapElement(document));
             creators.Add(Tags.Datalist, document => new HTMLDataListElement(document));
             creators.Add(Tags.Keygen, document => new HTMLKeygenElement(document));
+            creators.Add(Tags.Xmp, document => new HTMLXmpElement(document));
+            creators.Add(Tags.Template, document => new HTMLTemplateElement(document));
         }
 
         protected override HTMLElement CreateDefault(String name, Document document)
         {
-            return new HTMLUnknownElement(name.ToLowerInvariant()) { Owner = document };
+            return new HTMLUnknownElement(document, name.ToLowerInvariant());
         }
 
         /// <summary>

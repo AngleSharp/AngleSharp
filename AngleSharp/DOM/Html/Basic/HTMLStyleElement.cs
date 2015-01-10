@@ -22,9 +22,8 @@
         /// Creates an HTML style element.
         /// </summary>
         public HTMLStyleElement(Document owner)
-            : base(Tags.Style, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, Tags.Style, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            Owner = owner;
         }
 
         #endregion

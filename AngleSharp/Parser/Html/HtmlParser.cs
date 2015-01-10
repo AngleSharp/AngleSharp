@@ -696,7 +696,7 @@
                     }
                     else if (tagName == Tags.Template)
                     {
-                        AddElement<HTMLTemplateElement>(token.AsTag());
+                        AddElement(new HTMLTemplateElement(doc), token.AsTag());
                         formatting.AddScopeMarker();
                         frameset = false;
                         insert = HtmlTreeMode.InTemplate;

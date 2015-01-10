@@ -23,9 +23,8 @@
         /// Creates a new area element.
         /// </summary>
         public HTMLAreaElement(Document owner)
-            : base(Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
             _location = new ElementLocation(this);
         }
 

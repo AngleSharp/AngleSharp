@@ -11,9 +11,8 @@
         #region ctor
 
         public HTMLQuoteElement(Document owner, String name)
-            : base(name, name.Equals(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
+            : base(owner, name, name.Equals(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         {
-            Owner = owner;
         }
 
         #endregion

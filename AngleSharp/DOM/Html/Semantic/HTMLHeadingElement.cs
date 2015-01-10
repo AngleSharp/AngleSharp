@@ -9,9 +9,8 @@
     sealed class HTMLHeadingElement : HTMLElement, IHtmlHeadingElement
     {
         public HTMLHeadingElement(Document owner, String name)
-            : base(name, NodeFlags.Special)
+            : base(owner, name, NodeFlags.Special)
         {
-            Owner = owner;
         }
     }
 }

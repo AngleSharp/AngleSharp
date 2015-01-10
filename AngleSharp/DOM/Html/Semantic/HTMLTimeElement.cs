@@ -11,9 +11,8 @@
         #region ctor
 
         public HTMLTimeElement(Document owner)
-            : base(Tags.Time, NodeFlags.Special)
+            : base(owner, Tags.Time, NodeFlags.Special)
         {
-            Owner = owner;
         }
 
         #endregion
@@ -22,8 +21,8 @@
 
         public String DateTime
         {
-            get { return GetAttribute("datetime"); }
-            set { SetAttribute("datetime", value); }
+            get { return GetAttribute(AttributeNames.Datetime); }
+            set { SetAttribute(AttributeNames.Datetime, value); }
         }
 
         #endregion

@@ -8,9 +8,8 @@
     sealed class HTMLUnderlineElement : HTMLElement
     {
         public HTMLUnderlineElement(Document owner)
-            : base(Tags.U, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.U, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

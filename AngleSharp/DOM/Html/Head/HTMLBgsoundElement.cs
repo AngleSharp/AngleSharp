@@ -10,9 +10,8 @@
     sealed class HTMLBgsoundElement : HTMLElement
     {
         public HTMLBgsoundElement(Document owner)
-            : base(Tags.Bgsound, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Bgsound, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
     }
 }

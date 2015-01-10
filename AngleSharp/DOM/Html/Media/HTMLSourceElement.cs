@@ -14,9 +14,8 @@
         /// Creates a new HTML source element.
         /// </summary>
         public HTMLSourceElement(Document owner)
-            : base(Tags.Source, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Source, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
 
         #endregion

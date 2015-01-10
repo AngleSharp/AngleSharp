@@ -14,9 +14,8 @@
         /// Creates a HTML base element.
         /// </summary>
         public HTMLBaseElement(Document owner)
-            : base(Tags.Base, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Base, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
 
         #endregion

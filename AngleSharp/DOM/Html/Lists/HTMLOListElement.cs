@@ -12,9 +12,8 @@
         #region ctor
 
         public HTMLOListElement(Document owner)
-            : base(Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
+            : base(owner, Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
-            Owner = owner;
         }
 
         #endregion

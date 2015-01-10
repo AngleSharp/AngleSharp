@@ -7,8 +7,8 @@
     /// </summary>
     sealed class HTMLPlaintextElement : HTMLElement
     {
-        internal HTMLPlaintextElement()
-            : base(Tags.Plaintext, NodeFlags.Special | NodeFlags.LiteralText)
+        public HTMLPlaintextElement(Document owner)
+            : base(owner, Tags.Plaintext, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

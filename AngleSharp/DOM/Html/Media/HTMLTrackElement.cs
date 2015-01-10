@@ -21,9 +21,8 @@
         /// Creates a new HTML track element.
         /// </summary>
         public HTMLTrackElement(Document owner)
-            : base(Tags.Track, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Track, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
             _ready = TrackReadyState.None;
         }
 

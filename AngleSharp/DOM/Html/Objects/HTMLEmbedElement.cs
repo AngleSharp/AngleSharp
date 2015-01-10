@@ -14,9 +14,8 @@
         /// Creates a new Embed element.
         /// </summary>
         public HTMLEmbedElement(Document owner)
-            : base(Tags.Embed, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Embed, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
 
         #endregion

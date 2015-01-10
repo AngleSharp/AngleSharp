@@ -11,9 +11,8 @@
         #region ctor
 
         public HTMLLabelElement(Document owner)
-            : base(Tags.Label)
+            : base(owner, Tags.Label)
         {
-            Owner = owner;
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -121,8 +120,8 @@
 
         #region ctor
 
-        internal HTMLMediaElement(String name)
-            : base(name)
+        public HTMLMediaElement(Document owner, String name)
+            : base(owner, name)
         {
             _network = MediaNetworkState.Empty;
         }

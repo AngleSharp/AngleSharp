@@ -21,9 +21,8 @@
         #region ctor
 
         public HTMLIFrameElement(Document owner)
-            : base(Tags.Iframe, NodeFlags.LiteralText)
+            : base(owner, Tags.Iframe, NodeFlags.LiteralText)
         {
-            Owner = owner;
             _doc = new Document();
         }
 

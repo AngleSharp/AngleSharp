@@ -10,8 +10,8 @@
     {
         #region ctor
 
-        internal HTMLFrameElementBase(String name, NodeFlags flags = NodeFlags.None)
-            : base(name, flags | NodeFlags.Special)
+        public HTMLFrameElementBase(Document owner, String name, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, flags | NodeFlags.Special)
         {
         }
 

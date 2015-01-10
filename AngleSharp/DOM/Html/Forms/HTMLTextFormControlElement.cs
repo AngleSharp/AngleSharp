@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal HTMLTextFormControlElement(String name, NodeFlags flags = NodeFlags.None)
-            : base(name, flags)
+        public HTMLTextFormControlElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, flags)
         {
         }
 

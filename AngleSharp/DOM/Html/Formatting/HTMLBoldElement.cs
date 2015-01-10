@@ -8,9 +8,8 @@
     sealed class HTMLBoldElement : HTMLElement
     {
         public HTMLBoldElement(Document owner)
-            : base(Tags.B, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.B, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

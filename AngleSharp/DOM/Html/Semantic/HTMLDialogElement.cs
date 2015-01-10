@@ -17,9 +17,8 @@
         #region ctor
 
         public HTMLDialogElement(Document owner)
-            : base(Tags.Dialog)
+            : base(owner, Tags.Dialog)
         {
-            Owner = owner;
         }
 
         #endregion

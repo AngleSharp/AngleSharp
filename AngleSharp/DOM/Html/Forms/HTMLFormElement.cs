@@ -32,9 +32,8 @@
         /// Creates a new HTML form element.
         /// </summary>
         public HTMLFormElement(Document owner)
-            : base(Tags.Form, NodeFlags.Special)
+            : base(owner, Tags.Form, NodeFlags.Special)
         {
-            Owner = owner;
             _cancel = new CancellationTokenSource();
         }
 

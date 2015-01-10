@@ -14,9 +14,8 @@
         /// Creates a new HTML paragraph element.
         /// </summary>
         public HTMLParagraphElement(Document owner)
-            : base(Tags.P, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(owner, Tags.P, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
-            Owner = owner;
         }
 
         #endregion

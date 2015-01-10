@@ -16,8 +16,8 @@
 
         #region ctor
 
-        public HTMLTemplateElement()
-            : base(Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+        public HTMLTemplateElement(Document owner)
+            : base(owner, Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
             _content = new DocumentFragment { Owner = Owner };
         }
@@ -46,7 +46,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var clone = new HTMLTemplateElement();
+            var clone = new HTMLTemplateElement(Owner);
             CopyProperties(this, clone, deep);
             CopyAttributes(this, clone);
 

@@ -11,9 +11,8 @@
         #region ctor
 
         public HTMLHeadElement(Document owner)
-            : base(Tags.Head, NodeFlags.Special)
+            : base(owner, Tags.Head, NodeFlags.Special)
         {
-            Owner = owner;
         }
 
         #endregion

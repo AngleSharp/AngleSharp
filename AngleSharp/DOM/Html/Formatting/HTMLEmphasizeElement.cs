@@ -8,9 +8,8 @@
     sealed class HTMLEmphasizeElement : HTMLElement
     {
         public HTMLEmphasizeElement(Document owner)
-            : base(Tags.Em, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.Em, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

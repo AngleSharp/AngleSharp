@@ -7,8 +7,8 @@
     /// </summary>
     sealed class HTMLXmpElement : HTMLElement
     {
-        internal HTMLXmpElement()
-            : base(Tags.Xmp, NodeFlags.Special | NodeFlags.LiteralText)
+        public HTMLXmpElement(Document owner)
+            : base(owner, Tags.Xmp, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

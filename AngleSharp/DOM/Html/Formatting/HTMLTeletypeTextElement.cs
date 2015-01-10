@@ -8,9 +8,8 @@
     sealed class HTMLTeletypeTextElement : HTMLElement
     {
         public HTMLTeletypeTextElement(Document owner)
-            : base(Tags.Tt, NodeFlags.HtmlFormatting)
+            : base(owner, Tags.Tt, NodeFlags.HtmlFormatting)
         {
-            Owner = owner;
         }
     }
 }

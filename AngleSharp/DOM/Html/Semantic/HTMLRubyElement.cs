@@ -8,9 +8,8 @@
     sealed class HTMLRubyElement : HTMLElement
     {
         public HTMLRubyElement(Document owner)
-            : base(Tags.Ruby)
+            : base(owner, Tags.Ruby)
         {
-            Owner = owner;
         }
     }
 }

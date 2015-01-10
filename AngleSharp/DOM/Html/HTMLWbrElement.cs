@@ -15,9 +15,8 @@
         /// Creates a new HTML wbr element.
         /// </summary>
         public HTMLWbrElement(Document owner)
-            : base(Tags.Wbr, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, Tags.Wbr, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            Owner = owner;
         }
 
         #endregion

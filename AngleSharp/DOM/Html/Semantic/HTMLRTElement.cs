@@ -8,9 +8,8 @@
     sealed class HTMLRTElement : HTMLElement
     {
         public HTMLRTElement(Document owner)
-            : base(Tags.Rt, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(owner, Tags.Rt, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
-            Owner = owner;
         }
     }
 }

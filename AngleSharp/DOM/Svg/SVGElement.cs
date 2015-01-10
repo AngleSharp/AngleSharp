@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly CssStyleDeclaration _style;
+        CssStyleDeclaration _style;
 
         #endregion
 
@@ -21,11 +21,9 @@
         /// Creates a new SVG element.
         /// </summary>
         public SvgElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(name, flags | NodeFlags.SvgMember)
+            : base(owner, name, flags | NodeFlags.SvgMember)
         {
             NamespaceUri = Namespaces.SvgUri;
-            Owner = owner;
-            _style = new CssStyleDeclaration();
         }
 
         #endregion
@@ -37,7 +35,7 @@
         /// </summary>
         public ICssStyleDeclaration Style
         {
-            get { return _style; }
+            get { return _style ?? (_style = new CssStyleDeclaration()); }
         }
 
         #endregion
