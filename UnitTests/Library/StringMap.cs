@@ -12,7 +12,8 @@
         [SetUp]
         public void CreateMap()
         {
-            a = new HTMLElement("a");
+            var document = new Document();
+            a = new HTMLElement(document, "a");
             a.SetAttribute("data-test1", "test");
             a.SetAttribute("data-b", "b");
             stringMap = new StringMap("data-", a);
