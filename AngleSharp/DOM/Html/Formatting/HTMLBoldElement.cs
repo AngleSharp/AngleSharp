@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLBoldElement : HTMLElement
     {
-        internal HTMLBoldElement()
+        public HTMLBoldElement(Document owner)
             : base(Tags.B, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

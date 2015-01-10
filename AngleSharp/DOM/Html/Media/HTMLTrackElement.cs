@@ -20,9 +20,10 @@
         /// <summary>
         /// Creates a new HTML track element.
         /// </summary>
-        internal HTMLTrackElement()
+        public HTMLTrackElement(Document owner)
             : base(Tags.Track, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
             _ready = TrackReadyState.None;
         }
 

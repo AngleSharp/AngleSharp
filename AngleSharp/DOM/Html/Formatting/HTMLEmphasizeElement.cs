@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLEmphasizeElement : HTMLElement
     {
-        internal HTMLEmphasizeElement()
+        public HTMLEmphasizeElement(Document owner)
             : base(Tags.Em, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

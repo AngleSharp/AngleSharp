@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLStrikeElement : HTMLElement
     {
-        internal HTMLStrikeElement()
+        public HTMLStrikeElement(Document owner)
             : base(Tags.Strike, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

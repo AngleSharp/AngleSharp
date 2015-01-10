@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLBigElement : HTMLElement
     {
-        internal HTMLBigElement()
+        public HTMLBigElement(Document owner)
             : base(Tags.Big, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }
