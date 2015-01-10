@@ -14,9 +14,10 @@
         /// <summary>
         /// Creates a new HTML textarea element.
         /// </summary>
-        public HTMLTextAreaElement()
+        public HTMLTextAreaElement(Document owner)
             : base(Tags.Textarea, NodeFlags.LineTolerance)
         {
+            Owner = owner;
         }
 
         #endregion

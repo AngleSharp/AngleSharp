@@ -10,9 +10,10 @@
     {
         #region ctor
 
-        internal HTMLPreElement(String name = null)
+        public HTMLPreElement(Document owner, String name = null)
             : base(name ?? Tags.Pre, NodeFlags.Special | NodeFlags.LineTolerance)
         {
+            Owner = owner;
         }
 
         #endregion

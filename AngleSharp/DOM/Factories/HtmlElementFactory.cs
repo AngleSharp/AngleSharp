@@ -36,12 +36,12 @@
             creators.Add(Tags.Select, document => new HTMLSelectElement(document));
             creators.Add(Tags.Ul, document => new HTMLUListElement(document));
             creators.Add(Tags.Hr, document => new HTMLHRElement(document));
-            creators.Add(Tags.Dir, document => new HTMLDirectoryElement { Owner = document });
-            creators.Add(Tags.Font, document => new HTMLFontElement { Owner = document });
-            creators.Add(Tags.Form, document => new HTMLFormElement { Owner = document });
-            creators.Add(Tags.Param, document => new HTMLParamElement { Owner = document });
-            creators.Add(Tags.Pre, document => new HTMLPreElement { Owner = document });
-            creators.Add(Tags.Textarea, document => new HTMLTextAreaElement { Owner = document });
+            creators.Add(Tags.Dir, document => new HTMLDirectoryElement(document));
+            creators.Add(Tags.Font, document => new HTMLFontElement(document));
+            creators.Add(Tags.Form, document => new HTMLFormElement(document));
+            creators.Add(Tags.Param, document => new HTMLParamElement(document));
+            creators.Add(Tags.Pre, document => new HTMLPreElement(document));
+            creators.Add(Tags.Textarea, document => new HTMLTextAreaElement(document));
             creators.Add(Tags.BlockQuote, document => new HTMLQuoteElement(Tags.BlockQuote) { Owner = document });
             creators.Add(Tags.Quote, document => new HTMLQuoteElement(Tags.Quote) { Owner = document });
             creators.Add(Tags.Q, document => new HTMLQuoteElement(Tags.Q) { Owner = document });

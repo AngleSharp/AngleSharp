@@ -12,9 +12,10 @@
     {
         #region ctor
 
-        internal HTMLDirectoryElement()
+        public HTMLDirectoryElement(Document owner)
             : base (Tags.Dir, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion

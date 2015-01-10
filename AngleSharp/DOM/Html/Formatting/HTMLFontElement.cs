@@ -10,9 +10,10 @@
     [DomHistorical]
     sealed class HTMLFontElement : HTMLElement
     {
-        internal HTMLFontElement()
+        public HTMLFontElement(Document owner)
             : base(Tags.Font, NodeFlags.HtmlFormatting)
         {
+            Owner = owner;
         }
     }
 }

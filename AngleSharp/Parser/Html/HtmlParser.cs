@@ -988,7 +988,8 @@
                     if (IsInButtonScope())
                         InBodyEndTagParagraph();
 
-                    form = AddElement<HTMLFormElement>(tag);
+                    form = new HTMLFormElement(doc);
+                    AddElement(form, tag);
                 }
                 else
                     RaiseErrorOccurred(ErrorCode.FormAlreadyOpen);
@@ -1074,7 +1075,7 @@
             }
             else if (tagName == Tags.Textarea)
             {
-                AddElement<HTMLTextAreaElement>(tag);
+                AddElement(new HTMLTextAreaElement(doc), tag);
                 tokenizer.State = HtmlParseMode.RCData;
                 originalInsert = insert;
                 frameset = false;
@@ -1600,7 +1601,8 @@
 
                         if (form == null)
                         {
-                            form = AddElement<HTMLFormElement>(token.AsTag());
+                            form = new HTMLFormElement(doc);
+                            AddElement(form, token.AsTag());
                             CloseCurrentNode();
                         }
                     }

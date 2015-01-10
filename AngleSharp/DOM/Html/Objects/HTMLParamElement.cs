@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new HTML param element.
         /// </summary>
-        internal HTMLParamElement()
+        public HTMLParamElement(Document owner)
             : base(Tags.Param, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion
