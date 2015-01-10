@@ -12,11 +12,19 @@ namespace UnitTests
     [TestFixture]
     public class DOMTests
     {
+        Document document;
+
+        [TestFixtureSetUp]
+        public void Setup()
+        {
+            document = new Document();
+        }
+
         [Test]
         public void DOMTokenListWritesBack()
         {
             var testClass = "myclass";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.ClassName = "";
             div.ClassList.Add(testClass);
             Assert.AreEqual(testClass, div.ClassName);
@@ -26,7 +34,7 @@ namespace UnitTests
         public void DOMTokenListCorrectlyInitializedFindsClass()
         {
             var testClass = "myclass";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.ClassName = testClass + " whatever anotherclass";
             Assert.IsTrue(div.ClassList.Contains(testClass));
         }
@@ -35,7 +43,7 @@ namespace UnitTests
         public void DOMTokenListCorrectlyInitializedNoClass()
         {
             var testClass = "myclass1";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.ClassName = "myclass2 whatever anotherclass";
             Assert.IsFalse(div.ClassList.Contains(testClass));
         }
@@ -45,7 +53,7 @@ namespace UnitTests
         {
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.ClassName = testClass + " " + otherClasses;
             div.ClassList.Toggle(testClass);
             Assert.AreEqual(div.ClassName, otherClasses);
@@ -56,7 +64,7 @@ namespace UnitTests
         {
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.ClassName = otherClasses;
             div.ClassList.Toggle(testClass);
             Assert.AreEqual(div.ClassName, otherClasses + " " + testClass);
@@ -66,7 +74,7 @@ namespace UnitTests
         public void DOMStringMapBindingGet()
         {
             var value = "SomeUser";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.SetAttribute("data-user", value);
             Assert.AreEqual(div.Dataset["user"], value);
         }
@@ -75,7 +83,7 @@ namespace UnitTests
         public void DOMStringMapBindingSet()
         {
             var value = "SomeUser";
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.Dataset["user"] = value;
             Assert.AreEqual(div.GetAttribute("data-user"), value);
         }
@@ -83,14 +91,14 @@ namespace UnitTests
         [Test]
         public void DOMStringMapHasNoAttribute()
         {
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             Assert.IsTrue(div.Dataset["user"] == null);
         }
 
         [Test]
         public void DOMStringMapHasAttributesButRequestedMissing()
         {
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
             div.SetAttribute("data-test", "third attribute");
@@ -100,7 +108,7 @@ namespace UnitTests
         [Test]
         public void DOMStringMapIEnumerableWorking()
         {
-            var div = new HTMLDivElement();
+            var div = new HTMLDivElement(document);
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
             div.SetAttribute("data-test", "third attribute");
@@ -130,7 +138,7 @@ namespace UnitTests
         public void HtmlHasRightHeadElement()
         {
             var doc = new Document();
-            var root = new HTMLHtmlElement();
+            var root = new HTMLHtmlElement(document);
             doc.AppendChild(root);
             var head = new HTMLHeadElement();
             root.AppendChild(head);
@@ -141,7 +149,7 @@ namespace UnitTests
         public void HtmlHasRightBodyElement()
         {
             var doc = new Document();
-            var root = new HTMLHtmlElement();
+            var root = new HTMLHtmlElement(document);
             doc.AppendChild(root);
             var body = new HTMLBodyElement();
             root.AppendChild(body);

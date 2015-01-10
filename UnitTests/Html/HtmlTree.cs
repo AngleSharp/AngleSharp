@@ -225,169 +225,79 @@ namespace UnitTests
         [Test]
         public void TreeOneTextNodeTableBeforeABCD()
         {
+            var expected = "<html><head></head><body>ABCD<table><tbody><tr></tr></tbody></table></body></html>";
+            var source = @"A<table>B<tr>C</tr>D</table>";
             //One Text node before the table, containing "ABCD"
-            var doc = DocumentBuilder.Html(@"A<table>B<tr>C</tr>D</table>");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new TextNode("ABCD")).Parent
-                    .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement("tbody"))
-                            .AppendChild(new HTMLTableRowElement()).Parent.Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
         public void TreeOneTextNodeTableBeforeAspaceBspaceC()
         {
+            var expected = "<html><head></head><body>A B C<table><tbody><tr></tr></tbody></table></body></html>";
+            var source = @"A<table><tr> B</tr> C</table>";
             //One Text node before the table, containing "A B C" (A-space-B-space-C).
-            var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> C</table>");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new TextNode("A B C")).Parent
-                    .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement("tbody"))
-                            .AppendChild(new HTMLTableRowElement()).Parent.Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
         public void TreeOneTextNodeTableBeforeAspaceBC()
         {
+            var expected = "<html><head></head><body>A BC<table><tbody><tr></tr> </tbody></table></body></html>";
+            var source = @"A<table><tr> B</tr> </em>C</table>";
             //One Text node before the table, containing "A BC" (A-space-B-C), and one Text node inside the table (as a child of a tbody) with a single space character.
-            var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> </em>C</table>");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new TextNode("A BC")).Parent
-                    .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement("tbody"))
-                            .AppendChild(new HTMLTableRowElement()).Parent
-                            .AppendChild(new TextNode(" ")).Parent.Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
         public void TreeUnexpectedTableMarkup()
         {
+            var expected = "<html><head></head><body><b></b><b>bbb</b><table><tbody><tr><td>aaa</td></tr></tbody></table><b>ccc</b></body></html>";
+            var source = @"<table><b><tr><td>aaa</td></tr>bbb</table>ccc";
             //8.2.8.3 Unexpected markup in tables
-            var doc = DocumentBuilder.Html(@"<table><b><tr><td>aaa</td></tr>bbb</table>ccc");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new HTMLElement("b")).Parent
-                    .AppendChild(new HTMLElement("b"))
-                        .AppendChild(new TextNode("bbb")).Parent.Parent
-                    .AppendChild(new HTMLTableElement())
-                        .AppendChild(new HTMLTableSectionElement("tbody"))
-                            .AppendChild(new HTMLTableRowElement())
-                                .AppendChild(new HTMLTableDataCellElement())
-                                    .AppendChild(new TextNode("aaa")).Parent.Parent.Parent.Parent.Parent
-                    .AppendChild(new HTMLElement("b"))
-                        .AppendChild(new TextNode("ccc")).Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
         public void TreeMisnestedTagsHeisenbergNoFurthest()
         {
+            var expected = "<html><head></head><body><p>1<b>2<i>3</i></b><i>4</i>5</p></body></html>";
+            var source = @"<p>1<b>2<i>3</b>4</i>5</p>";
             //8.2.8.1 Misnested tags: <b><i></b></i>
-            var doc = DocumentBuilder.Html(@"<p>1<b>2<i>3</b>4</i>5</p>");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(new TextNode("1")).Parent
-                        .AppendChild(new HTMLElement("b"))
-                            .AppendChild(new TextNode("2")).Parent
-                            .AppendChild(new HTMLElement("i"))
-                                .AppendChild(new TextNode("3")).Parent.Parent.Parent
-                        .AppendChild(new HTMLElement("i"))
-                            .AppendChild(new TextNode("4")).Parent.Parent
-                        .AppendChild(new TextNode("5")).Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
         public void TreeMisnestedTagsHeisenbergWithFurthest()
         {
+            var expected = "<html><head></head><body><b>1</b><p><b>2</b>3</p></body></html>";
+            var source = @"<b>1<p>2</b>3</p>";
             //8.2.8.2 Misnested tags: <b><p></b></p>
-            var doc = DocumentBuilder.Html(@"<b>1<p>2</b>3</p>");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new HTMLElement("b"))
-                        .AppendChild(new TextNode("1")).Parent.Parent
-                    .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(new HTMLElement("b"))
-                            .AppendChild(new TextNode("2")).Parent.Parent
-                        .AppendChild(new TextNode("3")).Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
         public void TreeUnclosedFormattingElements()
         {
+            var expected = "<html><head></head><body><p><b class=\"x\"><b class=\"x\"><b><b class=\"x\"><b class=\"x\"><b>X</b></b></b></b></b></b></p><p><b class=\"x\"><b><b class=\"x\"><b class=\"x\"><b>X</b></b></b></b></b></p><p><b class=\"x\"><b><b class=\"x\"><b class=\"x\"><b><b><b class=\"x\"><b>X</b></b></b></b></b></b></b></b></p><p>X</p></body></html>";
+            var source = @"<!DOCTYPE html>
+<p><b class=x><b class=x><b><b class=x><b class=x><b>X<p>X<p><b><b class=x><b>X<p></b></b></b></b></b></b>X";
             //8.2.8.6 Unclosed formatting elements
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html>
-<p><b class=x><b class=x><b><b class=x><b class=x><b>X<p>X<p><b><b class=x><b>X<p></b></b></b></b></b></b>X");
-            var b1 = new HTMLElement("b"); b1.SetAttribute("class", "x");
-            var b2 = new HTMLElement("b"); b2.SetAttribute("class", "x");
-            var b3 = new HTMLElement("b"); b3.SetAttribute("class", "x");
-            var b4 = new HTMLElement("b"); b4.SetAttribute("class", "x");
-            var b5 = new HTMLElement("b"); b5.SetAttribute("class", "x");
-            var b6 = new HTMLElement("b"); b6.SetAttribute("class", "x");
-            var b7 = new HTMLElement("b"); b7.SetAttribute("class", "x");
-            var b8 = new HTMLElement("b"); b8.SetAttribute("class", "x");
-            var b9 = new HTMLElement("b"); b9.SetAttribute("class", "x");
-            var b10 = new HTMLElement("b"); b10.SetAttribute("class", "x");
-            var b11 = new HTMLElement("b"); b11.SetAttribute("class", "x");
+            var doc = DocumentBuilder.Html(source);
 
-            var tree = new HTMLHtmlElement()
-                .AppendChild(new HTMLHeadElement()).Parent
-                .AppendChild(new HTMLBodyElement())
-                    .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(b1)
-                            .AppendChild(b2)
-                                .AppendChild(new HTMLElement("b"))
-                                    .AppendChild(b3)
-                                        .AppendChild(b4)
-                                            .AppendChild(new HTMLElement("b"))
-                                                .AppendChild(new TextNode("X")).Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent
-                    .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(b5)
-                            .AppendChild(new HTMLElement("b"))
-                                .AppendChild(b6)
-                                    .AppendChild(b7)
-                                        .AppendChild(new HTMLElement("b"))
-                                            .AppendChild(new TextNode("X")).Parent.Parent.Parent.Parent.Parent.Parent.Parent
-                    .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(b8)
-                            .AppendChild(new HTMLElement("b"))
-                                .AppendChild(b9)
-                                    .AppendChild(b10)
-                                        .AppendChild(new HTMLElement("b"))
-                                            .AppendChild(new HTMLElement("b"))
-                                                .AppendChild(b11)
-                                                    .AppendChild(new HTMLElement("b"))
-                                                        .AppendChild(new TextNode("X")).Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent
-                    .AppendChild(new HTMLParagraphElement())
-                        .AppendChild(new TextNode("X")).Parent.Parent.Parent;
-
-            Assert.AreEqual(tree.ToHtml(), doc.DocumentElement.OuterHtml);
+            Assert.AreEqual(expected, doc.DocumentElement.OuterHtml);
         }
 
         [Test]
