@@ -7,8 +7,8 @@
     /// </summary>
     sealed class MathTextElement : MathElement
     {
-        internal MathTextElement()
-            : base(Tags.Mtext, NodeFlags.MathTip | NodeFlags.Special | NodeFlags.Scoped)
+        public MathTextElement(Document owner)
+            : base(owner, Tags.Mtext, NodeFlags.MathTip | NodeFlags.Special | NodeFlags.Scoped)
 	    {
 	    }
     }

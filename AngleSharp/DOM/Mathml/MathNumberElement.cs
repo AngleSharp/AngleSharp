@@ -7,8 +7,8 @@
     /// </summary>
     sealed class MathNumberElement : MathElement
     {
-        internal MathNumberElement()
-            : base(Tags.Mn, NodeFlags.MathTip | NodeFlags.Special | NodeFlags.Scoped)
+        public MathNumberElement(Document owner)
+            : base(owner, Tags.Mn, NodeFlags.MathTip | NodeFlags.Special | NodeFlags.Scoped)
 	    {
 	    }
     }

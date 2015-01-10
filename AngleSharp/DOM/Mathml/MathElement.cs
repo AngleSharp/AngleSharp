@@ -13,10 +13,11 @@
         /// <summary>
         /// Creates a new MathML element.
         /// </summary>
-        internal MathElement(String name, NodeFlags flags = NodeFlags.None)
+        public MathElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
             : base(name, flags | NodeFlags.MathMember)
         {
             NamespaceUri = Namespaces.MathMlUri;
+            Owner = owner;
         }
 
         #endregion

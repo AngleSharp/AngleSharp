@@ -1181,7 +1181,7 @@
             }
             else if (tagName == Tags.Math)
             {
-                var element = new MathElement(tagName) { Owner = doc };
+                var element = new MathElement(doc, tagName);
                 ReconstructFormatting();
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
