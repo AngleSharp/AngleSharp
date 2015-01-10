@@ -2010,7 +2010,7 @@
                         if (CurrentNode is HTMLOptionElement)
                             InSelectEndTagOption();
 
-                        AddElement<HTMLOptionElement>(token.AsTag());
+                        AddElement(new HTMLOptionElement(doc), token.AsTag());
                     }
                     else if (tagName == Tags.Optgroup)
                     {
@@ -2020,7 +2020,7 @@
                         if (CurrentNode is HTMLOptGroupElement)
                             InSelectEndTagOptgroup();
 
-                        AddElement<HTMLOptGroupElement>(token.AsTag());
+                        AddElement(new HTMLOptGroupElement(doc), token.AsTag());
                     }
                     else if (tagName == Tags.Select)
                     {

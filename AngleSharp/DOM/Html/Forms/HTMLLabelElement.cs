@@ -10,9 +10,10 @@
     {
         #region ctor
 
-        internal HTMLLabelElement()
+        public HTMLLabelElement(Document owner)
             : base(Tags.Label)
         {
+            Owner = owner;
         }
 
         #endregion

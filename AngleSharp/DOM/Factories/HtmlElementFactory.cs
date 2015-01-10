@@ -59,12 +59,12 @@
             creators.Add(Tags.Del, document => new HTMLModElement(document, Tags.Del));
             creators.Add(Tags.Ins, document => new HTMLModElement(document, Tags.Ins));
             creators.Add(Tags.Legend, document => new HTMLLegendElement(document));
-            creators.Add(Tags.Label, document => new HTMLLabelElement { Owner = document });
-            creators.Add(Tags.Applet, document => new HTMLAppletElement { Owner = document });
-            creators.Add(Tags.Object, document => new HTMLObjectElement { Owner = document });
-            creators.Add(Tags.Optgroup, document => new HTMLOptGroupElement { Owner = document });
-            creators.Add(Tags.Option, document => new HTMLOptionElement { Owner = document });
-            creators.Add(Tags.Style, document => new HTMLStyleElement { Owner = document });
+            creators.Add(Tags.Label, document => new HTMLLabelElement(document));
+            creators.Add(Tags.Applet, document => new HTMLAppletElement(document));
+            creators.Add(Tags.Object, document => new HTMLObjectElement(document));
+            creators.Add(Tags.Optgroup, document => new HTMLOptGroupElement(document));
+            creators.Add(Tags.Option, document => new HTMLOptionElement(document));
+            creators.Add(Tags.Style, document => new HTMLStyleElement(document));
             creators.Add(Tags.Script, document => new HTMLScriptElement { Owner = document });
             creators.Add(Tags.Iframe, document => new HTMLIFrameElement { Owner = document });
             creators.Add(Tags.Title, document => new HTMLTitleElement { Owner = document });

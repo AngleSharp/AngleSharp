@@ -20,9 +20,10 @@
         /// <summary>
         /// Creates a new HTML option element.
         /// </summary>
-        public HTMLOptionElement()
+        public HTMLOptionElement(Document owner)
             : base(Tags.Option, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
+            Owner = owner;
         }
 
         #endregion           

@@ -21,9 +21,10 @@
         /// <summary>
         /// Creates an HTML style element.
         /// </summary>
-        internal HTMLStyleElement()
+        public HTMLStyleElement(Document owner)
             : base(Tags.Style, NodeFlags.Special | NodeFlags.LiteralText)
         {
+            Owner = owner;
         }
 
         #endregion

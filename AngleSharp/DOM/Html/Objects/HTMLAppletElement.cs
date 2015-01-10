@@ -9,9 +9,10 @@
     [DomHistorical]
     sealed class HTMLAppletElement : HTMLElement
     {
-        internal HTMLAppletElement()
+        public HTMLAppletElement(Document owner)
             : base(Tags.Applet, NodeFlags.Special | NodeFlags.Scoped)
         {
+            Owner = owner;
         }
     }
 }
