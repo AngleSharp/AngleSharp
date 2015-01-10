@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new HTML html tag.
         /// </summary>
-        internal HTMLHtmlElement()
+        public HTMLHtmlElement(Document owner)
             : base(Tags.Html, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
+            Owner = owner;
         }
 
         #endregion

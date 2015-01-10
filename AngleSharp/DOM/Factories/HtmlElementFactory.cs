@@ -18,12 +18,12 @@
             creators.Add(Tags.A, document => new HTMLAnchorElement(document));
             creators.Add(Tags.Button, document => new HTMLButtonElement(document));
             creators.Add(Tags.Input, document => new HTMLInputElement(document));
-            creators.Add(Tags.Html, document => new HTMLHtmlElement { Owner = document });
-            creators.Add(Tags.IsIndex, document => new HTMLIsIndexElement { Owner = document });
-            creators.Add(Tags.Br, document => new HTMLBRElement { Owner = document });
-            creators.Add(Tags.Embed, document => new HTMLEmbedElement { Owner = document });
-            creators.Add(Tags.Div, document => new HTMLDivElement { Owner = document });
-            creators.Add(Tags.Area, document => new HTMLAreaElement { Owner = document });
+            creators.Add(Tags.Html, document => new HTMLHtmlElement(document));
+            creators.Add(Tags.IsIndex, document => new HTMLIsIndexElement(document));
+            creators.Add(Tags.Br, document => new HTMLBRElement(document));
+            creators.Add(Tags.Embed, document => new HTMLEmbedElement(document));
+            creators.Add(Tags.Div, document => new HTMLDivElement(document));
+            creators.Add(Tags.Area, document => new HTMLAreaElement(document));
             creators.Add(Tags.Img, document => new HTMLImageElement { Owner = document });
             creators.Add(Tags.Dl, document => new HTMLDListElement { Owner = document });
             creators.Add(Tags.Body, document => new HTMLBodyElement { Owner = document });

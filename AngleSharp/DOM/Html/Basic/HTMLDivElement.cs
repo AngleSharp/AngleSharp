@@ -12,9 +12,10 @@
         /// <summary>
         /// Creates a new HTML div element.
         /// </summary>
-        internal HTMLDivElement()
+        public HTMLDivElement(Document owner)
             : base(Tags.Div, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion

@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new isindex element.
         /// </summary>
-        internal HTMLIsIndexElement()
+        public HTMLIsIndexElement(Document owner)
             : base(Tags.IsIndex, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion

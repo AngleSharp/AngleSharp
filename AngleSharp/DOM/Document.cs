@@ -663,8 +663,8 @@
         /// </summary>
         public String Direction
         {
-            get { return (DocumentElement as IHtmlElement ?? new HTMLHtmlElement()).Direction; }
-            set { (DocumentElement as IHtmlElement ?? new HTMLHtmlElement()).Direction = value; }
+            get { return (DocumentElement as IHtmlElement ?? new HTMLHtmlElement(this)).Direction; }
+            set { (DocumentElement as IHtmlElement ?? new HTMLHtmlElement(this)).Direction = value; }
         }
 
         /// <summary>

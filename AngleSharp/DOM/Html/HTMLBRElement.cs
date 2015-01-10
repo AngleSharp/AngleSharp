@@ -12,9 +12,10 @@
         /// <summary>
         /// Creates a new HTML br element
         /// </summary>
-        internal HTMLBRElement()
+        public HTMLBRElement(Document owner)
             : base(Tags.Br, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

@@ -226,7 +226,7 @@
             else if (tagName == Tags.NoScript && doc.Options.IsScripting)
                 tokenizer.State = HtmlParseMode.Rawtext;
 
-            var root = new HTMLHtmlElement { Owner = doc };
+            var root = new HTMLHtmlElement(doc);
             doc.AddNode(root);
             open.Add(root);
 
@@ -3568,7 +3568,7 @@
         /// <param name="tag">The token which started this process.</param>
         void AddRoot(HtmlTagToken tag)
         {
-            var element = new HTMLHtmlElement { Owner = doc };
+            var element = new HTMLHtmlElement(doc);
             doc.AddNode(element);
             SetupElement(element, tag, false);
             open.Add(element);
