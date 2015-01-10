@@ -21,9 +21,10 @@
         /// <summary>
         /// Creates a new HTML progress element.
         /// </summary>
-        internal HTMLProgressElement()
+        public HTMLProgressElement(Document owner)
             : base(Tags.Progress)
         {
+            Owner = owner;
             labels = new NodeList();
         }
 

@@ -10,9 +10,10 @@
     {
         #region ctor
 
-        internal HTMLTimeElement()
+        public HTMLTimeElement(Document owner)
             : base(Tags.Time, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion

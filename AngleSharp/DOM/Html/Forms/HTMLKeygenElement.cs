@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new HTML keygen element.
         /// </summary>
-        internal HTMLKeygenElement()
+        public HTMLKeygenElement(Document owner)
             : base(Tags.Keygen, NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

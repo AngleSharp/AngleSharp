@@ -19,9 +19,10 @@
         /// <summary>
         /// Creates a new datalist element.
         /// </summary>
-        internal HTMLDataListElement()
+        public HTMLDataListElement(Document owner)
             : base(Tags.Datalist)
         {
+            Owner = owner;
             _options = new HtmlCollection<HTMLOptionElement>(this);
         }
 

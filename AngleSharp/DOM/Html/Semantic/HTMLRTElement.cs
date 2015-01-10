@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLRTElement : HTMLElement
     {
-        internal HTMLRTElement()
+        public HTMLRTElement(Document owner)
             : base(Tags.Rt, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
+            Owner = owner;
         }
     }
 }

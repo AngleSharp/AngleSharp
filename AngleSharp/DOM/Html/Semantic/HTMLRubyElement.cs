@@ -7,9 +7,10 @@
     /// </summary>
     sealed class HTMLRubyElement : HTMLElement
     {
-        internal HTMLRubyElement()
+        public HTMLRubyElement(Document owner)
             : base(Tags.Ruby)
         {
+            Owner = owner;
         }
     }
 }

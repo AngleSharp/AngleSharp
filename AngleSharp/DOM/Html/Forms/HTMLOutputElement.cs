@@ -19,9 +19,10 @@
 
         #region ctor
 
-        internal HTMLOutputElement()
+        public HTMLOutputElement(Document owner)
             : base(Tags.Output)
         {
+            Owner = owner;
             isDefaultValue = true;
         }
 

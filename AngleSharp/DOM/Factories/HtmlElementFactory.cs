@@ -122,15 +122,15 @@
             creators.Add(Tags.NoScript, document => new HTMLNoScriptElement { Owner = document });
             creators.Add(Tags.MenuItem, document => new HTMLMenuItemElement  { Owner = document });
             creators.Add(Tags.Cite, document => new HTMLElement(Tags.Cite) { Owner = document });
-            creators.Add(Tags.Ruby, document => new HTMLRubyElement { Owner = document });
-            creators.Add(Tags.Rt, document => new HTMLRTElement { Owner = document });
-            creators.Add(Tags.Rp, document => new HTMLRPElement { Owner = document });
-            creators.Add(Tags.Time, document => new HTMLTimeElement { Owner = document });
-            creators.Add(Tags.Progress, document => new HTMLProgressElement { Owner = document });
-            creators.Add(Tags.Output, document => new HTMLOutputElement { Owner = document });
-            creators.Add(Tags.Map, document => new HTMLMapElement { Owner = document });
-            creators.Add(Tags.Datalist, document => new HTMLDataListElement { Owner = document });
-            creators.Add(Tags.Keygen, document => new HTMLKeygenElement { Owner = document });
+            creators.Add(Tags.Ruby, document => new HTMLRubyElement(document));
+            creators.Add(Tags.Rt, document => new HTMLRTElement(document));
+            creators.Add(Tags.Rp, document => new HTMLRPElement(document));
+            creators.Add(Tags.Time, document => new HTMLTimeElement(document));
+            creators.Add(Tags.Progress, document => new HTMLProgressElement(document));
+            creators.Add(Tags.Output, document => new HTMLOutputElement(document));
+            creators.Add(Tags.Map, document => new HTMLMapElement(document));
+            creators.Add(Tags.Datalist, document => new HTMLDataListElement(document));
+            creators.Add(Tags.Keygen, document => new HTMLKeygenElement(document));
         }
 
         protected override HTMLElement CreateDefault(String name, Document document)

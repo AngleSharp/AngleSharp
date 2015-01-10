@@ -11,9 +11,10 @@
     {
         #region ctor
 
-        internal HTMLMapElement()
+        public HTMLMapElement(Document owner)
             : base(Tags.Map)
         {
+            Owner = owner;
         }
 
         #endregion
