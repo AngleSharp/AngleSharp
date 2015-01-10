@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new area element.
         /// </summary>
-        internal HTMLAreaElement(Document owner)
+        public HTMLAreaElement(Document owner)
             : base(Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             Owner = owner;

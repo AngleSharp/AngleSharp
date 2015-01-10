@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a HTML body element.
         /// </summary>
-        public HTMLBodyElement()
+        public HTMLBodyElement(Document owner)
             : base(Tags.Body, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
+            Owner = owner;
         }
 
         #endregion

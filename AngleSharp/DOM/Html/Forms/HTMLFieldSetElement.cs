@@ -16,9 +16,10 @@
         /// <summary>
         /// Creates a new HTML fieldset element.
         /// </summary>
-        internal HTMLFieldSetElement()
+        public HTMLFieldSetElement(Document owner)
             : base(Tags.Fieldset)
         {
+            Owner = owner;
         }
 
         #endregion

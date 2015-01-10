@@ -22,9 +22,10 @@
         /// <summary>
         /// Creates a new image element.
         /// </summary>
-        internal HTMLImageElement()
+        public HTMLImageElement(Document owner)
             : base(Tags.Img, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

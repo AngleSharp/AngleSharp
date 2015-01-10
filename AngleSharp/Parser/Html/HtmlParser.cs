@@ -567,7 +567,7 @@
                     }
                     else if (tagName == Tags.Head)
                     {
-                        AddElement<HTMLHeadElement>(token.AsTag());
+                        AddElement(new HTMLHeadElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InHead;
                         return;
                     }
@@ -2586,7 +2586,7 @@
         /// <param name="token"></param>
         void AfterHeadStartTagBody(HtmlTagToken token)
         {
-            AddElement<HTMLBodyElement>(token);
+            AddElement(new HTMLBodyElement(doc), token);
             frameset = false;
             insert = HtmlTreeMode.InBody;
         }

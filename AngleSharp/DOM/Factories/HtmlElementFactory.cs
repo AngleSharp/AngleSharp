@@ -24,12 +24,12 @@
             creators.Add(Tags.Embed, document => new HTMLEmbedElement(document));
             creators.Add(Tags.Div, document => new HTMLDivElement(document));
             creators.Add(Tags.Area, document => new HTMLAreaElement(document));
-            creators.Add(Tags.Img, document => new HTMLImageElement { Owner = document });
-            creators.Add(Tags.Dl, document => new HTMLDListElement { Owner = document });
-            creators.Add(Tags.Body, document => new HTMLBodyElement { Owner = document });
-            creators.Add(Tags.Fieldset, document => new HTMLFieldSetElement { Owner = document });
-            creators.Add(Tags.Head, document => new HTMLHeadElement { Owner = document });
-            creators.Add(Tags.Menu, document => new HTMLMenuElement { Owner = document });
+            creators.Add(Tags.Img, document => new HTMLImageElement(document));
+            creators.Add(Tags.Dl, document => new HTMLDListElement( document));
+            creators.Add(Tags.Body, document => new HTMLBodyElement(document));
+            creators.Add(Tags.Fieldset, document => new HTMLFieldSetElement(document));
+            creators.Add(Tags.Head, document => new HTMLHeadElement(document));
+            creators.Add(Tags.Menu, document => new HTMLMenuElement(document));
             creators.Add(Tags.Meta, document => new HTMLMetaElement { Owner = document });
             creators.Add(Tags.Ol, document => new HTMLOListElement { Owner = document });
             creators.Add(Tags.P, document => new HTMLParagraphElement { Owner = document });

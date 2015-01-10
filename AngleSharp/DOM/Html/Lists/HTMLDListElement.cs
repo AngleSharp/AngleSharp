@@ -9,9 +9,10 @@
     {
         #region ctor
 
-        internal HTMLDListElement()
+        public HTMLDListElement(Document owner)
             : base(Tags.Dl, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion

@@ -10,9 +10,10 @@
     {
         #region ctor
 
-        public HTMLHeadElement()
+        public HTMLHeadElement(Document owner)
             : base(Tags.Head, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion
