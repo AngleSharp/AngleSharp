@@ -15,9 +15,10 @@
         /// <summary>
         /// Creates a new HTML meta element.
         /// </summary>
-        public HTMLMetaElement()
+        public HTMLMetaElement(Document owner)
             : base(Tags.Meta, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

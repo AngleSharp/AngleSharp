@@ -9,9 +9,10 @@
     {
         #region ctor
 
-        internal HTMLUListElement()
+        public HTMLUListElement(Document owner)
             : base(Tags.Ul, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
+            Owner = owner;
         }
 
         #endregion

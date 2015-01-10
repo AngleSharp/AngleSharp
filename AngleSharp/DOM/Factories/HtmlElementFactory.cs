@@ -30,12 +30,12 @@
             creators.Add(Tags.Fieldset, document => new HTMLFieldSetElement(document));
             creators.Add(Tags.Head, document => new HTMLHeadElement(document));
             creators.Add(Tags.Menu, document => new HTMLMenuElement(document));
-            creators.Add(Tags.Meta, document => new HTMLMetaElement { Owner = document });
-            creators.Add(Tags.Ol, document => new HTMLOListElement { Owner = document });
-            creators.Add(Tags.P, document => new HTMLParagraphElement { Owner = document });
-            creators.Add(Tags.Select, document => new HTMLSelectElement { Owner = document });
-            creators.Add(Tags.Ul, document => new HTMLUListElement { Owner = document });
-            creators.Add(Tags.Hr, document => new HTMLHRElement { Owner = document });
+            creators.Add(Tags.Meta, document => new HTMLMetaElement(document));
+            creators.Add(Tags.Ol, document => new HTMLOListElement(document));
+            creators.Add(Tags.P, document => new HTMLParagraphElement(document));
+            creators.Add(Tags.Select, document => new HTMLSelectElement(document));
+            creators.Add(Tags.Ul, document => new HTMLUListElement(document));
+            creators.Add(Tags.Hr, document => new HTMLHRElement(document));
             creators.Add(Tags.Dir, document => new HTMLDirectoryElement { Owner = document });
             creators.Add(Tags.Font, document => new HTMLFontElement { Owner = document });
             creators.Add(Tags.Form, document => new HTMLFormElement { Owner = document });

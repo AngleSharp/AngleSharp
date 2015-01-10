@@ -12,9 +12,10 @@
         /// <summary>
         /// Creates a new hr element.
         /// </summary>
-        public HTMLHRElement()
+        public HTMLHRElement(Document owner)
             : base(Tags.Hr, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

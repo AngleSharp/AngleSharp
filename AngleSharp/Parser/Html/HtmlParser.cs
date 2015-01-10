@@ -637,7 +637,8 @@
                     }
                     else if (tagName == Tags.Meta)
                     {
-                        var element = AddElement<HTMLMetaElement>(token.AsTag(), true);
+                        var element = new HTMLMetaElement(doc);
+                        AddElement(element, token.AsTag(), true);
                         var encoding = element.GetEncoding();
                         CloseCurrentNode();
 
@@ -1067,7 +1068,7 @@
                 if (IsInButtonScope())
                     InBodyEndTagParagraph();
 
-                AddElement<HTMLHRElement>(tag, true);
+                AddElement(new HTMLHRElement(doc), tag, true);
                 CloseCurrentNode();
                 frameset = false;
             }
@@ -1083,7 +1084,7 @@
             else if (tagName == Tags.Select)
             {
                 ReconstructFormatting();
-                AddElement<HTMLSelectElement>(tag);
+                AddElement(new HTMLSelectElement(doc), tag);
                 frameset = false;
 
                 switch (insert)

@@ -11,9 +11,10 @@
     {
         #region ctor
 
-        internal HTMLOListElement()
+        public HTMLOListElement(Document owner)
             : base(Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
+            Owner = owner;
         }
 
         #endregion

@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new HTML paragraph element.
         /// </summary>
-        internal HTMLParagraphElement()
+        public HTMLParagraphElement(Document owner)
             : base(Tags.P, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
+            Owner = owner;
         }
 
         #endregion
