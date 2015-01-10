@@ -680,7 +680,8 @@
                     }
                     else if (tagName == Tags.Script)
                     {
-                        var script = AddElement<HTMLScriptElement>(token.AsTag());
+                        var script = new HTMLScriptElement(doc);
+                        AddElement(script, token.AsTag());
                         script.IsParserInserted = true;
                         script.IsAlreadyStarted = IsFragmentCase;
                         tokenizer.State = HtmlParseMode.Script;
@@ -859,7 +860,7 @@
                     }
                     else if (tagName == Tags.Frameset)
                     {
-                        AddElement<HTMLFrameSetElement>(token.AsTag());
+                        AddElement(new HTMLFrameSetElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InFrameset;
                         return;
                     }
@@ -970,7 +971,7 @@
                     CloseCurrentNode();
                 }
 
-                AddElement(new HTMLHeadingElement(tagName) { Owner = doc }, tag);
+                AddElement(new HTMLHeadingElement(doc, tagName), tag);
             }
             else if (tagName == Tags.Input)
             {
@@ -1234,7 +1235,7 @@
                     while (open.Count > 1)
                         CloseCurrentNode();
 
-                    AddElement<HTMLFrameSetElement>(tag);
+                    AddElement(new HTMLFrameSetElement(doc), tag);
                     insert = HtmlTreeMode.InFrameset;
                 }
             }
@@ -2282,10 +2283,10 @@
                     if (tagName == Tags.Html)
                         InBody(token);
                     else if (tagName == Tags.Frameset)
-                        AddElement<HTMLFrameSetElement>(token.AsTag());
+                        AddElement(new HTMLFrameSetElement(doc), token.AsTag());
                     else if (tagName == Tags.Frame)
                     {
-                        AddElement<HTMLFrameElement>(token.AsTag(), true);
+                        AddElement(new HTMLFrameElement(doc), token.AsTag(), true);
                         CloseCurrentNode();
                     }
                     else if (tagName == Tags.NoFrames)

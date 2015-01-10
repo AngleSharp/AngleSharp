@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        internal HTMLLIElement(String name)
+        public HTMLLIElement(Document owner, String name)
             : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
+            Owner = owner;
         }
 
         #endregion

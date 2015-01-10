@@ -20,9 +20,10 @@
 
         #region ctor
 
-        internal HTMLIFrameElement()
+        public HTMLIFrameElement(Document owner)
             : base(Tags.Iframe, NodeFlags.LiteralText)
         {
+            Owner = owner;
             _doc = new Document();
         }
 

@@ -798,7 +798,7 @@
                         if (head == null)
                             return;
 
-                        title = new HTMLTitleElement { Owner = this };
+                        title = new HTMLTitleElement(this);
                         head.AppendChild(title);
                     }
 

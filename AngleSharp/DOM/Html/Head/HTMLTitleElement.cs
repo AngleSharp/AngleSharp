@@ -11,9 +11,10 @@
         /// <summary>
         /// Creates a new HTML title element.
         /// </summary>
-        internal HTMLTitleElement()
+        public HTMLTitleElement(Document owner)
             : base(Tags.Title, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         /// <summary>

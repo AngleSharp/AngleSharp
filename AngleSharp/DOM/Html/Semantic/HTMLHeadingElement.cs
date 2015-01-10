@@ -8,8 +8,10 @@
     /// </summary>
     sealed class HTMLHeadingElement : HTMLElement, IHtmlHeadingElement
     {
-        internal HTMLHeadingElement(String name)
+        public HTMLHeadingElement(Document owner, String name)
             : base(name, NodeFlags.Special)
-        { }
+        {
+            Owner = owner;
+        }
     }
 }

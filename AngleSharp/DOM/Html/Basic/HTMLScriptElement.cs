@@ -28,9 +28,10 @@
         /// <summary>
         /// Creates a new HTML script element.
         /// </summary>
-        public HTMLScriptElement()
+        public HTMLScriptElement(Document owner)
             : base(Tags.Script, NodeFlags.Special | NodeFlags.LiteralText)
         {
+            Owner = owner;
         }
 
         #endregion
