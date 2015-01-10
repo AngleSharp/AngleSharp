@@ -11,9 +11,10 @@
     {
         #region ctor
 
-        public HTMLTableColElement()
+        public HTMLTableColElement(Document owner)
             : base(Tags.Col, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            Owner = owner;
         }
 
         #endregion

@@ -18,9 +18,10 @@
 
         #region ctor
 
-        internal HTMLTableSectionElement(String name)
+        public HTMLTableSectionElement(Document owner, String name)
             : base(name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
         {
+            Owner = owner;
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);
         }
 

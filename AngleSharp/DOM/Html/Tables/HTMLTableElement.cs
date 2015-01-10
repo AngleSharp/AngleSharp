@@ -20,9 +20,10 @@
 
         #region ctor
 
-        public HTMLTableElement()
+        public HTMLTableElement(Document owner)
             : base(Tags.Table, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
+            Owner = owner;
             _rows = new HtmlCollection<IHtmlTableRowElement>(this);
             _bodies = new HtmlCollection<IHtmlTableSectionElement>(this);
         }

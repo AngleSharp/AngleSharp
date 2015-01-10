@@ -9,9 +9,10 @@
     {
         #region ctor
 
-        internal HTMLModElement(String name)
+        public HTMLModElement(Document owner, String name)
             : base(name)
         {
+            Owner = owner;
         }
 
         #endregion

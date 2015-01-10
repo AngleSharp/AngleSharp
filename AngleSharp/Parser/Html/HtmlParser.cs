@@ -1051,7 +1051,7 @@
                 if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope())
                     InBodyEndTagParagraph();
 
-                AddElement<HTMLTableElement>(tag);
+                AddElement(new HTMLTableElement(doc), tag);
                 frameset = false;
                 insert = HtmlTreeMode.InTable;
             }
@@ -1548,7 +1548,7 @@
                     else if (tagName == Tags.Colgroup)
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        AddElement<HTMLTableColgroupElement>(token.AsTag());
+                        AddElement(new HTMLTableColgroupElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InColumnGroup;
                     }
                     else if (tagName == Tags.Col)
@@ -1559,8 +1559,7 @@
                     else if (tagName.IsOneOf(Tags.Tbody, Tags.Thead, Tags.Tfoot))
                     {
                         ClearStackBackTo<HTMLTableElement>();
-                        var element = new HTMLTableSectionElement(tagName) { Owner = doc };
-                        AddElement(element, token.AsTag());
+                        AddElement(new HTMLTableSectionElement(doc, tagName), token.AsTag());
                         insert = HtmlTreeMode.InTableBody;
                     }
                     else if (tagName.IsOneOf(Tags.Td, Tags.Th, Tags.Tr))
@@ -1761,7 +1760,7 @@
                     }
                     else if (tagName == Tags.Col)
                     {
-                        AddElement<HTMLTableColElement>(token.AsTag(), true);
+                        AddElement(new HTMLTableColElement(doc), token.AsTag(), true);
                         CloseCurrentNode();
                     }
                     else if (tagName == Tags.Template)
