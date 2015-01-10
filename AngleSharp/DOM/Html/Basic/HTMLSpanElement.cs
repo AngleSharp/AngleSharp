@@ -9,9 +9,10 @@
     {
         #region ctor
 
-        internal HTMLSpanElement()
+        public HTMLSpanElement(Document owner)
             : base(Tags.Span)
         {
+            Owner = owner;
         }
 
         #endregion

@@ -16,9 +16,10 @@
 
         #region ctor
 
-        internal HTMLDialogElement()
+        public HTMLDialogElement(Document owner)
             : base(Tags.Dialog)
         {
+            Owner = owner;
         }
 
         #endregion

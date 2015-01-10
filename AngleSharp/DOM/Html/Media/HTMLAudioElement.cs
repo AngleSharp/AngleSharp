@@ -20,9 +20,10 @@
         /// <summary>
         /// Creates a new HTML audio element.
         /// </summary>
-        internal HTMLAudioElement()
+        public HTMLAudioElement(Document owner)
             : base(Tags.Audio)
         {
+            Owner = owner;
             _audios = null;
         }
 

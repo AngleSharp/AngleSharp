@@ -79,12 +79,12 @@
             creators.Add(Tags.H4, document => new HTMLHeadingElement(document, Tags.H4));
             creators.Add(Tags.H5, document => new HTMLHeadingElement(document, Tags.H5));
             creators.Add(Tags.H6, document => new HTMLHeadingElement(document, Tags.H6));
-            creators.Add(Tags.Audio, document => new HTMLAudioElement { Owner = document });
-            creators.Add(Tags.Video, document => new HTMLVideoElement { Owner = document });
-            creators.Add(Tags.Span, document => new HTMLSpanElement { Owner = document });
-            creators.Add(Tags.Dialog, document => new HTMLDialogElement { Owner = document });
-            creators.Add(Tags.Details, document => new HTMLDetailsElement { Owner = document });
-            creators.Add(Tags.Source, document => new HTMLSourceElement { Owner = document });
+            creators.Add(Tags.Audio, document => new HTMLAudioElement(document));
+            creators.Add(Tags.Video, document => new HTMLVideoElement(document));
+            creators.Add(Tags.Span, document => new HTMLSpanElement(document));
+            creators.Add(Tags.Dialog, document => new HTMLDialogElement(document));
+            creators.Add(Tags.Details, document => new HTMLDetailsElement(document));
+            creators.Add(Tags.Source, document => new HTMLSourceElement(document));
             creators.Add(Tags.Track, document => new HTMLTrackElement { Owner = document });
             creators.Add(Tags.Wbr, document => new HTMLWbrElement { Owner = document });
             creators.Add(Tags.B, document => new HTMLBoldElement { Owner = document });

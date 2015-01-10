@@ -13,9 +13,10 @@
         /// <summary>
         /// Creates a new HTML details element.
         /// </summary>
-        internal HTMLDetailsElement()
+        public HTMLDetailsElement(Document owner)
             : base(Tags.Details, NodeFlags.Special)
         {
+            Owner = owner;
         }
 
         #endregion

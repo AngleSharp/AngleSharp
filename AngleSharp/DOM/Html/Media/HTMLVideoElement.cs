@@ -22,9 +22,10 @@
         /// <summary>
         /// Creates a new HTML video element.
         /// </summary>
-        internal HTMLVideoElement()
+        public HTMLVideoElement(Document owner)
             : base(Tags.Video)
         {
+            Owner = owner;
             _videos = null;
         }
 
