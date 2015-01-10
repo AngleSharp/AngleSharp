@@ -1542,7 +1542,7 @@
                     {
                         ClearStackBackTo<HTMLTableElement>();
                         formatting.AddScopeMarker();
-                        AddElement<HTMLTableCaptionElement>(token.AsTag());
+                        AddElement(new HTMLTableCaptionElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InCaption;
                     }
                     else if (tagName == Tags.Colgroup)
@@ -1814,7 +1814,7 @@
                     if (tagName == Tags.Tr)
                     {
                         ClearStackBackTo<HTMLTableSectionElement>();
-                        AddElement<HTMLTableRowElement>(token.AsTag());
+                        AddElement(new HTMLTableRowElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InRow;
                     }
                     else if (tagName.IsTableCellElement())

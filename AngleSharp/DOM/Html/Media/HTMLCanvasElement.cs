@@ -26,9 +26,10 @@
         /// <summary>
         /// Creates a new HTML canvas element.
         /// </summary>
-        internal HTMLCanvasElement()
+        public HTMLCanvasElement(Document owner)
             : base(Tags.Canvas)
         {
+            Owner = owner;
             _mode = ContextMode.None;
         }
 

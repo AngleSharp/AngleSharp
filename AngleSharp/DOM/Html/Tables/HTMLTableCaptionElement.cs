@@ -11,9 +11,10 @@
     {
         #region ctor
 
-        public HTMLTableCaptionElement()
+        public HTMLTableCaptionElement(Document owner)
             : base(Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
         {
+            Owner = owner;
         }
 
         #endregion

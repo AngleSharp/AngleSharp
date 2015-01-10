@@ -9,9 +9,10 @@
     {
         #region ctor
 
-        internal HTMLTableDataCellElement()
+        public HTMLTableDataCellElement(Document owner)
             : base(Tags.Td)
         {
+            Owner = owner;
         }
 
         #endregion

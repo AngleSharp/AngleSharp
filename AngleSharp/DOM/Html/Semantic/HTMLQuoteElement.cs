@@ -10,9 +10,11 @@
     {
         #region ctor
 
-        internal HTMLQuoteElement(String name)
+        public HTMLQuoteElement(Document owner, String name)
             : base(name, name.Equals(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
-        { }
+        {
+            Owner = owner;
+        }
 
         #endregion
 
