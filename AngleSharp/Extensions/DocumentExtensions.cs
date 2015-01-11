@@ -84,11 +84,13 @@
 
             var nodes = record.Target.GetInclusiveAncestorsOf();
 
-            foreach (var node in nodes)
+            for (var i = 0; i < observers.Length; i++)
             {
-                for (var i = 0; i < observers.Length; i++)
+                var observer = observers[i];
+                var clearPreviousValue = default(bool?);
+
+                foreach (var node in nodes)
                 {
-                    var observer = observers[i];
                     var options = observer.ResolveOptions(node);
 
                     if (options == null)
@@ -104,11 +106,15 @@
                     else if (record.IsChildList && options.IsObservingChildNodes == false)
                         continue;
 
-                    var clearPreviousValue = (record.IsAttribute && options.IsExaminingOldAttributeValue.Value == false) ||
-                        (record.IsCharacterData && options.IsExaminingOldCharacterData.Value == false);
-
-                    observer.Enqueue(record.Copy(clearPreviousValue));
+                    if (clearPreviousValue.HasValue == false || clearPreviousValue.Value == true)
+                        clearPreviousValue = (record.IsAttribute && options.IsExaminingOldAttributeValue.Value == false) ||
+                            (record.IsCharacterData && options.IsExaminingOldCharacterData.Value == false);
                 }
+
+                if (clearPreviousValue == null)
+                    continue;
+
+                observer.Enqueue(record.Copy(clearPreviousValue.Value));
             }
 
             document.PerformMicrotaskCheckpoint();
