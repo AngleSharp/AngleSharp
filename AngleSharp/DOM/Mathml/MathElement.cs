@@ -30,7 +30,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = MathElementFactory.Create(NodeName, Owner);
+            var node = Factory.MathElements.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             node.Close();

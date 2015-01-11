@@ -255,7 +255,7 @@
         {
             var identifier = value.ToIdentifier();
 
-            if (identifier != null && (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || CssPropertyFactory.IsAnimatable(identifier)))
+            if (identifier != null && (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || Factory.Properties.IsAnimatable(identifier)))
                 return identifier;
 
             return null;

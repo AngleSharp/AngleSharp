@@ -3,7 +3,6 @@
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Html;
-    using AngleSharp.DOM.Mathml;
     using AngleSharp.DOM.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -1194,7 +1193,7 @@
         /// <returns>The created Event object.</returns>
         public Event CreateEvent(String type)
         {
-            var ev = EventFactory.Create(type);
+            var ev = Factory.Events.Create(type);
 
             if (ev == null)
                 throw new DomException(ErrorCode.NotSupported);
@@ -1265,7 +1264,7 @@
             if (!localName.IsXmlName())
                 throw new DomException(ErrorCode.InvalidCharacter);
 
-            var element = HtmlElementFactory.Create(localName, this);
+            var element = Factory.HtmlElements.Create(localName, this);
             element.Close();
             return element;
         }
@@ -1300,11 +1299,11 @@
             Element element = null;
 
             if (namespaceUri == Namespaces.HtmlUri)
-                element = HtmlElementFactory.Create(localName, this);
+                element = Factory.HtmlElements.Create(localName, this);
             else if (namespaceUri == Namespaces.SvgUri)
-                element = SvgElementFactory.Create(localName, this);
+                element = Factory.SvgElements.Create(localName, this);
             else if (namespaceUri == Namespaces.MathMlUri)
-                element = MathElementFactory.Create(localName, this);
+                element = Factory.MathElements.Create(localName, this);
             else
                 element = new Element(this, localName) { NamespaceUri = namespaceUri };
 

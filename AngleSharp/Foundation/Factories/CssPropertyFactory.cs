@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Factories
 {
     using AngleSharp.Css;
+    using AngleSharp.DOM.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -9,7 +10,7 @@
     /// <summary>
     /// Provides string to CSSProperty instance creation mappings.
     /// </summary>
-    static class CssPropertyFactory
+    sealed class CssPropertyFactory
     {
         #region Delegates
 
@@ -20,16 +21,16 @@
 
         #region Fields
 
-        static readonly Dictionary<String, LonghandCreator> longhands = new Dictionary<String, LonghandCreator>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, ShorthandCreator> shorthands = new Dictionary<String, ShorthandCreator>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, String[]> mappings = new Dictionary<String, String[]>();
-        static readonly List<String> animatables = new List<String>();
+        readonly Dictionary<String, LonghandCreator> longhands = new Dictionary<String, LonghandCreator>(StringComparer.OrdinalIgnoreCase);
+        readonly Dictionary<String, ShorthandCreator> shorthands = new Dictionary<String, ShorthandCreator>(StringComparer.OrdinalIgnoreCase);
+        readonly Dictionary<String, String[]> mappings = new Dictionary<String, String[]>();
+        readonly List<String> animatables = new List<String>();
 
         #endregion
 
         #region Initialization
 
-        static CssPropertyFactory()
+        public CssPropertyFactory()
         {
             AddShorthand(PropertyNames.Animation, style => new CssAnimationProperty(style),
                 PropertyNames.AnimationName,
@@ -304,13 +305,13 @@
             AddLonghand(PropertyNames.ObjectPosition, style => new CssObjectPositionProperty(style), animatable: true);
         }
 
-        static void AddShorthand(String name, ShorthandCreator creator, params String[] longhands)
+        void AddShorthand(String name, ShorthandCreator creator, params String[] longhands)
         {
             shorthands.Add(name, creator);
             mappings.Add(name, longhands);
         }
 
-        static void AddLonghand(String name, LonghandCreator creator, Boolean animatable = false)
+        void AddLonghand(String name, LonghandCreator creator, Boolean animatable = false)
         {
             longhands.Add(name, creator);
 
@@ -328,7 +329,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created property.</returns>
-        public static CssProperty Create(String name, CssStyleDeclaration style)
+        public CssProperty Create(String name, CssStyleDeclaration style)
         {
             return CreateLonghand(name, style) ?? CreateShorthand(name, style);
         }
@@ -339,7 +340,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created longhand property.</returns>
-        public static CssProperty CreateLonghand(String name, CssStyleDeclaration style)
+        public CssProperty CreateLonghand(String name, CssStyleDeclaration style)
         {
             LonghandCreator longhand;
             var property = style.GetProperty(name);
@@ -356,7 +357,7 @@
         /// <param name="name">The name of the property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created shorthand property.</returns>
-        public static CssShorthandProperty CreateShorthand(String name, CssStyleDeclaration style)
+        public CssShorthandProperty CreateShorthand(String name, CssStyleDeclaration style)
         {
             ShorthandCreator shorthand;
 
@@ -372,7 +373,7 @@
         /// <param name="name">The name of the corresponding shorthand property.</param>
         /// <param name="style">The given style set.</param>
         /// <returns>The created longhand properties.</returns>
-        public static IEnumerable<CssProperty> CreateLonghandsFor(String name, CssStyleDeclaration style)
+        public IEnumerable<CssProperty> CreateLonghandsFor(String name, CssStyleDeclaration style)
         {
             return GetLonghands(name).Select(m => CreateLonghand(m, style));
         }
@@ -386,7 +387,7 @@
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>True if the property is a longhand, otherwise false.</returns>
-        public static Boolean IsLonghand(String name)
+        public Boolean IsLonghand(String name)
         {
             return longhands.ContainsKey(name);
         }
@@ -396,7 +397,7 @@
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>True if the property is a shorthand, otherwise false.</returns>
-        public static Boolean IsShorthand(String name)
+        public Boolean IsShorthand(String name)
         {
             return shorthands.ContainsKey(name);
         }
@@ -406,7 +407,7 @@
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>True if the property is animatable, or has a longhand that is animatable.</returns>
-        public static Boolean IsAnimatable(String name)
+        public Boolean IsAnimatable(String name)
         {
             if (IsLonghand(name))
                 return animatables.Contains(name);
@@ -425,7 +426,7 @@
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>True if the property name is supported, otherwise false.</returns>
-        public static Boolean IsSupported(String name)
+        public Boolean IsSupported(String name)
         {
             return IsLonghand(name) || IsShorthand(name);
         }
@@ -435,7 +436,7 @@
         /// </summary>
         /// <param name="name">The name of the shorthand property.</param>
         /// <returns>An enumeration over all longhand properties.</returns>
-        public static IEnumerable<String> GetLonghands(String name)
+        public IEnumerable<String> GetLonghands(String name)
         {
             if (mappings.ContainsKey(name))
                 return mappings[name];
@@ -448,7 +449,7 @@
         /// </summary>
         /// <param name="name">The name of the longhand property.</param>
         /// <returns>An enumeration over all shorthand properties.</returns>
-        public static IEnumerable<String> GetShorthands(String name)
+        public IEnumerable<String> GetShorthands(String name)
         {
             foreach (var mapping in mappings)
             {

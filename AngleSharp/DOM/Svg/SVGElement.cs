@@ -49,7 +49,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = SvgElementFactory.Create(NodeName, Owner);
+            var node = Factory.SvgElements.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             node.Close();

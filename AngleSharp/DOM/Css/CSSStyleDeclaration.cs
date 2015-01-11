@@ -88,15 +88,15 @@
                     if (serialized.Contains(property))
                         continue;
 
-                    var shorthands = CssPropertyFactory.GetShorthands(property);
+                    var shorthands = Factory.Properties.GetShorthands(property);
 
                     if (shorthands.Any())
                     {
                         var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
-                        foreach (var shorthand in shorthands.OrderByDescending(m => CssPropertyFactory.GetLonghands(m).Count()))
+                        foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
                         {
-                            var properties = CssPropertyFactory.GetLonghands(shorthand);
+                            var properties = Factory.Properties.GetLonghands(shorthand);
                             var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToList();
 
                             if (currentLonghands.Count == 0)
@@ -107,7 +107,7 @@
                             if (important > 0 && important != currentLonghands.Count)
                                 continue;
 
-                            var rule = CssPropertyFactory.CreateShorthand(shorthand, this);
+                            var rule = Factory.Properties.CreateShorthand(shorthand, this);
                             var value = rule.SerializeValue(currentLonghands);
 
                             if (String.IsNullOrEmpty(value))
@@ -2346,9 +2346,9 @@
 
             var value = GetPropertyValue(propertyName);
 
-            if (CssPropertyFactory.IsShorthand(propertyName))
+            if (Factory.Properties.IsShorthand(propertyName))
             {
-                var longhands = CssPropertyFactory.GetLonghands(propertyName);
+                var longhands = Factory.Properties.GetLonghands(propertyName);
 
                 foreach (var longhand in longhands)
                     RemoveProperty(longhand);
@@ -2371,9 +2371,9 @@
         {
             var property = GetProperty(propertyName);
 
-            if (CssPropertyFactory.IsShorthand(propertyName))
+            if (Factory.Properties.IsShorthand(propertyName))
             {
-                var longhands = CssPropertyFactory.GetLonghands(propertyName);
+                var longhands = Factory.Properties.GetLonghands(propertyName);
 
                 foreach (var longhand in longhands)
                 {
@@ -2396,9 +2396,9 @@
         /// <returns>A value or the empty string if nothing has been set.</returns>
         public String GetPropertyValue(String propertyName)
         {
-            if (CssPropertyFactory.IsShorthand(propertyName))
+            if (Factory.Properties.IsShorthand(propertyName))
             {
-                var declarations = CssPropertyFactory.GetLonghands(propertyName);
+                var declarations = Factory.Properties.GetLonghands(propertyName);
 
                 foreach (var declaration in declarations)
                 {
@@ -2406,7 +2406,7 @@
                         return String.Empty;
                 }
 
-                return CssPropertyFactory.CreateShorthand(propertyName, this).SerializeValue();
+                return Factory.Properties.CreateShorthand(propertyName, this).SerializeValue();
             }
 
             var property = GetProperty(propertyName);
@@ -2427,14 +2427,14 @@
             if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
             
-            if (!CssPropertyFactory.IsSupported(propertyName))
+            if (!Factory.Properties.IsSupported(propertyName))
                 return;
 
             if (!String.IsNullOrEmpty(priority) && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
                 return;
 
             var important = !String.IsNullOrEmpty(priority);
-            var mappings = CssPropertyFactory.IsShorthand(propertyName) ? CssPropertyFactory.GetLonghands(propertyName) : Enumerable.Repeat(propertyName, 1);
+            var mappings = Factory.Properties.IsShorthand(propertyName) ? Factory.Properties.GetLonghands(propertyName) : Enumerable.Repeat(propertyName, 1);
             
             foreach (var mapping in mappings)
             {
@@ -2456,7 +2456,7 @@
             if (_readOnly)
                 throw new DomException(ErrorCode.NoModificationAllowed);
 
-            if (!CssPropertyFactory.IsSupported(propertyName))
+            if (!Factory.Properties.IsSupported(propertyName))
                 return;
 
             if (!String.IsNullOrEmpty(propertyValue))
@@ -2591,7 +2591,7 @@
 
         CssProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
         {
-            return CssPropertyFactory.Create(name, this);
+            return Factory.Properties.Create(name, this);
         }
 
         /// <summary>

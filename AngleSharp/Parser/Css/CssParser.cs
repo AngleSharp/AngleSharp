@@ -1056,7 +1056,7 @@
         {
             var name = tokens.Current.Data;
             var style = new CssStyleDeclaration();
-            var property = CssPropertyFactory.Create(name, style);
+            var property = Factory.Properties.Create(name, style);
 
             if (property == null)
                 property = new CssUnknownProperty(name, style);
@@ -1384,7 +1384,7 @@
             if (token.Type == CssTokenType.Percentage)
                 return new Percent(token.Value);
 
-            return CssUnitFactory.Create(token.Value, token.Unit.ToLowerInvariant());
+            return Factory.Units.Create(token.Value, token.Unit.ToLowerInvariant());
         }
 
         #endregion

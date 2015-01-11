@@ -111,14 +111,15 @@
     <Compile Include="DOM\Events\ModifierExtensions.cs" />
     <Compile Include="DOM\Events\MouseEvent.cs" />
     <Compile Include="DOM\Events\PageTransitionEvent.cs" />
-    <Compile Include="DOM\Factories\InputTypeFactory.cs" />
-    <Compile Include="DOM\Factories\MediaFeatureFactory.cs" />
+    <Compile Include="Foundation\Factories\InputTypeFactory.cs" />
+    <Compile Include="Foundation\Factories\MediaFeatureFactory.cs" />
     <Compile Include="DOM\PseudoElement.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
+    <Compile Include="Foundation\Factory.cs" />
     <Compile Include="Foundation\MutationHost.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
@@ -154,7 +155,7 @@
     <Compile Include="DOM\Events\UiEvent.cs" />
     <Compile Include="DOM\Events\WheelEvent.cs" />
     <Compile Include="DOM\EventTarget.cs" />
-    <Compile Include="DOM\Factories\CssUnitFactory.cs" />
+    <Compile Include="Foundation\Factories\CssUnitFactory.cs" />
     <Compile Include="Foundation\Keywords.cs" />
     <Compile Include="Css\PropertyFlags.cs" />
     <Compile Include="Css\Units.cs" />
@@ -175,7 +176,7 @@
     <Compile Include="DOM\Constants\WheelMode.cs" />
     <Compile Include="DOM\Events\CustomEvent.cs" />
     <Compile Include="DOM\Events\TrackEvent.cs" />
-    <Compile Include="DOM\Factories\EventFactory.cs" />
+    <Compile Include="Foundation\Factories\EventFactory.cs" />
     <Compile Include="DOM\Html\Frames\HTMLNoFramesElement.cs" />
     <Compile Include="DOM\Html\Basic\HTMLNoScriptElement.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLPlaintextElement.cs" />
@@ -224,7 +225,7 @@
     <Compile Include="DOM\Css\Constants\TextTransform.cs" />
     <Compile Include="DOM\Css\Constants\UnicodeMode.cs" />
     <Compile Include="DOM\Css\Constants\Whitespace.cs" />
-    <Compile Include="DOM\Factories\CssPropertyFactory.cs" />
+    <Compile Include="Foundation\Factories\CssPropertyFactory.cs" />
     <Compile Include="Css\MediaFeatures\AspectRatioMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\ColorIndexMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\ColorMediaFeature.cs" />
@@ -396,7 +397,6 @@
     <Compile Include="DOM\Css\Properties\Flow\CssPositionProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CssDisplayProperty.cs" />
     <Compile Include="DOM\Css\Properties\Flow\CssZIndexProperty.cs" />
-    <Compile Include="DOM\Factories\ElementFactory.cs" />
     <Compile Include="DOM\Html\Semantic\HTMLTimeElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableDataCellElement.cs" />
     <Compile Include="DOM\Html\Tables\HTMLTableHeaderCellElement.cs" />
@@ -719,10 +719,10 @@
     <Compile Include="DocumentBuilder.cs" />
     <Compile Include="DOM\Css\Rules\CssDocumentRule.cs" />
     <Compile Include="DOM\Constants\AdjacentPosition.cs" />
-    <Compile Include="DOM\Factories\HtmlElementFactory.cs" />
-    <Compile Include="DOM\Factories\MathElementFactory.cs" />
+    <Compile Include="Foundation\Factories\HtmlElementFactory.cs" />
+    <Compile Include="Foundation\Factories\MathElementFactory.cs" />
     <Compile Include="DOM\Io\FileEntry.cs" />
-    <Compile Include="DOM\Factories\SvgElementFactory.cs" />
+    <Compile Include="Foundation\Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
     <Compile Include="Parser\ParseErrorEventArgs.cs" />
     <Compile Include="ApiExtensions.cs" />

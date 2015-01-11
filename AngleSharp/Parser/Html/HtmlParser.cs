@@ -3204,7 +3204,7 @@
         {
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
-                var node = MathElementFactory.Create(tag.Name, doc);
+                var node = Factory.MathElements.Create(tag.Name, doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3217,7 +3217,7 @@
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
-                var node = SvgElementFactory.Create(tag.Name.AdjustSvgTagName(), doc);
+                var node = Factory.SvgElements.Create(tag.Name.AdjustSvgTagName(), doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
@@ -3617,7 +3617,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = HtmlElementFactory.Create(tag.Name, doc);
+            var element = Factory.HtmlElements.Create(tag.Name, doc);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

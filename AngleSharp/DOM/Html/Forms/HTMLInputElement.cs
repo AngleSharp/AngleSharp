@@ -462,7 +462,7 @@
 
         void UpdateType(String type)
         {
-            _type = InputTypeFactory.Create(this, type);
+            _type = Factory.InputTypes.Create(this, type);
         }
 
         #endregion
