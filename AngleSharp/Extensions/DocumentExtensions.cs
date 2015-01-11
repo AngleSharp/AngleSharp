@@ -104,7 +104,10 @@
                     else if (record.IsChildList && options.IsObservingChildNodes == false)
                         continue;
 
-                    observer.Enqueue(record);
+                    var clearPreviousValue = (record.IsAttribute && options.IsExaminingOldAttributeValue.Value == false) ||
+                        (record.IsCharacterData && options.IsExaminingOldCharacterData.Value == false);
+
+                    observer.Enqueue(record.Copy(clearPreviousValue));
                 }
             }
 
