@@ -63,7 +63,9 @@
                 Target = Target,
                 AttributeName = AttributeName,
                 AttributeNamespace = AttributeNamespace,
-                PreviousValue = clearPreviousValue ? null : PreviousValue
+                PreviousValue = clearPreviousValue ? null : PreviousValue,
+                Added = Added,
+                Removed = Removed
             };
         }
 
