@@ -178,10 +178,10 @@ namespace UnitTests.Library
         [Test]
         public void EventsFactory()
         {
-            var invalid = EventFactory.Create("invalid");
-            var @event = EventFactory.Create("event");
-            var events = EventFactory.Create("events");
-            var wheelevent = EventFactory.Create("wheelevent");
+            var invalid = Factory.Events.Create("invalid");
+            var @event = Factory.Events.Create("event");
+            var events = Factory.Events.Create("events");
+            var wheelevent = Factory.Events.Create("wheelevent");
 
             Assert.IsNull(invalid);
             Assert.IsNotNull(@event);
