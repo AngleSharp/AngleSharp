@@ -61,6 +61,11 @@
         /// <param name="record">The record to queue up.</param>
         internal void Enqueue(MutationRecord record)
         {
+            if (_records.Count > 0)
+            {
+                //Here we could schedule a callback!
+            }
+
             _records.Enqueue(record);
         }
 
@@ -128,7 +133,6 @@
             }
 
             _records.Clear();
-
         }
 
         /// <summary>
@@ -210,8 +214,10 @@
         [DomName("takeRecords")]
         public IEnumerable<IMutationRecord> Flush()
         {
-            while (_records.Count != 0)
+            while (_records.Count > 0)
+            {
                 yield return _records.Dequeue();
+            }
         }
 
         #endregion
