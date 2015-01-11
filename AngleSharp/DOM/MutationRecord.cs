@@ -55,6 +55,18 @@
             };
         }
 
+        public MutationRecord Copy(Boolean clearPreviousValue)
+        {
+            return new MutationRecord
+            {
+                Type = Type,
+                Target = Target,
+                AttributeName = AttributeName,
+                AttributeNamespace = AttributeNamespace,
+                PreviousValue = clearPreviousValue ? null : PreviousValue
+            };
+        }
+
         #endregion
 
         #region Properties
