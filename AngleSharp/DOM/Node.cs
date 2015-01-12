@@ -660,17 +660,19 @@
             
             if (newElement._type == NodeType.DocumentFragment)
             {
+                var end = n;
                 var start = n;
 
                 while (newElement.HasChildNodes)
                 {
                     var child = newElement.ChildNodes[0];
                     newElement.RemoveChild(child, true);
+                    InsertNode(end, child);
                     AddNode(child);
-                    n++;
+                    end++;
                 }
 
-                while (start < n)
+                while (start < end)
                 {
                     var child = _children[start];
                     addedNodes.Add(child);
@@ -690,7 +692,7 @@
                 _owner.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
-                    previousSibling: referenceElement != null ? referenceElement.PreviousSibling : LastChild,
+                    previousSibling: _children[n - 1],
                     nextSibling: referenceElement));
             }
 
