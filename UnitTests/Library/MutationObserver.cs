@@ -1066,6 +1066,103 @@ namespace UnitTests.Library
             });
         }
 
+        [Test]
+        public void MutationObserverAppendMultipleAtOnceInTheMiddle()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = document.CreateElement("div");
+            testDiv.AppendChild(div);
+            var a = div.AppendChild(document.CreateTextNode("a"));
+            var b = div.AppendChild(document.CreateTextNode("b"));
+
+            var observer = new MutationObserver((obs, mut) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingChildNodes = true
+            });
+
+            var df = document.CreateDocumentFragment();
+            var c = df.AppendChild(document.CreateTextNode("c"));
+            var d = df.AppendChild(document.CreateTextNode("d"));
+
+            div.InsertBefore(df, b);
+
+            var records = observer.Flush().ToArray();
+            var merged = MergeRecords(records);
+
+            AssertArrayEqual(merged.Item1, ToNodeList(c, d));
+            AssertArrayEqual(merged.Item2, ToNodeList());
+            AssertAll(records, new TestMutationRecord
+            {
+                Type = "childList",
+			    Target = div
+            });
+        }
+
+        [Test]
+        public void MutationObserverRemoveAllChildren()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = document.CreateElement("div");
+            testDiv.AppendChild(div);
+            var a = div.AppendChild(document.CreateTextNode("a"));
+            var b = div.AppendChild(document.CreateTextNode("b"));
+            var c = div.AppendChild(document.CreateTextNode("c"));
+
+            var observer = new MutationObserver((obs, mut) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingChildNodes = true
+            });
+
+            div.InnerHtml = "";
+
+            var records = observer.Flush().ToArray();
+            var merged = MergeRecords(records);
+
+            AssertArrayEqual(merged.Item1, ToNodeList());
+            AssertArrayEqual(merged.Item2, ToNodeList(a, b, c));
+            AssertAll(records, new TestMutationRecord
+            {
+                Type = "childList",
+			    Target = div
+            });
+        }
+
+        [Test]
+        public void MutationObserverReplaceAllChildrenUsingInnerhtml()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = document.CreateElement("div");
+            testDiv.AppendChild(div);
+            var a = div.AppendChild(document.CreateTextNode("a"));
+            var b = div.AppendChild(document.CreateTextNode("b"));
+
+            var observer = new MutationObserver((obs, mut) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingChildNodes = true
+            });
+
+            div.InnerHtml = "<c></c><d></d>";
+            var c = div.FirstChild;
+            var d = div.LastChild;
+
+            var records = observer.Flush().ToArray();
+            var merged = MergeRecords(records);
+
+            AssertArrayEqual(merged.Item1, ToNodeList(c, d));
+            AssertArrayEqual(merged.Item2, ToNodeList(a, b));
+            AssertAll(records, new TestMutationRecord
+            {
+                Type = "childList",
+			    Target = div
+            });
+        }
+
         static Tuple<NodeList, NodeList> MergeRecords(IMutationRecord[] records)
         {
             var added = new NodeList();
