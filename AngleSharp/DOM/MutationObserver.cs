@@ -70,6 +70,19 @@
         }
 
         /// <summary>
+        /// Triggers the execution if the queue is not-empty.
+        /// </summary>
+        internal void Trigger()
+        {
+            var records = _records.ToArray();
+            _records.Clear();
+            ClearTransients();
+
+            if (records.Length != 0)
+                TriggerWith(records);
+        }
+
+        /// <summary>
         /// Triggers the execution with the provided records.
         /// </summary>
         /// <param name="records">The records to supply as argument.</param>

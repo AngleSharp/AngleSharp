@@ -6,7 +6,6 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -100,14 +99,7 @@
 
             foreach (var mo in notifyList)
             {
-                await eventLoop.Execute(() =>
-                {
-                    var queue = mo.Flush().ToArray();
-                    mo.ClearTransients();
-
-                    if (queue.Length != 0)
-                        mo.TriggerWith(queue);
-                });
+                await eventLoop.Execute(() => mo.Trigger());
             }
         }
 
