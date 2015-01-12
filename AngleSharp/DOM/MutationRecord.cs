@@ -61,6 +61,8 @@
             {
                 Type = Type,
                 Target = Target,
+                PreviousSibling = PreviousSibling,
+                NextSibling = NextSibling,
                 AttributeName = AttributeName,
                 AttributeNamespace = AttributeNamespace,
                 PreviousValue = clearPreviousValue ? null : PreviousValue,
