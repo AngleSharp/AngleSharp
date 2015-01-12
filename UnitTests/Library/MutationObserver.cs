@@ -1148,9 +1148,9 @@ namespace UnitTests.Library
             });
 
             div.InnerHtml = "<c></c><d></d>";
+
             var c = div.FirstChild;
             var d = div.LastChild;
-
             var records = observer.Flush().ToArray();
             var merged = MergeRecords(records);
 
@@ -1160,6 +1160,213 @@ namespace UnitTests.Library
             {
                 Type = "childList",
 			    Target = div
+            });
+        }
+
+        [Test]
+        public void MutationObserverAttrAndCharacterdata()
+        {
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement("div");
+            var text = div.AppendChild(document.CreateTextNode("text"));
+            var observer = new MutationObserver((obs, mut) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingAttributes = true,
+                IsObservingCharacterData = true,
+                IsObservingSubtree = true
+            });
+
+            div.SetAttribute("a", "A");
+            div.FirstChild.TextContent = "changed";
+
+            var records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 2);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "attributes",
+                Target = div,
+                AttributeName = "a",
+                AttributeNamespace = null
+            });
+            AssertRecord(records[1], new TestMutationRecord
+            {
+                Type = "characterData",
+                Target = div.FirstChild
+            });
+        }
+
+        [Test]
+        public void MutationObserverAttrChanged()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = testDiv.AppendChild(document.CreateElement("div"));
+            var child = document.CreateElement("div");
+            div.AppendChild(child);
+            var observer = new MutationObserver((obs, mut) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingAttributes = true,
+                IsObservingSubtree = true
+            });
+            div.RemoveChild(child);
+            child.SetAttribute("a", "A");
+
+            var records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 1);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "attributes",
+                Target = child,
+                AttributeName = "a",
+                AttributeNamespace = null
+            });
+
+            child.SetAttribute("b", "B");
+            records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 1);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "attributes",
+                Target = child,
+                AttributeName = "b",
+                AttributeNamespace = null
+            });
+        }
+
+        [Test]
+        public void MutationObserverAttrCallback()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = testDiv.AppendChild(document.CreateElement("div"));
+            var child = document.CreateElement("div");
+            div.AppendChild(child);
+            var i = 0;
+            var observer = new MutationObserver((records, obs) =>
+            {
+                Assert.LessOrEqual(++i, 2);
+                Assert.AreEqual(records.Count(), 1);
+
+                AssertRecord(records[0], new TestMutationRecord
+                {
+                    Type = "attributes",
+                    Target = child,
+                    AttributeName = "a",
+                    AttributeNamespace = null
+                });
+
+                // The transient observers are removed before the callback is called.
+                child.SetAttribute("b", "B");
+                records = obs.Flush().ToArray();
+                Assert.AreEqual(records.Count(), 0);
+            });
+
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingAttributes = true,
+                IsObservingSubtree = true
+            });
+
+            div.RemoveChild(child);
+            child.SetAttribute("a", "A");
+        }
+
+        [Test]
+        public void MutationObserverAttrMakeSureTransientGetsRemoved()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = testDiv.AppendChild(document.CreateElement("div"));
+            var child = document.CreateElement("div");
+            div.AppendChild(child);
+            var i = 0;
+            var observer = new MutationObserver((records, obs) =>
+            {
+                Assert.AreNotEqual(2, ++i);
+                Assert.AreEqual(records.Count(), 1);
+
+                AssertRecord(records[0], new TestMutationRecord
+                {
+                    Type = "attributes",
+                    Target = child,
+                    AttributeName = "a",
+                    AttributeNamespace = null
+                });
+            });
+
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingAttributes = true,
+                IsObservingSubtree = true
+            });
+
+            div.RemoveChild(child);
+            child.SetAttribute("a", "A");
+
+            var div2 = document.CreateElement("div");
+            var observer2 = new MutationObserver((records, obs) =>
+            {
+                Assert.AreNotEqual(3, ++i);
+                Assert.AreEqual(records.Count(), 1);
+
+                AssertRecord(records[0], new TestMutationRecord
+                {
+                    Type = "attributes",
+                    Target = child,
+                    AttributeName = "b",
+                    AttributeNamespace = null
+                });
+            });
+
+            observer2.Connect(div2, new MutationObserverInit
+            {
+                IsObservingAttributes = true,
+                IsObservingSubtree = true,
+            });
+
+            div2.AppendChild(child);
+            child.SetAttribute("b", "B");
+        }
+
+        [Test]
+        public void MutationObserverChildListCharacterdata()
+        {
+            var document = DocumentBuilder.Html("");
+
+            var div = document.CreateElement("div");
+            var child = div.AppendChild(document.CreateTextNode("text"));
+            var observer = new MutationObserver((obs, mut) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingCharacterData = true,
+                IsObservingSubtree = true
+            });
+            div.RemoveChild(child);
+            child.TextContent = "changed";
+
+            var records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 1);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "characterData",
+                Target = child
+            });
+
+            child.TextContent += " again";
+
+            records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 1);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "characterData",
+                Target = child
             });
         }
 
