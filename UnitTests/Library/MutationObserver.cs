@@ -1311,7 +1311,7 @@ namespace UnitTests.Library
             var div2 = document.CreateElement("div");
             var observer2 = new MutationObserver((records, obs) =>
             {
-                Assert.AreNotEqual(3, ++i);
+                Assert.LessOrEqual(++i, 3);
                 Assert.AreEqual(records.Count(), 1);
 
                 AssertRecord(records[0], new TestMutationRecord
@@ -1337,7 +1337,6 @@ namespace UnitTests.Library
         public void MutationObserverChildListCharacterdata()
         {
             var document = DocumentBuilder.Html("");
-
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -1368,6 +1367,127 @@ namespace UnitTests.Library
                 Type = "characterData",
                 Target = child
             });
+        }
+
+        [Test]
+        public void MutationObserverCharacterdataCallback()
+        {
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement("div");
+            var child = div.AppendChild(document.CreateTextNode("text"));
+            var i = 0;
+            var observer = new MutationObserver((records, obs) =>
+            {
+                Assert.LessOrEqual(++i, 2);
+                Assert.AreEqual(records.Count(), 1);
+
+                AssertRecord(records[0], new TestMutationRecord
+                {
+                    Type = "characterData",
+                    Target = child
+                });
+
+                // The transient observers are removed before the callback is called.
+                child.TextContent += " again";
+                records = obs.Flush().ToArray();
+                Assert.AreEqual(records.Count(), 0);
+            });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingCharacterData = true,
+                IsObservingSubtree = true
+            });
+            div.RemoveChild(child);
+            child.TextContent = "changed";
+        }
+
+        [Test]
+        public void MutationObserverChildlist()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = testDiv.AppendChild(document.CreateElement("div"));
+            var child = div.AppendChild(document.CreateElement("div"));
+            var observer = new MutationObserver((mut, obs) => { });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingChildNodes = true,
+                IsObservingSubtree = true
+            });
+            div.RemoveChild(child);
+            var grandChild = child.AppendChild(document.CreateElement("span"));
+
+            var records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 2);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "childList",
+                Target = div,
+                Removed = ToNodeList(child)
+            });
+
+            AssertRecord(records[1], new TestMutationRecord
+            {
+                Type = "childList",
+                Target = child,
+                Added = ToNodeList(grandChild)
+            });
+
+            child.RemoveChild(grandChild);
+
+            records = observer.Flush().ToArray();
+            Assert.AreEqual(records.Count(), 1);
+
+            AssertRecord(records[0], new TestMutationRecord
+            {
+                Type = "childList",
+                Target = child,
+                Removed = ToNodeList(grandChild)
+            });
+        }
+
+        [Test]
+        public void MutationObserverChildlistCallback()
+        {
+            var document = DocumentBuilder.Html("");
+            var testDiv = document.Body.AppendChild(document.CreateElement("div"));
+            var div = testDiv.AppendChild(document.CreateElement("div"));
+            var child = div.AppendChild(document.CreateElement("div"));
+            var grandChild = document.CreateElement("span");
+            var i = 0;
+            var observer = new MutationObserver((records, obs) =>
+            {
+                Assert.LessOrEqual(++i, 2);
+                Assert.AreEqual(records.Count(), 2);
+
+                AssertRecord(records[0], new TestMutationRecord
+                {
+                    Type = "childList",
+                    Target = div,
+                    Removed = ToNodeList(child)
+                });
+
+                AssertRecord(records[1], new TestMutationRecord
+                {
+                    Type = "childList",
+                    Target = child,
+                    Added = ToNodeList(grandChild)
+                });
+
+                // The transient observers are removed before the callback is called.
+                child.RemoveChild(grandChild);
+
+                records = obs.Flush().ToArray();
+                Assert.AreEqual(records.Count(), 0);
+            });
+            observer.Connect(div, new MutationObserverInit
+            {
+                IsObservingChildNodes = true,
+                IsObservingSubtree = true
+            });
+            div.RemoveChild(child);
+            child.AppendChild(grandChild);
         }
 
         static Tuple<NodeList, NodeList> MergeRecords(IMutationRecord[] records)
