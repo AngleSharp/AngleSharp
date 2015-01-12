@@ -1250,7 +1250,7 @@ namespace UnitTests.Library
             var observer = new MutationObserver((records, obs) =>
             {
                 Assert.LessOrEqual(++i, 2);
-                Assert.AreEqual(records.Count(), 1);
+                Assert.AreEqual(1, records.Count());
 
                 AssertRecord(records[0], new TestMutationRecord
                 {
@@ -1263,7 +1263,7 @@ namespace UnitTests.Library
                 // The transient observers are removed before the callback is called.
                 child.SetAttribute("b", "B");
                 records = obs.Flush().ToArray();
-                Assert.AreEqual(records.Count(), 0);
+                Assert.AreEqual(0, records.Count());
             });
 
             observer.Connect(div, new MutationObserverInit
@@ -1274,6 +1274,7 @@ namespace UnitTests.Library
 
             div.RemoveChild(child);
             child.SetAttribute("a", "A");
+            observer.Trigger();
         }
 
         [Test]
@@ -1307,6 +1308,7 @@ namespace UnitTests.Library
 
             div.RemoveChild(child);
             child.SetAttribute("a", "A");
+            observer.Trigger();
 
             var div2 = document.CreateElement("div");
             var observer2 = new MutationObserver((records, obs) =>
@@ -1331,6 +1333,7 @@ namespace UnitTests.Library
 
             div2.AppendChild(child);
             child.SetAttribute("b", "B");
+            observer2.Trigger();
         }
 
         [Test]
@@ -1379,7 +1382,7 @@ namespace UnitTests.Library
             var observer = new MutationObserver((records, obs) =>
             {
                 Assert.LessOrEqual(++i, 2);
-                Assert.AreEqual(records.Count(), 1);
+                Assert.AreEqual(1, records.Count());
 
                 AssertRecord(records[0], new TestMutationRecord
                 {
@@ -1390,7 +1393,7 @@ namespace UnitTests.Library
                 // The transient observers are removed before the callback is called.
                 child.TextContent += " again";
                 records = obs.Flush().ToArray();
-                Assert.AreEqual(records.Count(), 0);
+                Assert.AreEqual(0, records.Count());
             });
             observer.Connect(div, new MutationObserverInit
             {
@@ -1399,6 +1402,7 @@ namespace UnitTests.Library
             });
             div.RemoveChild(child);
             child.TextContent = "changed";
+            observer.Trigger();
         }
 
         [Test]
@@ -1459,7 +1463,7 @@ namespace UnitTests.Library
             var observer = new MutationObserver((records, obs) =>
             {
                 Assert.LessOrEqual(++i, 2);
-                Assert.AreEqual(records.Count(), 2);
+                Assert.AreEqual(2, records.Count());
 
                 AssertRecord(records[0], new TestMutationRecord
                 {
@@ -1479,7 +1483,7 @@ namespace UnitTests.Library
                 child.RemoveChild(grandChild);
 
                 records = obs.Flush().ToArray();
-                Assert.AreEqual(records.Count(), 0);
+                Assert.AreEqual(0, records.Count());
             });
             observer.Connect(div, new MutationObserverInit
             {
@@ -1488,6 +1492,7 @@ namespace UnitTests.Library
             });
             div.RemoveChild(child);
             child.AppendChild(grandChild);
+            observer.Trigger();
         }
 
         static Tuple<NodeList, NodeList> MergeRecords(IMutationRecord[] records)
