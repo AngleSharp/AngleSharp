@@ -544,6 +544,33 @@
             return (_end > new Boundary { Node = parent, Offset = offset } && _start < new Boundary { Node = parent, Offset = offset + 1 });
         }
 
+        public override String ToString()
+        {
+            var s = Pool.NewStringBuilder();
+            var offset = Start;
+            var dest = End;
+            var startText = Head as IText;
+            var endText = Tail as IText;
+
+            if (startText != null && Head == Tail)
+                return startText.Substring(offset, dest - offset);
+            else if (startText != null)
+                s.Append(startText.Substring(offset, startText.Length - offset));
+
+            var nodes = CommonAncestor.Descendents<IText>();
+
+            foreach (var node in nodes)
+            {
+                if (_start < new Boundary { Node = node, Offset = 0 } && _end > new Boundary { Node = node, Offset = node.Length })
+                    s.Append(node.Text);
+            }
+
+            if (endText != null)
+                s.Append(endText.Substring(0, dest));
+
+            return s.ToPool();
+        }
+
         #endregion
 
         #region Helpers
