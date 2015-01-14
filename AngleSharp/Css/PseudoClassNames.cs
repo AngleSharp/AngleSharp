@@ -158,6 +158,11 @@
         public static readonly String Has = "has";
 
         /// <summary>
+        /// The matches pseudo function.
+        /// </summary>
+        public static readonly String Matches = "matches";
+
+        /// <summary>
         /// The nth-child pseudo function.
         /// </summary>
         public static readonly String NthChild = "nth-child";

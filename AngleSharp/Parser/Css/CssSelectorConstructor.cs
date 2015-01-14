@@ -544,7 +544,8 @@
                 else
                     OnPseudoClassFunctionEnd(token);
             }
-            else if (attrName.Equals(PseudoClassNames.Has, StringComparison.OrdinalIgnoreCase))
+            else if (attrName.Equals(PseudoClassNames.Has, StringComparison.OrdinalIgnoreCase) || 
+                     attrName.Equals(PseudoClassNames.Matches, StringComparison.OrdinalIgnoreCase))
             {
                 if (nested == null)
                     nested = Pool.NewSelectorConstructor();
@@ -554,14 +555,8 @@
                 else
                     OnPseudoClassFunctionEnd(token);
             }
-            else if (attrName.Equals(PseudoClassNames.Dir, StringComparison.OrdinalIgnoreCase))
-            {
-                if (token.Type == CssTokenType.Ident)
-                    attrValue = token.Data;
-
-                state = State.PseudoClassFunctionEnd;
-            }
-            else if (attrName.Equals(PseudoClassNames.Lang, StringComparison.OrdinalIgnoreCase))
+            else if (attrName.Equals(PseudoClassNames.Dir, StringComparison.OrdinalIgnoreCase) || 
+                     attrName.Equals(PseudoClassNames.Lang, StringComparison.OrdinalIgnoreCase))
             {
                 if (token.Type == CssTokenType.Ident)
                     attrValue = token.Data;
@@ -643,6 +638,16 @@
 
                     if (sel != null)
                         Insert(SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(PseudoClassNames.Has, "(", sel.Text, ")")));
+                    else
+                        valid = false;
+                }
+                else if (attrName.Equals(PseudoClassNames.Matches, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sel = nested.ToPool();
+                    nested = null;
+
+                    if (sel != null)
+                        Insert(SimpleSelector.PseudoClass(el => sel.Match(el), String.Concat(PseudoClassNames.Matches, "(", sel.Text, ")")));
                     else
                         valid = false;
                 }
