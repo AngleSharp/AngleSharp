@@ -4,6 +4,7 @@
     using AngleSharp.DOM.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -388,9 +389,14 @@
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }
 
+        /// <summary>
+        /// Checks if the element is matched by the given selector.
+        /// </summary>
+        /// <param name="selectors">Represents the selector to test.</param>
+        /// <returns>True if the element would be selected by the specified selector, otherwise false.</returns>
         public Boolean Matches(String selectors)
         {
-            return AngleSharp.Parser.Css.CssParser.ParseSelector(selectors).Match(this);
+            return CssParser.ParseSelector(selectors).Match(this);
         }
 
         /// <summary>
@@ -405,6 +411,16 @@
             CopyAttributes(this, node);
             node.Close();
             return node;
+        }
+
+        /// <summary>
+        /// Creates a pseudo element for the current element.
+        /// </summary>
+        /// <param name="pseudoElement">The element to create (e.g. ::after).</param>
+        /// <returns>The created element or null, if not possible.</returns>
+        public IPseudoElement Pseudo(String pseudoElement)
+        {
+            return PseudoElement.Create(this, pseudoElement);
         }
 
         /// <summary>

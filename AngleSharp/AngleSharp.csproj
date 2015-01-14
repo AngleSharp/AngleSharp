@@ -142,7 +142,7 @@
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
     <Compile Include="Infrastructure\DomTask.cs" />
     <Compile Include="Interfaces\Css\IKeyframeSelector.cs" />
-    <Compile Include="Interfaces\Css\IPseudoElement.cs" />
+    <Compile Include="Interfaces\IPseudoElement.cs" />
     <Compile Include="Linq\ElementExtensions.cs" />
     <Compile Include="Linq\NodeExtensions.cs" />
     <Compile Include="Linq\StyleSheetExtensions.cs" />

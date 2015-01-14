@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.DOM
 {
     using AngleSharp.Attributes;
+    using AngleSharp.DOM.Css;
 
     /// <summary>
     /// The PseudoElement interface is used for representing CSS pseudo-elements.

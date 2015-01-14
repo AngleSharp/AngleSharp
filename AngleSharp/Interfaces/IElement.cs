@@ -183,6 +183,14 @@
         String TagName { get; }
 
         /// <summary>
+        /// Creates a pseudo element for the current element.
+        /// </summary>
+        /// <param name="pseudoElement">The element to create (e.g. ::after).</param>
+        /// <returns>The created element or null, if not possible.</returns>
+        [DomName("pseudo")]
+        IPseudoElement Pseudo(String pseudoElement);
+
+        /// <summary>
         /// Gets if the element is currently focused.
         /// </summary>
         Boolean IsFocused { get; }

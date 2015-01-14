@@ -1,13 +1,14 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.DOM.Css;
+    using AngleSharp.DOM.Events;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.DOM.Events;
 
     /// <summary>
     /// A wrapper around an element to extend the DOM.
     /// </summary>
-    abstract class PseudoElement : IElement
+    abstract class PseudoElement : IElement, IPseudoElement
     {
         #region Factory
 
@@ -47,6 +48,26 @@
         #endregion
 
         #region Properties
+
+        public ICssStyleDeclaration CascadedStyle
+        {
+            get { return null; }
+        }
+
+        public ICssStyleDeclaration DefaultStyle
+        {
+            get { return null; }
+        }
+
+        public ICssStyleDeclaration RawComputedStyle
+        {
+            get { return null; }
+        }
+
+        public ICssStyleDeclaration UsedStyle
+        {
+            get { return null; }
+        }
 
         public String Prefix
         {
@@ -286,6 +307,11 @@
         public INode Clone(Boolean deep = true)
         {
             return _host.Clone(deep);
+        }
+
+        public IPseudoElement Pseudo(String pseudoElement)
+        {
+            return null;
         }
 
         public Boolean Equals(INode otherNode)
