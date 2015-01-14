@@ -322,6 +322,21 @@
         }
 
         /// <summary>
+        /// Checks if the element is currently showing a placeholder.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element is currently showing a placeholder, otherwise false.</returns>
+        public static Boolean IsPlaceholderShown(this IElement element)
+        {
+            var input = element as HTMLInputElement;
+
+            if (input != null)
+                return !String.IsNullOrEmpty(input.Placeholder) && String.IsNullOrEmpty(input.Value);
+
+            return false;
+        }
+
+        /// <summary>
         /// Checks if the element is currently unchecked.
         /// </summary>
         /// <param name="element">The element to check.</param>

@@ -103,6 +103,11 @@
         public static readonly String Indeterminate = "indeterminate";
 
         /// <summary>
+        /// The placeholder-shown pseudo class.
+        /// </summary>
+        public static readonly String PlaceholderShown = "placeholder-shown";
+
+        /// <summary>
         /// The default pseudo class.
         /// </summary>
         public static readonly String Default = "default";
