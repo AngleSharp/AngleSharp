@@ -569,5 +569,42 @@ namespace UnitTests
             Assert.IsNull(GetAttributeValue(results[0], "class"));
             Assert.AreEqual("eeeee", results[1].TextContent);
         }
+
+        [Test]
+        public void HasSelectorSimple()
+        {
+            var source = @"<div><p>Hello in a paragraph</p></div>
+<div>Hello again! (with no paragraph)</div>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "div:has(p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorNegated()
+        {
+            var source = @"<div><section id=first><div><h1></h1></div></section><section id=second></section><section><h5></h5></section></div>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "section:not(:has(h1, h2, h3, h4, h5, h6))";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("second", result[0].Id);
+        }
+
+        [Test]
+        public void HasSelectorNegatedSwapped()
+        {
+            var source = @"<div><section id=first><div><h1></h1></div></section><section id=second></section><section><h5></h5></section></div>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "section:has(:not(h1, h2, h3, h4, h5, h6))";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("first", result[0].Id);
+        }
     }
 }
