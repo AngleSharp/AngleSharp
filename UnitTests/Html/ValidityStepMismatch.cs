@@ -102,6 +102,98 @@ namespace UnitTests.Html
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsStepMismatch);
 		}
+	
+		[Test]
+		public void TestStepmismatchInputDatetimeLocal1()
+		{
+			var document = DocumentBuilder.Html("");
+			var element = document.CreateElement("input") as HTMLInputElement;
+			Assert.IsNotNull(element);
+			element.Type = "datetime-local";
+			element.RemoveAttribute("required");
+			element.RemoveAttribute("pattern");
+			element.RemoveAttribute("step");
+			element.RemoveAttribute("max");
+			element.RemoveAttribute("min");
+			element.RemoveAttribute("maxlength");
+			element.RemoveAttribute("value");
+			element.RemoveAttribute("multiple");
+			element.RemoveAttribute("checked");
+			element.RemoveAttribute("selected");
+			element.SetAttribute("step", "");
+			element.Value = "2000-01-01T12:00:00";
+			Assert.AreEqual("datetime-local", element.Type);
+			Assert.AreEqual(false, element.Validity.IsStepMismatch);
+		}
+	
+		[Test]
+		public void TestStepmismatchInputDatetimeLocal2()
+		{
+			var document = DocumentBuilder.Html("");
+			var element = document.CreateElement("input") as HTMLInputElement;
+			Assert.IsNotNull(element);
+			element.Type = "datetime-local";
+			element.RemoveAttribute("required");
+			element.RemoveAttribute("pattern");
+			element.RemoveAttribute("step");
+			element.RemoveAttribute("max");
+			element.RemoveAttribute("min");
+			element.RemoveAttribute("maxlength");
+			element.RemoveAttribute("value");
+			element.RemoveAttribute("multiple");
+			element.RemoveAttribute("checked");
+			element.RemoveAttribute("selected");
+			element.SetAttribute("step", "120000");
+			element.Value = "";
+			Assert.AreEqual("datetime-local", element.Type);
+			Assert.AreEqual(false, element.Validity.IsStepMismatch);
+		}
+	
+		[Test]
+		public void TestStepmismatchInputDatetimeLocal3()
+		{
+			var document = DocumentBuilder.Html("");
+			var element = document.CreateElement("input") as HTMLInputElement;
+			Assert.IsNotNull(element);
+			element.Type = "datetime-local";
+			element.RemoveAttribute("required");
+			element.RemoveAttribute("pattern");
+			element.RemoveAttribute("step");
+			element.RemoveAttribute("max");
+			element.RemoveAttribute("min");
+			element.RemoveAttribute("maxlength");
+			element.RemoveAttribute("value");
+			element.RemoveAttribute("multiple");
+			element.RemoveAttribute("checked");
+			element.RemoveAttribute("selected");
+			element.SetAttribute("step", "120000");
+			element.Value = "1970-01-01T12:02:00";
+			Assert.AreEqual("datetime-local", element.Type);
+			Assert.AreEqual(true, element.Validity.IsStepMismatch);
+		}
+	
+		[Test]
+		public void TestStepmismatchInputDatetimeLocal4()
+		{
+			var document = DocumentBuilder.Html("");
+			var element = document.CreateElement("input") as HTMLInputElement;
+			Assert.IsNotNull(element);
+			element.Type = "datetime-local";
+			element.RemoveAttribute("required");
+			element.RemoveAttribute("pattern");
+			element.RemoveAttribute("step");
+			element.RemoveAttribute("max");
+			element.RemoveAttribute("min");
+			element.RemoveAttribute("maxlength");
+			element.RemoveAttribute("value");
+			element.RemoveAttribute("multiple");
+			element.RemoveAttribute("checked");
+			element.RemoveAttribute("selected");
+			element.SetAttribute("step", "120000");
+			element.Value = "1970-01-01T12:03:00";
+			Assert.AreEqual("datetime-local", element.Type);
+			Assert.AreEqual(true, element.Validity.IsStepMismatch);
+		}
 		
 		[Test]
 		public void TestStepmismatchInputDate1()
