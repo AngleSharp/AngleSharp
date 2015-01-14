@@ -950,88 +950,162 @@
             where T : NthChildSelector, ISelector, new()
         {
             Boolean valid;
-            String value;
+            Int32 step;
+            Int32 offset;
+            Int32 sign;
+            ParseState state;
+            CssSelectorConstructor nested;
 
             public ChildFunctionState()
             {
                 valid = true;
-                value = String.Empty;
+                sign = 1;
+                state = ParseState.Initial;
             }
 
             public override ISelector Produce()
             {
-                if (!valid)
+                if (valid == false || (nested != null && nested.valid == false))
                     return null;
 
                 var selector = new T();
-
-                if (value.Equals("odd", StringComparison.OrdinalIgnoreCase))
-                {
-                    selector.step = 2;
-                    selector.offset = 1;
-                }
-                else if (value.Equals("even", StringComparison.OrdinalIgnoreCase))
-                {
-                    selector.step = 2;
-                    selector.offset = 0;
-                }
-                else if (!Int32.TryParse(value, out selector.offset))
-                {
-                    var index = value.IndexOf("n", StringComparison.OrdinalIgnoreCase);
-
-                    if (value.Length > 0 && index != -1)
-                    {
-                        var first = value.Substring(0, index).Replace(" ", "");
-                        var second = value.Substring(index + 1).Replace(" ", "");
-
-                        if (first == String.Empty || (first.Length == 1 && first[0] == Specification.Plus))
-                            selector.step = 1;
-                        else if (first.Length == 1 && first[0] == Specification.Minus)
-                            selector.step = -1;
-                        else if (!Int32.TryParse(first, out selector.step))
-                            throw new DomException(ErrorCode.Syntax);
-
-                        if (second == String.Empty)
-                            selector.offset = 0;
-                        else if (!Int32.TryParse(second, out selector.offset))
-                            return null;
-                    }
-                    else
-                        return null;
-                }
-
+                selector.step = step;
+                selector.offset = offset;
                 return selector;
             }
 
             protected override Boolean OnToken(CssToken token)
             {
-                switch (token.Type)
+                //S* [ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]? | ['-'|'+']? INTEGER | {ODD} | {EVEN} ] S*
+                switch (state)
                 {
-                    case CssTokenType.Whitespace:
-                        return false;
-                    case CssTokenType.Ident:
-                    case CssTokenType.Number:
-                    case CssTokenType.Dimension:
-                        value += token.ToValue();
-                        return false;
+                    case ParseState.Initial:
+                        return OnInitial(token);
+                    case ParseState.AfterInitialSign:
+                        return OnAfterInitialSign(token);
+                    case ParseState.Offset:
+                        return OnOffset(token);
+                    case ParseState.BeforeOf:
+                        return OnBeforeOf(token);
+                    default:
+                        return OnAfter(token);
+                }
+            }
 
-                    case CssTokenType.Delim:
-                        var chr = token.Data[0];
+            Boolean OnAfterInitialSign(CssToken token)
+            {
+                if (token.Type == CssTokenType.Number)
+                    return OnOffset(token);
 
-                        if (chr == Specification.Plus || chr == Specification.Minus)
-                        {
-                            value += token.Data;
-                            return false;
-                        }
-
-                        break;
-
-                    case CssTokenType.RoundBracketClose:
-                        return true;
+                if (token.Type == CssTokenType.Dimension)
+                {
+                    var dim = (CssUnitToken)token;
+                    valid = valid && dim.Unit.Equals("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(token.Data, out step);
+                    step *= sign;
+                    sign = 1;
+                    state = ParseState.Offset;
+                    return false;
+                }
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals("n", StringComparison.OrdinalIgnoreCase))
+                {
+                    step = sign;
+                    sign = 1;
+                    state = ParseState.Offset;
+                    return false;
+                }
+                else if (state == ParseState.Initial && token.Type == CssTokenType.Ident && token.Data.Equals("-n", StringComparison.OrdinalIgnoreCase))
+                {
+                    step = -1;
+                    state = ParseState.Offset;
+                    return false;
                 }
 
                 valid = false;
+                return token.Type == CssTokenType.RoundBracketClose;
+            }
+
+            Boolean OnAfter(CssToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
+                {
+                    nested.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            Boolean OnBeforeOf(CssToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                    return false;
+
+                if (token.Data.Equals("of", StringComparison.OrdinalIgnoreCase))
+                {
+                    state = ParseState.AfterOf;
+                    nested = Pool.NewSelectorConstructor();
+                    return false;
+                }
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                    return true;
+
+                valid = false;
                 return false;
+            }
+
+            Boolean OnOffset(CssToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                    return false;
+
+                if (token.Type == CssTokenType.Number)
+                {
+                    valid = valid && ((CssNumberToken)token).IsInteger && Int32.TryParse(token.Data, out offset);
+                    offset *= sign;
+                    state = ParseState.BeforeOf;
+                    return false;
+                }
+
+                return OnBeforeOf(token);
+            }
+
+            Boolean OnInitial(CssToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                    return false;
+
+                if (token.Data.Equals("odd", StringComparison.OrdinalIgnoreCase))
+                {
+                    state = ParseState.BeforeOf;
+                    step = 2;
+                    offset = 1;
+                    return false;
+                }
+                else if (token.Data.Equals("even", StringComparison.OrdinalIgnoreCase))
+                {
+                    state = ParseState.BeforeOf;
+                    step = 2;
+                    offset = 0;
+                    return false;
+                }
+                else if (token.Type == CssTokenType.Delim && (token.Data == "+" || token.Data == "-"))
+                {
+                    sign = token.Data == "-" ? -1 : +1;
+                    state = ParseState.AfterInitialSign;
+                    return false;
+                }
+
+                return OnAfterInitialSign(token);
+
+            }
+
+            enum ParseState
+            {
+                Initial,
+                AfterInitialSign,
+                Offset,
+                BeforeOf,
+                AfterOf
             }
         }
 
