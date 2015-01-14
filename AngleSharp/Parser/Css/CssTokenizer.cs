@@ -50,9 +50,9 @@
 			set { _ignoreCs = value; }
 		}
 
-        ///// <summary>
-        ///// Gets the token enumerable.
-        ///// </summary>
+        /// <summary>
+        /// Gets the token enumerable.
+        /// </summary>
         public IEnumerable<CssToken> Tokens
         {
             get
@@ -70,31 +70,6 @@
                 }
             }
         }
-
-        #endregion
-
-        #region Methods
-
-        ///// <summary>
-        ///// Gets the next available token.
-        ///// </summary>
-        ///// <returns>The next available token.</returns>
-        //public CssToken Get()
-        //{
-        //    var current = Next;
-        //    return Data(current);
-        //}
-
-        ///// <summary>
-        ///// Gets the next available token.
-        ///// </summary>
-        ///// <param name="cancelToken">The cancellation token.</param>
-        ///// <returns>The next available token.</returns>
-        //public async Task<CssToken> GetAsync(CancellationToken cancelToken)
-        //{
-        //    var current = Next;
-        //    return Data(current);
-        //}
 
         #endregion
 
