@@ -181,6 +181,12 @@
     <Compile Include="..\AngleSharp\Css\PropertyNames.cs">
       <Link>Css\PropertyNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\PseudoClassNames.cs">
+      <Link>Css\PseudoClassNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\PseudoElementNames.cs">
+      <Link>Css\PseudoElementNames.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\RenderDevice.cs">
       <Link>Css\RenderDevice.cs</Link>
     </Compile>
