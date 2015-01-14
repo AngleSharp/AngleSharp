@@ -52,6 +52,7 @@
     <Compile Include="Css\MediaFeatures\ScriptingMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\UpdateFrequencyMediaFeature.cs" />
     <Compile Include="Css\PseudoClassNames.cs" />
+    <Compile Include="Css\PseudoElementNames.cs" />
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\ValueConverters\AtomicValueConverter.cs" />
     <Compile Include="Css\Converters.cs" />

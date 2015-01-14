@@ -16,21 +16,10 @@
     [DebuggerStepThrough]
     sealed class CssSelectorConstructor
     {
-        #region Constants
-
-        static readonly String nthChildOdd = "odd";
-        static readonly String nthChildEven = "even";
-        static readonly String nthChildN = "n";
-
-        static readonly String pseudoElementBefore = "before";
-        static readonly String pseudoElementAfter = "after";
-        static readonly String pseudoElementSelection = "selection";
-        static readonly String pseudoElementFirstLine = "first-line";
-        static readonly String pseudoElementFirstLetter = "first-letter";
-
-        #endregion
-
         #region Fields
+
+        static readonly Dictionary<String, ISelector> pseudoClassSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
 
 		State state;
         ISelector temp;
@@ -49,9 +38,6 @@
         #endregion
 
         #region Initialization
-
-        static readonly Dictionary<String, ISelector> pseudoClassSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
-        static readonly Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
 
         static CssSelectorConstructor()
         {
@@ -85,16 +71,16 @@
             pseudoClassSelectors.Add(PseudoClassNames.Optional, SimpleSelector.PseudoClass(el => el.IsOptional(), PseudoClassNames.Optional));
 
             // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
-            pseudoClassSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoClass(MatchBefore, pseudoElementBefore));
-            pseudoClassSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoClass(MatchAfter, pseudoElementAfter));
-            pseudoClassSelectors.Add(pseudoElementFirstLine, SimpleSelector.PseudoClass(MatchFirstLine, pseudoElementFirstLine));
-            pseudoClassSelectors.Add(pseudoElementFirstLetter, SimpleSelector.PseudoClass(MatchFirstLetter, pseudoElementFirstLetter));
+            pseudoClassSelectors.Add(PseudoElementNames.Before, pseudoElementSelectors[PseudoElementNames.Before]);
+            pseudoClassSelectors.Add(PseudoElementNames.After, pseudoElementSelectors[PseudoElementNames.After]);
+            pseudoClassSelectors.Add(PseudoElementNames.FirstLine, pseudoElementSelectors[PseudoElementNames.FirstLine]);
+            pseudoClassSelectors.Add(PseudoElementNames.FirstLetter, pseudoElementSelectors[PseudoElementNames.FirstLetter]);
 
-            pseudoElementSelectors.Add(pseudoElementBefore, SimpleSelector.PseudoElement(MatchBefore, pseudoElementBefore));
-            pseudoElementSelectors.Add(pseudoElementAfter, SimpleSelector.PseudoElement(MatchAfter, pseudoElementAfter));
-            pseudoElementSelectors.Add(pseudoElementSelection, SimpleSelector.PseudoElement(el => false, pseudoElementSelection));
-            pseudoElementSelectors.Add(pseudoElementFirstLine, SimpleSelector.PseudoElement(MatchFirstLine, pseudoElementFirstLine));
-            pseudoElementSelectors.Add(pseudoElementFirstLetter, SimpleSelector.PseudoElement(MatchFirstLetter, pseudoElementFirstLetter));
+            pseudoElementSelectors.Add(PseudoElementNames.Before, SimpleSelector.PseudoElement(el => el.IsPseudo("::" + PseudoElementNames.Before), PseudoElementNames.Before));
+            pseudoElementSelectors.Add(PseudoElementNames.After, SimpleSelector.PseudoElement(el => el.IsPseudo("::" + PseudoElementNames.After), PseudoElementNames.After));
+            pseudoElementSelectors.Add(PseudoElementNames.Selection, SimpleSelector.PseudoElement(el => false, PseudoElementNames.Selection));
+            pseudoElementSelectors.Add(PseudoElementNames.FirstLine, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine));
+            pseudoElementSelectors.Add(PseudoElementNames.FirstLetter, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter));
         }
 
         #endregion
@@ -826,19 +812,19 @@
 			var b = new NthFirstChildSelector();
             var selector = new T();
 
-            if (attrValue.Equals(nthChildOdd, StringComparison.OrdinalIgnoreCase))
+            if (attrValue.Equals("odd", StringComparison.OrdinalIgnoreCase))
             {
                 selector.step = 2;
                 selector.offset = 1;
             }
-			else if (attrValue.Equals(nthChildEven, StringComparison.OrdinalIgnoreCase))
+            else if (attrValue.Equals("even", StringComparison.OrdinalIgnoreCase))
             {
                 selector.step = 2;
                 selector.offset = 0;
             }
 			else if (!Int32.TryParse(attrValue, out selector.offset))
             {
-				var index = attrValue.IndexOf(nthChildN, StringComparison.OrdinalIgnoreCase);
+				var index = attrValue.IndexOf("n", StringComparison.OrdinalIgnoreCase);
 
                 if (attrValue.Length > 0 && index != -1)
                 {
@@ -900,50 +886,6 @@
 		}
 
 		#endregion
-
-		#region Selections
-
-		/// <summary>
-        /// Matches the ::before pseudo element (or pseudo-class for legacy reasons).
-        /// </summary>
-        /// <param name="element">The element to match.</param>
-        /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchBefore(IElement element)
-        {
-            return element.IsPseudo("::" + pseudoElementBefore);
-        }
-
-        /// <summary>
-        /// Matches the ::after pseudo element (or pseudo-class for legacy reasons).
-        /// </summary>
-        /// <param name="element">The element to match.</param>
-        /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchAfter(IElement element)
-        {
-            return element.IsPseudo("::" + pseudoElementAfter);
-        }
-
-        /// <summary>
-        /// Matches the ::first-line pseudo element (or pseudo-class for legacy reasons).
-        /// </summary>
-        /// <param name="element">The element to match.</param>
-        /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchFirstLine(IElement element)
-        {
-            return element.HasChildNodes && element.ChildNodes[0].NodeType == NodeType.Text;
-        }
-
-        /// <summary>
-        /// Matches the ::first-letter pseudo element (or pseudo-class for legacy reasons).
-        /// </summary>
-        /// <param name="element">The element to match.</param>
-        /// <returns>An indicator if the match has been successful.</returns>
-        static Boolean MatchFirstLetter(IElement element)
-        {
-            return element.HasChildNodes && element.ChildNodes[0].NodeType == NodeType.Text && element.ChildNodes[0].TextContent.Length > 0;
-        }
-
-        #endregion
 
 		#region Nested
 
