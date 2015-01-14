@@ -70,17 +70,17 @@
             pseudoClassSelectors.Add(PseudoClassNames.OutOfRange, SimpleSelector.PseudoClass(el => el.IsOutOfRange(), PseudoClassNames.OutOfRange));
             pseudoClassSelectors.Add(PseudoClassNames.Optional, SimpleSelector.PseudoClass(el => el.IsOptional(), PseudoClassNames.Optional));
 
-            // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
-            pseudoClassSelectors.Add(PseudoElementNames.Before, pseudoElementSelectors[PseudoElementNames.Before]);
-            pseudoClassSelectors.Add(PseudoElementNames.After, pseudoElementSelectors[PseudoElementNames.After]);
-            pseudoClassSelectors.Add(PseudoElementNames.FirstLine, pseudoElementSelectors[PseudoElementNames.FirstLine]);
-            pseudoClassSelectors.Add(PseudoElementNames.FirstLetter, pseudoElementSelectors[PseudoElementNames.FirstLetter]);
-
             pseudoElementSelectors.Add(PseudoElementNames.Before, SimpleSelector.PseudoElement(el => el.IsPseudo("::" + PseudoElementNames.Before), PseudoElementNames.Before));
             pseudoElementSelectors.Add(PseudoElementNames.After, SimpleSelector.PseudoElement(el => el.IsPseudo("::" + PseudoElementNames.After), PseudoElementNames.After));
             pseudoElementSelectors.Add(PseudoElementNames.Selection, SimpleSelector.PseudoElement(el => false, PseudoElementNames.Selection));
             pseudoElementSelectors.Add(PseudoElementNames.FirstLine, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine));
             pseudoElementSelectors.Add(PseudoElementNames.FirstLetter, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter));
+
+            // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
+            pseudoClassSelectors.Add(PseudoElementNames.Before, pseudoElementSelectors[PseudoElementNames.Before]);
+            pseudoClassSelectors.Add(PseudoElementNames.After, pseudoElementSelectors[PseudoElementNames.After]);
+            pseudoClassSelectors.Add(PseudoElementNames.FirstLine, pseudoElementSelectors[PseudoElementNames.FirstLine]);
+            pseudoClassSelectors.Add(PseudoElementNames.FirstLetter, pseudoElementSelectors[PseudoElementNames.FirstLetter]);
         }
 
         #endregion
