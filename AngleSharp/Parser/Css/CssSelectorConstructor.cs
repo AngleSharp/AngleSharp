@@ -20,13 +20,14 @@
 
         static readonly Dictionary<String, ISelector> pseudoClassSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase);
 
 		State state;
+        FunctionState function;
         ISelector temp;
 		ListSelector group;
 		ComplexSelector complex;
 		Stack<CssCombinator> combinators;
-		CssSelectorConstructor nested;
 		String attrName;
 		String attrValue;
 		String attrOp;
@@ -82,6 +83,17 @@
             pseudoClassSelectors.Add(PseudoElementNames.After, pseudoElementSelectors[PseudoElementNames.After]);
             pseudoClassSelectors.Add(PseudoElementNames.FirstLine, pseudoElementSelectors[PseudoElementNames.FirstLine]);
             pseudoClassSelectors.Add(PseudoElementNames.FirstLetter, pseudoElementSelectors[PseudoElementNames.FirstLetter]);
+
+            pseudoClassFunctions.Add(PseudoClassNames.NthChild, () => new ChildFunctionState<NthFirstChildSelector>());
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<NthLastChildSelector>());
+            pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<NthFirstTypeSelector>());
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<NthLastTypeSelector>());
+            pseudoClassFunctions.Add(PseudoClassNames.Not, () => new NotFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.Dir, () => new DirFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.Lang, () => new LangFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.Contains, () => new ContainsFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.Has, () => new HasFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.Matches, () => new MatchesFunctionState());
         }
 
         #endregion
@@ -185,9 +197,6 @@
                 case State.PseudoClassFunction:
 					OnPseudoClassFunction(token);
                     break;
-                case State.PseudoClassFunctionEnd:
-					OnPseudoClassFunctionEnd(token);
-                    break;
                 case State.PseudoElement:
 					OnPseudoElement(token);
                     break;
@@ -213,9 +222,9 @@
 			group = null;
 			complex = null;
             valid = true;
-            nested = null;
             IsNested = false;
             ready = true;
+            function = null;
 			return this;
 		}
 
@@ -431,10 +440,14 @@
             }
             else if (token.Type == CssTokenType.Function)
             {
-                attrName = token.Data;
-                attrValue = String.Empty;
-                state = State.PseudoClassFunction;
-                return;
+                function = GetPseudoFunction(token);
+
+                if (function != null)
+                {
+                    ready = false;
+                    state = State.PseudoClassFunction;
+                    return;
+                }
             }
             else if (token.Type == CssTokenType.Ident)
             {
@@ -499,177 +512,22 @@
         /// <param name="token">The token.</param>
 		void OnPseudoClassFunction(CssToken token)
 		{
-			if (token.Type == CssTokenType.Whitespace)
-				return;
-
-            if (attrName.Equals(PseudoClassNames.NthChild, StringComparison.OrdinalIgnoreCase) || 
-                attrName.Equals(PseudoClassNames.NthLastChild, StringComparison.OrdinalIgnoreCase) ||
-                attrName.Equals(PseudoClassNames.NthOfType, StringComparison.OrdinalIgnoreCase) ||
-                attrName.Equals(PseudoClassNames.NthLastOfType, StringComparison.OrdinalIgnoreCase))
+            if (function.Finished(token))
             {
-                switch (token.Type)
-                {
-                    case CssTokenType.Ident:
-                    case CssTokenType.Number:
-                    case CssTokenType.Dimension:
-                        attrValue += token.ToValue();
-                        return;
+                var sel = function.Produce();
 
-                    case CssTokenType.Delim:
-                        var chr = token.Data[0];
+                if (IsNested && function is NotFunctionState)
+                    sel = null;
 
-                        if (chr == Specification.Plus || chr == Specification.Minus)
-                        {
-                            attrValue += token.Data;
-                            return;
-                        }
+                state = State.Data;
+                ready = true;
+                function = null;
 
-                        break;
-                }
-
-                OnPseudoClassFunctionEnd(token);
-            }
-            else if (attrName.Equals(PseudoClassNames.Not, StringComparison.OrdinalIgnoreCase))
-            {
-                if (nested == null)
-                {
-                    if (IsNested)
-                        valid = false;
-
-                    nested = Pool.NewSelectorConstructor();
-                    nested.IsNested = true;
-                }
-
-                if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
-                    nested.Apply(token);
+                if (sel != null)
+                    Insert(sel);
                 else
-                    OnPseudoClassFunctionEnd(token);
+                    valid = false;
             }
-            else if (attrName.Equals(PseudoClassNames.Has, StringComparison.OrdinalIgnoreCase) || 
-                     attrName.Equals(PseudoClassNames.Matches, StringComparison.OrdinalIgnoreCase))
-            {
-                if (nested == null)
-                    nested = Pool.NewSelectorConstructor();
-
-                if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
-                    nested.Apply(token);
-                else
-                    OnPseudoClassFunctionEnd(token);
-            }
-            else if (attrName.Equals(PseudoClassNames.Dir, StringComparison.OrdinalIgnoreCase) || 
-                     attrName.Equals(PseudoClassNames.Lang, StringComparison.OrdinalIgnoreCase))
-            {
-                if (token.Type == CssTokenType.Ident)
-                    attrValue = token.Data;
-
-                state = State.PseudoClassFunctionEnd;
-            }
-            else if (attrName.Equals(PseudoClassNames.Contains, StringComparison.OrdinalIgnoreCase))
-            {
-                if (token.Type == CssTokenType.String || token.Type == CssTokenType.Ident)
-                    attrValue = token.Data;
-
-                state = State.PseudoClassFunctionEnd;
-            }
-            else
-			    OnPseudoClassFunctionEnd(token);
-		}
-
-		/// <summary>
-		/// Invoked once a pseudo class has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
-		void OnPseudoClassFunctionEnd(CssToken token)
-		{
-			state = State.Data;
-            ready = true;
-
-            if (token.Type == CssTokenType.RoundBracketClose)
-			{
-                if (attrName.Equals(PseudoClassNames.NthChild, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = GetChildSelector<NthFirstChildSelector>();
-
-                    if (sel != null)
-                        Insert(sel);
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.NthLastChild, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = GetChildSelector<NthLastChildSelector>();
-
-                    if (sel != null)
-                        Insert(sel);
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.NthOfType, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = GetChildSelector<NthFirstTypeSelector>();
-
-                    if (sel != null)
-                        Insert(sel);
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.NthLastOfType, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = GetChildSelector<NthLastTypeSelector>();
-
-                    if (sel != null)
-                        Insert(sel);
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.Not, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = nested.ToPool();
-                    nested = null;
-
-                    if (sel != null)
-                        Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(PseudoClassNames.Not, "(", sel.Text, ")")));
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.Has, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = nested.ToPool();
-                    nested = null;
-
-                    if (sel != null)
-                        Insert(SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(PseudoClassNames.Has, "(", sel.Text, ")")));
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.Matches, StringComparison.OrdinalIgnoreCase))
-                {
-                    var sel = nested.ToPool();
-                    nested = null;
-
-                    if (sel != null)
-                        Insert(SimpleSelector.PseudoClass(el => sel.Match(el), String.Concat(PseudoClassNames.Matches, "(", sel.Text, ")")));
-                    else
-                        valid = false;
-                }
-                else if (attrName.Equals(PseudoClassNames.Dir, StringComparison.OrdinalIgnoreCase))
-                {
-                    var code = String.Concat(PseudoClassNames.Dir, "(", attrValue, ")");
-                    Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Direction.Equals(attrValue, StringComparison.OrdinalIgnoreCase), code));
-                }
-                else if (attrName.Equals(PseudoClassNames.Lang, StringComparison.OrdinalIgnoreCase))
-                {
-                    var code = String.Concat(PseudoClassNames.Lang, "(", attrValue, ")");
-                    Insert(SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(attrValue, StringComparison.OrdinalIgnoreCase), code));
-                }
-                else if (attrName.Equals(PseudoClassNames.Contains, StringComparison.OrdinalIgnoreCase))
-                {
-                    var code = String.Concat(PseudoClassNames.Contains, "(", attrValue, ")");
-                    Insert(SimpleSelector.PseudoClass(el => el.TextContent.Contains(attrValue), code));
-                }
-			}
-            else
-                valid = false;
 		}
 
 		#endregion
@@ -830,54 +688,6 @@
             }
 		}
 
-        /// <summary>
-        /// Takes string and transforms it into the arguments for the nth-child function.
-        /// </summary>
-        /// <returns>The function.</returns>
-        ISelector GetChildSelector<T>() 
-            where T : NthChildSelector, ISelector, new()
-        {
-			var b = new NthFirstChildSelector();
-            var selector = new T();
-
-            if (attrValue.Equals("odd", StringComparison.OrdinalIgnoreCase))
-            {
-                selector.step = 2;
-                selector.offset = 1;
-            }
-            else if (attrValue.Equals("even", StringComparison.OrdinalIgnoreCase))
-            {
-                selector.step = 2;
-                selector.offset = 0;
-            }
-			else if (!Int32.TryParse(attrValue, out selector.offset))
-            {
-				var index = attrValue.IndexOf("n", StringComparison.OrdinalIgnoreCase);
-
-                if (attrValue.Length > 0 && index != -1)
-                {
-                    var first = attrValue.Substring(0, index).Replace(" ", "");
-                    var second = attrValue.Substring(index + 1).Replace(" ", "");
-
-                    if (first == String.Empty || (first.Length == 1 && first[0] == Specification.Plus))
-                        selector.step = 1;
-                    else if (first.Length == 1 && first[0] == Specification.Minus)
-                        selector.step = -1;
-                    else if (!Int32.TryParse(first, out selector.step))
-                        throw new DomException(ErrorCode.Syntax);
-
-                    if (second == String.Empty)
-                        selector.offset = 0;
-                    else if (!Int32.TryParse(second, out selector.offset))
-                        return null;
-                }
-                else
-                    return null;
-            }
-
-            return selector;
-        }
-
 		/// <summary>
 		/// Invoked once a colon with an identifier has been found in the token enumerator.
 		/// </summary>
@@ -891,6 +701,20 @@
 
 			return null;
 		}
+
+        /// <summary>
+        /// Invoked once a colon with an identifier has been found in the token enumerator.
+        /// </summary>
+        /// <returns>The created function state.</returns>
+        FunctionState GetPseudoFunction(CssToken token)
+        {
+            Func<FunctionState> creator;
+
+            if (pseudoClassFunctions.TryGetValue(token.Data, out creator))
+                return creator();
+
+            return null;
+        }
 
         #endregion
 
@@ -913,7 +737,305 @@
 			PseudoElement
 		}
 
-		#endregion
+        #endregion
+
+        #region Function States
+
+        abstract class FunctionState
+        {
+            public Boolean Finished(CssToken token)
+            {
+                return OnToken(token);
+            }
+
+            public abstract ISelector Produce();
+
+            protected abstract Boolean OnToken(CssToken token);
+        }
+
+        sealed class NotFunctionState : FunctionState
+        {
+            readonly CssSelectorConstructor _nested;
+
+            public NotFunctionState()
+            {
+                _nested = Pool.NewSelectorConstructor();
+                _nested.IsNested = true;
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                {
+                    _nested.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            public override ISelector Produce()
+            {
+                var sel = _nested.ToPool();
+
+                if (sel == null)
+                    return null;
+
+                return SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(PseudoClassNames.Not, "(", sel.Text, ")"));
+            }
+        }
+
+        sealed class HasFunctionState : FunctionState
+        {
+            readonly CssSelectorConstructor _nested;
+
+            public HasFunctionState()
+            {
+                _nested = Pool.NewSelectorConstructor();
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                {
+                    _nested.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            public override ISelector Produce()
+            {
+                var sel = _nested.ToPool();
+
+                if (sel == null)
+                    return null;
+
+                return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(PseudoClassNames.Has, "(", sel.Text, ")"));
+            }
+        }
+
+        sealed class MatchesFunctionState : FunctionState
+        {
+            readonly CssSelectorConstructor _nested;
+
+            public MatchesFunctionState()
+            {
+                _nested = Pool.NewSelectorConstructor();
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                {
+                    _nested.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            public override ISelector Produce()
+            {
+                var sel = _nested.ToPool();
+
+                if (sel == null)
+                    return null;
+
+                return SimpleSelector.PseudoClass(el => sel.Match(el), String.Concat(PseudoClassNames.Matches, "(", sel.Text, ")"));
+            }
+        }
+
+        sealed class DirFunctionState : FunctionState
+        {
+            Boolean valid;
+            String value;
+
+            public DirFunctionState()
+            {
+                valid = true;
+                value = null;
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type == CssTokenType.Ident)
+                    value = token.Data;
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                    return true;
+                else if (token.Type != CssTokenType.Whitespace)
+                    valid = false;
+
+                return false;
+            }
+
+            public override ISelector Produce()
+            {
+                if (!valid || value == null)
+                    return null;
+
+                var code = String.Concat(PseudoClassNames.Dir, "(", value, ")");
+                return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Direction.Equals(value, StringComparison.OrdinalIgnoreCase), code);
+            }
+        }
+
+        sealed class LangFunctionState : FunctionState
+        {
+            Boolean valid;
+            String value;
+
+            public LangFunctionState()
+            {
+                valid = true;
+                value = null;
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type == CssTokenType.Ident)
+                    value = token.Data;
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                    return true;
+                else if (token.Type != CssTokenType.Whitespace)
+                    valid = false;
+
+                return false;
+            }
+
+            public override ISelector Produce()
+            {
+                if (!valid || value == null)
+                    return null;
+
+                var code = String.Concat(PseudoClassNames.Lang, "(", value, ")");
+                return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+            }
+        }
+
+        sealed class ContainsFunctionState : FunctionState
+        {
+            Boolean valid;
+            String value;
+
+            public ContainsFunctionState()
+            {
+                valid = true;
+                value = null;
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
+                    value = token.Data;
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                    return true;
+                else if (token.Type != CssTokenType.Whitespace)
+                    valid = false;
+
+                return false;
+            }
+
+            public override ISelector Produce()
+            {
+                if (!valid || value == null)
+                    return null;
+
+                var code = String.Concat(PseudoClassNames.Contains, "(", value, ")");
+                return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
+            }
+        }
+
+        sealed class ChildFunctionState<T> : FunctionState
+            where T : NthChildSelector, ISelector, new()
+        {
+            Boolean valid;
+            String value;
+
+            public ChildFunctionState()
+            {
+                valid = true;
+                value = String.Empty;
+            }
+
+            public override ISelector Produce()
+            {
+                if (!valid)
+                    return null;
+
+                var selector = new T();
+
+                if (value.Equals("odd", StringComparison.OrdinalIgnoreCase))
+                {
+                    selector.step = 2;
+                    selector.offset = 1;
+                }
+                else if (value.Equals("even", StringComparison.OrdinalIgnoreCase))
+                {
+                    selector.step = 2;
+                    selector.offset = 0;
+                }
+                else if (!Int32.TryParse(value, out selector.offset))
+                {
+                    var index = value.IndexOf("n", StringComparison.OrdinalIgnoreCase);
+
+                    if (value.Length > 0 && index != -1)
+                    {
+                        var first = value.Substring(0, index).Replace(" ", "");
+                        var second = value.Substring(index + 1).Replace(" ", "");
+
+                        if (first == String.Empty || (first.Length == 1 && first[0] == Specification.Plus))
+                            selector.step = 1;
+                        else if (first.Length == 1 && first[0] == Specification.Minus)
+                            selector.step = -1;
+                        else if (!Int32.TryParse(first, out selector.step))
+                            throw new DomException(ErrorCode.Syntax);
+
+                        if (second == String.Empty)
+                            selector.offset = 0;
+                        else if (!Int32.TryParse(second, out selector.offset))
+                            return null;
+                    }
+                    else
+                        return null;
+                }
+
+                return selector;
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                switch (token.Type)
+                {
+                    case CssTokenType.Whitespace:
+                        return false;
+                    case CssTokenType.Ident:
+                    case CssTokenType.Number:
+                    case CssTokenType.Dimension:
+                        value += token.ToValue();
+                        return false;
+
+                    case CssTokenType.Delim:
+                        var chr = token.Data[0];
+
+                        if (chr == Specification.Plus || chr == Specification.Minus)
+                        {
+                            value += token.Data;
+                            return false;
+                        }
+
+                        break;
+
+                    case CssTokenType.RoundBracketClose:
+                        return true;
+                }
+
+                valid = false;
+                return false;
+            }
+        }
+
+        #endregion
 
 		#region Nested
 
