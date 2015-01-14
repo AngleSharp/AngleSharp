@@ -25,8 +25,7 @@
         ISelector temp;
 		ListSelector group;
 		ComplexSelector complex;
-        Boolean hasCombinator;
-		CssCombinator combinator;
+		Stack<CssCombinator> combinators;
 		CssSelectorConstructor nested;
 		String attrName;
 		String attrValue;
@@ -94,6 +93,7 @@
         /// </summary>
         public CssSelectorConstructor()
         {
+            combinators = new Stack<CssCombinator>();
 			Reset();
         }
 
@@ -208,8 +208,7 @@
             attrNs = null;
 			attrOp = String.Empty;
 			state = State.Data;
-			combinator = CssCombinator.Descendent;
-			hasCombinator = false;
+			combinators.Clear();
 			temp = null;
 			group = null;
 			complex = null;
@@ -708,7 +707,7 @@
         {
             if (temp != null)
             {
-                if (!hasCombinator)
+                if (combinators.Count == 0)
                 {
                     var compound = temp as CompoundSelector;
 
@@ -726,18 +725,43 @@
                     if (complex == null)
                         complex = new ComplexSelector();
 
+                    var combinator = GetCombinator();
                     complex.AppendSelector(temp, combinator);
-                    combinator = CssCombinator.Descendent;
-                    hasCombinator = false;
                     temp = selector;
                 }
             }
             else
             {
-                combinator = CssCombinator.Descendent;
-                hasCombinator = false;
+                combinators.Clear();
                 temp = selector;
             }
+        }
+
+        CssCombinator GetCombinator()
+        {
+            //Remove all trailing whitespaces
+            while (combinators.Count > 1 && combinators.Peek() == CssCombinator.Descendent)
+                combinators.Pop();
+
+            if (combinators.Count > 1)
+            {
+                var combinator = combinators.Pop();
+
+                //Care about combinator combinations, such as >>
+                if (combinator == CssCombinator.Child && combinators.Peek() == CssCombinator.Child)
+                {
+                    combinators.Pop();
+                    combinator = CssCombinator.Descendent;
+                }
+
+                //Remove all leading whitespaces, invalid if mixed
+                while (combinators.Count > 0)
+                    valid = combinators.Pop() == CssCombinator.Descendent && valid;
+
+                return combinator;
+            }
+
+            return combinators.Pop();
         }
 
         /// <summary>
@@ -746,10 +770,7 @@
         /// <param name="cssCombinator">The combinator to insert.</param>
         void Insert(CssCombinator cssCombinator)
         {
-            hasCombinator = true;
-
-            if (cssCombinator != CssCombinator.Descendent)
-                combinator = cssCombinator;
+            combinators.Push(cssCombinator);
         }
 
 		#endregion
@@ -796,7 +817,7 @@
                     break;
 
                 case Specification.Pipe:
-                    if (hasCombinator && combinator == CssCombinator.Descendent)
+                    if (combinators.Count > 0 && combinators.Peek() == CssCombinator.Descendent)
                         Insert(SimpleSelector.Type(String.Empty));
 
                     Insert(CssCombinator.Namespace);
