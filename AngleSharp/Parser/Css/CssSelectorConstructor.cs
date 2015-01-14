@@ -965,18 +965,20 @@
 
             public override ISelector Produce()
             {
+                var sel = nested != null ? nested.ToPool() : SimpleSelector.All;
+
                 if (valid == false || (nested != null && nested.valid == false))
                     return null;
 
                 var selector = new T();
                 selector.step = step;
                 selector.offset = offset;
+                selector.kind = sel;                
                 return selector;
             }
 
             protected override Boolean OnToken(CssToken token)
             {
-                //S* [ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]? | ['-'|'+']? INTEGER | {ODD} | {EVEN} ] S*
                 switch (state)
                 {
                     case ParseState.Initial:
@@ -1117,6 +1119,7 @@
         {
             public Int32 step;
             public Int32 offset;
+            public ISelector kind;
 
             public Priority Specifity
             {
