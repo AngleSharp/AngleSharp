@@ -2187,9 +2187,6 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\IPropertyCreator.cs">
       <Link>Interfaces\Css\IPropertyCreator.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\IPseudoElement.cs">
-      <Link>Interfaces\Css\IPseudoElement.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>
     </Compile>
@@ -2522,6 +2519,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IProcessingInstruction.cs">
       <Link>Interfaces\IProcessingInstruction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IPseudoElement.cs">
+      <Link>Interfaces\IPseudoElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IRange.cs">
       <Link>Interfaces\IRange.cs</Link>
