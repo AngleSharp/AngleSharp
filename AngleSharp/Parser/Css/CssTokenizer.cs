@@ -837,7 +837,7 @@
             {
                 var current = GetNext();
 
-                if (current.IsName())
+                if (current.IsLetter())
                 {
                     _stringBuffer.Append(current);
                 }
