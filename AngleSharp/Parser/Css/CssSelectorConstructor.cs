@@ -53,6 +53,7 @@
         static readonly String pseudoClassReadWrite = "read-write";
 
         static readonly String pseudoClassFunctionDir = "dir";
+        static readonly String pseudoClassFunctionHas = "has";
         static readonly String pseudoClassFunctionNthChild = "nth-child";
         static readonly String pseudoClassFunctionNthLastChild = "nth-last-child";
         static readonly String pseudoClassFunctionNthOfType = "nth-of-type";
@@ -597,6 +598,16 @@
                 else
                     OnPseudoClassFunctionEnd(token);
             }
+            else if (attrName.Equals(pseudoClassFunctionHas, StringComparison.OrdinalIgnoreCase))
+            {
+                if (nested == null)
+                    nested = Pool.NewSelectorConstructor();
+
+                if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
+                    nested.Apply(token);
+                else
+                    OnPseudoClassFunctionEnd(token);
+            }
             else if (attrName.Equals(pseudoClassFunctionDir, StringComparison.OrdinalIgnoreCase))
             {
                 if (token.Type == CssTokenType.Ident)
@@ -676,6 +687,16 @@
 
                     if (sel != null)
                         Insert(SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(pseudoClassFunctionNot, "(", sel.Text, ")")));
+                    else
+                        valid = false;
+                }
+                else if (attrName.Equals(pseudoClassFunctionHas, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sel = nested.ToPool();
+                    nested = null;
+
+                    if (sel != null)
+                        Insert(SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(pseudoClassFunctionHas, "(", sel.Text, ")")));
                     else
                         valid = false;
                 }
