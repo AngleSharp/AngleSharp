@@ -80,7 +80,7 @@ h1 {
             Assert.AreEqual(1, media.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(media.Rules[0]);
             var p = media.Rules[0] as ICssStyleRule;
-            Assert.AreEqual("p:before", p.SelectorText);
+            Assert.AreEqual("p::before", p.SelectorText);
             Assert.AreEqual("\"Hello\"", p.Style.Content);
         }
 
