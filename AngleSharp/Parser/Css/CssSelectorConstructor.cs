@@ -84,10 +84,10 @@
             pseudoClassSelectors.Add(PseudoElementNames.FirstLine, pseudoElementSelectors[PseudoElementNames.FirstLine]);
             pseudoClassSelectors.Add(PseudoElementNames.FirstLetter, pseudoElementSelectors[PseudoElementNames.FirstLetter]);
 
-            pseudoClassFunctions.Add(PseudoClassNames.NthChild, () => new ChildFunctionState<NthFirstChildSelector>());
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<NthLastChildSelector>());
-            pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<NthFirstTypeSelector>());
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<NthLastTypeSelector>());
+            pseudoClassFunctions.Add(PseudoClassNames.NthChild, () => new ChildFunctionState<NthFirstChildSelector>(withOptionalSelector: true));
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<NthLastChildSelector>(withOptionalSelector: true));
+            pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<NthFirstTypeSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<NthLastTypeSelector>(withOptionalSelector: false));
             pseudoClassFunctions.Add(PseudoClassNames.Not, () => new NotFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Dir, () => new DirFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Lang, () => new LangFunctionState());
@@ -955,9 +955,11 @@
             Int32 sign;
             ParseState state;
             CssSelectorConstructor nested;
+            Boolean allowOf;
 
-            public ChildFunctionState()
+            public ChildFunctionState(Boolean withOptionalSelector = true)
             {
+                allowOf = withOptionalSelector;
                 valid = true;
                 sign = 1;
                 state = ParseState.Initial;
@@ -1044,6 +1046,7 @@
 
                 if (token.Data.Equals("of", StringComparison.OrdinalIgnoreCase))
                 {
+                    valid = allowOf;
                     state = ParseState.AfterOf;
                     nested = Pool.NewSelectorConstructor();
                     return false;
@@ -1155,12 +1158,20 @@
                     return parent.ChildElementCount >= offset && offset > 0 && parent.Children[offset - 1] == element;
 
                 var n = Math.Sign(step);
+                var k = 0;
 
                 for (var i = 0; i < parent.ChildElementCount; i++)
                 {
-                    if (parent.Children[i] == element)
+                    var child = parent.Children[i];
+
+                    if (kind.Match(child) == false)
+                        continue;
+
+                    k += 1;
+
+                    if (child == element)
                     {
-                        var diff = i + 1 - offset;
+                        var diff = k - offset;
                         return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
                     }
                 }
@@ -1194,7 +1205,7 @@
                     if (parent.Children[i].NodeName != element.NodeName)
                         continue;
 
-                    k++;
+                    k += 1;
 
                     if (parent.Children[i] == element)
                     {
@@ -1227,12 +1238,20 @@
                     return parent.ChildElementCount >= offset && offset > 0 && parent.Children[parent.ChildElementCount - offset] == element;
 
                 var n = Math.Sign(step);
+                var k = 0;
 
                 for (var i = parent.ChildElementCount - 1; i >= 0; i--)
                 {
-                    if (parent.Children[i] == element)
+                    var child = parent.Children[i];
+
+                    if (kind.Match(child) == false)
+                        continue;
+
+                    k += 1;
+
+                    if (child == element)
                     {
-                        var diff = i + 1 - offset;
+                        var diff = k - offset;
                         return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
                     }
                 }
@@ -1266,7 +1285,7 @@
                     if (parent.Children[i].NodeName != element.NodeName)
                         continue;
 
-                    k++;
+                    k += 1;
 
                     if (parent.Children[i] == element)
                     {
