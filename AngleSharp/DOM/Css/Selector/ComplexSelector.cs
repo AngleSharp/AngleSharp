@@ -208,6 +208,9 @@
                     selector = new SimpleSelector(el => MatchesCssNamespace(el, prefix), Priority.Zero, prefix);
                     break;
                 }
+                case CssCombinator.Column:
+                //TODO no real implementation yet
+                //see: http://dev.w3.org/csswg/selectors-4/#the-column-combinator
                 default:
                     return this;
             }

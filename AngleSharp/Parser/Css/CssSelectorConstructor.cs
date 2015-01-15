@@ -607,11 +607,16 @@
             {
                 var combinator = combinators.Pop();
 
-                //Care about combinator combinations, such as >>
+                //Care about combinator combinations, such as >> and ||
                 if (combinator == CssCombinator.Child && combinators.Peek() == CssCombinator.Child)
                 {
                     combinators.Pop();
                     combinator = CssCombinator.Descendent;
+                }
+                else if (combinator == CssCombinator.Namespace && combinators.Peek() == CssCombinator.Namespace)
+                {
+                    combinators.Pop();
+                    combinator = CssCombinator.Column;
                 }
 
                 //Remove all leading whitespaces, invalid if mixed
@@ -1245,6 +1250,7 @@
                 for (var i = 0; i < parent.Children.Length; i++)
                 {
                     //TODO no real implementation yet
+                    //see: http://dev.w3.org/csswg/selectors-4/#the-nth-column-pseudo
                     var child = parent.Children[i] as IHtmlTableCellElement;
 
                     if (child == null)
@@ -1368,6 +1374,7 @@
                 for (var i = parent.Children.Length - 1; i >= 0; i--)
                 {
                     //TODO no real implementation yet
+                    //see: http://dev.w3.org/csswg/selectors-4/#the-nth-last-column-pseudo
                     var child = parent.Children[i] as IHtmlTableCellElement;
 
                     if (child == null)

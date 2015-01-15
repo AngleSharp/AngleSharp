@@ -24,6 +24,10 @@
         /// <summary>
         /// The namespace combinator |.
         /// </summary>
-        Namespace
+        Namespace,
+        /// <summary>
+        /// The column combinator ||.
+        /// </summary>
+        Column
     }
 }
