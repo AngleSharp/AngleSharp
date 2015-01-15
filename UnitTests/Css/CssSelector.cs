@@ -661,5 +661,115 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             for (int i = 0; i < 6; i++)
                 Assert.AreSame(expected[i], actual[i]);
         }
+
+        [Test]
+        public void NthChildEvenWorking()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "span:nth-child(even)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(3, result.Length);
+            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("span", result[1].NodeName);
+            Assert.AreEqual("span", result[2].NodeName);
+            Assert.AreEqual("italic", result[0].ClassName);
+            Assert.AreEqual(null, result[1].ClassName);
+            Assert.AreEqual("this", result[2].ClassName);
+            Assert.AreEqual("2", result[0].TextContent);
+            Assert.AreEqual("4", result[1].TextContent);
+            Assert.AreEqual("6", result[2].TextContent);
+        }
+
+        [Test]
+        public void NthChildNegativeOffsetLargeSlopeWorking()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "span:nth-child(10n-1) ";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void NthChildPositiveOffsetLargeSlopeWorking()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "span:nth-child(10n+1) ";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual(null, result[0].ClassName);
+            Assert.AreEqual("1", result[0].TextContent);
+        }
+
+        [Test]
+        public void NthChildInvalidSelector()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "span:nth-child(10n+-1) ";
+
+            Assert.Catch<DomException>(() =>
+            {
+                var result = document.QuerySelectorAll(selector);
+            });
+        }
+
+        [Test]
+        public void NthChildAllNegativeN()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "*:nth-child(-n+3)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(5, result.Length);
+            Assert.AreEqual("head", result[0].NodeName);
+            Assert.AreEqual("body", result[1].NodeName);
+            Assert.AreEqual("span", result[2].NodeName);
+            Assert.AreEqual("span", result[3].NodeName);
+            Assert.AreEqual("span", result[4].NodeName);
+            Assert.AreEqual("1", result[2].TextContent);
+            Assert.AreEqual("2", result[3].TextContent);
+            Assert.AreEqual("3", result[4].TextContent);
+        }
+
+        [Test]
+        public void NthChildOfSpanThis()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "*:nth-child(-n+3 of span.this)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("this", result[0].ClassName);
+            Assert.AreEqual("3", result[0].TextContent);
+
+            Assert.AreEqual("span", result[1].NodeName);
+            Assert.AreEqual("this", result[1].ClassName);
+            Assert.AreEqual("6", result[1].TextContent);
+        }
+
+        [Test]
+        public void NthChildSpanThisApplied()
+        {
+            var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
+
+            var document = DocumentBuilder.Html(source);
+            var selector = "span.this:nth-child(-n+3)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("this", result[0].ClassName);
+            Assert.AreEqual("3", result[0].TextContent);
+        }
     }
 }
