@@ -193,6 +193,16 @@
         public static readonly String NthLastOfType = "nth-last-of-type";
 
         /// <summary>
+        /// The nth-column pseudo function.
+        /// </summary>
+        public static readonly String NthColumn = "nth-column";
+
+        /// <summary>
+        /// The nth-last-column pseudo function.
+        /// </summary>
+        public static readonly String NthLastColumn = "nth-last-column";
+
+        /// <summary>
         /// The not pseudo function.
         /// </summary>
         public static readonly String Not = "not";

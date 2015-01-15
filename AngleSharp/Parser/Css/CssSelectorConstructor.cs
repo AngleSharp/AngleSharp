@@ -88,6 +88,8 @@
             pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<NthLastChildSelector>(withOptionalSelector: true));
             pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<NthFirstTypeSelector>(withOptionalSelector: false));
             pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<NthLastTypeSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthColumn, () => new ChildFunctionState<NthFirstColumnSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastColumn, () => new ChildFunctionState<NthLastColumnSelector>(withOptionalSelector: false));
             pseudoClassFunctions.Add(PseudoClassNames.Not, () => new NotFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Dir, () => new DirFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Lang, () => new LangFunctionState());
@@ -1202,12 +1204,14 @@
 
                 for (var i = 0; i < parent.Children.Length; i++)
                 {
-                    if (parent.Children[i].NodeName != element.NodeName)
+                    var child = parent.Children[i];
+
+                    if (child.NodeName != element.NodeName)
                         continue;
 
                     k += 1;
 
-                    if (parent.Children[i] == element)
+                    if (child == element)
                     {
                         var diff = k - offset;
                         return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
@@ -1220,6 +1224,47 @@
             public String Text
             {
                 get { return Stringify(PseudoClassNames.NthOfType); }
+            }
+        }
+
+        /// <summary>
+        /// The nth-column selector.
+        /// </summary>
+        sealed class NthFirstColumnSelector : NthChildSelector, ISelector
+        {
+            public Boolean Match(IElement element)
+            {
+                var parent = element.ParentElement;
+
+                if (parent == null)
+                    return false;
+
+                var n = Math.Sign(step);
+                var k = 0;
+
+                for (var i = 0; i < parent.Children.Length; i++)
+                {
+                    //TODO no real implementation yet
+                    var child = parent.Children[i] as IHtmlTableCellElement;
+
+                    if (child == null)
+                        continue;
+
+                    k += 1;
+
+                    if (child == element)
+                    {
+                        var diff = k - offset;
+                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+                    }
+                }
+
+                return false;
+            }
+
+            public String Text
+            {
+                get { return Stringify(PseudoClassNames.NthColumn); }
             }
         }
 
@@ -1282,12 +1327,14 @@
 
                 for (var i = parent.Children.Length - 1; i >= 0; i--)
                 {
-                    if (parent.Children[i].NodeName != element.NodeName)
+                    var child = parent.Children[i];
+
+                    if (child.NodeName != element.NodeName)
                         continue;
 
                     k += 1;
 
-                    if (parent.Children[i] == element)
+                    if (child == element)
                     {
                         var diff = k - offset;
                         return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
@@ -1300,6 +1347,47 @@
             public String Text
             {
                 get { return Stringify(PseudoClassNames.NthLastOfType); }
+            }
+        }
+
+        /// <summary>
+        /// The nth-last-column selector.
+        /// </summary>
+        sealed class NthLastColumnSelector : NthChildSelector, ISelector
+        {
+            public Boolean Match(IElement element)
+            {
+                var parent = element.ParentElement;
+
+                if (parent == null)
+                    return false;
+
+                var n = Math.Sign(step);
+                var k = 0;
+
+                for (var i = parent.Children.Length - 1; i >= 0; i--)
+                {
+                    //TODO no real implementation yet
+                    var child = parent.Children[i] as IHtmlTableCellElement;
+
+                    if (child == null)
+                        continue;
+
+                    k += 1;
+
+                    if (child == element)
+                    {
+                        var diff = k - offset;
+                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+                    }
+                }
+
+                return false;
+            }
+
+            public String Text
+            {
+                get { return Stringify(PseudoClassNames.NthLastColumn); }
             }
         }
 
