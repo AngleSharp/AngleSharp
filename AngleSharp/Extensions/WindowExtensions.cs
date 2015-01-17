@@ -1,8 +1,11 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Css;
     using AngleSharp.DOM;
+    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// A set of useful extension methods for the Window class.
@@ -40,6 +43,13 @@
             // Is this somewhere implemented ? I don't know what that should be.
             // --> used (?)
             throw new NotImplementedException();
+        }
+
+        public static StyleCollection GetStyleCollection(this IWindow window)
+        {
+            var device = new RenderDevice(window.OuterWidth, window.OuterHeight);
+            var stylesheets = window.Document.GetStyleSheets().OfType<CssStyleSheet>();
+            return new StyleCollection(stylesheets, device);
         }
     }
 }

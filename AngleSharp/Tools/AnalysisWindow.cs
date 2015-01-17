@@ -1,15 +1,12 @@
 ﻿namespace AngleSharp.Tools
 {
-    using AngleSharp.Css;
     using AngleSharp.DOM;
-    using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents a sample browsing Window implementation for
@@ -139,9 +136,7 @@
             if (Document == null)
                 throw new ArgumentException("A valid HTML document is required for computing the style of an element.");
 
-            var device = new RenderDevice(OuterWidth, OuterHeight);
-            var stylesheets = Document.GetStyleSheets().OfType<CssStyleSheet>();
-            var styleCollection = new StyleCollection(stylesheets, device);
+            var styleCollection = this.GetStyleCollection();
             return styleCollection.ComputeDeclarations(element, pseudo);
         }
 
