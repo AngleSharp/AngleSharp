@@ -26,6 +26,14 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the responsible device.
+        /// </summary>
+        public RenderDevice Device
+        {
+            get { return _device; }
+        }
+
         #endregion
 
         #region Methods
