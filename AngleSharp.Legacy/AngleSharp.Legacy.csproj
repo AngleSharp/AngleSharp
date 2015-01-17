@@ -1716,6 +1716,9 @@
     <Compile Include="..\AngleSharp\Extensions\ValueExtensions.cs">
       <Link>Extensions\ValueExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\WindowExtensions.cs">
+      <Link>Extensions\WindowExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
