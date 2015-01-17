@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.DOM
 {
+    using AngleSharp.Css;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Events;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -14,10 +16,10 @@
 
         static readonly Dictionary<String, Func<IElement, PseudoElement>> creators = new Dictionary<String, Func<IElement, PseudoElement>>(StringComparer.OrdinalIgnoreCase)
         {
-            { ":before", element => new BeforePseudoElement(element) },
-            { "::before", element => new BeforePseudoElement(element) },
-            { ":after", element => new AfterPseudoElement(element) },
-            { "::after", element => new AfterPseudoElement(element) },
+            { ":" + PseudoElementNames.Before, element => new BeforePseudoElement(element) },
+            { "::" + PseudoElementNames.Before, element => new BeforePseudoElement(element) },
+            { ":" + PseudoElementNames.After, element => new AfterPseudoElement(element) },
+            { "::" + PseudoElementNames.After, element => new AfterPseudoElement(element) },
         };
 
         public static PseudoElement Create(IElement host, String pseudoSelector)
@@ -51,22 +53,22 @@
 
         public ICssStyleDeclaration CascadedStyle
         {
-            get { return null; }
+            get { return Owner.DefaultView.ComputeCascadedStyle(this); }
         }
 
         public ICssStyleDeclaration DefaultStyle
         {
-            get { return null; }
+            get { return Owner.DefaultView.ComputeDefaultStyle(this); }
         }
 
         public ICssStyleDeclaration RawComputedStyle
         {
-            get { return null; }
+            get { return Owner.DefaultView.ComputeRawStyle(this); }
         }
 
         public ICssStyleDeclaration UsedStyle
         {
-            get { return null; }
+            get { return Owner.DefaultView.ComputeUsedStyle(this); }
         }
 
         public String Prefix
@@ -443,7 +445,7 @@
 
             public override String PseudoName
             {
-                get { return "::before"; }
+                get { return "::" + PseudoElementNames.Before; }
             }
         }
 
@@ -460,7 +462,7 @@
 
             public override String PseudoName
             {
-                get { return "::after"; }
+                get { return "::" + PseudoElementNames.After; }
             }
         }
 
