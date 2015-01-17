@@ -5,6 +5,8 @@
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -12,6 +14,8 @@
     /// </summary>
     static class WindowExtensions
     {
+        #region Methods
+
         public static CssStyleDeclaration ComputeDefaultStyle(this IWindow window, IElement element)
         {
             // Ignores transitions and animations
@@ -34,8 +38,18 @@
         public static CssStyleDeclaration ComputeCascadedStyle(this IWindow window, IElement element)
         {
             // Resolves the cascade by ordering after specifity [same specifity = more recent specification wins]
+            // Takes also no inheritance into account
             // --> cascaded
-            throw new NotImplementedException();
+            var style = new CssStyleDeclaration();
+            var styleCollection = window.GetStyleCollection();
+            var rules = styleCollection.SortBySpecifity(element);
+
+            foreach (var rule in rules)
+            {
+                //Set rule
+            }
+
+            return style;
         }
 
         public static CssStyleDeclaration ComputeUsedStyle(this IWindow window, IElement element)
@@ -51,5 +65,16 @@
             var stylesheets = window.Document.GetStyleSheets().OfType<CssStyleSheet>();
             return new StyleCollection(stylesheets, device);
         }
+
+        #endregion
+
+        #region Helpers
+
+        static IEnumerable<CssStyleRule> SortBySpecifity(this IEnumerable<CssStyleRule> rules, IElement element)
+        {
+            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specifity);
+        }
+
+        #endregion
     }
 }
