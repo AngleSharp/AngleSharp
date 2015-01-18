@@ -7,7 +7,7 @@
     /// A priority object for comparing priorities.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Priority : IEquatable<Priority>
+    public struct Priority : IEquatable<Priority>, IComparable<Priority>
     {
         #region Fields
 
@@ -232,6 +232,16 @@
         public override Int32 GetHashCode()
         {
             return (Int32)priority;
+        }
+
+        /// <summary>
+        /// Compares the current priority with another priority.
+        /// </summary>
+        /// <param name="other">The priority to compare to.</param>
+        /// <returns>A value greater than 1 if the current priority is larger.</returns>
+        public Int32 CompareTo(Priority other)
+        {
+            return this == other ? 0 : (this > other ? 1 : -1);
         }
 
         #endregion
