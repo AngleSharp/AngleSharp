@@ -174,7 +174,7 @@
                     _style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);
                 }
 
-                return _style; ; 
+                return _style;
             }
         }
 
