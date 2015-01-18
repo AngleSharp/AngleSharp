@@ -60,10 +60,10 @@
         /// Creates a new read-only CSS style declaration.
         /// </summary>
         /// <param name="properties">The properties to show.</param>
-        internal CssStyleDeclaration(IEnumerable<ICssProperty> properties)
+        internal CssStyleDeclaration(IEnumerable<CssProperty> properties)
             : this(true, null)
         {
-            foreach (CssProperty property in properties)
+            foreach (var property in properties)
                 _declarations.Add(property);
         }
 
@@ -2543,7 +2543,29 @@
         /// <param name="style">The style to take the declarations from.</param>
         internal void AddDeclarations(CssStyleDeclaration style)
         {
-            _declarations.AddRange(style._declarations);
+            foreach (var newdecl in style._declarations)
+            {
+                var skip = false;
+
+                foreach (var olddecl in _declarations)
+                {
+                    if (olddecl.Name == newdecl.Name)
+                    {
+                        skip = true;
+
+                        if (!olddecl.IsImportant || newdecl.IsImportant)
+                        {
+                            var index = _declarations.IndexOf(olddecl);
+                            _declarations[index] = newdecl;
+                        }
+                            
+                        break;
+                    }
+                }
+
+                if (skip == false)
+                    _declarations.Add(newdecl);
+            }
         }
 
         /// <summary>

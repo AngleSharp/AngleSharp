@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="window">The window to host the stylesheets.</param>
         /// <param name="element">The element to compute the cascade for.</param>
-        /// <returns>Returns the cascaded style declaration.</returns>
+        /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static CssStyleDeclaration ComputeCascadedStyle(this IWindow window, IElement element)
         {
             var style = new CssStyleDeclaration();
@@ -52,7 +52,7 @@
             foreach (var rule in rules)
                 style.AddDeclarations(rule.Style);
 
-            return style;
+            return new CssStyleDeclaration(style.Declarations);
         }
 
         public static CssStyleDeclaration ComputeUsedStyle(this IWindow window, IElement element)
