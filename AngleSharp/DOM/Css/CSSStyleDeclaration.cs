@@ -2543,31 +2543,7 @@
         /// <param name="style">The style to take the declarations from.</param>
         internal void SetDeclarations(CssStyleDeclaration style)
         {
-            foreach (var newdecl in style._declarations)
-            {
-                var skip = false;
-
-                foreach (var olddecl in _declarations)
-                {
-                    if (olddecl.Name == newdecl.Name)
-                    {
-                        skip = true;
-
-                        if (!olddecl.IsImportant || newdecl.IsImportant)
-                        {
-                            var index = _declarations.IndexOf(olddecl);
-                            _declarations[index] = newdecl;
-                        }
-                            
-                        break;
-                    }
-                }
-
-                if (skip)
-                    continue;
-
-                _declarations.Add(newdecl);
-            }
+            ChangeDeclarations(style, m => false, (o, n) => !o.IsImportant || n.IsImportant);
         }
 
         /// <summary>
@@ -2576,31 +2552,7 @@
         /// <param name="style">The style to take the declarations from.</param>
         internal void UpdateDeclarations(CssStyleDeclaration style)
         {
-            foreach (var newdecl in style._declarations)
-            {
-                var skip = newdecl.CanBeInherited == false;
-
-                foreach (var olddecl in _declarations)
-                {
-                    if (olddecl.Name == newdecl.Name)
-                    {
-                        skip = true;
-
-                        if (olddecl.IsInherited)
-                        {
-                            var index = _declarations.IndexOf(olddecl);
-                            _declarations[index] = newdecl;
-                        }
-
-                        break;
-                    }
-                }
-
-                if (skip)
-                    continue;
-
-                _declarations.Add(newdecl);
-            }
+            ChangeDeclarations(style, m => !m.CanBeInherited, (o, n) => o.IsInherited);
         }
 
         /// <summary>
@@ -2614,6 +2566,34 @@
         #endregion
 
         #region Helpers
+
+        void ChangeDeclarations(CssStyleDeclaration style, Predicate<CssProperty> defaultSkip, Func<CssProperty, CssProperty, Boolean> removeExisting)
+        {
+            var declarations = new List<CssProperty>();
+
+            foreach (var newdecl in style._declarations)
+            {
+                var skip = defaultSkip(newdecl);
+
+                foreach (var olddecl in _declarations)
+                {
+                    if (olddecl.Name == newdecl.Name)
+                    {
+                        if (removeExisting(olddecl, newdecl))
+                            _declarations.Remove(olddecl);
+                        else
+                            skip = true;
+
+                        break;
+                    }
+                }
+
+                if (!skip)
+                    declarations.Add(newdecl);
+            }
+
+            _declarations.AddRange(declarations);
+        }
 
         void SetLonghand(CssProperty property)
         {
