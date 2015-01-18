@@ -35,19 +35,22 @@
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specifity.
+        /// Two rules with the same specifity are ordered according to their appearance. The more
+        /// recent declaration wins. Inheritance is not taken into account.
+        /// </summary>
+        /// <param name="window">The window to host the stylesheets.</param>
+        /// <param name="element">The element to compute the cascade for.</param>
+        /// <returns>Returns the cascaded style declaration.</returns>
         public static CssStyleDeclaration ComputeCascadedStyle(this IWindow window, IElement element)
         {
-            // Resolves the cascade by ordering after specifity [same specifity = more recent specification wins]
-            // Takes also no inheritance into account
-            // --> cascaded
             var style = new CssStyleDeclaration();
             var styleCollection = window.GetStyleCollection();
             var rules = styleCollection.SortBySpecifity(element);
 
             foreach (var rule in rules)
-            {
-                //Set rule
-            }
+                style.AddDeclarations(rule.Style);
 
             return style;
         }
