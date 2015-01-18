@@ -129,7 +129,7 @@
         {
             var newRule = (CssFontFaceRule)rule;
             _style.Clear();
-            _style.AddDeclarations(newRule._style);
+            _style.SetDeclarations(newRule._style);
         }
 
         #endregion

@@ -2538,10 +2538,10 @@
         }
 
         /// <summary>
-        /// Adds the the declarations from the other style declaration.
+        /// Sets the the declarations from the other style declaration.
         /// </summary>
         /// <param name="style">The style to take the declarations from.</param>
-        internal void AddDeclarations(CssStyleDeclaration style)
+        internal void SetDeclarations(CssStyleDeclaration style)
         {
             foreach (var newdecl in style._declarations)
             {
@@ -2563,8 +2563,43 @@
                     }
                 }
 
-                if (skip == false)
-                    _declarations.Add(newdecl);
+                if (skip)
+                    continue;
+
+                _declarations.Add(newdecl);
+            }
+        }
+
+        /// <summary>
+        /// Update the the declarations with the given style declaration.
+        /// </summary>
+        /// <param name="style">The style to take the declarations from.</param>
+        internal void UpdateDeclarations(CssStyleDeclaration style)
+        {
+            foreach (var newdecl in style._declarations)
+            {
+                var skip = newdecl.CanBeInherited == false;
+
+                foreach (var olddecl in _declarations)
+                {
+                    if (olddecl.Name == newdecl.Name)
+                    {
+                        skip = true;
+
+                        if (olddecl.IsInherited)
+                        {
+                            var index = _declarations.IndexOf(olddecl);
+                            _declarations[index] = newdecl;
+                        }
+
+                        break;
+                    }
+                }
+
+                if (skip)
+                    continue;
+
+                _declarations.Add(newdecl);
             }
         }
 
@@ -2574,18 +2609,6 @@
         internal void Clear()
         {
             _declarations.Clear();
-        }
-
-        /// <summary>
-        /// Applies the stored declarations to the given property bag, given the
-        /// specified priority.
-        /// </summary>
-        /// <param name="bag">The property bag to update.</param>
-        /// <param name="priority">The priority to use for updating.</param>
-        internal void ApplyTo(PropertyBag bag, Priority priority)
-        {
-            foreach (var property in _declarations)
-                bag.TryUpdate(property, priority);
         }
 
         #endregion
