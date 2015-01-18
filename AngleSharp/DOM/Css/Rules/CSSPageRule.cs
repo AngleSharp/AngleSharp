@@ -34,9 +34,10 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
-            var newRule = rule as CssPageRule;
-            _style.TakeFrom(newRule._style);
+            var newRule = (CssPageRule)rule;
             _selector = newRule._selector;
+            _style.Clear();
+            _style.AddDeclarations(newRule._style);
         }
 
         #endregion

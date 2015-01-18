@@ -1808,21 +1808,21 @@
         }
 
         /// <summary>
-        /// Gets or sets the type of positioning used for the object.
-        /// </summary>
-        String ICssStyleDeclaration.Position
-        {
-            get { return GetPropertyValue(PropertyNames.Position); }
-            set { SetProperty(PropertyNames.Position, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the pairs of strings to be used as quotes in generated content.
         /// </summary>
         String ICssStyleDeclaration.Quotes
         {
             get { return GetPropertyValue(PropertyNames.Quotes); }
             set { SetProperty(PropertyNames.Quotes, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of positioning used for the object.
+        /// </summary>
+        String ICssStyleDeclaration.Position
+        {
+            get { return GetPropertyValue(PropertyNames.Position); }
+            set { SetProperty(PropertyNames.Position, value); }
         }
 
         /// <summary>
@@ -2538,15 +2538,20 @@
         }
 
         /// <summary>
-        /// Takes the declarations from the other style declaration.
-        /// Clears the other style declarations.
+        /// Adds the the declarations from the other style declaration.
         /// </summary>
         /// <param name="style">The style to take the declarations from.</param>
-        internal void TakeFrom(CssStyleDeclaration style)
+        internal void AddDeclarations(CssStyleDeclaration style)
+        {
+            _declarations.AddRange(style._declarations);
+        }
+
+        /// <summary>
+        /// Clears the declarations.
+        /// </summary>
+        internal void Clear()
         {
             _declarations.Clear();
-            _declarations.AddRange(style._declarations);
-            style._declarations.Clear();
         }
 
         /// <summary>

@@ -77,9 +77,10 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CssKeyframeRule;
+            var newRule = (CssKeyframeRule)rule;
             _selector = newRule._selector;
-            _style.TakeFrom(newRule._style);
+            _style.Clear();
+            _style.AddDeclarations(newRule._style);
         }
 
         #endregion

@@ -127,8 +127,9 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CssFontFaceRule;
-            _style.TakeFrom(newRule._style);
+            var newRule = (CssFontFaceRule)rule;
+            _style.Clear();
+            _style.AddDeclarations(newRule._style);
         }
 
         #endregion

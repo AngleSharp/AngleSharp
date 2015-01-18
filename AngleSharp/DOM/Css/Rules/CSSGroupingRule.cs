@@ -49,7 +49,7 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CssGroupingRule;
+            var newRule = (CssGroupingRule)rule;
             _rules.Clear();
             _rules.Import(newRule._rules, Owner, Parent);
         }

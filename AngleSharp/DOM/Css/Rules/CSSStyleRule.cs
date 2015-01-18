@@ -75,9 +75,10 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            var newRule = rule as CssStyleRule;
-            _style.TakeFrom(newRule._style);
+            var newRule = (CssStyleRule)rule;
             _selector = newRule._selector;
+            _style.Clear();
+            _style.AddDeclarations(newRule._style);
         }
 
         #endregion
