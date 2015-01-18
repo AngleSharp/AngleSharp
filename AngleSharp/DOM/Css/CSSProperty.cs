@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets if the property supports hashless colors in quirksmode.
         /// </summary>
-        internal Boolean IsHashless
+        internal Boolean CanBeHashless
         {
             get { return _flags.HasFlag(PropertyFlags.Hashless); }
         }
@@ -66,9 +66,17 @@
         /// <summary>
         /// Gets if the property supports unitless lengths in quirksmode.
         /// </summary>
-        internal Boolean IsUnitless
+        internal Boolean CanBeUnitless
         {
             get { return _flags.HasFlag(PropertyFlags.Unitless); }
+        }
+
+        /// <summary>
+        /// Gets if the property can be inherited.
+        /// </summary>
+        internal Boolean CanBeInherited
+        {
+            get { return _flags.HasFlag(PropertyFlags.Inherited); }
         }
 
         /// <summary>
