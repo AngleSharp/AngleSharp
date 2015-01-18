@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Css;
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Css;
@@ -26,34 +25,27 @@
         /// <returns>The style declaration containing all the declarations.</returns>
         public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
+            var style = new CssStyleDeclaration();
             var pseudoElement = PseudoElement.Create(element, pseudoSelector);
 
             if (pseudoElement != null)
                 element = pseudoElement;
 
-            var nodes = element.GetInclusiveAncestorsOf().OfType<IElement>().Reverse().ToArray();
-            var bag = new PropertyBag();
-
-            foreach (var node in nodes)
-                rules.ComputeStyle(bag, node);
-
+            style.SetDeclarations(rules.ComputeCascadedStyle(element));
             var htmlElement = element as HTMLElement;
 
             if (htmlElement != null)
-                htmlElement.Style.ApplyTo(bag, Priority.Inline);
+                style.SetDeclarations(htmlElement.Style);
 
-            return new CssStyleDeclaration(bag);
-        }
+            var nodes = element.GetAncestorsOf().OfType<IElement>();
 
-        public static void ComputeStyle(this StyleCollection rules, PropertyBag bag, IElement element)
-        {
-            foreach (var rule in rules)
+            foreach (var node in nodes)
             {
-                var selector = rule.Selector;
-
-                if (selector.Match(element))
-                    rule.Style.ApplyTo(bag, selector.Specifity);
+                var decls = rules.ComputeCascadedStyle(node);
+                style.UpdateDeclarations(decls);
             }
+
+            return new CssStyleDeclaration(style.Declarations);
         }
 
         /// <summary>
