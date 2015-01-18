@@ -53,7 +53,7 @@
 
         public ICssStyleDeclaration CascadedStyle
         {
-            get { return Owner.DefaultView.ComputeCascadedStyle(this); }
+            get { return Owner.DefaultView.GetStyleCollection().ComputeCascadedStyle(this); }
         }
 
         public ICssStyleDeclaration DefaultStyle
