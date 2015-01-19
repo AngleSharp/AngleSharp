@@ -83,8 +83,11 @@
         {
             var attributes = element.Attributes;
 
-            if (!attributes.Has(name))
+            if (attributes.Has(name) == false)
+            {
                 attributes.Add(new Attr(element, name, value));
+                element.AttributeChanged(name, null, null, true);
+            }
         }
 
         /// <summary>
