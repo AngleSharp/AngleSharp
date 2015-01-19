@@ -2814,10 +2814,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [Test]
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
-            var doc = new Document(@"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config);
+            var doc = parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4912,10 +4912,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [Test]
         public void TreeNoScriptWithNoScriptCommentInside()
         {
-            var doc = new Document(@"<noscript><!--<noscript></noscript>--></noscript>");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = @"<noscript><!--<noscript></noscript>--></noscript>";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config);
+            var doc = parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4953,10 +4953,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [Test]
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
-            var doc = new Document(@"<noscript><!--</noscript>X<noscript>--></noscript>");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = @"<noscript><!--</noscript>X<noscript>--></noscript>";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config);
+            var doc = parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5004,10 +5004,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         [Test]
         public void TreeNoScriptWithIFrameInside()
         {
-            var doc = new Document(@"<noscript><iframe></noscript>X");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = @"<noscript><iframe></noscript>X";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config);
+            var doc = parser.Parse();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

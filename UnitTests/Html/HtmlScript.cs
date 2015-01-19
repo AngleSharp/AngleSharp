@@ -2819,10 +2819,10 @@ namespace UnitTests
         [Test]
         public void ScriptNoScriptWithClosedCommentThatContainsAnotherClosedNoScriptElement()
         {
-            var doc = new Document("<!doctype html><noscript><!--<noscript></noscript>--></noscript>");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = "<!doctype html><noscript><!--<noscript></noscript>--></noscript>";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config); 
+            var doc = parser.Parse();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2865,10 +2865,10 @@ namespace UnitTests
         [Test]
         public void ScriptNoScriptWithCommentStartAndTextInsideBeforeClosing()
         {
-            var doc = new Document("<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config);
+            var doc = parser.Parse();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2921,10 +2921,10 @@ namespace UnitTests
         [Test]
         public void ScriptNoScriptAfterDoctypeWithIFrameContentAndTextAfter()
         {
-            var doc = new Document("<!doctype html><noscript><iframe></noscript>X");
-            var parser = new HtmlParser(doc);
-            doc.Options = new Configuration { IsScripting = true };
-            parser.Parse();
+            var source = "<!doctype html><noscript><iframe></noscript>X";
+            var config = new Configuration { IsScripting = true };
+            var parser = new HtmlParser(source, config);
+            var doc = parser.Parse();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
