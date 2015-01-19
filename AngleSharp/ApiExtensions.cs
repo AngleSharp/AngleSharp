@@ -49,9 +49,6 @@
             if (element != null)
                 document.Adopt(element);
 
-            if (el != null)
-                el.Close();
-
             return element;
         }
 
