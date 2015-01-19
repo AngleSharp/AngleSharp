@@ -713,6 +713,7 @@
                     if (tagName == Tags.Head)
                     {
                         CloseCurrentNode();
+                        doc.WaitForReady();
                         insert = HtmlTreeMode.AfterHead;
                         return;
                     }
@@ -2510,11 +2511,14 @@
         {
             while (open.Count > 0)
             {
-                var node = CurrentNode;
+                var template = CurrentNode as HTMLTemplateElement;
                 CloseCurrentNode();
 
-                if (node is HTMLTemplateElement)
+                if (template != null)
+                {
+                    template.PopulateFragment();
                     break;
+                }
             }
 
             formatting.ClearFormatting();
@@ -3586,7 +3590,6 @@
         {
             if (open.Count > 0)
             {
-                open[open.Count - 1].Close();
                 open.RemoveAt(open.Count - 1);
                 var node = AdjustedCurrentNode;
                 tokenizer.IsAcceptingCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
