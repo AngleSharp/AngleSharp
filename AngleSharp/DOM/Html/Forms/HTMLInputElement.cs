@@ -26,6 +26,8 @@
         public HTMLInputElement(Document owner)
             : base(owner, Tags.Input, NodeFlags.SelfClosing)
         {
+            RegisterAttributeObserver(AttributeNames.Type, UpdateType);
+            UpdateType(null);
         }
 
         #endregion
@@ -408,6 +410,7 @@
         {
             var node = (HTMLInputElement)base.Clone(deep);
             node._checked = _checked;
+            node.UpdateType(_type.Name);
             return node;
         }
 
@@ -452,13 +455,6 @@
         #endregion
 
         #region Internal Methods
-
-        internal override void Close()
-        {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Type, UpdateType);
-            UpdateType(GetAttribute(AttributeNames.Type));
-        }
 
         void UpdateType(String type)
         {

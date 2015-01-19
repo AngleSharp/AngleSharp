@@ -29,6 +29,7 @@
             : base(owner, name, flags | NodeFlags.HtmlMember)
         {
             NamespaceUri = Namespaces.HtmlUri;
+            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
         }
 
         #endregion
@@ -166,16 +167,7 @@
         /// </summary>
         public CssStyleDeclaration Style
         {
-            get 
-            {
-                if (_style == null)
-                {
-                    _style = new CssStyleDeclaration(GetAttribute(AttributeNames.Style));
-                    _style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);
-                }
-
-                return _style;
-            }
+            get { return _style ?? (_style = CreateStyle()); }
         }
 
         ICssStyleDeclaration IElementCssInlineStyle.Style
@@ -265,7 +257,6 @@
             var node = Factory.HtmlElements.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
-            node.Close();
             return node;
         }
 
@@ -305,6 +296,18 @@
             return parent as IHtmlFormElement;
         }
 
+        CssStyleDeclaration CreateStyle()
+        {
+            if (Owner.Options.IsStyling)
+            {
+                var style = new CssStyleDeclaration(GetAttribute(AttributeNames.Style));
+                style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);
+                return style;
+            }
+
+            return null;
+        }
+
         void UpdateStyle(String value)
         {
             if (String.IsNullOrEmpty(value))
@@ -312,17 +315,6 @@
 
             if (_style != null)
                 _style.Update(value);
-        }
-
-        internal override void Close()
-        {
-            base.Close();
-
-            if (Owner.Options.IsStyling)
-            {
-                RegisterAttributeHandler(AttributeNames.Style, UpdateStyle);
-                UpdateStyle(GetAttribute(AttributeNames.Style));
-            }
         }
 
         #endregion

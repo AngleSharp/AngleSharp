@@ -808,11 +808,6 @@
                 throw new DomException(ErrorCode.HierarchyRequest);
         }
 
-        internal virtual void Close()
-        {
-            //Run any closing steps after the parser generated the Node incl. subnodes
-        }
-
         internal virtual void NodeIsAdopted(Document oldDocument)
         {
             //Run any adopting steps defined for node in other applicable specifications and pass node and oldDocument as parameters.

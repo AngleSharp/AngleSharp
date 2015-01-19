@@ -124,6 +124,7 @@
             : base(owner, name)
         {
             _network = MediaNetworkState.Empty;
+            RegisterAttributeObserver(AttributeNames.Src, value => Load());
         }
 
         #endregion
@@ -415,12 +416,6 @@
 
         #region Methods
 
-        internal override void Close()
-        {
-            base.Close();
-            Load();
-        }
-
         /// <summary>
         /// Loads the media specified for this element.
         /// </summary>
@@ -430,7 +425,7 @@
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
             if (_resourceTask != null)
                 return;
-
+            
             var src = CurrentSource;
 
             if (src != null)

@@ -26,6 +26,7 @@
         {
             _contentDocument = null;
             _contentWindow = null;
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
         #endregion
@@ -130,14 +131,11 @@
             return false;
         }
 
-        internal override void Close()
+        void UpdateSource(String value)
         {
-            base.Close();
-            var src = Source;
-
-            if (src != null)
+            if (!String.IsNullOrEmpty(value))
             {
-                var url = this.HyperRef(src);
+                var url = this.HyperRef(value);
                 _resourceTask = Owner.Options.LoadResource<IObjectInfo>(url);
                 _resourceTask.ContinueWith(_ => this.FireSimpleEvent(EventNames.Load));
             }

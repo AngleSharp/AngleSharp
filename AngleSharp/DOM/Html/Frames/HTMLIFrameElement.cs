@@ -24,6 +24,7 @@
             : base(owner, Tags.Iframe, NodeFlags.LiteralText)
         {
             _doc = new Document();
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
         #endregion
@@ -92,28 +93,25 @@
 
         #region Methods
 
-        internal override void Close()
+        void UpdateSource(String src)
         {
-            base.Close();
-            var src = Source;
-
-            if (src == null)
-                return;
-            
-            var url = this.HyperRef(src);
-            var requester = Owner.Options.GetRequester(url.Scheme);
-
-            if (requester == null)
-                return;
-
-            requester.LoadAsync(url).ContinueWith(task =>
+            if (!String.IsNullOrEmpty(src))
             {
-                if (!task.IsFaulted && task.Result != null)
+                var url = this.HyperRef(src);
+                var requester = Owner.Options.GetRequester(url.Scheme);
+
+                if (requester == null)
+                    return;
+
+                requester.LoadAsync(url).ContinueWith(task =>
                 {
-                    using (var result = task.Result)
-                        _doc.LoadAsync(result, CancellationToken.None).Wait();
-                }
-            });
+                    if (!task.IsFaulted && task.Result != null)
+                    {
+                        using (var result = task.Result)
+                            _doc.LoadAsync(result, CancellationToken.None).Wait();
+                    }
+                });
+            }
         }
 
         #endregion

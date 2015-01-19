@@ -24,6 +24,7 @@
         public HTMLStyleElement(Document owner)
             : base(owner, Tags.Style, NodeFlags.Special | NodeFlags.LiteralText)
         {
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
         }
 
         #endregion
@@ -44,7 +45,7 @@
         /// </summary>
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
+            get { return _sheet ?? (_sheet = CreateSheet()); }
         }
 
         /// <summary>
@@ -84,19 +85,6 @@
 
         #region Internal methods
 
-        internal override void Close()
-        {
-            base.Close();
-
-            RegisterAttributeHandler(AttributeNames.Media, value =>
-            {
-                if (_sheet != null)
-                    _sheet.Media.MediaText = Media;
-            });
-
-            UpdateSheet();
-        }
-
         internal override void NodeIsInserted(Node newNode)
         {
             base.NodeIsInserted(newNode);
@@ -113,20 +101,34 @@
 
         #region Helpers
 
+        void UpdateMedia(String value)
+        {
+            if (_sheet != null)
+                _sheet.Media.MediaText = value;
+        }
+
         void UpdateSheet()
+        {
+            if (_sheet != null)
+                _sheet = CreateSheet();
+        }
+
+        IStyleSheet CreateSheet()
         {
             if (Owner.Options.IsStyling)
             {
-                var options = new StyleOptions 
-                { 
-                    Element = this, 
-                    Document = Owner, 
-                    Context = Owner.DefaultView, 
-                    IsDisabled = IsDisabled, 
-                    Title = Title 
+                var options = new StyleOptions
+                {
+                    Element = this,
+                    Document = Owner,
+                    Context = Owner.DefaultView,
+                    IsDisabled = IsDisabled,
+                    Title = Title
                 };
-                _sheet = Owner.Options.ParseStyling(TextContent, options, Type);
+                return Owner.Options.ParseStyling(TextContent, options, Type);
             }
+
+            return null;
         }
 
         #endregion

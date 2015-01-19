@@ -26,6 +26,7 @@
             : base(owner, Tags.Select)
         {
             _options = new OptionsCollection(this);
+            RegisterAttributeObserver(AttributeNames.Value, value => Value = value);
         }
 
         #endregion
@@ -151,7 +152,7 @@
         /// </summary>
         public String Type
         {
-            get { return IsMultiple ? "select-multiple" : "select-one"; }
+            get { return IsMultiple ? InputTypeNames.SelectMultiple : InputTypeNames.SelectOne; }
         }
 
         #endregion
@@ -230,13 +231,6 @@
                 if (option.IsSelected && !option.IsDisabled)
                     dataSet.Append(Name, option.Value, Type);
             }
-        }
-
-        internal override void Close()
-        {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Value, value => Value = value);
-            Value = GetAttribute(AttributeNames.Value);
         }
 
         protected override Boolean CanBeValidated()

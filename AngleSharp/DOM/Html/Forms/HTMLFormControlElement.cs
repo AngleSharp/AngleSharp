@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents the base class for all HTML form control elements.
@@ -52,7 +54,7 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(AttributeNames.Disabled) != null; }
+            get { return GetAttribute(AttributeNames.Disabled) != null || IsFieldsetDisabled(); }
             set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
@@ -144,6 +146,22 @@
         #endregion
 
         #region Helpers
+
+        Boolean IsFieldsetDisabled()
+        {
+            var fieldSets = this.GetAncestorsOf().OfType<IHtmlFieldSetElement>();
+
+            foreach (var fieldSet in fieldSets)
+            {
+                if (fieldSet.IsDisabled)
+                {
+                    var firstLegend = fieldSet.Children.FirstOrDefault(m => m is IHtmlLegendElement);
+                    return this.IsDescendantOf(firstLegend) == false;
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Constucts the data set (called from a form).

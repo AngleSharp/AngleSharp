@@ -39,6 +39,19 @@
         #region Methods
 
         /// <summary>
+        /// Moves the children of the template element to the content.
+        /// </summary>
+        public void PopulateFragment()
+        {
+            while (HasChildNodes)
+            {
+                var node = ChildNodes[0];
+                RemoveNode(0, node);
+                _content.AddNode(node);
+            }
+        }
+
+        /// <summary>
         /// Returns a duplicate of the template including the contents if deep is specified.
         /// </summary>
         /// <param name="deep">Optional value: true if the children of the node should also be
@@ -68,18 +81,6 @@
         internal override void NodeIsAdopted(Document oldDocument)
         {
             _content.Owner = oldDocument;
-        }
-
-        internal override void Close()
-        {
-            base.Close();
-
-            while (HasChildNodes)
-            {
-                var node = ChildNodes[0];
-                RemoveNode(0, node);
-                _content.AddNode(node);
-            }
         }
 
         #endregion

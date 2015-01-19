@@ -26,6 +26,7 @@
             : base(owner, Tags.A, NodeFlags.HtmlFormatting)
         {
             _location = new ElementLocation(this);
+            RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);
         }
 
         #endregion
@@ -286,14 +287,10 @@
                 IsFocused = true;
         }
 
-        internal override void Close()
+        void UpdateRelList(String value)
         {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Rel, value =>
-            {
-                if (_relList != null)
-                    _relList.Update(value);
-            });
+            if (_relList != null)
+                _relList.Update(value);
         }
 
         #endregion

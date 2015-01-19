@@ -39,6 +39,8 @@
             _attributes = new List<IAttr>();
             _attributeHandlers = new Dictionary<String, Action<String>>();
             Owner = owner;
+
+            RegisterAttributeObserver(AttributeNames.Class, UpdateClassList);
         }
 
         #endregion
@@ -409,7 +411,6 @@
             var node = new Element(Owner, NodeName, Flags);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
-            node.Close();
             return node;
         }
 
@@ -758,6 +759,11 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Updates an attribute's value without notifying the observers.
+        /// </summary>
+        /// <param name="name">The name of the attribute to update.</param>
+        /// <param name="value">The value of the attribute to set.</param>
         protected void UpdateAttribute(String name, String value)
         {
             Action<String> handler = null;
@@ -771,17 +777,7 @@
                 _attributeHandlers.Add(name, handler);
         }
 
-        internal override void Close()
-        {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Class, value =>
-            {
-                if (_classList != null)
-                    _classList.Update(value);
-            });
-        }
-
-        internal void AttributeChanged(String localName, String namespaceUri, String oldValue)
+        internal void AttributeChanged(String localName, String namespaceUri, String oldValue, Boolean suppressMutationObservers = false)
         {
             Action<String> handler = null;
 
@@ -791,18 +787,31 @@
                 handler(attr != null ? attr.Value : null);
             }
 
-            Owner.QueueMutation(MutationRecord.Attributes(
-                target: this,
-                attributeName: localName,
-                attributeNamespace: namespaceUri,
-                previousValue: oldValue));
+            if (!suppressMutationObservers)
+            {
+                Owner.QueueMutation(MutationRecord.Attributes(
+                    target: this,
+                    attributeName: localName,
+                    attributeNamespace: namespaceUri,
+                    previousValue: oldValue));
+            }
         }
 
+        /// <summary>
+        /// Locates the namespace of the given prefix.
+        /// </summary>
+        /// <param name="prefix">The prefix of the namespace to find.</param>
+        /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
         protected sealed override String LocateNamespace(String prefix)
         {
             return ElementExtensions.LocateNamespace(this, prefix);
         }
 
+        /// <summary>
+        /// Locates the prefix of the given namespace.
+        /// </summary>
+        /// <param name="namespaceUri">The url of the namespace.</param>
+        /// <returns>The prefix or null, if the namespace could not be found.</returns>
         protected sealed override String LocatePrefix(String namespaceUri)
         {
             return ElementExtensions.LocatePrefix(this, namespaceUri);
@@ -823,7 +832,12 @@
                 target._attributes.Add(new Attr(target, source._attributes[i].Name, source._attributes[i].Value));
         }
 
-        protected void RegisterAttributeHandler(String name, Action<String> callback)
+        /// <summary>
+        /// Registers an observer for attribute events.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="callback">The callback to invoke.</param>
+        protected void RegisterAttributeObserver(String name, Action<String> callback)
         {
             Action<String> handler = null;
 
@@ -833,6 +847,12 @@
                 handler = callback;
 
             _attributeHandlers[name] = handler;
+        }
+
+        void UpdateClassList(String value)
+        {
+            if (_classList != null)
+                _classList.Update(value);
         }
 
         #endregion

@@ -33,6 +33,10 @@
             : base(owner, Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _cts = new CancellationTokenSource();
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
+            RegisterAttributeObserver(AttributeNames.Href, value => TargetChanged());
+            RegisterAttributeObserver(AttributeNames.Type, value => TargetChanged());
         }
 
         #endregion
@@ -196,24 +200,16 @@
 
         #region Internal methods
 
-        internal override void Close()
+        void UpdateMedia(String value)
         {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Media, value =>
-            {
-                if (_sheet != null)
-                    _sheet.Media.MediaText = value;
-            });
-            RegisterAttributeHandler(AttributeNames.Disabled, value =>
-            {
-                var sheet = Sheet;
+            if (_sheet != null)
+                _sheet.Media.MediaText = value;
+        }
 
-                if (sheet != null)
-                    sheet.IsDisabled = value != null;
-            });
-            RegisterAttributeHandler(AttributeNames.Href, value => TargetChanged());
-            RegisterAttributeHandler(AttributeNames.Type, value => TargetChanged());
-            TargetChanged();
+        void UpdateDisabled(String value)
+        {
+            if (_sheet != null)
+                _sheet.IsDisabled = value != null;
         }
 
         #endregion

@@ -16,6 +16,7 @@
         public HTMLBaseElement(Document owner)
             : base(owner, Tags.Base, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);
         }
 
         #endregion
@@ -43,13 +44,6 @@
         #endregion
 
         #region Methods
-
-        internal override void Close()
-        {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Href, UpdateUrl);
-            UpdateUrl(GetAttribute(AttributeNames.Href));
-        }
 
         void UpdateUrl(String url)
         {

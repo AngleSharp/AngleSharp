@@ -25,6 +25,7 @@
         public HTMLImageElement(Document owner)
             : base(owner, Tags.Img, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
         #endregion
@@ -124,17 +125,14 @@
 
         #region Methods
 
-        internal override void Close()
+        void UpdateSource(String value)
         {
-            base.Close();
-            var src = Source;
-
-            if (src != null)
+            if (!String.IsNullOrEmpty(value))
             {
-                var url = this.HyperRef(src);
+                var url = this.HyperRef(value);
                 _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
                 _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
-            }        
+            }
         }
 
         #endregion

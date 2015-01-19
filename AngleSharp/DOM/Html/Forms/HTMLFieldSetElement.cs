@@ -1,10 +1,8 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.DOM.Collections;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents the HTML fieldset element.
@@ -48,27 +46,6 @@
         protected override Boolean CanBeValidated()
         {
             return true;
-        }
-
-        internal override void Close()
-        {
-            base.Close();
-            RegisterAttributeHandler(AttributeNames.Disabled, UpdateDisabled);
-            UpdateDisabled(GetAttribute(AttributeNames.Disabled));
-        }
-
-        void UpdateDisabled(String value)
-        {
-            if (value != null)
-            {
-                var firstLegend = Children.FirstOrDefault(m => m is HTMLLegendElement);
-
-                foreach (var element in Elements.OfType<HTMLFormControlElement>())
-                {
-                    if (element.IsDescendantOf(firstLegend) == false)
-                        element.IsDisabled = true;
-                }
-            }
         }
 
         #endregion
