@@ -1264,9 +1264,7 @@
             if (!localName.IsXmlName())
                 throw new DomException(ErrorCode.InvalidCharacter);
 
-            var element = Factory.HtmlElements.Create(localName, this);
-            element.Close();
-            return element;
+            return Factory.HtmlElements.Create(localName, this);
         }
 
         /// <summary>
@@ -1308,7 +1306,6 @@
                 element = new Element(this, localName) { NamespaceUri = namespaceUri };
 
             element.Prefix = prefix;
-            element.Close();
             return element;
         }
 
