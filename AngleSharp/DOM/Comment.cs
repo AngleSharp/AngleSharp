@@ -12,17 +12,18 @@
         /// <summary>
         /// Creates a new comment node.
         /// </summary>
-        internal Comment()
-            : this(String.Empty)
+        internal Comment(Document owner)
+            : this(owner, String.Empty)
         {
         }
 
         /// <summary>
         /// Creates a new comment node with the given data.
         /// </summary>
+        /// <param name="owner">The initial owner.</param>
         /// <param name="data">The data to be initially set.</param>
-        internal Comment(String data)
-            : base("#comment", NodeType.Comment, data)
+        internal Comment(Document owner, String data)
+            : base(owner, "#comment", NodeType.Comment, data)
         {
         }
 
@@ -37,7 +38,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Comment(Data);
+            var node = new Comment(Owner, Data);
             CopyProperties(this, node, deep);
             return node;
         }

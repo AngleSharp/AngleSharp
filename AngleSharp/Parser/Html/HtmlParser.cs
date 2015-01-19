@@ -3561,9 +3561,8 @@
         /// <param name="doctypeToken">The doctypen token.</param>
         void AddDoctype(HtmlDoctypeToken doctypeToken)
         {
-            doc.AddNode(new DocumentType(doctypeToken.Name ?? String.Empty)
+            doc.AddNode(new DocumentType(doc, doctypeToken.Name ?? String.Empty)
             {
-                Owner = doc,
                 SystemIdentifier = doctypeToken.SystemIdentifier,
                 PublicIdentifier = doctypeToken.PublicIdentifier
             });

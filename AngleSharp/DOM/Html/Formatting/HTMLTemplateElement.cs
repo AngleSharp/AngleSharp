@@ -19,7 +19,7 @@
         public HTMLTemplateElement(Document owner)
             : base(owner, Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
-            _content = new DocumentFragment { Owner = Owner };
+            _content = new DocumentFragment(owner);
         }
 
         #endregion

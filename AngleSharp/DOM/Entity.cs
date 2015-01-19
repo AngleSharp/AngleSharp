@@ -24,17 +24,18 @@
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
-        internal Entity()
-            : this(String.Empty)
+        internal Entity(Document owner)
+            : this(owner, String.Empty)
         {
         }
 
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
+        /// <param name="owner">The initial owner.</param>
         /// <param name="name">Name of the entity.</param>
-        internal Entity(String name)
-            : base(name, NodeType.Entity)
+        internal Entity(Document owner, String name)
+            : base(owner, name, NodeType.Entity)
         {
         }
 
@@ -120,7 +121,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Entity();
+            var node = new Entity(Owner, NodeName);
             CopyProperties(this, node, deep);
             node._xmlEncoding = this._xmlEncoding;
             node._xmlVersion = this._xmlVersion;

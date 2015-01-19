@@ -14,26 +14,18 @@
         /// <summary>
         /// Creates a new empty text node.
         /// </summary>
-        internal TextNode()
-            : this(String.Empty)
+        internal TextNode(Document owner)
+            : this(owner, String.Empty)
         {
         }
 
         /// <summary>
         /// Creates a new text node with the given text.
         /// </summary>
+        /// <param name="owner">The initial owner.</param>
         /// <param name="text">The text to set.</param>
-        internal TextNode(String text)
-            : base("#text", NodeType.Text, text)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new text node with the given character.
-        /// </summary>
-        /// <param name="c">The character to set.</param>
-        internal TextNode(Char c)
-            : this(c.ToString())
+        internal TextNode(Document owner, String text)
+            : base(owner, "#text", NodeType.Text, text)
         {
         }
 
@@ -97,7 +89,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new TextNode(Data);
+            var node = new TextNode(Owner, Data);
             CopyProperties(this, node, deep);
             return node;
         }
@@ -117,7 +109,7 @@
 
             var count = length - offset;
             var newData = Substring(offset, count);
-            var newNode = new TextNode(newData) { Owner = Owner };
+            var newNode = new TextNode(Owner, newData);
             var parent = Parent;
             var owner = Owner;
 

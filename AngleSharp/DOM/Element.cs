@@ -34,12 +34,10 @@
         /// Creates a new element node.
         /// </summary>
         public Element(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(name, NodeType.Element, flags)
+            : base(owner, name, NodeType.Element, flags)
         {
             _attributes = new List<IAttr>();
             _attributeHandlers = new Dictionary<String, Action<String>>();
-            Owner = owner;
-
             RegisterAttributeObserver(AttributeNames.Class, UpdateClassList);
         }
 
@@ -89,7 +87,7 @@
             }
             set
             {
-                var node = !String.IsNullOrEmpty(value) ? new TextNode(value) { Owner = Owner } : null;
+                var node = !String.IsNullOrEmpty(value) ? new TextNode(Owner, value) : null;
                 ReplaceAll(node, false);
             }
         }
@@ -257,7 +255,7 @@
         public String InnerHtml
         {
             get { return ChildNodes.ToHtml(); }
-            set { ReplaceAll(new DocumentFragment(value, this), false); }
+            set { ReplaceAll(new DocumentFragment(this, value), false); }
         }
 
         /// <summary>
@@ -275,7 +273,7 @@
                     if (Owner != null && Owner.DocumentElement == this)
                         throw new DomException(ErrorCode.NoModificationAllowed);
 
-                    parent.InsertChild(parent.IndexOf(this), new DocumentFragment(value, this));
+                    parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
                     parent.RemoveChild(this);
                 }
                 else
@@ -693,7 +691,7 @@
         {
             var useThis = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd;
             var nodeParent = useThis ? this : Parent as Element;
-            var nodes = new DocumentFragment(html, nodeParent);
+            var nodes = new DocumentFragment(nodeParent, html);
 
             switch (position)
             {

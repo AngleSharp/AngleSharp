@@ -429,9 +429,8 @@
         /// </summary>
         /// <param name="source">The underlying source.</param>
         internal Document(ITextSource source)
-            : base("#document", NodeType.Document)
+            : base(null, "#document", NodeType.Document)
         {
-            Owner = this;
             IsAsync = true;
             _source = source;
             _referrer = String.Empty;
@@ -1316,7 +1315,7 @@
         /// <returns>The new comment.</returns>
         public IComment CreateComment(String data)
         {
-            return new Comment(data) { Owner = this };
+            return new Comment(this, data);
         }
 
         /// <summary>
@@ -1325,7 +1324,7 @@
         /// <returns>A new document fragment.</returns>
         public IDocumentFragment CreateDocumentFragment()
         {
-            return new DocumentFragment { Owner = this };
+            return new DocumentFragment(this);
         }
 
         /// <summary>
@@ -1339,7 +1338,7 @@
             if (!target.IsXmlName() || data.Contains("?>"))
                 throw new DomException(ErrorCode.InvalidCharacter);
 
-            return new ProcessingInstruction(target) { Data = data, Owner = this };
+            return new ProcessingInstruction(this, target) { Data = data };
         }
 
         /// <summary>
@@ -1349,7 +1348,7 @@
         /// <returns>The created Text node.</returns>
         public IText CreateTextNode(String data)
         {
-            return new TextNode(data) { Owner = this };
+            return new TextNode(this, data);
         }
 
         /// <summary>

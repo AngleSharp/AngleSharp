@@ -15,8 +15,8 @@
         /// <summary>
         /// Creates a new document type node.
         /// </summary>
-        internal DocumentType(String name)
-            : base(name, NodeType.DocumentType)
+        internal DocumentType(Document owner, String name)
+            : base(owner, name, NodeType.DocumentType)
         {
             PublicIdentifier = String.Empty;
             SystemIdentifier = String.Empty;
@@ -143,11 +143,13 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new DocumentType(Name);
+            var node = new DocumentType(Owner, Name)
+            {
+                PublicIdentifier = PublicIdentifier,
+                SystemIdentifier = SystemIdentifier,
+                InternalSubset = InternalSubset
+            };
             CopyProperties(this, node, deep);
-            node.PublicIdentifier = this.PublicIdentifier;
-            node.SystemIdentifier = this.SystemIdentifier;
-            node.InternalSubset = this.InternalSubset;
             return node;
         }
 

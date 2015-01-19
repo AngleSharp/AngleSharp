@@ -72,7 +72,7 @@
             else if (!qualifiedName.IsQualifiedName())
                 throw new DomException(ErrorCode.Namespace);
 
-            return new DocumentType(qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId, Owner = _owner };
+            return new DocumentType(_owner, qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId };
         }
 
         /// <summary>
@@ -108,22 +108,22 @@
         /// <returns>A new Document object with its document element.</returns>
         public IDocument CreateHtmlDocument(String title)
         {
-            var doc = new Document();
-            doc.ContentType = MimeTypes.Html;
-            doc.AppendChild(new DocumentType(Tags.Html) { Owner = doc });
-            doc.AppendChild(doc.CreateElement(Tags.Html));
-            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
+            var document = new Document();
+            document.ContentType = MimeTypes.Html;
+            document.AppendChild(new DocumentType(document, Tags.Html));
+            document.AppendChild(document.CreateElement(Tags.Html));
+            document.DocumentElement.AppendChild(document.CreateElement(Tags.Head));
 
             if (!String.IsNullOrEmpty(title))
             {
-                var titleElement = doc.CreateElement(Tags.Title);
-                titleElement.AppendChild(doc.CreateTextNode(title));
-                doc.Head.AppendChild(titleElement);
+                var titleElement = document.CreateElement(Tags.Title);
+                titleElement.AppendChild(document.CreateTextNode(title));
+                document.Head.AppendChild(titleElement);
             }
 
-            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
-            doc.BaseUrl = _owner.BaseUrl;
-            return doc;
+            document.DocumentElement.AppendChild(document.CreateElement(Tags.Body));
+            document.BaseUrl = _owner.BaseUrl;
+            return document;
         }
 
         /// <summary>

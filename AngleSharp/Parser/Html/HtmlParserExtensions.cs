@@ -7,6 +7,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
 
+    /// <summary>
+    /// Extensions to be used exclusively by the parser.
+    /// </summary>
     [DebuggerStepThrough]
     static class HtmlParserExtensions
     {
@@ -84,7 +87,7 @@
         /// <param name="data">The comment.</param>
         public static void AddComment(this Node parent, String data)
         {
-            parent.AddNode(new Comment(data) { Owner = parent.Owner });
+            parent.AddNode(new Comment(parent.Owner, data));
         }
 
         /// <summary>

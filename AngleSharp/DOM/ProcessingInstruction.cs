@@ -12,8 +12,8 @@
         /// <summary>
         /// Creates a new processing instruction node.
         /// </summary>
-        internal ProcessingInstruction(String name)
-            : base(name, NodeType.ProcessingInstruction)
+        internal ProcessingInstruction(Document owner, String name)
+            : base(owner, name, NodeType.ProcessingInstruction)
         {
         }
 
@@ -27,6 +27,17 @@
         public String Target
         {
             get { return NodeName; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new ProcessingInstruction(Owner, Target);
+            CopyProperties(this, node, deep);
+            return node;
         }
 
         #endregion

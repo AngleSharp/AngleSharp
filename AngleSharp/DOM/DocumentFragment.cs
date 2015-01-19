@@ -16,8 +16,8 @@
         /// <summary>
         /// Creates a new document fragment.
         /// </summary>
-        internal DocumentFragment()
-            : base("#document-fragment", NodeType.DocumentFragment)
+        internal DocumentFragment(Document owner)
+            : base(owner, "#document-fragment", NodeType.DocumentFragment)
         {
         }
 
@@ -25,14 +25,12 @@
         /// Creates a new document fragment with the given nodelist as
         /// children.
         /// </summary>
-        /// <param name="html">The HTML source to use.</param>
         /// <param name="context">The context for the fragment mode.</param>
-        internal DocumentFragment(String html, Element context)
-            : this()
+        /// <param name="html">The HTML source code to use.</param>
+        internal DocumentFragment(Element context, String html)
+            : this(context.Owner)
         {
-            var owner = context.Owner;
-
-            var configuration = Configuration.Clone(owner != null ? owner.Options : Configuration.Default);
+            var configuration = Configuration.Clone(Owner.Options);
             configuration.IsScripting = false;
 
             var parser = new HtmlParser(html, configuration);
@@ -125,7 +123,7 @@
             }
             set
             {
-                var node = !String.IsNullOrEmpty(value) ? new TextNode(value) { Owner = Owner } : null;
+                var node = !String.IsNullOrEmpty(value) ? new TextNode(Owner, value) : null;
                 ReplaceAll(node, false);
             }
         }
@@ -133,6 +131,18 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Returns a duplicate of the node on which this method was called.
+        /// </summary>
+        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <returns>The duplicate node.</returns>
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new DocumentFragment(Owner);
+            CopyProperties(this, node, deep);
+            return node;
+        }
 
         /// <summary>
         /// Prepends nodes to the current document fragment.

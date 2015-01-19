@@ -19,10 +19,11 @@
         /// <summary>
         /// Creates a new instance of character data.
         /// </summary>
+        /// <param name="owner">The initial owner.</param>
         /// <param name="name">The name of the node.</param>
         /// <param name="type">The exact type of the node.</param>
-        internal CharacterData(String name, NodeType type)
-            : this(name, type, String.Empty)
+        internal CharacterData(Document owner, String name, NodeType type)
+            : this(owner, name, type, String.Empty)
         {
         }
 
@@ -30,11 +31,12 @@
         /// Creates a new instance of character data with the
         /// provided initial content.
         /// </summary>
+        /// <param name="owner">The initial owner.</param>
         /// <param name="name">The name of the node.</param>
         /// <param name="type">The exact type of the node.</param>
         /// <param name="content">The content to set.</param>
-        internal CharacterData(String name, NodeType type, String content)
-            : base(name, type)
+        internal CharacterData(Document owner, String name, NodeType type, String content)
+            : base(owner, name, type)
         {
             _content = content;
         }

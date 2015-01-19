@@ -31,8 +31,9 @@
         /// <summary>
         /// Constructs a new node.
         /// </summary>
-        internal Node(String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
+        internal Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
+            _owner = owner;
             _name = name ?? String.Empty;
             _type = type;
             _children = new NodeList();
@@ -82,6 +83,8 @@
                     return _parent.BaseUrl;
                 else if (_owner != null)
                     return _owner._baseUri ?? _owner.DocumentUrl;
+                else if (_type == NodeType.Document)
+                    return ((Document)this).DocumentUrl;
 
                 return null;
             }
@@ -293,7 +296,7 @@
             var lastChild = LastChild as TextNode;
 
             if (lastChild == null)
-                AddNode(new TextNode(s) { Owner = Owner });
+                AddNode(new TextNode(Owner, s));
             else
                 lastChild.Append(s);
         }
@@ -316,7 +319,7 @@
                 node.Insert(0, s);
             }
             else
-                InsertNode(index, new TextNode(s) { Owner = Owner });
+                InsertNode(index, new TextNode(Owner, s));
         }
 
         #endregion
@@ -384,7 +387,7 @@
         /// <returns>The duplicate node.</returns>
         public virtual INode Clone(Boolean deep = true)
         {
-            var node = new Node(_name, _type, _flags);
+            var node = new Node(_owner, _name, _type, _flags);
             CopyProperties(this, node, deep);
             return node;
         }
@@ -831,7 +834,6 @@
         /// <param name="deep">Is a deep-copy required?</param>
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
-            target._owner = source._owner;
             target._baseUri = source._baseUri;
 
             if (!deep)

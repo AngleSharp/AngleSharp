@@ -13,13 +13,14 @@
         /// Runs the mutation macro as defined in 5.2.2 Mutation methods
         /// of http://www.w3.org/TR/domcore/.
         /// </summary>
+        /// <param name="parent">The parent, which invokes the algorithm.</param>
         /// <param name="nodes">The nodes array to add.</param>
         /// <returns>A (single) node.</returns>
-        public static INode MutationMacro(this INode[] nodes)
+        public static INode MutationMacro(this INode parent, INode[] nodes)
         {
             if (nodes.Length > 1)
             {
-                var node = new DocumentFragment();
+                var node = parent.Owner.CreateDocumentFragment();
 
                 for (int i = 0; i < nodes.Length; i++)
                     node.AppendChild(nodes[i]);
@@ -37,7 +38,7 @@
         /// <param name="nodes">The nodes to prepend.</param>
         public static void PrependNodes(this INode parent, params INode[] nodes)
         {
-            var node = nodes.MutationMacro();
+            var node = parent.MutationMacro(nodes);
             parent.PreInsert(node, parent.FirstChild);
         }
 
@@ -48,7 +49,7 @@
         /// <param name="nodes">The nodes to append.</param>
         public static void AppendNodes(this INode parent, params INode[] nodes)
         {
-            var node = nodes.MutationMacro();
+            var node = parent.MutationMacro(nodes);
             parent.PreInsert(node, null);
         }
 
@@ -64,7 +65,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = nodes.MutationMacro();
+                var node = parent.MutationMacro(nodes);
                 parent.PreInsert(node, child);
             }
         }
@@ -81,7 +82,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = nodes.MutationMacro();
+                var node = parent.MutationMacro(nodes);
                 parent.PreInsert(node, child.NextSibling);
             }
         }
@@ -97,7 +98,7 @@
 
             if (parent != null && nodes.Length > 0)
             {
-                var node = nodes.MutationMacro();
+                var node = parent.MutationMacro(nodes);
                 parent.ReplaceChild(node, child);
             }
         }

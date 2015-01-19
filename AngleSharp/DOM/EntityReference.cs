@@ -12,19 +12,32 @@
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
-        internal EntityReference()
-            : this(String.Empty)
+        internal EntityReference(Document owner)
+            : this(owner, String.Empty)
         {
         }
 
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
+        /// <param name="owner">The initial owner.</param>
         /// <param name="name">Name of the entity reference.</param>
-        internal EntityReference(String name)
-            : base(name, NodeType.EntityReference)
+        internal EntityReference(Document owner, String name)
+            : base(owner, name, NodeType.EntityReference)
         {
         }
+
+        #endregion
+
+        #region Methods
+
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new EntityReference(Owner, NodeName);
+            CopyProperties(this, node, deep);
+            return node;
+        }
+
         #endregion
     }
 }

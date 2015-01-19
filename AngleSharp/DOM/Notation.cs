@@ -12,8 +12,8 @@
         /// <summary>
         /// Creates a new notation node.
         /// </summary>
-        internal Notation()
-            : base("#notation", NodeType.Notation)
+        internal Notation(Document owner)
+            : base(owner, "#notation", NodeType.Notation)
         {
         }
 
@@ -50,7 +50,11 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Notation();
+            var node = new Notation(Owner)
+            {
+                PublicId = PublicId,
+                SystemId = SystemId
+            };
             CopyProperties(this, node, deep);
             return node;
         }
