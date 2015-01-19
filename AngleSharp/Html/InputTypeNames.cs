@@ -121,5 +121,15 @@
         /// A simple button.
         /// </summary>
         public static readonly String Button = "button";
+
+        /// <summary>
+        /// A select-multiple select box.
+        /// </summary>
+        public static readonly String SelectMultiple = "select-multiple";
+
+        /// <summary>
+        /// A select-one select box.
+        /// </summary>
+        public static readonly String SelectOne = "select-one";
     }
 }
