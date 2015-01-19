@@ -241,7 +241,7 @@
 
         public IDocumentFragment ExtractContent()
         {
-            var fragment = new DocumentFragment { Owner = _start.Node.Owner as Document };
+            var fragment = _start.Node.Owner.CreateDocumentFragment();
 
             if (_start.Equals(_end))
                 return fragment;
@@ -332,7 +332,7 @@
 
         public IDocumentFragment CopyContent()
         {
-            var fragment = new DocumentFragment { Owner = _start.Node.Owner as Document };
+            var fragment = _start.Node.Owner.CreateDocumentFragment();
 
             if (_start.Equals(_end))
                 return fragment;
