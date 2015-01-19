@@ -47,7 +47,6 @@
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             node.IdAttribute = IdAttribute;
-            node.Close();
             return node;
         }
 

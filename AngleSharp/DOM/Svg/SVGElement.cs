@@ -52,7 +52,6 @@
             var node = Factory.SvgElements.Create(NodeName, Owner);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
-            node.Close();
             return node;
         }
 
