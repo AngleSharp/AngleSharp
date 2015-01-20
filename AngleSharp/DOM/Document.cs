@@ -29,19 +29,18 @@
         readonly Queue<HTMLScriptElement> _scripts;
         readonly List<WeakReference> _ranges;
         readonly MutationHost _mutations;
+        readonly IBrowsingContext _context;
 
         QuirksMode _quirksMode;
         Boolean _designMode;
         Boolean _shown;
         DocumentReadyState _ready;
-        IConfiguration _options;
         ITextSource _source;
         String _referrer;
         String _contentType;
         String _lastStyleSheetSet;
         String _preferredStyleSheetSet;
         Location _location;
-        IBrowsingContext _context;
         IElement _focus;
         IWindow _view;
 
@@ -410,28 +409,21 @@
         /// <summary>
         /// Creates a new document node.
         /// </summary>
-        internal Document()
-            : this(String.Empty)
+        internal Document(IBrowsingContext context = null)
+            : this(context, new TextSource(String.Empty))
         {
         }
 
         /// <summary>
         /// Creates a new document node.
         /// </summary>
-        /// <param name="source">The HTML source code.</param>
-        internal Document(String source)
-            : this(new TextSource(source))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new document node.
-        /// </summary>
+        /// <param name="context">The context of the document.</param>
         /// <param name="source">The underlying source.</param>
-        internal Document(ITextSource source)
+        internal Document(IBrowsingContext context, ITextSource source)
             : base(null, "#document", NodeType.Document)
         {
             IsAsync = true;
+            _context = context ?? new SimpleBrowsingContext(Configuration.Default);
             _source = source;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;
@@ -443,9 +435,9 @@
             _quirksMode = QuirksMode.Off;
             _designMode = false;
             _location = new Location(AboutBlank);
-            _options = Configuration.Default;
             _location.Changed += LocationChanged;
             _ranges = new List<WeakReference>();
+            _context.Active = this;
         }
 
         #endregion
@@ -964,21 +956,19 @@
         }
 
         /// <summary>
-        /// Gets or sets the options to use.
+        /// Gets the configuration to use.
         /// </summary>
         internal IConfiguration Options
         {
-            get { return _options; }
-            set { _options = value ?? Configuration.Default; }
+            get { return _context.Configuration; }
         }
 
         /// <summary>
-        /// Gets or sets the browsing context to use, if any.
+        /// Gets the browsing context to use.
         /// </summary>
         internal IBrowsingContext Context
         {
             get { return _context; }
-            set { _context = value; _options = value.Configuration; }
         }
 
         /// <summary>
@@ -1004,7 +994,7 @@
         /// </summary>
         internal Boolean IsInBrowsingContext
         {
-            get { return _context != null; }
+            get { return _context.Active != null; }
         }
 
         /// <summary>
@@ -1030,15 +1020,12 @@
         public void Dispose()
         {
             _scripts.Clear();
-            _context = null;
 
             if (_source != null)
             {
                 _source.Dispose();
                 _source = null;
             }
-
-            _options = null;
         }
 
         /// <summary>
@@ -1077,7 +1064,7 @@
             if (_contentType != MimeTypes.Html)
                 throw new DomException(ErrorCode.InvalidState);
 
-            if (_context != null && _context.Active != this)
+            if (IsInBrowsingContext && _context.Active != this)
                 return null;
 
             var shallReplace = Keywords.Replace.Equals(replace, StringComparison.OrdinalIgnoreCase);
@@ -1423,7 +1410,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Document(Source.Text);
+            var node = new Document(_context, new TextSource(Source.Text));
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
@@ -1549,7 +1536,7 @@
             else
             {
                 var url = new Url(e.CurrentLocation);
-                var requester = _options.GetRequester(url.Scheme);
+                var requester = Options.GetRequester(url.Scheme);
 
                 if (requester == null)
                     return;
@@ -1587,7 +1574,6 @@
             target._referrer = source._referrer;
             target._location.Href = source._location.Href;
             target._quirksMode = source._quirksMode;
-            target._options = source._options;
         }
 
         #endregion

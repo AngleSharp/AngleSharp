@@ -66,7 +66,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new Document(new TextSource(source)) { Options = configuration })
+            : this(new Document(new SimpleBrowsingContext(configuration), new TextSource(source)))
         {
         }
 
@@ -77,7 +77,7 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">[Optional] The configuration to use.</param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new Document(new TextSource(stream, configuration.DefaultEncoding())) { Options = configuration })
+            : this(new Document(new SimpleBrowsingContext(configuration), new TextSource(stream, configuration.DefaultEncoding())))
         {
         }
 

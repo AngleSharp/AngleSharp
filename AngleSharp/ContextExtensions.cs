@@ -3,12 +3,14 @@
     using AngleSharp.DOM;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// A set of extensions for the browsing context.
     /// </summary>
+    [DebuggerStepThrough]
     public static class ContextExtensions
     {
         #region Browsing Context
@@ -33,8 +35,7 @@
         /// <returns>The task that creates the document.</returns>
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
         {
-            var src = new TextSource(response.Content, context.Configuration.DefaultEncoding());
-            var doc = new Document { Context = context };
+            var doc = new Document(context);
             return await doc.LoadAsync(response, cancel).ConfigureAwait(false);
         }
 

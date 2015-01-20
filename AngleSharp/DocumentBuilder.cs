@@ -215,7 +215,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode);
-            var doc = new Document(stream) { Options = configuration, DocumentUri = url };
+            var browsingContext = new SimpleBrowsingContext(configuration);
+            var doc = new Document(browsingContext, stream) { DocumentUri = url };
             return Construct(doc, configuration).Parse();
         }
 
@@ -261,7 +262,8 @@
             using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
             {
                 var stream = new TextSource(response.Content, configuration.DefaultEncoding());
-                var doc = new Document(stream) { Options = configuration, DocumentUri = url.OriginalString };
+                var browsingContext = new SimpleBrowsingContext(configuration);
+                var doc = new Document(browsingContext, stream) { DocumentUri = url.OriginalString };
                 return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
             }
         }
@@ -282,7 +284,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration, DocumentUri = url };
+            var browsingContext = new SimpleBrowsingContext(configuration);
+            var doc = new Document(browsingContext, stream) { DocumentUri = url };
             return Construct(doc, configuration).Parse();
         }
 
@@ -315,7 +318,8 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
-            var doc = new Document(stream) { Options = configuration, DocumentUri = url };
+            var browsingContext = new SimpleBrowsingContext(configuration);
+            var doc = new Document(browsingContext, stream) { DocumentUri = url };
             var parser = Construct(doc, configuration);
             return await parser.ParseAsync(cancel).ConfigureAwait(false);
         }
@@ -340,8 +344,9 @@
             //Disable scripting for HTML fragments (security reasons)
             configuration.IsScripting = false;
 
+            var browsingContext = new SimpleBrowsingContext(configuration);
             var stream = new TextSource(sourceCode);
-            var doc = new Document(stream) { Options = configuration };
+            var doc = new Document(browsingContext, stream);
             var node = context as Element;
             var parser = Construct(doc, configuration);
 
@@ -361,7 +366,7 @@
         #region CSS Construction
 
         /// <summary>
-        /// Builds a new CSSStyleSheet with the given source code string.
+        /// Builds a new CSS StyleSheet with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
@@ -381,7 +386,7 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet with the given URL.
+        /// Builds a new CSS StyleSheet with the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
@@ -392,7 +397,7 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
@@ -403,7 +408,7 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given URL.
         /// </summary>
         /// <param name="url">The URL which points to the address containing the source code.</param>
         /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
@@ -428,7 +433,7 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet with the given (network) stream.
+        /// Builds a new CSS StyleSheet with the given (network) stream.
         /// </summary>
         /// <param name="stream">The stream of chars to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
@@ -448,7 +453,7 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given (network) stream.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given (network) stream.
         /// </summary>
         /// <param name="stream">The stream of chars to use as source code.</param>
         /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
@@ -460,7 +465,7 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given (network) stream.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given (network) stream.
         /// </summary>
         /// <param name="stream">The stream of chars to use as source code.</param>
         /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
