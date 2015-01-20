@@ -82,7 +82,7 @@
             if (observers.Length == 0)
                 return;
 
-            var nodes = record.Target.GetInclusiveAncestorsOf();
+            var nodes = record.Target.GetInclusiveAncestors();
 
             for (var i = 0; i < observers.Length; i++)
             {
@@ -130,7 +130,7 @@
             if (document == null)
                 return;
 
-            var ancestors = node.GetAncestorsOf();
+            var ancestors = node.GetAncestors();
             var observers = document.Mutations.Observers;
 
             foreach (var ancestor in ancestors)

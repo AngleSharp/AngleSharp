@@ -149,7 +149,7 @@
 
         Boolean IsFieldsetDisabled()
         {
-            var fieldSets = this.GetAncestorsOf().OfType<IHtmlFieldSetElement>();
+            var fieldSets = this.GetAncestors().OfType<IHtmlFieldSetElement>();
 
             foreach (var fieldSet in fieldSets)
             {

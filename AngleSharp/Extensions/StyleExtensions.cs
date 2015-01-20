@@ -37,7 +37,7 @@
             if (htmlElement != null)
                 style.SetDeclarations(htmlElement.Style);
 
-            var nodes = element.GetAncestorsOf().OfType<IElement>();
+            var nodes = element.GetAncestors().OfType<IElement>();
 
             foreach (var node in nodes)
             {

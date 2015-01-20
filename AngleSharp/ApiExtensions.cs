@@ -79,7 +79,7 @@
         public static IEnumerable<TNode> Descendents<TNode>(this INode parent)
             where TNode : INode
         {
-            return parent.GetDescendantsOf().OfType<TNode>();
+            return parent.GetDescendants().OfType<TNode>();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@
         public static IEnumerable<TNode> Ancestors<TNode>(this INode child)
             where TNode : INode
         {
-            return child.GetAncestorsOf().OfType<TNode>();
+            return child.GetAncestors().OfType<TNode>();
         }
 
         #endregion

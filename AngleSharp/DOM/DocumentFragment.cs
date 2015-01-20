@@ -116,7 +116,7 @@
             {
                 var sb = Pool.NewStringBuilder();
 
-                foreach (var child in this.GetDescendantsOf().OfType<IText>())
+                foreach (var child in this.GetDescendants().OfType<IText>())
                     sb.Append(child.Data);
 
                 return sb.ToPool();

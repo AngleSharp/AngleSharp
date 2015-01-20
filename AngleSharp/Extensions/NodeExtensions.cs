@@ -63,13 +63,13 @@
         /// </summary>
         /// <param name="parent">The parent of the descendants.</param>
         /// <returns>An iterator over all descendants.</returns>
-        public static IEnumerable<INode> GetDescendantsOf(this INode parent)
+        public static IEnumerable<INode> GetDescendants(this INode parent)
         {
             foreach (var child in parent.ChildNodes)
             {
                 yield return child;
 
-                foreach (var subchild in child.GetDescendantsOf())
+                foreach (var subchild in child.GetDescendants())
                     yield return subchild;
             }
         }
@@ -101,7 +101,7 @@
         /// </summary>
         /// <param name="node">The child of the ancestors.</param>
         /// <returns>An iterator over all ancestors.</returns>
-        public static IEnumerable<INode> GetAncestorsOf(this INode node)
+        public static IEnumerable<INode> GetAncestors(this INode node)
         {
             while ((node = node.Parent) != null)
                 yield return node;
@@ -112,7 +112,7 @@
         /// </summary>
         /// <param name="node">The child of the ancestors.</param>
         /// <returns>An iterator over all ancestors including the given node.</returns>
-        public static IEnumerable<INode> GetInclusiveAncestorsOf(this INode node)
+        public static IEnumerable<INode> GetInclusiveAncestors(this INode node)
         {
             do
                 yield return node;
