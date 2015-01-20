@@ -1767,6 +1767,9 @@
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\SimpleBrowsingContext.cs">
+      <Link>Foundation\SimpleBrowsingContext.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Specification.cs">
       <Link>Foundation\Specification.cs</Link>
     </Compile>
@@ -1856,6 +1859,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IBrowsingContext.cs">
+      <Link>IBrowsingContext.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
@@ -2435,9 +2441,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IBrowsingContext.cs">
-      <Link>Interfaces\IBrowsingContext.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ICharacterData.cs">
       <Link>Interfaces\ICharacterData.cs</Link>
