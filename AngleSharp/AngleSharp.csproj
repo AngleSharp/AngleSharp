@@ -415,7 +415,6 @@
     <Compile Include="DOM\Xml\XmlElement.cs" />
     <Compile Include="DOM\Css\Values\Primitive\Angle.cs" />
     <Compile Include="Css\FeatureNames.cs" />
-    <Compile Include="Foundation\CopyConfiguration.cs" />
     <Compile Include="Css\Priority.cs" />
     <Compile Include="Css\Values\Shape.cs" />
     <Compile Include="Css\Values\CubicBezierTimingFunction.cs" />

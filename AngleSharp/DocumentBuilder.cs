@@ -338,11 +338,6 @@
 
             if (configuration == null)
                 configuration = new Configuration();
-            else
-                configuration = AngleSharp.Configuration.Clone(configuration);
-
-            //Disable scripting for HTML fragments (security reasons)
-            configuration.IsScripting = false;
 
             var browsingContext = new SimpleBrowsingContext(configuration);
             var stream = new TextSource(sourceCode);

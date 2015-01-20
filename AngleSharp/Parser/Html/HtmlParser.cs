@@ -3460,7 +3460,8 @@
         /// </summary>
         void RunScript(HTMLScriptElement script)
         {
-            if (script == null)
+            //Disable scripting for HTML fragments (security reasons)
+            if (script == null || IsFragmentCase)
                 return;
 
             doc.PerformMicrotaskCheckpoint();

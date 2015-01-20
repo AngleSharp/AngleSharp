@@ -156,17 +156,6 @@
         #region Methods
 
         /// <summary>
-        /// Creates a clone of the given configuration. The clone may be used to
-        /// change settings without affecting the originally provided configuration.
-        /// </summary>
-        /// <param name="configuration">The configuration to copy.</param>
-        /// <returns>The copied configuration.</returns>
-        internal static IConfiguration Clone(IConfiguration configuration)
-        {
-            return new CopyConfiguration(configuration);
-        }
-
-        /// <summary>
         /// Reports an error by writing to the debug console.
         /// </summary>
         /// <param name="e">The parse error event arguments.</param>

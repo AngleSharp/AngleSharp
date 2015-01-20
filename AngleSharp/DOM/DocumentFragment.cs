@@ -30,10 +30,7 @@
         internal DocumentFragment(Element context, String html)
             : this(context.Owner)
         {
-            var configuration = Configuration.Clone(Owner.Options);
-            configuration.IsScripting = false;
-
-            var parser = new HtmlParser(html, configuration);
+            var parser = new HtmlParser(html, Owner.Options);
             parser.SwitchToFragment(context);
             parser.Parse();
 
