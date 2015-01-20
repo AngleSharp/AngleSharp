@@ -1,5 +1,7 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp
 {
+    using AngleSharp.DOM;
+
     /// <summary>
     /// Represents the browsing context interface.
     /// </summary>
@@ -11,9 +13,9 @@
         IWindow Current { get; }
 
         /// <summary>
-        /// Gets the currently active document.
+        /// Gets or sets the currently active document.
         /// </summary>
-        IDocument Active { get; }
+        IDocument Active { get; set; }
 
         /// <summary>
         /// Gets the session history of the given browsing context.

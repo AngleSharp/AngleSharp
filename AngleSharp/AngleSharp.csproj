@@ -124,6 +124,7 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\Factory.cs" />
     <Compile Include="Foundation\MutationHost.cs" />
+    <Compile Include="Foundation\SimpleBrowsingContext.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
     <Compile Include="Html\InputTypes\CheckedInputType.cs" />
@@ -552,7 +553,7 @@
     <Compile Include="DOM\Events\TouchEvent.cs" />
     <Compile Include="Interfaces\Events\ITouchList.cs" />
     <Compile Include="Interfaces\IApplicationCache.cs" />
-    <Compile Include="Interfaces\IBrowsingContext.cs" />
+    <Compile Include="IBrowsingContext.cs" />
     <Compile Include="Interfaces\IHtmlAllCollection.cs" />
     <Compile Include="Interfaces\ILinkStyle.cs" />
     <Compile Include="Interfaces\Css\IMediaList.cs" />
