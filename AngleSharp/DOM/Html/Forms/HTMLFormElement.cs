@@ -21,7 +21,7 @@
         static readonly String UsAscii = "us-ascii";
 
         HtmlFormControlsCollection _elements;
-        Task _plannedNavigation;
+        Task<IDocument> _plannedNavigation;
         CancellationTokenSource _cancel;
 
         #endregion
@@ -173,7 +173,7 @@
         /// <summary>
         /// Gets the planned navigation task, if any.
         /// </summary>
-        public Task PlannedNavigation
+        public Task<IDocument> PlannedNavigation
         {
             get { return _plannedNavigation; }
         }
@@ -471,9 +471,11 @@
         /// <param name="method">The HTTP method.</param>
         /// <param name="body">The entity body of the request.</param>
         /// <param name="mime">The MIME type of the entity body.</param>
-        async Task NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
+        async Task<IDocument> NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
         {
-            if (Owner != null)
+            var owner = Owner;
+
+            if (owner != null)
             {
                 if (_plannedNavigation != null)
                 {
@@ -482,14 +484,16 @@
                     _cancel = new CancellationTokenSource();
                 }
 
-                var requester = Owner.Options.GetRequester(action.Scheme);
+                var requester = owner.Options.GetRequester(action.Scheme);
 
-                if (requester == null)
-                    return;
-
-                using (var response = await requester.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false))
-                    await Owner.LoadAsync(response, _cancel.Token).ConfigureAwait(false);
+                if (requester != null)
+                {
+                    using (var response = await requester.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false))
+                        return await owner.Context.OpenAsync(response, _cancel.Token).ConfigureAwait(false);
+                }
             }
+
+            return null;
         }
 
         /// <summary>
