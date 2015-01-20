@@ -16,6 +16,16 @@
         #region Browsing Context
 
         /// <summary>
+        /// Opens a new document without any content in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <returns>The new, yet empty, document.</returns>
+        public static IDocument OpenNew(this IBrowsingContext context)
+        {
+            return new Document(context);
+        }
+
+        /// <summary>
         /// Opens a new document asynchronously in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
