@@ -34,7 +34,7 @@
         /// <param name="node">The node that spawns the hyper reference.</param>
         /// <param name="url">The given URL.</param>
         /// <returns>The absolute URL.</returns>
-        public static Url HyperRef(this INode node, String url)
+        public static Url HyperReference(this INode node, String url)
         {
             if (url == null)
                 return null;

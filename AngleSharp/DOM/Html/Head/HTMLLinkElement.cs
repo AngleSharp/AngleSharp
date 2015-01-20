@@ -70,7 +70,7 @@
         /// </summary>
         public Url Url
         {
-            get { return this.HyperRef(GetAttribute(AttributeNames.Href)); }
+            get { return this.HyperReference(GetAttribute(AttributeNames.Href)); }
         }
 
         /// <summary>

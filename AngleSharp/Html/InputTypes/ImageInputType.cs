@@ -24,7 +24,7 @@
 
             if (src != null && inp != null)
             {
-                var url = inp.HyperRef(src);
+                var url = inp.HyperReference(src);
                 _imageTask = inp.Owner.Options.LoadResource<IImageInfo>(url);
                 _imageTask.ContinueWith(task => inp.FireSimpleEvent(EventNames.Load));
             }

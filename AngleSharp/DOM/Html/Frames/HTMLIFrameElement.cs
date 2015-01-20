@@ -97,7 +97,7 @@
         {
             if (!String.IsNullOrEmpty(src))
             {
-                var url = this.HyperRef(src);
+                var url = this.HyperReference(src);
                 var requester = Owner.Options.GetRequester(url.Scheme);
 
                 if (requester == null)

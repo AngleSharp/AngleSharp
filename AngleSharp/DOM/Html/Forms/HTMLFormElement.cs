@@ -276,7 +276,7 @@
                 }
             }
 
-            var action = String.IsNullOrEmpty(Action) ? new Url(formDocument.DocumentUri) : this.HyperRef(Action);
+            var action = String.IsNullOrEmpty(Action) ? new Url(formDocument.DocumentUri) : this.HyperReference(Action);
 
             //TODO
             //If the user indicated a specific browsing context to use when submitting

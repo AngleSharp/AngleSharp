@@ -230,7 +230,7 @@
                     return;
                 }
 
-                var url = this.HyperRef(src);
+                var url = this.HyperReference(src);
                 var requester = options.GetRequester(url.Scheme);
 
                 if (requester == null)

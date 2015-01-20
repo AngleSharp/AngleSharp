@@ -129,7 +129,7 @@
         {
             if (!String.IsNullOrEmpty(value))
             {
-                var url = this.HyperRef(value);
+                var url = this.HyperReference(value);
                 _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
                 _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
             }
