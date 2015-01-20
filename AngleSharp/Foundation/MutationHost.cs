@@ -63,19 +63,13 @@
             if (_queued)
                 return;
 
-            var context = _document.Context;
-
-            if (context == null)
-                return;
-
-            var eventLoop = context.Configuration.GetService<IEventService>();
+            var eventLoop = _document.Options.GetService<IEventService>();
 
             if (eventLoop == null)
                 return;
 
             _queued = true;
-            Func<Task> task = DispatchCallback;
-            eventLoop.Enqueue(new MicroDomTask(_document, task));
+            eventLoop.Enqueue(new MicroDomTask(_document, DispatchCallback));
         }
 
         /// <summary>
@@ -84,23 +78,16 @@
         /// <returns>The awaitable task.</returns>
         public async Task DispatchCallback()
         {
-            var notifyList = _observers.ToArray();
-            var context = _document.Context;
-
-            if (context == null)
-                return;
-
-            var eventLoop = context.Configuration.GetService<IEventService>();
+            var observers = _observers.ToArray();
+            var eventLoop = _document.Options.GetService<IEventService>();
 
             if (eventLoop == null)
                 return;
 
             _queued = false;
 
-            foreach (var mo in notifyList)
-            {
-                await eventLoop.Execute(() => mo.Trigger());
-            }
+            foreach (var observer in observers)
+                await eventLoop.Execute(observer.Trigger);
         }
 
         #endregion
