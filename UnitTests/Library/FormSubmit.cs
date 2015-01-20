@@ -47,8 +47,7 @@ namespace UnitTests.Library
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                form.Submit();
-                var newDoc = form.PlannedNavigation.Result;
+                var newDoc = form.Submit().Result;
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
@@ -79,8 +78,7 @@ namespace UnitTests.Library
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                form.Submit();
-                var newDoc = form.PlannedNavigation.Result;
+                var newDoc = form.Submit().Result;
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
@@ -107,8 +105,7 @@ namespace UnitTests.Library
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                form.Submit();
-                var newDoc = form.PlannedNavigation.Result;
+                var newDoc = form.Submit().Result;
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
@@ -139,8 +136,7 @@ namespace UnitTests.Library
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                form.Submit();
-                var newDoc = form.PlannedNavigation.Result;
+                var newDoc = form.Submit().Result;
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
@@ -175,8 +171,7 @@ namespace UnitTests.Library
                 for (int i = 0; i < 5; i++)
                     (files.Files as FileList).Add(GenerateFile(i));
 
-                form.Submit();
-                var newDoc = form.PlannedNavigation.Result;
+                var newDoc = form.Submit().Result;
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
