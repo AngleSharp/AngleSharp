@@ -48,8 +48,9 @@ namespace UnitTests.Library
                 number.Value = "1";
                 isactive.IsChecked = true;
                 form.Submit();
-                form.PlannedNavigation.Wait();
-                Assert.AreEqual("okay", html.Body.TextContent);
+                var newDoc = form.PlannedNavigation.Result;
+                Assert.IsNotNull(newDoc);
+                Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
@@ -79,8 +80,9 @@ namespace UnitTests.Library
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
                 form.Submit();
-                form.PlannedNavigation.Wait();
-                Assert.AreEqual("okay", html.Body.TextContent);
+                var newDoc = form.PlannedNavigation.Result;
+                Assert.IsNotNull(newDoc);
+                Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
@@ -106,8 +108,9 @@ namespace UnitTests.Library
                 number.Value = "1";
                 isactive.IsChecked = true;
                 form.Submit();
-                form.PlannedNavigation.Wait();
-                Assert.AreEqual("okay", html.Body.TextContent);
+                var newDoc = form.PlannedNavigation.Result;
+                Assert.IsNotNull(newDoc);
+                Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
@@ -137,8 +140,9 @@ namespace UnitTests.Library
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
                 form.Submit();
-                form.PlannedNavigation.Wait();
-                Assert.AreEqual("okay", html.Body.TextContent);
+                var newDoc = form.PlannedNavigation.Result;
+                Assert.IsNotNull(newDoc);
+                Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
@@ -172,8 +176,9 @@ namespace UnitTests.Library
                     (files.Files as FileList).Add(GenerateFile(i));
 
                 form.Submit();
-                form.PlannedNavigation.Wait();
-                Assert.AreEqual("okay", html.Body.TextContent);
+                var newDoc = form.PlannedNavigation.Result;
+                Assert.IsNotNull(newDoc);
+                Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
     }
