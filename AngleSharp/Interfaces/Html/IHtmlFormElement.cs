@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.DOM.Html
 {
     using AngleSharp.Attributes;
-    using AngleSharp.DOM.Collections;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the form HTML element.
@@ -80,7 +80,7 @@
         /// Submits the form element from the form element itself.
         /// </summary>
         [DomName("submit")]
-        void Submit();
+        Task<IDocument> Submit();
 
         /// <summary>
         /// Resets the form to the previous (default) state.

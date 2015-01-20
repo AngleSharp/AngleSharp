@@ -170,14 +170,6 @@
             set { SetAttribute(AttributeNames.Target, value); }
         }
 
-        /// <summary>
-        /// Gets the planned navigation task, if any.
-        /// </summary>
-        public Task<IDocument> PlannedNavigation
-        {
-            get { return _plannedNavigation; }
-        }
-
         #endregion
 
         #region Methods
@@ -185,9 +177,10 @@
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
-        public void Submit()
+        public Task<IDocument> Submit()
         {
             SubmitForm(this, true);
+            return _plannedNavigation;
         }
 
         /// <summary>
