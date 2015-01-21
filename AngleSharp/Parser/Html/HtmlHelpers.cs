@@ -56,14 +56,10 @@
         /// <param name="includeRow">True if the tr element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
-            if (tagName == Tags.Tr)
-                return includeRow;
-            else if (tagName.IsTableSectionElement() || tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup)
-                return true;
-            
-            return false;
+            return (tagName == Tags.Tr && includeRow) || tagName.IsTableSectionElement() || tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup;
         }
 
         /// <summary>
@@ -73,14 +69,10 @@
         /// <param name="includeRow">True if the tr element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            if (tagName == Tags.Tr)
-                return includeRow;
-            else if (tagName.IsTableCellElement() || tagName == Tags.Body || tagName == Tags.Html || tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup)
-                return true;
-            
-            return false;
+            return tagName.IsGeneralTableElement(includeRow) || tagName.IsTableCellElement() || tagName == Tags.Body || tagName == Tags.Html;
         }
     }
 }
