@@ -6,6 +6,11 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+#if LEGACY
+    using AngleSharp.Extensions;
+#else
+    using System.Runtime.CompilerServices;
+#endif
 
     /// <summary>
     /// Extensions to be used exclusively by the parser.
@@ -75,6 +80,7 @@
         /// Inserts a scope marker at the end of the list of active formatting elements.
         /// </summary>
         /// <param name="formatting">The list of formatting elements to modify.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddScopeMarker(this List<Element> formatting)
         {
             formatting.Add(null);
@@ -85,6 +91,7 @@
         /// </summary>
         /// <param name="parent">The node which will contain the comment node.</param>
         /// <param name="data">The comment.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddComment(this Node parent, String data)
         {
             parent.AddNode(new Comment(parent.Owner, data));
@@ -95,6 +102,7 @@
         /// </summary>
         /// <param name="node">The node to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsTableElement(this INode node)
         {
             return (node is IHtmlTableElement || node is IHtmlTableSectionElement || node is IHtmlTableRowElement);
