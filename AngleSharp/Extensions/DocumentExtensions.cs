@@ -3,11 +3,11 @@
     using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
     using AngleSharp.DOM.Html;
-    using AngleSharp.Infrastructure;
     using AngleSharp.Services;
     using System;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for document objects.
@@ -62,7 +62,7 @@
             var eventLoop = document.Options.GetService<IEventService>();
 
             if (eventLoop != null)
-                eventLoop.Enqueue(new MicroDomTask(document, action));
+                eventLoop.Enqueue(new Task(action));
             else
                 action.InvokeAsync();
         }

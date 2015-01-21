@@ -144,7 +144,6 @@
     <Compile Include="Html\InputTypes\TextInputType.cs" />
     <Compile Include="Html\InputTypes\DateInputType.cs" />
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
-    <Compile Include="Infrastructure\DomTask.cs" />
     <Compile Include="Interfaces\Css\IKeyframeSelector.cs" />
     <Compile Include="Interfaces\IPseudoElement.cs" />
     <Compile Include="Linq\ElementExtensions.cs" />
@@ -153,7 +152,6 @@
     <Compile Include="Parser\Css\CssAtRule.cs" />
     <Compile Include="Services\IObjectService.cs" />
     <Compile Include="Services\ISpellCheckService.cs" />
-    <Compile Include="Infrastructure\MicroDomTask.cs" />
     <Compile Include="Services\IRenderingService.cs" />
     <Compile Include="Interfaces\Events\ITouchPoint.cs" />
     <Compile Include="DOM\Events\UiEvent.cs" />

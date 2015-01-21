@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Infrastructure;
     using System;
     using System.Threading.Tasks;
 
@@ -14,8 +13,7 @@
         /// Enqueues a given task with the associated document.
         /// </summary>
         /// <param name="task">The task to enqueue.</param>
-        void Enqueue<T>(T task)
-            where T : DomTask;
+        void Enqueue(Task task);
 
         /// <summary>
         /// Gets the currently running task.

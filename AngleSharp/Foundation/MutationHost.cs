@@ -2,7 +2,6 @@
 {
     using AngleSharp.DOM;
     using AngleSharp.Extensions;
-    using AngleSharp.Infrastructure;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -60,34 +59,29 @@
         /// </summary>
         public void ScheduleCallback()
         {
-            if (_queued)
-                return;
-
             var eventLoop = _document.Options.GetService<IEventService>();
 
-            if (eventLoop == null)
+            if (_queued || eventLoop == null)
                 return;
 
             _queued = true;
-            eventLoop.Enqueue(new MicroDomTask(_document, DispatchCallback));
+            eventLoop.Enqueue(new Task(DispatchCallback));
         }
 
         /// <summary>
         /// Notifies the registered observers with all registered changes.
         /// </summary>
-        /// <returns>The awaitable task.</returns>
-        public async Task DispatchCallback()
+        void DispatchCallback()
         {
             var observers = _observers.ToArray();
             var eventLoop = _document.Options.GetService<IEventService>();
+            _queued = false;
 
             if (eventLoop == null)
                 return;
 
-            _queued = false;
-
             foreach (var observer in observers)
-                await eventLoop.Execute(observer.Trigger);
+                eventLoop.Execute(observer.Trigger);
         }
 
         #endregion
