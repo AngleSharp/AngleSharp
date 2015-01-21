@@ -11,7 +11,7 @@
     /// A stream abstraction to handle encoding and more.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class TextSource : ITextSource
+    sealed class TextSource : IDisposable
     {
         #region Fields
 

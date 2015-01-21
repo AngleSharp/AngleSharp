@@ -31,7 +31,7 @@
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        public HtmlTokenizer(ITextSource source)
+        public HtmlTokenizer(TextSource source)
             : base(source)
         {
             _state = HtmlParseMode.PCData;

@@ -23,7 +23,7 @@
 
 		#region ctor
 
-		public CssTokenizer(ITextSource source)
+		public CssTokenizer(TextSource source)
             : base(source)
         {
         }

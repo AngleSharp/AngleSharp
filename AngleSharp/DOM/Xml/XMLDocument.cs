@@ -8,7 +8,7 @@
     /// </summary>
     sealed class XmlDocument : Document, IXmlDocument
     {
-        internal XmlDocument(IBrowsingContext context, ITextSource source)
+        internal XmlDocument(IBrowsingContext context, TextSource source)
             : base(context, source)
         {
             ContentType = MimeTypes.Xml;

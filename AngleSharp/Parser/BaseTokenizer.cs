@@ -28,7 +28,7 @@
 
         #region ctor
 
-        public BaseTokenizer(ITextSource source)
+        public BaseTokenizer(TextSource source)
             : base(source)
         {
             _stringBuffer = Pool.NewStringBuilder();

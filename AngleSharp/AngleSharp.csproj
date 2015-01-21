@@ -186,7 +186,6 @@
     <Compile Include="DOM\Html\Tables\HTMLTableColgroupElement.cs" />
     <Compile Include="Html\EventFlags.cs" />
     <Compile Include="Html\NodeFlags.cs" />
-    <Compile Include="Foundation\ITextSource.cs" />
     <Compile Include="Css\Values\ITransform.cs" />
     <Compile Include="Delegates\NodeFilter.cs" />
     <Compile Include="DOM\Collections\OptionsCollection.cs" />

@@ -16,7 +16,7 @@
         #region Fields
 
         readonly Stack<UInt16> _collengths;
-        readonly ITextSource _reader;
+        readonly TextSource _reader;
 
         UInt16 _column;
         UInt16 _row;
@@ -41,7 +41,7 @@
         /// Constructs a new instance of the source code manager.
         /// </summary>
         /// <param name="reader">The underlying text stream to read.</param>
-        public SourceManager(ITextSource reader)
+        public SourceManager(TextSource reader)
             : this()
         {
             _reader = reader;

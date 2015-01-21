@@ -12,7 +12,7 @@
         #region Fields
 
         readonly CssRuleList _rules;
-        readonly ITextSource _source;
+        readonly TextSource _source;
 
         ICssRule _ownerRule;
         IConfiguration _options;
@@ -42,7 +42,7 @@
         /// Creates a new CSS Stylesheet.
         /// </summary>
         /// <param name="source">The underlying source.</param>
-        internal CssStyleSheet(ITextSource source)
+        internal CssStyleSheet(TextSource source)
         {
             _source = source;
             _rules = new CssRuleList();
@@ -85,7 +85,7 @@
         /// <summary>
         /// Gets the text stream source.
         /// </summary>
-        internal ITextSource Source
+        internal TextSource Source
         {
             get { return _source; }
         }

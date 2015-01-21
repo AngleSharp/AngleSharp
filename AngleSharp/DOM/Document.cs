@@ -35,7 +35,7 @@
         Boolean _designMode;
         Boolean _shown;
         DocumentReadyState _ready;
-        ITextSource _source;
+        TextSource _source;
         String _referrer;
         String _contentType;
         String _lastStyleSheetSet;
@@ -419,7 +419,7 @@
         /// </summary>
         /// <param name="context">The context of the document.</param>
         /// <param name="source">The underlying source.</param>
-        internal Document(IBrowsingContext context, ITextSource source)
+        internal Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
             IsAsync = true;
@@ -950,7 +950,7 @@
         /// <summary>
         /// Gets the text stream source.
         /// </summary>
-        internal ITextSource Source
+        internal TextSource Source
         {
             get { return _source; }
         }
