@@ -258,7 +258,7 @@
 
         void SubmitForm(HTMLElement from, Boolean submittedFromSubmitMethod)
         {
-            var formDocument = Owner;
+            var owner = Owner;
 
             //TODO
             //If form document has no associated browsing context or its active
@@ -276,22 +276,20 @@
                 }
             }
 
-            var action = String.IsNullOrEmpty(Action) ? new Url(formDocument.DocumentUri) : this.HyperReference(Action);
+            var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
+            var createdBrowsingContext = false;
+            var targetBrowsingContext = owner.Context;
+            var target = Target;
 
-            //TODO
-            //If the user indicated a specific browsing context to use when submitting
-            //the form, then let target browsing context be that browsing context.
-            //Otherwise, apply the rules for choosing a browsing context given a browsing
-            //context name using target as the name and form browsing context as the
-            //context in which the algorithm is executed, and let target browsing context
-            //be the resulting browsing context.
+            if (!String.IsNullOrEmpty(target))
+            {
+                targetBrowsingContext = owner.GetTarget(target);
 
-            //TODO
-            //var replace = false;
-            //If target browsing context was created in the previous step, or, alternatively,
-            //if the form document has not yet completely loaded and the submitted from
-            //submit() method is set, then let replace be true. Otherwise, let it be false
+                if (createdBrowsingContext = (targetBrowsingContext == null))
+                    targetBrowsingContext = owner.CreateTarget(target);
+            }
 
+            var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
             var scheme = action.Scheme;
             var method = Method.ToEnum(HttpMethod.Get);
 
