@@ -40,6 +40,6 @@
         /// </summary>
         /// <param name="condition">The condition that needs to be fulfilled.</param>
         /// <returns>An awaitable task.</returns>
-        Task Spin(Task<Boolean> condition);
+        Task Spin(Func<Boolean> condition);
     }
 }
