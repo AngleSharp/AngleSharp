@@ -72,7 +72,8 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            return tagName.IsGeneralTableElement(includeRow) || tagName.IsTableCellElement() || tagName == Tags.Body || tagName == Tags.Html;
+            return (tagName == Tags.Tr && includeRow) || tagName.IsTableCellElement() || tagName == Tags.Body || tagName == Tags.Html || 
+                tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup;
         }
     }
 }
