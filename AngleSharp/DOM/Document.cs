@@ -1443,6 +1443,21 @@
         }
 
         /// <summary>
+        /// Checks if the document is waiting for a script to finish preparing.
+        /// </summary>
+        /// <returns>True if any script is still preparing, otherwise false.</returns>
+        internal Boolean IsWaitingForScript()
+        {
+            foreach (var script in _scripts)
+            {
+                if (script.IsReady == false)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Finishes writing to a document.
         /// </summary>
         internal void FinishLoading()
