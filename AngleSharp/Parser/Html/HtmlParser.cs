@@ -3472,26 +3472,20 @@
             script.Prepare();
             nesting--;
 
-            if (pendingParsingBlock != null)
-            {
-                if (nesting != 0)
-                {
-                    //Wait here ?
-                    return;
-                }
+            if (pendingParsingBlock == null || nesting != 0)
+                return;
 
-                do
-                {
-                    script = pendingParsingBlock;
-                    pendingParsingBlock = null;
-                    doc.WaitForReady();
-                    nesting++;
-                    script.Run();
-                    nesting--;
-                    tokenizer.ResetInsertionPoint();
-                }
-                while (pendingParsingBlock != null);
+            do
+            {
+                script = pendingParsingBlock;
+                pendingParsingBlock = null;
+                doc.WaitForReady();
+                nesting++;
+                script.Run();
+                nesting--;
+                tokenizer.ResetInsertionPoint();
             }
+            while (pendingParsingBlock != null);
         }
 
         /// <summary>
