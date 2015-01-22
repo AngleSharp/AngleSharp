@@ -243,5 +243,38 @@
                 document.SpinLoop(() => document.HasScriptBlockingStyleSheet() == false && document.IsWaitingForScript() == false);
             }
         }
+
+        /// <summary>
+        /// Gets the specified target browsing context.
+        /// </summary>
+        /// <param name="document">The document that originates the request.</param>
+        /// <param name="target">The specified target name.</param>
+        /// <returns>The available context, or null, if the context does not exist yet.</returns>
+        public static IBrowsingContext GetTarget(this Document document, String target)
+        {
+            if (target.Equals("_self", StringComparison.Ordinal))
+                return document.Context;
+            else if (target.Equals("_parent", StringComparison.Ordinal))
+                return document.Context.Parent ?? document.Context;
+            else if (target.Equals("_top", StringComparison.Ordinal))
+                return document.Context;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Creates the specified target browsing context.
+        /// </summary>
+        /// <param name="document">The document that originates the request.</param>
+        /// <param name="target">The specified target name.</param>
+        /// <returns>The new context.</returns>
+        public static IBrowsingContext CreateTarget(this Document document, String target)
+        {
+            //TODO Create from user provided factory, if any.
+            if (target.Equals("_blank", StringComparison.Ordinal))
+                return new SimpleBrowsingContext(document.Options);
+
+            return new SimpleBrowsingContext(document.Options);
+        }
     }
 }
