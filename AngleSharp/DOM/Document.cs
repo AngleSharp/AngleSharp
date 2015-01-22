@@ -1082,6 +1082,7 @@
 
             type = type.StripLeadingTailingSpaces();
             //TODO further steps needed.
+            //see https://html.spec.whatwg.org/multipage/webappapis.html#dom-document-open
             _contentType = type;
             ReplaceAll(null, false);
             return this;
