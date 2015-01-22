@@ -29,7 +29,7 @@
         {
             get
             {
-                var value = _parent.GetAttribute(AttributeNames.Href);
+                var value = _parent.GetAttribute(AttributeNames.Href) ?? String.Empty;
                 var baseUrl = _parent.BaseUrl;
 
                 if (_location == null || !baseUrl.Equals(_baseUrl) || !value.Equals(_value, StringComparison.Ordinal))
