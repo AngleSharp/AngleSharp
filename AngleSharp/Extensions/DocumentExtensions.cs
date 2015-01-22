@@ -68,6 +68,21 @@
         }
 
         /// <summary>
+        /// Spins the event loop of the document until the given predicate is matched.
+        /// </summary>
+        /// <param name="document">The document that hosts the configuration.</param>
+        /// <param name="predicate">The condition that has to be met.</param>
+        public static void SpinLoop(this Document document, Func<Boolean> predicate)
+        {
+            var eventLoop = document.Options.GetService<IEventService>();
+
+            if (eventLoop != null)
+                eventLoop.Spin(predicate).Wait();
+            else
+                while (predicate() == false) ;
+        }
+
+        /// <summary>
         /// Queues a mutation record for the corresponding observers.
         /// </summary>
         /// <param name="document">The document to use.</param>
@@ -189,16 +204,41 @@
         }
 
         /// <summary>
+        /// Checks if the document has any active stylesheets that block the scripts. A style sheet is
+        /// blocking scripts if the responsible element was created by that Document's parser, and the
+        /// element is either a style element or a link element that was an external resource link that
+        /// contributes to the styling processing model when the element was created by the parser, and
+        /// the element's style sheet was enabled when the element was created by the parser, and the
+        /// element's style sheet ready flag is not yet set.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <returns>True if any stylesheets still need to be downloaded, otherwise false.</returns>
+        public static Boolean HasScriptBlockingStyleSheet(this Document document)
+        {
+            //TODO
+
+            if (document.IsInBrowsingContext && document.Context.Parent != null)
+            {
+                var parentDocument = document.Context.Parent.Active as Document;
+
+                if (parentDocument != null)
+                    return parentDocument.HasScriptBlockingStyleSheet();
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Spins the event loop until all stylesheets are downloaded (if required) and all
         /// scripts are ready to be parser executed.
         /// </summary>
         /// <param name="document">The document to use.</param>
         public static void WaitForReady(this Document document)
         {
-            //TODO
-            //If the parser's Document has a style sheet that is blocking scripts or the script's "ready to be parser-executed"
-            //flag is not set: spin the event loop until the parser's Document has no style sheet that is blocking scripts and
-            //the script's "ready to be parser-executed" flag is set.
+            if (document.HasScriptBlockingStyleSheet() || document.IsWaitingForScript())
+            {
+                document.SpinLoop(() => document.HasScriptBlockingStyleSheet() == false && document.IsWaitingForScript() == false);
+            }
         }
     }
 }
