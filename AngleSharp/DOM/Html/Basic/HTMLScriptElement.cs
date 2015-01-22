@@ -247,25 +247,18 @@
                 }
                 else if (!IsAsync && !_forceAsync)
                 {
-                    //The element must be added to the end of the list of scripts that will execute in order as soon as possible associated
-                    //with the Document of the script element at the time the prepare a script algorithm started.
+                    //Add to end of list of scripts (in order) --> sufficient
                     owner.AddScript(this);
                 }
                 else
                 {
-                    //The element must be added to the set of scripts that will execute as soon as possible of the Document of the
-                    //script element at the time the prepare a script algorithm started.
+                    //Just add to the set of scripts
                     owner.AddScript(this);
                 }
             }
-            else if (_parserInserted)
+            else if (_parserInserted && owner.HasScriptBlockingStyleSheet())
             {
-                //and either the parser that created the script is an XML parser or it's an HTML parser whose script nesting level is
-                //not greater than one, and the Document of the HTML parser or XML parser that created the script element has a style
-                //sheet that is blocking scripts
                 _readyToBeExecuted = true;
-                //TODO do not run immediately, i.e. remove the following line
-                options.RunScript(Text, CreateOptions(), ScriptLanguage);
             }
             else
             {
