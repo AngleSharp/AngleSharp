@@ -1526,8 +1526,12 @@
         void Print()
         {
             this.FireSimpleEvent(EventNames.BeforePrint);
+
             //TODO
-            //Run the printing steps.
+            //Run the printing steps (such as displaying a save to pdf dialog).
+            //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#printing-steps
+
+            this.FireSimpleEvent(EventNames.AfterPrint);
         }
 
         void ShowPage()

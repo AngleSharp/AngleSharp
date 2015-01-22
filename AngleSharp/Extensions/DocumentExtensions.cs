@@ -210,6 +210,7 @@
         /// contributes to the styling processing model when the element was created by the parser, and
         /// the element's style sheet was enabled when the element was created by the parser, and the
         /// element's style sheet ready flag is not yet set.
+        /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <returns>True if any stylesheets still need to be downloaded, otherwise false.</returns>
@@ -231,6 +232,8 @@
         /// <summary>
         /// Spins the event loop until all stylesheets are downloaded (if required) and all
         /// scripts are ready to be parser executed.
+        /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-end
+        /// (bullet 3)
         /// </summary>
         /// <param name="document">The document to use.</param>
         public static void WaitForReady(this Document document)
