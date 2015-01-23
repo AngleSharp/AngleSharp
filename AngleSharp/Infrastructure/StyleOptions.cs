@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Infrastructure
 {
     using AngleSharp.DOM;
-using System;
+    using System;
 
     /// <summary>
     /// Transport object for evaluating stylesheets.

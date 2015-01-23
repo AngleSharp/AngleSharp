@@ -123,7 +123,7 @@
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\Factory.cs" />
-    <Compile Include="Foundation\MutationHost.cs" />
+    <Compile Include="DOM\MutationHost.cs" />
     <Compile Include="Foundation\SimpleBrowsingContext.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
