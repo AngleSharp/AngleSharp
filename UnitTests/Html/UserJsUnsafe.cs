@@ -48,7 +48,7 @@ bar]]>");
         [Test]
         public void Html5LibScriptDataCommentStarted()
         {
-            var doc = DocumentBuilder.Html(@"<script type=""data""><!--foo" + Specification.Null.ToString() + "</script>");
+            var doc = DocumentBuilder.Html(@"<script type=""data""><!--foo" + Symbols.Null.ToString() + "</script>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -68,7 +68,7 @@ bar]]>");
 
             var text = dochtmlheadscript.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
-            Assert.AreEqual(@"<!--foo" + Specification.Replacement.ToString(), text.TextContent);
+            Assert.AreEqual(@"<!--foo" + Symbols.Replacement.ToString(), text.TextContent);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
@@ -79,7 +79,7 @@ bar]]>");
         [Test]
         public void Html5LibScriptDataCommentFinishing()
         {
-            var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo--" + Specification.Null.ToString() + "</script>");
+            var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo--" + Symbols.Null.ToString() + "</script>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -99,7 +99,7 @@ bar]]>");
 
             var text = dochtmlheadscript.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
-            Assert.AreEqual(@"<!-- foo--" + Specification.Replacement.ToString(), text.TextContent);
+            Assert.AreEqual(@"<!-- foo--" + Symbols.Replacement.ToString(), text.TextContent);
 
             var dochtmlbody = dochtml.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtmlbody.ChildNodes.Length);
