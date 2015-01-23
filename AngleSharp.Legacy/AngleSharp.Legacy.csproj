@@ -1605,6 +1605,9 @@
     <Compile Include="..\AngleSharp\DOM\Mathml\MathTextElement.cs">
       <Link>DOM\Mathml\MathTextElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\MutationHost.cs">
+      <Link>DOM\MutationHost.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\MutationObserver.cs">
       <Link>DOM\MutationObserver.cs</Link>
     </Compile>
@@ -1754,9 +1757,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Keywords.cs">
       <Link>Foundation\Keywords.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\MutationHost.cs">
-      <Link>Foundation\MutationHost.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
