@@ -1509,7 +1509,7 @@
 
         #region Commands
 
-        Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface = false, String value = "")
+        Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
             return false;
         }
