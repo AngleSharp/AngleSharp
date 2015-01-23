@@ -394,5 +394,55 @@
         /// <param name="url">The url that hosts the HTML content.</param>
         [DomName("load")]
         void LoadHtml(String url);
+
+        /// <summary>
+        /// Executes a command with the provided id and the optional arguments.
+        /// </summary>
+        /// <param name="commandId">The id of the command to issue.</param>
+        /// <param name="showUserInterface">Shall the UI be shown?</param>
+        /// <param name="value">The argument value of the command, if any.</param>
+        /// <returns>True if the command has been successfully executed, otherwise false.</returns>
+        [DomName("execCommand")]
+        Boolean ExecuteCommand(String commandId, Boolean showUserInterface = false, String value = "");
+
+        /// <summary>
+        /// Checks if the command with the provided id is enabled.
+        /// </summary>
+        /// <param name="commandId">The id of the command to check.</param>
+        /// <returns>True if the command exists and is enabled, otherwise false.</returns>
+        [DomName("queryCommandEnabled")]
+        Boolean IsCommandEnabled(String commandId);
+
+        /// <summary>
+        /// Checks if the command with the provided id is currently in an indeterminate state.
+        /// </summary>
+        /// <param name="commandId">The id of the command to check.</param>
+        /// <returns>True if the command exists and is neither enabled nor disabled, otherwise false.</returns>
+        [DomName("queryCommandIndeterm")]
+        Boolean IsCommandIndeterminate(String commandId);
+
+        /// <summary>
+        /// Checks if the command with the provided id has already been executed for the current value.
+        /// </summary>
+        /// <param name="commandId">The id of the command to check.</param>
+        /// <returns>True if the command has been executed, otherwise false.</returns>
+        [DomName("queryCommandState")]
+        Boolean QueryCommandState(String commandId);
+
+        /// <summary>
+        /// Checks if a command with the provided id exists and is supported in the current context.
+        /// </summary>
+        /// <param name="commandId">The id of the command to check.</param>
+        /// <returns>True if the command exists, otherwise false.</returns>
+        [DomName("queryCommandSupported")]
+        Boolean IsCommandSupported(String commandId);
+
+        /// <summary>
+        /// Gets the value of the document, range, or current selection, for the provided command.
+        /// </summary>
+        /// <param name="commandId">The id of the command to issue.</param>
+        /// <returns>The modified value.</returns>
+        [DomName("queryCommandValue")]
+        String GetCommandValue(String commandId);
     }
 }

@@ -1507,6 +1507,40 @@
 
         #endregion
 
+        #region Commands
+
+        Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface = false, String value = "")
+        {
+            return false;
+        }
+
+        Boolean IDocument.IsCommandEnabled(String commandId)
+        {
+            return false;
+        }
+
+        Boolean IDocument.IsCommandIndeterminate(String commandId)
+        {
+            return false;
+        }
+
+        Boolean IDocument.QueryCommandState(String commandId)
+        {
+            return false;
+        }
+
+        Boolean IDocument.IsCommandSupported(String commandId)
+        {
+            return false;
+        }
+
+        String IDocument.GetCommandValue(String commandId)
+        {
+            return null;
+        }
+
+        #endregion
+
         #region Helpers
 
         void RaiseDomContentLoaded()
