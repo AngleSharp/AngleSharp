@@ -1249,19 +1249,25 @@
 
                 for (var i = 0; i < parent.Children.Length; i++)
                 {
-                    //TODO no real implementation yet
-                    //see: http://dev.w3.org/csswg/selectors-4/#the-nth-column-pseudo
                     var child = parent.Children[i] as IHtmlTableCellElement;
 
                     if (child == null)
                         continue;
 
-                    k += 1;
+                    var span = child.ColumnSpan;
+                    k += span;
 
                     if (child == element)
                     {
                         var diff = k - offset;
-                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+
+                        for (int index = 0; index < span; index++, diff--)
+                        {
+                            if (diff == 0 || (Math.Sign(diff) == n && diff % step == 0))
+                                return true;
+                        }
+
+                        return false;
                     }
                 }
 
@@ -1373,19 +1379,25 @@
 
                 for (var i = parent.Children.Length - 1; i >= 0; i--)
                 {
-                    //TODO no real implementation yet
-                    //see: http://dev.w3.org/csswg/selectors-4/#the-nth-last-column-pseudo
                     var child = parent.Children[i] as IHtmlTableCellElement;
 
                     if (child == null)
                         continue;
 
-                    k += 1;
+                    var span = child.ColumnSpan;
+                    k += span;
 
                     if (child == element)
                     {
                         var diff = k - offset;
-                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
+
+                        for (int index = 0; index < span; index++, diff--)
+                        {
+                            if (diff == 0 || (Math.Sign(diff) == n && diff % step == 0))
+                                return true;
+                        }
+
+                        return false;
                     }
                 }
 
