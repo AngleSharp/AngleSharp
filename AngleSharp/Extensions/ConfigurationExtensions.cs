@@ -361,5 +361,41 @@
         }
 
         #endregion
+
+        #region Context
+
+        /// <summary>
+        /// Creates a new browsing context without any name.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <returns>The new context.</returns>
+        public static IBrowsingContext NewContext(this IConfiguration options)
+        {
+            var service = options.GetService<IContextService>();
+
+            if (service == null)
+                return new SimpleBrowsingContext(options);
+
+            return service.Create(options);
+        }
+
+        /// <summary>
+        /// Creates a new browsing context with the given name and creator.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="name">The name of the new context.</param>
+        /// <param name="document">The creator of the context.</param>
+        /// <returns>The new context.</returns>
+        public static IBrowsingContext NewContext(this IConfiguration options, String name, IDocument document)
+        {
+            var service = options.GetService<IContextService>();
+
+            if (service == null)
+                return new SimpleBrowsingContext(options);
+
+            return service.Create(options, name, document);
+        }
+
+        #endregion
     }
 }
