@@ -220,7 +220,7 @@
         /// </summary>
         public void RemoveNewLine()
         {
-            if (!String.IsNullOrEmpty(_name) && _name[0] == Specification.LineFeed)
+            if (!String.IsNullOrEmpty(_name) && _name[0] == Symbols.LineFeed)
                 _name = _name.Substring(1);
         }
 

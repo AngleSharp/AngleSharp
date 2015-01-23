@@ -193,7 +193,7 @@
                     if (hasSpace)
                         continue;
 
-                    chars.Add(Specification.Space);
+                    chars.Add(Symbols.Space);
                     hasSpace = true;
                 }
                 else
@@ -226,7 +226,7 @@
                     if (hasSpace)
                         continue;
 
-                    chars.Add(Specification.Space);
+                    chars.Add(Symbols.Space);
                     hasSpace = true;
                 }
                 else
@@ -615,24 +615,24 @@
         public static String CssString(this String value)
         {
             var builder = Pool.NewStringBuilder();
-            builder.Append(Specification.DoubleQuote);
+            builder.Append(Symbols.DoubleQuote);
 
             if (!String.IsNullOrEmpty(value))
             {
                 foreach (var character in value)
                 {
-                    if (character == Specification.Null)
+                    if (character == Symbols.Null)
                         throw new DomException(ErrorCode.InvalidCharacter);
-                    else if (character == Specification.DoubleQuote || character == Specification.ReverseSolidus)
-                        builder.Append(Specification.ReverseSolidus).Append(character);
+                    else if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
+                        builder.Append(Symbols.ReverseSolidus).Append(character);
                     else if (character.IsInRange(0x1, 0x1f) || character == (Char)0x7b)
-                        builder.Append(Specification.ReverseSolidus).Append(character.ToHex()).Append(Specification.Space);
+                        builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(Symbols.Space);
                     else
                         builder.Append(character);
                 }
             }
 
-            builder.Append(Specification.DoubleQuote);
+            builder.Append(Symbols.DoubleQuote);
             return builder.ToPool();
         }
 
@@ -665,12 +665,12 @@
             {
                 var chr = (Char)val;
 
-                if (chr == Specification.Space)
-                    builder.Append(Specification.Plus);
-                else if (chr == Specification.Asterisk || chr == Specification.Minus || chr == Specification.Dot || chr.IsAlphanumericAscii())
+                if (chr == Symbols.Space)
+                    builder.Append(Symbols.Plus);
+                else if (chr == Symbols.Asterisk || chr == Symbols.Minus || chr == Symbols.Dot || chr.IsAlphanumericAscii())
                     builder.Append(chr);
                 else
-                    builder.Append(Specification.Percent).Append(val.ToString("X2"));
+                    builder.Append(Symbols.Percent).Append(val.ToString("X2"));
             }
 
             return builder.ToPool();

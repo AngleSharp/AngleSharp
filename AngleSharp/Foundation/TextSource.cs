@@ -182,7 +182,7 @@
 
             ExpandBuffer(BufferSize);
             var index = _index++;
-            return index < _content.Length ? _content[index] : Specification.EndOfFile;
+            return index < _content.Length ? _content[index] : Symbols.EndOfFile;
         }
 
         /// <summary>
@@ -219,7 +219,7 @@
 
             await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
             var index = _index++;
-            return index < _content.Length ? _content[index] : Specification.EndOfFile;
+            return index < _content.Length ? _content[index] : Symbols.EndOfFile;
         }
 
         /// <summary>

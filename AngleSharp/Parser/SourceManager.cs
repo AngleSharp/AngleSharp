@@ -31,7 +31,7 @@
         /// </summary>
         SourceManager()
         {
-            _current = Specification.Null;
+            _current = Symbols.Null;
             _collengths = new Stack<UInt16>();
             _column = 0;
             _row = 1;
@@ -113,7 +113,7 @@
         /// </summary>
         public Boolean IsEnded
         {
-            get { return _current == Specification.EndOfFile; }
+            get { return _current == Symbols.EndOfFile; }
         }
 
         /// <summary>
@@ -282,7 +282,7 @@
 
             _current = _reader.ReadCharacter();
 
-            if (_current == Specification.CarriageReturn)
+            if (_current == Symbols.CarriageReturn)
                 _current = _reader.ReadCharacter();
         }
 
@@ -305,7 +305,7 @@
 
             _current = await _reader.ReadCharacterAsync(cancelToken).ConfigureAwait(false);
 
-            if (_current == Specification.CarriageReturn)
+            if (_current == Symbols.CarriageReturn)
                 _current = await _reader.ReadCharacterAsync(cancelToken).ConfigureAwait(false);
         }
 
@@ -320,13 +320,13 @@
             if (_reader.Index == 0)
             {
                 _column = 0;
-                _current = Specification.Null;
+                _current = Symbols.Null;
                 return;
             }
 
             _current = _reader[_reader.Index - 1];
 
-            if (_current == Specification.CarriageReturn)
+            if (_current == Symbols.CarriageReturn)
             {
                 BackUnsafe();
                 return;

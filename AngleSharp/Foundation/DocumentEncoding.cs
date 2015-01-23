@@ -404,7 +404,7 @@
                         break;
                 }
 
-                if (content[position] != Specification.Equality)
+                if (content[position] != Symbols.Equality)
                     return Parse(content.Substring(position));
 
                 position++;
@@ -419,18 +419,18 @@
 
                 if (position < content.Length)
                 {
-                    if (content[position] == Specification.DoubleQuote)
+                    if (content[position] == Symbols.DoubleQuote)
                     {
                         content = content.Substring(position + 1);
-                        var index = content.IndexOf(Specification.DoubleQuote);
+                        var index = content.IndexOf(Symbols.DoubleQuote);
 
                         if (index != -1)
                             encoding = content.Substring(0, index);
                     }
-                    else if (content[position] == Specification.SingleQuote)
+                    else if (content[position] == Symbols.SingleQuote)
                     {
                         content = content.Substring(position + 1);
-                        var index = content.IndexOf(Specification.SingleQuote);
+                        var index = content.IndexOf(Symbols.SingleQuote);
 
                         if (index != -1)
                             encoding = content.Substring(0, index);

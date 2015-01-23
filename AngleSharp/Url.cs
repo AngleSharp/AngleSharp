@@ -334,30 +334,30 @@
             var output = Pool.NewStringBuilder();
 
             if (!String.IsNullOrEmpty(_scheme))
-                output.Append(_scheme).Append(Specification.Colon);
+                output.Append(_scheme).Append(Symbols.Colon);
 
             if (_relative)
             {
                 if (!String.IsNullOrEmpty(_host) || !String.IsNullOrEmpty(_scheme))
                 {
-                    output.Append(Specification.Solidus).Append(Specification.Solidus);
+                    output.Append(Symbols.Solidus).Append(Symbols.Solidus);
 
                     if (String.IsNullOrEmpty(_username) == false || _password != null)
                     {
                         output.Append(_username);
 
                         if (_password != null)
-                            output.Append(Specification.Colon).Append(_password);
+                            output.Append(Symbols.Colon).Append(_password);
 
-                        output.Append(Specification.At);
+                        output.Append(Symbols.At);
                     }
 
                     output.Append(_host);
 
                     if (!String.IsNullOrEmpty(_port))
-                        output.Append(Specification.Colon).Append(_port);
+                        output.Append(Symbols.Colon).Append(_port);
 
-                    output.Append(Specification.Solidus);
+                    output.Append(Symbols.Solidus);
                 }
 
                 output.Append(_path);
@@ -366,10 +366,10 @@
                 output.Append(_schemeData);
 
             if (_query != null)
-                output.Append(Specification.QuestionMark).Append(_query);
+                output.Append(Symbols.QuestionMark).Append(_query);
 
             if (_fragment != null)
-                output.Append(Specification.Num).Append(_fragment);
+                output.Append(Symbols.Num).Append(_fragment);
 
             return output.ToPool();
         }
@@ -401,9 +401,9 @@
                 {
                     var c = input[index];
 
-                    if (c.IsAlphanumericAscii() || c == Specification.Plus || c == Specification.Minus || c == Specification.Dot)
+                    if (c.IsAlphanumericAscii() || c == Symbols.Plus || c == Symbols.Minus || c == Symbols.Dot)
                         index++;
-                    else if (c == Specification.Colon)
+                    else if (c == Symbols.Colon)
                     {
                         var originalScheme = _scheme;
                         _scheme = input.Substring(0, index).ToLowerInvariant();
@@ -430,13 +430,13 @@
                         {
                             c = input[++index];
 
-                            if (c == Specification.Solidus && index + 2 < input.Length && input[index + 1] == Specification.Solidus)
+                            if (c == Symbols.Solidus && index + 2 < input.Length && input[index + 1] == Symbols.Solidus)
                                 return IgnoreSlashesState(input, index + 2);
 
                             return RelativeState(input, index);
                         }
 
-                        if (input[++index] == Specification.Solidus && ++index < input.Length && input[index] == Specification.Solidus)
+                        if (input[++index] == Symbols.Solidus && ++index < input.Length && input[index] == Symbols.Solidus)
                             return IgnoreSlashesState(input, index + 1);
 
                         return IgnoreSlashesState(input, index);
@@ -460,17 +460,17 @@
             {
                 var c = input[index];
 
-                if (c == Specification.QuestionMark)
+                if (c == Symbols.QuestionMark)
                 {
                     _schemeData = buffer.ToPool();
                     return ParseQuery(input, index + 1);
                 }
-                else if (c == Specification.Num)
+                else if (c == Symbols.Num)
                 {
                     _schemeData = buffer.ToPool();
                     return ParseFragment(input, index + 1);
                 }
-                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                else if (c == Symbols.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]);
                     buffer.Append(input[index++]);
@@ -478,7 +478,7 @@
                 }
                 else if (c.IsInRange(0x20, 0x7e))
                     buffer.Append(c);
-                else if (c != Specification.Tab && c != Specification.LineFeed && c != Specification.CarriageReturn)
+                else if (c != Symbols.Tab && c != Symbols.LineFeed && c != Symbols.CarriageReturn)
                     index += Utf8PercentEncode(buffer, input, index);
 
                 index++;
@@ -497,20 +497,20 @@
 
             switch (input[index])
             {
-                case Specification.QuestionMark:
+                case Symbols.QuestionMark:
                     return ParseQuery(input, index + 1);
 
-                case Specification.Num:
+                case Symbols.Num:
                     return ParseFragment(input, index + 1);
 
-                case Specification.Solidus:
-                case Specification.ReverseSolidus:
+                case Symbols.Solidus:
+                case Symbols.ReverseSolidus:
                     if (index == input.Length - 1)
                         return ParsePath(input, index);
 
                     var c = input[++index];
 
-                    if (c == Specification.Solidus || c == Specification.ReverseSolidus)
+                    if (c == Symbols.Solidus || c == Symbols.ReverseSolidus)
                     {
                         if (_scheme == KnownProtocols.File)
                             return ParseFileHost(input, index + 1);
@@ -526,8 +526,8 @@
                     return ParsePath(input, index - 1);
             }
 
-            if (input[index].IsLetter() && _scheme == KnownProtocols.File && index + 1 < input.Length && (input[index + 1] == Specification.Colon || input[index + 1] == Specification.Solidus) &&
-                (index + 2 >= input.Length || input[index + 2] == Specification.Solidus || input[index + 2] == Specification.ReverseSolidus || input[index + 2] == Specification.Num || input[index + 2] == Specification.QuestionMark))
+            if (input[index].IsLetter() && _scheme == KnownProtocols.File && index + 1 < input.Length && (input[index + 1] == Symbols.Colon || input[index + 1] == Symbols.Solidus) &&
+                (index + 2 >= input.Length || input[index + 2] == Symbols.Solidus || input[index + 2] == Symbols.ReverseSolidus || input[index + 2] == Symbols.Num || input[index + 2] == Symbols.QuestionMark))
             {
                 _host = String.Empty;
                 _path = String.Empty;
@@ -541,7 +541,7 @@
         {
             while (index < input.Length)
             {
-                if (input[index] != Specification.ReverseSolidus && input[index] != Specification.Solidus)
+                if (input[index] != Symbols.ReverseSolidus && input[index] != Symbols.Solidus)
                     return ParseAuthority(input, index);
 
                 index++;
@@ -561,7 +561,7 @@
             {
                 var c = input[index];
 
-                if (c == Specification.At)
+                if (c == Symbols.At)
                 {
                     if (user == null)
                         user = buffer.ToString();
@@ -573,25 +573,25 @@
                     buffer.Append("%40");
                     start = index + 1;
                 }
-                else if (c == Specification.Colon && user == null)
+                else if (c == Symbols.Colon && user == null)
                 {
                     user = buffer.ToString();
                     pass = String.Empty;
                     buffer.Clear();
                 }
-                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                else if (c == Symbols.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
                 }
-                else if (c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn)
+                else if (c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
                 {
                     // Parse Error
                 }
-                else if (c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num || c == Specification.QuestionMark)
+                else if (c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num || c == Symbols.QuestionMark)
                 {
                     break;
                 }
-                else if (c != Specification.Colon && (c == Specification.Num || c == Specification.QuestionMark || c.IsNormalPathCharacter()))
+                else if (c != Symbols.Colon && (c == Symbols.Num || c == Symbols.QuestionMark || c.IsNormalPathCharacter()))
                 {
                     buffer.Append(c);
                 }
@@ -616,7 +616,7 @@
             {
                 var c = input[index];
 
-                if (c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num || c == Specification.QuestionMark)
+                if (c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num || c == Symbols.QuestionMark)
                     break;
 
                 index++;
@@ -624,7 +624,7 @@
 
             var length = index - start;
 
-            if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Specification.Pipe || input[index - 1] == Specification.Colon))
+            if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Symbols.Pipe || input[index - 1] == Symbols.Colon))
                 return ParsePath(input, index - 2);
             else if (length != 0)
                 _host = SanatizeHost(input, start, length);
@@ -643,15 +643,15 @@
 
                 switch (c)
                 {
-                    case Specification.SquareBracketClose:
+                    case Symbols.SquareBracketClose:
                         inBracket = false;
                         break;
 
-                    case Specification.SquareBracketOpen:
+                    case Symbols.SquareBracketOpen:
                         inBracket = true;
                         break;
 
-                    case Specification.Colon:
+                    case Symbols.Colon:
                         if (inBracket)
                             break;
 
@@ -662,10 +662,10 @@
 
                         return ParsePort(input, index + 1, onlyPort);
 
-                    case Specification.Solidus:
-                    case Specification.ReverseSolidus:
-                    case Specification.Num:
-                    case Specification.QuestionMark:
+                    case Symbols.Solidus:
+                    case Symbols.ReverseSolidus:
+                    case Symbols.Num:
+                    case Symbols.QuestionMark:
                         _host = SanatizeHost(input, start, index - start);
                         
                         if (onlyHost)
@@ -698,9 +698,9 @@
             {
                 var c = input[index];
 
-                if (c == Specification.QuestionMark || c == Specification.Solidus || c == Specification.ReverseSolidus || c == Specification.Num)
+                if (c == Symbols.QuestionMark || c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num)
                     break;
-                else if (c.IsDigit() || c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn)
+                else if (c.IsDigit() || c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
                     index++;
                 else
                     return false;
@@ -722,14 +722,14 @@
         {
             var init = index;
 
-            if (index < input.Length && (input[index] == Specification.Solidus || input[index] == Specification.ReverseSolidus))
+            if (index < input.Length && (input[index] == Symbols.Solidus || input[index] == Symbols.ReverseSolidus))
                 index++;
 
             var paths = new List<String>();
 
             if (!onlyPath && !String.IsNullOrEmpty(_path) && index - init == 0)
             {
-                var split = _path.Split(Specification.Solidus);
+                var split = _path.Split(Symbols.Solidus);
 
                 if (split.Length > 1)
                 {
@@ -743,10 +743,10 @@
 
             while (index <= input.Length)
             {
-                var c = index == input.Length ? Specification.EndOfFile : input[index];
-                var breakNow = !onlyPath && (c == Specification.Num || c == Specification.QuestionMark);
+                var c = index == input.Length ? Symbols.EndOfFile : input[index];
+                var breakNow = !onlyPath && (c == Symbols.Num || c == Symbols.QuestionMark);
 
-                if (c == Specification.EndOfFile || c == Specification.Solidus || c == Specification.ReverseSolidus || breakNow)
+                if (c == Symbols.EndOfFile || c == Symbols.Solidus || c == Symbols.ReverseSolidus || breakNow)
                 {
                     var path = buffer.ToString();
                     var close = false;
@@ -766,9 +766,9 @@
                     }
                     else if (!path.Equals(currentDirectory))
                     {
-                        if (_scheme == KnownProtocols.File && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Specification.Pipe)
+                        if (_scheme == KnownProtocols.File && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
                         {
-                            path = path.Replace(Specification.Pipe, Specification.Colon);
+                            path = path.Replace(Symbols.Pipe, Symbols.Colon);
                             paths.Clear();
                         }
 
@@ -777,19 +777,19 @@
                     else
                         close = true;
 
-                    if (close && c != Specification.Solidus && c != Specification.ReverseSolidus)
+                    if (close && c != Symbols.Solidus && c != Symbols.ReverseSolidus)
                         paths.Add(String.Empty);
 
                     if (breakNow)
                         break;
                 }
-                else if (c == Specification.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                else if (c == Symbols.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]);
                     buffer.Append(input[index++]);
                     buffer.Append(input[index]);
                 }
-                else if (c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn)
+                else if (c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
                 {
                     // Parse Error
                 }
@@ -810,7 +810,7 @@
 
             if (index < input.Length)
             {
-                if (input[index] == Specification.QuestionMark)
+                if (input[index] == Symbols.QuestionMark)
                     return ParseQuery(input, index + 1);
 
                 return ParseFragment(input, index + 1);
@@ -828,13 +828,13 @@
             {
                 var c = input[index];
 
-                if (fragment = (!onlyQuery && input[index] == Specification.Num))
+                if (fragment = (!onlyQuery && input[index] == Symbols.Num))
                     break;
 
-                if (c.IsInRange(0x21, 0x7e) && c != Specification.DoubleQuote && c != Specification.Num && c != Specification.LessThan && c != Specification.GreaterThan && c != Specification.CurvedQuote)
+                if (c.IsInRange(0x21, 0x7e) && c != Symbols.DoubleQuote && c != Symbols.Num && c != Symbols.LessThan && c != Symbols.GreaterThan && c != Symbols.CurvedQuote)
                     buffer.Append(c);
                 else
-                    buffer.Append(Specification.Percent).Append(((Byte)c).ToString("X2"));
+                    buffer.Append(Symbols.Percent).Append(((Byte)c).ToString("X2"));
 
                 index++;
             }
@@ -857,11 +857,11 @@
 
                 switch (c)
                 {
-                    case Specification.EndOfFile:
-                    case Specification.Null:
-                    case Specification.Tab:
-                    case Specification.LineFeed:
-                    case Specification.CarriageReturn:
+                    case Symbols.EndOfFile:
+                    case Symbols.Null:
+                    case Symbols.Tab:
+                    case Symbols.LineFeed:
+                    case Symbols.CarriageReturn:
                         break;
                     default:
                         buffer.Append(c);
@@ -885,14 +885,14 @@
             var bytes = DocumentEncoding.UTF8.GetBytes(source.Substring(index, length));
 
             for (var i = 0; i < bytes.Length; i++)
-                buffer.Append(Specification.Percent).Append(bytes[i].ToString("X2"));
+                buffer.Append(Symbols.Percent).Append(bytes[i].ToString("X2"));
 
             return length - 1;
         }
 
         static String SanatizeHost(String hostName, Int32 start, Int32 length)
         {
-            if (length > 1 && hostName[start] == Specification.SquareBracketOpen && hostName[start + length - 1] == Specification.SquareBracketClose)
+            if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
                 return hostName.Substring(start, length);
 
             var chars = new Byte[4 * length];
@@ -903,21 +903,21 @@
                 switch (hostName[i])
                 {
                     // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"
-                    case Specification.Null:
-                    case Specification.Tab:
-                    case Specification.Space:
-                    case Specification.LineFeed:
-                    case Specification.CarriageReturn:
-                    case Specification.Num:
-                    case Specification.Solidus:
-                    case Specification.Colon:
-                    case Specification.QuestionMark:
-                    case Specification.At:
-                    case Specification.SquareBracketOpen:
-                    case Specification.SquareBracketClose:
-                    case Specification.ReverseSolidus:
+                    case Symbols.Null:
+                    case Symbols.Tab:
+                    case Symbols.Space:
+                    case Symbols.LineFeed:
+                    case Symbols.CarriageReturn:
+                    case Symbols.Num:
+                    case Symbols.Solidus:
+                    case Symbols.Colon:
+                    case Symbols.QuestionMark:
+                    case Symbols.At:
+                    case Symbols.SquareBracketOpen:
+                    case Symbols.SquareBracketClose:
+                    case Symbols.ReverseSolidus:
                         break;
-                    case Specification.Percent:
+                    case Symbols.Percent:
                         if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
                         {
                             var weight = hostName[i + 1].FromHex() * 16 + hostName[i + 2].FromHex();
@@ -925,7 +925,7 @@
                             i += 2;
                         }
                         else
-                            chars[count++] = (Byte)Specification.Percent;
+                            chars[count++] = (Byte)Symbols.Percent;
 
                         break;
                     default:
@@ -961,9 +961,9 @@
             {
                 switch (port[i])
                 {
-                    case Specification.Tab:
-                    case Specification.LineFeed:
-                    case Specification.CarriageReturn:
+                    case Symbols.Tab:
+                    case Symbols.LineFeed:
+                    case Symbols.CarriageReturn:
                         break;
                     default:
                         if (count == 1 && chars[0] == '0')

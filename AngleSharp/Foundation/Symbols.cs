@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Contains useful information from the specification.
     /// </summary>
-    static class Specification
+    static class Symbols
     {
         /// <summary>
         /// The end of file character 26.

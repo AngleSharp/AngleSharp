@@ -651,37 +651,37 @@
 		{
 			switch (token.Data[0])
 			{
-				case Specification.Comma:
+				case Symbols.Comma:
 					InsertOr();
                     ready = false;
                     break;
 
-                case Specification.GreaterThan:
+                case Symbols.GreaterThan:
 					Insert(CssCombinator.Child);
                     ready = false;
                     break;
 
-                case Specification.Plus:
+                case Symbols.Plus:
 					Insert(CssCombinator.AdjacentSibling);
                     ready = false;
                     break;
 
-                case Specification.Tilde:
+                case Symbols.Tilde:
 					Insert(CssCombinator.Sibling);
                     ready = false;
                     break;
 
-                case Specification.Asterisk:
+                case Symbols.Asterisk:
 					Insert(SimpleSelector.All);
                     ready = true;
                     break;
 
-                case Specification.Dot:
+                case Symbols.Dot:
 					state = State.Class;
                     ready = false;
                     break;
 
-                case Specification.Pipe:
+                case Symbols.Pipe:
                     if (combinators.Count > 0 && combinators.Peek() == CssCombinator.Descendent)
                         Insert(SimpleSelector.Type(String.Empty));
 

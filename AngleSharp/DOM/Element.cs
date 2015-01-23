@@ -527,7 +527,7 @@
                 else if (!name.IsQualifiedName())
                     throw new DomException(ErrorCode.Namespace);
 
-                var index = name.IndexOf(Specification.Colon);
+                var index = name.IndexOf(Symbols.Colon);
                 var prefix = index >= 0 ? name.Substring(0, index) : null;
                 var localName = index >= 0 ? name.Substring(index + 1) : name;
 
@@ -726,12 +726,12 @@
             var sb = Pool.NewStringBuilder();
             var tagName = (Flags & (NodeFlags.HtmlMember | NodeFlags.SvgMember | NodeFlags.MathMember)) != NodeFlags.None ? LocalName : NodeName;
 
-            sb.Append(Specification.LessThan).Append(tagName);
+            sb.Append(Symbols.LessThan).Append(tagName);
 
             foreach (var attribute in _attributes)
-                sb.Append(Specification.Space).Append(attribute.ToString());
+                sb.Append(Symbols.Space).Append(attribute.ToString());
 
-            sb.Append(Specification.GreaterThan);
+            sb.Append(Symbols.GreaterThan);
 
             if (!Flags.HasFlag(NodeFlags.SelfClosing))
             {
@@ -739,15 +739,15 @@
                 {
                     var text = (IText)FirstChild;
 
-                    if (text.Data.Length > 0 && text.Data[0] == Specification.LineFeed)
-                        sb.Append(Specification.LineFeed);
+                    if (text.Data.Length > 0 && text.Data[0] == Symbols.LineFeed)
+                        sb.Append(Symbols.LineFeed);
                 }
 
                 foreach (var child in ChildNodes)
                     sb.Append(child.ToHtml());
 
-                sb.Append(Specification.LessThan).Append(Specification.Solidus).Append(tagName);
-                sb.Append(Specification.GreaterThan);
+                sb.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(tagName);
+                sb.Append(Symbols.GreaterThan);
             }
 
             return sb.ToPool();

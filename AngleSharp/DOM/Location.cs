@@ -109,7 +109,7 @@
 
                 if (value != null)
                 {
-                    if (value.Length > 0 && value[0] == Specification.Num)
+                    if (value.Length > 0 && value[0] == Symbols.Num)
                         value = value.Substring(1);
                     else if (value.Length == 0)
                         value = null;

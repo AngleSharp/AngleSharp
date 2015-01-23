@@ -155,28 +155,28 @@
             if (String.IsNullOrEmpty(_namespace))
                 temp.Append(LocalName);
             else if (_namespace == Namespaces.XmlUri)
-                temp.Append(Namespaces.XmlPrefix).Append(Specification.Colon).Append(LocalName);
+                temp.Append(Namespaces.XmlPrefix).Append(Symbols.Colon).Append(LocalName);
             else if (_namespace == Namespaces.XLinkUri)
-                temp.Append(Namespaces.XLinkPrefix).Append(Specification.Colon).Append(LocalName);
+                temp.Append(Namespaces.XLinkPrefix).Append(Symbols.Colon).Append(LocalName);
             else if (_namespace == Namespaces.XmlNsUri)
                 temp.Append(XmlNamespaceLocalName());
             else
                 temp.Append(_localName);
 
-            temp.Append(Specification.Equality).Append(Specification.DoubleQuote);
+            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
 
             for (int i = 0; i < _value.Length; i++)
             {
                 switch (_value[i])
                 {
-                    case Specification.Ampersand: temp.Append("&amp;"); break;
-                    case Specification.NoBreakSpace: temp.Append("&nbsp;"); break;
-                    case Specification.DoubleQuote: temp.Append("&quot;"); break;
+                    case Symbols.Ampersand: temp.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Symbols.DoubleQuote: temp.Append("&quot;"); break;
                     default: temp.Append(_value[i]); break;
                 }
             }
 
-            return temp.Append(Specification.DoubleQuote).ToPool();
+            return temp.Append(Symbols.DoubleQuote).ToPool();
         }
 
         String XmlNamespaceLocalName()

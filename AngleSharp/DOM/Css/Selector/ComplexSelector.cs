@@ -147,19 +147,19 @@
             {
                 case CssCombinator.Child:
                 {
-                    delim = Specification.GreaterThan;
+                    delim = Symbols.GreaterThan;
                     transform = el => Single(el.ParentElement);
                     break;
                 }
                 case CssCombinator.AdjacentSibling:
                 {
-                    delim = Specification.Plus;
+                    delim = Symbols.Plus;
                     transform = el => Single(el.PreviousElementSibling);
                     break;
                 }
                 case CssCombinator.Descendent:
                 {
-                    delim = Specification.Space;
+                    delim = Symbols.Space;
                     transform = el =>
                     {
                         var parents = new List<IElement>();
@@ -177,7 +177,7 @@
                 }
                 case CssCombinator.Sibling:
                 {
-                    delim = Specification.Tilde;
+                    delim = Symbols.Tilde;
                     transform = el =>
                     {
                         var parent = el.ParentElement;
@@ -203,7 +203,7 @@
                 case CssCombinator.Namespace:
                 {
                     var prefix = selector.Text;
-                    delim = Specification.Pipe;
+                    delim = Symbols.Pipe;
                     transform = el => Single(el);
                     selector = new SimpleSelector(el => MatchesCssNamespace(el, prefix), Priority.Zero, prefix);
                     break;

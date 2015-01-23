@@ -252,10 +252,10 @@
             {
                 switch (_content[i])
                 {
-                    case Specification.Ampersand: temp.Append("&amp;"); break;
-                    case Specification.NoBreakSpace: temp.Append("&nbsp;"); break;
-                    case Specification.GreaterThan: temp.Append("&gt;"); break;
-                    case Specification.LessThan: temp.Append("&lt;"); break;
+                    case Symbols.Ampersand: temp.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
+                    case Symbols.LessThan: temp.Append("&lt;"); break;
                     default: temp.Append(_content[i]); break;
                 }
             }

@@ -82,7 +82,7 @@
             if (name.StartsWith(Tags.Xml, StringComparison.OrdinalIgnoreCase))
                 throw new DomException(ErrorCode.Syntax);
 
-            if (name.IndexOf(Specification.Semicolon) >= 0)
+            if (name.IndexOf(Symbols.Semicolon) >= 0)
                 throw new DomException(ErrorCode.Syntax);
 
             for (int i = 0; i < name.Length; i++)

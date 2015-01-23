@@ -133,7 +133,7 @@
 
             if (position < 4 ||
                 position != value.Length - 4 ||
-                value[position + 0] != Specification.Minus ||
+                value[position + 0] != Symbols.Minus ||
                 value[position + 1] != 'W' ||
                 value[position + 2].IsDigit() == false ||
                 value[position + 3].IsDigit() == false)

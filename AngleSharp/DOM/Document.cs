@@ -1075,7 +1075,7 @@
             if (shallReplace)
                 type = MimeTypes.Html;
 
-            var index = type.IndexOf(Specification.Semicolon);
+            var index = type.IndexOf(Symbols.Semicolon);
 
             if (index >= 0)
                 type = type.Substring(0, index);
@@ -1118,7 +1118,7 @@
         /// <param name="content">The text to be written on the document.</param>
         public void WriteLine(String content)
         {
-            Write(content + Specification.LineFeed);
+            Write(content + Symbols.LineFeed);
         }
 
         /// <summary>

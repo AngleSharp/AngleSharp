@@ -63,10 +63,10 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsNormalPathCharacter(this Char c)
         {
-            return c.IsInRange(0x20, 0x7e) && c != Specification.Space &&
-                c != Specification.DoubleQuote && c != Specification.CurvedQuote &&
-                c != Specification.Num && c != Specification.LessThan &&
-                c != Specification.GreaterThan && c != Specification.QuestionMark;
+            return c.IsInRange(0x20, 0x7e) && c != Symbols.Space &&
+                c != Symbols.DoubleQuote && c != Symbols.CurvedQuote &&
+                c != Symbols.Num && c != Symbols.LessThan &&
+                c != Symbols.GreaterThan && c != Symbols.QuestionMark;
         }
 
         /// <summary>
@@ -150,7 +150,7 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || c.IsLetter() || c == Specification.Underscore || c == Specification.Minus || IsDigit(c);
+            return c >= 0x80 || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || IsDigit(c);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsNameStart(this Char c)
         {
-            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Specification.Underscore;
+            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Symbols.Underscore;
         }
 
         /// <summary>
@@ -172,7 +172,7 @@
         public static Boolean IsLineBreak(this Char c)
         {
             //line feed, carriage return
-            return c == Specification.LineFeed || c == Specification.CarriageReturn;
+            return c == Symbols.LineFeed || c == Symbols.CarriageReturn;
         }
 
         /// <summary>
@@ -184,7 +184,7 @@
         public static Boolean IsSpaceCharacter(this Char c)
         {
             //white space, tab, line feed, form feed, carriage return
-            return c == Specification.Space || c == Specification.Tab || c == Specification.LineFeed || c == Specification.CarriageReturn || c == Specification.FormFeed;
+            return c == Symbols.Space || c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn || c == Symbols.FormFeed;
         }
 
         /// <summary>
@@ -219,12 +219,12 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsUrlCodePoint(this Char c)
         {
-            return c.IsAlphanumericAscii() || c == Specification.ExclamationMark || c == Specification.Dollar || c == Specification.Ampersand ||
-                   c == Specification.SingleQuote || c == Specification.RoundBracketOpen || c == Specification.RoundBracketClose ||
-                   c == Specification.Asterisk || c == Specification.Plus || c == Specification.Minus || c == Specification.Comma ||
-                   c == Specification.Dot || c == Specification.Solidus || c == Specification.Colon || c == Specification.Semicolon ||
-                   c == Specification.Equality || c == Specification.QuestionMark || c == Specification.At || c == Specification.Underscore ||
-                   c == Specification.Tilde || c.IsInRange(0xa0, 0xd7ff) || c.IsInRange(0xe000, 0xfdcf) || c.IsInRange(0xfdf0, 0xfffd) ||
+            return c.IsAlphanumericAscii() || c == Symbols.ExclamationMark || c == Symbols.Dollar || c == Symbols.Ampersand ||
+                   c == Symbols.SingleQuote || c == Symbols.RoundBracketOpen || c == Symbols.RoundBracketClose ||
+                   c == Symbols.Asterisk || c == Symbols.Plus || c == Symbols.Minus || c == Symbols.Comma ||
+                   c == Symbols.Dot || c == Symbols.Solidus || c == Symbols.Colon || c == Symbols.Semicolon ||
+                   c == Symbols.Equality || c == Symbols.QuestionMark || c == Symbols.At || c == Symbols.Underscore ||
+                   c == Symbols.Tilde || c.IsInRange(0xa0, 0xd7ff) || c.IsInRange(0xe000, 0xfdcf) || c.IsInRange(0xfdf0, 0xfffd) ||
                    c.IsInRange(0x10000, 0x1FFFD) || c.IsInRange(0x20000, 0x2fffd) || c.IsInRange(0x30000, 0x3fffd) || c.IsInRange(0x40000, 0x4fffd) ||
                    c.IsInRange(0x50000, 0x5fffd) || c.IsInRange(0x60000, 0x6fffd) || c.IsInRange(0x70000, 0x7fffd) || c.IsInRange(0x80000, 0x8fffd) ||
                    c.IsInRange(0x90000, 0x9fffd) || c.IsInRange(0xa0000, 0xafffd) || c.IsInRange(0xb0000, 0xbfffd) || c.IsInRange(0xc0000, 0xcfffd) ||

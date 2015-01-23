@@ -83,7 +83,7 @@
                 sb.Append(selectors[0].Text);
 
                 for (int i = 1; i < selectors.Count; i++)
-                    sb.Append(Specification.Comma).Append(selectors[i].Text);
+                    sb.Append(Symbols.Comma).Append(selectors[i].Text);
             }
 
             return sb.ToPool();

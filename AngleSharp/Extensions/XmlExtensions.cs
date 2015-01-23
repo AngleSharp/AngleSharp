@@ -17,11 +17,11 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsPubidChar(this Char c)
         {
-            return c.IsAlphanumericAscii() || c == Specification.Minus || c == Specification.SingleQuote || c == Specification.Plus ||
-                   c == Specification.Comma || c == Specification.Dot || c == Specification.Solidus || c == Specification.Colon ||
-                   c == Specification.QuestionMark || c == Specification.Equality || c == Specification.ExclamationMark || c == Specification.Asterisk ||
-                   c == Specification.Num || c == Specification.At || c == Specification.Dollar || c == Specification.Underscore ||
-                   c == Specification.RoundBracketOpen || c == Specification.RoundBracketClose || c == Specification.Semicolon || c == Specification.Percent ||
+            return c.IsAlphanumericAscii() || c == Symbols.Minus || c == Symbols.SingleQuote || c == Symbols.Plus ||
+                   c == Symbols.Comma || c == Symbols.Dot || c == Symbols.Solidus || c == Symbols.Colon ||
+                   c == Symbols.QuestionMark || c == Symbols.Equality || c == Symbols.ExclamationMark || c == Symbols.Asterisk ||
+                   c == Symbols.Num || c == Symbols.At || c == Symbols.Dollar || c == Symbols.Underscore ||
+                   c == Symbols.RoundBracketOpen || c == Symbols.RoundBracketClose || c == Symbols.Semicolon || c == Symbols.Percent ||
                    c.IsSpaceCharacter();
         }
 
@@ -33,7 +33,7 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsXmlNameStart(this Char c)
         {
-            return c.IsLetter() || c == Specification.Colon || c == Specification.Underscore || c.IsInRange(0xC0, 0xD6) || 
+            return c.IsLetter() || c == Symbols.Colon || c == Symbols.Underscore || c.IsInRange(0xC0, 0xD6) || 
                    c.IsInRange(0xD8, 0xF6) || c.IsInRange(0xF8, 0x2FF) || c.IsInRange(0x370, 0x37D) || c.IsInRange(0x37F, 0x1FFF) || 
                    c.IsInRange(0x200C, 0x200D) || c.IsInRange(0x2070, 0x218F) || c.IsInRange(0x2C00, 0x2FEF) || 
                    c.IsInRange(0x3001, 0xD7FF) || c.IsInRange(0xF900, 0xFDCF) || c.IsInRange(0xFDF0, 0xFFFD) || 
@@ -48,7 +48,7 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsXmlName(this Char c)
         {
-            return c.IsXmlNameStart() || c.IsDigit() || c == Specification.Minus || c == Specification.Dot || c == 0xB7 ||
+            return c.IsXmlNameStart() || c.IsDigit() || c == Symbols.Minus || c == Symbols.Dot || c == 0xB7 ||
                    c.IsInRange(0x300, 0x36F) || c.IsInRange(0x203F, 0x2040);
         }
 
@@ -80,7 +80,7 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsQualifiedName(this String str)
         {
-            var colon = str.IndexOf(Specification.Colon);
+            var colon = str.IndexOf(Symbols.Colon);
 
             if (colon == -1)
                 return str.IsXmlName();
@@ -100,7 +100,7 @@
             {
                 for (int i = colon; i < str.Length; i++)
                 {
-                    if (str[i] == Specification.Colon || !str[i].IsXmlName())
+                    if (str[i] == Symbols.Colon || !str[i].IsXmlName())
                         return false;
                 }
 

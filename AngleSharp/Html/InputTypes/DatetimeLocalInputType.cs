@@ -131,10 +131,10 @@
 
             if (position < 4 ||
                 position > value.Length - 13 ||
-                value[position + 0] != Specification.Minus ||
+                value[position + 0] != Symbols.Minus ||
                 value[position + 1].IsDigit() == false ||
                 value[position + 2].IsDigit() == false ||
-                value[position + 3] != Specification.Minus ||
+                value[position + 3] != Symbols.Minus ||
                 value[position + 4].IsDigit() == false ||
                 value[position + 5].IsDigit() == false)
                 return null;

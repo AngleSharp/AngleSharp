@@ -183,7 +183,7 @@
             var second = 0;
             var ms = 0;
 
-            if (value.Length < 5 + offset || value[position++].IsDigit() == false || value[position++].IsDigit() == false || value[position++] != Specification.Colon)
+            if (value.Length < 5 + offset || value[position++].IsDigit() == false || value[position++].IsDigit() == false || value[position++] != Symbols.Colon)
                 return null;
 
             hour = Int32.Parse(value.Substring(offset, 2));
@@ -199,7 +199,7 @@
             if (minute < 0 || minute > 59)
                 return null;
 
-            if (value.Length >= 8 + offset && value[position] == Specification.Colon)
+            if (value.Length >= 8 + offset && value[position] == Symbols.Colon)
             {
                 position++;
 
@@ -211,7 +211,7 @@
                 if (second < 0 || second > 59)
                     return null;
 
-                if (position + 1 < value.Length && value[position] == Specification.Dot)
+                if (position + 1 < value.Length && value[position] == Symbols.Dot)
                 {
                     position++;
                     var start = position;

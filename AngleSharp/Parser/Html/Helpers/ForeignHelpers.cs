@@ -27,7 +27,7 @@
                     String.Compare(AttributeNames.Type, 0, name, 6, 4) == 0 ||
                     String.Compare(AttributeNames.Title, 0, name, 6, 5) == 0)
                 {
-                    element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Specification.Colon) + 1), value);
+                    element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
                     return;
                 }
             }

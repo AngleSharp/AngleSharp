@@ -3091,7 +3091,7 @@
             {
                 case HtmlTokenType.Character:
                 {
-                    AddCharacters(token.Data.Replace(Specification.Null, Specification.Replacement));
+                    AddCharacters(token.Data.Replace(Symbols.Null, Symbols.Replacement));
 
                     if (token.HasContent)
                         frameset = false;

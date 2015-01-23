@@ -371,7 +371,7 @@
 
             if (containsSpace)
             {
-                if (value.IndexOf(Specification.SingleQuote) != -1)
+                if (value.IndexOf(Symbols.SingleQuote) != -1)
                     return '"' + value + '"';
 
                 return "'" + value + "'";

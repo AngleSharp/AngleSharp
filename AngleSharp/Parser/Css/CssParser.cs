@@ -907,16 +907,16 @@
 
         Boolean GetValueFromDelim(Char delimiter, IEnumerator<CssToken> tokens)
         {
-            if (delimiter == Specification.Num && tokens.MoveNext())
+            if (delimiter == Symbols.Num && tokens.MoveNext())
                 return GetColorFromHexValue(tokens);
 
-            if (delimiter == Specification.Solidus)
+            if (delimiter == Symbols.Solidus)
             {
                 value.AddValue(CssValue.Delimiter);
                 return tokens.MoveNext();
             }
 
-            if (delimiter != Specification.ExclamationMark || !tokens.MoveNext() || !IsImportant(tokens))
+            if (delimiter != Symbols.ExclamationMark || !tokens.MoveNext() || !IsImportant(tokens))
                 value.IsFaulted = true;
 
             return false;

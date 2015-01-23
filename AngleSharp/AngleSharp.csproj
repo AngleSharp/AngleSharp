@@ -961,7 +961,7 @@
     <Compile Include="Extensions\PortableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\SourceManager.cs" />
-    <Compile Include="Foundation\Specification.cs" />
+    <Compile Include="Foundation\Symbols.cs" />
     <Compile Include="Parser\Html\Helpers\SvgHelpers.cs" />
     <Compile Include="Parser\Html\HtmlTokenizer.cs" />
     <Compile Include="Parser\Css\Tokens\CssCharacterToken.cs" />

@@ -27,15 +27,15 @@
         {
             var index = Int32.Parse(start, NumberStyles.HexNumber);
 
-            if (index <= Specification.MaximumCodepoint)
+            if (index <= Symbols.MaximumCodepoint)
             {
                 if (end != null)
                 {
                     var list = new List<String>();
                     var f = Int32.Parse(end, NumberStyles.HexNumber);
 
-                    if (f > Specification.MaximumCodepoint)
-                        f = Specification.MaximumCodepoint;
+                    if (f > Symbols.MaximumCodepoint)
+                        f = Symbols.MaximumCodepoint;
 
                     for (; index <= f; index++)
                         list.Add(Char.ConvertFromUtf32(index));
