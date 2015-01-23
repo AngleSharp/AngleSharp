@@ -380,20 +380,19 @@
         }
 
         /// <summary>
-        /// Creates a new browsing context with the given name and creator.
+        /// Finds an existing browsing context with the given name.
         /// </summary>
         /// <param name="options">The configuration to use.</param>
-        /// <param name="name">The name of the new context.</param>
-        /// <param name="document">The creator of the context.</param>
-        /// <returns>The new context.</returns>
-        public static IBrowsingContext NewContext(this IConfiguration options, String name, IDocument document)
+        /// <param name="name">The name of the context to find.</param>
+        /// <returns>The existing context, or null, if no context with the provided name could be find.</returns>
+        public static IBrowsingContext FindContext(this IConfiguration options, String name)
         {
             var service = options.GetService<IContextService>();
 
-            if (service == null)
-                return new SimpleBrowsingContext(options);
+            if (service != null)
+                return service.Find(name);
 
-            return service.Create(options, name, document);
+            return null;
         }
 
         #endregion

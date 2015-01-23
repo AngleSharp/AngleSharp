@@ -259,7 +259,7 @@
             else if (target.Equals("_top", StringComparison.Ordinal))
                 return document.Context;
 
-            return null;
+            return document.Options.FindContext(target);
         }
 
         /// <summary>
@@ -270,11 +270,27 @@
         /// <returns>The new context.</returns>
         public static IBrowsingContext CreateTarget(this Document document, String target)
         {
-            //TODO Create from user provided factory, if any.
             if (target.Equals("_blank", StringComparison.Ordinal))
-                return new SimpleBrowsingContext(document.Options);
+                return document.Options.NewContext();
 
-            return new SimpleBrowsingContext(document.Options);
+            return document.NewContext(target);
+        }
+
+        /// <summary>
+        /// Creates a new browsing context with the given name and creator.
+        /// </summary>
+        /// <param name="document">The creator of the context.</param>
+        /// <param name="name">The name of the new context.</param>
+        /// <returns>The new context.</returns>
+        public static IBrowsingContext NewContext(this Document document, String name)
+        {
+            var options = document.Options;
+            var service = options.GetService<IContextService>();
+
+            if (service == null)
+                return new SimpleBrowsingContext(options);
+
+            return service.Create(options, name, document);
         }
     }
 }
