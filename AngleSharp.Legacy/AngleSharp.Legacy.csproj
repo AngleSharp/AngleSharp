@@ -1764,8 +1764,8 @@
     <Compile Include="..\AngleSharp\Foundation\SimpleBrowsingContext.cs">
       <Link>Foundation\SimpleBrowsingContext.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Specification.cs">
-      <Link>Foundation\Specification.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\Symbols.cs">
+      <Link>Foundation\Symbols.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
       <Link>Foundation\TextSource.cs</Link>
