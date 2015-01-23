@@ -1417,10 +1417,6 @@
             return node;
         }
 
-        #endregion
-
-        #region String representation
-
         /// <summary>
         /// Returns an HTML-code representation of the document.
         /// </summary>
@@ -1428,6 +1424,15 @@
         public override String ToHtml()
         {
             return ChildNodes.ToHtml();
+        }
+
+        /// <summary>
+        /// Checks if the document has focus.
+        /// </summary>
+        /// <returns>True if the document's context is focused and the document is active, otherwise false.</returns>
+        public Boolean HasFocus()
+        {
+            return _context.Active == this;
         }
 
         #endregion

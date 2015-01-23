@@ -382,6 +382,13 @@
         IWindow DefaultView { get; }
 
         /// <summary>
+        /// Checks if the document is currently focused.
+        /// </summary>
+        /// <returns>True if the document is active and in the focus.</returns>
+        [DomName("hasFocus")]
+        Boolean HasFocus();
+
+        /// <summary>
         /// Loads the document content from the given url.
         /// </summary>
         /// <param name="url">The url that hosts the HTML content.</param>
