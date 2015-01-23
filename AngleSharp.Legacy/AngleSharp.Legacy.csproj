@@ -2811,6 +2811,9 @@
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IContextService.cs">
+      <Link>Services\IContextService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\ICookieService.cs">
       <Link>Services\ICookieService.cs</Link>
     </Compile>
