@@ -1511,31 +1511,61 @@
 
         Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
+            var command = Options.GetCommand(commandId);
+
+            if (command != null)
+                return command.Execute(this, showUserInterface, value);
+
             return false;
         }
 
         Boolean IDocument.IsCommandEnabled(String commandId)
         {
+            var command = Options.GetCommand(commandId);
+
+            if (command != null)
+                return command.IsEnabled(this);
+
             return false;
         }
 
         Boolean IDocument.IsCommandIndeterminate(String commandId)
         {
+            var command = Options.GetCommand(commandId);
+
+            if (command != null)
+                return command.IsIndeterminate(this);
+
             return false;
         }
 
         Boolean IDocument.IsCommandExecuted(String commandId)
         {
+            var command = Options.GetCommand(commandId);
+
+            if (command != null)
+                return command.IsExecuted(this);
+
             return false;
         }
 
         Boolean IDocument.IsCommandSupported(String commandId)
         {
+            var command = Options.GetCommand(commandId);
+
+            if (command != null)
+                return command.IsSupported(this);
+
             return false;
         }
 
         String IDocument.GetCommandValue(String commandId)
         {
+            var command = Options.GetCommand(commandId);
+
+            if (command != null)
+                return command.GetValue(this);
+
             return null;
         }
 
