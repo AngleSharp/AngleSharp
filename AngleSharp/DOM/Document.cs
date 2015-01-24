@@ -538,6 +538,14 @@
         }
 
         /// <summary>
+        /// Gets the script which is currently being processed.
+        /// </summary>
+        public IHtmlScriptElement CurrentScript
+        {
+            get { return _scripts.Count > 0 ? _scripts.Peek() : null; }
+        }
+
+        /// <summary>
         /// Gets the DOMImplementation object that handles this document.
         /// </summary>
         public IImplementation Implementation
@@ -1454,13 +1462,7 @@
         /// <returns>True if any script is still preparing, otherwise false.</returns>
         internal Boolean IsWaitingForScript()
         {
-            foreach (var script in _scripts)
-            {
-                if (script.IsReady == false)
-                    return true;
-            }
-
-            return false;
+            return _scripts.Count > 0 && _scripts.Peek().IsReady == false;
         }
 
         /// <summary>

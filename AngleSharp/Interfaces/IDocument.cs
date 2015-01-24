@@ -376,6 +376,12 @@
         IElement ActiveElement { get; }
 
         /// <summary>
+        /// Gets the script element which is currently being processed.
+        /// </summary>
+        [DomName("currentScript")]
+        IHtmlScriptElement CurrentScript { get; }
+
+        /// <summary>
         /// Gets the window object associated with the document or null if none available.
         /// </summary>
         [DomName("defaultView")]
