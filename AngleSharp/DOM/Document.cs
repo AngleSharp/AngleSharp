@@ -437,7 +437,7 @@
             _location = new Location(AboutBlank);
             _location.Changed += LocationChanged;
             _ranges = new List<WeakReference>();
-            _context.Active = this;
+            _context.NavigateTo(this);
         }
 
         #endregion

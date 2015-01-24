@@ -28,7 +28,6 @@
         public IDocument Active
         {
             get { return _active; }
-            set { _active = value; }
         }
 
         public IConfiguration Configuration
@@ -54,6 +53,11 @@
         public IHistory SessionHistory
         {
             get { return null; }
+        }
+
+        public void NavigateTo(IDocument document)
+        {
+            _active = document;
         }
 
         #endregion

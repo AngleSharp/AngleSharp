@@ -13,9 +13,9 @@
         IWindow Current { get; }
 
         /// <summary>
-        /// Gets or sets the currently active document.
+        /// Gets the currently active document.
         /// </summary>
-        IDocument Active { get; set; }
+        IDocument Active { get; }
 
         /// <summary>
         /// Gets the session history of the given browsing context.
@@ -40,5 +40,12 @@
         /// of creation.
         /// </summary>
         IDocument Creator { get; }
+
+        /// <summary>
+        /// Navigates to the given document, by including it in the session
+        /// history and setting it as the active document.
+        /// </summary>
+        /// <param name="document">The new document.</param>
+        void NavigateTo(IDocument document);
     }
 }
