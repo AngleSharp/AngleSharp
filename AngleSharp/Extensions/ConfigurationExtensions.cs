@@ -396,5 +396,26 @@
         }
 
         #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Tries to resolve a command service with the given command id.
+        /// </summary>
+        /// <param name="options">The configuration that contains all command services.</param>
+        /// <param name="commandId">The id of the command to find.</param>
+        /// <returns>The command with the given id if that exists, otherwise null.</returns>
+        public static ICommandService GetCommand(this IConfiguration options, String commandId)
+        {
+            foreach (var command in options.GetServices<ICommandService>())
+            {
+                if (command.CommandId.Equals(commandId, StringComparison.OrdinalIgnoreCase))
+                    return command;
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }
