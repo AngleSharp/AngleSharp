@@ -427,7 +427,7 @@
         /// <param name="commandId">The id of the command to check.</param>
         /// <returns>True if the command has been executed, otherwise false.</returns>
         [DomName("queryCommandState")]
-        Boolean QueryCommandState(String commandId);
+        Boolean IsCommandExecuted(String commandId);
 
         /// <summary>
         /// Checks if a command with the provided id exists and is supported in the current context.

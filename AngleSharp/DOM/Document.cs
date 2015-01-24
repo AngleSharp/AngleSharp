@@ -1524,7 +1524,7 @@
             return false;
         }
 
-        Boolean IDocument.QueryCommandState(String commandId)
+        Boolean IDocument.IsCommandExecuted(String commandId)
         {
             return false;
         }
