@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Parser
+﻿namespace AngleSharp
 {
     using System;
     using System.Diagnostics;
@@ -7,7 +7,7 @@
     /// The position in the source code.
     /// </summary>
     [DebuggerStepThrough]
-    public struct TextPosition
+    struct TextPosition
     {
         #region Fields
 
