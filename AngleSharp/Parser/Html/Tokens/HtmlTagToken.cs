@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// Class for StartTagToken and EndTagToken.
@@ -13,7 +14,7 @@
         readonly List<KeyValuePair<String, String>> _attributes;
 
         Boolean _selfClosing;
-        
+
         #endregion
 
         #region ctor
@@ -21,43 +22,72 @@
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        public HtmlTagToken()
+        /// <param name="type">The type of the tag token.</param>
+        public HtmlTagToken(HtmlTokenType type)
+            : this(type, String.Empty)
         {
-            _name = String.Empty;
-            _attributes = new List<KeyValuePair<String, String>>();
         }
 
         /// <summary>
         /// Creates a new HTML TagToken with the defined name.
         /// </summary>
+        /// <param name="type">The type of the tag token.</param>
         /// <param name="name">The name of the tag.</param>
-        public HtmlTagToken(String name)
+        public HtmlTagToken(HtmlTokenType type, String name)
+            : base(type, name)
         {
-            _name = name;
             _attributes = new List<KeyValuePair<String, String>>();
         }
 
         #endregion
 
+        #region Creators
+
+        /// <summary>
+        /// Creates a new opening HtmlTagToken.
+        /// </summary>
+        /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
+        public static HtmlTagToken Open()
+        {
+            return new HtmlTagToken(HtmlTokenType.StartTag);
+        }
+
+        /// <summary>
+        /// Creates a new closing HtmlTagToken.
+        /// </summary>
+        /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
+        public static HtmlTagToken Close()
+        {
+            return new HtmlTagToken(HtmlTokenType.EndTag);
+        }
+
+        /// <summary>
+        /// Creates a new opening HtmlTagToken for the given name.
+        /// </summary>
+        /// <param name="name">The name of the tag.</param>
+        /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
+        public static HtmlTagToken Open(String name)
+        {
+            return new HtmlTagToken(HtmlTokenType.StartTag, name);
+        }
+
+        /// <summary>
+        /// Creates a new closing HtmlTagToken for the given name.
+        /// </summary>
+        /// <param name="name">The name of the tag.</param>
+        /// <returns>The new HTML tag token.</returns>
+        [DebuggerStepThrough]
+        public static HtmlTagToken Close(String name)
+        {
+            return new HtmlTagToken(HtmlTokenType.EndTag, name);
+        }
+
+        #endregion
+
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the position of the token.
-        /// </summary>
-        public TextPosition Start
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the position of the token.
-        /// </summary>
-        public TextPosition End
-        {
-            get;
-            set;
-        }
 
         /// <summary>
         /// Gets or sets the state of the self-closing flag.
@@ -87,7 +117,7 @@
         /// <param name="name">The name of the attribute.</param>
         public void AddAttribute(String name)
         {
-            Attributes.Add(new KeyValuePair<String, String>(name, String.Empty));
+            _attributes.Add(new KeyValuePair<String, String>(name, String.Empty));
         }
 
         /// <summary>
@@ -97,7 +127,7 @@
         /// <param name="value">The value of the attribute.</param>
         public void AddAttribute(String name, String value)
         {
-            Attributes.Add(new KeyValuePair<String, String>(name, value));
+            _attributes.Add(new KeyValuePair<String, String>(name, value));
         }
 
         /// <summary>
@@ -106,7 +136,7 @@
         /// <param name="value">The value to set.</param>
         public void SetAttributeValue(String value)
         {
-            Attributes[Attributes.Count - 1] = new KeyValuePair<String, String>(Attributes[Attributes.Count - 1].Key, value);
+            _attributes[_attributes.Count - 1] = new KeyValuePair<String, String>(_attributes[_attributes.Count - 1].Key, value);
         }
 
         /// <summary>
@@ -117,9 +147,11 @@
         /// <returns>The value of the attribute.</returns>
         public String GetAttribute(String name)
         {
-            for (var i = 0; i != Attributes.Count; i++)
-                if (Attributes[i].Key == name)
-                    return Attributes[i].Value;
+            for (var i = 0; i != _attributes.Count; i++)
+            {
+                if (_attributes[i].Key == name)
+                    return _attributes[i].Value;
+            }
 
             return String.Empty;
         }

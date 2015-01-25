@@ -22,11 +22,10 @@
         /// </summary>
         /// <param name="quirksForced">The state of the force-quirks flag.</param>
         public HtmlDoctypeToken(Boolean quirksForced)
+            : base(HtmlTokenType.DOCTYPE)
         {
-            _name = null;
             _publicIdentifier = null;
             _systemIdentifier = null;
-            _type = HtmlTokenType.DOCTYPE;
             _quirks = quirksForced;
         }
 
@@ -35,38 +34,12 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the position of the token.
-        /// </summary>
-        public TextPosition Start
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the position of the token.
-        /// </summary>
-        public TextPosition End
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the state of the force-quirks flag.
         /// </summary>
         public Boolean IsQuirksForced
         {
             get { return _quirks; }
             set { _quirks = value; }
-        }
-
-        /// <summary>
-        /// Gets the state of the name.
-        /// </summary>
-        public Boolean IsNameMissing
-        {
-            get { return _name == null; }
         }
 
         /// <summary>
@@ -132,7 +105,7 @@
             {
                 if (IsQuirksForced)
                     return true;
-                else if (_name == null || _name != "html")
+                else if (Name == null || Name != "html")
                     return true;
                 else if (PublicIdentifier.StartsWith("+//Silmaril//dtd html Pro v0r11 19970101//", StringComparison.OrdinalIgnoreCase))
                     return true;
@@ -268,7 +241,7 @@
         {
             get
             {
-                if (_name != null && _name == "html")
+                if (Name != null && Name == "html")
                 {
                     if (IsPublicIdentifierMissing)
                         return IsSystemIdentifierMissing || SystemIdentifier.Equals("about:legacy-compat");

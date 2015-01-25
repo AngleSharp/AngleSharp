@@ -9,17 +9,14 @@
     /// The abstract base class of any HTML token.
     /// </summary>
     [DebuggerStepThrough]
-    abstract class HtmlToken
+    class HtmlToken
     {
         #region Factory
 
         /// <summary>
         /// Gets the end of file token.
         /// </summary>
-        public static HtmlEndOfFileToken EOF
-        {
-            get { return eof ?? (eof = new HtmlEndOfFileToken()); }
-        }
+        public static readonly HtmlToken EndOfFile = new HtmlToken(HtmlTokenType.EOF);
 
         /// <summary>
         /// Creates a new HTML character token based on the given characters.
@@ -27,9 +24,9 @@
         /// <param name="characters">The characters to contain.</param>
         /// <returns>The generated token.</returns>
         [DebuggerStepThrough]
-        public static HtmlCharacterToken Character(String characters)
+        public static HtmlToken Character(String characters)
         {
-            return new HtmlCharacterToken(characters);
+            return new HtmlToken(HtmlTokenType.Character, characters);
         }
 
         /// <summary>
@@ -38,9 +35,9 @@
         /// <param name="comment">The comment to contain.</param>
         /// <returns>The generated token.</returns>
         [DebuggerStepThrough]
-        public static HtmlCommentToken Comment(String comment)
+        public static HtmlToken Comment(String comment)
         {
-            return new HtmlCommentToken(comment);
+            return new HtmlToken(HtmlTokenType.Comment, comment);
         }
 
         /// <summary>
@@ -54,55 +51,28 @@
             return new HtmlDoctypeToken(quirksmode);
         }
 
-        /// <summary>
-        /// Creates a new opening HtmlTagToken.
-        /// </summary>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken OpenTag()
-        {
-            return new HtmlTagToken { _type = HtmlTokenType.StartTag };
-        }
-
-        /// <summary>
-        /// Creates a new closing HtmlTagToken.
-        /// </summary>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken CloseTag()
-        {
-            return new HtmlTagToken { _type = HtmlTokenType.EndTag };
-        }
-
-        /// <summary>
-        /// Creates a new opening HtmlTagToken for the given name.
-        /// </summary>
-        /// <param name="name">The name of the tag.</param>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken OpenTag(String name)
-        {
-            return new HtmlTagToken(name) { _type = HtmlTokenType.StartTag };
-        }
-
-        /// <summary>
-        /// Creates a new closing HtmlTagToken for the given name.
-        /// </summary>
-        /// <param name="name">The name of the tag.</param>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken CloseTag(String name)
-        {
-            return new HtmlTagToken(name) { _type = HtmlTokenType.EndTag };
-        }
-
         #endregion
 
         #region Fields
 
-        static HtmlEndOfFileToken eof;
-        protected HtmlTokenType _type;
-        protected String _name;
+        readonly HtmlTokenType _type;
+        TextRange _range;
+        String _name;
+
+        #endregion
+
+        #region ctor
+
+        public HtmlToken(HtmlTokenType type)
+            : this(type, null)
+        {
+        }
+
+        public HtmlToken(HtmlTokenType type, String name)
+        {
+            _type = type;
+            _name = name;
+        }
 
         #endregion
 
@@ -136,12 +106,29 @@
         }
 
         /// <summary>
+        /// Gets or sets the range of the token.
+        /// </summary>
+        public TextRange Range
+        {
+            get { return _range; }
+            set { _range = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the name of a tag token.
         /// </summary>
         public String Name
         {
             get { return _name; }
             set { _name = value; }
+        }
+
+        /// <summary>
+        /// Gets the state of the name.
+        /// </summary>
+        public Boolean IsNameMissing
+        {
+            get { return _name == null; }
         }
 
         /// <summary>
