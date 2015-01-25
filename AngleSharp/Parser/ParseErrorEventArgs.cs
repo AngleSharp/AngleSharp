@@ -18,7 +18,7 @@
         /// <param name="msg">The associated error message.</param>
         /// <param name="start">The start position.</param>
         /// <param name="end">The end position.</param>
-        public ParseErrorEventArgs(Int32 code, String msg, TextPosition start, TextPosition end)
+        internal ParseErrorEventArgs(Int32 code, String msg, TextPosition start, TextPosition end)
         {
             ErrorMessage = msg;
             ErrorCode = code;
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the start position of the error.
         /// </summary>
-        public TextPosition Start
+        internal TextPosition Start
         {
             get;
             private set;
@@ -42,7 +42,7 @@
         /// <summary>
         /// Gets the end position of the error.
         /// </summary>
-        public TextPosition End
+        internal TextPosition End
         {
             get;
             private set;
