@@ -105,11 +105,11 @@
         /// Appends a comment node to the specified node.
         /// </summary>
         /// <param name="parent">The node which will contain the comment node.</param>
-        /// <param name="data">The comment.</param>
+        /// <param name="token">The comment token.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddComment(this Node parent, String data)
+        public static void AddComment(this Node parent, HtmlToken token)
         {
-            parent.AddNode(new Comment(parent.Owner, data));
+            parent.AddNode(new Comment(parent.Owner, token.Data) { Range = token.Range });
         }
 
         /// <summary>

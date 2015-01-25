@@ -474,7 +474,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    doc.AddComment(token.Data);
+                    doc.AddComment(token);
                     return;
                 }
             }
@@ -508,7 +508,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    doc.AddComment(token.Data);
+                    doc.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.StartTag:
@@ -584,7 +584,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -618,7 +618,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -837,7 +837,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -1186,6 +1186,7 @@
             else if (tagName == Tags.Math)
             {
                 var element = new MathElement(doc, tagName);
+                element.Range = tag.Range;
                 ReconstructFormatting();
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1203,6 +1204,7 @@
             else if (tagName == Tags.Svg)
             {
                 var element = new SvgElement(doc, tagName);
+                element.Range = tag.Range;
                 ReconstructFormatting();
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1460,7 +1462,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -1528,7 +1530,7 @@
             {
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -1744,7 +1746,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -1993,7 +1995,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -2205,7 +2207,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    open[0].AddComment(token.Data);
+                    open[0].AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -2269,7 +2271,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -2347,7 +2349,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -2396,7 +2398,7 @@
             {
                 case HtmlTokenType.Comment:
                 {
-                    doc.AddComment(token.Data);
+                    doc.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.Character:
@@ -2445,7 +2447,7 @@
             {
                 case HtmlTokenType.Comment:
                 {
-                    doc.AddComment(token.Data);
+                    doc.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.Character:
@@ -3100,7 +3102,7 @@
                 }
                 case HtmlTokenType.Comment:
                 {
-                    CurrentNode.AddComment(token.Data);
+                    CurrentNode.AddComment(token);
                     return;
                 }
                 case HtmlTokenType.DOCTYPE:
@@ -3553,13 +3555,14 @@
         /// <summary>
         /// Appends the doctype token to the document.
         /// </summary>
-        /// <param name="doctypeToken">The doctypen token.</param>
-        void AddDoctype(HtmlDoctypeToken doctypeToken)
+        /// <param name="token">The doctypen token.</param>
+        void AddDoctype(HtmlDoctypeToken token)
         {
-            doc.AddNode(new DocumentType(doc, doctypeToken.Name ?? String.Empty)
+            doc.AddNode(new DocumentType(doc, token.Name ?? String.Empty)
             {
-                SystemIdentifier = doctypeToken.SystemIdentifier,
-                PublicIdentifier = doctypeToken.PublicIdentifier
+                SystemIdentifier = token.SystemIdentifier,
+                PublicIdentifier = token.PublicIdentifier,
+                Range = token.Range
             });
         }
 
@@ -3599,6 +3602,8 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
+            element.Range = tag.Range;
+
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);
 

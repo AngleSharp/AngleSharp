@@ -173,6 +173,15 @@
         #region Internal Properties
 
         /// <summary>
+        /// Gets or sets the range of the node.
+        /// </summary>
+        internal TextRange Range
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets the node immediately preceding this node's parent's list of nodes, 
         /// null if the specified node is the first in that list.
         /// </summary>
