@@ -1767,6 +1767,12 @@
     <Compile Include="..\AngleSharp\Foundation\Symbols.cs">
       <Link>Foundation\Symbols.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TextPosition.cs">
+      <Link>Foundation\TextPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TextRange.cs">
+      <Link>Foundation\TextRange.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
       <Link>Foundation\TextSource.cs</Link>
     </Compile>
@@ -2778,17 +2784,8 @@
     <Compile Include="..\AngleSharp\Parser\Html\HtmlTreeMode.cs">
       <Link>Parser\Html\HtmlTreeMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlCharacterToken.cs">
-      <Link>Parser\Html\Tokens\HtmlCharacterToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlCommentToken.cs">
-      <Link>Parser\Html\Tokens\HtmlCommentToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlDoctypeToken.cs">
       <Link>Parser\Html\Tokens\HtmlDoctypeToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlEndOfFileToken.cs">
-      <Link>Parser\Html\Tokens\HtmlEndOfFileToken.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlTagToken.cs">
       <Link>Parser\Html\Tokens\HtmlTagToken.cs</Link>
@@ -2801,9 +2798,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\SourceManager.cs">
       <Link>Parser\SourceManager.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\TextPosition.cs">
-      <Link>Parser\TextPosition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
