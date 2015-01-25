@@ -45,6 +45,15 @@
         #region Public Properties
 
         /// <summary>
+        /// Gets the positions of the node in the original source code.
+        /// </summary>
+        public TextRange Position
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
         /// Gets a boolean value indicating whether the current Node 
         /// has child nodes or not.
         /// </summary>
@@ -171,15 +180,6 @@
         #endregion
 
         #region Internal Properties
-
-        /// <summary>
-        /// Gets or sets the range of the node.
-        /// </summary>
-        internal TextRange Range
-        {
-            get;
-            set;
-        }
 
         /// <summary>
         /// Gets the node immediately preceding this node's parent's list of nodes, 
