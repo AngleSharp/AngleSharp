@@ -7,7 +7,7 @@
     /// The position in the source code.
     /// </summary>
     [DebuggerStepThrough]
-    struct TextPosition
+    public struct TextPosition
     {
         #region Fields
 

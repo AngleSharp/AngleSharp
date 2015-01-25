@@ -6,7 +6,7 @@
     /// The positional range in the source code.
     /// </summary>
     [DebuggerStepThrough]
-    struct TextRange
+    public struct TextRange
     {
         #region Fields
 

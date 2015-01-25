@@ -66,7 +66,7 @@
             if (ErrorOccurred != null)
             {
                 var position = GetCurrentPosition();
-                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position, position);
+                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position);
                 ErrorOccurred(this, errorArguments);
             }
         }
