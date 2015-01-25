@@ -265,8 +265,7 @@
             }
             else
             {
-                _buffer.Append(Symbols.LessThan)
-                    .Append(Symbols.Solidus);
+                _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return RCData(c);
             }
 
@@ -313,9 +312,7 @@
                 }
                 else
                 {
-                    _buffer.Append(Symbols.LessThan)
-                        .Append(Symbols.Solidus)
-                        .Append(_stringBuffer.ToString());
+                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return RCData(c);
                 }
             }
@@ -391,8 +388,7 @@
             }
             else
             {
-                _buffer.Append(Symbols.LessThan)
-                    .Append(Symbols.Solidus);
+                _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return Rawtext(c);
             }
 
@@ -439,9 +435,7 @@
                 }
                 else
                 {
-                    _buffer.Append(Symbols.LessThan)
-                        .Append(Symbols.Solidus)
-                        .Append(_stringBuffer.ToString());
+                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return Rawtext(c);
                 }
             }
@@ -731,9 +725,13 @@
                     return HtmlToken.EndOfFile;
                 }
                 else if (c.IsUppercaseAscii())
+                {
                     _stringBuffer.Append(Char.ToLower(c));
+                }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
         }
 
@@ -952,8 +950,7 @@
                     break;
             }
 
-            _stringBuffer.Append(Symbols.Minus)
-                .Append(c);
+            _stringBuffer.Append(Symbols.Minus).Append(c);
             return null;
         }
 
@@ -974,8 +971,7 @@
                         break;
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _stringBuffer.Append(Symbols.Minus)
-                            .Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
                         return null;
                     case Symbols.ExclamationMark:
                         RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
@@ -990,9 +986,7 @@
                         break;
                     default:
                         RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
-                        _stringBuffer.Append(Symbols.Minus)
-                            .Append(Symbols.Minus)
-                            .Append(c);
+                        _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(c);
                         return null;
                 }
 
@@ -1011,29 +1005,21 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    _stringBuffer.Append(Symbols.Minus)
-                        .Append(Symbols.Minus)
-                        .Append(Symbols.ExclamationMark);
+                    _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark);
                     return CommentDashEnd(position);
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     break;
                 case Symbols.Null:
                     RaiseErrorOccurred(ErrorCode.Null);
-                    _stringBuffer.Append(Symbols.Minus)
-                        .Append(Symbols.Minus)
-                        .Append(Symbols.ExclamationMark)
-                        .Append(Symbols.Replacement);
+                    _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(Symbols.Replacement);
                     return null;
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(ErrorCode.EOF);
                     Back();
                     break;
                 default:
-                    _stringBuffer.Append(Symbols.Minus)
-                        .Append(Symbols.Minus)
-                        .Append(Symbols.ExclamationMark)
-                        .Append(c);
+                    _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(c);
                     return null;
             }
 
@@ -1053,7 +1039,9 @@
             var c = GetNext();
 
             if (c.IsSpaceCharacter())
+            {
                 return DoctypeNameBefore(GetNext(), position);
+            }
             else if (c == Symbols.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
@@ -1144,7 +1132,9 @@
                     break;
                 }
                 else if (c.IsUppercaseAscii())
+                {
                     _stringBuffer.Append(Char.ToLower(c));
+                }
                 else if (c == Symbols.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.Null);
@@ -1159,7 +1149,9 @@
                     break;
                 }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
 
             //doctype.End = GetCurrentPosition();
@@ -1337,7 +1329,9 @@
                     break;
                 }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
 
             //doctype.End = GetCurrentPosition();
@@ -1383,7 +1377,9 @@
                     break;
                 }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
 
             //doctype.End = GetCurrentPosition();
@@ -1609,7 +1605,9 @@
                     break;
                 }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
 
             //doctype.End = GetCurrentPosition();
@@ -1794,21 +1792,27 @@
                     return EmitTag(tag);
                 }
                 else if (c == Symbols.EndOfFile)
+                {
                     return HtmlToken.EndOfFile;
+                }
                 else if (c == Symbols.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c.IsUppercaseAscii())
+                {
                     _stringBuffer.Append(Char.ToLower(c));
+                }
                 else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
                 {
                     RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
                     _stringBuffer.Append(c);
                 }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
         }
 
@@ -1944,9 +1948,13 @@
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
+                {
                     return HtmlToken.EndOfFile;
+                }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
         }
 
@@ -1981,9 +1989,13 @@
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
+                {
                     return HtmlToken.EndOfFile;
+                }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
             }
         }
 
@@ -2027,9 +2039,13 @@
                     _stringBuffer.Append(c);
                 }
                 else if (c == Symbols.EndOfFile)
+                {
                     return HtmlToken.EndOfFile;
+                }
                 else
+                {
                     _stringBuffer.Append(c);
+                }
 
                 c = GetNext();
             }
@@ -2169,9 +2185,7 @@
                 
                 if (!c.IsLetter())
                 {
-                    _buffer.Append(Symbols.LessThan)
-                        .Append(Symbols.Solidus)
-                        .Append(_stringBuffer.ToString());
+                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return ScriptData(c);
                 }
 
@@ -2275,8 +2289,7 @@
             if (c.IsLetter())
             {
                 _stringBuffer.Clear().Append(c);
-                _buffer.Append(Symbols.LessThan)
-                    .Append(c);
+                _buffer.Append(Symbols.LessThan).Append(c);
                 return ScriptDataStartDoubleEscape();
             }
 
@@ -2301,8 +2314,7 @@
                 return ScriptDataEscapedNameTag(tag);
             }
 
-            _buffer.Append(Symbols.LessThan)
-                .Append(Symbols.Solidus);
+            _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
             return ScriptDataEscaped(c);
         }
 
@@ -2340,9 +2352,7 @@
 
                 if (!c.IsLetter())
                 {
-                    _buffer.Append(Symbols.LessThan)
-                        .Append(Symbols.Solidus)
-                        .Append(_stringBuffer.ToString());
+                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return ScriptDataEscaped(c);
                 }
 
@@ -2374,7 +2384,9 @@
                     _buffer.Append(c);
                 }
                 else
+                {
                     return ScriptDataEscaped(c);
+                }
             }
         }
 
@@ -2502,7 +2514,9 @@
                     _buffer.Append(c);
                 }
                 else
+                {
                     return ScriptDataEscapedDouble(c);
+                }
             }
         }
 
