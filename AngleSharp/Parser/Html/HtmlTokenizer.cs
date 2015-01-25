@@ -82,7 +82,7 @@
             var current = GetNext();
 
             if (IsEnded) 
-                return HtmlToken.EOF;
+                return HtmlToken.EndOfFile;
 
             switch (_state)
             {
@@ -143,7 +143,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
 
                     default:
                         _buffer.Append(c);
@@ -181,7 +181,7 @@
                         return Data(GetNext());
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
 
                     default:
                         _buffer.Append(c);
@@ -235,7 +235,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
 
                     default:
                         _buffer.Append(c);
@@ -270,8 +270,8 @@
                 return RCData(c);
             }
 
-            var tag = HtmlToken.CloseTag();
-            tag.Start = position;
+            var tag = HtmlTagToken.Close();
+            //tag.Start = position;
             return RCDataNameEndTag(tag);
         }
 
@@ -344,7 +344,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
 
                     default:
                         _buffer.Append(c);
@@ -396,8 +396,8 @@
                 return Rawtext(c);
             }
 
-            var tag = HtmlToken.CloseTag();
-            tag.Start = position;
+            var tag = HtmlTagToken.Close();
+            //tag.Start = position;
             return RawtextNameEndTag(tag);
         }
 
@@ -625,15 +625,15 @@
             }
             else if (c.IsLowercaseAscii())
             {
-                var tag = HtmlToken.OpenTag();
-                tag.Start = position;
+                var tag = HtmlTagToken.Open();
+                //tag.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
-                var tag = HtmlToken.OpenTag();
-                tag.Start = position;
+                var tag = HtmlTagToken.Open();
+                //tag.Start = position;
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
@@ -662,15 +662,15 @@
         {
             if (c.IsLowercaseAscii())
             {
-                var tag = HtmlToken.CloseTag();
-                tag.Start = position;
+                var tag = HtmlTagToken.Close();
+                //tag.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
-                var tag = HtmlToken.CloseTag();
-                tag.Start = position;
+                var tag = HtmlTagToken.Close();
+                //tag.Start = position;
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
@@ -684,9 +684,8 @@
             {
                 Back();
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _buffer.Append(Symbols.LessThan)
-                    .Append(Symbols.Solidus);
-                return HtmlToken.EOF;
+                _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                return HtmlToken.EndOfFile;
             }
             else
             {
@@ -729,7 +728,7 @@
                 else if (c == Symbols.EndOfFile)
                 {
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    return HtmlToken.EOF;
+                    return HtmlToken.EndOfFile;
                 }
                 else if (c.IsUppercaseAscii())
                     _stringBuffer.Append(Char.ToLower(c));
@@ -752,7 +751,7 @@
                     return EmitTag(tag);
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(ErrorCode.EOF);
-                    return HtmlToken.EOF;
+                    return HtmlToken.EndOfFile;
                 default:
                     RaiseErrorOccurred(ErrorCode.ClosingSlashMisplaced);
                     Back();
@@ -831,7 +830,7 @@
         /// See 8.2.4.46 Comment start state
         /// </summary>
         /// <param name="position">The start position.</param>
-        HtmlCommentToken CommentStart(TextPosition position)
+        HtmlToken CommentStart(TextPosition position)
         {
             var c = GetNext();
             _stringBuffer.Clear();
@@ -864,7 +863,7 @@
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
         /// <param name="position">The start position.</param>
-        HtmlCommentToken CommentDashStart(TextPosition position)
+        HtmlToken CommentDashStart(TextPosition position)
         {
             var c = GetNext();
 
@@ -898,7 +897,7 @@
         /// See 8.2.4.48 Comment state
         /// </summary>
         /// <param name="position">The start position.</param>
-        HtmlCommentToken Comment(TextPosition position)
+        HtmlToken Comment(TextPosition position)
         {
             while (true)
             {
@@ -935,7 +934,7 @@
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
         /// <param name="position">The start position.</param>
-        HtmlCommentToken CommentDashEnd(TextPosition position)
+        HtmlToken CommentDashEnd(TextPosition position)
         {
             var c = GetNext();
 
@@ -962,7 +961,7 @@
         /// See 8.2.4.50 Comment end state
         /// </summary>
         /// <param name="position">The start position.</param>
-        HtmlCommentToken CommentEnd(TextPosition position)
+        HtmlToken CommentEnd(TextPosition position)
         {
             while (true)
             {
@@ -1005,7 +1004,7 @@
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
         /// <param name="position">The start position.</param>
-        HtmlCommentToken CommentBangEnd(TextPosition position)
+        HtmlToken CommentBangEnd(TextPosition position)
         {
             var c = GetNext();
 
@@ -1060,8 +1059,8 @@
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
                 var doctype = HtmlToken.Doctype(true);
-                doctype.Start = position;
-                doctype.End = GetCurrentPosition();
+                //doctype.Start = position;
+                //doctype.End = GetCurrentPosition();
                 return doctype;
             }
 
@@ -1082,14 +1081,14 @@
             if (c.IsUppercaseAscii())
             {
                 var doctype = HtmlToken.Doctype(false);
-                doctype.Start = position;
+                //doctype.Start = position;
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return DoctypeName(doctype);
             }
             else if (c == Symbols.Null)
             {
                 var doctype = HtmlToken.Doctype(false);
-                doctype.Start = position;
+                //doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear().Append(Symbols.Replacement);
                 return DoctypeName(doctype);
@@ -1097,25 +1096,25 @@
             else if (c == Symbols.GreaterThan)
             {
                 var doctype = HtmlToken.Doctype(true);
-                doctype.Start = position;
+                //doctype.Start = position;
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                doctype.End = GetCurrentPosition();
+                //doctype.End = GetCurrentPosition();
                 return doctype;
             }
             else if (c == Symbols.EndOfFile)
             {
                 var doctype = HtmlToken.Doctype(true);
-                doctype.Start = position;
+                //doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                doctype.End = GetCurrentPosition();
+                //doctype.End = GetCurrentPosition();
                 return doctype;
             }
             else
             {
                 var doctype = HtmlToken.Doctype(false);
-                doctype.Start = position;
+                //doctype.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return DoctypeName(doctype);
             }
@@ -1163,7 +1162,7 @@
                     _stringBuffer.Append(c);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1203,7 +1202,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1251,7 +1250,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1295,7 +1294,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1341,7 +1340,7 @@
                     _stringBuffer.Append(c);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1387,7 +1386,7 @@
                     _stringBuffer.Append(c);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1434,7 +1433,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1474,7 +1473,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1523,7 +1522,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1567,7 +1566,7 @@
                 return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1613,7 +1612,7 @@
                     _stringBuffer.Append(c);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1655,7 +1654,7 @@
                         continue;
                 }
 
-                doctype.End = GetCurrentPosition();
+                //doctype.End = GetCurrentPosition();
                 return doctype;
             }
         }
@@ -1684,7 +1683,7 @@
                     return BogusDoctype(doctype);
             }
 
-            doctype.End = GetCurrentPosition();
+            //doctype.End = GetCurrentPosition();
             return doctype;
         }
 
@@ -1709,7 +1708,7 @@
                         continue;
                 }
 
-                doctype.End = GetCurrentPosition();
+                //doctype.End = GetCurrentPosition();
                 return doctype;
             }
         }
@@ -1754,7 +1753,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                return HtmlToken.EOF;
+                return HtmlToken.EndOfFile;
             }
             else
             {
@@ -1795,7 +1794,7 @@
                     return EmitTag(tag);
                 }
                 else if (c == Symbols.EndOfFile)
-                    return HtmlToken.EOF;
+                    return HtmlToken.EndOfFile;
                 else if (c == Symbols.Null)
                 {
                     RaiseErrorOccurred(ErrorCode.Null);
@@ -1853,7 +1852,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                return HtmlToken.EOF;
+                return HtmlToken.EndOfFile;
             }
             else
             {
@@ -1905,7 +1904,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                return HtmlToken.EOF;
+                return HtmlToken.EndOfFile;
             }
             else
             {
@@ -1945,7 +1944,7 @@
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
-                    return HtmlToken.EOF;
+                    return HtmlToken.EndOfFile;
                 else
                     _stringBuffer.Append(c);
             }
@@ -1982,7 +1981,7 @@
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
-                    return HtmlToken.EOF;
+                    return HtmlToken.EndOfFile;
                 else
                     _stringBuffer.Append(c);
             }
@@ -2028,7 +2027,7 @@
                     _stringBuffer.Append(c);
                 }
                 else if (c == Symbols.EndOfFile)
-                    return HtmlToken.EOF;
+                    return HtmlToken.EndOfFile;
                 else
                     _stringBuffer.Append(c);
 
@@ -2052,7 +2051,7 @@
             else if (c == Symbols.GreaterThan)
                 return EmitTag(tag);
             else if (c == Symbols.EndOfFile)
-                return HtmlTagToken.EOF;
+                return HtmlToken.EndOfFile;
 
             RaiseErrorOccurred(ErrorCode.AttributeNameExpected);
             Back();
@@ -2085,14 +2084,13 @@
 
                             if (c.IsLetter())
                             {
-                                var tag = HtmlToken.CloseTag();
-                                tag.Start = position;
+                                var tag = HtmlTagToken.Close();
+                                //tag.Start = position;
                                 _stringBuffer.Clear().Append(c);
                                 return ScriptDataNameEndTag(tag);
                             }
 
-                            _buffer.Append(Symbols.LessThan)
-                                .Append(Symbols.Solidus);
+                            _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                             continue;
                         }
 
@@ -2126,7 +2124,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
 
                     default:
                         _buffer.Append(c);
@@ -2208,7 +2206,7 @@
                                 _buffer.Append(Symbols.Replacement);
                                 break;
                             case Symbols.EndOfFile:
-                                return HtmlToken.EOF;
+                                return HtmlToken.EndOfFile;
                             default:
                                 _buffer.Append(c);
                                 break;
@@ -2222,7 +2220,7 @@
                         _buffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
                     default:
                         return ScriptData(c);
                 }
@@ -2255,7 +2253,7 @@
                         _buffer.Append(Symbols.Replacement);
                         return ScriptDataEscaped(GetNext());
                     case Symbols.EndOfFile:
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
                     default:
                         _buffer.Append(c);
                         return ScriptDataEscaped(GetNext());
@@ -2297,8 +2295,8 @@
 
             if (c.IsLetter())
             {
-                var tag = HtmlToken.CloseTag();
-                tag.Start = position;
+                var tag = HtmlTagToken.Close();
+                //tag.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return ScriptDataEscapedNameTag(tag);
             }
@@ -2409,7 +2407,7 @@
                                 break;
                             case Symbols.EndOfFile:
                                 RaiseErrorOccurred(ErrorCode.EOF);
-                                return HtmlToken.EOF;
+                                return HtmlToken.EndOfFile;
                         }
                         break;
                     case Symbols.LessThan:
@@ -2421,7 +2419,7 @@
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(ErrorCode.EOF);
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
                 }
 
                 _buffer.Append(c);
@@ -2455,7 +2453,7 @@
                         return ScriptDataEscapedDouble(GetNext());
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(ErrorCode.EOF);
-                        return HtmlToken.EOF;
+                        return HtmlToken.EndOfFile;
                     default:
                         _buffer.Append(c);
                         return ScriptDataEscapedDouble(GetNext());
@@ -2512,11 +2510,11 @@
 
         #region Helpers
 
-        HtmlCommentToken EmitComment(TextPosition position)
+        HtmlToken EmitComment(TextPosition position)
         {
             var comment = HtmlToken.Comment(_stringBuffer.ToString());
-            comment.Start = position;
-            comment.End = GetCurrentPosition();
+            //comment.Start = position;
+            //comment.End = GetCurrentPosition();
             return comment;
         }
 
@@ -2526,16 +2524,17 @@
         HtmlTagToken EmitTag(HtmlTagToken tag)
         {
             _state = HtmlParseMode.PCData;
+            var attributes = tag.Attributes;
 
             if (tag.Type == HtmlTokenType.StartTag)
             {
-                for (var i = tag.Attributes.Count - 1; i > 0; i--)
+                for (var i = attributes.Count - 1; i > 0; i--)
                 {
                     for (var j = i - 1; j >= 0; j--)
                     {
-                        if (tag.Attributes[j].Key == tag.Attributes[i].Key)
+                        if (attributes[j].Key == attributes[i].Key)
                         {
-                            tag.Attributes.RemoveAt(i);
+                            attributes.RemoveAt(i);
                             RaiseErrorOccurred(ErrorCode.AttributeDuplicateOmitted);
                             break;
                         }
@@ -2549,11 +2548,11 @@
                 if (tag.IsSelfClosing)
                     RaiseErrorOccurred(ErrorCode.EndTagCannotBeSelfClosed);
 
-                if (tag.Attributes.Count != 0)
+                if (attributes.Count != 0)
                     RaiseErrorOccurred(ErrorCode.EndTagCannotHaveAttributes);
             }
 
-            tag.End = GetCurrentPosition();
+            //tag.End = GetCurrentPosition();
             return tag;
         }
 
