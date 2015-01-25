@@ -6,9 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-#if LEGACY
-    using AngleSharp.Extensions;
-#else
+#if !LEGACY
     using System.Runtime.CompilerServices;
 #endif
 
@@ -19,8 +17,7 @@
     static class HtmlParserExtensions
     {
         /// <summary>
-        /// Checks for each attribute on the token if the attribute is already present on the node.
-        /// If it is not, the attribute and its corresponding value is added to the node.
+        /// Adds all given attributes to the element, without any duplicate checks.
         /// </summary>
         /// <param name="element">The node with the target attributes.</param>
         /// <param name="attributes">The attributes to set.</param>
@@ -29,8 +26,26 @@
             for (var i = 0; i < attributes.Count; i++)
             {
                 var attribute = attributes[i];
-                element.AddAttribute(attribute.Key, attribute.Value);
+                element.Attributes.Add(new Attr(element, attribute.Key, attribute.Value));
+                element.AttributeChanged(attribute.Key, null, null, true);
             }
+        }
+
+        /// <summary>
+        /// Sanatizes the given list by removing the duplicates first, then calls the
+        /// SetAttributes method to add the remaining attributes to the element.
+        /// </summary>
+        /// <param name="element">The node with the target attributes.</param>
+        /// <param name="attributes">The attributes to sanatize and set.</param>
+        public static void SetUniqueAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
+        {
+            for (int i = attributes.Count - 1; i >= 0; i--)
+            {
+                if (element.HasAttribute(attributes[i].Key))
+                    attributes.RemoveAt(i);
+            }
+
+            element.SetAttributes(attributes);
         }
 
         /// <summary>
