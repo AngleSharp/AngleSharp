@@ -27,7 +27,7 @@ namespace UnitTests
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
-            Assert.AreEqual(content, ((HtmlCharacterToken)token).Data);
+            Assert.AreEqual(content, token.Data);
         }
         
         [Test]
@@ -47,7 +47,7 @@ namespace UnitTests
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
-            Assert.AreEqual(String.Empty, ((HtmlCommentToken)token).Data);
+            Assert.AreEqual(String.Empty, token.Data);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace UnitTests
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
-            Assert.AreEqual("?", ((HtmlCommentToken)token).Data);
+            Assert.AreEqual("?", token.Data);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace UnitTests
             var t = new HtmlTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
-            Assert.AreEqual(" ", ((HtmlCommentToken)token).Data);
+            Assert.AreEqual(" ", token.Data);
         }
         
         [Test]
@@ -138,9 +138,9 @@ namespace UnitTests
                 token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
-                    str += ((HtmlCharacterToken)token).Data;
+                    str += token.Data;
             }
-            while (token != HtmlToken.EOF);
+            while (token != HtmlToken.EndOfFile);
 
             Assert.AreEqual("I'm ∉ I tell you", str);
         }
@@ -159,9 +159,9 @@ namespace UnitTests
                 token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
-                    str += ((HtmlCharacterToken)token).Data;
+                    str += token.Data;
             }
-            while (token != HtmlToken.EOF);
+            while (token != HtmlToken.EndOfFile);
 
             Assert.AreEqual("I'm ¬it; I tell you", str);
         }
@@ -208,9 +208,9 @@ namespace UnitTests
                 token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
-                    sb.Append(((HtmlCharacterToken)token).Data);
+                    sb.Append(token.Data);
             }
-            while (token != HtmlToken.EOF);
+            while (token != HtmlToken.EndOfFile);
 
             Assert.AreEqual("hi mum how <!-- are you doing />", sb.ToString());
         }
