@@ -22,6 +22,7 @@
         String _lastStartTag;
         HtmlParseMode _state;
         HtmlToken _buffered;
+        TextPosition _begin;
 
         #endregion
 
@@ -217,13 +218,13 @@
 
                     case Symbols.LessThan:
                         // See 8.2.4.11 RCDATA less-than sign state
-                        var position = GetCurrentPosition();
+                        _begin = GetCurrentPosition();
                         c = GetNext();
 
                         if (c == Symbols.Solidus)
                         {
                             _stringBuffer.Clear();
-                            return RCDataEndTag(position);
+                            return RCDataEndTag();
                         }
 
                         _buffer.Append(Symbols.LessThan);
@@ -249,9 +250,8 @@
         /// <summary>
         /// See 8.2.4.12 RCDATA end tag open state
         /// </summary>
-        /// <param name="position">The start position.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken RCDataEndTag(TextPosition position)
+        HtmlToken RCDataEndTag()
         {
             var c = GetNext();
 
@@ -269,9 +269,7 @@
                 return RCData(c);
             }
 
-            var tag = HtmlTagToken.Close();
-            //tag.Start = position;
-            return RCDataNameEndTag(tag);
+            return RCDataNameEndTag(HtmlTagToken.Close());
         }
 
         /// <summary>
@@ -610,35 +608,33 @@
         /// </summary>
         HtmlToken TagOpen()
         {
-            var position = GetCurrentPosition();
+            _begin = GetCurrentPosition();
             var c = GetNext();
 
             if (c == Symbols.Solidus)
             {
-                return TagEnd(GetNext(), position);
+                return TagEnd(GetNext());
             }
             else if (c.IsLowercaseAscii())
             {
                 var tag = HtmlTagToken.Open();
-                //tag.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
                 var tag = HtmlTagToken.Open();
-                //tag.Start = position;
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
             else if (c == Symbols.ExclamationMark)
             {
-                return MarkupDeclaration(position);
+                return MarkupDeclaration();
             }
             else if (c == Symbols.QuestionMark)
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
-                return BogusComment(c, position);
+                return BogusComment(c);
             }
 
             _state = HtmlParseMode.PCData;
@@ -651,20 +647,17 @@
         /// See 8.2.4.9 End tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        /// <param name="position">The start position.</param>
-        HtmlToken TagEnd(Char c, TextPosition position)
+        HtmlToken TagEnd(Char c)
         {
             if (c.IsLowercaseAscii())
             {
                 var tag = HtmlTagToken.Close();
-                //tag.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
                 var tag = HtmlTagToken.Close();
-                //tag.Start = position;
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
@@ -684,7 +677,7 @@
             else
             {
                 RaiseErrorOccurred(ErrorCode.BogusComment);
-                return BogusComment(c, position);
+                return BogusComment(c);
             }
         }
 
@@ -760,20 +753,19 @@
         /// <summary>
         /// See 8.2.4.45 Markup declaration open state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken MarkupDeclaration(TextPosition position)
+        HtmlToken MarkupDeclaration()
         {
             var c = GetNext();
 
             if (ContinuesWith("--"))
             {
                 Advance();
-                return CommentStart(position);
+                return CommentStart();
             }
             else if (ContinuesWith(Tags.Doctype))
             {
                 Advance(6);
-                return Doctype(position);
+                return Doctype();
             }
             else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
             {
@@ -783,7 +775,7 @@
             else
             {
                 RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
-                return BogusComment(c, position);
+                return BogusComment(c);
             }
         }
 
@@ -795,8 +787,7 @@
         /// See 8.2.4.44 Bogus comment state
         /// </summary>
         /// <param name="c">The current character.</param>
-        /// <param name="position">The start position.</param>
-        HtmlToken BogusComment(Char c, TextPosition position)
+        HtmlToken BogusComment(Char c)
         {
             _stringBuffer.Clear();
 
@@ -820,15 +811,14 @@
                 }
 
                 _state = HtmlParseMode.PCData;
-                return EmitComment(position);
+                return EmitComment();
             }
         }
 
         /// <summary>
         /// See 8.2.4.46 Comment start state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken CommentStart(TextPosition position)
+        HtmlToken CommentStart()
         {
             var c = GetNext();
             _stringBuffer.Clear();
@@ -836,11 +826,11 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentDashStart(position);
+                    return CommentDashStart();
                 case Symbols.Null:
                     RaiseErrorOccurred(ErrorCode.Null);
                     _stringBuffer.Append(Symbols.Replacement);
-                    return Comment(position);
+                    return Comment();
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -851,29 +841,27 @@
                     break;
                 default:
                     _stringBuffer.Append(c);
-                    return Comment(position);
+                    return Comment();
             }
 
-            return EmitComment(position);
+            return EmitComment();
         }
 
         /// <summary>
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken CommentDashStart(TextPosition position)
+        HtmlToken CommentDashStart()
         {
             var c = GetNext();
 
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentEnd(position);
+                    return CommentEnd();
                 case Symbols.Null:
                     RaiseErrorOccurred(ErrorCode.Null);
-                    _stringBuffer.Append(Symbols.Minus)
-                        .Append(Symbols.Replacement);
-                    return Comment(position);
+                    _stringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
+                    return Comment();
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(ErrorCode.TagClosedWrong);
@@ -883,19 +871,17 @@
                     Back();
                     break;
                 default:
-                    _stringBuffer.Append(Symbols.Minus)
-                        .Append(c);
-                    return Comment(position);
+                    _stringBuffer.Append(Symbols.Minus).Append(c);
+                    return Comment();
             }
 
-            return EmitComment(position);
+            return EmitComment();
         }
 
         /// <summary>
         /// See 8.2.4.48 Comment state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken Comment(TextPosition position)
+        HtmlToken Comment()
         {
             while (true)
             {
@@ -904,7 +890,7 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        var result = CommentDashEnd(position);
+                        var result = CommentDashEnd();
 
                         if (result != null)
                             return result;
@@ -924,26 +910,25 @@
                         continue;
                 }
 
-                return EmitComment(position);
+                return EmitComment();
             }
         }
 
         /// <summary>
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken CommentDashEnd(TextPosition position)
+        HtmlToken CommentDashEnd()
         {
             var c = GetNext();
 
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentEnd(position);
+                    return CommentEnd();
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(ErrorCode.EOF);
                     Back();
-                    return EmitComment(position);
+                    return EmitComment();
                 case Symbols.Null:
                     RaiseErrorOccurred(ErrorCode.Null);
                     c = Symbols.Replacement;
@@ -957,8 +942,7 @@
         /// <summary>
         /// See 8.2.4.50 Comment end state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken CommentEnd(TextPosition position)
+        HtmlToken CommentEnd()
         {
             while (true)
             {
@@ -975,7 +959,7 @@
                         return null;
                     case Symbols.ExclamationMark:
                         RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
-                        return CommentBangEnd(position);
+                        return CommentBangEnd();
                     case Symbols.Minus:
                         RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
                         _stringBuffer.Append(Symbols.Minus);
@@ -990,15 +974,14 @@
                         return null;
                 }
 
-                return EmitComment(position);
+                return EmitComment();
             }
         }
 
         /// <summary>
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken CommentBangEnd(TextPosition position)
+        HtmlToken CommentBangEnd()
         {
             var c = GetNext();
 
@@ -1006,7 +989,7 @@
             {
                 case Symbols.Minus:
                     _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark);
-                    return CommentDashEnd(position);
+                    return CommentDashEnd();
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     break;
@@ -1023,7 +1006,7 @@
                     return null;
             }
 
-            return EmitComment(position);
+            return EmitComment();
         }
 
         #endregion
@@ -1033,35 +1016,31 @@
         /// <summary>
         /// See 8.2.4.52 DOCTYPE state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken Doctype(TextPosition position)
+        HtmlToken Doctype()
         {
             var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
-                return DoctypeNameBefore(GetNext(), position);
+                return DoctypeNameBefore(GetNext());
             }
             else if (c == Symbols.EndOfFile)
             {
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
                 var doctype = HtmlToken.Doctype(true);
-                //doctype.Start = position;
-                //doctype.End = GetCurrentPosition();
-                return doctype;
+                return Emit(doctype);
             }
 
             RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
-            return DoctypeNameBefore(c, position);
+            return DoctypeNameBefore(c);
         }
 
         /// <summary>
         /// See 8.2.4.53 Before DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        /// <param name="position">The start position.</param>
-        HtmlToken DoctypeNameBefore(Char c, TextPosition position)
+        HtmlToken DoctypeNameBefore(Char c)
         {
             while (c.IsSpaceCharacter())
                 c = GetNext();
@@ -1069,14 +1048,12 @@
             if (c.IsUppercaseAscii())
             {
                 var doctype = HtmlToken.Doctype(false);
-                //doctype.Start = position;
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return DoctypeName(doctype);
             }
             else if (c == Symbols.Null)
             {
                 var doctype = HtmlToken.Doctype(false);
-                //doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.Null);
                 _stringBuffer.Clear().Append(Symbols.Replacement);
                 return DoctypeName(doctype);
@@ -1084,25 +1061,20 @@
             else if (c == Symbols.GreaterThan)
             {
                 var doctype = HtmlToken.Doctype(true);
-                //doctype.Start = position;
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(ErrorCode.TagClosedWrong);
-                //doctype.End = GetCurrentPosition();
-                return doctype;
+                return Emit(doctype);
             }
             else if (c == Symbols.EndOfFile)
             {
                 var doctype = HtmlToken.Doctype(true);
-                //doctype.Start = position;
                 RaiseErrorOccurred(ErrorCode.EOF);
                 Back();
-                //doctype.End = GetCurrentPosition();
-                return doctype;
+                return Emit(doctype);
             }
             else
             {
                 var doctype = HtmlToken.Doctype(false);
-                //doctype.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return DoctypeName(doctype);
             }
@@ -1154,8 +1126,7 @@
                 }
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1194,8 +1165,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1242,8 +1212,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1286,8 +1255,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1334,8 +1302,7 @@
                 }
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1382,8 +1349,7 @@
                 }
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1429,8 +1395,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1469,8 +1434,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1518,8 +1482,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1562,8 +1525,7 @@
                 return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1610,8 +1572,7 @@
                 }
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1652,8 +1613,7 @@
                         continue;
                 }
 
-                //doctype.End = GetCurrentPosition();
-                return doctype;
+                return Emit(doctype);
             }
         }
 
@@ -1681,8 +1641,7 @@
                     return BogusDoctype(doctype);
             }
 
-            //doctype.End = GetCurrentPosition();
-            return doctype;
+            return Emit(doctype);
         }
 
         /// <summary>
@@ -1706,8 +1665,7 @@
                         continue;
                 }
 
-                //doctype.End = GetCurrentPosition();
-                return doctype;
+                return Emit(doctype);
             }
         }
 
@@ -2090,7 +2048,7 @@
                 {
                     case Symbols.LessThan:
                         //See 8.2.4.17 Script data less-than sign state
-                        var position = GetCurrentPosition();
+                        _begin = GetCurrentPosition();
                         c = GetNext();
 
                         if (c == Symbols.Solidus)
@@ -2101,7 +2059,6 @@
                             if (c.IsLetter())
                             {
                                 var tag = HtmlTagToken.Close();
-                                //tag.Start = position;
                                 _stringBuffer.Clear().Append(c);
                                 return ScriptDataNameEndTag(tag);
                             }
@@ -2280,11 +2237,11 @@
         /// </summary>
         HtmlToken ScriptDataEscapedLT()
         {
-            var position = GetCurrentPosition();
+            _begin = GetCurrentPosition();
             var c = GetNext();
 
             if (c == Symbols.Solidus)
-                return ScriptDataEscapedEndTag(position);
+                return ScriptDataEscapedEndTag();
 
             if (c.IsLetter())
             {
@@ -2300,16 +2257,14 @@
         /// <summary>
         /// See 8.2.4.26 Script data escaped end tag open state
         /// </summary>
-        /// <param name="position">The start position.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken ScriptDataEscapedEndTag(TextPosition position)
+        HtmlToken ScriptDataEscapedEndTag()
         {
             var c = GetNext();
 
             if (c.IsLetter())
             {
                 var tag = HtmlTagToken.Close();
-                //tag.Start = position;
                 _stringBuffer.Clear().Append(c);
                 return ScriptDataEscapedNameTag(tag);
             }
@@ -2524,18 +2479,19 @@
 
         #region Helpers
 
-        HtmlToken EmitComment(TextPosition position)
+        HtmlToken Emit(HtmlToken token)
         {
-            var comment = HtmlToken.Comment(_stringBuffer.ToString());
-            //comment.Start = position;
-            //comment.End = GetCurrentPosition();
-            return comment;
+            token.Range = new TextRange(_begin, GetCurrentPosition());
+            return token;
         }
 
-        /// <summary>
-        /// Emits the current token as a tag token.
-        /// </summary>
-        HtmlTagToken EmitTag(HtmlTagToken tag)
+        HtmlToken EmitComment()
+        {
+            var comment = HtmlToken.Comment(_stringBuffer.ToString());
+            return Emit(comment);
+        }
+
+        HtmlToken EmitTag(HtmlTagToken tag)
         {
             _state = HtmlParseMode.PCData;
             var attributes = tag.Attributes;
@@ -2566,8 +2522,7 @@
                     RaiseErrorOccurred(ErrorCode.EndTagCannotHaveAttributes);
             }
 
-            //tag.End = GetCurrentPosition();
-            return tag;
+            return Emit(tag);
         }
 
         #endregion
