@@ -228,15 +228,20 @@
         {
             var controls = GetInvalidControls();
             var result = true;
+            var hasfocused = false;
 
             foreach (var control in controls)
             {
                 if (control.FireSimpleEvent(EventNames.Invalid, false, true))
                     continue;
 
-                //TODO Report Problems (interactively, i.e. focus on certain elements etc.)
-                //maybe use an event for this
-                //If unhandled:
+                if (hasfocused == false)
+                {
+                    //TODO Report Problems (interactively, e.g. via UI specific event)
+                    control.DoFocus();
+                    hasfocused = true;
+                }
+
                 result = false;
             }
 
@@ -259,13 +264,10 @@
         void SubmitForm(HTMLElement from, Boolean submittedFromSubmitMethod)
         {
             var owner = Owner;
+            var browsingContext = owner.Context;
 
-            //TODO
-            //If form document has no associated browsing context or its active
-            //sandboxing flag set has its sandboxed forms browsing context flag
-            //set, then abort these steps without doing anything.
-
-            var browsingContext = Owner.Context;
+            if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
+                return;
 
             if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate)
             {
