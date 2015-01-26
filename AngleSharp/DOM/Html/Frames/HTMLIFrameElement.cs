@@ -23,7 +23,7 @@
         public HTMLIFrameElement(Document owner)
             : base(owner, Tags.Iframe, NodeFlags.LiteralText)
         {
-            _doc = new Document();
+            _doc = new Document(owner.NewChildContext());
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 

@@ -595,6 +595,7 @@
 
         IWindow IWindow.Open(String url, String name, String features, String replace)
         {
+            //TODO Context ?
             var document = new Document();
             document.Location.Href = url;
             return new AnalysisWindow(document) { Name = name };
