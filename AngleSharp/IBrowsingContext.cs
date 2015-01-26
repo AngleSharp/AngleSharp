@@ -23,6 +23,11 @@
         IHistory SessionHistory { get; }
 
         /// <summary>
+        /// Gets the sandboxing flag of the context.
+        /// </summary>
+        Sandboxes Security { get; }
+
+        /// <summary>
         /// Gets the configuration for the browsing context.
         /// </summary>
         IConfiguration Configuration { get; }

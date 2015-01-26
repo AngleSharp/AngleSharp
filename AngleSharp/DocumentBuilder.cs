@@ -215,7 +215,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode);
-            var browsingContext = new SimpleBrowsingContext(configuration);
+            var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
             return Construct(doc, configuration).Parse();
         }
@@ -262,7 +262,7 @@
             using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
             {
                 var stream = new TextSource(response.Content, configuration.DefaultEncoding());
-                var browsingContext = new SimpleBrowsingContext(configuration);
+                var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
                 var doc = new Document(browsingContext, stream) { DocumentUri = url.OriginalString };
                 return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
             }
@@ -284,7 +284,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
-            var browsingContext = new SimpleBrowsingContext(configuration);
+            var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
             return Construct(doc, configuration).Parse();
         }
@@ -318,7 +318,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(content, configuration.DefaultEncoding());
-            var browsingContext = new SimpleBrowsingContext(configuration);
+            var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
             var parser = Construct(doc, configuration);
             return await parser.ParseAsync(cancel).ConfigureAwait(false);
@@ -339,7 +339,7 @@
             if (configuration == null)
                 configuration = new Configuration();
 
-            var browsingContext = new SimpleBrowsingContext(configuration);
+            var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var stream = new TextSource(sourceCode);
             var doc = new Document(browsingContext, stream);
             var node = context as Element;

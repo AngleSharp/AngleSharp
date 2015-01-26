@@ -252,7 +252,7 @@
         /// <returns>The available context, or null, if the context does not exist yet.</returns>
         public static IBrowsingContext GetTarget(this Document document, String target)
         {
-            if (target.Equals("_self", StringComparison.Ordinal))
+            if (String.IsNullOrEmpty(target) || target.Equals("_self", StringComparison.Ordinal))
                 return document.Context;
             else if (target.Equals("_parent", StringComparison.Ordinal))
                 return document.Context.Parent ?? document.Context;
@@ -270,10 +270,12 @@
         /// <returns>The new context.</returns>
         public static IBrowsingContext CreateTarget(this Document document, String target)
         {
-            if (target.Equals("_blank", StringComparison.Ordinal))
-                return document.Options.NewContext();
+            var security = Sandboxes.None;
 
-            return document.NewContext(target);
+            if (target.Equals("_blank", StringComparison.Ordinal))
+                return document.Options.NewContext(security);
+
+            return document.NewContext(target, security);
         }
 
         /// <summary>
@@ -281,22 +283,29 @@
         /// </summary>
         /// <param name="document">The creator of the context.</param>
         /// <param name="name">The name of the new context.</param>
+        /// <param name="security">The sandbox flag of the context.</param>
         /// <returns>The new context.</returns>
-        public static IBrowsingContext NewContext(this Document document, String name)
+        public static IBrowsingContext NewContext(this Document document, String name, Sandboxes security)
         {
             var options = document.Options;
             var service = options.GetService<IContextService>();
 
             if (service == null)
-                return new SimpleBrowsingContext(options);
+                return new SimpleBrowsingContext(options, security);
 
-            return service.Create(options, name, document);
+            return service.Create(options, name, document, security);
         }
 
-        public static IBrowsingContext NewChildContext(this Document document)
+        /// <summary>
+        /// Creates a new nested browsing context with the given name and creator.
+        /// </summary>
+        /// <param name="document">The creator of the context.</param>
+        /// <param name="security">The sandbox flag of the context.</param>
+        /// <returns>The new nesteted context.</returns>
+        public static IBrowsingContext NewChildContext(this Document document, Sandboxes security)
         {
             //TODO
-            return document.NewContext(String.Empty);
+            return document.NewContext(String.Empty, security);
         }
 
         public static IWindow CreateWindow(this Document document)

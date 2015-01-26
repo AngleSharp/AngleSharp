@@ -64,6 +64,7 @@
     <Compile Include="Css\Map.cs" />
     <Compile Include="Css\Values\MatrixTransform.cs" />
     <Compile Include="DOM\Collections\StyleCollection.cs" />
+    <Compile Include="DOM\Constants\Sandboxes.cs" />
     <Compile Include="DOM\Css\Constants\BlendMode.cs" />
     <Compile Include="Css\ValueConverters\ArgumentsValueConverter.cs" />
     <Compile Include="Css\ValueConverters\ClassValueConverter.cs" />

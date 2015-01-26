@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.DOM.Html
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.DOM;
     using AngleSharp.DOM.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Threading;
@@ -23,7 +24,7 @@
         public HTMLIFrameElement(Document owner)
             : base(owner, Tags.Iframe, NodeFlags.LiteralText)
         {
-            _doc = new Document(owner.NewChildContext());
+            _doc = new Document(owner.NewChildContext(Sandboxes.None));
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 

@@ -10,15 +10,17 @@
         #region Fields
 
         readonly IConfiguration _configuration;
+        readonly Sandboxes _security;
         IDocument _active;
 
         #endregion
 
         #region ctor
 
-        public SimpleBrowsingContext(IConfiguration configuration)
+        public SimpleBrowsingContext(IConfiguration configuration, Sandboxes security)
         {
             _configuration = configuration;
+            _security = security;
         }
 
         #endregion
@@ -53,6 +55,11 @@
         public IHistory SessionHistory
         {
             get { return null; }
+        }
+
+        public Sandboxes Security
+        {
+            get { return _security; }
         }
 
         public void NavigateTo(IDocument document)

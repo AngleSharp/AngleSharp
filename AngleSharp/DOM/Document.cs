@@ -30,8 +30,10 @@
         readonly List<WeakReference> _ranges;
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
+        readonly IWindow _view;
 
         QuirksMode _quirksMode;
+        Sandboxes _sandbox;
         Boolean _designMode;
         Boolean _shown;
         DocumentReadyState _ready;
@@ -42,7 +44,6 @@
         String _preferredStyleSheetSet;
         Location _location;
         IElement _focus;
-        IWindow _view;
 
         #endregion
 
@@ -423,7 +424,7 @@
             : base(null, "#document", NodeType.Document)
         {
             IsAsync = true;
-            _context = context ?? new SimpleBrowsingContext(Configuration.Default);
+            _context = context ?? new SimpleBrowsingContext(Configuration.Default, Sandboxes.None);
             _source = source;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;
@@ -438,6 +439,7 @@
             _location.Changed += LocationChanged;
             _ranges = new List<WeakReference>();
             _view = this.CreateWindow();
+            _sandbox = Sandboxes.None;
             _context.NavigateTo(this);
         }
 
@@ -987,6 +989,15 @@
         {
             get { return _quirksMode; }
             set { _quirksMode = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the active sandboxing flag of the document.
+        /// </summary>
+        internal Sandboxes ActiveSandboxing
+        {
+            get { return _sandbox; }
+            set { _sandbox = value; }
         }
 
         /// <summary>

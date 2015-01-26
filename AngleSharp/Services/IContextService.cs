@@ -12,8 +12,9 @@
         /// Creates a new browsing context without any particular name.
         /// </summary>
         /// <param name="configuration">The configuration of the new context.</param>
+        /// <param name="security">The sandboxing flag to use.</param>
         /// <returns>The created browsing context.</returns>
-        IBrowsingContext Create(IConfiguration configuration);
+        IBrowsingContext Create(IConfiguration configuration, Sandboxes security);
 
         /// <summary>
         /// Creates a new browsing context with the given name,
@@ -22,8 +23,9 @@
         /// <param name="configuration">The configuration of the new context.</param>
         /// <param name="name">The name of the new context.</param>
         /// <param name="creator">The creator of the context.</param>
+        /// <param name="security">The sandboxing flag to use.</param>
         /// <returns>The created browsing context.</returns>
-        IBrowsingContext Create(IConfiguration configuration, String name, IDocument creator);
+        IBrowsingContext Create(IConfiguration configuration, String name, IDocument creator, Sandboxes security);
 
         /// <summary>
         /// Tries to find a browsing context with the given name.
