@@ -2835,6 +2835,9 @@
     <Compile Include="..\AngleSharp\Services\IVideoService.cs">
       <Link>Services\IVideoService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IWindowService.cs">
+      <Link>Services\IWindowService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Media\IAudioInfo.cs">
       <Link>Services\Media\IAudioInfo.cs</Link>
     </Compile>
