@@ -22,7 +22,7 @@
         /// context (which is protected by the sandboxed top-level navigation
         /// browsing context flag defined below).
         /// </summary>
-        NavigationBrowsing = 0x1,
+        Navigation = 0x1,
         /// <summary>
         /// This flag prevents content from creating new auxiliary browsing
         /// contexts, e.g. using the target attribute, or the window.open()
