@@ -65,6 +65,24 @@
         #region Comparison
 
         /// <summary>
+        /// Returns a string representation of the position in the text.
+        /// </summary>
+        /// <returns>A string that contains the contained line and column.</returns>
+        public override String ToString()
+        {
+            return String.Format("Ln {0}, Col {1}", _line, _column);
+        }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>An integer that is the hash code for this instance.</returns>
+        public override Int32 GetHashCode()
+        {
+            return _position ^ (_line | _column) + _line;
+        }
+
+        /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
         /// <param name="obj">The object to compare with the current instance.</param>
