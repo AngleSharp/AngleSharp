@@ -11,7 +11,7 @@
     /// Represents a node in the generated tree.
     /// </summary>
     [DebuggerStepThrough]
-    public class Node : EventTarget, INode, IEquatable<INode>
+    class Node : EventTarget, INode, IEquatable<INode>
     {
         #region Fields
 
