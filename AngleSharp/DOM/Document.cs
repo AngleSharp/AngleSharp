@@ -437,6 +437,7 @@
             _location = new Location(AboutBlank);
             _location.Changed += LocationChanged;
             _ranges = new List<WeakReference>();
+            _view = this.CreateWindow();
             _context.NavigateTo(this);
         }
 
