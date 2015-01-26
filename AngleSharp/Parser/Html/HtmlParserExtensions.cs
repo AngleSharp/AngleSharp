@@ -109,7 +109,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddComment(this Node parent, HtmlToken token)
         {
-            parent.AddNode(new Comment(parent.Owner, token.Data) { Position = token.Range });
+            parent.AddNode(new Comment(parent.Owner, token.Data) { OriginalPosition = token.Range });
         }
 
         /// <summary>

@@ -1186,7 +1186,7 @@
             else if (tagName == Tags.Math)
             {
                 var element = new MathElement(doc, tagName);
-                element.Position = tag.Range;
+                element.OriginalPosition = tag.Range;
                 ReconstructFormatting();
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
@@ -1204,7 +1204,7 @@
             else if (tagName == Tags.Svg)
             {
                 var element = new SvgElement(doc, tagName);
-                element.Position = tag.Range;
+                element.OriginalPosition = tag.Range;
                 ReconstructFormatting();
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
@@ -3562,7 +3562,7 @@
             {
                 SystemIdentifier = token.SystemIdentifier,
                 PublicIdentifier = token.PublicIdentifier,
-                Position = token.Range
+                OriginalPosition = token.Range
             });
         }
 
@@ -3602,7 +3602,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
-            element.Position = tag.Range;
+            element.OriginalPosition = tag.Range;
 
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
                 RaiseErrorOccurred(ErrorCode.TagCannotBeSelfClosed);

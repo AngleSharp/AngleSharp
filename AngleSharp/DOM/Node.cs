@@ -23,6 +23,7 @@
         Url _baseUri;
         Node _parent;
         NodeList _children;
+        TextRange _range;
 
         #endregion
 
@@ -47,10 +48,10 @@
         /// <summary>
         /// Gets the positions of the node in the original source code.
         /// </summary>
-        public TextRange Position
+        public TextRange OriginalPosition
         {
-            get;
-            internal set;
+            get { return _range; }
+            internal set { _range = value; }
         }
 
         /// <summary>
