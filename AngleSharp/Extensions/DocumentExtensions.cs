@@ -298,5 +298,15 @@
             //TODO
             return document.NewContext(String.Empty);
         }
+
+        public static IWindow CreateWindow(this Document document)
+        {
+            var service = document.Options.GetService<IWindowService>();
+
+            if (service == null)
+                return null;
+
+            return service.Create(document);
+        }
     }
 }
