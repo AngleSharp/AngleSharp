@@ -447,6 +447,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\RangeType.cs">
       <Link>DOM\Constants\RangeType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\Sandboxes.cs">
+      <Link>DOM\Constants\Sandboxes.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\SimpleChoice.cs">
       <Link>DOM\Constants\SimpleChoice.cs</Link>
     </Compile>
