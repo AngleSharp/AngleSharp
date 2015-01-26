@@ -50,6 +50,44 @@
         }
 
         /// <summary>
+        /// Converts the given value to a sandbox flag.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="allowFullscreen">Should full screen be allowed?</param>
+        /// <returns>The sandbox flag.</returns>
+        public static Sandboxes ParseSecuritySettings(this String value, Boolean allowFullscreen = false)
+        {
+            var values = value.SplitSpaces();
+            var output = Sandboxes.Navigation | Sandboxes.Plugins | Sandboxes.DocumentDomain;
+
+            if (!values.Contains("allow-popups", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.AuxiliaryNavigation;
+
+            if (!values.Contains("allow-top-navigation", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.TopLevelNavigation;
+
+            if (!values.Contains("allow-same-origin", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.Origin;
+
+            if (!values.Contains("allow-forms", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.Forms;
+
+            if (!values.Contains("allow-pointer-lock", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.PointerLock;
+
+            if (!values.Contains("allow-scripts", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.Scripts;
+
+            if (!values.Contains("allow-scripts", StringComparison.OrdinalIgnoreCase))
+                output |= Sandboxes.AutomaticFeatures;
+
+            if (!allowFullscreen)
+                output |= Sandboxes.Fullscreen;
+
+            return output;
+        }
+
+        /// <summary>
         /// Converts the given value to an enumeration value (or not).
         /// </summary>
         /// <param name="value">The value to convert.</param>
