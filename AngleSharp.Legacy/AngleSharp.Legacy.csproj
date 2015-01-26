@@ -1767,12 +1767,6 @@
     <Compile Include="..\AngleSharp\Foundation\Symbols.cs">
       <Link>Foundation\Symbols.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\TextPosition.cs">
-      <Link>Foundation\TextPosition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\TextRange.cs">
-      <Link>Foundation\TextRange.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
       <Link>Foundation\TextSource.cs</Link>
     </Compile>
@@ -2858,6 +2852,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\Media\IVideoInfo.cs">
       <Link>Services\Media\IVideoInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\TextPosition.cs">
+      <Link>TextPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\TextRange.cs">
+      <Link>TextRange.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Tools\AnalysisWindow.cs">
       <Link>Tools\AnalysisWindow.cs</Link>
