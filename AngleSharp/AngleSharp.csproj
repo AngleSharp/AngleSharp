@@ -125,7 +125,7 @@
     <Compile Include="Foundation\Factory.cs" />
     <Compile Include="DOM\MutationHost.cs" />
     <Compile Include="Foundation\SimpleBrowsingContext.cs" />
-    <Compile Include="Foundation\TextRange.cs" />
+    <Compile Include="TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
     <Compile Include="Html\InputTypes\CheckedInputType.cs" />
@@ -423,7 +423,7 @@
     <Compile Include="Css\Values\StepsTimingFunction.cs" />
     <Compile Include="DOM\Css\Values\CssUrl.cs" />
     <Compile Include="Services\Media\IObjectInfo.cs" />
-    <Compile Include="Foundation\TextPosition.cs" />
+    <Compile Include="TextPosition.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="Extensions\StyleExtensions.cs" />
     <Compile Include="Foundation\TextSource.cs" />
