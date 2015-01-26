@@ -292,5 +292,11 @@
 
             return service.Create(options, name, document);
         }
+
+        public static IBrowsingContext NewChildContext(this Document document)
+        {
+            //TODO
+            return document.NewContext(String.Empty);
+        }
     }
 }
