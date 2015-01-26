@@ -66,7 +66,7 @@
         /// code as well as line and column.</returns>
         public override String ToString()
         {
-            return String.Format("Ln {0}, Col {1}: ERR{2} ({3}).", Position.Line.ToString(), Position.Column.ToString(), ErrorCode.ToString(), ErrorMessage);
+            return String.Format("{0}: ERR{1} ({2}).", Position.ToString(), ErrorCode.ToString(), ErrorMessage);
         }
 
         #endregion
