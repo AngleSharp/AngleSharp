@@ -390,6 +390,9 @@
     <Compile Include="..\AngleSharp\DOM\Constants\ContentEditableMode.cs">
       <Link>DOM\Constants\ContentEditableMode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Constants\CorsSetting.cs">
+      <Link>DOM\Constants\CorsSetting.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\CssRuleType.cs">
       <Link>DOM\Constants\CssRuleType.cs</Link>
     </Compile>
@@ -2645,9 +2648,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Linq\StyleSheetExtensions.cs">
       <Link>Linq\StyleSheetExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\CorsSetting.cs">
-      <Link>Network\CorsSetting.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultInfo.cs">
       <Link>Network\DefaultInfo.cs</Link>
