@@ -1,11 +1,11 @@
-﻿namespace AngleSharp.Network
+﻿namespace AngleSharp.DOM
 {
     using AngleSharp.Attributes;
 
     /// <summary>
-    /// CORS settings attributes (2.6.6).
+    /// CORS settings attributes (see 2.6.6).
     /// </summary>
-    enum CorsSetting
+    public enum CorsSetting
     {
         /// <summary>
         /// The default (missing) value.
