@@ -707,7 +707,7 @@
     <Compile Include="Services\Media\IResourceInfo.cs" />
     <Compile Include="Services\Media\IVideoInfo.cs" />
     <Compile Include="Network\CorsSetting.cs" />
-    <Compile Include="Network\DefaultPorts.cs" />
+    <Compile Include="Network\PortNumbers.cs" />
     <Compile Include="Network\KnownProtocols.cs" />
     <Compile Include="DOM\Css\Values\Primitive\Frequency.cs" />
     <Compile Include="DOM\Css\Values\Primitive\Number.cs" />

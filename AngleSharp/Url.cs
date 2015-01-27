@@ -119,7 +119,7 @@
                 }
                 else if (KnownProtocols.IsOriginable(_scheme))
                 {
-                    var port = String.IsNullOrEmpty(_port) ? DefaultPorts.GetDefaultPort(_scheme) : _port;
+                    var port = String.IsNullOrEmpty(_port) ? PortNumbers.GetDefaultPort(_scheme) : _port;
                     return new Url(_scheme, _host, port);
                 }
 
@@ -708,7 +708,7 @@
 
             _port = SanatizePort(input, start, index - start);
 
-            if (DefaultPorts.GetDefaultPort(_scheme) == _port)
+            if (PortNumbers.GetDefaultPort(_scheme) == _port)
                 _port = String.Empty;
 
             if (onlyPort)
