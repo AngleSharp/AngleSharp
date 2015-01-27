@@ -1659,6 +1659,9 @@
     <Compile Include="..\AngleSharp\DOM\TextNode.cs">
       <Link>DOM\TextNode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Window.cs">
+      <Link>DOM\Window.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Xml\XmlDocument.cs">
       <Link>DOM\Xml\XmlDocument.cs</Link>
     </Compile>
@@ -2867,9 +2870,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\TextRange.cs">
       <Link>TextRange.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Tools\AnalysisWindow.cs">
-      <Link>Tools\AnalysisWindow.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
