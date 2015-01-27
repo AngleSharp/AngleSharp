@@ -313,7 +313,7 @@
             var service = document.Options.GetService<IWindowService>();
 
             if (service == null)
-                return new Window { Document = document };
+                return new Window(document);
 
             return service.Create(document);
         }

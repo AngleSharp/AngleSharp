@@ -12,11 +12,12 @@
     /// Represents a sample browsing Window implementation for
     /// automated tests, analysis and as a useful playground.
     /// </summary>
-    public class Window : EventTarget, IWindow
+    sealed class Window : EventTarget, IWindow
     {
         #region Fields
 
-        IDocument _document;
+        readonly Document _document;
+
         String _name;
         Int32 _outerHeight;
         Int32 _outerWidth;
@@ -28,22 +29,31 @@
 
         #endregion
 
+        #region ctor
+
+        public Window(Document document)
+        {
+            _document = document;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
-        /// Gets the configuration to use.
+        /// Gets the proxy to the current browsing context.
         /// </summary>
-        public IConfiguration Options
+        public IWindow Proxy
         {
-            get
-            {
-                var document = _document as Document;
+            get { return _document.Context.Current; }
+        }
 
-                if (document == null)
-                    return Configuration.Default;
-
-                return document.Options;
-            }
+        /// <summary>
+        /// Gets the user-agent information.
+        /// </summary>
+        public INavigator Navigator
+        {
+            get { return _navigator ?? (_navigator = CreateNavigator()); }
         }
 
         /// <summary>
@@ -52,7 +62,6 @@
         public IDocument Document
         {
             get { return _document; }
-            set { _document = value; }
         }
 
         /// <summary>
@@ -141,39 +150,8 @@
         /// <returns>The style declaration describing the element.</returns>
         public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
         {
-            if (Document == null)
-                throw new ArgumentException("A valid HTML document is required for computing the style of an element.");
-
             var styleCollection = this.GetStyleCollection();
             return styleCollection.ComputeDeclarations(element, pseudo);
-        }
-
-        #endregion
-
-        #region Browsing context
-
-        /// <summary>
-        /// Gets the proxy to the current browsing context.
-        /// </summary>
-        public IWindow Proxy
-        {
-            get
-            {
-                var document = _document as Document;
-
-                if (document == null)
-                    return this;
-
-                return document.Context.Current;
-            }
-        }
-
-        /// <summary>
-        /// Gets the user-agent information.
-        /// </summary>
-        public INavigator Navigator
-        {
-            get { return _navigator ?? (_navigator = CreateNavigator()); }
         }
 
         #endregion
@@ -606,7 +584,7 @@
 
         IHistory IWindow.History
         {
-            get { return null; }
+            get { return _document.Context.SessionHistory; }
         }
 
         IWindow IWindow.Open(String url, String name, String features, String replace)
@@ -614,11 +592,12 @@
             //TODO Context ?
             var document = new Document();
             document.Location.Href = url;
-            return new Window { Name = name, Document = document };
+            return new Window(document) { Name = name };
         }
 
         void IWindow.Close()
         {
+            _closed = true;
         }
 
         void IWindow.Stop()
@@ -652,7 +631,7 @@
 
         INavigator CreateNavigator()
         {
-            var service = Options.GetService<INavigatorService>();
+            var service = _document.Options.GetService<INavigatorService>();
 
             if (service != null)
                 return service.Create(this);
