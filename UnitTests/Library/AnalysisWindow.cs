@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.Tools;
+using AngleSharp.DOM;
 using NUnit.Framework;
 using System.Text;
 
@@ -8,16 +8,18 @@ namespace UnitTests.Library
     [TestFixture]
     public class AnalysisWindowTests
     {
-        AnalysisWindow window;
+        Window window;
 
         [SetUp]
         public void CreateDefaultAnalysisWindow()
         {
-            window = new AnalysisWindow();
-            window.ScreenX = 0;
-            window.ScreenY = 0;
-            window.OuterHeight = 768;
-            window.OuterWidth = 1024;
+            window = new Window
+            {
+                ScreenX = 0,
+                ScreenY = 0,
+                OuterHeight = 768,
+                OuterWidth = 1024
+            };
         }
 
         [Test]
