@@ -2820,6 +2820,9 @@
     <Compile Include="..\AngleSharp\Services\IImageService.cs">
       <Link>Services\IImageService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\INavigatorService.cs">
+      <Link>Services\INavigatorService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IObjectService.cs">
       <Link>Services\IObjectService.cs</Link>
     </Compile>
