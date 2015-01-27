@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Repesents a service to create a sound player.
+    /// Represents a service to create a sound player.
     /// </summary>
     public interface IResourceService<TResource> : IService
         where TResource : IResourceInfo

@@ -4,7 +4,7 @@
     using System;
 
     /// <summary>
-    /// Repesents a service to execute UI commands on a document.
+    /// Represents a service to execute UI commands on a document.
     /// </summary>
     public interface ICommandService : IService
     {

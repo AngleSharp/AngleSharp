@@ -3,7 +3,7 @@
     using AngleSharp.Services.Media;
 
     /// <summary>
-    /// Repesents a service to create a sound player.
+    /// Represents a service to create a sound player.
     /// </summary>
     public interface IAudioService : IResourceService<IAudioInfo>
     {

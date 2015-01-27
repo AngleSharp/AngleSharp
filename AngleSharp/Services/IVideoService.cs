@@ -3,7 +3,7 @@
     using AngleSharp.Services.Media;
 
     /// <summary>
-    /// Repesents a service to create a video player.
+    /// Represents a service to create a video player.
     /// </summary>
     public interface IVideoService : IResourceService<IVideoInfo>
     {
