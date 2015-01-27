@@ -98,6 +98,22 @@
         }
 
         /// <summary>
+        /// Checks if the given event type has any listeners registered.
+        /// </summary>
+        /// <param name="type">The name of the event.</param>
+        /// <returns>True if listeners are registered, otherwise false.</returns>
+        internal Boolean HasEventListener(String type)
+        {
+            foreach (var listener in _listeners)
+            {
+                if (listener.Type == type)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Dispatch an event to this Node.
         /// </summary>
         /// <param name="ev">The event to dispatch.</param>

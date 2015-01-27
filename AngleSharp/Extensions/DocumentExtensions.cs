@@ -308,6 +308,11 @@
             return document.NewContext(String.Empty, security);
         }
 
+        /// <summary>
+        /// Creates a new Window instance for the given document.
+        /// </summary>
+        /// <param name="document">The document that demands a DefaultView.</param>
+        /// <returns>The freshly created Window.</returns>
         public static IWindow CreateWindow(this Document document)
         {
             var service = document.Options.GetService<IWindowService>();
@@ -316,6 +321,16 @@
                 return new Window(document);
 
             return service.Create(document);
+        }
+
+        /// <summary>
+        /// Releases the storage mutex. For more information, see:
+        /// http://www.w3.org/html/wg/drafts/html/CR/webappapis.html#storage-mutex
+        /// </summary>
+        /// <param name="document">The responsible document.</param>
+        public static void ReleaseStorageMutex(this Document document)
+        {
+            //TODO
         }
     }
 }

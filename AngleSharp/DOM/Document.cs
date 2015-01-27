@@ -36,6 +36,8 @@
         Sandboxes _sandbox;
         Boolean _designMode;
         Boolean _shown;
+        Boolean _salvageable;
+        Boolean _firedUnload;
         DocumentReadyState _ready;
         TextSource _source;
         String _referrer;
@@ -439,6 +441,9 @@
             _location.Changed += LocationChanged;
             _ranges = new List<WeakReference>();
             _view = this.CreateWindow();
+            _firedUnload = false;
+            _salvageable = true;
+            _shown = false;
             _sandbox = Sandboxes.None;
             _context.NavigateTo(this);
         }
@@ -1517,6 +1522,37 @@
             _source = new TextSource(response.Content, Options.DefaultEncoding());
             var parser = new HtmlParser(this);
             return parser.ParseAsync(cancelToken);
+        }
+
+        /// <summary>
+        /// Unloads the document. For more details, see:
+        /// http://www.w3.org/html/wg/drafts/html/CR/browsers.html#unload-a-document
+        /// </summary>
+        /// <param name="recycle">The recycle parameter.</param>
+        /// <param name="cancelToken">Token for cancellation.</param>
+        /// <returns>The task that unloads the document.</returns>
+        internal void Unload(Boolean recycle, CancellationToken cancelToken)
+        {
+            var window = DefaultView as EventTarget;
+
+            if (_shown)
+            {
+                _shown = false;
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), window);
+            }
+
+            if (!_firedUnload)
+                window.FireSimpleEvent(EventNames.Unload);
+
+            this.ReleaseStorageMutex();
+
+            if (window.HasEventListener(EventNames.Unload))
+            {
+                _firedUnload = true;
+                _salvageable = false;
+            }
+
+            //TODO cont. at 11.)
         }
 
         #endregion
