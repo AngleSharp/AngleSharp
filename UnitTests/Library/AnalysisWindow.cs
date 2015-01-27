@@ -8,28 +8,14 @@ namespace UnitTests.Library
     [TestFixture]
     public class AnalysisWindowTests
     {
-        Window window;
-
-        [SetUp]
-        public void CreateDefaultAnalysisWindow()
-        {
-            window = new Window
-            {
-                ScreenX = 0,
-                ScreenY = 0,
-                OuterHeight = 768,
-                OuterWidth = 1024
-            };
-        }
-
         [Test]
         public void GetComputedStyleTrivialInitialScenario()
         {
             var sourceCode = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
 
             var document = DocumentBuilder.Html(sourceCode);
+            var window = document.DefaultView;
             Assert.IsNotNull(document);
-            window.Document = document;
 
             var element = document.QuerySelector("span.bold");
             Assert.IsNotNull(element);
@@ -68,7 +54,7 @@ namespace UnitTests.Library
 
             var document = DocumentBuilder.Html(source.ToString());
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             // checks for element with text bold text
             var element = document.QuerySelector("span.bold");
@@ -108,7 +94,7 @@ namespace UnitTests.Library
 
             var document = DocumentBuilder.Html(source.ToString());
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             // checks for element with text prioOne
             var prioOne = document.QuerySelector("#prioOne");
@@ -138,7 +124,7 @@ namespace UnitTests.Library
 
             var document = DocumentBuilder.Html(source.ToString());
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             // checks for element with text bold text
             var element = document.QuerySelector("p > span");
@@ -173,7 +159,7 @@ em { font-style: italic !important; }
 
             var document = DocumentBuilder.Html(sourceCode);
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             var element = document.QuerySelector("#text");
             Assert.IsNotNull(element);
@@ -201,7 +187,7 @@ em { font-style: italic !important; }
 
             var document = DocumentBuilder.Html(sourceCode);
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             var element = document.QuerySelector("span.bold");
             Assert.IsNotNull(element);
@@ -221,7 +207,7 @@ em { font-style: italic !important; }
 
             var document = DocumentBuilder.Html(sourceCode);
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             var element = document.QuerySelector("span.bold");
             Assert.IsNotNull(element);
@@ -241,7 +227,7 @@ em { font-style: italic !important; }
 
             var document = DocumentBuilder.Html(sourceCode);
             Assert.IsNotNull(document);
-            window.Document = document;
+            var window = document.DefaultView;
 
             var element = document.QuerySelector("span.bold");
             Assert.IsNotNull(element);
