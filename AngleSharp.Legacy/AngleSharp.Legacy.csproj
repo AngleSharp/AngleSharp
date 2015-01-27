@@ -2652,9 +2652,6 @@
     <Compile Include="..\AngleSharp\Network\DefaultInfo.cs">
       <Link>Network\DefaultInfo.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\DefaultPorts.cs">
-      <Link>Network\DefaultPorts.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
       <Link>Network\DefaultRequest.cs</Link>
     </Compile>
@@ -2690,6 +2687,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\OriginBehavior.cs">
       <Link>Network\OriginBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\PortNumbers.cs">
+      <Link>Network\PortNumbers.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
