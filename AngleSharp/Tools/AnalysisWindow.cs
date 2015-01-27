@@ -6,6 +6,7 @@
     using AngleSharp.DOM.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using System;
 
     /// <summary>
@@ -14,36 +15,45 @@
     /// </summary>
     public class AnalysisWindow : EventTarget, IWindow
     {
-        #region ctor
+        #region Fields
 
-        /// <summary>
-        /// Creates a new analysis windows context without any starting
-        /// document. The height and width properties are also not set.
-        /// </summary>
-        public AnalysisWindow()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new analysis window starting with the given document.
-        /// </summary>
-        /// <param name="document">The document to use.</param>
-        public AnalysisWindow(IDocument document)
-        {
-            Document = document;
-        }
+        IDocument _document;
+        String _name;
+        Int32 _outerHeight;
+        Int32 _outerWidth;
+        Int32 _screenX;
+        Int32 _screenY;
+        String _status;
+        Boolean _closed;
+        INavigator _navigator;
 
         #endregion
 
         #region Properties
 
         /// <summary>
+        /// Gets the configuration to use.
+        /// </summary>
+        public IConfiguration Options
+        {
+            get
+            {
+                var document = _document as Document;
+
+                if (document == null)
+                    return Configuration.Default;
+
+                return document.Options;
+            }
+        }
+
+        /// <summary>
         /// Gets a reference to the document that the window contains.
         /// </summary>
         public IDocument Document
         {
-            get;
-            set;
+            get { return _document; }
+            set { _document = value; }
         }
 
         /// <summary>
@@ -51,8 +61,8 @@
         /// </summary>
         public String Name
         {
-            get;
-            set;
+            get { return _name; }
+            set { _name = value; }
         }
 
         /// <summary>
@@ -60,8 +70,8 @@
         /// </summary>
         public Int32 OuterHeight
         {
-            get;
-            set;
+            get { return _outerHeight; }
+            set { _outerHeight = value; }
         }
 
         /// <summary>
@@ -69,8 +79,8 @@
         /// </summary>
         public Int32 OuterWidth
         {
-            get;
-            set;
+            get { return _outerWidth; }
+            set { _outerWidth = value; }
         }
 
         /// <summary>
@@ -79,8 +89,8 @@
         /// </summary>
         public Int32 ScreenX
         {
-            get;
-            set;
+            get { return _screenX; }
+            set { _screenX = value; }
         }
 
         /// <summary>
@@ -89,8 +99,8 @@
         /// </summary>
         public Int32 ScreenY
         {
-            get;
-            set;
+            get { return _screenY; }
+            set { _screenY = value; }
         }
 
         /// <summary>
@@ -106,8 +116,8 @@
         /// </summary>
         public String Status
         {
-            get;
-            set;
+            get { return _status; }
+            set { _status = value; }
         }
 
         /// <summary>
@@ -115,8 +125,7 @@
         /// </summary>
         public Boolean IsClosed
         {
-            get;
-            private set;
+            get { return _closed; }
         }
 
         #endregion
@@ -149,7 +158,15 @@
         /// </summary>
         public IWindow Proxy
         {
-            get { return this; }
+            get
+            {
+                var document = _document as Document;
+
+                if (document == null)
+                    return this;
+
+                return document.Context.Current;
+            }
         }
 
         /// <summary>
@@ -157,7 +174,7 @@
         /// </summary>
         public INavigator Navigator
         {
-            get { return null; }
+            get { return _navigator ?? (_navigator = CreateNavigator()); }
         }
 
         #endregion
@@ -598,7 +615,7 @@
             //TODO Context ?
             var document = new Document();
             document.Location.Href = url;
-            return new AnalysisWindow(document) { Name = name };
+            return new AnalysisWindow { Name = name, Document = document };
         }
 
         void IWindow.Close()
@@ -628,6 +645,20 @@
 
         void IWindow.Print()
         {
+        }
+
+        #endregion
+
+        #region Helpers
+
+        INavigator CreateNavigator()
+        {
+            var service = Options.GetService<INavigatorService>();
+
+            if (service != null)
+                return service.Create(this);
+
+            return null;
         }
 
         #endregion
