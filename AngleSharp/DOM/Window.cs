@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.Tools
+﻿namespace AngleSharp.DOM
 {
-    using AngleSharp.DOM;
     using AngleSharp.DOM.Css;
     using AngleSharp.DOM.Events;
     using AngleSharp.DOM.Navigator;
@@ -13,7 +12,7 @@
     /// Represents a sample browsing Window implementation for
     /// automated tests, analysis and as a useful playground.
     /// </summary>
-    public class AnalysisWindow : EventTarget, IWindow
+    public class Window : EventTarget, IWindow
     {
         #region Fields
 
@@ -615,7 +614,7 @@
             //TODO Context ?
             var document = new Document();
             document.Location.Href = url;
-            return new AnalysisWindow { Name = name, Document = document };
+            return new Window { Name = name, Document = document };
         }
 
         void IWindow.Close()
