@@ -6,6 +6,7 @@
     using Jint.Runtime;
     using System;
     using System.Linq.Expressions;
+    using System.Reflection;
 
     static class Extensions
     {
@@ -69,8 +70,10 @@
             if (targetType.IsSubclassOf(typeof(Delegate)) && value is FunctionInstance)
                 return targetType.ToDelegate((FunctionInstance)value);
 
-            if (sourceType.CanConvert(targetType))
-                return Expression.Convert(Expression.Parameter(sourceType, null), targetType).Method.Invoke(value, null);
+            var method = sourceType.PrepareConvert(targetType);
+
+            if (method != null)
+                return method.Invoke(value, null);
 
             throw new JavaScriptException("The provided parameter is invalid.");
         }
@@ -80,17 +83,17 @@
             return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
 
-        public static Boolean CanConvert(this Type fromType, Type toType)
+        public static MethodInfo PrepareConvert(this Type fromType, Type toType)
         {
             try
             {
                 // Throws an exception if there is no conversion from fromType to toType
-                Expression.Convert(Expression.Parameter(fromType, null), toType);
-                return true;
+                var exp = Expression.Convert(Expression.Parameter(fromType, null), toType);
+                return exp.Method;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
     }
