@@ -59,12 +59,22 @@
         /// <param name="action">The action that should be invoked.</param>
         public static void QueueTask(this Document document, Action action)
         {
+            document.QueueTask(new Task(action));
+        }
+
+        /// <summary>
+        /// Queues an task in the event loop of the document.
+        /// </summary>
+        /// <param name="document">The document that hosts the configuration.</param>
+        /// <param name="task">The task that should be run.</param>
+        public static void QueueTask(this Document document, Task task)
+        {
             var eventLoop = document.Options.GetService<IEventService>();
 
             if (eventLoop != null)
-                eventLoop.Enqueue(new Task(action));
+                eventLoop.Enqueue(task);
             else
-                action.InvokeAsync();
+                task.Start();
         }
 
         /// <summary>
