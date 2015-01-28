@@ -90,7 +90,8 @@
             _items.Add(_prompt + command);
             _engine.Evaluate(command, new ScriptOptions
             {
-                Document = _document
+                Document = _document,
+                Context = _document.DefaultView
             });
             var lines = _engine.Result.ToString();
 
