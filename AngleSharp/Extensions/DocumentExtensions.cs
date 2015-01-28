@@ -73,7 +73,7 @@
 
             if (eventLoop != null)
                 eventLoop.Enqueue(task);
-            else
+            else if (task.Status == TaskStatus.Created)
                 task.Start();
         }
 
