@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -14,6 +15,11 @@
         public static Task InvokeAsync(this Action action)
         {
             return Task.Factory.StartNew(action);
+        }
+
+        public static Task Delay(this CancellationToken token, Int32 timeout)
+        {
+            return TaskEx.Delay(Math.Max(timeout, 4), token);
         }
 
         public static Type GetTypeInfo(this Type type)

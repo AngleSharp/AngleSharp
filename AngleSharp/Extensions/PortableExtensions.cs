@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -14,6 +15,11 @@
         public static Task InvokeAsync(this Action action)
         {
             return Task.Run(action);
+        }
+
+        public static Task Delay(this CancellationToken token, Int32 timeout)
+        {
+            return Task.Delay(Math.Max(timeout, 4), token);
         }
 
         public static ConstructorInfo GetDeclaredConstructor(this Type type)
