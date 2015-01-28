@@ -7,6 +7,9 @@
     using AngleSharp.Html;
     using AngleSharp.Services;
     using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a sample browsing Window implementation for
@@ -17,6 +20,7 @@
         #region Fields
 
         readonly Document _document;
+        readonly List<CancellationTokenSource> _tasks;
 
         String _name;
         Int32 _outerHeight;
@@ -34,6 +38,7 @@
         public Window(Document document)
         {
             _document = document;
+            _tasks = new List<CancellationTokenSource>();
         }
 
         #endregion
@@ -627,7 +632,68 @@
 
         #endregion
 
+        #region Timers
+
+        Int32 IWindowTimers.SetTimeout(Action<IWindow> handler, Int32 timeout)
+        {
+            return QueueTask(DoTimeout, handler, timeout);
+        }
+
+        void IWindowTimers.ClearTimeout(Int32 handle)
+        {
+            Clear(handle);
+        }
+
+        Int32 IWindowTimers.SetInterval(Action<IWindow> handler, Int32 timeout)
+        {
+            return QueueTask(DoInterval, handler, timeout);
+        }
+
+        void IWindowTimers.ClearInterval(Int32 handle)
+        {
+            Clear(handle);
+        }
+
+        #endregion
+
         #region Helpers
+
+        async Task DoTimeout(Action<IWindow> callback, Int32 timeout, CancellationToken token)
+        {
+            await token.Delay(timeout);
+
+            if (token.IsCancellationRequested)
+                return;
+
+            callback(this);
+        }
+
+        async Task DoInterval(Action<IWindow> callback, Int32 timeout, CancellationToken token)
+        {
+            await token.Delay(timeout);
+
+            if (token.IsCancellationRequested)
+                return;
+
+            _document.QueueTask(DoInterval(callback, timeout, token));
+            callback(this);
+        }
+
+        Int32 QueueTask(Func<Action<IWindow>, Int32, CancellationToken, Task> taskCreator, Action<IWindow> callback, Int32 timeout)
+        {
+            var id = _tasks.Count;
+            var cts = new CancellationTokenSource();
+            var window = this;
+            _document.QueueTask(() => _document.QueueTask(taskCreator(callback, timeout, cts.Token)));
+            _tasks.Add(cts);
+            return id;
+        }
+
+        void Clear(Int32 handle)
+        {
+            if (_tasks.Count > handle && _tasks[handle].IsCancellationRequested == false)
+                _tasks[handle].Cancel();
+        }
 
         INavigator CreateNavigator()
         {

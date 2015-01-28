@@ -11,7 +11,7 @@
     /// https://developer.mozilla.org/en-US/docs/Web/API/Window
     /// </summary>
     [DomName("Window")]
-    public interface IWindow : IEventTarget, IGlobalEventHandlers, IWindowEventHandlers
+    public interface IWindow : IEventTarget, IGlobalEventHandlers, IWindowEventHandlers, IWindowTimers
     {
         /// <summary>
         /// Gives the values of all the CSS properties of an element after
