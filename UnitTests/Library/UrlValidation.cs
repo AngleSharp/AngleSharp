@@ -15,7 +15,7 @@ namespace UnitTests.Library
 		public void DocumentUrlTest1()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -34,7 +34,7 @@ org");
 		public void DocumentUrlTest2()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -52,7 +52,7 @@ org");
 		public void DocumentUrlTest3()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -70,7 +70,7 @@ org");
 		public void DocumentUrlTest4()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -89,7 +89,7 @@ org");
 		public void DocumentUrlTest5()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -107,7 +107,7 @@ org");
 		public void DocumentUrlTest6()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -125,7 +125,7 @@ org");
 		public void DocumentUrlTest7()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -143,7 +143,7 @@ org");
 		public void DocumentUrlTest8()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -161,7 +161,7 @@ org");
 		public void DocumentUrlTest9()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -179,7 +179,7 @@ org");
 		public void DocumentUrlTest10()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -197,7 +197,7 @@ org");
 		public void DocumentUrlTest11()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -215,7 +215,7 @@ org");
 		public void DocumentUrlTest14()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -234,7 +234,7 @@ org");
 		public void DocumentUrlTest16()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -252,7 +252,7 @@ org");
 		public void DocumentUrlTest18()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -270,7 +270,7 @@ org");
 		public void DocumentUrlTest19()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -288,7 +288,7 @@ org");
 		public void DocumentUrlTest20()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -306,7 +306,7 @@ org");
 		public void DocumentUrlTest21()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -324,7 +324,7 @@ org");
 		public void DocumentUrlTest22()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -342,7 +342,7 @@ org");
 		public void DocumentUrlTest23()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -360,7 +360,7 @@ org");
 		public void DocumentUrlTest24()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -378,7 +378,7 @@ org");
 		public void DocumentUrlTest25()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -396,7 +396,7 @@ org");
 		public void DocumentUrlTest26()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -414,7 +414,7 @@ org");
 		public void DocumentUrlTest27()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -432,7 +432,7 @@ org");
 		public void DocumentUrlTest28()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -450,7 +450,7 @@ org");
 		public void DocumentUrlTest29()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -468,7 +468,7 @@ org");
 		public void DocumentUrlTest30()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -486,7 +486,7 @@ org");
 		public void DocumentUrlTest31()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -504,7 +504,7 @@ org");
 		public void DocumentUrlTest32()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -522,7 +522,7 @@ org");
 		public void DocumentUrlTest33()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -540,7 +540,7 @@ org");
 		public void DocumentUrlTest34()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -558,7 +558,7 @@ org");
 		public void DocumentUrlTest35()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -576,7 +576,7 @@ org");
 		public void DocumentUrlTest36()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -594,7 +594,7 @@ org");
 		public void DocumentUrlTest37()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -612,7 +612,7 @@ org");
 		public void DocumentUrlTest38()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -630,7 +630,7 @@ org");
 		public void DocumentUrlTest39()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -648,7 +648,7 @@ org");
 		public void DocumentUrlTest40()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -666,7 +666,7 @@ org");
 		public void DocumentUrlTest41()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -684,7 +684,7 @@ org");
 		public void DocumentUrlTest42()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -702,7 +702,7 @@ org");
 		public void DocumentUrlTest43()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -720,7 +720,7 @@ org");
 		public void DocumentUrlTest44()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -738,7 +738,7 @@ org");
 		public void DocumentUrlTest45()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -756,7 +756,7 @@ org");
 		public void DocumentUrlTest46()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -774,7 +774,7 @@ org");
 		public void DocumentUrlTest47()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -792,7 +792,7 @@ org");
 		public void DocumentUrlTest48()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -810,7 +810,7 @@ org");
 		public void DocumentUrlTest49()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -828,7 +828,7 @@ org");
 		public void DocumentUrlTest50()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -846,7 +846,7 @@ org");
 		public void DocumentUrlTest51()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -864,7 +864,7 @@ org");
 		public void DocumentUrlTest52()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -882,7 +882,7 @@ org");
 		public void DocumentUrlTest53()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -900,7 +900,7 @@ org");
 		public void DocumentUrlTest54()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -918,7 +918,7 @@ org");
 		public void DocumentUrlTest55()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -936,7 +936,7 @@ org");
 		public void DocumentUrlTest56()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -954,7 +954,7 @@ org");
 		public void DocumentUrlTest57()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -972,7 +972,7 @@ org");
 		public void DocumentUrlTest62()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -990,7 +990,7 @@ org");
 		public void DocumentUrlTest63()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1008,7 +1008,7 @@ org");
 		public void DocumentUrlTest64()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1026,7 +1026,7 @@ org");
 		public void DocumentUrlTest65()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1044,7 +1044,7 @@ org");
 		public void DocumentUrlTest66()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1062,7 +1062,7 @@ org");
 		public void DocumentUrlTest67()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1080,7 +1080,7 @@ org");
 		public void DocumentUrlTest68()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1098,7 +1098,7 @@ org");
 		public void DocumentUrlTest69()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1116,7 +1116,7 @@ org");
 		public void DocumentUrlTest70()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1134,7 +1134,7 @@ org");
 		public void DocumentUrlTest71()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1152,7 +1152,7 @@ org");
 		public void DocumentUrlTest72()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1170,7 +1170,7 @@ org");
 		public void DocumentUrlTest73()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1188,7 +1188,7 @@ org");
 		public void DocumentUrlTest74()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1206,7 +1206,7 @@ org");
 		public void DocumentUrlTest75()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1224,7 +1224,7 @@ org");
 		public void DocumentUrlTest76()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1242,7 +1242,7 @@ org");
 		public void DocumentUrlTest77()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1260,7 +1260,7 @@ org");
 		public void DocumentUrlTest78()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1278,7 +1278,7 @@ org");
 		public void DocumentUrlTest79()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1296,7 +1296,7 @@ org");
 		public void DocumentUrlTest80()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1314,7 +1314,7 @@ org");
 		public void DocumentUrlTest81()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1332,7 +1332,7 @@ org");
 		public void DocumentUrlTest82()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1350,7 +1350,7 @@ org");
 		public void DocumentUrlTest83()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1368,7 +1368,7 @@ org");
 		public void DocumentUrlTest84()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1386,7 +1386,7 @@ org");
 		public void DocumentUrlTest85()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1404,7 +1404,7 @@ org");
 		public void DocumentUrlTest86()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1422,7 +1422,7 @@ org");
 		public void DocumentUrlTest87()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1440,7 +1440,7 @@ org");
 		public void DocumentUrlTest88()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1458,7 +1458,7 @@ org");
 		public void DocumentUrlTest89()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1476,7 +1476,7 @@ org");
 		public void DocumentUrlTest90()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1494,7 +1494,7 @@ org");
 		public void DocumentUrlTest91()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1512,7 +1512,7 @@ org");
 		public void DocumentUrlTest92()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1530,7 +1530,7 @@ org");
 		public void DocumentUrlTest93()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1548,7 +1548,7 @@ org");
 		public void DocumentUrlTest94()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1566,7 +1566,7 @@ org");
 		public void DocumentUrlTest95()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1584,7 +1584,7 @@ org");
 		public void DocumentUrlTest96()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1602,7 +1602,7 @@ org");
 		public void DocumentUrlTest97()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1620,7 +1620,7 @@ org");
 		public void DocumentUrlTest98()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1638,7 +1638,7 @@ org");
 		public void DocumentUrlTest99()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1656,7 +1656,7 @@ org");
 		public void DocumentUrlTest100()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1674,7 +1674,7 @@ org");
 		public void DocumentUrlTest101()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1692,7 +1692,7 @@ org");
 		public void DocumentUrlTest102()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1710,7 +1710,7 @@ org");
 		public void DocumentUrlTest103()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1728,7 +1728,7 @@ org");
 		public void DocumentUrlTest104()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1746,7 +1746,7 @@ org");
 		public void DocumentUrlTest105()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1764,7 +1764,7 @@ org");
 		public void DocumentUrlTest106()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1782,7 +1782,7 @@ org");
 		public void DocumentUrlTest107()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1800,7 +1800,7 @@ org");
 		public void DocumentUrlTest108()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1818,7 +1818,7 @@ org");
 		public void DocumentUrlTest109()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1836,7 +1836,7 @@ org");
 		public void DocumentUrlTest110()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1854,7 +1854,7 @@ org");
 		public void DocumentUrlTest111()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1872,7 +1872,7 @@ org");
 		public void DocumentUrlTest112()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1890,7 +1890,7 @@ org");
 		public void DocumentUrlTest113()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1908,7 +1908,7 @@ org");
 		public void DocumentUrlTest114()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1926,7 +1926,7 @@ org");
 		public void DocumentUrlTest115()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1944,7 +1944,7 @@ org");
 		public void DocumentUrlTest116()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1962,7 +1962,7 @@ org");
 		public void DocumentUrlTest117()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1980,7 +1980,7 @@ org");
 		public void DocumentUrlTest118()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -1998,7 +1998,7 @@ org");
 		public void DocumentUrlTest119()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2016,7 +2016,7 @@ org");
 		public void DocumentUrlTest120()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2034,7 +2034,7 @@ org");
 		public void DocumentUrlTest121()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2052,7 +2052,7 @@ org");
 		public void DocumentUrlTest122()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2070,7 +2070,7 @@ org");
 		public void DocumentUrlTest123()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2088,7 +2088,7 @@ org");
 		public void DocumentUrlTest124()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2106,7 +2106,7 @@ org");
 		public void DocumentUrlTest125()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2124,7 +2124,7 @@ org");
 		public void DocumentUrlTest126()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2142,7 +2142,7 @@ org");
 		public void DocumentUrlTest127()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2160,7 +2160,7 @@ org");
 		public void DocumentUrlTest128()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2178,7 +2178,7 @@ org");
 		public void DocumentUrlTest129()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2196,7 +2196,7 @@ org");
 		public void DocumentUrlTest130()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2214,7 +2214,7 @@ org");
 		public void DocumentUrlTest131()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2232,7 +2232,7 @@ org");
 		public void DocumentUrlTest132()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2250,7 +2250,7 @@ org");
 		public void DocumentUrlTest133()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2268,7 +2268,7 @@ org");
 		public void DocumentUrlTest134()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2286,7 +2286,7 @@ org");
 		public void DocumentUrlTest135()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2304,7 +2304,7 @@ org");
 		public void DocumentUrlTest136()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2322,7 +2322,7 @@ org");
 		public void DocumentUrlTest137()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2340,7 +2340,7 @@ org");
 		public void DocumentUrlTest138()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2358,7 +2358,7 @@ org");
 		public void DocumentUrlTest139()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2376,7 +2376,7 @@ org");
 		public void DocumentUrlTest140()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2394,7 +2394,7 @@ org");
 		public void DocumentUrlTest141()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2412,7 +2412,7 @@ org");
 		public void DocumentUrlTest142()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2430,7 +2430,7 @@ org");
 		public void DocumentUrlTest143()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2448,7 +2448,7 @@ org");
 		public void DocumentUrlTest144()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2466,7 +2466,7 @@ org");
 		public void DocumentUrlTest145()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2484,7 +2484,7 @@ org");
 		public void DocumentUrlTest146()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2502,7 +2502,7 @@ org");
 		public void DocumentUrlTest147()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2520,7 +2520,7 @@ org");
 		public void DocumentUrlTest148()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2538,7 +2538,7 @@ org");
 		public void DocumentUrlTest149()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2556,7 +2556,7 @@ org");
 		public void DocumentUrlTest150()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2574,7 +2574,7 @@ org");
 		public void DocumentUrlTest152()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2592,7 +2592,7 @@ org");
 		public void DocumentUrlTest153()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2610,7 +2610,7 @@ org");
 		public void DocumentUrlTest154()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2628,7 +2628,7 @@ org");
 		public void DocumentUrlTest155()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2646,7 +2646,7 @@ org");
 		public void DocumentUrlTest157()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2664,7 +2664,7 @@ org");
 		public void DocumentUrlTest158()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2682,7 +2682,7 @@ org");
 		public void DocumentUrlTest159()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2700,7 +2700,7 @@ org");
 		public void DocumentUrlTest160()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2718,7 +2718,7 @@ org");
 		public void DocumentUrlTest161()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2736,7 +2736,7 @@ org");
 		public void DocumentUrlTest163()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2754,7 +2754,7 @@ org");
 		public void DocumentUrlTest164()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2772,7 +2772,7 @@ org");
 		public void DocumentUrlTest165()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2790,7 +2790,7 @@ org");
 		public void DocumentUrlTest166()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2808,7 +2808,7 @@ org");
 		public void DocumentUrlTest167()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2826,7 +2826,7 @@ org");
 		public void DocumentUrlTest168()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2844,7 +2844,7 @@ org");
 		public void DocumentUrlTest169()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2862,7 +2862,7 @@ org");
 		public void DocumentUrlTest170()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2880,7 +2880,7 @@ org");
 		public void DocumentUrlTest171()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2898,7 +2898,7 @@ org");
 		public void DocumentUrlTest172()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2916,7 +2916,7 @@ org");
 		public void DocumentUrlTest173()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2934,7 +2934,7 @@ org");
 		public void DocumentUrlTest174()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2952,7 +2952,7 @@ org");
 		public void DocumentUrlTest175()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2970,7 +2970,7 @@ org");
 		public void DocumentUrlTest176()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -2988,7 +2988,7 @@ org");
 		public void DocumentUrlTest177()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3006,7 +3006,7 @@ org");
 		public void DocumentUrlTest178()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3024,7 +3024,7 @@ org");
 		public void DocumentUrlTest179()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3042,7 +3042,7 @@ org");
 		public void DocumentUrlTest180()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3060,7 +3060,7 @@ org");
 		public void DocumentUrlTest181()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3078,7 +3078,7 @@ org");
 		public void DocumentUrlTest182()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3096,7 +3096,7 @@ org");
 		public void DocumentUrlTest183()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3114,7 +3114,7 @@ org");
 		public void DocumentUrlTest184()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3132,7 +3132,7 @@ org");
 		public void DocumentUrlTest185()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3150,7 +3150,7 @@ org");
 		public void DocumentUrlTest186()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3168,7 +3168,7 @@ org");
 		public void DocumentUrlTest187()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3186,7 +3186,7 @@ org");
 		public void DocumentUrlTest188()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3204,7 +3204,7 @@ org");
 		public void DocumentUrlTest189()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3222,7 +3222,7 @@ org");
 		public void DocumentUrlTest190()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3240,7 +3240,7 @@ org");
 		public void DocumentUrlTest191()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3258,7 +3258,7 @@ org");
 		public void DocumentUrlTest192()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3276,7 +3276,7 @@ org");
 		public void DocumentUrlTest193()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3294,7 +3294,7 @@ org");
 		public void DocumentUrlTest194()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3312,7 +3312,7 @@ org");
 		public void DocumentUrlTest195()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3330,7 +3330,7 @@ org");
 		public void DocumentUrlTest196()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3348,7 +3348,7 @@ org");
 		public void DocumentUrlTest197()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3366,7 +3366,7 @@ org");
 		public void DocumentUrlTest198()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3384,7 +3384,7 @@ org");
 		public void DocumentUrlTest199()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3402,7 +3402,7 @@ org");
 		public void DocumentUrlTest200()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3420,7 +3420,7 @@ org");
 		public void DocumentUrlTest201()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3438,7 +3438,7 @@ org");
 		public void DocumentUrlTest202()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3456,7 +3456,7 @@ org");
 		public void DocumentUrlTest203()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3474,7 +3474,7 @@ org");
 		public void DocumentUrlTest204()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3492,7 +3492,7 @@ org");
 		public void DocumentUrlTest205()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3510,7 +3510,7 @@ org");
 		public void DocumentUrlTest206()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3528,7 +3528,7 @@ org");
 		public void DocumentUrlTest207()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3546,7 +3546,7 @@ org");
 		public void DocumentUrlTest208()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3564,7 +3564,7 @@ org");
 		public void DocumentUrlTest209()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3582,7 +3582,7 @@ org");
 		public void DocumentUrlTest220()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3600,7 +3600,7 @@ org");
 		public void DocumentUrlTest221()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3618,7 +3618,7 @@ org");
 		public void DocumentUrlTest222()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3636,7 +3636,7 @@ org");
 		public void DocumentUrlTest223()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3654,7 +3654,7 @@ org");
 		public void DocumentUrlTest227()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3672,7 +3672,7 @@ org");
 		public void DocumentUrlTest228()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3690,7 +3690,7 @@ org");
 		public void DocumentUrlTest229()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3708,7 +3708,7 @@ org");
 		public void DocumentUrlTest230()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3726,7 +3726,7 @@ org");
 		public void DocumentUrlTest231()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3744,7 +3744,7 @@ org");
 		public void DocumentUrlTest232()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3762,7 +3762,7 @@ org");
 		public void DocumentUrlTest233()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3780,7 +3780,7 @@ org");
 		public void DocumentUrlTest234()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3798,7 +3798,7 @@ org");
 		public void DocumentUrlTest235()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3816,7 +3816,7 @@ org");
 		public void DocumentUrlTest236()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3834,7 +3834,7 @@ org");
 		public void DocumentUrlTest237()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3852,7 +3852,7 @@ org");
 		public void DocumentUrlTest238()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3870,7 +3870,7 @@ org");
 		public void DocumentUrlTest239()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3888,7 +3888,7 @@ org");
 		public void DocumentUrlTest240()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3906,7 +3906,7 @@ org");
         public void DocumentUrlTest244()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3924,7 +3924,7 @@ org");
         public void DocumentUrlTest245()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3942,7 +3942,7 @@ org");
         public void DocumentUrlTest248()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3960,7 +3960,7 @@ org");
         public void DocumentUrlTest253()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3978,7 +3978,7 @@ org");
         public void DocumentUrlTest257()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -3996,7 +3996,7 @@ org");
         public void DocumentUrlTest258()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -4014,7 +4014,7 @@ org");
         public void DocumentUrlTest262()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
@@ -4032,7 +4032,7 @@ org");
 		public void DocumentUrlTest264()
 		{
 			var document = DocumentBuilder.Html("<base id=base>");
-			var element = document.GetElementById("base") as HTMLBaseElement;
+			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
 			var anchor = document.CreateElement<IHtmlAnchorElement>();

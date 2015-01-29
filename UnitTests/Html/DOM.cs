@@ -140,7 +140,7 @@ namespace UnitTests
             var doc = new Document();
             var root = new HtmlHtmlElement(document);
             doc.AppendChild(root);
-            var head = new HTMLHeadElement(document);
+            var head = new HtmlHeadElement(document);
             root.AppendChild(head);
             Assert.AreEqual(head, doc.Head);
         }
@@ -554,7 +554,7 @@ namespace UnitTests
             Assert.AreEqual("", document.Title);
             document.Title = "";
             Assert.AreEqual("", document.Title);
-            Assert.IsInstanceOf<HTMLTitleElement>(head.LastChild);
+            Assert.IsInstanceOf<HtmlTitleElement>(head.LastChild);
             Assert.IsNull(head.LastChild.FirstChild);
         }
 
