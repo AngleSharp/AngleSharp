@@ -73,7 +73,7 @@ namespace UnitTests.Html
         public void TestCustomErrorInput1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("My custom error");
             Assert.AreEqual(true, element.Validity.IsCustomError);
@@ -84,7 +84,7 @@ namespace UnitTests.Html
         public void TestCustomErrorInput2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("");
             Assert.AreEqual(false, element.Validity.IsCustomError);
@@ -95,7 +95,7 @@ namespace UnitTests.Html
         public void TestCustomErrorButton1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("button") as HTMLButtonElement;
+            var element = document.CreateElement("button") as HtmlButtonElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("My custom error");
             Assert.AreEqual(true, element.Validity.IsCustomError);
@@ -106,7 +106,7 @@ namespace UnitTests.Html
         public void TestCustomErrorButton2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("button") as HTMLButtonElement;
+            var element = document.CreateElement("button") as HtmlButtonElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("");
             Assert.AreEqual(false, element.Validity.IsCustomError);
@@ -117,7 +117,7 @@ namespace UnitTests.Html
         public void TestCustomErrorSelect1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("select") as HTMLSelectElement;
+            var element = document.CreateElement("select") as HtmlSelectElement;
             Assert.IsNotNull(element);
             var option1 = document.CreateElement<IHtmlOptionElement>();
             option1.Text = "test1";
@@ -136,7 +136,7 @@ namespace UnitTests.Html
         public void TestCustomErrorSelect2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("select") as HTMLSelectElement;
+            var element = document.CreateElement("select") as HtmlSelectElement;
             Assert.IsNotNull(element);
             var option1 = document.CreateElement<IHtmlOptionElement>();
             option1.Text = "test1";
@@ -155,7 +155,7 @@ namespace UnitTests.Html
         public void TestCustomErrorTextarea1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("textarea") as HTMLTextAreaElement;
+            var element = document.CreateElement("textarea") as HtmlTextAreaElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("My custom error");
             Assert.AreEqual(true, element.Validity.IsCustomError);
@@ -166,7 +166,7 @@ namespace UnitTests.Html
         public void TestCustomErrorTextarea2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("textarea") as HTMLTextAreaElement;
+            var element = document.CreateElement("textarea") as HtmlTextAreaElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("");
             Assert.AreEqual(false, element.Validity.IsCustomError);
@@ -177,7 +177,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -199,7 +199,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -221,7 +221,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -245,7 +245,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -267,7 +267,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail5()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -289,7 +289,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail6()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -312,7 +312,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputEmail7()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -335,7 +335,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputUrl1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -357,7 +357,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputUrl2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -379,7 +379,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputUrl3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -403,7 +403,7 @@ namespace UnitTests.Html
         public void TestTypemismatchInputUrl4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -425,7 +425,7 @@ namespace UnitTests.Html
         public void TestBadinputInputEmail1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -448,7 +448,7 @@ namespace UnitTests.Html
         public void TestBadinputInputEmail2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -471,7 +471,7 @@ namespace UnitTests.Html
         public void TestBadinputInputEmail3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -494,7 +494,7 @@ namespace UnitTests.Html
         public void TestBadinputInputEmail4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -517,7 +517,7 @@ namespace UnitTests.Html
         public void TestBadinputInputDatetime1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -539,7 +539,7 @@ namespace UnitTests.Html
         public void TestBadinputInputDatetime2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -561,7 +561,7 @@ namespace UnitTests.Html
         public void TestBadinputInputDatetime3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -583,7 +583,7 @@ namespace UnitTests.Html
         public void TestBadinputInputColor1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
             element.RemoveAttribute("required");
@@ -605,7 +605,7 @@ namespace UnitTests.Html
         public void TestBadinputInputColor2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
             element.RemoveAttribute("required");
@@ -627,7 +627,7 @@ namespace UnitTests.Html
         public void TestBadinputInputColor3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
             element.RemoveAttribute("required");
@@ -649,7 +649,7 @@ namespace UnitTests.Html
         public void TestBadinputInputColor4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
             element.RemoveAttribute("required");
@@ -671,7 +671,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputText1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
             element.RemoveAttribute("required");
@@ -695,7 +695,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputText2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
             element.RemoveAttribute("required");
@@ -718,7 +718,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputText3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
             element.RemoveAttribute("required");
@@ -741,7 +741,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputSearch1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "search";
             element.RemoveAttribute("required");
@@ -765,7 +765,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputSearch2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "search";
             element.RemoveAttribute("required");
@@ -788,7 +788,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputSearch3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "search";
             element.RemoveAttribute("required");
@@ -811,7 +811,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTel1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "tel";
             element.RemoveAttribute("required");
@@ -835,7 +835,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTel2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "tel";
             element.RemoveAttribute("required");
@@ -858,7 +858,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTel3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "tel";
             element.RemoveAttribute("required");
@@ -881,7 +881,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputPassword1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "password";
             element.RemoveAttribute("required");
@@ -905,7 +905,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputPassword2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "password";
             element.RemoveAttribute("required");
@@ -928,7 +928,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputPassword3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "password";
             element.RemoveAttribute("required");
@@ -951,7 +951,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputUrl1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -975,7 +975,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputUrl2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -998,7 +998,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputUrl3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -1020,7 +1020,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputUrl4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
             element.RemoveAttribute("required");
@@ -1043,7 +1043,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputEmail1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -1067,7 +1067,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputEmail2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -1090,7 +1090,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputEmail3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -1112,7 +1112,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputEmail4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
             element.RemoveAttribute("required");
@@ -1135,7 +1135,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDatetime1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -1158,7 +1158,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDatetime2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -1181,7 +1181,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDatetime3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -1204,7 +1204,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDatetime4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
             element.RemoveAttribute("required");
@@ -1227,7 +1227,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDate1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
             element.RemoveAttribute("required");
@@ -1250,7 +1250,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDate2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
             element.RemoveAttribute("required");
@@ -1273,7 +1273,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDate3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
             element.RemoveAttribute("required");
@@ -1296,7 +1296,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputDate4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
             element.RemoveAttribute("required");
@@ -1319,7 +1319,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputMonth1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
             element.RemoveAttribute("required");
@@ -1342,7 +1342,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputMonth2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
             element.RemoveAttribute("required");
@@ -1365,7 +1365,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputMonth3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
             element.RemoveAttribute("required");
@@ -1388,7 +1388,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputMonth4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
             element.RemoveAttribute("required");
@@ -1411,7 +1411,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputWeek1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
             element.RemoveAttribute("required");
@@ -1434,7 +1434,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputWeek2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
             element.RemoveAttribute("required");
@@ -1457,7 +1457,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputWeek3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
             element.RemoveAttribute("required");
@@ -1480,7 +1480,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputWeek4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
             element.RemoveAttribute("required");
@@ -1503,7 +1503,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTime1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
             element.RemoveAttribute("required");
@@ -1526,7 +1526,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTime2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
             element.RemoveAttribute("required");
@@ -1549,7 +1549,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTime3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
             element.RemoveAttribute("required");
@@ -1572,7 +1572,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputTime4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
             element.RemoveAttribute("required");
@@ -1595,7 +1595,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputNumber1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
             element.RemoveAttribute("required");
@@ -1618,7 +1618,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputNumber2()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
             element.RemoveAttribute("required");
@@ -1641,7 +1641,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputNumber3()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
             element.RemoveAttribute("required");
@@ -1664,7 +1664,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputNumber4()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
             element.RemoveAttribute("required");
@@ -1687,7 +1687,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputCheckbox1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "checkbox";
             element.RemoveAttribute("required");
@@ -1711,7 +1711,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputRadio1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "radio";
             element.RemoveAttribute("required");
@@ -1735,7 +1735,7 @@ namespace UnitTests.Html
         public void TestIsvalidInputFile1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("input") as HTMLInputElement;
+            var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "file";
             element.RemoveAttribute("required");
@@ -1757,7 +1757,7 @@ namespace UnitTests.Html
         public void TestIsvalidSelect1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("select") as HTMLSelectElement;
+            var element = document.CreateElement("select") as HtmlSelectElement;
             Assert.IsNotNull(element);
             var option1 = document.CreateElement<IHtmlOptionElement>();
             option1.Text = "test1";
@@ -1786,7 +1786,7 @@ namespace UnitTests.Html
         public void TestIsvalidTextarea1()
         {
             var document = DocumentBuilder.Html("");
-            var element = document.CreateElement("textarea") as HTMLTextAreaElement;
+            var element = document.CreateElement("textarea") as HtmlTextAreaElement;
             Assert.IsNotNull(element);
             element.RemoveAttribute("required");
             element.RemoveAttribute("pattern");

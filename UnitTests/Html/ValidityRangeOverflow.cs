@@ -15,7 +15,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -38,7 +38,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -61,7 +61,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -84,7 +84,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -107,7 +107,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -130,7 +130,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime6()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -153,7 +153,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime7()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -176,7 +176,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime8()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -199,7 +199,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime9()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -222,7 +222,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime10()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -245,7 +245,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime11()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -268,7 +268,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDatetime12()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -291,7 +291,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -314,7 +314,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -337,7 +337,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -360,7 +360,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -383,7 +383,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -406,7 +406,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate6()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -429,7 +429,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate7()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -452,7 +452,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate8()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -475,7 +475,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate9()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -498,7 +498,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputDate10()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -521,7 +521,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -544,7 +544,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -567,7 +567,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -590,7 +590,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -613,7 +613,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -636,7 +636,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth6()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -659,7 +659,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth7()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -682,7 +682,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth8()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -705,7 +705,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputMonth9()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -728,7 +728,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -751,7 +751,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -774,7 +774,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -797,7 +797,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -820,7 +820,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -843,7 +843,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek6()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -866,7 +866,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek7()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -889,7 +889,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek8()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -912,7 +912,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek9()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -935,7 +935,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputWeek10()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -958,7 +958,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -981,7 +981,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1004,7 +1004,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1027,7 +1027,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1050,7 +1050,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1073,7 +1073,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime6()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1096,7 +1096,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime7()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1119,7 +1119,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime8()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1142,7 +1142,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime9()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1165,7 +1165,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime10()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1188,7 +1188,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime11()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1211,7 +1211,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime12()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1234,7 +1234,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime13()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1257,7 +1257,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputTime14()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -1280,7 +1280,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1303,7 +1303,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1326,7 +1326,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1349,7 +1349,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1372,7 +1372,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1395,7 +1395,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber6()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1418,7 +1418,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber7()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1441,7 +1441,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber8()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -1464,7 +1464,7 @@ namespace UnitTests.Html
 		public void TestRangeoverflowInputNumber9()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");

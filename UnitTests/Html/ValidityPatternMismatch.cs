@@ -15,7 +15,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputText1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
 			element.RemoveAttribute("required");
@@ -37,7 +37,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputText2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
 			element.RemoveAttribute("required");
@@ -60,7 +60,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputText3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
 			element.RemoveAttribute("required");
@@ -83,7 +83,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputText4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
 			element.RemoveAttribute("required");
@@ -106,7 +106,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputText5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
 			element.RemoveAttribute("required");
@@ -129,7 +129,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputSearch1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
 			element.RemoveAttribute("required");
@@ -151,7 +151,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputSearch2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
 			element.RemoveAttribute("required");
@@ -174,7 +174,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputSearch3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
 			element.RemoveAttribute("required");
@@ -197,7 +197,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputSearch4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
 			element.RemoveAttribute("required");
@@ -220,7 +220,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputSearch5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
 			element.RemoveAttribute("required");
@@ -243,7 +243,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputTel1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
 			element.RemoveAttribute("required");
@@ -265,7 +265,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputTel2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
 			element.RemoveAttribute("required");
@@ -288,7 +288,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputTel3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
 			element.RemoveAttribute("required");
@@ -311,7 +311,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputTel4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
 			element.RemoveAttribute("required");
@@ -334,7 +334,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputTel5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
 			element.RemoveAttribute("required");
@@ -357,7 +357,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputUrl1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
 			element.RemoveAttribute("required");
@@ -379,7 +379,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputUrl2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
 			element.RemoveAttribute("required");
@@ -402,7 +402,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputUrl3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
 			element.RemoveAttribute("required");
@@ -425,7 +425,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputUrl4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
 			element.RemoveAttribute("required");
@@ -448,7 +448,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputUrl5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
 			element.RemoveAttribute("required");
@@ -471,7 +471,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputEmail1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
 			element.RemoveAttribute("required");
@@ -493,7 +493,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputEmail2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
 			element.RemoveAttribute("required");
@@ -516,7 +516,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputEmail3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
 			element.RemoveAttribute("required");
@@ -539,7 +539,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputEmail4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
 			element.RemoveAttribute("required");
@@ -562,7 +562,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputEmail5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
 			element.RemoveAttribute("required");
@@ -585,7 +585,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputPassword1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
 			element.RemoveAttribute("required");
@@ -607,7 +607,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputPassword2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
 			element.RemoveAttribute("required");
@@ -630,7 +630,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputPassword3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
 			element.RemoveAttribute("required");
@@ -653,7 +653,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputPassword4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
 			element.RemoveAttribute("required");
@@ -676,7 +676,7 @@ namespace UnitTests.Html
 		public void TestPatternmismatchInputPassword5()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
 			element.RemoveAttribute("required");

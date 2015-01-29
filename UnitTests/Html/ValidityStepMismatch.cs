@@ -15,7 +15,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetime1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -38,7 +38,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetime2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -61,7 +61,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetime3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -84,7 +84,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetime4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
 			element.RemoveAttribute("required");
@@ -107,7 +107,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetimeLocal1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
 			element.RemoveAttribute("required");
@@ -130,7 +130,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetimeLocal2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
 			element.RemoveAttribute("required");
@@ -153,7 +153,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetimeLocal3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
 			element.RemoveAttribute("required");
@@ -176,7 +176,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDatetimeLocal4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
 			element.RemoveAttribute("required");
@@ -199,7 +199,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDate1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -222,7 +222,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDate2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -245,7 +245,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDate3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -268,7 +268,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputDate4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
 			element.RemoveAttribute("required");
@@ -291,7 +291,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputMonth1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -314,7 +314,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputMonth2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -337,7 +337,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputMonth3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -360,7 +360,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputMonth4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
 			element.RemoveAttribute("required");
@@ -383,7 +383,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputWeek1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -406,7 +406,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputWeek2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -429,7 +429,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputWeek3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -452,7 +452,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputWeek4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
 			element.RemoveAttribute("required");
@@ -475,7 +475,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputTime1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -498,7 +498,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputTime2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -521,7 +521,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputTime3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -544,7 +544,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputTime4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
 			element.RemoveAttribute("required");
@@ -567,7 +567,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputNumber1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -590,7 +590,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputNumber2()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -613,7 +613,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputNumber3()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
@@ -636,7 +636,7 @@ namespace UnitTests.Html
 		public void TestStepmismatchInputNumber4()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("input") as HTMLInputElement;
+			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
 			element.RemoveAttribute("required");
