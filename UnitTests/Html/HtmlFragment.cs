@@ -17,10 +17,10 @@ namespace UnitTests
     [TestFixture]
     public class HtmlFragmentTests
     {
-        HTMLElement Create(String tagName)
+        HtmlElement Create(String tagName)
         {
             var doc = new Document();
-            return doc.CreateElement(tagName) as HTMLElement;
+            return doc.CreateElement(tagName) as HtmlElement;
         }
 
         [Test]

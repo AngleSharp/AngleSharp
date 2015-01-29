@@ -32,12 +32,12 @@ namespace UnitTests.Library
                 results.Add(walker.Current);
 
             Assert.AreEqual(3, results.Count);
-            Assert.IsInstanceOf<HTMLParagraphElement>(results[0]);
-            Assert.IsInstanceOf<HTMLSpanElement>(results[1]);
-            Assert.IsInstanceOf<HTMLBoldElement>(results[2]);
+            Assert.IsInstanceOf<HtmlParagraphElement>(results[0]);
+            Assert.IsInstanceOf<HtmlSpanElement>(results[1]);
+            Assert.IsInstanceOf<HtmlBoldElement>(results[2]);
 
             walker.Current = rootnode;
-            Assert.IsInstanceOf<HTMLParagraphElement>(walker.ToFirst());
+            Assert.IsInstanceOf<HtmlParagraphElement>(walker.ToFirst());
         }
 
         [Test]

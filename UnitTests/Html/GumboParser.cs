@@ -997,7 +997,7 @@ namespace UnitTests
             var foo = body.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, foo.NodeType);
             Assert.AreEqual("foo", foo.NodeName);
-            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HTMLUnknownElement), foo.GetType());
+            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HtmlUnknownElement), foo.GetType());
         }
 
         [Test]
@@ -1013,7 +1013,7 @@ namespace UnitTests
             var sarcasm = div.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, sarcasm.NodeType);
             Assert.AreEqual("sarcasm", sarcasm.NodeName);
-            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HTMLUnknownElement), sarcasm.GetType());
+            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HtmlUnknownElement), sarcasm.GetType());
         }
 
         [Test]

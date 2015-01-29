@@ -38,7 +38,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -70,7 +70,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -108,7 +108,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(0, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -148,7 +148,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -186,7 +186,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -238,7 +238,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1div0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0template0.NodeType);
 
-            var dochtml0body1div0template0Content = ((HTMLTemplateElement)dochtml0body1div0template0).Content;
+            var dochtml0body1div0template0Content = ((HtmlTemplateElement)dochtml0body1div0template0).Content;
             Assert.AreEqual(1, dochtml0body1div0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1div0template0Content.NodeType);
 
@@ -296,7 +296,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1div0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0template0.NodeType);
 
-            var dochtml0body1div0template0Content = ((HTMLTemplateElement)dochtml0body1div0template0).Content;
+            var dochtml0body1div0template0Content = ((HtmlTemplateElement)dochtml0body1div0template0).Content;
             Assert.AreEqual(1, dochtml0body1div0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1div0template0Content.NodeType);
 
@@ -370,7 +370,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
         }
@@ -410,7 +410,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
         }
@@ -450,7 +450,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1div0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0template0.NodeType);
 
-            var dochtml0body1div0template0Content = ((HTMLTemplateElement)dochtml0body1div0template0).Content;
+            var dochtml0body1div0template0Content = ((HtmlTemplateElement)dochtml0body1div0template0).Content;
             Assert.AreEqual(0, dochtml0body1div0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1div0template0Content.NodeType);
 
@@ -502,7 +502,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1template0.NodeType);
 
-            var dochtml0body1table1template0Content = ((HTMLTemplateElement)dochtml0body1table1template0).Content;
+            var dochtml0body1table1template0Content = ((HtmlTemplateElement)dochtml0body1table1template0).Content;
             Assert.AreEqual(0, dochtml0body1table1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table1template0Content.NodeType);
         }
@@ -546,7 +546,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template1.NodeType);
 
-            var dochtml0body1table0template1Content = ((HTMLTemplateElement)dochtml0body1table0template1).Content;
+            var dochtml0body1table0template1Content = ((HtmlTemplateElement)dochtml0body1table0template1).Content;
             Assert.AreEqual(0, dochtml0body1table0template1Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template1Content.NodeType);
         }
@@ -592,7 +592,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0tbody0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0template0.NodeType);
 
-            var dochtml0body1table0tbody0template0Content = ((HTMLTemplateElement)dochtml0body1table0tbody0template0).Content;
+            var dochtml0body1table0tbody0template0Content = ((HtmlTemplateElement)dochtml0body1table0tbody0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0tbody0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0template0Content.NodeType);
         }
@@ -638,7 +638,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0tbody0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0template0.NodeType);
 
-            var dochtml0body1table0tbody0template0Content = ((HTMLTemplateElement)dochtml0body1table0tbody0template0).Content;
+            var dochtml0body1table0tbody0template0Content = ((HtmlTemplateElement)dochtml0body1table0tbody0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0tbody0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0template0Content.NodeType);
         }
@@ -684,7 +684,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0tbody0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0template0.NodeType);
 
-            var dochtml0body1table0tbody0template0Content = ((HTMLTemplateElement)dochtml0body1table0tbody0template0).Content;
+            var dochtml0body1table0tbody0template0Content = ((HtmlTemplateElement)dochtml0body1table0tbody0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0tbody0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0template0Content.NodeType);
         }
@@ -730,7 +730,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0thead0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0thead0template0.NodeType);
 
-            var dochtml0body1table0thead0template0Content = ((HTMLTemplateElement)dochtml0body1table0thead0template0).Content;
+            var dochtml0body1table0thead0template0Content = ((HtmlTemplateElement)dochtml0body1table0thead0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0thead0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0thead0template0Content.NodeType);
         }
@@ -776,7 +776,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0tfoot0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tfoot0template0.NodeType);
 
-            var dochtml0body1table0tfoot0template0Content = ((HTMLTemplateElement)dochtml0body1table0tfoot0template0).Content;
+            var dochtml0body1table0tfoot0template0Content = ((HtmlTemplateElement)dochtml0body1table0tfoot0template0).Content;
             Assert.AreEqual(0, dochtml0body1table0tfoot0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tfoot0template0Content.NodeType);
         }
@@ -816,7 +816,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template0.NodeType);
 
-            var dochtml0body1select0template0Content = ((HTMLTemplateElement)dochtml0body1select0template0).Content;
+            var dochtml0body1select0template0Content = ((HtmlTemplateElement)dochtml0body1select0template0).Content;
             Assert.AreEqual(0, dochtml0body1select0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template0Content.NodeType);
         }
@@ -856,7 +856,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template0.NodeType);
 
-            var dochtml0body1select0template0Content = ((HTMLTemplateElement)dochtml0body1select0template0).Content;
+            var dochtml0body1select0template0Content = ((HtmlTemplateElement)dochtml0body1select0template0).Content;
             Assert.AreEqual(1, dochtml0body1select0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template0Content.NodeType);
 
@@ -890,7 +890,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(2, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -948,7 +948,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template0.NodeType);
 
-            var dochtml0body1select0template0Content = ((HTMLTemplateElement)dochtml0body1select0template0).Content;
+            var dochtml0body1select0template0Content = ((HtmlTemplateElement)dochtml0body1select0template0).Content;
             Assert.AreEqual(0, dochtml0body1select0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template0Content.NodeType);
 
@@ -1000,7 +1000,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0option0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0option0template0.NodeType);
 
-            var dochtml0body1select0option0template0Content = ((HTMLTemplateElement)dochtml0body1select0option0template0).Content;
+            var dochtml0body1select0option0template0Content = ((HtmlTemplateElement)dochtml0body1select0option0template0).Content;
             Assert.AreEqual(0, dochtml0body1select0option0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0option0template0Content.NodeType);
         }
@@ -1040,7 +1040,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template0.NodeType);
 
-            var dochtml0body1select0template0Content = ((HTMLTemplateElement)dochtml0body1select0template0).Content;
+            var dochtml0body1select0template0Content = ((HtmlTemplateElement)dochtml0body1select0template0).Content;
             Assert.AreEqual(0, dochtml0body1select0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template0Content.NodeType);
         }
@@ -1086,7 +1086,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0template1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template1.NodeType);
 
-            var dochtml0body1select0template1Content = ((HTMLTemplateElement)dochtml0body1select0template1).Content;
+            var dochtml0body1select0template1Content = ((HtmlTemplateElement)dochtml0body1select0template1).Content;
             Assert.AreEqual(0, dochtml0body1select0template1Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template1Content.NodeType);
         }
@@ -1132,7 +1132,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1select0template1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1select0template1.NodeType);
 
-            var dochtml0body1select0template1Content = ((HTMLTemplateElement)dochtml0body1select0template1).Content;
+            var dochtml0body1select0template1Content = ((HtmlTemplateElement)dochtml0body1select0template1).Content;
             Assert.AreEqual(1, dochtml0body1select0template1Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1select0template1Content.NodeType);
 
@@ -1184,7 +1184,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0thead0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0thead0template0.NodeType);
 
-            var dochtml0body1table0thead0template0Content = ((HTMLTemplateElement)dochtml0body1table0thead0template0).Content;
+            var dochtml0body1table0thead0template0Content = ((HtmlTemplateElement)dochtml0body1table0thead0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0thead0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0thead0template0Content.NodeType);
 
@@ -1230,7 +1230,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1276,7 +1276,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1328,7 +1328,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1380,7 +1380,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0thead0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0thead0template0.NodeType);
 
-            var dochtml0body1table0thead0template0Content = ((HTMLTemplateElement)dochtml0body1table0thead0template0).Content;
+            var dochtml0body1table0thead0template0Content = ((HtmlTemplateElement)dochtml0body1table0thead0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0thead0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0thead0template0Content.NodeType);
 
@@ -1426,7 +1426,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1484,7 +1484,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0tbody0tr0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0template0.NodeType);
 
-            var dochtml0body1table0tbody0tr0template0Content = ((HTMLTemplateElement)dochtml0body1table0tbody0tr0template0).Content;
+            var dochtml0body1table0tbody0tr0template0Content = ((HtmlTemplateElement)dochtml0body1table0tbody0tr0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0tbody0tr0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0tbody0tr0template0Content.NodeType);
 
@@ -1530,7 +1530,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1546,7 +1546,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0Contenttr0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttr0template0.NodeType);
 
-            var dochtml0body1table0template0Contenttr0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0Contenttr0template0).Content;
+            var dochtml0body1table0template0Contenttr0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0Contenttr0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Contenttr0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Contenttr0template0Content.NodeType);
 
@@ -1592,7 +1592,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1608,7 +1608,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0Contenttr0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0Contenttr0template0.NodeType);
 
-            var dochtml0body1table0template0Contenttr0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0Contenttr0template0).Content;
+            var dochtml0body1table0template0Contenttr0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0Contenttr0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Contenttr0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Contenttr0template0Content.NodeType);
 
@@ -1654,7 +1654,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0template0.NodeType);
 
-            var dochtml0body1table0template0Content = ((HTMLTemplateElement)dochtml0body1table0template0).Content;
+            var dochtml0body1table0template0Content = ((HtmlTemplateElement)dochtml0body1table0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0template0Content.NodeType);
 
@@ -1694,7 +1694,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -1734,7 +1734,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -1744,7 +1744,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate0.NodeType);
 
-            var dochtml0body1template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate0).Content;
+            var dochtml0body1template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0body1template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate0Content.NodeType);
 
@@ -1802,7 +1802,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0colgroup0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0template0.NodeType);
 
-            var dochtml0body1table0colgroup0template0Content = ((HTMLTemplateElement)dochtml0body1table0colgroup0template0).Content;
+            var dochtml0body1table0colgroup0template0Content = ((HtmlTemplateElement)dochtml0body1table0colgroup0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0colgroup0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0colgroup0template0Content.NodeType);
 
@@ -1860,7 +1860,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(0, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
         }
@@ -1888,7 +1888,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(2, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -1946,7 +1946,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -1998,7 +1998,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2048,7 +2048,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2094,7 +2094,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2146,7 +2146,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2192,7 +2192,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2238,7 +2238,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2284,7 +2284,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2330,7 +2330,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2376,7 +2376,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2422,7 +2422,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2468,7 +2468,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2514,7 +2514,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(3, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2566,7 +2566,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2612,7 +2612,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2652,7 +2652,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2696,7 +2696,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2734,7 +2734,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2780,7 +2780,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2826,7 +2826,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2872,7 +2872,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -2882,7 +2882,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate0.NodeType);
 
-            var dochtml0body1template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate0).Content;
+            var dochtml0body1template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0body1template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate0Content.NodeType);
 
@@ -2940,7 +2940,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1table0colgroup0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0template0.NodeType);
 
-            var dochtml0body1table0colgroup0template0Content = ((HTMLTemplateElement)dochtml0body1table0colgroup0template0).Content;
+            var dochtml0body1table0colgroup0template0Content = ((HtmlTemplateElement)dochtml0body1table0colgroup0template0).Content;
             Assert.AreEqual(1, dochtml0body1table0colgroup0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1table0colgroup0template0Content.NodeType);
 
@@ -2983,7 +2983,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3026,7 +3026,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3075,7 +3075,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(2, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3124,7 +3124,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(0, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3164,7 +3164,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(3, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3180,7 +3180,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate1.NodeType);
 
-            var dochtml0body1template0Contenttemplate1Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate1).Content;
+            var dochtml0body1template0Contenttemplate1Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate1).Content;
             Assert.AreEqual(0, dochtml0body1template0Contenttemplate1Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate1Content.NodeType);
 
@@ -3226,7 +3226,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(4, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3242,7 +3242,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate1.NodeType);
 
-            var dochtml0body1template0Contenttemplate1Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate1).Content;
+            var dochtml0body1template0Contenttemplate1Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate1).Content;
             Assert.AreEqual(1, dochtml0body1template0Contenttemplate1Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate1Content.NodeType);
 
@@ -3300,7 +3300,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3310,7 +3310,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate0.NodeType);
 
-            var dochtml0body1template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate0).Content;
+            var dochtml0body1template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0body1template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate0Content.NodeType);
 
@@ -3326,7 +3326,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate0Contentb0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate0Contentb0template0.NodeType);
 
-            var dochtml0body1template0Contenttemplate0Contentb0template0Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate0Contentb0template0).Content;
+            var dochtml0body1template0Contenttemplate0Contentb0template0Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate0Contentb0template0).Content;
             Assert.AreEqual(0, dochtml0body1template0Contenttemplate0Contentb0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate0Contentb0template0Content.NodeType);
 
@@ -3364,7 +3364,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3404,7 +3404,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3444,7 +3444,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3484,7 +3484,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3524,7 +3524,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3564,7 +3564,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(1, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3604,7 +3604,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3660,7 +3660,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0.NodeType);
 
-            var dochtml0body1template0Content = ((HTMLTemplateElement)dochtml0body1template0).Content;
+            var dochtml0body1template0Content = ((HtmlTemplateElement)dochtml0body1template0).Content;
             Assert.AreEqual(2, dochtml0body1template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Content.NodeType);
 
@@ -3680,7 +3680,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1template0Contenttemplate1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1template0Contenttemplate1.NodeType);
 
-            var dochtml0body1template0Contenttemplate1Content = ((HTMLTemplateElement)dochtml0body1template0Contenttemplate1).Content;
+            var dochtml0body1template0Contenttemplate1Content = ((HtmlTemplateElement)dochtml0body1template0Contenttemplate1).Content;
             Assert.AreEqual(0, dochtml0body1template0Contenttemplate1Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1template0Contenttemplate1Content.NodeType);
         }
@@ -3720,7 +3720,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0body1div0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1div0template0.NodeType);
 
-            var dochtml0body1div0template0Content = ((HTMLTemplateElement)dochtml0body1div0template0).Content;
+            var dochtml0body1div0template0Content = ((HtmlTemplateElement)dochtml0body1div0template0).Content;
             Assert.AreEqual(1, dochtml0body1div0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0body1div0template0Content.NodeType);
 
@@ -3764,7 +3764,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3810,7 +3810,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3820,7 +3820,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(0, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -3854,7 +3854,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3894,7 +3894,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3904,7 +3904,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -3944,7 +3944,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -3954,7 +3954,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -3994,7 +3994,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4004,7 +4004,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4044,7 +4044,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4054,7 +4054,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4094,7 +4094,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4104,7 +4104,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4144,7 +4144,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4154,7 +4154,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4194,7 +4194,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4204,7 +4204,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4244,7 +4244,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4254,7 +4254,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4294,7 +4294,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4304,7 +4304,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(2, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4350,7 +4350,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4360,7 +4360,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(2, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4404,7 +4404,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4414,7 +4414,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(0, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
         }
@@ -4442,7 +4442,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4452,7 +4452,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4496,7 +4496,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4506,7 +4506,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0Contenttemplate0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0Contenttemplate0.NodeType);
 
-            var dochtml0head0template0Contenttemplate0Content = ((HTMLTemplateElement)dochtml0head0template0Contenttemplate0).Content;
+            var dochtml0head0template0Contenttemplate0Content = ((HtmlTemplateElement)dochtml0head0template0Contenttemplate0).Content;
             Assert.AreEqual(1, dochtml0head0template0Contenttemplate0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Contenttemplate0Content.NodeType);
 
@@ -4550,7 +4550,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4600,7 +4600,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4650,7 +4650,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 
@@ -4700,7 +4700,7 @@ namespace UnitTests.Html
             Assert.AreEqual("template", dochtml0head0template0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0head0template0.NodeType);
 
-            var dochtml0head0template0Content = ((HTMLTemplateElement)dochtml0head0template0).Content;
+            var dochtml0head0template0Content = ((HtmlTemplateElement)dochtml0head0template0).Content;
             Assert.AreEqual(1, dochtml0head0template0Content.ChildNodes.Length);
             Assert.AreEqual(NodeType.DocumentFragment, dochtml0head0template0Content.NodeType);
 

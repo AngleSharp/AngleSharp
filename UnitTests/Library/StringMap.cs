@@ -6,14 +6,14 @@
     [TestFixture]
     public class StringMapTests
     {
-        HTMLElement a;
+        HtmlElement a;
         StringMap stringMap;
 
         [SetUp]
         public void CreateMap()
         {
             var document = new Document();
-            a = new HTMLElement(document, "a");
+            a = new HtmlElement(document, "a");
             a.SetAttribute("data-test1", "test");
             a.SetAttribute("data-b", "b");
             stringMap = new StringMap("data-", a);

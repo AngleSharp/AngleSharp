@@ -24,7 +24,7 @@ namespace UnitTests
         public void DOMTokenListWritesBack()
         {
             var testClass = "myclass";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.ClassName = "";
             div.ClassList.Add(testClass);
             Assert.AreEqual(testClass, div.ClassName);
@@ -34,7 +34,7 @@ namespace UnitTests
         public void DOMTokenListCorrectlyInitializedFindsClass()
         {
             var testClass = "myclass";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.ClassName = testClass + " whatever anotherclass";
             Assert.IsTrue(div.ClassList.Contains(testClass));
         }
@@ -43,7 +43,7 @@ namespace UnitTests
         public void DOMTokenListCorrectlyInitializedNoClass()
         {
             var testClass = "myclass1";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.ClassName = "myclass2 whatever anotherclass";
             Assert.IsFalse(div.ClassList.Contains(testClass));
         }
@@ -53,7 +53,7 @@ namespace UnitTests
         {
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.ClassName = testClass + " " + otherClasses;
             div.ClassList.Toggle(testClass);
             Assert.AreEqual(div.ClassName, otherClasses);
@@ -64,7 +64,7 @@ namespace UnitTests
         {
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.ClassName = otherClasses;
             div.ClassList.Toggle(testClass);
             Assert.AreEqual(div.ClassName, otherClasses + " " + testClass);
@@ -74,7 +74,7 @@ namespace UnitTests
         public void DOMStringMapBindingGet()
         {
             var value = "SomeUser";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.SetAttribute("data-user", value);
             Assert.AreEqual(div.Dataset["user"], value);
         }
@@ -83,7 +83,7 @@ namespace UnitTests
         public void DOMStringMapBindingSet()
         {
             var value = "SomeUser";
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.Dataset["user"] = value;
             Assert.AreEqual(div.GetAttribute("data-user"), value);
         }
@@ -91,14 +91,14 @@ namespace UnitTests
         [Test]
         public void DOMStringMapHasNoAttribute()
         {
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             Assert.IsTrue(div.Dataset["user"] == null);
         }
 
         [Test]
         public void DOMStringMapHasAttributesButRequestedMissing()
         {
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
             div.SetAttribute("data-test", "third attribute");
@@ -108,7 +108,7 @@ namespace UnitTests
         [Test]
         public void DOMStringMapIEnumerableWorking()
         {
-            var div = new HTMLDivElement(document);
+            var div = new HtmlDivElement(document);
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
             div.SetAttribute("data-test", "third attribute");
@@ -138,7 +138,7 @@ namespace UnitTests
         public void HtmlHasRightHeadElement()
         {
             var doc = new Document();
-            var root = new HTMLHtmlElement(document);
+            var root = new HtmlHtmlElement(document);
             doc.AppendChild(root);
             var head = new HTMLHeadElement(document);
             root.AppendChild(head);
@@ -149,9 +149,9 @@ namespace UnitTests
         public void HtmlHasRightBodyElement()
         {
             var doc = new Document();
-            var root = new HTMLHtmlElement(document);
+            var root = new HtmlHtmlElement(document);
             doc.AppendChild(root);
-            var body = new HTMLBodyElement(document);
+            var body = new HtmlBodyElement(document);
             root.AppendChild(body);
             Assert.AreEqual(body, doc.Body);
         }
@@ -439,7 +439,7 @@ namespace UnitTests
         [Test]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
-            var element = new HTMLSpanElement(document);
+            var element = new HtmlSpanElement(document);
             var text = "background-color: red; color: black;";
             element.Style.CssText = text;
             Assert.AreEqual(text, element.GetAttribute("style"));
@@ -520,7 +520,7 @@ namespace UnitTests
             var doc = DocumentBuilder.Html(content);
 
             var body = doc.Body;
-            var span = body.QuerySelector("span") as HTMLSpanElement;
+            var span = body.QuerySelector("span") as HtmlSpanElement;
             Assert.AreEqual("RU", body.Language);
             Assert.AreEqual("тест", span.TextContent);
             Assert.AreEqual("EN-US", span.GetAttribute("lang"));
@@ -535,7 +535,7 @@ namespace UnitTests
             var doc = DocumentBuilder.Html(fs);
 
             var body = doc.Body;
-            var span = body.QuerySelector("span") as HTMLSpanElement;
+            var span = body.QuerySelector("span") as HtmlSpanElement;
             Assert.AreEqual("RU", body.Language);
             Assert.AreEqual("тест", span.TextContent);
             Assert.AreEqual("EN-US", span.GetAttribute("lang"));

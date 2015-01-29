@@ -25,7 +25,7 @@ namespace UnitTests
         {
             var x = document.CreateElement("P");
             Assert.IsNotNull(x);
-            Assert.IsTrue(x is HTMLParagraphElement);
+            Assert.IsTrue(x is HtmlParagraphElement);
             Assert.AreEqual(document, x.Owner);
         }
 

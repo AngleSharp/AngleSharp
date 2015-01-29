@@ -34,9 +34,9 @@ namespace UnitTests.Library
 
             Assert.IsFalse(iterator.IsBeforeReference);
             Assert.AreEqual(3, results.Count);
-            Assert.IsInstanceOf<HTMLParagraphElement>(results[0]);
-            Assert.IsInstanceOf<HTMLSpanElement>(results[1]);
-            Assert.IsInstanceOf<HTMLBoldElement>(results[2]);
+            Assert.IsInstanceOf<HtmlParagraphElement>(results[0]);
+            Assert.IsInstanceOf<HtmlSpanElement>(results[1]);
+            Assert.IsInstanceOf<HtmlBoldElement>(results[2]);
 
             do
                 results.Remove(iterator.Reference);
