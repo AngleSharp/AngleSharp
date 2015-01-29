@@ -239,8 +239,6 @@
                             {
                                 var options = new StyleOptions
                                 {
-                                    Context = Owner.DefaultView,
-                                    Document = Owner,
                                     Element = this,
                                     Title = Title,
                                     IsDisabled = IsDisabled,

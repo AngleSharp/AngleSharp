@@ -193,7 +193,7 @@
     <Compile Include="Html\EventFlags.cs" />
     <Compile Include="Html\NodeFlags.cs" />
     <Compile Include="Css\Values\ITransform.cs" />
-    <Compile Include="Delegates\NodeFilter.cs" />
+    <Compile Include="Dom\NodeFilter.cs" />
     <Compile Include="Dom\Collections\OptionsCollection.cs" />
     <Compile Include="Dom\Collections\SettableTokenList.cs" />
     <Compile Include="Dom\Constants\FilterResult.cs" />
@@ -433,7 +433,6 @@
     <Compile Include="Dom\Css\Values\CssIdentifier.cs" />
     <Compile Include="Dom\Css\Values\CssString.cs" />
     <Compile Include="IConfiguration.cs" />
-    <Compile Include="Infrastructure\BaseOptions.cs" />
     <Compile Include="Infrastructure\CssStyleEngine.cs" />
     <Compile Include="Services\IAudioService.cs" />
     <Compile Include="Services\ICookieService.cs" />
@@ -663,7 +662,7 @@
     <Compile Include="Interfaces\IHistory.cs" />
     <Compile Include="Interfaces\IImplementation.cs" />
     <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Delegates\DomEventHandler.cs" />
+    <Compile Include="Dom\DomEventHandler.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
     <Compile Include="Interfaces\IHtmlCollection.cs" />
     <Compile Include="Interfaces\ILabelabelElement.cs" />
@@ -825,7 +824,7 @@
     <Compile Include="Dom\Constants\RangeType.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Network\MimeTypes.cs" />
-    <Compile Include="Delegates\MutationCallback.cs" />
+    <Compile Include="Dom\MutationCallback.cs" />
     <Compile Include="Dom\MutationObserver.cs" />
     <Compile Include="Dom\MutationObserverInit.cs" />
     <Compile Include="Dom\MutationRecord.cs" />

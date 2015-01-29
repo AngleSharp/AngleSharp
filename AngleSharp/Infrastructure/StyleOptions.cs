@@ -6,7 +6,7 @@
     /// <summary>
     /// Transport object for evaluating stylesheets.
     /// </summary>
-    public sealed class StyleOptions : BaseOptions
+    public sealed class StyleOptions
     {
         /// <summary>
         /// Gets or sets the element that triggered the evaluation.

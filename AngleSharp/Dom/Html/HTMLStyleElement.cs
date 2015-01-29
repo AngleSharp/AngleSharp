@@ -120,10 +120,9 @@
                 var options = new StyleOptions
                 {
                     Element = this,
-                    Document = Owner,
-                    Context = Owner.DefaultView,
                     IsDisabled = IsDisabled,
-                    Title = Title
+                    Title = Title,
+                    IsAlternate = false
                 };
                 return Owner.Options.ParseStyling(TextContent, options, Type);
             }
