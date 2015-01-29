@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.Dom.Svg
 {
     using AngleSharp.Attributes;
 

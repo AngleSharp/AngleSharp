@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Factories
 {
-    using AngleSharp.DOM.Events;
+    using AngleSharp.Dom.Events;
     using System;
     using System.Collections.Generic;
 

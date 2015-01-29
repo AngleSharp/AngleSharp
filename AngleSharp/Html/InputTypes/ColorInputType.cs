@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.DOM.Html;
+    using AngleSharp.Dom.Html;
     using System;
     using System.Text.RegularExpressions;
 

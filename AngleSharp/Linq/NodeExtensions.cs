@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Linq
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
 

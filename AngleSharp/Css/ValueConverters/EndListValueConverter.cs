@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Linq;

@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Attributes;
-    using AngleSharp.DOM.Media;
+    using AngleSharp.Dom.Media;
     using System;
     using System.IO;
 

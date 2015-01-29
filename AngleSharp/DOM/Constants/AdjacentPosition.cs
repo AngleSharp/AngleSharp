@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Dom
 {
     /// <summary>
     /// Enumeration with possible values for the adjacent position insertation.

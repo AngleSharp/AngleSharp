@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
+using AngleSharp.Dom;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -919,7 +919,7 @@ namespace UnitTests
         public void GumboDoctype()
         {
             var html = DocumentBuilder.Html(@"<!doctype html>Test") as Document;
-            Assert.AreEqual(AngleSharp.DOM.QuirksMode.Off, html.QuirksMode);
+            Assert.AreEqual(AngleSharp.Dom.QuirksMode.Off, html.QuirksMode);
             Assert.AreEqual(2, html.ChildNodes.Length);
 
             var doctype = html.Doctype;
@@ -932,7 +932,7 @@ namespace UnitTests
         public void GumboInvalidDoctype()
         {
             var html = DocumentBuilder.Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">") as Document;
-            Assert.AreEqual(AngleSharp.DOM.QuirksMode.On, html.QuirksMode);
+            Assert.AreEqual(AngleSharp.Dom.QuirksMode.On, html.QuirksMode);
             Assert.AreEqual(1, html.ChildNodes.Length);
 
             Assert.IsNull(html.Doctype);
@@ -997,7 +997,7 @@ namespace UnitTests
             var foo = body.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, foo.NodeType);
             Assert.AreEqual("foo", foo.NodeName);
-            Assert.AreEqual(typeof(AngleSharp.DOM.Html.HTMLUnknownElement), foo.GetType());
+            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HTMLUnknownElement), foo.GetType());
         }
 
         [Test]
@@ -1013,7 +1013,7 @@ namespace UnitTests
             var sarcasm = div.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, sarcasm.NodeType);
             Assert.AreEqual("sarcasm", sarcasm.NodeName);
-            Assert.AreEqual(typeof(AngleSharp.DOM.Html.HTMLUnknownElement), sarcasm.GetType());
+            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HTMLUnknownElement), sarcasm.GetType());
         }
 
         [Test]

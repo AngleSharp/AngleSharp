@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.DOM.Media;
+    using AngleSharp.Dom.Media;
     using System;
 
     /// <summary>

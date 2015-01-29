@@ -1,4 +1,4 @@
-﻿using AngleSharp.DOM.Css;
+﻿using AngleSharp.Dom.Css;
 using NUnit.Framework;
 
 namespace UnitTests

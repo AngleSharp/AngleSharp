@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Library
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using NUnit.Framework;
 
     [TestFixture]

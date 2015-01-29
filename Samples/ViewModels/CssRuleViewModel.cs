@@ -1,6 +1,6 @@
 ﻿namespace Samples.ViewModels
 {
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.ObjectModel;
 

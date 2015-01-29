@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Services.Media
 {
-    using AngleSharp.DOM.Media;
+    using AngleSharp.Dom.Media;
 
     /// <summary>
     /// Contains information about a media resource.

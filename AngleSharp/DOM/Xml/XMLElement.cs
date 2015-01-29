@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Xml
+﻿namespace AngleSharp.Dom.Xml
 {
     using AngleSharp.Html;
     using System;

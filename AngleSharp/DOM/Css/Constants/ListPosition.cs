@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Dom.Css
 {
     /// <summary>
     /// An enumeration over all list positions.

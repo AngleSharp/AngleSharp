@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using AngleSharp.Services;

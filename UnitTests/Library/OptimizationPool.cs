@@ -1,7 +1,7 @@
 ﻿namespace UnitTests.Library
 {
     using AngleSharp;
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;

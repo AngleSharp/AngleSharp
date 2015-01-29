@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Html
 {
-    using AngleSharp.DOM.Io;
+    using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
     using System;
     using System.Collections;

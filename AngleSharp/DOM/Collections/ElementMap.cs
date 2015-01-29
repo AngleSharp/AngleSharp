@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.Dom.Collections
 {
     using System;
     using System.Collections;

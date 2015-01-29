@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.DOM.Collections
+﻿namespace AngleSharp.Dom.Collections
 {
     using AngleSharp.Css;
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
     using System.Collections;
     using System.Collections.Generic;
 

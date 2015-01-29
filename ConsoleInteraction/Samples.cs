@@ -1,7 +1,7 @@
 ﻿namespace ConsoleInteraction
 {
     using AngleSharp;
-    using AngleSharp.DOM.Html;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Scripting;
     using AngleSharp.Linq;
     using System;

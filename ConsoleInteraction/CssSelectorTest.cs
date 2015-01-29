@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
+using AngleSharp.Dom;
 using ConsoleInteraction.Assets;
 using System;
 using System.Collections.Generic;

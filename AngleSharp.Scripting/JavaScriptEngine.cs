@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Scripting
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using AngleSharp.Infrastructure;
     using AngleSharp.Network;
     using Jint;

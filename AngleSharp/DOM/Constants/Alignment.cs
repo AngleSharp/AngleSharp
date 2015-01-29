@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.Dom.Html
 {
     /// <summary>
     /// The list of possible horizontal alignments.

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Css
+﻿namespace AngleSharp.Dom.Css
 {
     /// <summary>
     /// A listing of all possible pre-defined font-sizes.

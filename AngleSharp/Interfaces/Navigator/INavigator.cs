@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Navigator
+﻿namespace AngleSharp.Dom.Navigator
 {
     using AngleSharp.Attributes;
 

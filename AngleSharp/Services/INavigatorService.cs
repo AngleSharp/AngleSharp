@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.DOM;
-    using AngleSharp.DOM.Navigator;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Navigator;
 
     /// <summary>
     /// Defines methods to create INavigator instances.

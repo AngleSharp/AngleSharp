@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using AngleSharp.Parser.Css;
-using AngleSharp.DOM.Css;
+using AngleSharp.Dom.Css;
 
 namespace UnitTests.Css
 {

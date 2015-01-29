@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Scripting
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using Jint.Native;
     using Jint.Native.Function;
     using System;

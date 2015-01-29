@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Dom
 {
     /// <summary>
     /// Contains simple choices.

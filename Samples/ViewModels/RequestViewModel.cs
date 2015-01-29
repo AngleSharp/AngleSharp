@@ -1,7 +1,7 @@
 ﻿namespace Samples.ViewModels
 {
     using AngleSharp;
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using System;
     using System.IO;
     using System.Net.Http;

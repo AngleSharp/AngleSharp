@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.DOM;
-    using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Html;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Services;
     using System;
     using System.Diagnostics;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.DOM.Io
+﻿namespace AngleSharp.Dom.Io
 {
     using AngleSharp.Attributes;
     using System;

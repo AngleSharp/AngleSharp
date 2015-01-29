@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.DOM.Html;
-    using AngleSharp.DOM.Xml;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Xml;
     using System;
 
     /// <summary>

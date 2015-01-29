@@ -1,9 +1,9 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Events;
-    using AngleSharp.DOM.Html;
-    using AngleSharp.DOM.Svg;
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;

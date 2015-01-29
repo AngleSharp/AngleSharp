@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
     using System;
 
     sealed class ToValueConverter<T> : IValueConverter<ICssValue>

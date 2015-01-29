@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.DOM.Events;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>

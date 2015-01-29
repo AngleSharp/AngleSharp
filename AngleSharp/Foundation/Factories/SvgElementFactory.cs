@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Factories
 {
-    using AngleSharp.DOM;
-    using AngleSharp.DOM.Svg;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Svg;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;

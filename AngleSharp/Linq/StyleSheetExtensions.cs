@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Linq
 {
-    using AngleSharp.DOM;
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
     using System.Collections.Generic;
     using System.Linq;
 

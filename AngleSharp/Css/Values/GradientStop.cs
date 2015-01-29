@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// More information can be found at the W3C:

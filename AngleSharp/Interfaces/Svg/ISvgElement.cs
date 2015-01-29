@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.DOM.Svg
+﻿namespace AngleSharp.Dom.Svg
 {
     using AngleSharp.Attributes;
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// The SVGElement interface represents any SVG element. Some elements directly

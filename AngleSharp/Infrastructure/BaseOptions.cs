@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Infrastructure
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// A shared set of options. Just plain data transfer.

@@ -1,5 +1,5 @@
 using AngleSharp;
-using AngleSharp.DOM.Html;
+using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
 namespace UnitTests.Html

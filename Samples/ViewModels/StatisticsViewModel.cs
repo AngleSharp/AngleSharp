@@ -1,6 +1,6 @@
 ﻿namespace Samples.ViewModels
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using OxyPlot;
     using OxyPlot.Series;
     using System;

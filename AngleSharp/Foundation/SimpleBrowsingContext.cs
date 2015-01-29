@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// A simple and lightweight browsing context.

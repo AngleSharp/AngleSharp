@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM.Css;
+using AngleSharp.Dom.Css;
 using AngleSharp.Infrastructure;
 using NUnit.Framework;
 using System.Linq;

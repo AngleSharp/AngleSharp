@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.DOM.Html
+﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.DOM.Collections;
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Factories
 {
-    using AngleSharp.DOM.Html;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
     using System;

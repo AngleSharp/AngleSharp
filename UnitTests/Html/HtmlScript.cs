@@ -1,5 +1,5 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
+using AngleSharp.Dom;
 using AngleSharp.Parser.Html;
 using NUnit.Framework;
 

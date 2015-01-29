@@ -1,7 +1,7 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Css;
-using AngleSharp.DOM.Html;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Css;
+using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Css;
 using AngleSharp.Parser.Html;
 using ConsoleInteraction.Assets;

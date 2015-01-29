@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.DOM
+﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.DOM.Css;
-    using AngleSharp.DOM.Events;
-    using AngleSharp.DOM.Navigator;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;

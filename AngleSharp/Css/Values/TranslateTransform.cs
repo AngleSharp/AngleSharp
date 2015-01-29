@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.DOM.Css;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// Represents the translate3d transformation.

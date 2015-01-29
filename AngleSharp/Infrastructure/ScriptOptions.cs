@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Infrastructure
 {
-    using AngleSharp.DOM.Html;
+    using AngleSharp.Dom.Html;
     using System.Text;
 
     /// <summary>

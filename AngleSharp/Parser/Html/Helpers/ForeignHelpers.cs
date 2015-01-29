@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using AngleSharp.Html;
     using System;
 

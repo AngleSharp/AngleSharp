@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using AngleSharp;
 using AngleSharp.Extensions;
-using AngleSharp.DOM;
+using AngleSharp.Dom;
 using System.Linq;
 
 namespace UnitTests

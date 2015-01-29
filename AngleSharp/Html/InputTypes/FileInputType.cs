@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.DOM.Html;
-    using AngleSharp.DOM.Io;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Io;
     using AngleSharp.Network;
     using System;
 

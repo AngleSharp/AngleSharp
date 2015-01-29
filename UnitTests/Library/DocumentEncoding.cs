@@ -1,7 +1,7 @@
 ﻿namespace UnitTests.Library
 {
     using AngleSharp;
-    using AngleSharp.DOM.Html;
+    using AngleSharp.Dom.Html;
     using NUnit.Framework;
     using System;
     using System.Globalization;

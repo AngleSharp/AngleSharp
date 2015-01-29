@@ -1,6 +1,6 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Html;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
 using System.Linq;

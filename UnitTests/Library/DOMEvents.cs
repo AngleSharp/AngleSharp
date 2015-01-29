@@ -1,6 +1,6 @@
 ﻿using AngleSharp;
-using AngleSharp.DOM;
-using AngleSharp.DOM.Events;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Events;
 using NUnit.Framework;
 
 namespace UnitTests.Library

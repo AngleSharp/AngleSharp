@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using AngleSharp;
-using AngleSharp.DOM;
+using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using System;
 using System.IO;

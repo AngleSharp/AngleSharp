@@ -1,7 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.Css;
 using AngleSharp.Css.MediaFeatures;
-using AngleSharp.DOM.Css;
+using AngleSharp.Dom.Css;
 using NUnit.Framework;
 using System.Collections.Generic;
 

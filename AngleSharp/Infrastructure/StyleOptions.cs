@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Infrastructure
 {
-    using AngleSharp.DOM;
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>
