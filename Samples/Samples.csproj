@@ -211,9 +211,9 @@
       <Project>{4ed5a0b3-ae7a-40b6-bbac-ff408d6c6bc3}</Project>
       <Name>AngleSharp.Scripting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.csproj">
+    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
       <Project>{91f78c48-287e-41b5-9e49-44d6e1e31290}</Project>
-      <Name>AngleSharp</Name>
+      <Name>AngleSharp.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
