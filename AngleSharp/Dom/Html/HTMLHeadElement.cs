@@ -5,11 +5,11 @@
     /// <summary>
     /// Represents the HTML head element.
     /// </summary>
-    sealed class HTMLHeadElement : HtmlElement, IHtmlHeadElement
+    sealed class HtmlHeadElement : HtmlElement, IHtmlHeadElement
     {
         #region ctor
 
-        public HTMLHeadElement(Document owner)
+        public HtmlHeadElement(Document owner)
             : base(owner, Tags.Head, NodeFlags.Special)
         {
         }

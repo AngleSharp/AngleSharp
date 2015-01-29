@@ -6,12 +6,12 @@
     /// <summary>
     /// Represents the title element.
     /// </summary>
-    sealed class HTMLTitleElement : HtmlElement, IHtmlTitleElement
+    sealed class HtmlTitleElement : HtmlElement, IHtmlTitleElement
     {
         /// <summary>
         /// Creates a new HTML title element.
         /// </summary>
-        public HTMLTitleElement(Document owner)
+        public HtmlTitleElement(Document owner)
             : base(owner, Tags.Title, NodeFlags.Special)
         {
         }

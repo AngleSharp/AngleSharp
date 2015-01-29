@@ -804,7 +804,7 @@
                         if (head == null)
                             return;
 
-                        title = new HTMLTitleElement(this);
+                        title = new HtmlTitleElement(this);
                         head.AppendChild(title);
                     }
 

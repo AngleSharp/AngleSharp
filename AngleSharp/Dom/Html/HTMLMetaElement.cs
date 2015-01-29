@@ -8,14 +8,14 @@
     /// <summary>
     /// Represents the HTML meta element.
     /// </summary>
-    sealed class HTMLMetaElement : HtmlElement, IHtmlMetaElement
+    sealed class HtmlMetaElement : HtmlElement, IHtmlMetaElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML meta element.
         /// </summary>
-        public HTMLMetaElement(Document owner)
+        public HtmlMetaElement(Document owner)
             : base(owner, Tags.Meta, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

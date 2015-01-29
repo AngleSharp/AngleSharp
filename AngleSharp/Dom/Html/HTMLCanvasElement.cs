@@ -12,7 +12,7 @@
     /// See: http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
     /// Alternative: http://www.w3.org/html/wg/drafts/html/master/embedded-content-0.html#the-canvas-element
     /// </summary>
-    sealed class HTMLCanvasElement : HtmlElement, IHtmlCanvasElement
+    sealed class HtmlCanvasElement : HtmlElement, IHtmlCanvasElement
     {
         #region Fields
 
@@ -26,7 +26,7 @@
         /// <summary>
         /// Creates a new HTML canvas element.
         /// </summary>
-        public HTMLCanvasElement(Document owner)
+        public HtmlCanvasElement(Document owner)
             : base(owner, Tags.Canvas)
         {
             _mode = ContextMode.None;

@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the HTML base element.
     /// </summary>
-    sealed class HTMLBaseElement : HtmlElement, IHtmlBaseElement
+    sealed class HtmlBaseElement : HtmlElement, IHtmlBaseElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a HTML base element.
         /// </summary>
-        public HTMLBaseElement(Document owner)
+        public HtmlBaseElement(Document owner)
             : base(owner, Tags.Base, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);

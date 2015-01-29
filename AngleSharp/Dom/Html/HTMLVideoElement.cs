@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
-    sealed class HTMLVideoElement : HTMLMediaElement<IVideoInfo>, IHtmlVideoElement
+    sealed class HtmlVideoElement : HTMLMediaElement<IVideoInfo>, IHtmlVideoElement
     {
         #region Fields
 
@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new HTML video element.
         /// </summary>
-        public HTMLVideoElement(Document owner)
+        public HtmlVideoElement(Document owner)
             : base(owner, Tags.Video)
         {
             _videos = null;

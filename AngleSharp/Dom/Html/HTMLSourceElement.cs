@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the HTML source element.
     /// </summary>
-    sealed class HTMLSourceElement : HtmlElement, IHtmlSourceElement
+    sealed class HtmlSourceElement : HtmlElement, IHtmlSourceElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML source element.
         /// </summary>
-        public HTMLSourceElement(Document owner)
+        public HtmlSourceElement(Document owner)
             : base(owner, Tags.Source, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

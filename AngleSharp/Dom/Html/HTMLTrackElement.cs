@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML track element.
     /// </summary>
-    sealed class HTMLTrackElement : HtmlElement, IHtmlTrackElement
+    sealed class HtmlTrackElement : HtmlElement, IHtmlTrackElement
     {
         #region Fields
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new HTML track element.
         /// </summary>
-        public HTMLTrackElement(Document owner)
+        public HtmlTrackElement(Document owner)
             : base(owner, Tags.Track, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _ready = TrackReadyState.None;

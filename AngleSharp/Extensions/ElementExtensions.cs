@@ -170,7 +170,7 @@
         /// <returns>True if the element is currently enabled, otherwise false.</returns>
         public static Boolean IsEnabled(this IElement element)
         {
-            if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HTMLLinkElement)
+            if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href));
             else if (element is HTMLButtonElement)
                 return !((HTMLButtonElement)element).IsDisabled;
@@ -359,8 +359,8 @@
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAnchorElement)element).IsActive;
             else if (element is HtmlAreaElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsActive;
-            else if (element is HTMLLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)element).IsActive;
+            else if (element is HtmlLinkElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlLinkElement)element).IsActive;
             else if (element is HTMLButtonElement)
                 return !((HTMLButtonElement)element).IsDisabled && ((HTMLButtonElement)element).IsActive;
             else if (element is HTMLInputElement)
@@ -386,8 +386,8 @@
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAnchorElement)element).IsVisited;
             else if (element is HtmlAreaElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsVisited;
-            else if (element is HTMLLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)element).IsVisited;
+            else if (element is HtmlLinkElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlLinkElement)element).IsVisited;
 
             return false;
         }
@@ -403,8 +403,8 @@
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlAnchorElement)element).IsVisited;
             else if (element is HtmlAreaElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlAreaElement)element).IsVisited;
-            else if (element is HTMLLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HTMLLinkElement)element).IsVisited;
+            else if (element is HtmlLinkElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlLinkElement)element).IsVisited;
 
             return false;
         }

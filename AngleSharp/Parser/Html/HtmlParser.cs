@@ -567,7 +567,7 @@
                     }
                     else if (tagName == Tags.Head)
                     {
-                        AddElement(new HTMLHeadElement(doc), token.AsTag());
+                        AddElement(new HtmlHeadElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InHead;
                         return;
                     }
@@ -637,7 +637,7 @@
                     }
                     else if (tagName == Tags.Meta)
                     {
-                        var element = new HTMLMetaElement(doc);
+                        var element = new HtmlMetaElement(doc);
                         AddElement(element, token.AsTag(), true);
                         var encoding = element.GetEncoding();
                         CloseCurrentNode();

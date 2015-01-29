@@ -7,9 +7,9 @@
     /// Represents the HTML bgsound element.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLBgsoundElement : HtmlElement
+    sealed class HtmlBgsoundElement : HtmlElement
     {
-        public HTMLBgsoundElement(Document owner)
+        public HtmlBgsoundElement(Document owner)
             : base(owner, Tags.Bgsound, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

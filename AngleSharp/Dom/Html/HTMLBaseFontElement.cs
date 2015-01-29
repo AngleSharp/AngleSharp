@@ -8,9 +8,9 @@
     /// Deprecated in HTML 4.01.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLBaseFontElement : HtmlElement
+    sealed class HtmlBaseFontElement : HtmlElement
     {
-        public HTMLBaseFontElement(Document owner)
+        public HtmlBaseFontElement(Document owner)
             : base(owner, Tags.BaseFont, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

@@ -11,7 +11,7 @@
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    sealed class HTMLLinkElement : HtmlElement, IHtmlLinkElement
+    sealed class HtmlLinkElement : HtmlElement, IHtmlLinkElement
     {
         #region Fields
 
@@ -29,7 +29,7 @@
         /// <summary>
         /// Creates a new HTML link element.
         /// </summary>
-        public HTMLLinkElement(Document owner)
+        public HtmlLinkElement(Document owner)
             : base(owner, Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _cts = new CancellationTokenSource();

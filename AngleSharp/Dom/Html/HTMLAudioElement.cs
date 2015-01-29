@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML audio element.
     /// </summary>
-    sealed class HTMLAudioElement : HTMLMediaElement<IAudioInfo>, IHtmlAudioElement
+    sealed class HtmlAudioElement : HTMLMediaElement<IAudioInfo>, IHtmlAudioElement
     {
         #region Fields
 
@@ -20,7 +20,7 @@
         /// <summary>
         /// Creates a new HTML audio element.
         /// </summary>
-        public HTMLAudioElement(Document owner)
+        public HtmlAudioElement(Document owner)
             : base(owner, Tags.Audio)
         {
             _audios = null;
