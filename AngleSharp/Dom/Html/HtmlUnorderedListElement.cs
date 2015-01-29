@@ -5,11 +5,11 @@
     /// <summary>
     /// The DOM Object representing the unordered list.
     /// </summary>
-    sealed class HTMLUListElement : HtmlElement, IHtmlUnorderedListElement
+    sealed class HtmlUnorderedListElement : HtmlElement, IHtmlUnorderedListElement
     {
         #region ctor
 
-        public HTMLUListElement(Document owner)
+        public HtmlUnorderedListElement(Document owner)
             : base(owner, Tags.Ul, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }

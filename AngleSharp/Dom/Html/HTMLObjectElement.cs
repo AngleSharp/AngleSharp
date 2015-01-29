@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HTMLObjectElement : HTMLFormControlElement, IHtmlObjectElement
+    sealed class HtmlObjectElement : HTMLFormControlElement, IHtmlObjectElement
     {
         #region Fields
 
@@ -21,7 +21,7 @@
 
         #region ctor
 
-        public HTMLObjectElement(Document owner)
+        public HtmlObjectElement(Document owner)
             : base(owner, Tags.Object, NodeFlags.Scoped)
         {
             _contentDocument = null;

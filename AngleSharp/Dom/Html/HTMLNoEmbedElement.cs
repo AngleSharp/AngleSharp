@@ -5,11 +5,11 @@
     /// <summary>
     /// Represents a noembed HTML element.
     /// </summary>
-    sealed class HTMLNoEmbedElement : HtmlElement
+    sealed class HtmlNoEmbedElement : HtmlElement
     {
         #region ctor
 
-        public HTMLNoEmbedElement(Document owner)
+        public HtmlNoEmbedElement(Document owner)
             : base(owner, Tags.NoEmbed, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }

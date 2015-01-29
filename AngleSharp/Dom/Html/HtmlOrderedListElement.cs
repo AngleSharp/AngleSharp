@@ -7,11 +7,11 @@
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
-    sealed class HTMLOListElement : HtmlElement, IHtmlOrderedListElement
+    sealed class HtmlOrderedListElement : HtmlElement, IHtmlOrderedListElement
     {
         #region ctor
 
-        public HTMLOListElement(Document owner)
+        public HtmlOrderedListElement(Document owner)
             : base(owner, Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }

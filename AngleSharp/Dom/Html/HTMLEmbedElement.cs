@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the embed element.
     /// </summary>
-    sealed class HTMLEmbedElement : HtmlElement, IHtmlEmbedElement
+    sealed class HtmlEmbedElement : HtmlElement, IHtmlEmbedElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new Embed element.
         /// </summary>
-        public HTMLEmbedElement(Document owner)
+        public HtmlEmbedElement(Document owner)
             : base(owner, Tags.Embed, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

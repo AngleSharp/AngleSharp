@@ -5,11 +5,11 @@
     /// <summary>
     /// Represents the HTML dl element.
     /// </summary>
-    sealed class HTMLDListElement : HtmlElement
+    sealed class HtmlDefinitionListElement : HtmlElement
     {
         #region ctor
 
-        public HTMLDListElement(Document owner)
+        public HtmlDefinitionListElement(Document owner)
             : base(owner, Tags.Dl, NodeFlags.Special)
         {
         }

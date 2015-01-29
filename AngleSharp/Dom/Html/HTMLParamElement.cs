@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents a param element.
     /// </summary>
-    sealed class HTMLParamElement : HtmlElement, IHtmlParamElement
+    sealed class HtmlParamElement : HtmlElement, IHtmlParamElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML param element.
         /// </summary>
-        public HTMLParamElement(Document owner)
+        public HtmlParamElement(Document owner)
             : base(owner, Tags.Param, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

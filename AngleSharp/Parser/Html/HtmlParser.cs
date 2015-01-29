@@ -1320,10 +1320,10 @@
                 {
                     GenerateImpliedEndTagsExceptFor(tagName);
 
-                    if (CurrentNode is HTMLLIElement == false)
+                    if (CurrentNode is HtmlListItemElement == false)
                         RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                    ClearStackBackTo<HTMLLIElement>();
+                    ClearStackBackTo<HtmlListItemElement>();
                     CloseCurrentNode();
                 }
                 else
@@ -2636,7 +2636,7 @@
 
             while (true)
             {
-                if (node is HTMLLIElement && node.NodeName == Tags.Li)
+                if (node is HtmlListItemElement && node.NodeName == Tags.Li)
                 {
                     InBody(HtmlTagToken.Close(node.NodeName));
                     break;
@@ -2666,7 +2666,7 @@
 
             while (true)
             {
-                if (node is HTMLLIElement && (node.NodeName == Tags.Dd || node.NodeName == Tags.Dt))
+                if (node is HtmlListItemElement && (node.NodeName == Tags.Dd || node.NodeName == Tags.Dt))
                 {
                     InBody(HtmlTagToken.Close(node.NodeName));
                     break;
@@ -3321,7 +3321,7 @@
             {
                 var node = open[i];
 
-                if (node is HTMLLIElement)
+                if (node is HtmlListItemElement)
                     return true;
 
                 if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))

@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
     /// </summary>
-    sealed class HTMLLIElement : HtmlElement, IHtmlListItemElement
+    sealed class HtmlListItemElement : HtmlElement, IHtmlListItemElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        public HTMLLIElement(Document owner, String name)
+        public HtmlListItemElement(Document owner, String name)
             : base(owner, name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }

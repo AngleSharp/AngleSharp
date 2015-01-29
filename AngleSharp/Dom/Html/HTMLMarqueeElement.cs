@@ -9,11 +9,11 @@
     /// Represents the HTML marquee element.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLMarqueeElement : HtmlElement
+    sealed class HtmlMarqueeElement : HtmlElement
     {
         #region ctor
 
-        public HTMLMarqueeElement(Document owner)
+        public HtmlMarqueeElement(Document owner)
             : base(owner, Tags.Marquee, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
