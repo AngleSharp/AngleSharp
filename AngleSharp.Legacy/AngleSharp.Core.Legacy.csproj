@@ -1266,319 +1266,319 @@
     <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
       <Link>DOM\EventTarget.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLBodyElement.cs">
-      <Link>DOM\Html\Basic\HTMLBodyElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlAddressElement.cs">
+      <Link>DOM\Html\HtmlAddressElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLDivElement.cs">
-      <Link>DOM\Html\Basic\HTMLDivElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlAnchorElement.cs">
+      <Link>DOM\Html\HtmlAnchorElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLHRElement.cs">
-      <Link>DOM\Html\Basic\HTMLHRElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlAppletElement.cs">
+      <Link>DOM\Html\HtmlAppletElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLHtmlElement.cs">
-      <Link>DOM\Html\Basic\HTMLHtmlElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlAreaElement.cs">
+      <Link>DOM\Html\HtmlAreaElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLImageElement.cs">
-      <Link>DOM\Html\Basic\HTMLImageElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlAudioElement.cs">
+      <Link>DOM\Html\HtmlAudioElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLNoScriptElement.cs">
-      <Link>DOM\Html\Basic\HTMLNoScriptElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBaseElement.cs">
+      <Link>DOM\Html\HtmlBaseElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLParagraphElement.cs">
-      <Link>DOM\Html\Basic\HTMLParagraphElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBaseFontElement.cs">
+      <Link>DOM\Html\HtmlBaseFontElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLScriptElement.cs">
-      <Link>DOM\Html\Basic\HTMLScriptElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBgsoundElement.cs">
+      <Link>DOM\Html\HtmlBgsoundElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLSpanElement.cs">
-      <Link>DOM\Html\Basic\HTMLSpanElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBigElement.cs">
+      <Link>DOM\Html\HtmlBigElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Basic\HTMLStyleElement.cs">
-      <Link>DOM\Html\Basic\HTMLStyleElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBodyElement.cs">
+      <Link>DOM\Html\HtmlBodyElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLAnchorElement.cs">
-      <Link>DOM\Html\Formatting\HTMLAnchorElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBoldElement.cs">
+      <Link>DOM\Html\HtmlBoldElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLBigElement.cs">
-      <Link>DOM\Html\Formatting\HTMLBigElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlBreakRowElement.cs">
+      <Link>DOM\Html\HtmlBreakRowElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLBoldElement.cs">
-      <Link>DOM\Html\Formatting\HTMLBoldElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlButtonElement.cs">
+      <Link>DOM\Html\HtmlButtonElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLCodeElement.cs">
-      <Link>DOM\Html\Formatting\HTMLCodeElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlCanvasElement.cs">
+      <Link>DOM\Html\HtmlCanvasElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLEmphasizeElement.cs">
-      <Link>DOM\Html\Formatting\HTMLEmphasizeElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlCodeElement.cs">
+      <Link>DOM\Html\HtmlCodeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLFontElement.cs">
-      <Link>DOM\Html\Formatting\HTMLFontElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDataListElement.cs">
+      <Link>DOM\Html\HtmlDataListElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLItalicElement.cs">
-      <Link>DOM\Html\Formatting\HTMLItalicElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDefinitionListElement.cs">
+      <Link>DOM\Html\HtmlDefinitionListElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLNoNewlineElement.cs">
-      <Link>DOM\Html\Formatting\HTMLNoNewlineElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDetailsElement.cs">
+      <Link>DOM\Html\HtmlDetailsElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLSmallElement.cs">
-      <Link>DOM\Html\Formatting\HTMLSmallElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDialogElement.cs">
+      <Link>DOM\Html\HtmlDialogElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLStrikeElement.cs">
-      <Link>DOM\Html\Formatting\HTMLStrikeElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDirectoryElement.cs">
+      <Link>DOM\Html\HtmlDirectoryElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLStrongElement.cs">
-      <Link>DOM\Html\Formatting\HTMLStrongElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDivElement.cs">
+      <Link>DOM\Html\HtmlDivElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLStruckElement.cs">
-      <Link>DOM\Html\Formatting\HTMLStruckElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlElement.cs">
+      <Link>DOM\Html\HtmlElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLTeletypeTextElement.cs">
-      <Link>DOM\Html\Formatting\HTMLTeletypeTextElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlEmbedElement.cs">
+      <Link>DOM\Html\HtmlEmbedElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLTemplateElement.cs">
-      <Link>DOM\Html\Formatting\HTMLTemplateElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlEmphasizeElement.cs">
+      <Link>DOM\Html\HtmlEmphasizeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Formatting\HTMLUnderlineElement.cs">
-      <Link>DOM\Html\Formatting\HTMLUnderlineElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFieldSetElement.cs">
+      <Link>DOM\Html\HtmlFieldSetElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLButtonElement.cs">
-      <Link>DOM\Html\Forms\HTMLButtonElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFontElement.cs">
+      <Link>DOM\Html\HtmlFontElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLDataListElement.cs">
-      <Link>DOM\Html\Forms\HTMLDataListElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFormControlElement.cs">
+      <Link>DOM\Html\HtmlFormControlElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLFieldSetElement.cs">
-      <Link>DOM\Html\Forms\HTMLFieldSetElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFormControlElementWithState.cs">
+      <Link>DOM\Html\HtmlFormControlElementWithState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLFormControlElement.cs">
-      <Link>DOM\Html\Forms\HTMLFormControlElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFormElement.cs">
+      <Link>DOM\Html\HtmlFormElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLFormControlElementWithState.cs">
-      <Link>DOM\Html\Forms\HTMLFormControlElementWithState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameElement.cs">
+      <Link>DOM\Html\HtmlFrameElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLFormElement.cs">
-      <Link>DOM\Html\Forms\HTMLFormElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameElementBase.cs">
+      <Link>DOM\Html\HtmlFrameElementBase.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLInputElement.cs">
-      <Link>DOM\Html\Forms\HTMLInputElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameOwnerElement.cs">
+      <Link>DOM\Html\HtmlFrameOwnerElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLIsIndexElement.cs">
-      <Link>DOM\Html\Forms\HTMLIsIndexElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameSetElement.cs">
+      <Link>DOM\Html\HtmlFrameSetElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLKeygenElement.cs">
-      <Link>DOM\Html\Forms\HTMLKeygenElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlHeadElement.cs">
+      <Link>DOM\Html\HtmlHeadElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLLabelElement.cs">
-      <Link>DOM\Html\Forms\HTMLLabelElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlHeadingElement.cs">
+      <Link>DOM\Html\HtmlHeadingElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLLegendElement.cs">
-      <Link>DOM\Html\Forms\HTMLLegendElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlHrElement.cs">
+      <Link>DOM\Html\HtmlHrElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLOptGroupElement.cs">
-      <Link>DOM\Html\Forms\HTMLOptGroupElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlHtmlElement.cs">
+      <Link>DOM\Html\HtmlHtmlElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLOptionElement.cs">
-      <Link>DOM\Html\Forms\HTMLOptionElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlIFrameElement.cs">
+      <Link>DOM\Html\HtmlIFrameElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLOutputElement.cs">
-      <Link>DOM\Html\Forms\HTMLOutputElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlImageElement.cs">
+      <Link>DOM\Html\HtmlImageElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLProgressElement.cs">
-      <Link>DOM\Html\Forms\HTMLProgressElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlInputElement.cs">
+      <Link>DOM\Html\HtmlInputElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLSelectElement.cs">
-      <Link>DOM\Html\Forms\HTMLSelectElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlIsIndexElement.cs">
+      <Link>DOM\Html\HtmlIsIndexElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLTextAreaElement.cs">
-      <Link>DOM\Html\Forms\HTMLTextAreaElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlItalicElement.cs">
+      <Link>DOM\Html\HtmlItalicElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Forms\HTMLTextFormControlElement.cs">
-      <Link>DOM\Html\Forms\HTMLTextFormControlElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlKeygenElement.cs">
+      <Link>DOM\Html\HtmlKeygenElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLFrameElement.cs">
-      <Link>DOM\Html\Frames\HTMLFrameElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlLabelElement.cs">
+      <Link>DOM\Html\HtmlLabelElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLFrameElementBase.cs">
-      <Link>DOM\Html\Frames\HTMLFrameElementBase.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlLegendElement.cs">
+      <Link>DOM\Html\HtmlLegendElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLFrameOwnerElement.cs">
-      <Link>DOM\Html\Frames\HTMLFrameOwnerElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlLinkElement.cs">
+      <Link>DOM\Html\HtmlLinkElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLFrameSetElement.cs">
-      <Link>DOM\Html\Frames\HTMLFrameSetElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlListItemElement.cs">
+      <Link>DOM\Html\HtmlListItemElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLIFrameElement.cs">
-      <Link>DOM\Html\Frames\HTMLIFrameElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMapElement.cs">
+      <Link>DOM\Html\HtmlMapElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Frames\HTMLNoFramesElement.cs">
-      <Link>DOM\Html\Frames\HTMLNoFramesElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMarqueeElement.cs">
+      <Link>DOM\Html\HtmlMarqueeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLBaseElement.cs">
-      <Link>DOM\Html\Head\HTMLBaseElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMediaElement.cs">
+      <Link>DOM\Html\HtmlMediaElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLBaseFontElement.cs">
-      <Link>DOM\Html\Head\HTMLBaseFontElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMenuElement.cs">
+      <Link>DOM\Html\HtmlMenuElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLBgsoundElement.cs">
-      <Link>DOM\Html\Head\HTMLBgsoundElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMenuItemElement.cs">
+      <Link>DOM\Html\HtmlMenuItemElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLHeadElement.cs">
-      <Link>DOM\Html\Head\HTMLHeadElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMetaElement.cs">
+      <Link>DOM\Html\HtmlMetaElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLLinkElement.cs">
-      <Link>DOM\Html\Head\HTMLLinkElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlModElement.cs">
+      <Link>DOM\Html\HtmlModElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLMetaElement.cs">
-      <Link>DOM\Html\Head\HTMLMetaElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlNoEmbedElement.cs">
+      <Link>DOM\Html\HtmlNoEmbedElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Head\HTMLTitleElement.cs">
-      <Link>DOM\Html\Head\HTMLTitleElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlNoFramesElement.cs">
+      <Link>DOM\Html\HtmlNoFramesElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLAreaElement.cs">
-      <Link>DOM\Html\HTMLAreaElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlNoNewlineElement.cs">
+      <Link>DOM\Html\HtmlNoNewlineElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLBRElement.cs">
-      <Link>DOM\Html\HTMLBRElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlNoScriptElement.cs">
+      <Link>DOM\Html\HtmlNoScriptElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLDetailsElement.cs">
-      <Link>DOM\Html\HTMLDetailsElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlObjectElement.cs">
+      <Link>DOM\Html\HtmlObjectElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLDirectoryElement.cs">
-      <Link>DOM\Html\HTMLDirectoryElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlOptionElement.cs">
+      <Link>DOM\Html\HtmlOptionElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLElement.cs">
-      <Link>DOM\Html\HTMLElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlOptionsGroupElement.cs">
+      <Link>DOM\Html\HtmlOptionsGroupElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLMapElement.cs">
-      <Link>DOM\Html\HTMLMapElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlOrderedListElement.cs">
+      <Link>DOM\Html\HtmlOrderedListElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLMenuElement.cs">
-      <Link>DOM\Html\HTMLMenuElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlOutputElement.cs">
+      <Link>DOM\Html\HtmlOutputElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLMenuItemElement.cs">
-      <Link>DOM\Html\HTMLMenuItemElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlParagraphElement.cs">
+      <Link>DOM\Html\HtmlParagraphElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLModElement.cs">
-      <Link>DOM\Html\HTMLModElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlParamElement.cs">
+      <Link>DOM\Html\HtmlParamElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLPreElement.cs">
-      <Link>DOM\Html\HTMLPreElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlPlaintextElement.cs">
+      <Link>DOM\Html\HtmlPlaintextElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLUnknownElement.cs">
-      <Link>DOM\Html\HTMLUnknownElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlPreElement.cs">
+      <Link>DOM\Html\HtmlPreElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HTMLWbrElement.cs">
-      <Link>DOM\Html\HTMLWbrElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlProgressElement.cs">
+      <Link>DOM\Html\HtmlProgressElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Lists\HTMLDListElement.cs">
-      <Link>DOM\Html\Lists\HTMLDListElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlQuoteElement.cs">
+      <Link>DOM\Html\HtmlQuoteElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Lists\HTMLLIElement.cs">
-      <Link>DOM\Html\Lists\HTMLLIElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRpElement.cs">
+      <Link>DOM\Html\HtmlRpElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Lists\HTMLOListElement.cs">
-      <Link>DOM\Html\Lists\HTMLOListElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRtElement.cs">
+      <Link>DOM\Html\HtmlRtElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Lists\HTMLUListElement.cs">
-      <Link>DOM\Html\Lists\HTMLUListElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRubyElement.cs">
+      <Link>DOM\Html\HtmlRubyElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Media\HTMLAudioElement.cs">
-      <Link>DOM\Html\Media\HTMLAudioElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlScriptElement.cs">
+      <Link>DOM\Html\HtmlScriptElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Media\HTMLCanvasElement.cs">
-      <Link>DOM\Html\Media\HTMLCanvasElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSelectElement.cs">
+      <Link>DOM\Html\HtmlSelectElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Media\HTMLMediaElement.cs">
-      <Link>DOM\Html\Media\HTMLMediaElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSemanticElement.cs">
+      <Link>DOM\Html\HtmlSemanticElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Media\HTMLSourceElement.cs">
-      <Link>DOM\Html\Media\HTMLSourceElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSmallElement.cs">
+      <Link>DOM\Html\HtmlSmallElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Media\HTMLTrackElement.cs">
-      <Link>DOM\Html\Media\HTMLTrackElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSourceElement.cs">
+      <Link>DOM\Html\HtmlSourceElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Media\HTMLVideoElement.cs">
-      <Link>DOM\Html\Media\HTMLVideoElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSpanElement.cs">
+      <Link>DOM\Html\HtmlSpanElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLAppletElement.cs">
-      <Link>DOM\Html\Objects\HTMLAppletElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlStrikeElement.cs">
+      <Link>DOM\Html\HtmlStrikeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLEmbedElement.cs">
-      <Link>DOM\Html\Objects\HTMLEmbedElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlStrongElement.cs">
+      <Link>DOM\Html\HtmlStrongElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLMarqueeElement.cs">
-      <Link>DOM\Html\Objects\HTMLMarqueeElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlStruckElement.cs">
+      <Link>DOM\Html\HtmlStruckElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLNoEmbedElement.cs">
-      <Link>DOM\Html\Objects\HTMLNoEmbedElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlStyleElement.cs">
+      <Link>DOM\Html\HtmlStyleElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLObjectElement.cs">
-      <Link>DOM\Html\Objects\HTMLObjectElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableCaptionElement.cs">
+      <Link>DOM\Html\HtmlTableCaptionElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Objects\HTMLParamElement.cs">
-      <Link>DOM\Html\Objects\HTMLParamElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableCellElement.cs">
+      <Link>DOM\Html\HtmlTableCellElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLAddressElement.cs">
-      <Link>DOM\Html\Semantic\HTMLAddressElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableColElement.cs">
+      <Link>DOM\Html\HtmlTableColElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLDialogElement.cs">
-      <Link>DOM\Html\Semantic\HTMLDialogElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableColgroupElement.cs">
+      <Link>DOM\Html\HtmlTableColgroupElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLHeadingElement.cs">
-      <Link>DOM\Html\Semantic\HTMLHeadingElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableDataCellElement.cs">
+      <Link>DOM\Html\HtmlTableDataCellElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLPlaintextElement.cs">
-      <Link>DOM\Html\Semantic\HTMLPlaintextElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableElement.cs">
+      <Link>DOM\Html\HtmlTableElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLQuoteElement.cs">
-      <Link>DOM\Html\Semantic\HTMLQuoteElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableHeaderCellElement.cs">
+      <Link>DOM\Html\HtmlTableHeaderCellElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLRPElement.cs">
-      <Link>DOM\Html\Semantic\HTMLRPElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableRowElement.cs">
+      <Link>DOM\Html\HtmlTableRowElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLRTElement.cs">
-      <Link>DOM\Html\Semantic\HTMLRTElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTableSectionElement.cs">
+      <Link>DOM\Html\HtmlTableSectionElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLRubyElement.cs">
-      <Link>DOM\Html\Semantic\HTMLRubyElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTeletypeTextElement.cs">
+      <Link>DOM\Html\HtmlTeletypeTextElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLSemanticElement.cs">
-      <Link>DOM\Html\Semantic\HTMLSemanticElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTemplateElement.cs">
+      <Link>DOM\Html\HtmlTemplateElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLTimeElement.cs">
-      <Link>DOM\Html\Semantic\HTMLTimeElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTextAreaElement.cs">
+      <Link>DOM\Html\HtmlTextAreaElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Semantic\HTMLXmpElement.cs">
-      <Link>DOM\Html\Semantic\HTMLXmpElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTextFormControlElement.cs">
+      <Link>DOM\Html\HtmlTextFormControlElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableCaptionElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableCaptionElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTimeElement.cs">
+      <Link>DOM\Html\HtmlTimeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableCellElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableCellElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTitleElement.cs">
+      <Link>DOM\Html\HtmlTitleElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableColElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlTrackElement.cs">
+      <Link>DOM\Html\HtmlTrackElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableColgroupElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableColgroupElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlUnderlineElement.cs">
+      <Link>DOM\Html\HtmlUnderlineElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableDataCellElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableDataCellElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlUnknownElement.cs">
+      <Link>DOM\Html\HtmlUnknownElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlUnorderedListElement.cs">
+      <Link>DOM\Html\HtmlUnorderedListElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableHeaderCellElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableHeaderCellElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlVideoElement.cs">
+      <Link>DOM\Html\HtmlVideoElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableRowElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableRowElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlWbrElement.cs">
+      <Link>DOM\Html\HtmlWbrElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\Tables\HTMLTableSectionElement.cs">
-      <Link>DOM\Html\Tables\HTMLTableSectionElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlXmpElement.cs">
+      <Link>DOM\Html\HtmlXmpElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\ValidityState.cs">
+    <Compile Include="..\AngleSharp\Dom\Html\ValidityState.cs">
       <Link>DOM\Html\ValidityState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Io\FileEntry.cs">
