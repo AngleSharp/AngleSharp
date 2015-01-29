@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the embed element.
     /// </summary>
-    sealed class HTMLEmbedElement : HTMLElement, IHtmlEmbedElement
+    sealed class HTMLEmbedElement : HtmlElement, IHtmlEmbedElement
     {
         #region ctor
 

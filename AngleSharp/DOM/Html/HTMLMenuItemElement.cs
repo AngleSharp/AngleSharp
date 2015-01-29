@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the HTML menuitem element.
     /// </summary>
-    sealed class HTMLMenuItemElement : HTMLElement, IHtmlMenuItemElement
+    sealed class HtmlMenuItemElement : HtmlElement, IHtmlMenuItemElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML menuitem element.
         /// </summary>
-        public HTMLMenuItemElement(Document owner)
+        public HtmlMenuItemElement(Document owner)
             : base(owner, Tags.MenuItem, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

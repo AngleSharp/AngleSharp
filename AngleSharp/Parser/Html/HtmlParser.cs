@@ -39,7 +39,7 @@
         Boolean foster;
         Int32 nesting;
         Boolean started;
-        HTMLScriptElement pendingParsingBlock;
+        HtmlScriptElement pendingParsingBlock;
         Task<IDocument> task;
 
         #endregion
@@ -151,7 +151,7 @@
         /// <summary>
         /// Gets or sets the pending parsing block script.
         /// </summary>
-        internal HTMLScriptElement PendingParsingBlock
+        internal HtmlScriptElement PendingParsingBlock
         {
             get { return pendingParsingBlock; }
             set { pendingParsingBlock = value; }
@@ -226,11 +226,11 @@
             else if (tagName == Tags.NoScript && doc.Options.IsScripting)
                 tokenizer.State = HtmlParseMode.Rawtext;
 
-            var root = new HTMLHtmlElement(doc);
+            var root = new HtmlHtmlElement(doc);
             doc.AddNode(root);
             open.Add(root);
 
-            if (context is HTMLTemplateElement)
+            if (context is HtmlTemplateElement)
                 templateMode.Push(HtmlTreeMode.InTemplate);
 
             Reset(context);
@@ -680,7 +680,7 @@
                     }
                     else if (tagName == Tags.Script)
                     {
-                        var script = new HTMLScriptElement(doc);
+                        var script = new HtmlScriptElement(doc);
                         AddElement(script, token.AsTag());
                         script.IsParserInserted = true;
                         script.IsAlreadyStarted = IsFragmentCase;
@@ -696,7 +696,7 @@
                     }
                     else if (tagName == Tags.Template)
                     {
-                        AddElement(new HTMLTemplateElement(doc), token.AsTag());
+                        AddElement(new HtmlTemplateElement(doc), token.AsTag());
                         formatting.AddScopeMarker();
                         frameset = false;
                         insert = HtmlTreeMode.InTemplate;
@@ -723,7 +723,7 @@
                         {
                             GenerateImpliedEndTags();
 
-                            if (CurrentNode is HTMLTemplateElement == false)
+                            if (CurrentNode is HtmlTemplateElement == false)
                                 RaiseErrorOccurred(ErrorCode.TagClosingMismatch);
 
                             CloseTemplate();
@@ -861,7 +861,7 @@
                     }
                     else if (tagName == Tags.Frameset)
                     {
-                        AddElement(new HTMLFrameSetElement(doc), token.AsTag());
+                        AddElement(new HtmlFrameSetElement(doc), token.AsTag());
                         insert = HtmlTreeMode.InFrameset;
                         return;
                     }
@@ -916,7 +916,7 @@
                     if (formatting[i] == null)
                         break;
 
-                    if (formatting[i] is HTMLAnchorElement)
+                    if (formatting[i] is HtmlAnchorElement)
                     {
                         var format = formatting[i];
                         RaiseErrorOccurred(ErrorCode.AnchorNested);
@@ -933,7 +933,7 @@
                 }
 
                 ReconstructFormatting();
-                var element = new HTMLAnchorElement(doc);
+                var element = new HtmlAnchorElement(doc);
                 AddElement(element, tag);
                 formatting.AddFormatting(element);
             }
@@ -1071,7 +1071,7 @@
                 if (IsInButtonScope())
                     InBodyEndTagParagraph();
 
-                AddElement(new HTMLHRElement(doc), tag, true);
+                AddElement(new HtmlHrElement(doc), tag, true);
                 CloseCurrentNode();
                 frameset = false;
             }
@@ -1138,7 +1138,7 @@
             {
                 ReconstructFormatting();
 
-                if (IsInScope<HTMLNoNewlineElement>())
+                if (IsInScope<HtmlNoNewlineElement>())
                 {
                     RaiseErrorOccurred(ErrorCode.NobrInScope);
                     HeisenbergAlgorithm(tag);
@@ -1231,14 +1231,14 @@
             {
                 RaiseErrorOccurred(ErrorCode.FramesetMisplaced);
 
-                if (open.Count != 1 && open[1] is HTMLBodyElement && frameset)
+                if (open.Count != 1 && open[1] is HtmlBodyElement && frameset)
                 {
                     open[1].Parent.RemoveChild(open[1]);
 
                     while (open.Count > 1)
                         CloseCurrentNode();
 
-                    AddElement(new HTMLFrameSetElement(doc), tag);
+                    AddElement(new HtmlFrameSetElement(doc), tag);
                     insert = HtmlTreeMode.InFrameset;
                 }
             }
@@ -1253,7 +1253,7 @@
             {
                 RaiseErrorOccurred(ErrorCode.BodyTagMisplaced);
 
-                if (templateMode.Count == 0 && open.Count > 1 && open[1] is HTMLBodyElement)
+                if (templateMode.Count == 0 && open.Count > 1 && open[1] is HtmlBodyElement)
                 {
                     frameset = false;
                     open[1].SetUniqueAttributes(tag.Attributes);
@@ -1505,7 +1505,7 @@
                         insert = originalInsert;
                     }
                     else
-                        RunScript(CurrentNode as HTMLScriptElement);
+                        RunScript(CurrentNode as HtmlScriptElement);
 
                     return;
                 }
@@ -2286,10 +2286,10 @@
                     if (tagName == Tags.Html)
                         InBody(token);
                     else if (tagName == Tags.Frameset)
-                        AddElement(new HTMLFrameSetElement(doc), token.AsTag());
+                        AddElement(new HtmlFrameSetElement(doc), token.AsTag());
                     else if (tagName == Tags.Frame)
                     {
-                        AddElement(new HTMLFrameElement(doc), token.AsTag(), true);
+                        AddElement(new HtmlFrameElement(doc), token.AsTag(), true);
                         CloseCurrentNode();
                     }
                     else if (tagName == Tags.NoFrames)
@@ -2308,7 +2308,7 @@
                     {
                         CloseCurrentNode();
 
-                        if (!IsFragmentCase && CurrentNode is HTMLFrameSetElement == false)
+                        if (!IsFragmentCase && CurrentNode is HtmlFrameSetElement == false)
                             insert = HtmlTreeMode.AfterFrameset;
                     }
                     else
@@ -2513,7 +2513,7 @@
         {
             while (open.Count > 0)
             {
-                var template = CurrentNode as HTMLTemplateElement;
+                var template = CurrentNode as HtmlTemplateElement;
                 CloseCurrentNode();
 
                 if (template != null)
@@ -2595,7 +2595,7 @@
         /// <param name="token"></param>
         void AfterHeadStartTagBody(HtmlTagToken token)
         {
-            AddElement(new HTMLBodyElement(doc), token);
+            AddElement(new HtmlBodyElement(doc), token);
             frameset = false;
             insert = HtmlTreeMode.InBody;
         }
@@ -2642,7 +2642,7 @@
                     break;
                 }
 
-                if (node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
+                if (node is HTMLAddressElement == false && node is HtmlDivElement == false && node is HtmlParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
                     break;
                 
                 node = open[--index];
@@ -2672,7 +2672,7 @@
                     break;
                 }
 
-                if (node.Flags.HasFlag(NodeFlags.Special) && node is HTMLAddressElement == false && node is HTMLDivElement == false && node is HTMLParagraphElement == false)
+                if (node.Flags.HasFlag(NodeFlags.Special) && node is HTMLAddressElement == false && node is HtmlDivElement == false && node is HtmlParagraphElement == false)
                     break;
 
                 node = open[--index];
@@ -2925,7 +2925,7 @@
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InBodyEndTagBody()
         {
-            if (IsInScope<HTMLBodyElement>())
+            if (IsInScope<HtmlBodyElement>())
             {
                 CheckBodyOnClosing();
                 insert = HtmlTreeMode.AfterBody;
@@ -2960,10 +2960,10 @@
             {
                 GenerateImpliedEndTagsExceptFor(Tags.P);
 
-                if (CurrentNode is HTMLParagraphElement == false)
+                if (CurrentNode is HtmlParagraphElement == false)
                     RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
 
-                ClearStackBackTo<HTMLParagraphElement>();
+                ClearStackBackTo<HtmlParagraphElement>();
                 CloseCurrentNode();
                 return true;
             }
@@ -3146,7 +3146,7 @@
                 {
                     var tagName = token.Name;
                     var node = CurrentNode;
-                    var script = node as HTMLScriptElement;
+                    var script = node as HtmlScriptElement;
 
                     if (script == null)
                     {
@@ -3341,7 +3341,7 @@
             {
                 var node = open[i];
 
-                if (node is HTMLParagraphElement)
+                if (node is HtmlParagraphElement)
                     return true;
 
                 if (node.Flags.HasFlag(NodeFlags.Scoped) || node is HTMLButtonElement)
@@ -3460,7 +3460,7 @@
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        void RunScript(HTMLScriptElement script)
+        void RunScript(HtmlScriptElement script)
         {
             //Disable scripting for HTML fragments (security reasons)
             if (script == null || IsFragmentCase)
@@ -3572,7 +3572,7 @@
         /// <param name="tag">The token which started this process.</param>
         void AddRoot(HtmlTagToken tag)
         {
-            var element = new HTMLHtmlElement(doc);
+            var element = new HtmlHtmlElement(doc);
             doc.AddNode(element);
             SetupElement(element, tag, false);
             open.Add(element);
@@ -3685,7 +3685,7 @@
 
             while (--index != 0)
             {
-                if (open[index] is HTMLTemplateElement)
+                if (open[index] is HtmlTemplateElement)
                 {
                     open[index].AddNode(element);
                     return;
@@ -3752,7 +3752,7 @@
 
             while (--index != 0)
             {
-                if (open[index] is HTMLTemplateElement)
+                if (open[index] is HtmlTemplateElement)
                 {
                     open[index].AppendText(text);
                     return;
@@ -3793,7 +3793,7 @@
         {
             var node = CurrentNode;
 
-            while (node.NodeName != tagName && node is HTMLHtmlElement == false && node is HTMLTemplateElement == false)
+            while (node.NodeName != tagName && node is HtmlHtmlElement == false && node is HtmlTemplateElement == false)
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -3807,7 +3807,7 @@
         {
             var node = CurrentNode;
 
-            while (node is T == false && node is HTMLHtmlElement == false && node is HTMLTemplateElement == false)
+            while (node is T == false && node is HtmlHtmlElement == false && node is HtmlTemplateElement == false)
             {
                 CloseCurrentNode();
                 node = CurrentNode;

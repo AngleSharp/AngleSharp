@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>
-    class HTMLElement : Element, IHtmlElement
+    class HtmlElement : Element, IHtmlElement
     {
         #region Fields
 
@@ -25,7 +25,7 @@
         /// <summary>
         /// Creates a standard HTML element.
         /// </summary>
-        public HTMLElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
+        public HtmlElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
             : base(owner, name, flags | NodeFlags.HtmlMember)
         {
             NamespaceUri = Namespaces.HtmlUri;

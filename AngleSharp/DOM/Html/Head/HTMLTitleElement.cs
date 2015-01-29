@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the title element.
     /// </summary>
-    sealed class HTMLTitleElement : HTMLElement, IHtmlTitleElement
+    sealed class HTMLTitleElement : HtmlElement, IHtmlTitleElement
     {
         /// <summary>
         /// Creates a new HTML title element.

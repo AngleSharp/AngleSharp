@@ -8,11 +8,11 @@
     /// This element is obsolete since HTML 4.01.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLDirectoryElement : HTMLElement
+    sealed class HtmlDirectoryElement : HtmlElement
     {
         #region ctor
 
-        public HTMLDirectoryElement(Document owner)
+        public HtmlDirectoryElement(Document owner)
             : base (owner, Tags.Dir, NodeFlags.Special)
         {
         }

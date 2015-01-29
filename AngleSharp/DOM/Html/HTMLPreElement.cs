@@ -5,11 +5,11 @@
     /// <summary>
     /// Represents the HTML pre element.
     /// </summary>
-    sealed class HTMLPreElement : HTMLElement, IHtmlPreElement
+    sealed class HtmlPreElement : HtmlElement, IHtmlPreElement
     {
         #region ctor
 
-        public HTMLPreElement(Document owner)
+        public HtmlPreElement(Document owner)
             : base(owner, Tags.Pre, NodeFlags.Special | NodeFlags.LineTolerance)
         {
         }

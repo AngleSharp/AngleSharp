@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML legend element.
     /// </summary>
-    sealed class HTMLLegendElement : HTMLElement, IHtmlLegendElement
+    sealed class HTMLLegendElement : HtmlElement, IHtmlLegendElement
     {
         #region ctor
 

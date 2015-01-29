@@ -6,11 +6,11 @@
     /// <summary>
     /// Represents the HTML modifier (ins / del) element.
     /// </summary>
-    sealed class HTMLModElement : HTMLElement, IHtmlModElement
+    sealed class HtmlModElement : HtmlElement, IHtmlModElement
     {
         #region ctor
 
-        public HTMLModElement(Document owner, String name)
+        public HtmlModElement(Document owner, String name)
             : base(owner, name)
         {
         }

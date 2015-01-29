@@ -14,7 +14,7 @@
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    sealed class HTMLFormElement : HTMLElement, IHtmlFormElement
+    sealed class HTMLFormElement : HtmlElement, IHtmlFormElement
     {
         #region Fields
 
@@ -261,7 +261,7 @@
 
         #region Helpers
 
-        void SubmitForm(HTMLElement from, Boolean submittedFromSubmitMethod)
+        void SubmitForm(HtmlElement from, Boolean submittedFromSubmitMethod)
         {
             var owner = Owner;
             var browsingContext = owner.Context;
@@ -510,7 +510,7 @@
         /// </summary>
         /// <param name="submitter">[Optional] The submitter to use.</param>
         /// <returns>The constructed form data set.</returns>
-        FormDataSet ConstructDataSet(HTMLElement submitter = null)
+        FormDataSet ConstructDataSet(HtmlElement submitter = null)
         {
             var formDataSet = new FormDataSet();
 

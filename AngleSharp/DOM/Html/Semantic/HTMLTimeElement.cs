@@ -6,7 +6,7 @@
     /// <summary>
     /// The time HTML element.
     /// </summary>
-    sealed class HTMLTimeElement : HTMLElement, IHtmlTimeElement
+    sealed class HTMLTimeElement : HtmlElement, IHtmlTimeElement
     {
         #region ctor
 

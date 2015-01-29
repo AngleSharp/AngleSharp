@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML ordered list (ol) element.
     /// </summary>
-    sealed class HTMLOListElement : HTMLElement, IHtmlOrderedListElement
+    sealed class HTMLOListElement : HtmlElement, IHtmlOrderedListElement
     {
         #region ctor
 

@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the object for HTML table cell elements.
     /// </summary>
-    abstract class HTMLTableCellElement : HTMLElement, IHtmlTableCellElement
+    abstract class HTMLTableCellElement : HtmlElement, IHtmlTableCellElement
     {
         #region Fields
 

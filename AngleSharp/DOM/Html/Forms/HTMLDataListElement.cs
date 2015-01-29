@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML datalist element.
     /// </summary>
-    sealed class HTMLDataListElement : HTMLElement, IHtmlDataListElement
+    sealed class HTMLDataListElement : HtmlElement, IHtmlDataListElement
     {
         #region Fields
 

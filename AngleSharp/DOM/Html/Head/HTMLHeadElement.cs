@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML head element.
     /// </summary>
-    sealed class HTMLHeadElement : HTMLElement, IHtmlHeadElement
+    sealed class HTMLHeadElement : HtmlElement, IHtmlHeadElement
     {
         #region ctor
 

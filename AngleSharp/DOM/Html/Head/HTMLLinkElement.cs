@@ -11,7 +11,7 @@
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    sealed class HTMLLinkElement : HTMLElement, IHtmlLinkElement
+    sealed class HTMLLinkElement : HtmlElement, IHtmlLinkElement
     {
         #region Fields
 

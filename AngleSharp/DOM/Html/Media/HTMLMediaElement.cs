@@ -11,7 +11,7 @@
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement<TResource> : HTMLElement, IHtmlMediaElement
+    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement
         where TResource : IMediaInfo
     {
         #region Fields

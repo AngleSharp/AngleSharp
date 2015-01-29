@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the HTML meta element.
     /// </summary>
-    sealed class HTMLMetaElement : HTMLElement, IHtmlMetaElement
+    sealed class HTMLMetaElement : HtmlElement, IHtmlMetaElement
     {
         #region ctor
 

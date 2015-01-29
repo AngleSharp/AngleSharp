@@ -5,9 +5,9 @@
     /// <summary>
     /// The class for an unknown HTML element.
     /// </summary>
-    sealed class HTMLUnknownElement : HTMLElement, IHtmlUnknownElement
+    sealed class HtmlUnknownElement : HtmlElement, IHtmlUnknownElement
     {
-        public HTMLUnknownElement(Document owner, String name)
+        public HtmlUnknownElement(Document owner, String name)
             : base(owner, name)
         {
         }

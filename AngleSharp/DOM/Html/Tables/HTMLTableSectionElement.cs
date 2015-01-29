@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the object for HTML table section (thead / tbody / tfoot) elements.
     /// </summary>
-    sealed class HTMLTableSectionElement : HTMLElement, IHtmlTableSectionElement
+    sealed class HTMLTableSectionElement : HtmlElement, IHtmlTableSectionElement
     {
         #region Fields
 

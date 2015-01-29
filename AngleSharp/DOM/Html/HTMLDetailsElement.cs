@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the HTML details element.
     /// </summary>
-    sealed class HTMLDetailsElement : HTMLElement, IHtmlDetailsElement
+    sealed class HtmlDetailsElement : HtmlElement, IHtmlDetailsElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML details element.
         /// </summary>
-        public HTMLDetailsElement(Document owner)
+        public HtmlDetailsElement(Document owner)
             : base(owner, Tags.Details, NodeFlags.Special)
         {
         }

@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents the HTML tr element.
     /// </summary>
-    sealed class HTMLTableRowElement : HTMLElement, IHtmlTableRowElement
+    sealed class HTMLTableRowElement : HtmlElement, IHtmlTableRowElement
     {
         #region Fields
 

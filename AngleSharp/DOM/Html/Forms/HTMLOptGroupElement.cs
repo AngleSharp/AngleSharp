@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML optgroup element.
     /// </summary>
-    sealed class HTMLOptGroupElement : HTMLElement, IHtmlOptionsGroupElement
+    sealed class HTMLOptGroupElement : HtmlElement, IHtmlOptionsGroupElement
     {
         #region ctor
 

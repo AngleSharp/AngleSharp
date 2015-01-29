@@ -7,11 +7,11 @@
     /// <summary>
     /// Represents the HTML map element.
     /// </summary>
-    sealed class HTMLMapElement : HTMLElement, IHtmlMapElement
+    sealed class HtmlMapElement : HtmlElement, IHtmlMapElement
     {
         #region ctor
 
-        public HTMLMapElement(Document owner)
+        public HtmlMapElement(Document owner)
             : base(owner, Tags.Map)
         {
         }

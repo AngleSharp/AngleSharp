@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the HTML progress element.
     /// </summary>
-    sealed class HTMLProgressElement : HTMLElement, ILabelabelElement, IHtmlProgressElement
+    sealed class HTMLProgressElement : HtmlElement, ILabelabelElement, IHtmlProgressElement
     {
         #region Fields
 

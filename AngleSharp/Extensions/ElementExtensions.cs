@@ -170,7 +170,7 @@
         /// <returns>True if the element is currently enabled, otherwise false.</returns>
         public static Boolean IsEnabled(this IElement element)
         {
-            if (element is HTMLAnchorElement || element is HTMLAreaElement || element is HTMLLinkElement)
+            if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HTMLLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href));
             else if (element is HTMLButtonElement)
                 return !((HTMLButtonElement)element).IsDisabled;
@@ -182,7 +182,7 @@
                 return !((HTMLTextAreaElement)element).IsDisabled;
             else if (element is HTMLOptionElement)
                 return !((HTMLOptionElement)element).IsDisabled;
-            else if (element is HTMLOptGroupElement || element is HTMLMenuItemElement || element is HTMLFieldSetElement)
+            else if (element is HTMLOptGroupElement || element is HtmlMenuItemElement || element is HTMLFieldSetElement)
                 return String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled));
 
             return false;
@@ -205,7 +205,7 @@
                 return ((HTMLTextAreaElement)element).IsDisabled;
             else if (element is HTMLOptionElement)
                 return ((HTMLOptionElement)element).IsDisabled;
-            else if (element is HTMLOptGroupElement || element is HTMLMenuItemElement || element is HTMLFieldSetElement)
+            else if (element is HTMLOptGroupElement || element is HtmlMenuItemElement || element is HTMLFieldSetElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled));
 
             return false;
@@ -275,12 +275,12 @@
 
                 return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && inp.IsChecked;
             }
-            else if (element is HTMLMenuItemElement)
+            else if (element is HtmlMenuItemElement)
             {
-                var mi = (HTMLMenuItemElement)element;
-                var type = mi.Type.ToEnum(HTMLMenuItemElement.ItemType.Command);
+                var mi = (HtmlMenuItemElement)element;
+                var type = mi.Type.ToEnum(HtmlMenuItemElement.ItemType.Command);
 
-                return (type == HTMLMenuItemElement.ItemType.Checkbox || type == HTMLMenuItemElement.ItemType.Radio) && mi.IsChecked;
+                return (type == HtmlMenuItemElement.ItemType.Checkbox || type == HtmlMenuItemElement.ItemType.Radio) && mi.IsChecked;
             }
             else if (element is HTMLOptionElement)
                 return ((HTMLOptionElement)element).IsSelected;
@@ -334,12 +334,12 @@
                 var type = inp.Type;
                 return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && !inp.IsChecked;
             }
-            else if (element is HTMLMenuItemElement)
+            else if (element is HtmlMenuItemElement)
             {
-                var mi = (HTMLMenuItemElement)element;
-                var type = mi.Type.ToEnum(HTMLMenuItemElement.ItemType.Command);
+                var mi = (HtmlMenuItemElement)element;
+                var type = mi.Type.ToEnum(HtmlMenuItemElement.ItemType.Command);
 
-                return (type == HTMLMenuItemElement.ItemType.Checkbox || type == HTMLMenuItemElement.ItemType.Radio)
+                return (type == HtmlMenuItemElement.ItemType.Checkbox || type == HtmlMenuItemElement.ItemType.Radio)
                     && !mi.IsChecked;
             }
             else if (element is HTMLOptionElement)
@@ -355,10 +355,10 @@
         /// <returns>True if the element is currently active, otherwise false.</returns>
         public static Boolean IsActive(this IElement element)
         {
-            if (element is HTMLAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)element).IsActive;
-            else if (element is HTMLAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)element).IsActive;
+            if (element is HtmlAnchorElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAnchorElement)element).IsActive;
+            else if (element is HtmlAreaElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsActive;
             else if (element is HTMLLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)element).IsActive;
             else if (element is HTMLButtonElement)
@@ -369,8 +369,8 @@
                 var type = inp.Type;
                 return (type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button) && inp.IsActive;
             }
-            else if (element is HTMLMenuItemElement)
-                return string.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled)) && ((HTMLMenuItemElement)element).IsActive;
+            else if (element is HtmlMenuItemElement)
+                return string.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled)) && ((HtmlMenuItemElement)element).IsActive;
 
             return false;
         }
@@ -382,10 +382,10 @@
         /// <returns>True if the element has been visited, otherwise false.</returns>
         public static Boolean IsVisited(this IElement element)
         {
-            if (element is HTMLAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLAnchorElement)element).IsVisited;
-            else if (element is HTMLAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLAreaElement)element).IsVisited;
+            if (element is HtmlAnchorElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAnchorElement)element).IsVisited;
+            else if (element is HtmlAreaElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsVisited;
             else if (element is HTMLLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HTMLLinkElement)element).IsVisited;
 
@@ -399,10 +399,10 @@
         /// <returns>True if the element is a link, otherwise false.</returns>
         public static Boolean IsLink(this IElement element)
         {
-            if (element is HTMLAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HTMLAnchorElement)element).IsVisited;
-            else if (element is HTMLAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HTMLAreaElement)element).IsVisited;
+            if (element is HtmlAnchorElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlAnchorElement)element).IsVisited;
+            else if (element is HtmlAreaElement)
+                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlAreaElement)element).IsVisited;
             else if (element is HTMLLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HTMLLinkElement)element).IsVisited;
 

@@ -5,7 +5,7 @@
     /// <summary>
     /// The plaintext HTML element.
     /// </summary>
-    sealed class HTMLPlaintextElement : HTMLElement
+    sealed class HTMLPlaintextElement : HtmlElement
     {
         public HTMLPlaintextElement(Document owner)
             : base(owner, Tags.Plaintext, NodeFlags.Special | NodeFlags.LiteralText)

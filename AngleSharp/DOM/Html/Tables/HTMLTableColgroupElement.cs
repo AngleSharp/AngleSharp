@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML column group element.
     /// </summary>
-    sealed class HTMLTableColgroupElement : HTMLElement, IHtmlTableColumnElement
+    sealed class HTMLTableColgroupElement : HtmlElement, IHtmlTableColumnElement
     {
         #region ctor
 

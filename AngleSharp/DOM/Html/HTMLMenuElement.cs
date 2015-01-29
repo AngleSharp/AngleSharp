@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the HTML menu element.
     /// </summary>
-    sealed class HTMLMenuElement : HTMLElement, IHtmlMenuElement
+    sealed class HtmlMenuElement : HtmlElement, IHtmlMenuElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML menu element.
         /// </summary>
-        public HTMLMenuElement(Document owner)
+        public HtmlMenuElement(Document owner)
             : base(owner, Tags.Menu, NodeFlags.Special)
         {
         }

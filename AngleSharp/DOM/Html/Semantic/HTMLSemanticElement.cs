@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an HTML element with only semantic meaning.
     /// </summary>
-    sealed class HTMLSemanticElement : HTMLElement
+    sealed class HTMLSemanticElement : HtmlElement
     {
         #region ctor
 

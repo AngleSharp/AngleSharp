@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the HTML dl element.
     /// </summary>
-    sealed class HTMLDListElement : HTMLElement
+    sealed class HTMLDListElement : HtmlElement
     {
         #region ctor
 

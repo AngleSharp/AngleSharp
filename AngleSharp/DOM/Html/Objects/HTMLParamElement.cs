@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a param element.
     /// </summary>
-    sealed class HTMLParamElement : HTMLElement, IHtmlParamElement
+    sealed class HTMLParamElement : HtmlElement, IHtmlParamElement
     {
         #region ctor
 

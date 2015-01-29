@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the HTML table element.
     /// </summary>
-    sealed class HTMLTableElement : HTMLElement, IHtmlTableElement
+    sealed class HTMLTableElement : HtmlElement, IHtmlTableElement
     {
         #region Fields
 

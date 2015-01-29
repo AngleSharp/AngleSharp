@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the base class for all HTML form control elements.
     /// </summary>
-    abstract class HTMLFormControlElement : HTMLElement, ILabelabelElement, IValidation
+    abstract class HTMLFormControlElement : HtmlElement, ILabelabelElement, IValidation
     {
         #region Fields
 
@@ -168,7 +168,7 @@
         /// </summary>
         /// <param name="dataSet">The dataset to construct.</param>
         /// <param name="submitter">The given submitter.</param>
-        internal virtual void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        internal virtual void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
         { }
 
         /// <summary>

@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the object for HTML dialog elements.
     /// </summary>
-    sealed class HTMLDialogElement : HTMLElement, IHtmlDialogElement
+    sealed class HTMLDialogElement : HtmlElement, IHtmlDialogElement
     {
         #region Fields
 

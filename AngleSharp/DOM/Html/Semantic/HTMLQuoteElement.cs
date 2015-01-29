@@ -6,7 +6,7 @@
     /// <summary>
     /// Rperesents the HTML quote element.
     /// </summary>
-    sealed class HTMLQuoteElement : HTMLElement, IHtmlQuoteElement
+    sealed class HTMLQuoteElement : HtmlElement, IHtmlQuoteElement
     {
         #region ctor
 

@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the area element.
     /// </summary>
-    sealed class HTMLAreaElement : HTMLElement, IHtmlAreaElement
+    sealed class HtmlAreaElement : HtmlElement, IHtmlAreaElement
     {
         #region Fields
 
@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new area element.
         /// </summary>
-        public HTMLAreaElement(Document owner)
+        public HtmlAreaElement(Document owner)
             : base(owner, Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _location = new ElementLocation(this);

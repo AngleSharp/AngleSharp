@@ -7,14 +7,14 @@
     /// This element is used to indicate that the position is a good
     /// point for inserting a possible line-break.
     /// </summary>
-    sealed class HTMLWbrElement : HTMLElement
+    sealed class HtmlWbrElement : HtmlElement
     {
         #region ctor
 
         /// <summary>
         /// Creates a new HTML wbr element.
         /// </summary>
-        public HTMLWbrElement(Document owner)
+        public HtmlWbrElement(Document owner)
             : base(owner, Tags.Wbr, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

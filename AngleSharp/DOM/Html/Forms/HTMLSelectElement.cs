@@ -222,7 +222,7 @@
 
         #region Helpers
 
-        internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
         {
             for (int i = 0; i < _options.Length; i++)
             {

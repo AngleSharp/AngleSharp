@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML source element.
     /// </summary>
-    sealed class HTMLSourceElement : HTMLElement, IHtmlSourceElement
+    sealed class HTMLSourceElement : HtmlElement, IHtmlSourceElement
     {
         #region ctor
 

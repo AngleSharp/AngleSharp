@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML track element.
     /// </summary>
-    sealed class HTMLTrackElement : HTMLElement, IHtmlTrackElement
+    sealed class HTMLTrackElement : HtmlElement, IHtmlTrackElement
     {
         #region Fields
 

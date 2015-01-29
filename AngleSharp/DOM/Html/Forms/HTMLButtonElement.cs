@@ -133,7 +133,7 @@
         /// </summary>
         /// <param name="dataSet">The dataset to construct.</param>
         /// <param name="submitter">The given submitter.</param>
-        internal override void ConstructDataSet(FormDataSet dataSet, HTMLElement submitter)
+        internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
         {
             if (this == submitter)
                 return;

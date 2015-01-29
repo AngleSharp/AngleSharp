@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
     /// </summary>
-    sealed class HTMLLIElement : HTMLElement, IHtmlListItemElement
+    sealed class HTMLLIElement : HtmlElement, IHtmlListItemElement
     {
         #region ctor
 

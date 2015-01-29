@@ -170,7 +170,7 @@
         /// </summary>
         /// <param name="document">The document to modify.</param>
         /// <param name="root">The document's element.</param>
-        public static void ApplyManifest(this Document document, HTMLHtmlElement root)
+        public static void ApplyManifest(this Document document, HtmlHtmlElement root)
         {
             if (!document.IsInBrowsingContext)
                 return;

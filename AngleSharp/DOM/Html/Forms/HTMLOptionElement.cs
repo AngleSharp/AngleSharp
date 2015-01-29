@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML option element.
     /// </summary>
-    sealed class HTMLOptionElement : HTMLElement, IHtmlOptionElement
+    sealed class HTMLOptionElement : HtmlElement, IHtmlOptionElement
     {
         #region Fields
 

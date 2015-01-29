@@ -26,7 +26,7 @@
         static readonly String AboutBlank = "about:blank";
 
         readonly StyleSheetList _styleSheets;
-        readonly Queue<HTMLScriptElement> _scripts;
+        readonly Queue<HtmlScriptElement> _scripts;
         readonly List<WeakReference> _ranges;
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
@@ -434,7 +434,7 @@
             _styleSheets = new StyleSheetList(this);
             _mutations = new MutationHost(this);
             _preferredStyleSheetSet = String.Empty;
-            _scripts = new Queue<HTMLScriptElement>();
+            _scripts = new Queue<HtmlScriptElement>();
             _quirksMode = QuirksMode.Off;
             _designMode = false;
             _location = new Location(AboutBlank);
@@ -669,8 +669,8 @@
         /// </summary>
         public String Direction
         {
-            get { return (DocumentElement as IHtmlElement ?? new HTMLHtmlElement(this)).Direction; }
-            set { (DocumentElement as IHtmlElement ?? new HTMLHtmlElement(this)).Direction = value; }
+            get { return (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction; }
+            set { (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction = value; }
         }
 
         /// <summary>
@@ -686,7 +686,7 @@
         /// </summary>
         public IElement DocumentElement
         {
-            get { return this.FindChild<HTMLHtmlElement>(); }
+            get { return this.FindChild<HtmlHtmlElement>(); }
         }
 
         /// <summary>
@@ -834,12 +834,12 @@
                 {
                     foreach (var child in root.ChildNodes)
                     {
-                        var body = child as HTMLBodyElement;
+                        var body = child as HtmlBodyElement;
 
                         if (body != null)
                             return body;
 
-                        var frameset = child as HTMLFrameSetElement;
+                        var frameset = child as HtmlFrameSetElement;
 
                         if (frameset != null)
                             return frameset;
@@ -850,7 +850,7 @@
             }
             set 
             {
-                if (value is IHtmlBodyElement == false && value is HTMLFrameSetElement == false)
+                if (value is IHtmlBodyElement == false && value is HtmlFrameSetElement == false)
                     throw new DomException(ErrorCode.HierarchyRequest);
 
                 var body = Body;
@@ -1009,7 +1009,7 @@
         /// Adds a script to the queue of scripts to be run.
         /// </summary>
         /// <param name="script"></param>
-        internal void AddScript(HTMLScriptElement script)
+        internal void AddScript(HtmlScriptElement script)
         {
             _scripts.Enqueue(script);
         }

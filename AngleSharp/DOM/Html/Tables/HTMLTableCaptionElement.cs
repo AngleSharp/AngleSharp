@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML caption element.
     /// </summary>
-    sealed class HTMLTableCaptionElement : HTMLElement, IHtmlTableCaptionElement
+    sealed class HTMLTableCaptionElement : HtmlElement, IHtmlTableCaptionElement
     {
         #region ctor
 

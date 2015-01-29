@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a noembed HTML element.
     /// </summary>
-    sealed class HTMLNoEmbedElement : HTMLElement
+    sealed class HTMLNoEmbedElement : HtmlElement
     {
         #region ctor
 

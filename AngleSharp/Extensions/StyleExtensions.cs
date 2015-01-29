@@ -32,7 +32,7 @@
                 element = pseudoElement;
 
             style.SetDeclarations(rules.ComputeCascadedStyle(element));
-            var htmlElement = element as HTMLElement;
+            var htmlElement = element as HtmlElement;
 
             if (htmlElement != null)
                 style.SetDeclarations(htmlElement.Style);

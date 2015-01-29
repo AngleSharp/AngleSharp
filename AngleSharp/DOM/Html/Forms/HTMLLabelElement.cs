@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML label element.
     /// </summary>
-    sealed class HTMLLabelElement : HTMLElement, IHtmlLabelElement
+    sealed class HTMLLabelElement : HtmlElement, IHtmlLabelElement
     {
         #region ctor
 

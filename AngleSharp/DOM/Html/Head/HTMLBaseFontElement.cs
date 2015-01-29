@@ -8,7 +8,7 @@
     /// Deprecated in HTML 4.01.
     /// </summary>
     [DomHistorical]
-    sealed class HTMLBaseFontElement : HTMLElement
+    sealed class HTMLBaseFontElement : HtmlElement
     {
         public HTMLBaseFontElement(Document owner)
             : base(owner, Tags.BaseFont, NodeFlags.Special | NodeFlags.SelfClosing)
