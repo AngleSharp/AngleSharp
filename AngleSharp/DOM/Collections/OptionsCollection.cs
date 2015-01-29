@@ -42,7 +42,7 @@
                     if (element.Id == name)
                         return element;
 
-                    var fce = element as HTMLFormControlElement;
+                    var fce = element as HtmlFormControlElement;
 
                     if (fce != null && fce.Name == name)
                         return fce;

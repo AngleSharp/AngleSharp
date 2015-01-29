@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        readonly IEnumerable<HTMLFormControlElement> _elements;
+        readonly IEnumerable<HtmlFormControlElement> _elements;
 
         #endregion
 
@@ -26,7 +26,7 @@
             if (root == null)
                 root = form.Owner.DocumentElement;
 
-            _elements = root.GetElements<HTMLFormControlElement>().Where(m =>
+            _elements = root.GetElements<HtmlFormControlElement>().Where(m =>
             {
                 if (m.Form == form)
                 {
@@ -53,17 +53,17 @@
 
         #region HTMLFormControlElement Implementation
 
-        public HTMLFormControlElement this[Int32 index]
+        public HtmlFormControlElement this[Int32 index]
         {
             get { return _elements.Skip(index).FirstOrDefault(); }
         }
 
-        public HTMLFormControlElement this[String id]
+        public HtmlFormControlElement this[String id]
         {
             get { return _elements.GetElementById(id); }
         }
 
-        public IEnumerator<HTMLFormControlElement> GetEnumerator()
+        public IEnumerator<HtmlFormControlElement> GetEnumerator()
         {
             return _elements.GetEnumerator();
         }

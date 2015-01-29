@@ -19,7 +19,7 @@
         public ImageInputType(IHtmlInputElement input, String name)
             : base(input, name, validate: true)
         {
-            var inp = input as HTMLInputElement;
+            var inp = input as HtmlInputElement;
             var src = input.Source;
 
             if (src != null && inp != null)

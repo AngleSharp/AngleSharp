@@ -172,17 +172,17 @@
         {
             if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href));
-            else if (element is HTMLButtonElement)
-                return !((HTMLButtonElement)element).IsDisabled;
-            else if (element is HTMLInputElement)
-                return !((HTMLInputElement)element).IsDisabled;
-            else if (element is HTMLSelectElement)
-                return !((HTMLSelectElement)element).IsDisabled;
-            else if (element is HTMLTextAreaElement)
-                return !((HTMLTextAreaElement)element).IsDisabled;
-            else if (element is HTMLOptionElement)
-                return !((HTMLOptionElement)element).IsDisabled;
-            else if (element is HTMLOptGroupElement || element is HtmlMenuItemElement || element is HTMLFieldSetElement)
+            else if (element is HtmlButtonElement)
+                return !((HtmlButtonElement)element).IsDisabled;
+            else if (element is HtmlInputElement)
+                return !((HtmlInputElement)element).IsDisabled;
+            else if (element is HtmlSelectElement)
+                return !((HtmlSelectElement)element).IsDisabled;
+            else if (element is HtmlTextAreaElement)
+                return !((HtmlTextAreaElement)element).IsDisabled;
+            else if (element is HtmlOptionElement)
+                return !((HtmlOptionElement)element).IsDisabled;
+            else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
                 return String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled));
 
             return false;
@@ -195,17 +195,17 @@
         /// <returns>True if the element is currently disabled, otherwise false.</returns>
         public static Boolean IsDisabled(this IElement element)
         {
-            if (element is HTMLButtonElement)
-                return ((HTMLButtonElement)element).IsDisabled;
-            else if (element is HTMLInputElement)
-                return ((HTMLInputElement)element).IsDisabled;
-            else if (element is HTMLSelectElement)
-                return ((HTMLSelectElement)element).IsDisabled;
-            else if (element is HTMLTextAreaElement)
-                return ((HTMLTextAreaElement)element).IsDisabled;
-            else if (element is HTMLOptionElement)
-                return ((HTMLOptionElement)element).IsDisabled;
-            else if (element is HTMLOptGroupElement || element is HtmlMenuItemElement || element is HTMLFieldSetElement)
+            if (element is HtmlButtonElement)
+                return ((HtmlButtonElement)element).IsDisabled;
+            else if (element is HtmlInputElement)
+                return ((HtmlInputElement)element).IsDisabled;
+            else if (element is HtmlSelectElement)
+                return ((HtmlSelectElement)element).IsDisabled;
+            else if (element is HtmlTextAreaElement)
+                return ((HtmlTextAreaElement)element).IsDisabled;
+            else if (element is HtmlOptionElement)
+                return ((HtmlOptionElement)element).IsDisabled;
+            else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled));
 
             return false;
@@ -218,17 +218,17 @@
         /// <returns>True if the element is currently in its default state, otherwise false.</returns>
         public static Boolean IsDefault(this IElement element)
         {
-            if (element is HTMLButtonElement)
+            if (element is HtmlButtonElement)
             {
-                var bt = (HTMLButtonElement)element;
+                var bt = (HtmlButtonElement)element;
                 var form = bt.Form;
 
                 if (form != null)//TODO Check if button is form def. button
                     return true;
             }
-            else if (element is HTMLInputElement)
+            else if (element is HtmlInputElement)
             {
-                var input = (HTMLInputElement)element;
+                var input = (HtmlInputElement)element;
                 var type = input.Type;
 
                 if (type == InputTypeNames.Submit || type == InputTypeNames.Image)
@@ -243,7 +243,7 @@
                     //TODO input that are checked and can be checked ...
                 }
             }
-            else if (element is HTMLOptionElement)
+            else if (element is HtmlOptionElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Selected));
 
             return false;
@@ -268,9 +268,9 @@
         /// <returns>True if the element is currently checked, otherwise false.</returns>
         public static Boolean IsChecked(this IElement element)
         {
-            if (element is HTMLInputElement)
+            if (element is HtmlInputElement)
             {
-                var inp = (HTMLInputElement)element;
+                var inp = (HtmlInputElement)element;
                 var type = inp.Type;
 
                 return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && inp.IsChecked;
@@ -282,8 +282,8 @@
 
                 return (type == HtmlMenuItemElement.ItemType.Checkbox || type == HtmlMenuItemElement.ItemType.Radio) && mi.IsChecked;
             }
-            else if (element is HTMLOptionElement)
-                return ((HTMLOptionElement)element).IsSelected;
+            else if (element is HtmlOptionElement)
+                return ((HtmlOptionElement)element).IsSelected;
 
             return false;
         }
@@ -295,12 +295,12 @@
         /// <returns>True if the element is currently indeterminate, otherwise false.</returns>
         public static Boolean IsIndeterminate(this IElement element)
         {
-            if (element is HTMLInputElement)
+            if (element is HtmlInputElement)
             {
-                var inp = (HTMLInputElement)element;
+                var inp = (HtmlInputElement)element;
                 return inp.Type == InputTypeNames.Checkbox && inp.IsIndeterminate;
             }
-            else if (element is HTMLProgressElement)
+            else if (element is HtmlProgressElement)
                 return String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Value));
 
             return false;
@@ -313,7 +313,7 @@
         /// <returns>True if the element is currently showing a placeholder, otherwise false.</returns>
         public static Boolean IsPlaceholderShown(this IElement element)
         {
-            var input = element as HTMLInputElement;
+            var input = element as HtmlInputElement;
 
             if (input != null)
                 return !String.IsNullOrEmpty(input.Placeholder) && String.IsNullOrEmpty(input.Value);
@@ -328,9 +328,9 @@
         /// <returns>True if the element is currently unchecked, otherwise false.</returns>
         public static Boolean IsUnchecked(this IElement element)
         {
-            if (element is HTMLInputElement)
+            if (element is HtmlInputElement)
             {
-                var inp = (HTMLInputElement)element;
+                var inp = (HtmlInputElement)element;
                 var type = inp.Type;
                 return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && !inp.IsChecked;
             }
@@ -342,8 +342,8 @@
                 return (type == HtmlMenuItemElement.ItemType.Checkbox || type == HtmlMenuItemElement.ItemType.Radio)
                     && !mi.IsChecked;
             }
-            else if (element is HTMLOptionElement)
-                return !((HTMLOptionElement)element).IsSelected;
+            else if (element is HtmlOptionElement)
+                return !((HtmlOptionElement)element).IsSelected;
 
             return false;
         }
@@ -361,11 +361,11 @@
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsActive;
             else if (element is HtmlLinkElement)
                 return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlLinkElement)element).IsActive;
-            else if (element is HTMLButtonElement)
-                return !((HTMLButtonElement)element).IsDisabled && ((HTMLButtonElement)element).IsActive;
-            else if (element is HTMLInputElement)
+            else if (element is HtmlButtonElement)
+                return !((HtmlButtonElement)element).IsDisabled && ((HtmlButtonElement)element).IsActive;
+            else if (element is HtmlInputElement)
             {
-                var inp = (HTMLInputElement)element;
+                var inp = (HtmlInputElement)element;
                 var type = inp.Type;
                 return (type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button) && inp.IsActive;
             }
@@ -416,12 +416,12 @@
         /// <returns>True if the element is optional, otherwise false.</returns>
         public static Boolean IsOptional(this IElement element)
         {
-            if (element is HTMLInputElement)
-                return !((HTMLInputElement)element).IsRequired;
-            else if (element is HTMLSelectElement)
-                return !((HTMLSelectElement)element).IsRequired;
-            else if (element is HTMLTextAreaElement)
-                return !((HTMLTextAreaElement)element).IsRequired;
+            if (element is HtmlInputElement)
+                return !((HtmlInputElement)element).IsRequired;
+            else if (element is HtmlSelectElement)
+                return !((HtmlSelectElement)element).IsRequired;
+            else if (element is HtmlTextAreaElement)
+                return !((HtmlTextAreaElement)element).IsRequired;
 
             return false;
         }
@@ -433,12 +433,12 @@
         /// <returns>True if the element is required, otherwise false.</returns>
         public static Boolean IsRequired(this IElement element)
         {
-            if (element is HTMLInputElement)
-                return ((HTMLInputElement)element).IsRequired;
-            else if (element is HTMLSelectElement)
-                return ((HTMLSelectElement)element).IsRequired;
-            else if (element is HTMLTextAreaElement)
-                return ((HTMLTextAreaElement)element).IsRequired;
+            if (element is HtmlInputElement)
+                return ((HtmlInputElement)element).IsRequired;
+            else if (element is HtmlSelectElement)
+                return ((HtmlSelectElement)element).IsRequired;
+            else if (element is HtmlTextAreaElement)
+                return ((HtmlTextAreaElement)element).IsRequired;
 
             return false;
         }
@@ -452,8 +452,8 @@
         {
             if (element is IValidation)
                 return !((IValidation)element).CheckValidity();
-            else if (element is HTMLFormElement)
-                return !((HTMLFormElement)element).CheckValidity();
+            else if (element is HtmlFormElement)
+                return !((HtmlFormElement)element).CheckValidity();
 
             return false;
         }
@@ -467,8 +467,8 @@
         {
             if (element is IValidation)
                 return ((IValidation)element).CheckValidity();
-            else if (element is HTMLFormElement)
-                return ((HTMLFormElement)element).CheckValidity();
+            else if (element is HtmlFormElement)
+                return ((HtmlFormElement)element).CheckValidity();
 
             return false;
         }
@@ -480,10 +480,10 @@
         /// <returns>True if the element is readonly, otherwise false.</returns>
         public static Boolean IsReadOnly(this IElement element)
         {
-            if (element is HTMLInputElement)
-                return !((HTMLInputElement)element).IsMutable;
-            else if (element is HTMLTextAreaElement)
-                return !((HTMLTextAreaElement)element).IsMutable;
+            if (element is HtmlInputElement)
+                return !((HtmlInputElement)element).IsMutable;
+            else if (element is HtmlTextAreaElement)
+                return !((HtmlTextAreaElement)element).IsMutable;
             else if (element is IHtmlElement)
                 return !((IHtmlElement)element).IsContentEditable;
 
@@ -497,10 +497,10 @@
         /// <returns>True if the element can be edited, otherwise false.</returns>
         public static Boolean IsEditable(this IElement element)
         {
-            if (element is HTMLInputElement)
-                return ((HTMLInputElement)element).IsMutable;
-            else if (element is HTMLTextAreaElement)
-                return ((HTMLTextAreaElement)element).IsMutable;
+            if (element is HtmlInputElement)
+                return ((HtmlInputElement)element).IsMutable;
+            else if (element is HtmlTextAreaElement)
+                return ((HtmlTextAreaElement)element).IsMutable;
             else if (element is IHtmlElement)
                 return ((IHtmlElement)element).IsContentEditable;
 

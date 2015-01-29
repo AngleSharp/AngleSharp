@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HtmlObjectElement : HTMLFormControlElement, IHtmlObjectElement
+    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement
     {
         #region Fields
 
