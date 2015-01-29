@@ -1,11 +1,9 @@
 ﻿namespace Samples.ViewModels
 {
     using AngleSharp.Dom;
-    using AngleSharp.Infrastructure;
     using AngleSharp.Scripting;
     using System;
     using System.Collections.ObjectModel;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;

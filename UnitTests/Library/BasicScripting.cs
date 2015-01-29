@@ -1,7 +1,7 @@
 ﻿namespace UnitTests.Library
 {
     using AngleSharp;
-    using AngleSharp.Infrastructure;
+    using AngleSharp.Dom;
     using AngleSharp.Network;
     using NUnit.Framework;
     using System;
