@@ -26,7 +26,8 @@
 		String this[Int32 index] { get; }
 
         /// <summary>
-        /// Returns true if the underlying string contains a token, otherwise false.
+        /// Returns true if the underlying string contains a token, otherwise
+        /// false.
         /// </summary>
         /// <param name="token">The token to search for.</param>
         /// <returns>The result of the search.</returns>
@@ -53,7 +54,9 @@
         /// </summary>
         /// <param name="token">The token to toggle.</param>
         /// <param name="force"></param>
-        /// <returns>True if the token has been added, otherwise false.</returns>
+        /// <returns>
+        /// True if the token has been added, otherwise false.
+        /// </returns>
 		[DomName("toggle")]
 		Boolean Toggle(String token, Boolean force = false);
 	}

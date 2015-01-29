@@ -16,14 +16,18 @@
         /// <summary>
         /// Breaks the node into two nodes at a specified offset.
         /// </summary>
-        /// <param name="offset">The point where the Node should be split.</param>
-        /// <returns>The freshly created Text element with the rest of the content.</returns>
+        /// <param name="offset">
+        /// The point where the Node should be split.
+        /// </param>
+        /// <returns>
+        /// The freshly created Text element with the rest of the content.
+        /// </returns>
 		[DomName("splitText")]
 		IText Split(Int32 offset);
 
         /// <summary>
-        /// Gets a string containing the text of all Text nodes logically adjacent
-        /// to this Node, concatenated in document order.
+        /// Gets a string containing the text of all Text nodes logically
+        /// adjacent to this Node, concatenated in document order.
         /// </summary>
 		[DomName("wholeText")]
 		String Text { get; }

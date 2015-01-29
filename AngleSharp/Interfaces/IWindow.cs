@@ -18,7 +18,9 @@
         /// applying the active stylesheets and resolving any basic computation
         /// those values may contain.
         /// </summary>
-        /// <param name="element">The element to compute the styles for.</param>
+        /// <param name="element">
+        /// The element to compute the styles for.
+        /// </param>
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
         [DomName("getComputedStyle")]
@@ -75,8 +77,8 @@
         Int32 ScreenX { get; }
 
         /// <summary>
-        /// Gets the vertical distance of the top border of the user's
-        /// browser from the top side of the screen.
+        /// Gets the vertical distance of the top border of the user's browser
+        /// from the top side of the screen.
         /// </summary>
         [DomName("screenY")]
         Int32 ScreenY { get; }
@@ -107,8 +109,13 @@
         /// </summary>
         /// <param name="url">The URL to open initially.</param>
         /// <param name="name">The name of the new window.</param>
-        /// <param name="features">Determines the rendering of the new window.</param>
-        /// <param name="replace">Can be used to remove whatever page is currently open from the session history.</param>
+        /// <param name="features">
+        /// Determines the rendering of the new window.
+        /// </param>
+        /// <param name="replace">
+        /// Can be used to remove whatever page is currently open from the
+        /// session history.
+        /// </param>
         /// <returns>The new or reused window.</returns>
         IWindow Open(String url = "about:blank", String name = null, String features = null, String replace = null);
 
@@ -141,7 +148,9 @@
         /// Opens a confirmation box with the provided message.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// <returns>True if the message has been confirmed, otherwise false.</returns>
+        /// <returns>
+        /// True if the message has been confirmed, otherwise false.
+        /// </returns>
         [DomName("confirm")]
         Boolean Confirm(String message);
 

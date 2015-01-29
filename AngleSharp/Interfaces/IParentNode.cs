@@ -4,7 +4,8 @@
     using System;
 
     /// <summary>
-    /// Defines the ParentNode interface that is implemented by possible parents.
+    /// Defines the ParentNode interface that is implemented by possible
+    /// parents.
     /// </summary>
     [DomName("ParentNode")]
     [DomNoInterfaceObject]
@@ -59,9 +60,9 @@
         IElement QuerySelector(String selectors);
 
         /// <summary>
-        /// Returns a list of the elements within the document (using depth-first
-        /// pre-order traversal of the document's nodes) that match the specified
-        /// group of selectors.
+        /// Returns a list of the elements within the document (using
+        /// depth-first pre-order traversal of the document's nodes) that match
+        /// the specified group of selectors.
         /// </summary>
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>A non-live NodeList of element objects.</returns>

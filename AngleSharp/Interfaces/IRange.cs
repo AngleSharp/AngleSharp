@@ -4,8 +4,8 @@
     using System;
 
     /// <summary>
-    /// The Range interface represents a fragment of a document that
-    /// can contain nodes and parts of text nodes in a given document.
+    /// The Range interface represents a fragment of a document that can
+    /// contain nodes and parts of text nodes in a given document.
     /// </summary>
     [DomName("Range")]
     public interface IRange
@@ -47,50 +47,54 @@
         INode CommonAncestor { get; }
 
         /// <summary>
-        /// Selects the start of the given range by using the
-        /// given reference node and a relative offset.
+        /// Selects the start of the given range by using the given reference
+        /// node and a relative offset.
         /// </summary>
         /// <param name="refNode">The reference node to use.</param>
-        /// <param name="offset">The offset relative to the reference node.</param>
+        /// <param name="offset">
+        /// The offset relative to the reference node.
+        /// </param>
         [DomName("setStart")]
         void StartWith(INode refNode, Int32 offset);
 
         /// <summary>
-        /// Selects the end of the given range by using the
-        /// given reference node and a relative offset.
+        /// Selects the end of the given range by using the given reference
+        /// node and a relative offset.
         /// </summary>
         /// <param name="refNode">The reference node to use.</param>
-        /// <param name="offset">The offset relative to the reference node.</param>
+        /// <param name="offset">
+        /// The offset relative to the reference node.
+        /// </param>
         [DomName("setEnd")]
         void EndWith(INode refNode, Int32 offset);
 
         /// <summary>
-        /// Selects the start of the given range by using an
-        /// inclusive reference node.
+        /// Selects the start of the given range by using an inclusive
+        /// reference node.
         /// </summary>
         /// <param name="refNode">The reference node to use.</param>
         [DomName("setStartBefore")]
         void StartBefore(INode refNode);
 
         /// <summary>
-        /// Selects the end of the given range by using an
-        /// inclusive reference node.
+        /// Selects the end of the given range by using an inclusive reference
+        /// node.
         /// </summary>
         /// <param name="refNode">The reference node to use.</param>
         [DomName("setEndBefore")]
         void EndBefore(INode refNode);
 
         /// <summary>
-        /// Selects the start of the given range by using an
-        /// exclusive reference node.
+        /// Selects the start of the given range by using an exclusive
+        /// reference node.
         /// </summary>
         /// <param name="refNode">The reference node to use.</param>
         [DomName("setStartAfter")]
         void StartAfter(INode refNode);
 
         /// <summary>
-        /// Selects the end of the given range by using an
-        /// exclusive reference node.
+        /// Selects the end of the given range by using an exclusive reference
+        /// node.
         /// </summary>
         /// <param name="refNode">The referenced node.</param>
         [DomName("setEndAfter")]
@@ -99,7 +103,9 @@
         /// <summary>
         /// Collapses the range to a single level.
         /// </summary>
-        /// <param name="toStart">Determines if only the first level should be selected.</param>
+        /// <param name="toStart">
+        /// Determines if only the first level should be selected.
+        /// </param>
         [DomName("collapse")]
         void Collapse(Boolean toStart);
 
@@ -111,8 +117,7 @@
         void Select(INode refNode);
 
         /// <summary>
-        /// Selects the contained nodes by taking
-        /// a reference node as origin.
+        /// Selects the contained nodes by taking a reference node as origin.
         /// </summary>
         /// <param name="refNode">The reference node.</param>
         [DomName("selectNodeContents")]
@@ -125,8 +130,8 @@
         void ClearContent();
 
         /// <summary>
-        /// Clears the node representation and returns a document fragment
-        /// with the originally contained nodes.
+        /// Clears the node representation and returns a document fragment with
+        /// the originally contained nodes.
         /// </summary>
         /// <returns>The document fragment containing the nodes.</returns>
         [DomName("extractContents")]
@@ -171,21 +176,28 @@
         /// </summary>
         /// <param name="node">The node to check for.</param>
         /// <param name="offset">The offset to use.</param>
-        /// <returns>True if the point is within the range, otherwise false.</returns>
+        /// <returns>
+        /// True if the point is within the range, otherwise false.
+        /// </returns>
         [DomName("isPointInRange")]
         Boolean Contains(INode node, Int32 offset);
 
         /// <summary>
         /// Compares the boundary points of the range.
         /// </summary>
-        /// <param name="how">Determines how these points should be compared.</param>
-        /// <param name="sourceRange">The range of the other boundary points.</param>
+        /// <param name="how">
+        /// Determines how these points should be compared.
+        /// </param>
+        /// <param name="sourceRange">
+        /// The range of the other boundary points.
+        /// </param>
         /// <returns>A relative position.</returns>
         [DomName("compareBoundaryPoints")]
         RangePosition CompareBoundaryTo(RangeType how, IRange sourceRange);
 
         /// <summary>
-        /// Compares the node to the given offset and returns the relative position.
+        /// Compares the node to the given offset and returns the relative
+        /// position.
         /// </summary>
         /// <param name="node">The node to use.</param>
         /// <param name="offset">The offset to use.</param>
@@ -197,7 +209,9 @@
         /// Checks if the given node is contained in this range.
         /// </summary>
         /// <param name="node">The node to check for.</param>
-        /// <returns>True if the node is within the range, otherwise false.</returns>
+        /// <returns>
+        /// True if the node is within the range, otherwise false.
+        /// </returns>
         [DomName("intersectsNode")]
         Boolean Intersects(INode node);
     }

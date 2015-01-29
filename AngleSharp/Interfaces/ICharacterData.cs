@@ -4,7 +4,8 @@
     using System;
 
     /// <summary>
-    /// The CharacterData abstract interface represents a Node object that contains characters. 
+    /// The CharacterData abstract interface represents a Node object that
+    /// contains characters. 
     /// </summary>
     [DomName("CharacterData")]
     public interface ICharacterData : INode, IChildNode, INonDocumentTypeChildNode
@@ -27,7 +28,9 @@
         /// </summary>
         /// <param name="offset">The point where to start.</param>
         /// <param name="count">The numbers of characters to copy.</param>
-        /// <returns>A string that contains a subset of the characters of Data.</returns>
+        /// <returns>
+        /// A string that contains a subset of the characters of Data.
+        /// </returns>
         [DomName("substringData")]
         String Substring(Int32 offset, Int32 count);
 
@@ -51,7 +54,9 @@
         /// Removes the specified amount of characters, starting at
         /// the specified offset, from the Data.
         /// </summary>
-        /// <param name="offset">The offset, where the removal should begin.</param>
+        /// <param name="offset">
+        /// The offset, where the removal should begin.
+        /// </param>
         /// <param name="count">The number of characters to remove.</param>
         [DomName("deleteData")]
         void Delete(Int32 offset, Int32 count);
@@ -60,8 +65,12 @@
         /// Replaces the specified amount of characters, starting at the
         /// specified offset, with the specified value.
         /// </summary>
-        /// <param name="offset">The offset, where the text should be inserted.</param>
-        /// <param name="count">The amount of characters that should be overwritten.</param>
+        /// <param name="offset">
+        /// The offset, where the text should be inserted.
+        /// </param>
+        /// <param name="count">
+        /// The amount of characters that should be overwritten.
+        /// </param>
         /// <param name="value">The value to insert.</param>
         [DomName("replaceData")]
         void Replace(Int32 offset, Int32 count, String value);

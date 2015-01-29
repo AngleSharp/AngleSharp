@@ -17,13 +17,15 @@
         String Href { get; set; }
 
         /// <summary>
-        /// Gets or sets the protocol scheme of the URL, including the final ':'.
+        /// Gets or sets the protocol scheme of the URL, including the final
+        /// ':'.
         /// </summary>
         [DomName("protocol")]
         String Protocol { get; set; }
 
         /// <summary>
-        /// Gets or sets the host, that is the hostname, a ':', and the port of the URL.
+        /// Gets or sets the host, that is the hostname, a ':', and the port of
+        /// the URL.
         /// </summary>
         [DomName("host")]
         String Host { get; set; }

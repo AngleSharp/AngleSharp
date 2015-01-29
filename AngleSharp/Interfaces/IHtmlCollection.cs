@@ -5,9 +5,9 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// HTMLCollection is an interface representing a generic collection (array)
-    /// of elements (in document order) and offers methods and properties for selecting
-    /// from the list.
+    /// HTMLCollection is an interface representing a generic collection
+    /// (array) of elements (in document order) and offers methods and
+    /// properties for selecting from the list.
     /// </summary>
     [DomName("HTMLCollection")]
     public interface IHtmlCollection : IEnumerable<IElement>
@@ -29,11 +29,14 @@
   
         /// <summary>
         /// Gets the specific node whose ID or, as a fallback, name matches the
-        /// string specified by name. Matching by name is only done as a last resort,
-        /// only in HTML, and only if the referenced element supports the name attribute.
+        /// string specified by name. Matching by name is only done as a last
+        /// resort, only in HTML, and only if the referenced element supports 
+        /// the name attribute.
         /// </summary>
         /// <param name="id">The id or name to match.</param>
-        /// <returns>Returns null if no node exists by the given name.</returns>
+        /// <returns>
+        /// Returns null if no node exists by the given name.
+        /// </returns>
         [DomName("namedItem")]
         [DomAccessor(Accessors.Getter)]
         IElement this[String id] { get; }

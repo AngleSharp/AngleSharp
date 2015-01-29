@@ -4,7 +4,8 @@
     using AngleSharp.Dom.Css;
 
     /// <summary>
-    /// The PseudoElement interface is used for representing CSS pseudo-elements.
+    /// The PseudoElement interface is used for representing CSS
+    /// pseudo-elements.
     /// </summary>
     [DomName("PseudoElement")]
     public interface IPseudoElement : IStyleUtilities

@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using System;
 
     /// <summary>
-    /// Provides a way to cache web resources to improve performance,
-    /// reduce server loads, and enable access to content when there
-    /// is no network connectivity.
+    /// Provides a way to cache web resources to improve performance, reduce
+    /// server loads, and enable access to content when there is no network
+    /// connectivity.
     /// </summary>
     [DomName("ApplicationCache")]
     public interface IApplicationCache : IEventTarget

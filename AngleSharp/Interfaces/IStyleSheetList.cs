@@ -11,9 +11,9 @@
     public interface IStyleSheetList : IEnumerable<IStyleSheet>
     {
         /// <summary>
-        /// Gets the stylesheet at the specified index.
-        /// If index is greater than or equal to the number
-        /// of style sheets in the list, this returns null.
+        /// Gets the stylesheet at the specified index. If index is greater
+        /// than or equal to the number of style sheets in the list, this
+        /// returns null.
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>

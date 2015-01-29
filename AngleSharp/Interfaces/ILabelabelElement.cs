@@ -3,8 +3,7 @@
     using System;
 
     /// <summary>
-    /// This interface marks elements that
-    /// allow to have an attached label.
+    /// This interface marks elements that allow to have an attached label.
     /// </summary>
     public interface ILabelabelElement
     {

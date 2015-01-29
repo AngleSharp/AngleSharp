@@ -29,7 +29,9 @@
         /// Returns a boolean indicating if the specified entry is available.
         /// </summary>
         /// <param name="entry">The entry that will be looked for.</param>
-        /// <returns>True if the element is available, otherwise false.</returns>
+        /// <returns>
+        /// True if the element is available, otherwise false.
+        /// </returns>
         [DomName("contains")]
         Boolean Contains(String entry);
     }

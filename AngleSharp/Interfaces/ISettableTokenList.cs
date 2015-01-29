@@ -4,8 +4,8 @@
     using System;
 
     /// <summary>
-    /// The same as TokenList, except that it allows the
-    /// underlying string to be directly changed.
+    /// The same as TokenList, except that it allows the underlying string to
+    /// be directly changed.
     /// </summary>
     [DomName("DOMSettableTokenList")]
     public interface ISettableTokenList : ITokenList

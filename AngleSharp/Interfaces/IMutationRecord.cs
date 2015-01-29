@@ -4,25 +4,25 @@
     using System;
 
     /// <summary>
-    /// MutationRecord defines an interface that will be passed
-    /// to the observer's callback.
+    /// MutationRecord defines an interface that will be passed to the
+    /// observer's callback.
     /// </summary>
     [DomName("MutationRecord")]
     public interface IMutationRecord
     {
         /// <summary>
         /// Gets attributes if the mutation was an attribute mutation,
-        /// characterData if it was a mutation to a CharacterData node,
-        /// and childList if it was a mutation to the tree of nodes.
+        /// characterData if it was a mutation to a CharacterData node, and
+        /// childList if it was a mutation to the tree of nodes.
         /// </summary>
         [DomName("type")]
         String Type { get; }
 
         /// <summary>
         /// Gets the node the mutation affected, depending on the type. For
-        /// attributes, it is the Element whose attribute changed. For CharacterData,
-        /// it is the CharacterData node. For ChildList, it is the node whose
-        /// children changed.
+        /// attributes, it is the Element whose attribute changed. For
+        /// CharacterData, it is the CharacterData node. For ChildList, it is
+        /// the node whose children changed.
         /// </summary>
         [DomName("target")]
         INode Target { get; }
@@ -64,10 +64,10 @@
         String AttributeNamespace { get; }
 
         /// <summary>
-        /// Gets a string depending on the type. For attributes, it is the value
-        /// of the changed attribute before the change. For characterData, it is
-        /// the data of the changed node before the change. For childList, it is
-        /// null.
+        /// Gets a string depending on the type. For attributes, it is the
+        /// value of the changed attribute before the change. For
+        /// characterData, it is the data of the changed node before the
+        /// change. For childList, it is null.
         /// </summary>
         [DomName("oldValue")]
         String PreviousValue { get; }

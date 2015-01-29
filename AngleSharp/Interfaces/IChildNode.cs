@@ -3,8 +3,8 @@
     using AngleSharp.Attributes;
 
     /// <summary>
-    /// The ChildNode interface contains methods that are
-    /// particular to Node objects that can have a parent.
+    /// The ChildNode interface contains methods that are particular to Node
+    /// objects that can have a parent.
     /// </summary>
     [DomName("ChildNode")]
     [DomNoInterfaceObject]

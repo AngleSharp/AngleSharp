@@ -5,14 +5,15 @@
 
     /// <summary>
     /// The NodeIterator interface represents an iterator over the members of a
-    /// list of the nodes in a subtree of the DOM. The nodes will be returned in
-    /// document order.
+    /// list of the nodes in a subtree of the DOM. The nodes will be returned
+    /// in document order.
     /// </summary>
     [DomName("NodeIterator")]
     public interface INodeIterator
     {
         /// <summary>
-        /// Gets a Node representing the root node as specified when the NodeIterator was created.
+        /// Gets a Node representing the root node as specified when the
+        /// NodeIterator was created.
         /// </summary>
         [DomName("root")]
         INode Root { get; }
@@ -24,14 +25,16 @@
         INode Reference { get; }
 
         /// <summary>
-        /// Gets an indicator whether the NodeFilter is anchored before the reference node.
+        /// Gets an indicator whether the NodeFilter is anchored before the
+        /// reference node.
         /// </summary>
         [DomName("pointerBeforeReferenceNode")]
         Boolean IsBeforeReference { get; }
 
         /// <summary>
-        /// Gets a description of the types of nodes that must to be presented. Non-matching nodes are
-        /// skipped, but their children may be included, if relevant.
+        /// Gets a description of the types of nodes that must to be presented.
+        /// Non-matching nodes are skipped, but their children may be included,
+        /// if relevant.
         /// </summary>
         [DomName("whatToShow")]
         FilterSettings Settings { get; }
@@ -50,7 +53,8 @@
         INode Next();
 
         /// <summary>
-        /// Returns the previous Node in the document, or null if there are none.
+        /// Returns the previous Node in the document, or null if there are
+        /// none.
         /// </summary>
         /// <returns>The previous Node, if any.</returns>
         [DomName("previousNode")]

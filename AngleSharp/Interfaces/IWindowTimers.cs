@@ -13,16 +13,22 @@
         /// <summary>
         /// Executes the provided handler after the timeout.
         /// </summary>
-        /// <param name="handler">The handler that is called after the timeout.</param>
+        /// <param name="handler">
+        /// The handler that is called after the timeout.
+        /// </param>
         /// <param name="timeout">The timeout in milliseconds.</param>
-        /// <returns>The handler to reference clear the timeout.</returns>
+        /// <returns>
+        /// The handler to reference clear the timeout.
+        /// </returns>
         [DomName("setTimeout")]
         Int32 SetTimeout(Action<IWindow> handler, Int32 timeout = 0);
         
         /// <summary>
         /// Clears a timeout.
         /// </summary>
-        /// <param name="handle">The handle that specifies, which timeout to clear.</param>
+        /// <param name="handle">
+        /// The handle that specifies, which timeout to clear.
+        /// </param>
         [DomName("clearTimeout")]
         void ClearTimeout(Int32 handle = 0);
 
@@ -38,7 +44,9 @@
         /// <summary>
         /// Clears an interval.
         /// </summary>
-        /// <param name="handle">The handle that specifies, which interval to clear.</param>
+        /// <param name="handle">
+        /// The handle that specifies, which interval to clear.
+        /// </param>
         [DomName("clearInterval")]
         void ClearInterval(Int32 handle = 0);
     }

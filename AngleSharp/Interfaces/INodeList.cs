@@ -11,7 +11,7 @@
     public interface INodeList : IEnumerable<INode>
     {
         /// <summary>
-        /// Returns an item in the list by its index, or null if out-of-bounds. 
+        /// Returns an item in the list by its index, or null if out-of-bounds.
         /// </summary>
         /// <param name="index">The 0-based index.</param>
         /// <returns>The element if it exists, otherwise false.</returns>
