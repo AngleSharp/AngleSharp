@@ -158,7 +158,7 @@ namespace UnitTests.Html
 		public void TestWillvalidateObject1()
 		{
 			var document = DocumentBuilder.Html("");
-			var element = document.CreateElement("object") as HTMLObjectElement;
+			var element = document.CreateElement("object") as HtmlObjectElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
 			element.RemoveAttribute("pattern");
