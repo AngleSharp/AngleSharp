@@ -19,27 +19,27 @@
         /// <summary>
         /// Gets the UTF-8 encoding.
         /// </summary>
-        public static readonly Encoding UTF8 = Encoding.UTF8;
+        public static readonly Encoding Utf8 = Encoding.UTF8;
 
         /// <summary>
         /// Gets the UTF-16 (Big Endian) encoding.
         /// </summary>
-        public static readonly Encoding UTF16BE = Encoding.BigEndianUnicode;
+        public static readonly Encoding Utf16Be = Encoding.BigEndianUnicode;
 
         /// <summary>
         /// Gets the UTF-16 (Little Endian) encoding.
         /// </summary>
-        public static readonly Encoding UTF16LE = Encoding.Unicode;
+        public static readonly Encoding Utf16Le = Encoding.Unicode;
 
         /// <summary>
         /// Gets the UTF-32 (Little Endian) encoding.
         /// </summary>
-        public static readonly Encoding UTF32LE = GetEncoding("UTF-32LE");
+        public static readonly Encoding Utf32Le = GetEncoding("UTF-32LE");
 
         /// <summary>
         /// Gets the UTF-32 (Little Endian) encoding.
         /// </summary>
-        public static readonly Encoding UTF32BE = GetEncoding("UTF-32BE");
+        public static readonly Encoding Utf32Be = GetEncoding("UTF-32BE");
 
         /// <summary>
         /// Gets the Windows-874 encoding.
@@ -89,7 +89,7 @@
         /// <summary>
         /// Gets the chinese government standard encoding.
         /// </summary>
-        public static readonly Encoding GB18030 = GetEncoding("GB18030");
+        public static readonly Encoding Gb18030 = GetEncoding("GB18030");
 
         /// <summary>
         /// Gets the Big5 encoding.
@@ -122,12 +122,12 @@
 
         static DocumentEncoding()
         {
-            encodings.Add("unicode-1-1-utf-8", UTF8);
-            encodings.Add("utf-8", UTF8);
-            encodings.Add("utf8", UTF8);
-            encodings.Add("utf-16be", UTF16BE);
-            encodings.Add("utf-16", UTF16LE);
-            encodings.Add("utf-16le", UTF16LE);
+            encodings.Add("unicode-1-1-utf-8", Utf8);
+            encodings.Add("utf-8", Utf8);
+            encodings.Add("utf8", Utf8);
+            encodings.Add("utf-16be", Utf16Be);
+            encodings.Add("utf-16", Utf16Le);
+            encodings.Add("utf-16le", Utf16Le);
             encodings.Add("dos-874", Windows874);
             encodings.Add("iso-8859-11", Windows874);
             encodings.Add("iso8859-11", Windows874);
@@ -308,7 +308,7 @@
             encodings.Add("iso-ir-58", chinese);
             encodings.Add("x-gbk", chinese);
             encodings.Add("hz-gb-2312", GetEncoding("hz-gb-2312"));
-            encodings.Add("gb18030", GB18030);
+            encodings.Add("gb18030", Gb18030);
             var big5 = GetEncoding("big5");
             encodings.Add("big5", big5);
             encodings.Add("big5-hkscs", big5);
@@ -326,16 +326,16 @@
             encodings.Add("iso-2022-cn-ext", isocn);
             encodings.Add("shift_jis", ShiftJis);
 
-            suggestions.Add("ar", UTF8);
-            suggestions.Add("cy", UTF8);
-            suggestions.Add("fa", UTF8);
-            suggestions.Add("hr", UTF8);
-            suggestions.Add("kk", UTF8);
-            suggestions.Add("mk", UTF8);
-            suggestions.Add("or", UTF8);
-            suggestions.Add("ro", UTF8);
-            suggestions.Add("sr", UTF8);
-            suggestions.Add("vi", UTF8);
+            suggestions.Add("ar", Utf8);
+            suggestions.Add("cy", Utf8);
+            suggestions.Add("fa", Utf8);
+            suggestions.Add("hr", Utf8);
+            suggestions.Add("kk", Utf8);
+            suggestions.Add("mk", Utf8);
+            suggestions.Add("or", Utf8);
+            suggestions.Add("ro", Utf8);
+            suggestions.Add("sr", Utf8);
+            suggestions.Add("vi", Utf8);
             suggestions.Add("be", Latin5);
             suggestions.Add("bg", Windows1251);
             suggestions.Add("ru", Windows1251);
@@ -349,7 +349,7 @@
             suggestions.Add("he", Windows1255);
             suggestions.Add("lv", Latin13);
             //  Windows-31J ???? Replaced by something better anyway
-            suggestions.Add("ja", UTF8);
+            suggestions.Add("ja", Utf8);
             suggestions.Add("ko", GetEncoding("ks_c_5601-1987"));
             suggestions.Add("lt", Windows1257);
             suggestions.Add("sk", Windows1250);
@@ -367,7 +367,7 @@
         /// <returns>The result of the check (UTF-16BE, UTF-16LE).</returns>
         public static Boolean IsUnicode(this Encoding encoding)
         {
-            return encoding == UTF16BE || encoding == UTF16LE;
+            return encoding == Utf16Be || encoding == Utf16Le;
         }
 
         #endregion
@@ -485,7 +485,7 @@
             if (charset != null && encodings.TryGetValue(charset, out encoding))
                 return encoding;
 
-            return Encoding.UTF8;
+            return Utf8;
         }
 
         /// <summary>
@@ -497,14 +497,12 @@
         {
             if (!String.IsNullOrEmpty(local) && local.Length > 1)
             {
-                var firstTwo = local.Substring(0, 2).ToLowerInvariant();
                 Encoding encoding;
 
                 if (suggestions.TryGetValue(local.Substring(0, 2), out encoding))
                     return encoding;
-
-                if (local.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
-                    return GB18030;
+                else if (local.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
+                    return Gb18030;
                 else if (local.Equals("zh-tw", StringComparison.OrdinalIgnoreCase))
                     return Big5;
             }
@@ -529,7 +527,7 @@
             catch
             {
                 // We use a catch em all since WP8 does throw a different exception than W*.
-                return Encoding.UTF8;
+                return Utf8;
             }
         }
 
@@ -553,11 +551,6 @@
             return PossibleDots.Contains(c);
         }
 
-        static Boolean HasUpperCaseFlag(Char punychar)
-        {
-            return (punychar >= 'A' && punychar <= 'Z');
-        }
-
         static Char EncodeDigit(Int32 d)
         {
             // 26-35 map to ASCII 0-9
@@ -570,9 +563,9 @@
 
         static Char EncodeBasic(Char bcp)
         {
-            if (HasUpperCaseFlag(bcp))
-                bcp += (char)('a' - 'A');
-
+            if (Char.IsUpper(bcp))
+                bcp += (Char)('a' - 'A');
+            
             return bcp;
         }
 

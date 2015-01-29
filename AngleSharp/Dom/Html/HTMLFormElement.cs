@@ -360,7 +360,7 @@
             }
             else if (action.Href.Contains("%%"))
             {
-                result = result.UrlEncode(DocumentEncoding.UTF8);
+                result = result.UrlEncode(DocumentEncoding.Utf8);
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
