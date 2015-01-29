@@ -5,10 +5,21 @@
     using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
+    /// <summary>
+    /// Essential extensions for using the value converters.
+    /// </summary>
+    [DebuggerStepThrough]
     static class ValueConverterExtensions
     {
+        #region Fields
+
         static readonly IValueConverter<Boolean> delimiter = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
+
+        #endregion
+
+        #region Methods
 
         public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
         {
@@ -175,5 +186,7 @@
         {
             return new OrderedOptionsConverter<Boolean, T>(delimiter.Required(), converter.Required()).To(m => m.Item2);
         }
+
+        #endregion
     }
 }

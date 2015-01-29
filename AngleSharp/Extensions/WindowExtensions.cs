@@ -6,11 +6,13 @@
     using AngleSharp.DOM.Css;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// A set of useful extension methods for the Window class.
     /// </summary>
+    [DebuggerStepThrough]
     static class WindowExtensions
     {
         #region Methods

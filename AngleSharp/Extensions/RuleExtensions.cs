@@ -2,10 +2,12 @@
 {
     using AngleSharp.DOM.Css;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// A set of useful extension methods for CSS rules.
     /// </summary>
+    [DebuggerStepThrough]
     static class RuleExtensions
     {
         /// <summary>
