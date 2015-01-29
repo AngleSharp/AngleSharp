@@ -3,7 +3,6 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Infrastructure;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

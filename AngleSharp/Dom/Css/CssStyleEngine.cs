@@ -1,7 +1,5 @@
-﻿namespace AngleSharp.Infrastructure
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;

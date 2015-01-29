@@ -2,7 +2,6 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Infrastructure;
     using System;
 
     /// <summary>
