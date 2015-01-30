@@ -882,7 +882,7 @@
         static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
         {
             var length = Char.IsSurrogatePair(source, index) ? 2 : 1;
-            var bytes = DocumentEncoding.Utf8.GetBytes(source.Substring(index, length));
+            var bytes = TextEncoding.Utf8.GetBytes(source.Substring(index, length));
 
             for (var i = 0; i < bytes.Length; i++)
                 buffer.Append(Symbols.Percent).Append(bytes[i].ToString("X2"));
@@ -932,7 +932,7 @@
                         if (!hostName[i].IsAlphanumericAscii())
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
-                            var bytes = DocumentEncoding.Utf8.GetBytes(hostName.Substring(i, l));
+                            var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
 
                             for (var j = 0; j < bytes.Length; j++)
                                 chars[count++] = bytes[j];
@@ -949,7 +949,7 @@
             //TODO finish with
             //https://url.spec.whatwg.org/#concept-host-parser
             //missing IPv6/4 parsing, Punycode [no normalization in WP app.]
-            return DocumentEncoding.Utf8.GetString(chars, 0, count);
+            return TextEncoding.Utf8.GetString(chars, 0, count);
         }
 
         static String SanatizePort(String port, Int32 start, Int32 length)

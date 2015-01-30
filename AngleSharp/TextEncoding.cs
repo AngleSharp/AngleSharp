@@ -9,12 +9,16 @@
     /// <summary>
     /// Various HTML encoding helpers.
     /// </summary>
-    static class DocumentEncoding
+    static class TextEncoding
     {
-        #region Encodings
+        #region Fields
 
         static readonly Dictionary<String, Encoding> encodings = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Encoding> suggestions = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
+
+        #endregion
+
+        #region Encodings
 
         /// <summary>
         /// Gets the UTF-8 encoding.
@@ -60,7 +64,7 @@
 
         #region Initialization
 
-        static DocumentEncoding()
+        static TextEncoding()
         {
             encodings.Add("unicode-1-1-utf-8", Utf8);
             encodings.Add("utf-8", Utf8);

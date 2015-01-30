@@ -110,7 +110,7 @@
                 }
 
                 if (value.IsUnicode())
-                    value = DocumentEncoding.Utf8;
+                    value = TextEncoding.Utf8;
 
                 if (value == _encoding)
                 {
@@ -274,32 +274,32 @@
 
             if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)
             {
-                _encoding = DocumentEncoding.Utf8;
+                _encoding = TextEncoding.Utf8;
                 offset = 3;
             }
             else if (count > 3 && _buffer[0] == 0xff && _buffer[1] == 0xfe && _buffer[2] == 0x0 && _buffer[3] == 0x0)
             {
-                _encoding = DocumentEncoding.Utf32Le;
+                _encoding = TextEncoding.Utf32Le;
                 offset = 4;
             }
             else if (count > 3 && _buffer[0] == 0x0 && _buffer[1] == 0x0 && _buffer[2] == 0xfe && _buffer[3] == 0xff)
             {
-                _encoding = DocumentEncoding.Utf32Be;
+                _encoding = TextEncoding.Utf32Be;
                 offset = 4;
             }
             else if (count > 1 && _buffer[0] == 0xfe && _buffer[1] == 0xff)
             {
-                _encoding = DocumentEncoding.Utf16Be;
+                _encoding = TextEncoding.Utf16Be;
                 offset = 2;
             }
             else if (count > 1 && _buffer[0] == 0xff && _buffer[1] == 0xfe)
             {
-                _encoding = DocumentEncoding.Utf16Le;
+                _encoding = TextEncoding.Utf16Le;
                 offset = 2;
             }
             else if (count > 3 && _buffer[0] == 0x84 && _buffer[1] == 0x31 && _buffer[2] == 0x95 && _buffer[3] == 0x33)
             {
-                _encoding = DocumentEncoding.Gb18030;
+                _encoding = TextEncoding.Gb18030;
                 offset = 4;
             }
 

@@ -339,28 +339,28 @@
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
             {
-                using (var sr = new StreamReader(formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding))))
+                using (var sr = new StreamReader(formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding))))
                     result = sr.ReadToEnd();
             }
             else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
             {
-                using (var sr = new StreamReader(formDataSet.AsMultipart(DocumentEncoding.Resolve(encoding))))
+                using (var sr = new StreamReader(formDataSet.AsMultipart(TextEncoding.Resolve(encoding))))
                     result = sr.ReadToEnd();
             }
             else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
             {
-                using (var sr = new StreamReader(formDataSet.AsPlaintext(DocumentEncoding.Resolve(encoding))))
+                using (var sr = new StreamReader(formDataSet.AsPlaintext(TextEncoding.Resolve(encoding))))
                     result = sr.ReadToEnd();
             }
 
             if (action.Href.Contains("%%%%"))
             {
-                result = result.UrlEncode(DocumentEncoding.Resolve(UsAscii));
+                result = result.UrlEncode(TextEncoding.Resolve(UsAscii));
                 action.Href = action.Href.ReplaceFirst("%%%%", result);
             }
             else if (action.Href.Contains("%%"))
             {
-                result = result.UrlEncode(DocumentEncoding.Utf8);
+                result = result.UrlEncode(TextEncoding.Utf8);
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
@@ -374,7 +374,7 @@
         void MailWithHeaders(Url action)
         {
             var formDataSet = ConstructDataSet();
-            var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(UsAscii));
+            var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(UsAscii));
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
@@ -392,7 +392,7 @@
         {
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var encoding = DocumentEncoding.Resolve(UsAscii);
+            var encoding = TextEncoding.Resolve(UsAscii);
             var body = String.Empty;
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
@@ -438,17 +438,17 @@
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
             {
-                result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
+                result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
                 mimeType = MimeTypes.StandardForm;
             }
             else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
             {
-                result = formDataSet.AsMultipart(DocumentEncoding.Resolve(encoding));
+                result = formDataSet.AsMultipart(TextEncoding.Resolve(encoding));
                 mimeType = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
             }
             else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
             {
-                result = formDataSet.AsPlaintext(DocumentEncoding.Resolve(encoding));
+                result = formDataSet.AsPlaintext(TextEncoding.Resolve(encoding));
                 mimeType = MimeTypes.Plain;
             }
 
@@ -497,7 +497,7 @@
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
-            var result = formDataSet.AsUrlEncoded(DocumentEncoding.Resolve(encoding));
+            var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))
                 action.Query = sr.ReadToEnd();

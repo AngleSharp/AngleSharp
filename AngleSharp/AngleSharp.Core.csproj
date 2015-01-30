@@ -880,7 +880,7 @@
     <Compile Include="Parser\Html\Helpers\ForeignHelpers.cs" />
     <Compile Include="Dom\Css\Values\Primitive\Color.cs" />
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
-    <Compile Include="Foundation\DocumentEncoding.cs" />
+    <Compile Include="TextEncoding.cs" />
     <Compile Include="Parser\Html\Helpers\MathMLHelpers.cs" />
     <Compile Include="Dom\Collections\HtmlCollection.cs" />
     <Compile Include="Dom\StyleSheetList.cs" />

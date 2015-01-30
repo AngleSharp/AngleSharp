@@ -31,7 +31,7 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            return DocumentEncoding.Suggest(configuration.GetLanguage());
+            return TextEncoding.Suggest(configuration.GetLanguage());
         }
 
         #endregion

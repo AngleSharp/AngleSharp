@@ -81,13 +81,13 @@
         {
             var charset = Charset;
 
-            if (charset != null && DocumentEncoding.IsSupported(charset))
-                return DocumentEncoding.Resolve(charset);
+            if (charset != null && TextEncoding.IsSupported(charset))
+                return TextEncoding.Resolve(charset);
 
             var equiv = HttpEquivalent;
 
             if (equiv != null && equiv.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
-                return DocumentEncoding.Parse(Content ?? String.Empty);
+                return TextEncoding.Parse(Content ?? String.Empty);
 
             return null;
         }

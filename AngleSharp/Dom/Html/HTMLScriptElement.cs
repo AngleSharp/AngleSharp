@@ -292,7 +292,7 @@
                 Context = Owner.DefaultView,
                 Document = Owner,
                 Element = this,
-                Encoding = DocumentEncoding.Resolve(CharacterSet)
+                Encoding = TextEncoding.Resolve(CharacterSet)
             };
         }
 
