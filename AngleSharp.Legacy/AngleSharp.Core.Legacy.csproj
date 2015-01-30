@@ -2796,6 +2796,9 @@
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\ICacheLoaderService.cs">
+      <Link>Services\ICacheLoaderService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\ICommandService.cs">
       <Link>Services\ICommandService.cs</Link>
     </Compile>
