@@ -429,7 +429,7 @@
     <Compile Include="TextPosition.cs" />
     <Compile Include="Url.cs" />
     <Compile Include="Extensions\StyleExtensions.cs" />
-    <Compile Include="Foundation\TextSource.cs" />
+    <Compile Include="TextSource.cs" />
     <Compile Include="Dom\Css\Values\CssIdentifier.cs" />
     <Compile Include="Dom\Css\Values\CssString.cs" />
     <Compile Include="IConfiguration.cs" />
