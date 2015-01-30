@@ -1740,9 +1740,6 @@
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\DocumentEncoding.cs">
-      <Link>Foundation\DocumentEncoding.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\ErrorCode.cs">
       <Link>Foundation\ErrorCode.cs</Link>
     </Compile>
@@ -1784,9 +1781,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Symbols.cs">
       <Link>Foundation\Symbols.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\TextSource.cs">
-      <Link>Foundation\TextSource.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
       <Link>Html\AttributeNames.cs</Link>
@@ -2862,11 +2856,17 @@
     <Compile Include="..\AngleSharp\Services\Media\IVideoInfo.cs">
       <Link>Services\Media\IVideoInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\TextEncoding.cs">
+      <Link>TextEncoding.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\TextPosition.cs">
       <Link>TextPosition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\TextRange.cs">
       <Link>TextRange.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\TextSource.cs">
+      <Link>TextSource.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
