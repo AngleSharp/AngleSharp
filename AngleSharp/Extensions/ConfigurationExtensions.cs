@@ -220,22 +220,22 @@
         public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
             where TResource : IResourceInfo
         {
-            var requester = GetRequester(options, url.Scheme);
+            var requester = options.GetRequester(url.Scheme);
 
-            if (requester == null)
-                return default(TResource);
-
-            using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
+            if (requester != null)
             {
-                if (response == null)
-                    return default(TResource);
-
-                var resourceServices = options.GetServices<IResourceService<TResource>>();
-
-                foreach (var resourceService in resourceServices)
+                using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
                 {
-                    if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                        return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                    if (response == null)
+                        return default(TResource);
+
+                    var resourceServices = options.GetServices<IResourceService<TResource>>();
+
+                    foreach (var resourceService in resourceServices)
+                    {
+                        if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                            return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                    }
                 }
             }
 
