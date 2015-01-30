@@ -1740,35 +1740,35 @@
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\CssPropertyFactory.cs">
+      <Link>Factories\CssPropertyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\CssUnitFactory.cs">
+      <Link>Factories\CssUnitFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\EventFactory.cs">
+      <Link>Factories\EventFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\HtmlElementFactory.cs">
+      <Link>Factories\HtmlElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\InputTypeFactory.cs">
+      <Link>Factories\InputTypeFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\MathElementFactory.cs">
+      <Link>Factories\MathElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\MediaFeatureFactory.cs">
+      <Link>Factories\MediaFeatureFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
+      <Link>Factories\SvgElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factory.cs">
+      <Link>Factory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\ErrorCode.cs">
       <Link>Foundation\ErrorCode.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\CssPropertyFactory.cs">
-      <Link>Foundation\Factories\CssPropertyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\CssUnitFactory.cs">
-      <Link>Foundation\Factories\CssUnitFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\EventFactory.cs">
-      <Link>Foundation\Factories\EventFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\HtmlElementFactory.cs">
-      <Link>Foundation\Factories\HtmlElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\InputTypeFactory.cs">
-      <Link>Foundation\Factories\InputTypeFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\MathElementFactory.cs">
-      <Link>Foundation\Factories\MathElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\MediaFeatureFactory.cs">
-      <Link>Foundation\Factories\MediaFeatureFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factories\SvgElementFactory.cs">
-      <Link>Foundation\Factories\SvgElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\Factory.cs">
-      <Link>Foundation\Factory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Keywords.cs">
       <Link>Foundation\Keywords.cs</Link>
