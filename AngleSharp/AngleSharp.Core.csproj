@@ -126,6 +126,7 @@
     <Compile Include="Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
     <Compile Include="Foundation\SimpleBrowsingContext.cs" />
+    <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="TextRange.cs" />
