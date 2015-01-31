@@ -244,13 +244,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var info = new CustomInfo
-                {
-                    Agent = "MyAgent",
-                    Version = "1.0"
-                };
-
-                var http = new DefaultRequester(info);
+                var agent = "MyAgent";
+                var http = new DefaultRequester(agent);
                 var request = new DefaultRequest();
                 request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
@@ -267,7 +262,7 @@
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.AreEqual("{\n  \"user-agent\": \"" + info.Agent + "\"\n}\n", content);
+                    Assert.AreEqual("{\n  \"user-agent\": \"" + agent + "\"\n}\n", content);
                 }
             }
         }
