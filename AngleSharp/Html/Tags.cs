@@ -638,6 +638,11 @@
         /// </summary>
         public static readonly String Map = "map";
 
+        /// <summary>
+        /// The picture tag.
+        /// </summary>
+        public static readonly String Picture = "picture";
+
         #endregion
 
         #region MathML Tags

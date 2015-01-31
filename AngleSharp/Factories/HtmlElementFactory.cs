@@ -132,7 +132,8 @@
             { Tags.Datalist, document => new HtmlDataListElement(document) },
             { Tags.Keygen, document => new HtmlKeygenElement(document) },
             { Tags.Xmp, document => new HtmlXmpElement(document) },
-            { Tags.Template, document => new HtmlTemplateElement(document) }
+            { Tags.Template, document => new HtmlTemplateElement(document) },
+            { Tags.Picture, document => new HtmlPictureElement(document) }
         };
 
         /// <summary>
