@@ -2643,9 +2643,6 @@
     <Compile Include="..\AngleSharp\Linq\StyleSheetExtensions.cs">
       <Link>Linq\StyleSheetExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\DefaultInfo.cs">
-      <Link>Network\DefaultInfo.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
       <Link>Network\DefaultRequest.cs</Link>
     </Compile>
@@ -2660,9 +2657,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\HttpMethod.cs">
       <Link>Network\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Network\IInfo.cs">
-      <Link>Network\IInfo.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
