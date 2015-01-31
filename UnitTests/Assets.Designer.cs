@@ -308,6 +308,32 @@ namespace UnitTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to   &lt;div class=&quot;head&quot;&gt;
+        ///   &lt;p&gt;&lt;a href=&quot;http://www.w3.org/&quot;&gt;&lt;img height=48 alt=W3C src=&quot;http://www.w3.org/Icons/w3c_home&quot; width=72&gt;&lt;/a&gt;
+        ///
+        ///   &lt;h1 id=&quot;title&quot;&gt;Selectors&lt;/h1&gt;
+        ///
+        ///   &lt;h2&gt;W3C Working Draft 15 December 2005&lt;/h2&gt;
+        ///
+        ///   &lt;dl&gt;
+        ///
+        ///    &lt;dt&gt;This version:
+        ///
+        ///    &lt;dd&gt;&lt;a href=&quot;http://www.w3.org/TR/2005/WD-css3-selectors-20051215&quot;&gt;
+        ///                 http://www.w3.org/TR/2005/WD-css3-selectors-20051215&lt;/a&gt;
+        ///
+        ///    &lt;dt&gt;Latest version:
+        ///
+        ///    &lt;dd&gt;&lt;a href=&quot;http://www.w3.org/TR/css3-selectors&quot;&gt;
+        ///                 http://www.w3.org/TR/ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string w3c_selectors {
+            get {
+                return ResourceManager.GetString("w3c_selectors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] windows_1251 {

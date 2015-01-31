@@ -93,6 +93,7 @@
     <Compile Include="Css\CssKeyframeRule.cs" />
     <Compile Include="Css\Gradient.cs" />
     <Compile Include="Css\CssMediaFeatures.cs" />
+    <Compile Include="Css\Slickspeed.cs" />
     <Compile Include="Html\DomManipulation.cs" />
     <Compile Include="Html\Validation.cs" />
     <Compile Include="Html\ValidityCheck.cs" />
@@ -190,6 +191,7 @@
     <None Include="Resources\shift-jis.jp" />
     <None Include="Resources\trade.500.com" />
     <None Include="Resources\utf-8.edu" />
+    <None Include="Resources\w3c-selectors.org" />
     <None Include="Resources\windows-1251.ru" />
     <None Include="Resources\windows-1252.com" />
     <None Include="Resources\www.baidu.com" />
