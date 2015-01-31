@@ -73,10 +73,10 @@
         /// <param name="configuration">The configuration to modify.</param>
         /// <param name="agent">User-Agent information if any.</param>
         /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithDefaultRequester<TConfiguration>(this TConfiguration configuration, IInfo agent = null)
+        public static TConfiguration WithDefaultRequester<TConfiguration>(this TConfiguration configuration, String agent = null)
             where TConfiguration : Configuration
         {
-            configuration.Register(new DefaultRequester(agent ?? DefaultInfo.Instance));
+            configuration.Register(new DefaultRequester(agent));
             return configuration;
         }
 

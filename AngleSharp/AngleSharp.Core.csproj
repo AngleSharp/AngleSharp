@@ -742,8 +742,6 @@
     <Compile Include="Html\FormDataSet.cs" />
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Network\IInfo.cs" />
-    <Compile Include="Network\DefaultInfo.cs" />
     <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Network\DefaultRequest.cs" />
     <Compile Include="Network\DefaultRequester.cs" />

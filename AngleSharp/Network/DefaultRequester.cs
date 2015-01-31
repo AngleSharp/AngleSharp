@@ -18,6 +18,8 @@
 
         const Int32 BufferSize = 4096;
 
+        static readonly String _version = typeof(DefaultRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        static readonly String _agentName = "AngleSharp/" + _version;
         static readonly Dictionary<String, PropertyInfo> _propCache;
         static readonly List<String> _restricted;
 
@@ -39,24 +41,15 @@
         }
 
         /// <summary>
-        /// Constructs a default HTTP requester with the default
-        /// user-agent information.
+        /// Constructs a default HTTP requester with the information presented
+        /// in the info object.
         /// </summary>
-        public DefaultRequester()
-            : this(DefaultInfo.Instance)
-        {
-        }
-
-        /// <summary>
-        /// Constructs a default HTTP requester with the information
-        /// presented in the info object.
-        /// </summary>
-        /// <param name="info">The information to use.</param>
-        public DefaultRequester(IInfo info)
+        /// <param name="userAgent">The user-agent name to use, if any.</param>
+        public DefaultRequester(String userAgent = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
             _headers = new Dictionary<String, String>();
-            _headers.Add("User-Agent", info.Agent);
+            _headers.Add("User-Agent", userAgent ?? _agentName);
         }
 
         #endregion
@@ -87,8 +80,12 @@
         /// <summary>
         /// Checks if the given protocol is supported.
         /// </summary>
-        /// <param name="protocol">The protocol to check for, e.g. http.</param>
-        /// <returns>True if the protocol is supported, otherwise false.</returns>
+        /// <param name="protocol">
+        /// The protocol to check for, e.g. http.
+        /// </param>
+        /// <returns>
+        /// True if the protocol is supported, otherwise false.
+        /// </returns>
         public Boolean SupportsProtocol(String protocol)
         {
             return KnownProtocols.Http == protocol || KnownProtocols.Https == protocol;
@@ -98,8 +95,12 @@
         /// Performs an asynchronous http request that can be cancelled.
         /// </summary>
         /// <param name="request">The options to consider.</param>
-        /// <param name="cancellationToken">The token for cancelling the task.</param>
-        /// <returns>The task that will eventually give the response data.</returns>
+        /// <param name="cancellationToken">
+        /// The token for cancelling the task.
+        /// </param>
+        /// <returns>
+        /// The task that will eventually give the response data.
+        /// </returns>
         public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
             var cache = new RequestState(request, _headers);
@@ -206,9 +207,9 @@
             }
 
             /// <summary>
-            /// Dirty dirty workaround since the webrequester itself is
-            /// already quite stupid, but the one here (for the PCL) is
-            /// really not the way things should be programmed ...
+            /// Dirty dirty workaround since the webrequester itself is already
+            /// quite stupid, but the one here (for the PCL) is really not the
+            /// way things should be programmed ...
             /// </summary>
             /// <param name="key">The key to add or change.</param>
             /// <param name="value">The value to be set.</param>
@@ -235,14 +236,16 @@
             }
 
             /// <summary>
-            /// Sets properties of the special headers (desc. here
+            /// Sets properties of the special headers (described here
             /// http://msdn.microsoft.com/en-us/library/system.net.httpwebrequest.headers.aspx)
-            /// which are not accessible (in general) in this profile (profile78).
-            /// However, usually they are here and can be modified with reflection.
-            /// If not they are not set.
+            /// which are not accessible (in general) in this profile
+            /// (profile78). However, usually they are here and can be modified
+            /// with reflection. If not they are not set.
             /// </summary>
             /// <param name="name">The name of the property.</param>
-            /// <param name="value">The value of the property, which will be set.</param>
+            /// <param name="value">
+            /// The value of the property, which will be set.
+            /// </param>
             void SetProperty(String name, Object value)
             {
                 if (!_propCache.ContainsKey(name))
