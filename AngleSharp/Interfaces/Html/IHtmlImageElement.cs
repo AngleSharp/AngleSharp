@@ -16,10 +16,28 @@
         String AlternativeText { get; set; }
 
         /// <summary>
+        /// Gets the actual used image source.
+        /// </summary>
+        [DomName("currentSrc")]
+        String ActualSource { get; }
+
+        /// <summary>
         /// Gets or sets the image source.
         /// </summary>
         [DomName("src")]
         String Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image candidates for higher density images.
+        /// </summary>
+        [DomName("srcset")]
+        String SourceSet { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sizes to responsively.
+        /// </summary>
+        [DomName("sizes")]
+        String Sizes { get; set; }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
@@ -28,16 +46,16 @@
         String CrossOrigin { get; set; }
 
         /// <summary>
-        /// Gets or sets the usemap attribute, which indicates that the
-        /// image has an associated image map.
+        /// Gets or sets the usemap attribute, which indicates that the image
+        /// has an associated image map.
         /// </summary>
         [DomName("useMap")]
         String UseMap { get; set; }
 
         /// <summary>
-        /// Gets or sets if the image element is a map.
-        /// The attribute must not be specified on an element that does not
-        /// have an ancestor a element with an href attribute.
+        /// Gets or sets if the image element is a map. The attribute must not
+        /// be specified on an element that does not have an ancestor a
+        /// element with an href attribute.
         /// </summary>
         [DomName("isMap")]
         Boolean IsMap { get; set; }

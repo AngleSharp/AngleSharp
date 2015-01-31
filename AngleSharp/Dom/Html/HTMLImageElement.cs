@@ -33,6 +33,32 @@
         #region Properties
 
         /// <summary>
+        /// Gets the actual used image source.
+        /// </summary>
+        public String ActualSource
+        {
+            get { return Source;  }
+        }
+
+        /// <summary>
+        /// Gets or sets the image candidates for higher density images.
+        /// </summary>
+        public String SourceSet
+        {
+            get { return GetAttribute(AttributeNames.SrcSet); }
+            set { SetAttribute(AttributeNames.SrcSet, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the sizes to responsively.
+        /// </summary>
+        public String Sizes
+        {
+            get { return GetAttribute(AttributeNames.Sizes); }
+            set { SetAttribute(AttributeNames.Sizes, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the image source.
         /// </summary>
         public String Source
@@ -60,7 +86,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the usemap attribute, which indicates that the image has an associated image map.
+        /// Gets or sets the usemap attribute, which indicates that the image
+        /// has an associated image map.
         /// </summary>
         public String UseMap
         {
@@ -111,9 +138,9 @@
         }
 
         /// <summary>
-        /// Gets or sets if the image element is a map.
-        /// The attribute must not be specified on an element that does not
-        /// have an ancestor a element with an href attribute.
+        /// Gets or sets if the image element is a map. The attribute must not
+        /// be specified on an element that does not have an ancestor a element
+        /// with an href attribute.
         /// </summary>
         public Boolean IsMap
         {
@@ -129,6 +156,8 @@
         {
             if (!String.IsNullOrEmpty(value))
             {
+                //TODO Implement with srcset etc. --> see:
+                //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 var url = this.HyperReference(value);
                 _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
                 _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
