@@ -10,10 +10,23 @@
     public interface IHtmlSourceElement : IHtmlElement
     {
         /// <summary>
-        /// Gets or sets the URL for the media resource.
+        /// Gets or sets the URL for a media resource. Is ignored when used for
+        /// the picture element.
         /// </summary>
         [DomName("src")]
         String Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URL of a picture element.
+        /// </summary>
+        [DomName("srcset")]
+        String SourceSet { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sizes if used in conjunction with a picture.
+        /// </summary>
+        [DomName("sizes")]
+        String Sizes { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the media source.

@@ -168,6 +168,21 @@
         public static readonly String Src = "src";
 
         /// <summary>
+        /// The srcset attribute.
+        /// </summary>
+        public static readonly String SrcSet = "srcset";
+
+        /// <summary>
+        /// The srclang attribute.
+        /// </summary>
+        public static readonly String SrcLang = "srclang";
+
+        /// <summary>
+        /// The srcdoc attribute.
+        /// </summary>
+        public static readonly String SrcDoc = "srcdoc";
+
+        /// <summary>
         /// The scrolling attribute.
         /// </summary>
         public static readonly String Scrolling = "scrolling";
@@ -321,11 +336,6 @@
         /// The sandbox attribute.
         /// </summary>
         public static readonly String Sandbox = "sandbox";
-
-        /// <summary>
-        /// The srcdoc attribute.
-        /// </summary>
-        public static readonly String SrcDoc = "srcdoc";
 
         /// <summary>
         /// The allowfullscreen attribute.
@@ -561,11 +571,6 @@
         /// The kind attribute.
         /// </summary>
         public static readonly String Kind = "kind";
-
-        /// <summary>
-        /// The srclang attribute.
-        /// </summary>
-        public static readonly String SrcLang = "srclang";
 
         /// <summary>
         /// The default attribute.

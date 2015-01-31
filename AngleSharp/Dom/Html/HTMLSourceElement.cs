@@ -49,6 +49,24 @@
             set { SetAttribute(AttributeNames.Type, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the source of an HTML picture element.
+        /// </summary>
+        public String SourceSet
+        {
+            get { return GetAttribute(AttributeNames.SrcSet); }
+            set { SetAttribute(AttributeNames.SrcSet, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the sizes to use for an HTML picture element.
+        /// </summary>
+        public String Sizes
+        {
+            get { return GetAttribute(AttributeNames.Sizes); }
+            set { SetAttribute(AttributeNames.Sizes, value); }
+        }
+
         #endregion
     }
 }
