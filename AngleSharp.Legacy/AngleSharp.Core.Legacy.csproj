@@ -1458,6 +1458,9 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlParamElement.cs">
       <Link>DOM\Html\HtmlParamElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\HtmlPictureElement.cs">
+      <Link>DOM\Html\HtmlPictureElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlPlaintextElement.cs">
       <Link>DOM\Html\HtmlPlaintextElement.cs</Link>
     </Compile>
