@@ -2808,9 +2808,6 @@
     <Compile Include="..\AngleSharp\Services\IEventService.cs">
       <Link>Services\IEventService.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Services\IExtensionService.cs">
-      <Link>Services\IExtensionService.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Services\IImageService.cs">
       <Link>Services\IImageService.cs</Link>
     </Compile>
