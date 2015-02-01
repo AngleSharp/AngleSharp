@@ -1167,11 +1167,11 @@
                 var n = Math.Sign(step);
                 var k = 0;
 
-                for (var i = 0; i < parent.ChildElementCount; i++)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    var child = parent.Children[i];
+                    var child = parent.ChildNodes[i] as IElement;
 
-                    if (kind.Match(child) == false)
+                    if (child == null || kind.Match(child) == false)
                         continue;
 
                     k += 1;
@@ -1207,11 +1207,11 @@
                 var n = Math.Sign(step);
                 var k = 0;
 
-                for (var i = 0; i < parent.Children.Length; i++)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    var child = parent.Children[i];
+                    var child = parent.ChildNodes[i] as IElement;
 
-                    if (child.NodeName != element.NodeName)
+                    if (child == null || child.NodeName != element.NodeName)
                         continue;
 
                     k += 1;
@@ -1247,9 +1247,9 @@
                 var n = Math.Sign(step);
                 var k = 0;
 
-                for (var i = 0; i < parent.Children.Length; i++)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    var child = parent.Children[i] as IHtmlTableCellElement;
+                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
 
                     if (child == null)
                         continue;
@@ -1297,11 +1297,11 @@
                 var n = Math.Sign(step);
                 var k = 0;
 
-                for (var i = parent.ChildElementCount - 1; i >= 0; i--)
+                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    var child = parent.Children[i];
+                    var child = parent.ChildNodes[i] as IElement;
 
-                    if (kind.Match(child) == false)
+                    if (child == null || kind.Match(child) == false)
                         continue;
 
                     k += 1;
@@ -1337,11 +1337,11 @@
                 var n = Math.Sign(step);
                 var k = 0;
 
-                for (var i = parent.Children.Length - 1; i >= 0; i--)
+                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    var child = parent.Children[i];
+                    var child = parent.ChildNodes[i] as IElement;
 
-                    if (child.NodeName != element.NodeName)
+                    if (child == null || child.NodeName != element.NodeName)
                         continue;
 
                     k += 1;
@@ -1377,9 +1377,9 @@
                 var n = Math.Sign(step);
                 var k = 0;
 
-                for (var i = parent.Children.Length - 1; i >= 0; i--)
+                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    var child = parent.Children[i] as IHtmlTableCellElement;
+                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
 
                     if (child == null)
                         continue;
