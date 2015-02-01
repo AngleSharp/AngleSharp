@@ -1,12 +1,12 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    class TestResult
+    public class TestResult
     {
-        public TestResult(ITest test, IHtmlParser parser)
+        public TestResult(ITest test, ITestee parser)
         {
             Test = test;
             Parser = parser;
@@ -54,7 +54,7 @@
             private set;
         }
 
-        public IHtmlParser Parser
+        public ITestee Parser
         {
             get;
             private set;

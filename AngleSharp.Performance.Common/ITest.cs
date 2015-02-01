@@ -1,8 +1,8 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance
 {
     using System;
 
-    interface ITest
+    public interface ITest
     {
         String Name { get; }
 

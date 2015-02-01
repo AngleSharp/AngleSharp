@@ -1,25 +1,29 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
-    class TestSuite
+    public class TestSuite
     {
         readonly List<TestResult> _results;
         readonly IEnumerable<ITest> _tests;
-        readonly IEnumerable<IHtmlParser> _parsers;
+        readonly IEnumerable<ITestee> _parsers;
+        readonly IOutput _output;
+        readonly IWarmup _warmup;
 
         Int32 _repeats;
         Int32 _reruns;
 
-        public TestSuite(IEnumerable<IHtmlParser> parsers, IEnumerable<ITest> tests)
+        public TestSuite(IEnumerable<ITestee> parsers, IEnumerable<ITest> tests, IOutput output, IWarmup warmup = null)
         {
             _reruns = 1;
             _repeats = 10;
-            _tests = tests;
             _parsers = parsers;
+            _tests = tests;
+            _output = output;
+            _warmup = warmup;
             _results = new List<TestResult>(parsers.Join(tests, m => 0, m => 0, (a, b) => new TestResult(b, a)));
         }
 
@@ -40,13 +44,29 @@
             get { return _tests; }
         }
 
-        internal IEnumerable<IHtmlParser> Parsers
+        internal IEnumerable<ITestee> Parsers
         {
             get { return _parsers; }
         }
 
+        internal IOutput Console
+        {
+            get { return _output; }
+        }
+
+        void Warmup()
+        {
+            if (_warmup == null)
+                return;
+
+            foreach (var testee in _parsers)
+                _warmup.ForceJit(testee.Library);
+        }
+
         public void Run()
         {
+            Warmup();
+
             var totalWidth = 76;
             var columns = _parsers.Count() + 1;
             var widthPerColumn = totalWidth / columns;
@@ -78,7 +98,7 @@
                         sw.Restart();
 
                         for (int i = 0; i < _repeats; i++)
-                            parser.Parse(source);
+                            parser.Run(source);
 
                         sw.Stop();
 
