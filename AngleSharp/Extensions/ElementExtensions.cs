@@ -551,7 +551,7 @@
         public static Boolean IsOnlyChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.ChildElementCount == 1 && parent.Children[0] == element;
+            return parent != null && parent.ChildElementCount == 1 && parent.FirstElementChild == element;
         }
 
         /// <summary>
@@ -562,7 +562,7 @@
         public static Boolean IsFirstChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.ChildElementCount > 0 && parent.Children[0] == element;
+            return parent != null && parent.FirstElementChild == element;
         }
 
         /// <summary>
@@ -573,7 +573,7 @@
         public static Boolean IsLastChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.ChildElementCount > 0 && parent.Children[parent.ChildElementCount - 1] == element;
+            return parent != null && parent.LastElementChild == element;
         }
     }
 }

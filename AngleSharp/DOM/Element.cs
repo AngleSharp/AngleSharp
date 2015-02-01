@@ -195,7 +195,20 @@
         /// </summary>
         public Int32 ChildElementCount
         {
-            get { return Children.Length; }
+            get
+            {
+                var children = ChildNodes;
+                var n = children.Length;
+                var count = 0;
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (children[i].NodeType == NodeType.Element)
+                        count++;
+                }
+
+                return count;
+            }
         }
 
         /// <summary>
