@@ -1,0 +1,2987 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Content" xml:space="preserve">
+    <value>&lt;div class="head"&gt;
+   &lt;p&gt;&lt;a href="http://www.w3.org/"&gt;&lt;img height=48 alt=W3C src="http://www.w3.org/Icons/w3c_home" width=72&gt;&lt;/a&gt;
+
+   &lt;h1 id="title"&gt;Selectors&lt;/h1&gt;
+
+   &lt;h2&gt;W3C Working Draft 15 December 2005&lt;/h2&gt;
+
+   &lt;dl&gt;
+
+    &lt;dt&gt;This version:
+
+    &lt;dd&gt;&lt;a href="http://www.w3.org/TR/2005/WD-css3-selectors-20051215"&gt;
+                 http://www.w3.org/TR/2005/WD-css3-selectors-20051215&lt;/a&gt;
+
+    &lt;dt&gt;Latest version:
+
+    &lt;dd&gt;&lt;a href="http://www.w3.org/TR/css3-selectors"&gt;
+                 http://www.w3.org/TR/css3-selectors&lt;/a&gt;
+
+    &lt;dt&gt;Previous version:
+
+    &lt;dd&gt;&lt;a href="http://www.w3.org/TR/2001/CR-css3-selectors-20011113"&gt;
+                 http://www.w3.org/TR/2001/CR-css3-selectors-20011113&lt;/a&gt;
+
+    &lt;dt&gt;&lt;a name=editors-list&gt;&lt;/a&gt;Editors:
+
+    &lt;dd class="vcard"&gt;&lt;span class="fn"&gt;Daniel Glazman&lt;/span&gt; (Invited Expert)&lt;/dd&gt;
+
+    &lt;dd class="vcard"&gt;&lt;a lang="tr" class="url fn" href="http://www.tantek.com/"&gt;Tantek &amp;Ccedil;elik&lt;/a&gt; (Invited Expert)
+
+    &lt;dd class="vcard"&gt;&lt;a href="mailto:ian@hixie.ch" class="url fn"&gt;Ian Hickson&lt;/a&gt; (&lt;span
+    class="company"&gt;&lt;a href="http://www.google.com/"&gt;Google&lt;/a&gt;&lt;/span&gt;)
+
+    &lt;dd class="vcard"&gt;&lt;span class="fn"&gt;Peter Linss&lt;/span&gt; (former editor, &lt;span class="company"&gt;&lt;a
+    href="http://www.netscape.com/"&gt;Netscape/AOL&lt;/a&gt;&lt;/span&gt;)
+
+    &lt;dd class="vcard"&gt;&lt;span class="fn"&gt;John Williams&lt;/span&gt; (former editor, &lt;span class="company"&gt;&lt;a
+    href="http://www.quark.com/"&gt;Quark, Inc.&lt;/a&gt;&lt;/span&gt;)
+
+   &lt;/dl&gt;
+
+   &lt;p class="copyright"&gt;&lt;a
+   href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright"&gt;
+   Copyright&lt;/a&gt; &amp;copy; 2005 &lt;a href="http://www.w3.org/"&gt;&lt;abbr
+   title="World Wide Web Consortium"&gt;W3C&lt;/abbr&gt;&lt;/a&gt;&lt;sup&gt;&amp;reg;&lt;/sup&gt;
+   (&lt;a href="http://www.csail.mit.edu/"&gt;&lt;abbr title="Massachusetts
+   Institute of Technology"&gt;MIT&lt;/abbr&gt;&lt;/a&gt;, &lt;a
+   href="http://www.ercim.org/"&gt;&lt;acronym title="European Research
+   Consortium for Informatics and Mathematics"&gt;ERCIM&lt;/acronym&gt;&lt;/a&gt;, &lt;a
+   href="http://www.keio.ac.jp/"&gt;Keio&lt;/a&gt;), All Rights Reserved.  W3C
+   &lt;a
+   href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer"&gt;liability&lt;/a&gt;,
+   &lt;a
+   href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks"&gt;trademark&lt;/a&gt;,
+   &lt;a
+   href="http://www.w3.org/Consortium/Legal/copyright-documents"&gt;document
+   use&lt;/a&gt; rules apply.
+
+   &lt;hr title="Separator for header"&gt;
+
+  &lt;/div&gt;
+
+  &lt;h2&gt;&lt;a name=abstract&gt;&lt;/a&gt;Abstract&lt;/h2&gt;
+
+  &lt;p&gt;&lt;em&gt;Selectors&lt;/em&gt; are patterns that match against elements in a
+  tree. Selectors have been optimized for use with HTML and XML, and
+  are designed to be usable in performance-critical code.&lt;/p&gt;
+
+  &lt;p&gt;&lt;acronym title="Cascading Style Sheets"&gt;CSS&lt;/acronym&gt; (Cascading
+  Style Sheets) is a language for describing the rendering of &lt;acronym
+  title="Hypertext Markup Language"&gt;HTML&lt;/acronym&gt; and &lt;acronym
+  title="Extensible Markup Language"&gt;XML&lt;/acronym&gt; documents on
+  screen, on paper, in speech, etc. CSS uses Selectors for binding
+  style properties to elements in the document. This document
+  describes extensions to the selectors defined in CSS level 2. These
+  extended selectors will be used by CSS level 3.
+
+  &lt;p&gt;Selectors define the following function:&lt;/p&gt;
+
+  &lt;pre&gt;expression &amp;#x2217; element &amp;rarr; boolean&lt;/pre&gt;
+
+  &lt;p&gt;That is, given an element and a selector, this specification
+  defines whether that element matches the selector.&lt;/p&gt;
+
+  &lt;p&gt;These expressions can also be used, for instance, to select a set
+  of elements, or a single element from a set of elements, by
+  evaluating the expression across all the elements in a
+  subtree. &lt;acronym title="Simple Tree Transformation
+  Sheets"&gt;STTS&lt;/acronym&gt; (Simple Tree Transformation Sheets), a
+  language for transforming XML trees, uses this mechanism. &lt;a href="#refsSTTS"&gt;[STTS]&lt;/a&gt;&lt;/p&gt;
+
+  &lt;h2&gt;&lt;a name=status&gt;&lt;/a&gt;Status of this document&lt;/h2&gt;
+
+  &lt;p&gt;&lt;em&gt;This section describes the status of this document at the
+  time of its publication. Other documents may supersede this
+  document. A list of current W3C publications and the latest revision
+  of this technical report can be found in the &lt;a
+  href="http://www.w3.org/TR/"&gt;W3C technical reports index at
+  http://www.w3.org/TR/.&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+  &lt;p&gt;This document describes the selectors that already exist in &lt;a
+  href="#refsCSS1"&gt;&lt;abbr title="CSS level 1"&gt;CSS1&lt;/abbr&gt;&lt;/a&gt; and &lt;a
+  href="#refsCSS21"&gt;&lt;abbr title="CSS level 2"&gt;CSS2&lt;/abbr&gt;&lt;/a&gt;, and
+  also proposes new selectors for &lt;abbr title="CSS level
+  3"&gt;CSS3&lt;/abbr&gt; and other languages that may need them.&lt;/p&gt;
+
+  &lt;p&gt;The CSS Working Group doesn't expect that all implementations of
+  CSS3 will have to implement all selectors. Instead, there will
+  probably be a small number of variants of CSS3, called profiles. For
+  example, it may be that only a profile for interactive user agents
+  will include all of the selectors.&lt;/p&gt;
+
+  &lt;p&gt;This specification is a last call working draft for the the &lt;a
+  href="http://www.w3.org/Style/CSS/members"&gt;CSS Working Group&lt;/a&gt;
+  (&lt;a href="/Style/"&gt;Style Activity&lt;/a&gt;). This
+  document is a revision of the &lt;a
+  href="http://www.w3.org/TR/2001/CR-css3-selectors-20011113/"&gt;Candidate
+  Recommendation dated 2001 November 13&lt;/a&gt;, and has incorporated
+  implementation feedback received in the past few years. It is
+  expected that this last call will proceed straight to Proposed
+  Recommendation stage since it is believed that interoperability will
+  be demonstrable.&lt;/p&gt;
+
+  &lt;p&gt;All persons are encouraged to review and implement this
+  specification and return comments to the (&lt;a
+  href="http://lists.w3.org/Archives/Public/www-style/"&gt;archived&lt;/a&gt;)
+  public mailing list &lt;a
+  href="http://www.w3.org/Mail/Lists.html#www-style"&gt;www-style&lt;/a&gt;
+  (see &lt;a href="http://www.w3.org/Mail/Request"&gt;instructions&lt;/a&gt;). W3C
+  Members can also send comments directly to the CSS Working
+  Group.
+  The deadline for comments is 14 January 2006.&lt;/p&gt;
+
+  &lt;p&gt;This is still a draft document and may be updated, replaced, or
+  obsoleted by other documents at any time. It is inappropriate to
+  cite a W3C Working Draft as other than &amp;quot;work in progress&amp;quot;.
+
+  &lt;p&gt;This document may be available in &lt;a
+  href="http://www.w3.org/Style/css3-selectors-updates/translations"&gt;translation&lt;/a&gt;.
+  The English version of this specification is the only normative
+  version.
+
+  &lt;div class="subtoc"&gt;
+
+   &lt;h2&gt;&lt;a name=contents&gt;Table of contents&lt;/a&gt;&lt;/h2&gt;
+
+   &lt;ul class="toc"&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#context"&gt;1. Introduction&lt;/a&gt;
+     &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#dependencies"&gt;1.1. Dependencies&lt;/a&gt; &lt;/li&gt;
+      &lt;li&gt;&lt;a href="#terminology"&gt;1.2. Terminology&lt;/a&gt; &lt;/li&gt;
+      &lt;li&gt;&lt;a href="#changesFromCSS2"&gt;1.3. Changes from CSS2&lt;/a&gt; &lt;/li&gt;
+     &lt;/ul&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#selectors"&gt;2. Selectors&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#casesens"&gt;3. Case sensitivity&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#selector-syntax"&gt;4. Selector syntax&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#grouping"&gt;5. Groups of selectors&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#simple-selectors"&gt;6. Simple selectors&lt;/a&gt;
+     &lt;ul class="toc"&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#type-selectors"&gt;6.1. Type selectors&lt;/a&gt;
+       &lt;ul class="toc"&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#typenmsp"&gt;6.1.1. Type selectors and namespaces&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#universal-selector"&gt;6.2. Universal selector&lt;/a&gt;
+       &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#univnmsp"&gt;6.2.1. Universal selector and namespaces&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#attribute-selectors"&gt;6.3. Attribute selectors&lt;/a&gt;
+       &lt;ul class="toc"&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#attribute-representation"&gt;6.3.1. Representation of attributes and attributes values&lt;/a&gt;
+        &lt;li&gt;&lt;a href="#attribute-substrings"&gt;6.3.2. Substring matching attribute selectors&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#attrnmsp"&gt;6.3.3. Attribute selectors and namespaces&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#def-values"&gt;6.3.4. Default attribute values in DTDs&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#class-html"&gt;6.4. Class selectors&lt;/a&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#id-selectors"&gt;6.5. ID selectors&lt;/a&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#pseudo-classes"&gt;6.6. Pseudo-classes&lt;/a&gt;
+       &lt;ul class="toc"&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#dynamic-pseudos"&gt;6.6.1. Dynamic pseudo-classes&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#target-pseudo"&gt;6.6.2. The :target pseudo-class&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#lang-pseudo"&gt;6.6.3. The :lang() pseudo-class&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#UIstates"&gt;6.6.4. UI element states pseudo-classes&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#structural-pseudos"&gt;6.6.5. Structural pseudo-classes&lt;/a&gt;
+         &lt;ul&gt;
+          &lt;li&gt;&lt;a href="#root-pseudo"&gt;:root pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#nth-child-pseudo"&gt;:nth-child() pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#nth-last-child-pseudo"&gt;:nth-last-child()&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#nth-of-type-pseudo"&gt;:nth-of-type() pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#nth-last-of-type-pseudo"&gt;:nth-last-of-type()&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#first-child-pseudo"&gt;:first-child pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#last-child-pseudo"&gt;:last-child pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#first-of-type-pseudo"&gt;:first-of-type pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#last-of-type-pseudo"&gt;:last-of-type pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#only-child-pseudo"&gt;:only-child pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#only-of-type-pseudo"&gt;:only-of-type pseudo-class&lt;/a&gt;
+          &lt;li&gt;&lt;a href="#empty-pseudo"&gt;:empty pseudo-class&lt;/a&gt;&lt;/li&gt;
+         &lt;/ul&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#negation"&gt;6.6.7. The negation pseudo-class&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+      &lt;/li&gt;
+     &lt;/ul&gt;
+    &lt;li&gt;&lt;a href="#pseudo-elements"&gt;7. Pseudo-elements&lt;/a&gt;
+     &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#first-line"&gt;7.1. The ::first-line pseudo-element&lt;/a&gt;
+      &lt;li&gt;&lt;a href="#first-letter"&gt;7.2. The ::first-letter pseudo-element&lt;/a&gt;
+      &lt;li&gt;&lt;a href="#UIfragments"&gt;7.3. The ::selection pseudo-element&lt;/a&gt;
+      &lt;li&gt;&lt;a href="#gen-content"&gt;7.4. The ::before and ::after pseudo-elements&lt;/a&gt;&lt;/li&gt;
+     &lt;/ul&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#combinators"&gt;8. Combinators&lt;/a&gt;
+     &lt;ul class="toc"&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#descendant-combinators"&gt;8.1. Descendant combinators&lt;/a&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#child-combinators"&gt;8.2. Child combinators&lt;/a&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#sibling-combinators"&gt;8.3. Sibling combinators&lt;/a&gt;
+       &lt;ul class="toc"&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#adjacent-sibling-combinators"&gt;8.3.1. Adjacent sibling combinator&lt;/a&gt;
+        &lt;li class="tocline4"&gt;&lt;a href="#general-sibling-combinators"&gt;8.3.2. General sibling combinator&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+      &lt;/li&gt;
+     &lt;/ul&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#specificity"&gt;9. Calculating a selector's specificity&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#w3cselgrammar"&gt;10. The grammar of Selectors&lt;/a&gt;
+     &lt;ul class="toc"&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#grammar"&gt;10.1. Grammar&lt;/a&gt;
+      &lt;li class="tocline3"&gt;&lt;a href="#lex"&gt;10.2. Lexical scanner&lt;/a&gt;&lt;/li&gt;
+     &lt;/ul&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#downlevel"&gt;11. Namespaces and down-level clients&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#profiling"&gt;12. Profiles&lt;/a&gt;
+    &lt;li&gt;&lt;a href="#Conformance"&gt;13. Conformance and requirements&lt;/a&gt;
+    &lt;li&gt;&lt;a href="#Tests"&gt;14. Tests&lt;/a&gt;
+    &lt;li&gt;&lt;a href="#ACKS"&gt;15. Acknowledgements&lt;/a&gt;
+    &lt;li class="tocline2"&gt;&lt;a href="#references"&gt;16. References&lt;/a&gt;
+   &lt;/ul&gt;
+
+  &lt;/div&gt;
+
+  &lt;h2&gt;&lt;a name=context&gt;1. Introduction&lt;/a&gt;&lt;/h2&gt;
+
+  &lt;h3&gt;&lt;a name=dependencies&gt;&lt;/a&gt;1.1. Dependencies&lt;/h3&gt;
+
+  &lt;p&gt;Some features of this specification are specific to CSS, or have
+  particular limitations or rules specific to CSS. In this
+  specification, these have been described in terms of CSS2.1. &lt;a
+  href="#refsCSS21"&gt;[CSS21]&lt;/a&gt;&lt;/p&gt;
+
+  &lt;h3&gt;&lt;a name=terminology&gt;&lt;/a&gt;1.2. Terminology&lt;/h3&gt;
+
+  &lt;p&gt;All of the text of this specification is normative except
+  examples, notes, and sections explicitly marked as
+  non-normative.&lt;/p&gt;
+
+  &lt;h3&gt;&lt;a name=changesFromCSS2&gt;&lt;/a&gt;1.3. Changes from CSS2&lt;/h3&gt;
+ 
+  &lt;p&gt;&lt;em&gt;This section is non-normative.&lt;/em&gt;&lt;/p&gt;
+
+  &lt;p&gt;The main differences between the selectors in CSS2 and those in
+  Selectors are:
+
+  &lt;ul&gt;
+
+   &lt;li&gt;the list of basic definitions (selector, group of selectors,
+   simple selector, etc.) has been changed; in particular, what was
+   referred to in CSS2 as a simple selector is now called a sequence
+   of simple selectors, and the term "simple selector" is now used for
+   the components of this sequence&lt;/li&gt;
+
+   &lt;li&gt;an optional namespace component is now allowed in type element
+   selectors, the universal selector and attribute selectors&lt;/li&gt;
+
+   &lt;li&gt;a &lt;a href="#general-sibling-combinators"&gt;new combinator&lt;/a&gt; has been introduced&lt;/li&gt;
+
+   &lt;li&gt;new simple selectors including substring matching attribute
+   selectors, and new pseudo-classes&lt;/li&gt;
+
+   &lt;li&gt;new pseudo-elements, and introduction of the "::" convention
+   for pseudo-elements&lt;/li&gt;
+
+   &lt;li&gt;the grammar has been rewritten&lt;/li&gt;
+
+   &lt;li&gt;profiles to be added to specifications integrating Selectors
+   and defining the set of selectors which is actually supported by
+   each specification&lt;/li&gt;
+
+   &lt;li&gt;Selectors are now a CSS3 Module and an independent
+   specification; other specifications can now refer to this document
+   independently of CSS&lt;/li&gt;
+
+   &lt;li&gt;the specification now has its own test suite&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+&lt;h2&gt;&lt;a name=selectors&gt;&lt;/a&gt;2. Selectors&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;This section is non-normative, as it merely summarizes the
+following sections.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;A Selector represents a structure. This structure can be used as a
+condition (e.g. in a CSS rule) that determines which elements a
+selector matches in the document tree, or as a flat description of the
+HTML or XML fragment corresponding to that structure.&lt;/p&gt;
+
+&lt;p&gt;Selectors may range from simple element names to rich contextual
+representations.&lt;/p&gt;
+
+&lt;p&gt;The following table summarizes the Selector syntax:&lt;/p&gt;
+
+&lt;table class="selectorsReview"&gt;
+  &lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th class="pattern"&gt;Pattern&lt;/th&gt;
+    &lt;th class="meaning"&gt;Meaning&lt;/th&gt;
+    &lt;th class="described"&gt;Described in section&lt;/th&gt;
+    &lt;th class="origin"&gt;First defined in CSS level&lt;/th&gt;&lt;/tr&gt;
+  &lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;*&lt;/td&gt;
+    &lt;td class="meaning"&gt;any element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#universal-selector"&gt;Universal
+      selector&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E&lt;/td&gt;
+    &lt;td class="meaning"&gt;an element of type E&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#type-selectors"&gt;Type selector&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[foo]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element with a "foo" attribute&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[foo="bar"]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose "foo" attribute value is exactly
+      equal to "bar"&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[foo~="bar"]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose "foo" attribute value is a list of
+      space-separated values, one of which is exactly equal to "bar"&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[foo^="bar"]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose "foo" attribute value begins exactly
+      with the string "bar"&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[foo$="bar"]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose "foo" attribute value ends exactly
+      with the string "bar"&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[foo*="bar"]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose "foo" attribute value contains the
+      substring "bar"&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E[hreflang|="en"]&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose "hreflang" attribute has a hyphen-separated
+      list of values beginning (from the left) with "en"&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#attribute-selectors"&gt;Attribute
+      selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:root&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, root of the document&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:nth-child(n)&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, the n-th child of its parent&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:nth-last-child(n)&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, the n-th child of its parent, counting
+      from the last one&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:nth-of-type(n)&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, the n-th sibling of its type&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:nth-last-of-type(n)&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, the n-th sibling of its type, counting
+      from the last one&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:first-child&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, first child of its parent&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:last-child&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, last child of its parent&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:first-of-type&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, first sibling of its type&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:last-of-type&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, last sibling of its type&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:only-child&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, only child of its parent&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:only-of-type&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element, only sibling of its type&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:empty&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element that has no children (including text
+    nodes)&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#structural-pseudos"&gt;Structural
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:link&lt;br&gt;E:visited&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element being the source anchor of a hyperlink of
+      which the target is not yet visited (:link) or already visited
+    (:visited)&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#link"&gt;The link
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:active&lt;br&gt;E:hover&lt;br&gt;E:focus&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element during certain user actions&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#useraction-pseudos"&gt;The user
+      action pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1 and 2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:target&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element being the target of the referring URI&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#target-pseudo"&gt;The target
+      pseudo-class&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:lang(fr)&lt;/td&gt;
+    &lt;td class="meaning"&gt;an element of type E in language "fr" (the document
+      language specifies how language is determined)&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#lang-pseudo"&gt;The :lang()
+      pseudo-class&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:enabled&lt;br&gt;E:disabled&lt;/td&gt;
+    &lt;td class="meaning"&gt;a user interface element E which is enabled or
+    disabled&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#UIstates"&gt;The UI element states
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:checked&lt;!--&lt;br&gt;E:indeterminate--&gt;&lt;/td&gt;
+    &lt;td class="meaning"&gt;a user interface element E which is checked&lt;!-- or in an
+      indeterminate state--&gt; (for instance a radio-button or checkbox)&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#UIstates"&gt;The UI element states
+      pseudo-classes&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E::first-line&lt;/td&gt;
+    &lt;td class="meaning"&gt;the first formatted line of an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#first-line"&gt;The ::first-line
+      pseudo-element&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E::first-letter&lt;/td&gt;
+    &lt;td class="meaning"&gt;the first formatted letter of an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#first-letter"&gt;The ::first-letter
+      pseudo-element&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E::selection&lt;/td&gt;
+    &lt;td class="meaning"&gt;the portion of an E element that is currently
+      selected/highlighted by the user&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#UIfragments"&gt;The UI element
+      fragments pseudo-elements&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E::before&lt;/td&gt;
+    &lt;td class="meaning"&gt;generated content before an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#gen-content"&gt;The ::before
+      pseudo-element&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E::after&lt;/td&gt;
+    &lt;td class="meaning"&gt;generated content after an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#gen-content"&gt;The ::after
+      pseudo-element&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E.warning&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element whose class is
+"warning" (the document language specifies how class is determined).&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#class-html"&gt;Class
+    selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E#myid&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element with ID equal to "myid".&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#id-selectors"&gt;ID
+    selectors&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E:not(s)&lt;/td&gt;
+    &lt;td class="meaning"&gt;an E element that does not match simple selector s&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#negation"&gt;Negation
+      pseudo-class&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E F&lt;/td&gt;
+    &lt;td class="meaning"&gt;an F element descendant of an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#descendant-combinators"&gt;Descendant
+      combinator&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E &amp;gt; F&lt;/td&gt;
+    &lt;td class="meaning"&gt;an F element child of an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#child-combinators"&gt;Child
+      combinator&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E + F&lt;/td&gt;
+    &lt;td class="meaning"&gt;an F element immediately preceded by an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#adjacent-sibling-combinators"&gt;Adjacent sibling combinator&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="pattern"&gt;E ~ F&lt;/td&gt;
+    &lt;td class="meaning"&gt;an F element preceded by an E element&lt;/td&gt;
+    &lt;td class="described"&gt;&lt;a
+      href="#general-sibling-combinators"&gt;General sibling combinator&lt;/a&gt;&lt;/td&gt;
+    &lt;td class="origin"&gt;3&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;p&gt;The meaning of each selector is derived from the table above by
+prepending "matches" to the contents of each cell in the "Meaning"
+column.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=casesens&gt;3. Case sensitivity&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;The case sensitivity of document language element names, attribute
+names, and attribute values in selectors depends on the document
+language. For example, in HTML, element names are case-insensitive,
+but in XML, they are case-sensitive.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=selector-syntax&gt;4. Selector syntax&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;A &lt;dfn&gt;&lt;a name=selector&gt;selector&lt;/a&gt;&lt;/dfn&gt; is a chain of one
+or more &lt;a href="#sequence"&gt;sequences of simple selectors&lt;/a&gt;
+separated by &lt;a href="#combinators"&gt;combinators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A &lt;dfn&gt;&lt;a name=sequence&gt;sequence of simple selectors&lt;/a&gt;&lt;/dfn&gt;
+is a chain of &lt;a href="#simple-selectors-dfn"&gt;simple selectors&lt;/a&gt;
+that are not separated by a &lt;a href="#combinators"&gt;combinator&lt;/a&gt;. It
+always begins with a &lt;a href="#type-selectors"&gt;type selector&lt;/a&gt; or a
+&lt;a href="#universal-selector"&gt;universal selector&lt;/a&gt;. No other type
+selector or universal selector is allowed in the sequence.&lt;/p&gt;
+
+&lt;p&gt;A &lt;dfn&gt;&lt;a name=simple-selectors-dfn&gt;&lt;/a&gt;&lt;a
+href="#simple-selectors"&gt;simple selector&lt;/a&gt;&lt;/dfn&gt; is either a &lt;a
+href="#type-selectors"&gt;type selector&lt;/a&gt;, &lt;a
+href="#universal-selector"&gt;universal selector&lt;/a&gt;, &lt;a
+href="#attribute-selectors"&gt;attribute selector&lt;/a&gt;, &lt;a
+href="#class-html"&gt;class selector&lt;/a&gt;, &lt;a
+href="#id-selectors"&gt;ID selector&lt;/a&gt;, &lt;a
+href="#content-selectors"&gt;content selector&lt;/a&gt;, or &lt;a
+href="#pseudo-classes"&gt;pseudo-class&lt;/a&gt;. One &lt;a
+href="#pseudo-elements"&gt;pseudo-element&lt;/a&gt; may be appended to the last
+sequence of simple selectors.&lt;/p&gt;
+
+&lt;p&gt;&lt;dfn&gt;Combinators&lt;/dfn&gt; are: white space, &amp;quot;greater-than
+sign&amp;quot; (U+003E, &lt;code&gt;&amp;gt;&lt;/code&gt;), &amp;quot;plus sign&amp;quot; (U+002B,
+&lt;code&gt;+&lt;/code&gt;) and &amp;quot;tilde&amp;quot; (U+007E, &lt;code&gt;~&lt;/code&gt;).  White
+space may appear between a combinator and the simple selectors around
+it. &lt;a name=whitespace&gt;&lt;/a&gt;Only the characters "space" (U+0020), "tab"
+(U+0009), "line feed" (U+000A), "carriage return" (U+000D), and "form
+feed" (U+000C) can occur in white space. Other space-like characters,
+such as "em-space" (U+2003) and "ideographic space" (U+3000), are
+never part of white space.&lt;/p&gt;
+
+&lt;p&gt;The elements of a document tree that are represented by a selector
+are the &lt;dfn&gt;&lt;a name=subject&gt;&lt;/a&gt;subjects of the selector&lt;/dfn&gt;. A
+selector consisting of a single sequence of simple selectors
+represents any element satisfying its requirements. Prepending another
+sequence of simple selectors and a combinator to a sequence imposes
+additional matching constraints, so the subjects of a selector are
+always a subset of the elements represented by the last sequence of
+simple selectors.&lt;/p&gt;
+
+&lt;p&gt;An empty selector, containing no sequence of simple selectors and
+no pseudo-element, is an &lt;a href="#Conformance"&gt;invalid
+selector&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=grouping&gt;5. Groups of selectors&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;When several selectors share the same declarations, they may be
+grouped into a comma-separated list. (A comma is U+002C.)&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;CSS examples:&lt;/p&gt;
+&lt;p&gt;In this example, we condense three rules with identical
+declarations into one. Thus,&lt;/p&gt;
+&lt;pre&gt;h1 { font-family: sans-serif }
+h2 { font-family: sans-serif }
+h3 { font-family: sans-serif }&lt;/pre&gt;
+&lt;p&gt;is equivalent to:&lt;/p&gt;
+&lt;pre&gt;h1, h2, h3 { font-family: sans-serif }&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: the equivalence is true in this example
+because all the selectors are valid selectors. If just one of these
+selectors were invalid, the entire group of selectors would be
+invalid. This would invalidate the rule for all three heading
+elements, whereas in the former case only one of the three individual
+heading rules would be invalidated.&lt;/p&gt;
+
+
+&lt;h2&gt;&lt;a name=simple-selectors&gt;6. Simple selectors&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3&gt;&lt;a name=type-selectors&gt;6.1. Type selector&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;A &lt;dfn&gt;type selector&lt;/dfn&gt; is the name of a document language
+element type. A type selector represents an instance of the element
+type in the document tree.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Example:&lt;/p&gt;
+ &lt;p&gt;The following selector represents an &lt;code&gt;h1&lt;/code&gt; element in the document tree:&lt;/p&gt;
+ &lt;pre&gt;h1&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;a name=typenmsp&gt;6.1.1. Type selectors and namespaces&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;Type selectors allow an optional namespace (&lt;a
+href="#refsXMLNAMES"&gt;[XMLNAMES]&lt;/a&gt;) component. A namespace prefix
+that has been previously declared may be prepended to the element name
+separated by the namespace separator &amp;quot;vertical bar&amp;quot;
+(U+007C, &lt;code&gt;|&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;The namespace component may be left empty to indicate that the
+selector is only to represent elements with no declared namespace.&lt;/p&gt;
+
+&lt;p&gt;An asterisk may be used for the namespace prefix, indicating that
+the selector represents elements in any namespace (including elements
+with no namespace).&lt;/p&gt;
+
+&lt;p&gt;Element type selectors that have no namespace component (no
+namespace separator), represent elements without regard to the
+element's namespace (equivalent to "&lt;code&gt;*|&lt;/code&gt;") unless a default
+namespace has been declared. If a default namespace has been declared,
+the selector will represent only elements in the default
+namespace.&lt;/p&gt;
+
+&lt;p&gt;A type selector containing a namespace prefix that has not been
+previously declared is an &lt;a href="#Conformance"&gt;invalid&lt;/a&gt; selector.
+The mechanism for declaring a namespace prefix is left up to the
+language implementing Selectors. In CSS, such a mechanism is defined
+in the General Syntax module.&lt;/p&gt;
+
+&lt;p&gt;In a namespace-aware client, element type selectors will only match
+against the &lt;a
+href="http://www.w3.org/TR/REC-xml-names/#NT-LocalPart"&gt;local part&lt;/a&gt;
+of the element's &lt;a
+href="http://www.w3.org/TR/REC-xml-names/#ns-qualnames"&gt;qualified
+name&lt;/a&gt;. See &lt;a href="#downlevel"&gt;below&lt;/a&gt; for notes about matching
+behaviors in down-level clients.&lt;/p&gt;
+
+&lt;p&gt;In summary:&lt;/p&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;&lt;code&gt;ns|E&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;elements with name E in namespace ns&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;*|E&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;elements with name E in any namespace, including those without any
+  declared namespace&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;|E&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;elements with name E without any declared namespace&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;E&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;if no default namespace has been specified, this is equivalent to *|E.
+  Otherwise it is equivalent to ns|E where ns is the default namespace.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;CSS examples:&lt;/p&gt;
+
+ &lt;pre&gt;@namespace foo url(http://www.example.com);
+ foo|h1 { color: blue }
+ foo|* { color: yellow }
+ |h1 { color: red }
+ *|h1 { color: green }
+ h1 { color: green }&lt;/pre&gt;
+
+ &lt;p&gt;The first rule will match only &lt;code&gt;h1&lt;/code&gt; elements in the
+ "http://www.example.com" namespace.&lt;/p&gt;
+
+ &lt;p&gt;The second rule will match all elements in the
+ "http://www.example.com" namespace.&lt;/p&gt;
+
+ &lt;p&gt;The third rule will match only &lt;code&gt;h1&lt;/code&gt; elements without
+ any declared namespace.&lt;/p&gt;
+
+ &lt;p&gt;The fourth rule will match &lt;code&gt;h1&lt;/code&gt; elements in any
+ namespace (including those without any declared namespace).&lt;/p&gt;
+
+ &lt;p&gt;The last rule is equivalent to the fourth rule because no default
+ namespace has been defined.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h3&gt;&lt;a name=universal-selector&gt;6.2. Universal selector&lt;/a&gt; &lt;/h3&gt;
+
+&lt;p&gt;The &lt;dfn&gt;universal selector&lt;/dfn&gt;, written &amp;quot;asterisk&amp;quot;
+(&lt;code&gt;*&lt;/code&gt;), represents the qualified name of any element
+type. It represents any single element in the document tree in any
+namespace (including those without any declared namespace) if no
+default namespace has been specified. If a default namespace has been
+specified, see &lt;a href="#univnmsp"&gt;Universal selector and
+Namespaces&lt;/a&gt; below.&lt;/p&gt;
+
+&lt;p&gt;If the universal selector is not the only component of a sequence
+of simple selectors, the &lt;code&gt;*&lt;/code&gt; may be omitted.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Examples:&lt;/p&gt;
+ &lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;*[hreflang|=en]&lt;/code&gt; and &lt;code&gt;[hreflang|=en]&lt;/code&gt; are equivalent,&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;*.warning&lt;/code&gt; and &lt;code&gt;.warning&lt;/code&gt; are equivalent,&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;*#myid&lt;/code&gt; and &lt;code&gt;#myid&lt;/code&gt; are equivalent.&lt;/li&gt;
+ &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; it is recommended that the
+&lt;code&gt;*&lt;/code&gt;, representing the universal selector, not be
+omitted.&lt;/p&gt;
+
+&lt;h4&gt;&lt;a name=univnmsp&gt;6.2.1. Universal selector and namespaces&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The universal selector allows an optional namespace component. It
+is used as follows:&lt;/p&gt;
+
+&lt;dl&gt;
+ &lt;dt&gt;&lt;code&gt;ns|*&lt;/code&gt;&lt;/dt&gt;
+ &lt;dd&gt;all elements in namespace ns&lt;/dd&gt;
+ &lt;dt&gt;&lt;code&gt;*|*&lt;/code&gt;&lt;/dt&gt;
+ &lt;dd&gt;all elements&lt;/dd&gt;
+ &lt;dt&gt;&lt;code&gt;|*&lt;/code&gt;&lt;/dt&gt;
+ &lt;dd&gt;all elements without any declared namespace&lt;/dd&gt;
+ &lt;dt&gt;&lt;code&gt;*&lt;/code&gt;&lt;/dt&gt;
+ &lt;dd&gt;if no default namespace has been specified, this is equivalent to *|*.
+ Otherwise it is equivalent to ns|* where ns is the default namespace.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;A universal selector containing a namespace prefix that has not
+been previously declared is an &lt;a href="#Conformance"&gt;invalid&lt;/a&gt;
+selector.  The mechanism for declaring a namespace prefix is left up
+to the language implementing Selectors.  In CSS, such a mechanism is
+defined in the General Syntax module.&lt;/p&gt;
+
+
+&lt;h3&gt;&lt;a name=attribute-selectors&gt;6.3. Attribute selectors&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Selectors allow the representation of an element's attributes. When
+a selector is used as an expression to match against an element,
+attribute selectors must be considered to match an element if that
+element has an attribute that matches the attribute represented by the
+attribute selector.&lt;/p&gt;
+
+&lt;h4&gt;&lt;a name=attribute-representation&gt;6.3.1. Attribute presence and values
+selectors&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;CSS2 introduced four attribute selectors:&lt;/p&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;&lt;code&gt;[att]&lt;/code&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute, whatever the value of
+  the attribute.&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;[att=val]&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute whose value is exactly
+  "val".&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;[att~=val]&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute whose value is a &lt;a
+  href="#whitespace"&gt;whitespace&lt;/a&gt;-separated list of words, one of
+  which is exactly "val". If "val" contains whitespace, it will never
+  represent anything (since the words are &lt;em&gt;separated&lt;/em&gt; by
+  spaces).&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;[att|=val]&lt;/code&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute, its value either
+  being exactly "val" or beginning with "val" immediately followed by
+  "-" (U+002D).  This is primarily intended to allow language subcode
+  matches (e.g., the &lt;code&gt;hreflang&lt;/code&gt; attribute on the
+  &lt;code&gt;link&lt;/code&gt; element in HTML) as described in RFC 3066 (&lt;a
+  href="#refsRFC3066"&gt;[RFC3066]&lt;/a&gt;).  For &lt;code&gt;lang&lt;/code&gt; (or
+  &lt;code&gt;xml:lang&lt;/code&gt;) language subcode matching, please see &lt;a
+  href="#lang-pseudo"&gt;the &lt;code&gt;:lang&lt;/code&gt; pseudo-class&lt;/a&gt;.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;Attribute values must be identifiers or strings. The
+case-sensitivity of attribute names and values in selectors depends on
+the document language.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+
+  &lt;p&gt;Examples:&lt;/p&gt;
+
+  &lt;p&gt;The following attribute selector represents an &lt;code&gt;h1&lt;/code&gt;
+  element that carries the &lt;code&gt;title&lt;/code&gt; attribute, whatever its
+  value:&lt;/p&gt;
+
+  &lt;pre&gt;h1[title]&lt;/pre&gt;
+
+  &lt;p&gt;In the following example, the selector represents a
+  &lt;code&gt;span&lt;/code&gt; element whose &lt;code&gt;class&lt;/code&gt; attribute has
+  exactly the value "example":&lt;/p&gt;
+
+  &lt;pre&gt;span[class="example"]&lt;/pre&gt;
+
+  &lt;p&gt;Multiple attribute selectors can be used to represent several
+  attributes of an element, or several conditions on the same
+  attribute. Here, the selector represents a &lt;code&gt;span&lt;/code&gt; element
+  whose &lt;code&gt;hello&lt;/code&gt; attribute has exactly the value "Cleveland"
+  and whose &lt;code&gt;goodbye&lt;/code&gt; attribute has exactly the value
+  "Columbus":&lt;/p&gt;
+
+  &lt;pre&gt;span[hello="Cleveland"][goodbye="Columbus"]&lt;/pre&gt;
+
+  &lt;p&gt;The following selectors illustrate the differences between "="
+  and "~=".  The first selector will represent, for example, the value
+  "copyright copyleft copyeditor" on a &lt;code&gt;rel&lt;/code&gt; attribute. The
+  second selector will only represent an &lt;code&gt;a&lt;/code&gt; element with
+  an &lt;code&gt;href&lt;/code&gt; attribute having the exact value
+  "http://www.w3.org/".&lt;/p&gt;
+
+  &lt;pre&gt;a[rel~="copyright"]
+a[href="http://www.w3.org/"]&lt;/pre&gt;
+
+  &lt;p&gt;The following selector represents a &lt;code&gt;link&lt;/code&gt; element
+  whose &lt;code&gt;hreflang&lt;/code&gt; attribute is exactly "fr".&lt;/p&gt;
+
+  &lt;pre&gt;link[hreflang=fr]&lt;/pre&gt;
+
+  &lt;p&gt;The following selector represents a &lt;code&gt;link&lt;/code&gt; element for
+  which the values of the &lt;code&gt;hreflang&lt;/code&gt; attribute begins with
+  "en", including "en", "en-US", and "en-cockney":&lt;/p&gt;
+
+  &lt;pre&gt;link[hreflang|="en"]&lt;/pre&gt;
+
+  &lt;p&gt;Similarly, the following selectors represents a
+  &lt;code&gt;DIALOGUE&lt;/code&gt; element whenever it has one of two different
+  values for an attribute &lt;code&gt;character&lt;/code&gt;:&lt;/p&gt;
+
+  &lt;pre&gt;DIALOGUE[character=romeo]
+DIALOGUE[character=juliet]&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;h4&gt;&lt;a name=attribute-substrings&gt;&lt;/a&gt;6.3.2. Substring matching attribute
+selectors&lt;/h4&gt;
+
+&lt;p&gt;Three additional attribute selectors are provided for matching
+substrings in the value of an attribute:&lt;/p&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;&lt;code&gt;[att^=val]&lt;/code&gt;&lt;/dt&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute whose value begins
+  with the prefix "val".&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;[att$=val]&lt;/code&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute whose value ends with
+  the suffix "val".&lt;/dd&gt;
+  &lt;dt&gt;&lt;code&gt;[att*=val]&lt;/code&gt;
+  &lt;dd&gt;Represents an element with the &lt;code&gt;att&lt;/code&gt; attribute whose value contains
+  at least one instance of the substring "val".&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;Attribute values must be identifiers or strings. The
+case-sensitivity of attribute names in selectors depends on the
+document language.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Examples:&lt;/p&gt;
+ &lt;p&gt;The following selector represents an HTML &lt;code&gt;object&lt;/code&gt;, referencing an
+ image:&lt;/p&gt;
+ &lt;pre&gt;object[type^="image/"]&lt;/pre&gt;
+ &lt;p&gt;The following selector represents an HTML anchor &lt;code&gt;a&lt;/code&gt; with an
+ &lt;code&gt;href&lt;/code&gt; attribute whose value ends with ".html".&lt;/p&gt;
+ &lt;pre&gt;a[href$=".html"]&lt;/pre&gt;
+ &lt;p&gt;The following selector represents an HTML paragraph with a &lt;code&gt;title&lt;/code&gt;
+ attribute whose value contains the substring "hello"&lt;/p&gt;
+ &lt;pre&gt;p[title*="hello"]&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;&lt;a name=attrnmsp&gt;6.3.3. Attribute selectors and namespaces&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;Attribute selectors allow an optional namespace component to the
+attribute name. A namespace prefix that has been previously declared
+may be prepended to the attribute name separated by the namespace
+separator &amp;quot;vertical bar&amp;quot; (&lt;code&gt;|&lt;/code&gt;). In keeping with
+the Namespaces in the XML recommendation, default namespaces do not
+apply to attributes, therefore attribute selectors without a namespace
+component apply only to attributes that have no declared namespace
+(equivalent to "&lt;code&gt;|attr&lt;/code&gt;"). An asterisk may be used for the
+namespace prefix indicating that the selector is to match all
+attribute names without regard to the attribute's namespace.
+
+&lt;p&gt;An attribute selector with an attribute name containing a namespace
+prefix that has not been previously declared is an &lt;a
+href="#Conformance"&gt;invalid&lt;/a&gt; selector.  The mechanism for declaring
+a namespace prefix is left up to the language implementing Selectors.
+In CSS, such a mechanism is defined in the General Syntax module.
+
+&lt;div class="example"&gt;
+  &lt;p&gt;CSS examples:&lt;/p&gt;
+  &lt;pre&gt;@namespace foo "http://www.example.com";
+[foo|att=val] { color: blue }
+[*|att] { color: yellow }
+[|att] { color: green }
+[att] { color: green }&lt;/pre&gt;
+
+  &lt;p&gt;The first rule will match only elements with the attribute
+  &lt;code&gt;att&lt;/code&gt; in the "http://www.example.com" namespace with the
+  value "val".&lt;/p&gt;
+
+  &lt;p&gt;The second rule will match only elements with the attribute
+  &lt;code&gt;att&lt;/code&gt; regardless of the namespace of the attribute
+  (including no declared namespace).&lt;/p&gt;
+
+  &lt;p&gt;The last two rules are equivalent and will match only elements
+  with the attribute &lt;code&gt;att&lt;/code&gt; where the attribute is not
+  declared to be in a namespace.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h4&gt;&lt;a name=def-values&gt;6.3.4. Default attribute values in DTDs&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;Attribute selectors represent explicitly set attribute values in
+the document tree. Default attribute values may be defined in a DTD or
+elsewhere, but cannot always be selected by attribute
+selectors. Selectors should be designed so that they work even if the
+default values are not included in the document tree.&lt;/p&gt;
+
+&lt;p&gt;More precisely, a UA is &lt;em&gt;not&lt;/em&gt; required to read an "external
+subset" of the DTD but &lt;em&gt;is&lt;/em&gt; required to look for default
+attribute values in the document's "internal subset." (See &lt;a
+href="#refsXML10"&gt;[XML10]&lt;/a&gt; for definitions of these subsets.)&lt;/p&gt;
+
+&lt;p&gt;A UA that recognizes an XML namespace &lt;a
+href="#refsXMLNAMES"&gt;[XMLNAMES]&lt;/a&gt; is not required to use its
+knowledge of that namespace to treat default attribute values as if
+they were present in the document. (For example, an XHTML UA is not
+required to use its built-in knowledge of the XHTML DTD.)&lt;/p&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; Typically, implementations
+choose to ignore external subsets.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;p&gt;Consider an element EXAMPLE with an attribute "notation" that has a
+default value of "decimal". The DTD fragment might be&lt;/p&gt;
+
+&lt;pre class="dtd-example"&gt;&amp;lt;!ATTLIST EXAMPLE notation (decimal,octal) "decimal"&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the style sheet contains the rules&lt;/p&gt;
+
+&lt;pre&gt;EXAMPLE[notation=decimal] { /*... default property settings ...*/ }
+EXAMPLE[notation=octal]   { /*... other settings...*/ }&lt;/pre&gt;
+
+&lt;p&gt;the first rule will not match elements whose "notation" attribute
+is set by default, i.e. not set explicitly. To catch all cases, the
+attribute selector for the default value must be dropped:&lt;/p&gt;
+
+&lt;pre&gt;EXAMPLE                   { /*... default property settings ...*/ }
+EXAMPLE[notation=octal]   { /*... other settings...*/ }&lt;/pre&gt;
+
+&lt;p&gt;Here, because the selector &lt;code&gt;EXAMPLE[notation=octal]&lt;/code&gt; is
+more specific than the tag
+selector alone, the style declarations in the second rule will override
+those in the first for elements that have a "notation" attribute value
+of "octal". Care has to be taken that all property declarations that
+are to apply only to the default case are overridden in the non-default
+cases' style rules.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h3&gt;&lt;a name=class-html&gt;6.4. Class selectors&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Working with HTML, authors may use the period (U+002E,
+&lt;code&gt;.&lt;/code&gt;) notation as an alternative to the &lt;code&gt;~=&lt;/code&gt;
+notation when representing the &lt;code&gt;class&lt;/code&gt; attribute. Thus, for
+HTML, &lt;code&gt;div.value&lt;/code&gt; and &lt;code&gt;div[class~=value]&lt;/code&gt; have
+the same meaning. The attribute value must immediately follow the
+&amp;quot;period&amp;quot; (&lt;code&gt;.&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;UAs may apply selectors using the period (.) notation in XML
+documents if the UA has namespace-specific knowledge that allows it to
+determine which attribute is the &amp;quot;class&amp;quot; attribute for the
+respective namespace. One such example of namespace-specific knowledge
+is the prose in the specification for a particular namespace (e.g. SVG
+1.0 &lt;a href="#refsSVG"&gt;[SVG]&lt;/a&gt; describes the &lt;a
+href="http://www.w3.org/TR/2001/PR-SVG-20010719/styling.html#ClassAttribute"&gt;SVG
+&amp;quot;class&amp;quot; attribute&lt;/a&gt; and how a UA should interpret it, and
+similarly MathML 1.01 &lt;a href="#refsMATH"&gt;[MATH]&lt;/a&gt; describes the &lt;a
+href="http://www.w3.org/1999/07/REC-MathML-19990707/chapter2.html#sec2.3.4"&gt;MathML
+&amp;quot;class&amp;quot; attribute&lt;/a&gt;.)&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;CSS examples:&lt;/p&gt;
+
+ &lt;p&gt;We can assign style information to all elements with
+ &lt;code&gt;class~="pastoral"&lt;/code&gt; as follows:&lt;/p&gt;
+
+  &lt;pre&gt;*.pastoral { color: green }  /* all elements with class~=pastoral */&lt;/pre&gt;
+
+  &lt;p&gt;or just&lt;/p&gt;
+
+  &lt;pre&gt;.pastoral { color: green }  /* all elements with class~=pastoral */&lt;/pre&gt;
+
+  &lt;p&gt;The following assigns style only to H1 elements with
+  &lt;code&gt;class~="pastoral"&lt;/code&gt;:&lt;/p&gt;
+
+  &lt;pre&gt;H1.pastoral { color: green }  /* H1 elements with class~=pastoral */&lt;/pre&gt;
+
+  &lt;p&gt;Given these rules, the first H1 instance below would not have
+  green text, while the second would:&lt;/p&gt;
+
+  &lt;pre&gt;&amp;lt;H1&amp;gt;Not green&amp;lt;/H1&amp;gt;
+&amp;lt;H1 class="pastoral"&amp;gt;Very green&amp;lt;/H1&amp;gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;To represent a subset of "class" values, each value must be preceded
+by a ".", in any order.&lt;/P&gt;
+
+&lt;div class="example"&gt;
+
+  &lt;p&gt;CSS example:&lt;/p&gt;
+
+  &lt;p&gt;The following rule matches any P element whose "class" attribute
+  has been assigned a list of &lt;a
+  href="#whitespace"&gt;whitespace&lt;/a&gt;-separated values that includes
+  "pastoral" and "marine":&lt;/p&gt;
+
+  &lt;pre&gt;p.pastoral.marine { color: green }&lt;/pre&gt;
+
+  &lt;p&gt;This rule matches when &lt;code&gt;class="pastoral blue aqua
+  marine"&lt;/code&gt; but does not match for &lt;code&gt;class="pastoral
+  blue"&lt;/code&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; Because CSS gives considerable
+power to the "class" attribute, authors could conceivably design their
+own "document language" based on elements with almost no associated
+presentation (such as DIV and SPAN in HTML) and assigning style
+information through the "class" attribute.  Authors should avoid this
+practice since the structural elements of a document language often
+have recognized and accepted meanings and author-defined classes may
+not.&lt;/p&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; If an element has multiple
+class attributes, their values must be concatenated with spaces
+between the values before searching for the class. As of this time the
+working group is not aware of any manner in which this situation can
+be reached, however, so this behavior is explicitly non-normative in
+this specification.&lt;/p&gt;
+
+&lt;h3&gt;&lt;a name=id-selectors&gt;6.5. ID selectors&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Document languages may contain attributes that are declared to be
+of type ID. What makes attributes of type ID special is that no two
+such attributes can have the same value in a document, regardless of
+the type of the elements that carry them; whatever the document
+language, an ID typed attribute can be used to uniquely identify its
+element. In HTML all ID attributes are named "id"; XML applications
+may name ID attributes differently, but the same restriction
+applies.&lt;/p&gt;
+
+&lt;p&gt;An ID-typed attribute of a document language allows authors to
+assign an identifier to one element instance in the document tree. W3C
+ID selectors represent an element instance based on its identifier. An
+ID selector contains a &amp;quot;number sign&amp;quot; (U+0023,
+&lt;code&gt;#&lt;/code&gt;) immediately followed by the ID value, which must be an
+identifier.&lt;/p&gt;
+
+&lt;p&gt;Selectors does not specify how a UA knows the ID-typed attribute of
+an element. The UA may, e.g., read a document's DTD, have the
+information hard-coded or ask the user.
+
+&lt;div class="example"&gt;
+  &lt;p&gt;Examples:&lt;/p&gt;
+  &lt;p&gt;The following ID selector represents an &lt;code&gt;h1&lt;/code&gt; element
+  whose ID-typed attribute has the value "chapter1":&lt;/p&gt;
+  &lt;pre&gt;h1#chapter1&lt;/pre&gt;
+  &lt;p&gt;The following ID selector represents any element whose ID-typed
+  attribute has the value "chapter1":&lt;/p&gt;
+  &lt;pre&gt;#chapter1&lt;/pre&gt;
+  &lt;p&gt;The following selector represents any element whose ID-typed
+  attribute has the value "z98y".&lt;/p&gt;
+  &lt;pre&gt;*#z98y&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note.&lt;/strong&gt; In XML 1.0 &lt;a
+href="#refsXML10"&gt;[XML10]&lt;/a&gt;, the information about which attribute
+contains an element's IDs is contained in a DTD or a schema. When
+parsing XML, UAs do not always read the DTD, and thus may not know
+what the ID of an element is (though a UA may have namespace-specific
+knowledge that allows it to determine which attribute is the ID
+attribute for that namespace). If a style sheet designer knows or
+suspects that a UA may not know what the ID of an element is, he
+should use normal attribute selectors instead:
+&lt;code&gt;[name=p371]&lt;/code&gt; instead of &lt;code&gt;#p371&lt;/code&gt;.  Elements in
+XML 1.0 documents without a DTD do not have IDs at all.&lt;/p&gt;
+
+&lt;p&gt;If an element has multiple ID attributes, all of them must be
+treated as IDs for that element for the purposes of the ID
+selector. Such a situation could be reached using mixtures of xml:id,
+DOM3 Core, XML DTDs, and namespace-specific knowledge.&lt;/p&gt;
+
+&lt;h3&gt;&lt;a name=pseudo-classes&gt;6.6. Pseudo-classes&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;The pseudo-class concept is introduced to permit selection based on
+information that lies outside of the document tree or that cannot be
+expressed using the other simple selectors.&lt;/p&gt;
+
+&lt;p&gt;A pseudo-class always consists of a &amp;quot;colon&amp;quot;
+(&lt;code&gt;:&lt;/code&gt;) followed by the name of the pseudo-class and
+optionally by a value between parentheses.&lt;/p&gt;
+
+&lt;p&gt;Pseudo-classes are allowed in all sequences of simple selectors
+contained in a selector. Pseudo-classes are allowed anywhere in
+sequences of simple selectors, after the leading type selector or
+universal selector (possibly omitted). Pseudo-class names are
+case-insensitive. Some pseudo-classes are mutually exclusive, while
+others can be applied simultaneously to the same
+element. Pseudo-classes may be dynamic, in the sense that an element
+may acquire or lose a pseudo-class while a user interacts with the
+document.&lt;/p&gt;
+
+
+&lt;h4&gt;&lt;a name=dynamic-pseudos&gt;6.6.1. Dynamic pseudo-classes&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;Dynamic pseudo-classes classify elements on characteristics other
+than their name, attributes, or content, in principle characteristics
+that cannot be deduced from the document tree.&lt;/p&gt;
+
+&lt;p&gt;Dynamic pseudo-classes do not appear in the document source or
+document tree.&lt;/p&gt;
+
+
+&lt;h5&gt;The &lt;a name=link&gt;link pseudo-classes: :link and :visited&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;User agents commonly display unvisited links differently from
+previously visited ones. Selectors
+provides the pseudo-classes &lt;code&gt;:link&lt;/code&gt; and
+&lt;code&gt;:visited&lt;/code&gt; to distinguish them:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code&gt;:link&lt;/code&gt; pseudo-class applies to links that have
+  not yet been visited.&lt;/li&gt;
+  &lt;li&gt;The &lt;code&gt;:visited&lt;/code&gt; pseudo-class applies once the link has
+  been visited by the user. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After some amount of time, user agents may choose to return a
+visited link to the (unvisited) ':link' state.&lt;/p&gt;
+
+&lt;p&gt;The two states are mutually exclusive.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+
+  &lt;p&gt;Example:&lt;/p&gt;
+
+  &lt;p&gt;The following selector represents links carrying class
+  &lt;code&gt;external&lt;/code&gt; and already visited:&lt;/p&gt;
+
+  &lt;pre&gt;a.external:visited&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; It is possible for style sheet
+authors to abuse the :link and :visited pseudo-classes to determine
+which sites a user has visited without the user's consent.
+
+&lt;p&gt;UAs may therefore treat all links as unvisited links, or implement
+other measures to preserve the user's privacy while rendering visited
+and unvisited links differently.&lt;/p&gt;
+
+&lt;h5&gt;The &lt;a name=useraction-pseudos&gt;user action pseudo-classes
+:hover, :active, and :focus&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Interactive user agents sometimes change the rendering in response
+to user actions. Selectors provides
+three pseudo-classes for the selection of an element the user is
+acting on.&lt;/p&gt;
+
+&lt;ul&gt;
+
+  &lt;li&gt;The &lt;code&gt;:hover&lt;/code&gt; pseudo-class applies while the user
+  designates an element with a pointing device, but does not activate
+  it. For example, a visual user agent could apply this pseudo-class
+  when the cursor (mouse pointer) hovers over a box generated by the
+  element. User agents not that do not support &lt;a
+  href="http://www.w3.org/TR/REC-CSS2/media.html#interactive-media-group"&gt;interactive
+  media&lt;/a&gt; do not have to support this pseudo-class. Some conforming
+  user agents that support &lt;a
+  href="http://www.w3.org/TR/REC-CSS2/media.html#interactive-media-group"&gt;interactive
+  media&lt;/a&gt; may not be able to support this pseudo-class (e.g., a pen
+  device that does not detect hovering).&lt;/li&gt;
+
+  &lt;li&gt;The &lt;code&gt;:active&lt;/code&gt; pseudo-class applies while an element
+  is being activated by the user. For example, between the times the
+  user presses the mouse button and releases it.&lt;/li&gt;
+
+  &lt;li&gt;The &lt;code&gt;:focus&lt;/code&gt; pseudo-class applies while an element
+  has the focus (accepts keyboard or mouse events, or other forms of
+  input). &lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;p&gt;There may be document language or implementation specific limits on
+which elements can become &lt;code&gt;:active&lt;/code&gt; or acquire
+&lt;code&gt;:focus&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;These pseudo-classes are not mutually exclusive. An element may
+match several pseudo-classes at the same time.&lt;/p&gt;
+
+&lt;p&gt;Selectors doesn't define if the parent of an element that is
+':active' or ':hover' is also in that state.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+  &lt;p&gt;Examples:&lt;/p&gt;
+  &lt;pre&gt;a:link    /* unvisited links */
+a:visited /* visited links */
+a:hover   /* user hovers */
+a:active  /* active links */&lt;/pre&gt;
+  &lt;p&gt;An example of combining dynamic pseudo-classes:&lt;/p&gt;
+  &lt;pre&gt;a:focus
+a:focus:hover&lt;/pre&gt;
+  &lt;p&gt;The last selector matches &lt;code&gt;a&lt;/code&gt; elements that are in
+  the pseudo-class :focus and in the pseudo-class :hover.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; An element can be both ':visited'
+and ':active' (or ':link' and ':active').&lt;/p&gt;
+
+&lt;h4&gt;&lt;a name=target-pseudo&gt;6.6.2. The target pseudo-class :target&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;Some URIs refer to a location within a resource. This kind of URI
+ends with a &amp;quot;number sign&amp;quot; (#) followed by an anchor
+identifier (called the fragment identifier).&lt;/p&gt;
+
+&lt;p&gt;URIs with fragment identifiers link to a certain element within the
+document, known as the target element. For instance, here is a URI
+pointing to an anchor named &lt;code&gt;section_2&lt;/code&gt; in an HTML
+document:&lt;/p&gt;
+
+&lt;pre&gt;http://example.com/html/top.html#section_2&lt;/pre&gt;
+
+&lt;p&gt;A target element can be represented by the &lt;code&gt;:target&lt;/code&gt;
+pseudo-class. If the document's URI has no fragment identifier, then
+the document has no target element.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Example:&lt;/p&gt;
+ &lt;pre&gt;p.note:target&lt;/pre&gt;
+ &lt;p&gt;This selector represents a &lt;code&gt;p&lt;/code&gt; element of class
+ &lt;code&gt;note&lt;/code&gt; that is the target element of the referring
+ URI.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;CSS example:&lt;/p&gt;
+ &lt;p&gt;Here, the &lt;code&gt;:target&lt;/code&gt; pseudo-class is used to make the
+ target element red and place an image before it, if there is one:&lt;/p&gt;
+ &lt;pre&gt;*:target { color : red }
+*:target::before { content : url(target.png) }&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;&lt;a name=lang-pseudo&gt;6.6.3. The language pseudo-class :lang&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;If the document language specifies how the human language of an
+element is determined, it is possible to write selectors that
+represent an element based on its language. For example, in HTML &lt;a
+href="#refsHTML4"&gt;[HTML4]&lt;/a&gt;, the language is determined by a
+combination of the &lt;code&gt;lang&lt;/code&gt; attribute, the &lt;code&gt;meta&lt;/code&gt;
+element, and possibly by information from the protocol (such as HTTP
+headers). XML uses an attribute called &lt;code&gt;xml:lang&lt;/code&gt;, and
+there may be other document language-specific methods for determining
+the language.&lt;/p&gt;
+
+&lt;p&gt;The pseudo-class &lt;code&gt;:lang(C)&lt;/code&gt; represents an element that
+is in language C. Whether an element is represented by a
+&lt;code&gt;:lang()&lt;/code&gt; selector is based solely on the identifier C
+being either equal to, or a hyphen-separated substring of, the
+element's language value, in the same way as if performed by the &lt;a
+href="#attribute-representation"&gt;'|='&lt;/a&gt; operator in attribute
+selectors. The identifier C does not have to be a valid language
+name.&lt;/p&gt;
+
+&lt;p&gt;C must not be empty. (If it is, the selector is invalid.)&lt;/p&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; It is recommended that
+documents and protocols indicate language using codes from RFC 3066 &lt;a
+href="#refsRFC3066"&gt;[RFC3066]&lt;/a&gt; or its successor, and by means of
+"xml:lang" attributes in the case of XML-based documents &lt;a
+href="#refsXML10"&gt;[XML10]&lt;/a&gt;. See &lt;a
+href="http://www.w3.org/International/questions/qa-lang-2or3.html"&gt;
+"FAQ: Two-letter or three-letter language codes."&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class="example"&gt;
+  &lt;p&gt;Examples:&lt;/p&gt;
+  &lt;p&gt;The two following selectors represent an HTML document that is in
+  Belgian, French, or German. The two next selectors represent
+  &lt;code&gt;q&lt;/code&gt; quotations in an arbitrary element in Belgian, French,
+  or German.&lt;/p&gt;
+  &lt;pre&gt;html:lang(fr-be)
+html:lang(de)
+:lang(fr-be) &amp;gt; q
+:lang(de) &amp;gt; q&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;&lt;a name=UIstates&gt;6.6.4. The UI element states pseudo-classes&lt;/a&gt;&lt;/h4&gt;
+
+&lt;h5&gt;&lt;a name=enableddisabled&gt;The :enabled and :disabled pseudo-classes&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;:enabled&lt;/code&gt; pseudo-class allows authors to customize
+the look of user interface elements that are enabled &amp;mdash; which the
+user can select or activate in some fashion (e.g. clicking on a button
+with a mouse).  There is a need for such a pseudo-class because there
+is no way to programmatically specify the default appearance of say,
+an enabled &lt;code&gt;input&lt;/code&gt; element without also specifying what it
+would look like when it was disabled.&lt;/p&gt;
+
+&lt;p&gt;Similar to &lt;code&gt;:enabled&lt;/code&gt;, &lt;code&gt;:disabled&lt;/code&gt; allows the
+author to specify precisely how a disabled or inactive user interface
+element should look.&lt;/p&gt;
+
+&lt;p&gt;Most elements will be neither enabled nor disabled.  An element is
+enabled if the user can either activate it or transfer the focus to
+it. An element is disabled if it could be enabled, but the user cannot
+presently activate it or transfer focus to it.&lt;/p&gt;
+
+
+&lt;h5&gt;&lt;a name=checked&gt;The :checked pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Radio and checkbox elements can be toggled by the user. Some menu
+items are "checked" when the user selects them. When such elements are
+toggled "on" the &lt;code&gt;:checked&lt;/code&gt; pseudo-class applies. The
+&lt;code&gt;:checked&lt;/code&gt; pseudo-class initially applies to such elements
+that have the HTML4 &lt;code&gt;selected&lt;/code&gt; and &lt;code&gt;checked&lt;/code&gt;
+attributes as described in &lt;a
+href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.2.1"&gt;Section
+17.2.1 of HTML4&lt;/a&gt;, but of course the user can toggle "off" such
+elements in which case the &lt;code&gt;:checked&lt;/code&gt; pseudo-class would no
+longer apply. While the &lt;code&gt;:checked&lt;/code&gt; pseudo-class is dynamic
+in nature, and is altered by user action, since it can also be based
+on the presence of the semantic HTML4 &lt;code&gt;selected&lt;/code&gt; and
+&lt;code&gt;checked&lt;/code&gt; attributes, it applies to all media.
+
+
+&lt;h5&gt;&lt;a name=indeterminate&gt;The :indeterminate pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;div class="note"&gt;
+
+&lt;p&gt;Radio and checkbox elements can be toggled by the user, but are
+sometimes in an indeterminate state, neither checked nor unchecked.
+This can be due to an element attribute, or DOM manipulation.&lt;/p&gt;
+
+&lt;p&gt;A future version of this specification may introduce an 
+&lt;code&gt;:indeterminate&lt;/code&gt; pseudo-class that applies to such elements.
+&lt;!--While the &lt;code&gt;:indeterminate&lt;/code&gt; pseudo-class is dynamic in
+nature, and is altered by user action, since it can also be based on
+the presence of an element attribute, it applies to all media.&lt;/p&gt;
+
+&lt;p&gt;Components of a radio-group initialized with no pre-selected choice
+are an example of :indeterminate state.--&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;a name=structural-pseudos&gt;6.6.5. Structural pseudo-classes&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;Selectors introduces the concept of &lt;dfn&gt;structural
+pseudo-classes&lt;/dfn&gt; to permit selection based on extra information that lies in
+the document tree but cannot be represented by other simple selectors or
+combinators. 
+
+&lt;p&gt;Note that standalone pieces of PCDATA (text nodes in the DOM) are
+not counted when calculating the position of an element in the list of
+children of its parent. When calculating the position of an element in
+the list of children of its parent, the index numbering starts at 1.
+
+
+&lt;h5&gt;&lt;a name=root-pseudo&gt;:root pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;:root&lt;/code&gt; pseudo-class represents an element that is
+the root of the document. In HTML 4, this is always the
+&lt;code&gt;HTML&lt;/code&gt; element.
+
+
+&lt;h5&gt;&lt;a name=nth-child-pseudo&gt;:nth-child() pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;The
+&lt;code&gt;:nth-child(&lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt;+&lt;var&gt;b&lt;/var&gt;)&lt;/code&gt;
+pseudo-class notation represents an element that has
+&lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt;+&lt;var&gt;b&lt;/var&gt;-1 siblings
+&lt;strong&gt;before&lt;/strong&gt; it in the document tree, for a given positive
+integer or zero value of &lt;code&gt;n&lt;/code&gt;, and has a parent element. In
+other words, this matches the &lt;var&gt;b&lt;/var&gt;th child of an element after
+all the children have been split into groups of &lt;var&gt;a&lt;/var&gt; elements
+each. For example, this allows the selectors to address every other
+row in a table, and could be used to alternate the color
+of paragraph text in a cycle of four. The &lt;var&gt;a&lt;/var&gt; and
+&lt;var&gt;b&lt;/var&gt; values must be zero, negative integers or positive
+integers. The index of the first child of an element is 1.
+
+&lt;p&gt;In addition to this, &lt;code&gt;:nth-child()&lt;/code&gt; can take
+'&lt;code&gt;odd&lt;/code&gt;' and '&lt;code&gt;even&lt;/code&gt;' as arguments instead.
+'&lt;code&gt;odd&lt;/code&gt;' has the same signification as &lt;code&gt;2n+1&lt;/code&gt;,
+and '&lt;code&gt;even&lt;/code&gt;' has the same signification as &lt;code&gt;2n&lt;/code&gt;.
+
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;tr:nth-child(2n+1) /* represents every odd row of an HTML table */
+tr:nth-child(odd)  /* same */
+tr:nth-child(2n)   /* represents every even row of an HTML table */
+tr:nth-child(even) /* same */
+
+/* Alternate paragraph colours in CSS */
+p:nth-child(4n+1) { color: navy; }
+p:nth-child(4n+2) { color: green; }
+p:nth-child(4n+3) { color: maroon; }
+p:nth-child(4n+4) { color: purple; }&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When &lt;var&gt;a&lt;/var&gt;=0, no repeating is used, so for example
+&lt;code&gt;:nth-child(0n+5)&lt;/code&gt; matches only the fifth child. When
+&lt;var&gt;a&lt;/var&gt;=0, the &lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt; part need not be
+included, so the syntax simplifies to
+&lt;code&gt;:nth-child(&lt;var&gt;b&lt;/var&gt;)&lt;/code&gt; and the last example simplifies
+to &lt;code&gt;:nth-child(5)&lt;/code&gt;.
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;foo:nth-child(0n+1)   /* represents an element foo, first child of its parent element */
+foo:nth-child(1)      /* same */&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When &lt;var&gt;a&lt;/var&gt;=1, the number may be omitted from the rule.
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;p&gt;The following selectors are therefore equivalent:&lt;/p&gt;
+&lt;pre&gt;bar:nth-child(1n+0)   /* represents all bar elements, specificity (0,1,1) */
+bar:nth-child(n+0)    /* same */
+bar:nth-child(n)      /* same */
+bar                   /* same but lower specificity (0,0,1) */&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If &lt;var&gt;b&lt;/var&gt;=0, then every &lt;var&gt;a&lt;/var&gt;th element is picked. In
+such a case, the &lt;var&gt;b&lt;/var&gt; part may be omitted.
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;tr:nth-child(2n+0) /* represents every even row of an HTML table */
+tr:nth-child(2n) /* same */&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If both &lt;var&gt;a&lt;/var&gt; and &lt;var&gt;b&lt;/var&gt; are equal to zero, the
+pseudo-class represents no element in the document tree.&lt;/p&gt;
+
+&lt;p&gt;The value &lt;var&gt;a&lt;/var&gt; can be negative, but only the positive
+values of &lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt;+&lt;var&gt;b&lt;/var&gt;, for
+&lt;code&gt;n&lt;/code&gt;&amp;ge;0, may represent an element in the document
+tree.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre&gt;html|tr:nth-child(-n+6)  /* represents the 6 first rows of XHTML tables */&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When the value &lt;var&gt;b&lt;/var&gt; is negative, the "+" character in the
+expression must be removed (it is effectively replaced by the "-"
+character indicating the negative value of &lt;var&gt;b&lt;/var&gt;).&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;:nth-child(10n-1)  /* represents the 9th, 19th, 29th, etc, element */
+:nth-child(10n+9)  /* Same */
+:nth-child(10n+-1) /* Syntactically invalid, and would be ignored */&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h5&gt;&lt;a name=nth-last-child-pseudo&gt;:nth-last-child() pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;:nth-last-child(&lt;var&gt;a&lt;/var&gt;n+&lt;var&gt;b&lt;/var&gt;)&lt;/code&gt;
+pseudo-class notation represents an element that has
+&lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt;+&lt;var&gt;b&lt;/var&gt;-1 siblings
+&lt;strong&gt;after&lt;/strong&gt; it in the document tree, for a given positive
+integer or zero value of &lt;code&gt;n&lt;/code&gt;, and has a parent element. See
+&lt;code&gt;:nth-child()&lt;/code&gt; pseudo-class for the syntax of its argument.
+It also accepts the '&lt;code&gt;even&lt;/code&gt;' and '&lt;code&gt;odd&lt;/code&gt;' values
+as arguments.
+
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;tr:nth-last-child(-n+2)    /* represents the two last rows of an HTML table */
+
+foo:nth-last-child(odd)    /* represents all odd foo elements in their parent element,
+                              counting from the last one */&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h5&gt;&lt;a name=nth-of-type-pseudo&gt;:nth-of-type() pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;:nth-of-type(&lt;var&gt;a&lt;/var&gt;n+&lt;var&gt;b&lt;/var&gt;)&lt;/code&gt;
+pseudo-class notation represents an element that has
+&lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt;+&lt;var&gt;b&lt;/var&gt;-1 siblings with the same
+element name &lt;strong&gt;before&lt;/strong&gt; it in the document tree, for a
+given zero or positive integer value of &lt;code&gt;n&lt;/code&gt;, and has a
+parent element. In other words, this matches the &lt;var&gt;b&lt;/var&gt;th child
+of that type after all the children of that type have been split into
+groups of a elements each. See &lt;code&gt;:nth-child()&lt;/code&gt; pseudo-class
+for the syntax of its argument. It also accepts the
+'&lt;code&gt;even&lt;/code&gt;' and '&lt;code&gt;odd&lt;/code&gt;' values.
+
+
+&lt;div class="example"&gt;
+&lt;p&gt;CSS example:&lt;/p&gt;
+&lt;p&gt;This allows an author to alternate the position of floated images:&lt;/p&gt;
+&lt;pre&gt;img:nth-of-type(2n+1) { float: right; }
+img:nth-of-type(2n) { float: left; }&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h5&gt;&lt;a name=nth-last-of-type-pseudo&gt;:nth-last-of-type() pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;:nth-last-of-type(&lt;var&gt;a&lt;/var&gt;n+&lt;var&gt;b&lt;/var&gt;)&lt;/code&gt;
+pseudo-class notation represents an element that has
+&lt;var&gt;a&lt;/var&gt;&lt;code&gt;n&lt;/code&gt;+&lt;var&gt;b&lt;/var&gt;-1 siblings with the same
+element name &lt;strong&gt;after&lt;/strong&gt; it in the document tree, for a
+given zero or positive integer value of &lt;code&gt;n&lt;/code&gt;, and has a
+parent element. See &lt;code&gt;:nth-child()&lt;/code&gt; pseudo-class for the
+syntax of its argument. It also accepts the '&lt;code&gt;even&lt;/code&gt;' and '&lt;code&gt;odd&lt;/code&gt;' values.
+
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Example:&lt;/p&gt;
+ &lt;p&gt;To represent all &lt;code&gt;h2&lt;/code&gt; children of an XHTML
+ &lt;code&gt;body&lt;/code&gt; except the first and last, one could use the
+ following selector:&lt;/p&gt;
+ &lt;pre&gt;body &amp;gt; h2:nth-of-type(n+2):nth-last-of-type(n+2)&lt;/pre&gt;
+ &lt;p&gt;In this case, one could also use &lt;code&gt;:not()&lt;/code&gt;, although the
+ selector ends up being just as long:&lt;/p&gt;
+ &lt;pre&gt;body &amp;gt; h2:not(:first-of-type):not(:last-of-type)&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h5&gt;&lt;a name=first-child-pseudo&gt;:first-child pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Same as &lt;code&gt;:nth-child(1)&lt;/code&gt;. The &lt;code&gt;:first-child&lt;/code&gt; pseudo-class
+represents an element that is the first child of some other element.
+
+
+&lt;div class="example"&gt;
+  &lt;p&gt;Examples:&lt;/p&gt;
+  &lt;p&gt;The following selector represents a &lt;code&gt;p&lt;/code&gt; element that is
+  the first child of a &lt;code&gt;div&lt;/code&gt; element:&lt;/p&gt;
+  &lt;pre&gt;div &amp;gt; p:first-child&lt;/pre&gt;
+  &lt;p&gt;This selector can represent the &lt;code&gt;p&lt;/code&gt; inside the
+  &lt;code&gt;div&lt;/code&gt; of the following fragment:&lt;/p&gt;
+  &lt;pre&gt;&amp;lt;p&amp;gt; The last P before the note.&amp;lt;/p&amp;gt;
+&amp;lt;div class="note"&amp;gt;
+   &amp;lt;p&amp;gt; The first P inside the note.&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/pre&gt;but cannot represent the second &lt;code&gt;p&lt;/code&gt; in the following
+fragment: 
+  &lt;pre&gt;&amp;lt;p&amp;gt; The last P before the note.&amp;lt;/p&amp;gt;
+&amp;lt;div class="note"&amp;gt;
+   &amp;lt;h2&amp;gt; Note &amp;lt;/h2&amp;gt;
+   &amp;lt;p&amp;gt; The first P inside the note.&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/pre&gt;
+  &lt;p&gt;The following two selectors are usually equivalent:&lt;/p&gt;
+  &lt;pre&gt;* &amp;gt; a:first-child /* a is first child of any element */
+a:first-child /* Same (assuming a is not the root element) */&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5&gt;&lt;a name=last-child-pseudo&gt;:last-child pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Same as &lt;code&gt;:nth-last-child(1)&lt;/code&gt;. The &lt;code&gt;:last-child&lt;/code&gt; pseudo-class
+represents an element that is the last child of some other element. 
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Example:&lt;/p&gt;
+ &lt;p&gt;The following selector represents a list item &lt;code&gt;li&lt;/code&gt; that
+ is the last child of an ordered list &lt;code&gt;ol&lt;/code&gt;.
+ &lt;pre&gt;ol &amp;gt; li:last-child&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5&gt;&lt;a name=first-of-type-pseudo&gt;:first-of-type pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Same as &lt;code&gt;:nth-of-type(1)&lt;/code&gt;. The &lt;code&gt;:first-of-type&lt;/code&gt; pseudo-class
+represents an element that is the first sibling of its type in the list of
+children of its parent element. 
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;p&gt;The following selector represents a definition title
+&lt;code&gt;dt&lt;/code&gt; inside a definition list &lt;code&gt;dl&lt;/code&gt;, this
+&lt;code&gt;dt&lt;/code&gt; being the first of its type in the list of children of
+its parent element.&lt;/p&gt;
+&lt;pre&gt;dl dt:first-of-type&lt;/pre&gt;
+&lt;p&gt;It is a valid description for the first two &lt;code&gt;dt&lt;/code&gt;
+elements in the following example but not for the third one:&lt;/p&gt;
+&lt;pre&gt;&amp;lt;dl&amp;gt;
+ &amp;lt;dt&amp;gt;gigogne&amp;lt;/dt&amp;gt;
+ &amp;lt;dd&amp;gt;
+  &amp;lt;dl&amp;gt;
+   &amp;lt;dt&amp;gt;fus&amp;eacute;e&amp;lt;/dt&amp;gt;
+   &amp;lt;dd&amp;gt;multistage rocket&amp;lt;/dd&amp;gt;
+   &amp;lt;dt&amp;gt;table&amp;lt;/dt&amp;gt;
+   &amp;lt;dd&amp;gt;nest of tables&amp;lt;/dd&amp;gt;
+  &amp;lt;/dl&amp;gt;
+ &amp;lt;/dd&amp;gt;
+&amp;lt;/dl&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5&gt;&lt;a name=last-of-type-pseudo&gt;:last-of-type pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Same as &lt;code&gt;:nth-last-of-type(1)&lt;/code&gt;. The
+&lt;code&gt;:last-of-type&lt;/code&gt; pseudo-class represents an element that is
+the last sibling of its type in the list of children of its parent
+element.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Example:&lt;/p&gt;
+ &lt;p&gt;The following selector represents the last data cell
+ &lt;code&gt;td&lt;/code&gt; of a table row.&lt;/p&gt;
+ &lt;pre&gt;tr &amp;gt; td:last-of-type&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5&gt;&lt;a name=only-child-pseudo&gt;:only-child pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Represents an element that has a parent element and whose parent
+element has no other element children. Same as
+&lt;code&gt;:first-child:last-child&lt;/code&gt; or
+&lt;code&gt;:nth-child(1):nth-last-child(1)&lt;/code&gt;, but with a lower
+specificity.&lt;/p&gt;
+
+&lt;h5&gt;&lt;a name=only-of-type-pseudo&gt;:only-of-type pseudo-class&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;Represents an element that has a parent element and whose parent
+element has no other element children with the same element name. Same
+as &lt;code&gt;:first-of-type:last-of-type&lt;/code&gt; or
+&lt;code&gt;:nth-of-type(1):nth-last-of-type(1)&lt;/code&gt;, but with a lower
+specificity.&lt;/p&gt;
+
+
+&lt;h5&gt;&lt;a name=empty-pseudo&gt;&lt;/a&gt;:empty pseudo-class&lt;/h5&gt;
+
+&lt;p&gt;The &lt;code&gt;:empty&lt;/code&gt; pseudo-class represents an element that has
+no children at all. In terms of the DOM, only element nodes and text
+nodes (including CDATA nodes and entity references) whose data has a
+non-zero length must be considered as affecting emptiness; comments,
+PIs, and other nodes must not affect whether an element is considered
+empty or not.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Examples:&lt;/p&gt;
+ &lt;p&gt;&lt;code&gt;p:empty&lt;/code&gt; is a valid representation of the following fragment:&lt;/p&gt;
+ &lt;pre&gt;&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;&lt;/pre&gt;
+ &lt;p&gt;&lt;code&gt;foo:empty&lt;/code&gt; is not a valid representation for the
+ following fragments:&lt;/p&gt;
+ &lt;pre&gt;&amp;lt;foo&amp;gt;bar&amp;lt;/foo&amp;gt;&lt;/pre&gt;
+ &lt;pre&gt;&amp;lt;foo&amp;gt;&amp;lt;bar&amp;gt;bla&amp;lt;/bar&amp;gt;&amp;lt;/foo&amp;gt;&lt;/pre&gt;
+ &lt;pre&gt;&amp;lt;foo&amp;gt;this is not &amp;lt;bar&amp;gt;:empty&amp;lt;/bar&amp;gt;&amp;lt;/foo&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;&lt;a name=content-selectors&gt;6.6.6. Blank&lt;/a&gt;&lt;/h4&gt; &lt;!-- It's the Return of Appendix H!!! Run away! --&gt;
+
+&lt;p&gt;This section intentionally left blank.&lt;/p&gt;
+&lt;!-- (used to be :contains()) --&gt;
+
+&lt;h4&gt;&lt;a name=negation&gt;&lt;/a&gt;6.6.7. The negation pseudo-class&lt;/h4&gt;
+
+&lt;p&gt;The negation pseudo-class, &lt;code&gt;:not(&lt;var&gt;X&lt;/var&gt;)&lt;/code&gt;, is a
+functional notation taking a &lt;a href="#simple-selectors-dfn"&gt;simple
+selector&lt;/a&gt; (excluding the negation pseudo-class itself and
+pseudo-elements) as an argument. It represents an element that is not
+represented by the argument.
+
+&lt;!-- pseudo-elements are not simple selectors, so the above paragraph
+may be a bit confusing --&gt;
+
+&lt;div class="example"&gt;
+  &lt;p&gt;Examples:&lt;/p&gt;
+  &lt;p&gt;The following CSS selector matches all &lt;code&gt;button&lt;/code&gt;
+  elements in an HTML document that are not disabled.&lt;/p&gt;
+  &lt;pre&gt;button:not([DISABLED])&lt;/pre&gt;
+  &lt;p&gt;The following selector represents all but &lt;code&gt;FOO&lt;/code&gt;
+  elements.&lt;/p&gt;
+  &lt;pre&gt;*:not(FOO)&lt;/pre&gt;
+  &lt;p&gt;The following group of selectors represents all HTML elements
+  except links.&lt;/p&gt;
+  &lt;pre&gt;html|*:not(:link):not(:visited)&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Default namespace declarations do not affect the argument of the
+negation pseudo-class unless the argument is a universal selector or a
+type selector.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+  &lt;p&gt;Examples:&lt;/p&gt;
+  &lt;p&gt;Assuming that the default namespace is bound to
+  "http://example.com/", the following selector represents all
+  elements that are not in that namespace:&lt;/p&gt;
+  &lt;pre&gt;*|*:not(*)&lt;/pre&gt;
+  &lt;p&gt;The following CSS selector matches any element being hovered,
+  regardless of its namespace. In particular, it is not limited to
+  only matching elements in the default namespace that are not being
+  hovered, and elements not in the default namespace don't match the
+  rule when they &lt;em&gt;are&lt;/em&gt; being hovered.&lt;/p&gt;
+  &lt;pre&gt;*|*:not(:hover)&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note&lt;/strong&gt;: the :not() pseudo allows
+useless selectors to be written.  For instance &lt;code&gt;:not(*|*)&lt;/code&gt;,
+which represents no element at all, or &lt;code&gt;foo:not(bar)&lt;/code&gt;,
+which is equivalent to &lt;code&gt;foo&lt;/code&gt; but with a higher
+specificity.&lt;/p&gt;
+
+&lt;h3&gt;&lt;a name=pseudo-elements&gt;7. Pseudo-elements&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Pseudo-elements create abstractions about the document tree beyond
+those specified by the document language. For instance, document
+languages do not offer mechanisms to access the first letter or first
+line of an element's content. Pseudo-elements allow designers to refer
+to this otherwise inaccessible information. Pseudo-elements may also
+provide designers a way to refer to content that does not exist in the
+source document (e.g., the &lt;code&gt;::before&lt;/code&gt; and
+&lt;code&gt;::after&lt;/code&gt; pseudo-elements give access to generated
+content).&lt;/p&gt;
+
+&lt;p&gt;A pseudo-element is made of two colons (&lt;code&gt;::&lt;/code&gt;) followed
+by the name of the pseudo-element.&lt;/p&gt;
+
+&lt;p&gt;This &lt;code&gt;::&lt;/code&gt; notation is introduced by the current document
+in order to establish a discrimination between pseudo-classes and
+pseudo-elements.  For compatibility with existing style sheets, user
+agents must also accept the previous one-colon notation for
+pseudo-elements introduced in CSS levels 1 and 2 (namely,
+&lt;code&gt;:first-line&lt;/code&gt;, &lt;code&gt;:first-letter&lt;/code&gt;,
+&lt;code&gt;:before&lt;/code&gt; and &lt;code&gt;:after&lt;/code&gt;). This compatibility is
+not allowed for the new pseudo-elements introduced in CSS level 3.&lt;/p&gt;
+
+&lt;p&gt;Only one pseudo-element may appear per selector, and if present it
+must appear after the sequence of simple selectors that represents the
+&lt;a href="#subject"&gt;subjects&lt;/a&gt; of the selector. &lt;span class="note"&gt;A
+future version of this specification may allow multiple
+pesudo-elements per selector.&lt;/span&gt;&lt;/p&gt;
+
+&lt;h4&gt;&lt;a name=first-line&gt;7.1. The ::first-line pseudo-element&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;::first-line&lt;/code&gt; pseudo-element describes the contents
+of the first formatted line of an element.
+
+&lt;div class="example"&gt;
+&lt;p&gt;CSS example:&lt;/p&gt;
+&lt;pre&gt;p::first-line { text-transform: uppercase }&lt;/pre&gt;
+&lt;p&gt;The above rule means "change the letters of the first line of every
+paragraph to uppercase".&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The selector &lt;code&gt;p::first-line&lt;/code&gt; does not match any real
+HTML element. It does match a pseudo-element that conforming user
+agents will insert at the beginning of every paragraph.&lt;/p&gt;
+
+&lt;p&gt;Note that the length of the first line depends on a number of
+factors, including the width of the page, the font size, etc.  Thus,
+an ordinary HTML paragraph such as:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;P&amp;gt;This is a somewhat long HTML 
+paragraph that will be broken into several 
+lines. The first line will be identified
+by a fictional tag sequence. The other lines 
+will be treated as ordinary lines in the 
+paragraph.&amp;lt;/P&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;the lines of which happen to be broken as follows:
+
+&lt;pre&gt;
+THIS IS A SOMEWHAT LONG HTML PARAGRAPH THAT
+will be broken into several lines. The first
+line will be identified by a fictional tag 
+sequence. The other lines will be treated as 
+ordinary lines in the paragraph.
+&lt;/pre&gt;
+
+&lt;p&gt;This paragraph might be "rewritten" by user agents to include the
+&lt;em&gt;fictional tag sequence&lt;/em&gt; for &lt;code&gt;::first-line&lt;/code&gt;. This
+fictional tag sequence helps to show how properties are inherited.&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;P&amp;gt;&lt;b&gt;&amp;lt;P::first-line&amp;gt;&lt;/b&gt; This is a somewhat long HTML 
+paragraph that &lt;b&gt;&amp;lt;/P::first-line&amp;gt;&lt;/b&gt; will be broken into several
+lines. The first line will be identified 
+by a fictional tag sequence. The other lines 
+will be treated as ordinary lines in the 
+paragraph.&amp;lt;/P&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;If a pseudo-element breaks up a real element, the desired effect
+can often be described by a fictional tag sequence that closes and
+then re-opens the element. Thus, if we mark up the previous paragraph
+with a &lt;code&gt;span&lt;/code&gt; element:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;P&amp;gt;&lt;b&gt;&amp;lt;SPAN class="test"&amp;gt;&lt;/b&gt; This is a somewhat long HTML
+paragraph that will be broken into several
+lines.&lt;b&gt;&amp;lt;/SPAN&amp;gt;&lt;/b&gt; The first line will be identified
+by a fictional tag sequence. The other lines 
+will be treated as ordinary lines in the 
+paragraph.&amp;lt;/P&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;the user agent could simulate start and end tags for
+&lt;code&gt;span&lt;/code&gt; when inserting the fictional tag sequence for
+&lt;code&gt;::first-line&lt;/code&gt;.
+
+&lt;pre&gt;
+&amp;lt;P&amp;gt;&amp;lt;P::first-line&amp;gt;&lt;b&gt;&amp;lt;SPAN class="test"&amp;gt;&lt;/b&gt; This is a
+somewhat long HTML
+paragraph that will &lt;b&gt;&amp;lt;/SPAN&amp;gt;&lt;/b&gt;&amp;lt;/P::first-line&amp;gt;&lt;b&gt;&amp;lt;SPAN class="test"&amp;gt;&lt;/b&gt; be
+broken into several
+lines.&lt;b&gt;&amp;lt;/SPAN&amp;gt;&lt;/b&gt; The first line will be identified
+by a fictional tag sequence. The other lines
+will be treated as ordinary lines in the 
+paragraph.&amp;lt;/P&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;In CSS, the &lt;code&gt;::first-line&lt;/code&gt; pseudo-element can only be
+attached to a block-level element, an inline-block, a table-caption,
+or a table-cell.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name="first-formatted-line"&gt;&lt;/a&gt;The "first formatted line" of an
+element may occur inside a
+block-level descendant in the same flow (i.e., a block-level
+descendant that is not positioned and not a float). E.g., the first
+line of the &lt;code&gt;div&lt;/code&gt; in &lt;code&gt;&amp;lt;DIV&gt;&amp;lt;P&gt;This
+line...&amp;lt;/P&gt;&amp;lt/DIV&gt;&lt;/code&gt; is the first line of the &lt;code&gt;p&lt;/code&gt; (assuming
+that both &lt;code&gt;p&lt;/code&gt; and &lt;code&gt;div&lt;/code&gt; are block-level).
+
+&lt;p&gt;The first line of a table-cell or inline-block cannot be the first
+formatted line of an ancestor element. Thus, in &lt;code&gt;&amp;lt;DIV&amp;gt;&amp;lt;P
+STYLE="display: inline-block"&gt;Hello&amp;lt;BR&amp;gt;Goodbye&amp;lt;/P&amp;gt;
+etcetera&amp;lt;/DIV&amp;gt;&lt;/code&gt; the first formatted line of the
+&lt;code&gt;div&lt;/code&gt; is not the line "Hello".
+
+&lt;p class="note"&gt;Note that the first line of the &lt;code&gt;p&lt;/code&gt; in this
+fragment: &lt;code&gt;&amp;lt;p&amp;gt&amp;lt;br&amp;gt;First...&lt;/code&gt; doesn't contain any
+letters (assuming the default style for &lt;code&gt;br&lt;/code&gt; in HTML
+4). The word "First" is not on the first formatted line.
+
+&lt;p&gt;A UA should act as if the fictional start tags of the
+&lt;code&gt;::first-line&lt;/code&gt; pseudo-elements were nested just inside the
+innermost enclosing block-level element. (Since CSS1 and CSS2 were
+silent on this case, authors should not rely on this behavior.) Here
+is an example. The fictional tag sequence for&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;DIV&gt;
+  &amp;lt;P&gt;First paragraph&amp;lt;/P&gt;
+  &amp;lt;P&gt;Second paragraph&amp;lt;/P&gt;
+&amp;lt;/DIV&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;is&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;DIV&gt;
+  &amp;lt;P&gt;&amp;lt;DIV::first-line&gt;&amp;lt;P::first-line&gt;First paragraph&amp;lt;/P::first-line&gt;&amp;lt;/DIV::first-line&gt;&amp;lt;/P&gt;
+  &amp;lt;P&gt;&amp;lt;P::first-line&gt;Second paragraph&amp;lt;/P::first-line&gt;&amp;lt;/P&gt;
+&amp;lt;/DIV&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;::first-line&lt;/code&gt; pseudo-element is similar to an
+inline-level element, but with certain restrictions. In CSS, the
+following properties apply to a &lt;code&gt;::first-line&lt;/code&gt;
+pseudo-element: font properties, color property, background
+properties, 'word-spacing', 'letter-spacing', 'text-decoration',
+'vertical-align', 'text-transform', 'line-height'. UAs may apply other
+properties as well.&lt;/p&gt;
+
+
+&lt;h4&gt;&lt;a name=first-letter&gt;7.2. The ::first-letter pseudo-element&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;::first-letter&lt;/code&gt; pseudo-element represents the first
+letter of the first line of a block, if it is not preceded by any
+other content (such as images or inline tables) on its line. The
+::first-letter pseudo-element may be used for "initial caps" and "drop
+caps", which are common typographical effects. This type of initial
+letter is similar to an inline-level element if its 'float' property
+is 'none'; otherwise, it is similar to a floated element.&lt;/p&gt;
+
+&lt;p&gt;In CSS, these are the properties that apply to &lt;code&gt;::first-letter&lt;/code&gt;
+pseudo-elements: font properties, 'text-decoration', 'text-transform',
+'letter-spacing', 'word-spacing' (when appropriate), 'line-height',
+'float', 'vertical-align' (only if 'float' is 'none'), margin
+properties, padding properties, border properties, color property,
+background properties.  UAs may apply other properties as well.  To
+allow UAs to render a typographically correct drop cap or initial cap,
+the UA may choose a line-height, width and height based on the shape
+of the letter, unlike for normal elements.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;p&gt;This example shows a possible rendering of an initial cap. Note
+that the 'line-height' that is inherited by the &lt;code&gt;::first-letter&lt;/code&gt;
+pseudo-element is 1.1, but the UA in this example has computed the
+height of the first letter differently, so that it doesn't cause any
+unnecessary space between the first two lines. Also note that the
+fictional start tag of the first letter is inside the &lt;span&gt;span&lt;/span&gt;, and thus
+the font weight of the first letter is normal, not bold as the &lt;span&gt;span&lt;/span&gt;:
+&lt;pre&gt;
+p { line-height: 1.1 }
+p::first-letter { font-size: 3em; font-weight: normal }
+span { font-weight: bold }
+...
+&amp;lt;p&gt;&amp;lt;span&gt;Het hemelsche&amp;lt;/span&gt; gerecht heeft zich ten lange lesten&amp;lt;br&gt;
+Erbarremt over my en mijn benaeuwde vesten&amp;lt;br&gt;
+En arme burgery, en op mijn volcx gebed&amp;lt;br&gt;
+En dagelix geschrey de bange stad ontzet.
+&lt;/pre&gt;
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="initial-cap.png" alt="Image illustrating the ::first-letter pseudo-element"&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;The following CSS will make a drop cap initial letter span about two lines:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"&amp;gt;
+&amp;lt;HTML&amp;gt;
+ &amp;lt;HEAD&amp;gt;
+  &amp;lt;TITLE&amp;gt;Drop cap initial letter&amp;lt;/TITLE&amp;gt;
+  &amp;lt;STYLE type="text/css"&amp;gt;
+   P               { font-size: 12pt; line-height: 1.2 }
+   P::first-letter { font-size: 200%; font-weight: bold; float: left }
+   SPAN            { text-transform: uppercase }
+  &amp;lt;/STYLE&amp;gt;
+ &amp;lt;/HEAD&amp;gt;
+ &amp;lt;BODY&amp;gt;
+  &amp;lt;P&amp;gt;&amp;lt;SPAN&amp;gt;The first&amp;lt;/SPAN&amp;gt; few words of an article
+    in The Economist.&amp;lt;/P&amp;gt;
+ &amp;lt;/BODY&amp;gt;
+&amp;lt;/HTML&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;This example might be formatted as follows:&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;P&gt;&lt;img src="first-letter.gif" alt="Image illustrating the combined effect of the ::first-letter and ::first-line pseudo-elements"&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;span class="index-inst" title="fictional tag
+sequence"&gt;fictional tag sequence&lt;/span&gt; is:&lt;/p&gt;
+
+&lt;pre&gt;
+&amp;lt;P&amp;gt;
+&amp;lt;SPAN&amp;gt;
+&amp;lt;P::first-letter&amp;gt;
+T
+&amp;lt;/P::first-letter&amp;gt;he first
+&amp;lt;/SPAN&amp;gt; 
+few words of an article in the Economist.
+&amp;lt;/P&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Note that the &lt;code&gt;::first-letter&lt;/code&gt; pseudo-element tags abut
+the content (i.e., the initial character), while the ::first-line
+pseudo-element start tag is inserted right after the start tag of the
+block element.&lt;/p&gt; &lt;/div&gt;
+
+&lt;p&gt;In order to achieve traditional drop caps formatting, user agents
+may approximate font sizes, for example to align baselines. Also, the
+glyph outline may be taken into account when formatting.&lt;/p&gt;
+
+&lt;p&gt;Punctuation (i.e, characters defined in Unicode in the "open" (Ps),
+"close" (Pe), "initial" (Pi). "final" (Pf) and "other" (Po)
+punctuation classes), that precedes or follows the first letter should
+be included. &lt;a href="#refsUNICODE"&gt;[UNICODE]&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;P&gt;&lt;img src="first-letter2.gif" alt="Quotes that precede the
+first letter should be included."&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;::first-letter&lt;/code&gt; also applies if the first letter is
+in fact a digit, e.g., the "6" in "67 million dollars is a lot of
+money."&lt;/p&gt;
+
+&lt;p&gt;In CSS, the &lt;code&gt;::first-letter&lt;/code&gt; pseudo-element applies to
+block, list-item, table-cell, table-caption, and inline-block
+elements. &lt;span class="note"&gt;A future version of this specification
+may allow this pesudo-element to apply to more element
+types.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;::first-letter&lt;/code&gt; pseudo-element can be used with all
+such elements that contain text, or that have a descendant in the same
+flow that contains text. A UA should act as if the fictional start tag
+of the ::first-letter pseudo-element is just before the first text of
+the element, even if that first text is in a descendant.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;p&gt;The fictional tag sequence for this HTMLfragment:
+&lt;pre&gt;&amp;lt;div&gt;
+&amp;lt;p&gt;The first text.&lt;/pre&gt;
+&lt;p&gt;is:
+&lt;pre&gt;&amp;lt;div&gt;
+&amp;lt;p&gt;&amp;lt;div::first-letter&gt;&amp;lt;p::first-letter&gt;T&amp;lt;/...&gt;&amp;lt;/...&gt;he first text.&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The first letter of a table-cell or inline-block cannot be the
+first letter of an ancestor element. Thus, in &lt;code&gt;&amp;lt;DIV&amp;gt;&amp;lt;P
+STYLE="display: inline-block"&gt;Hello&amp;lt;BR&amp;gt;Goodbye&amp;lt;/P&amp;gt;
+etcetera&amp;lt;/DIV&amp;gt;&lt;/code&gt; the first letter of the &lt;code&gt;div&lt;/code&gt; is not the
+letter "H". In fact, the &lt;code&gt;div&lt;/code&gt; doesn't have a first letter.
+
+&lt;p&gt;The first letter must occur on the &lt;a
+href="#first-formatted-line"&gt;first formatted line.&lt;/a&gt; For example, in
+this fragment: &lt;code&gt;&amp;lt;p&amp;gt&amp;lt;br&amp;gt;First...&lt;/code&gt; the first line
+doesn't contain any letters and &lt;code&gt;::first-letter&lt;/code&gt; doesn't
+match anything (assuming the default style for &lt;code&gt;br&lt;/code&gt; in HTML
+4). In particular, it does not match the "F" of "First."
+
+&lt;p&gt;In CSS, if an element is a list item ('display: list-item'), the
+&lt;code&gt;::first-letter&lt;/code&gt; applies to the first letter in the
+principal box after the marker. UAs may ignore
+&lt;code&gt;::first-letter&lt;/code&gt; on list items with 'list-style-position:
+inside'. If an element has &lt;code&gt;::before&lt;/code&gt; or
+&lt;code&gt;::after&lt;/code&gt; content, the &lt;code&gt;::first-letter&lt;/code&gt; applies
+to the first letter of the element &lt;em&gt;including&lt;/em&gt; that content.
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;p&gt;After the rule 'p::before {content: "Note: "}', the selector
+'p::first-letter' matches the "N" of "Note".&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Some languages may have specific rules about how to treat certain
+letter combinations. In Dutch, for example, if the letter combination
+"ij" appears at the beginning of a word, both letters should be
+considered within the &lt;code&gt;::first-letter&lt;/code&gt; pseudo-element.
+
+&lt;p&gt;If the letters that would form the ::first-letter are not in the
+same element, such as "'T" in &lt;code&gt;&amp;lt;p&gt;'&amp;lt;em&gt;T...&lt;/code&gt;, the UA
+may create a ::first-letter pseudo-element from one of the elements,
+both elements, or simply not create a pseudo-element.&lt;/p&gt;
+
+&lt;p&gt;Similarly, if the first letter(s) of the block are not at the start
+of the line (for example due to bidirectional reordering), then the UA
+need not create the pseudo-element(s).
+
+&lt;div class="example"&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;p&gt;&lt;a name="overlapping-example"&gt;The following example&lt;/a&gt; illustrates
+how overlapping pseudo-elements may interact.  The first letter of
+each P element will be green with a font size of '24pt'. The rest of
+the first formatted line will be 'blue' while the rest of the
+paragraph will be 'red'.&lt;/p&gt;
+
+&lt;pre&gt;p { color: red; font-size: 12pt }
+p::first-letter { color: green; font-size: 200% }
+p::first-line { color: blue }
+
+&amp;lt;P&amp;gt;Some text that ends up on two lines&amp;lt;/P&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Assuming that a line break will occur before the word "ends", the
+&lt;span class="index-inst" title="fictional tag sequence"&gt;fictional tag
+sequence&lt;/span&gt; for this fragment might be:&lt;/p&gt;
+
+&lt;pre&gt;&amp;lt;P&amp;gt;
+&amp;lt;P::first-line&amp;gt;
+&amp;lt;P::first-letter&amp;gt; 
+S 
+&amp;lt;/P::first-letter&amp;gt;ome text that 
+&amp;lt;/P::first-line&amp;gt; 
+ends up on two lines 
+&amp;lt;/P&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that the &lt;code&gt;::first-letter&lt;/code&gt; element is inside the &lt;code&gt;::first-line&lt;/code&gt;
+element.  Properties set on &lt;code&gt;::first-line&lt;/code&gt; are inherited by
+&lt;code&gt;::first-letter&lt;/code&gt;, but are overridden if the same property is set on
+&lt;code&gt;::first-letter&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;a name=UIfragments&gt;7.3.&lt;/a&gt; &lt;a name=selection&gt;The ::selection pseudo-element&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;::selection&lt;/code&gt; pseudo-element applies to the portion
+of a document that has been highlighted by the user. This also
+applies, for example, to selected text within an editable text
+field. This pseudo-element should not be confused with the &lt;code&gt;&lt;a
+href="#checked"&gt;:checked&lt;/a&gt;&lt;/code&gt; pseudo-class (which used to be
+named &lt;code&gt;:selected&lt;/code&gt;)
+
+&lt;p&gt;Although the &lt;code&gt;::selection&lt;/code&gt; pseudo-element is dynamic in
+nature, and is altered by user action, it is reasonable to expect that
+when a UA re-renders to a static medium (such as a printed page, see
+&lt;a href="#refsCSS21"&gt;[CSS21]&lt;/a&gt;) which was originally rendered to a
+dynamic medium (like screen), the UA may wish to transfer the current
+&lt;code&gt;::selection&lt;/code&gt; state to that other medium, and have all the
+appropriate formatting and rendering take effect as well. This is not
+required &amp;mdash; UAs may omit the &lt;code&gt;::selection&lt;/code&gt;
+pseudo-element for static media.
+
+&lt;p&gt;These are the CSS properties that apply to &lt;code&gt;::selection&lt;/code&gt;
+pseudo-elements: color, background, cursor (optional), outline
+(optional). The computed value of the 'background-image' property on
+&lt;code&gt;::selection&lt;/code&gt; may be ignored.
+
+
+&lt;h4&gt;&lt;a name=gen-content&gt;7.4. The ::before and ::after pseudo-elements&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;::before&lt;/code&gt; and &lt;code&gt;::after&lt;/code&gt; pseudo-elements
+can be used to describe generated content before or after an element's
+content. They are explained in CSS 2.1 &lt;a
+href="#refsCSS21"&gt;[CSS21]&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;When the &lt;code&gt;::first-letter&lt;/code&gt; and &lt;code&gt;::first-line&lt;/code&gt;
+pseudo-elements are combined with &lt;code&gt;::before&lt;/code&gt; and
+&lt;code&gt;::after&lt;/code&gt;, they apply to the first letter or line of the
+element including the inserted text.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=combinators&gt;8. Combinators&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3&gt;&lt;a name=descendant-combinators&gt;8.1. Descendant combinator&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;At times, authors may want selectors to describe an element that is
+the descendant of another element in the document tree (e.g., "an
+&lt;code&gt;EM&lt;/code&gt; element that is contained within an &lt;code&gt;H1&lt;/code&gt;
+element"). Descendant combinators express such a relationship. A
+descendant combinator is &lt;a href="#whitespace"&gt;white space&lt;/a&gt; that
+separates two sequences of simple selectors.  A selector of the form
+"&lt;code&gt;A B&lt;/code&gt;" represents an element &lt;code&gt;B&lt;/code&gt; that is an
+arbitrary descendant of some ancestor element &lt;code&gt;A&lt;/code&gt;.
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Examples:&lt;/p&gt;
+ &lt;p&gt;For example, consider the following selector:&lt;/p&gt;
+ &lt;pre&gt;h1 em&lt;/pre&gt;
+ &lt;p&gt;It represents an &lt;code&gt;em&lt;/code&gt; element being the descendant of
+ an &lt;code&gt;h1&lt;/code&gt; element. It is a correct and valid, but partial,
+ description of the following fragment:&lt;/p&gt;
+ &lt;pre&gt;&amp;lt;h1&amp;gt;This &amp;lt;span class="myclass"&amp;gt;headline
+is &amp;lt;em&amp;gt;very&amp;lt;/em&amp;gt; important&amp;lt;/span&amp;gt;&amp;lt;/h1&amp;gt;&lt;/pre&gt;
+ &lt;p&gt;The following selector:&lt;/p&gt;
+ &lt;pre&gt;div * p&lt;/pre&gt;
+ &lt;p&gt;represents a &lt;code&gt;p&lt;/code&gt; element that is a grandchild or later
+ descendant of a &lt;code&gt;div&lt;/code&gt; element. Note the whitespace on
+ either side of the "*" is not part of the universal selector; the
+ whitespace is a combinator indicating that the DIV must be the
+ ancestor of some element, and that that element must be an ancestor
+ of the P.&lt;/p&gt;
+ &lt;p&gt;The following selector, which combines descendant combinators and
+ &lt;a href="#attribute-selectors"&gt;attribute selectors&lt;/a&gt;, represents an
+ element that (1) has the &lt;code&gt;href&lt;/code&gt; attribute set and (2) is
+ inside a &lt;code&gt;p&lt;/code&gt; that is itself inside a &lt;code&gt;div&lt;/code&gt;:&lt;/p&gt;
+ &lt;pre&gt;div p *[href]&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3&gt;&lt;a name=child-combinators&gt;8.2. Child combinators&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;A &lt;dfn&gt;child combinator&lt;/dfn&gt; describes a childhood relationship
+between two elements. A child combinator is made of the
+&amp;quot;greater-than sign&amp;quot; (&lt;code&gt;&amp;gt;&lt;/code&gt;) character and
+separates two sequences of simple selectors.
+
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Examples:&lt;/p&gt;
+ &lt;p&gt;The following selector represents a &lt;code&gt;p&lt;/code&gt; element that is
+ child of &lt;code&gt;body&lt;/code&gt;:&lt;/p&gt;
+ &lt;pre&gt;body &amp;gt; p&lt;/pre&gt;
+ &lt;p&gt;The following example combines descendant combinators and child
+ combinators.&lt;/p&gt;
+ &lt;pre&gt;div ol&amp;gt;li p&lt;/pre&gt;&lt;!-- LEAVE THOSE SPACES OUT! see below --&gt;
+ &lt;p&gt;It represents a &lt;code&gt;p&lt;/code&gt; element that is a descendant of an
+ &lt;code&gt;li&lt;/code&gt; element; the &lt;code&gt;li&lt;/code&gt; element must be the
+ child of an &lt;code&gt;ol&lt;/code&gt; element; the &lt;code&gt;ol&lt;/code&gt; element must
+ be a descendant of a &lt;code&gt;div&lt;/code&gt;. Notice that the optional white
+ space around the "&amp;gt;" combinator has been left out.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For information on selecting the first child of an element, please
+see the section on the &lt;code&gt;&lt;a
+href="#structural-pseudos"&gt;:first-child&lt;/a&gt;&lt;/code&gt; pseudo-class
+above.&lt;/p&gt;
+
+&lt;h3&gt;&lt;a name=sibling-combinators&gt;8.3. Sibling combinators&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;There are two different sibling combinators: the adjacent sibling
+combinator and the general sibling combinator. In both cases,
+non-element nodes (e.g. text between elements) are ignored when
+considering adjacency of elements.&lt;/p&gt;
+
+&lt;h4&gt;&lt;a name=adjacent-sibling-combinators&gt;8.3.1. Adjacent sibling combinator&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The adjacent sibling combinator is made of the &amp;quot;plus
+sign&amp;quot; (U+002B, &lt;code&gt;+&lt;/code&gt;) character that separates two
+sequences of simple selectors. The elements represented by the two
+sequences share the same parent in the document tree and the element
+represented by the first sequence immediately precedes the element
+represented by the second one.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Examples:&lt;/p&gt;
+ &lt;p&gt;The following selector represents a &lt;code&gt;p&lt;/code&gt; element
+ immediately following a &lt;code&gt;math&lt;/code&gt; element:&lt;/p&gt;
+ &lt;pre&gt;math + p&lt;/pre&gt;
+ &lt;p&gt;The following selector is conceptually similar to the one in the
+ previous example, except that it adds an attribute selector &amp;mdash; it
+ adds a constraint to the &lt;code&gt;h1&lt;/code&gt; element, that it must have
+ &lt;code&gt;class="opener"&lt;/code&gt;:&lt;/p&gt;
+ &lt;pre&gt;h1.opener + h2&lt;/pre&gt;
+&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;a name=general-sibling-combinators&gt;8.3.2. General sibling combinator&lt;/a&gt;&lt;/h4&gt;
+
+&lt;p&gt;The general sibling combinator is made of the &amp;quot;tilde&amp;quot;
+(U+007E, &lt;code&gt;~&lt;/code&gt;) character that separates two sequences of
+simple selectors. The elements represented by the two sequences share
+the same parent in the document tree and the element represented by
+the first sequence precedes (not necessarily immediately) the element
+represented by the second one.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+ &lt;p&gt;Example:&lt;/p&gt;
+ &lt;pre&gt;h1 ~ pre&lt;/pre&gt;
+ &lt;p&gt;represents a &lt;code&gt;pre&lt;/code&gt; element following an &lt;code&gt;h1&lt;/code&gt;. It
+ is a correct and valid, but partial, description of:&lt;/p&gt;
+ &lt;pre&gt;&amp;lt;h1&amp;gt;Definition of the function a&amp;lt;/h1&amp;gt;
+&amp;lt;p&amp;gt;Function a(x) has to be applied to all figures in the table.&amp;lt;/p&amp;gt;
+&amp;lt;pre&amp;gt;function a(x) = 12x/13.5&amp;lt;/pre&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2&gt;&lt;a name=specificity&gt;9. Calculating a selector's specificity&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;A selector's specificity is calculated as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;count the number of ID selectors in the selector (= a)&lt;/li&gt;
+  &lt;li&gt;count the number of class selectors, attributes selectors, and pseudo-classes in the selector (= b)&lt;/li&gt;
+  &lt;li&gt;count the number of element names in the selector (= c)&lt;/li&gt;
+  &lt;li&gt;ignore pseudo-elements&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Selectors inside &lt;a href="#negation"&gt;the negation pseudo-class&lt;/a&gt;
+are counted like any other, but the negation itself does not count as
+a pseudo-class.&lt;/p&gt;
+
+&lt;p&gt;Concatenating the three numbers a-b-c (in a number system with a
+large base) gives the specificity.&lt;/p&gt;
+
+&lt;div class="example"&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;*               /* a=0 b=0 c=0 -&amp;gt; specificity =   0 */
+LI              /* a=0 b=0 c=1 -&amp;gt; specificity =   1 */
+UL LI           /* a=0 b=0 c=2 -&amp;gt; specificity =   2 */
+UL OL+LI        /* a=0 b=0 c=3 -&amp;gt; specificity =   3 */
+H1 + *[REL=up]  /* a=0 b=1 c=1 -&amp;gt; specificity =  11 */
+UL OL LI.red    /* a=0 b=1 c=3 -&amp;gt; specificity =  13 */
+LI.red.level    /* a=0 b=2 c=1 -&amp;gt; specificity =  21 */
+#x34y           /* a=1 b=0 c=0 -&amp;gt; specificity = 100 */
+#s12:not(FOO)   /* a=1 b=0 c=1 -&amp;gt; specificity = 101 */
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p class="note"&gt;&lt;strong&gt;Note:&lt;/strong&gt; the specificity of the styles
+specified in an HTML &lt;code&gt;style&lt;/code&gt; attribute is described in CSS
+2.1. &lt;a href="#refsCSS21"&gt;[CSS21]&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=w3cselgrammar&gt;10. The grammar of Selectors&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3&gt;&lt;a name=grammar&gt;10.1. Grammar&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;The grammar below defines the syntax of Selectors.  It is globally
+LL(1) and can be locally LL(2) (but note that most UA's should not use
+it directly, since it doesn't express the parsing conventions). The
+format of the productions is optimized for human consumption and some
+shorthand notations beyond Yacc (see &lt;a href="#refsYACC"&gt;[YACC]&lt;/a&gt;)
+are used:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;b&gt;*&lt;/b&gt;: 0 or more
+  &lt;li&gt;&lt;b&gt;+&lt;/b&gt;: 1 or more
+  &lt;li&gt;&lt;b&gt;?&lt;/b&gt;: 0 or 1
+  &lt;li&gt;&lt;b&gt;|&lt;/b&gt;: separates alternatives
+  &lt;li&gt;&lt;b&gt;[ ]&lt;/b&gt;: grouping &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The productions are:&lt;/p&gt;
+
+&lt;pre&gt;selectors_group
+  : selector [ COMMA S* selector ]*
+  ;
+
+selector
+  : simple_selector_sequence [ combinator simple_selector_sequence ]*
+  ;
+
+combinator
+  /* combinators can be surrounded by white space */
+  : PLUS S* | GREATER S* | TILDE S* | S+
+  ;
+
+simple_selector_sequence
+  : [ type_selector | universal ]
+    [ HASH | class | attrib | pseudo | negation ]*
+  | [ HASH | class | attrib | pseudo | negation ]+
+  ;
+
+type_selector
+  : [ namespace_prefix ]? element_name
+  ;
+
+namespace_prefix
+  : [ IDENT | '*' ]? '|'
+  ;
+
+element_name
+  : IDENT
+  ;
+
+universal
+  : [ namespace_prefix ]? '*'
+  ;
+
+class
+  : '.' IDENT
+  ;
+
+attrib
+  : '[' S* [ namespace_prefix ]? IDENT S*
+        [ [ PREFIXMATCH |
+            SUFFIXMATCH |
+            SUBSTRINGMATCH |
+            '=' |
+            INCLUDES |
+            DASHMATCH ] S* [ IDENT | STRING ] S*
+        ]? ']'
+  ;
+
+pseudo
+  /* '::' starts a pseudo-element, ':' a pseudo-class */
+  /* Exceptions: :first-line, :first-letter, :before and :after. */
+  /* Note that pseudo-elements are restricted to one per selector and */
+  /* occur only in the last simple_selector_sequence. */
+  : ':' ':'? [ IDENT | functional_pseudo ]
+  ;
+
+functional_pseudo
+  : FUNCTION S* expression ')'
+  ;
+
+expression
+  /* In CSS3, the expressions are identifiers, strings, */
+  /* or of the form "an+b" */
+  : [ [ PLUS | '-' | DIMENSION | NUMBER | STRING | IDENT ] S* ]+
+  ;
+
+negation
+  : NOT S* negation_arg S* ')'
+  ;
+
+negation_arg
+  : type_selector | universal | HASH | class | attrib | pseudo
+  ;&lt;/pre&gt;
+
+
+&lt;h3&gt;&lt;a name=lex&gt;10.2. Lexical scanner&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;The following is the &lt;a name=x3&gt;tokenizer&lt;/a&gt;, written in Flex (see
+&lt;a href="#refsFLEX"&gt;[FLEX]&lt;/a&gt;) notation. The tokenizer is
+case-insensitive.&lt;/p&gt;
+
+&lt;p&gt;The two occurrences of "\377" represent the highest character
+number that current versions of Flex can deal with (decimal 255). They
+should be read as "\4177777" (decimal 1114111), which is the highest
+possible code point in Unicode/ISO-10646. &lt;a
+href="#refsUNICODE"&gt;[UNICODE]&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;%option case-insensitive
+
+ident     [-]?{nmstart}{nmchar}*
+name      {nmchar}+
+nmstart   [_a-z]|{nonascii}|{escape}
+nonascii  [^\0-\177]
+unicode   \\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
+escape    {unicode}|\\[^\n\r\f0-9a-f]
+nmchar    [_a-z0-9-]|{nonascii}|{escape}
+num       [0-9]+|[0-9]*\.[0-9]+
+string    {string1}|{string2}
+string1   \"([^\n\r\f\\"]|\\{nl}|{nonascii}|{escape})*\"
+string2   \'([^\n\r\f\\']|\\{nl}|{nonascii}|{escape})*\'
+invalid   {invalid1}|{invalid2}
+invalid1  \"([^\n\r\f\\"]|\\{nl}|{nonascii}|{escape})*
+invalid2  \'([^\n\r\f\\']|\\{nl}|{nonascii}|{escape})*
+nl        \n|\r\n|\r|\f
+w         [ \t\r\n\f]*
+
+%%
+
+[ \t\r\n\f]+     return S;
+
+"~="             return INCLUDES;
+"|="             return DASHMATCH;
+"^="             return PREFIXMATCH;
+"$="             return SUFFIXMATCH;
+"*="             return SUBSTRINGMATCH;
+{ident}          return IDENT;
+{string}         return STRING;
+{ident}"("       return FUNCTION;
+{num}            return NUMBER;
+"#"{name}        return HASH;
+{w}"+"           return PLUS;
+{w}"&amp;gt;"           return GREATER;
+{w}","           return COMMA;
+{w}"~"           return TILDE;
+":not("          return NOT;
+@{ident}         return ATKEYWORD;
+{invalid}        return INVALID;
+{num}%           return PERCENTAGE;
+{num}{ident}     return DIMENSION;
+"&amp;lt;!--"           return CDO;
+"--&amp;gt;"            return CDC;
+
+"url("{w}{string}{w}")"                           return URI;
+"url("{w}([!#$%&amp;*-~]|{nonascii}|{escape})*{w}")"  return URI;
+U\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?                return UNICODE_RANGE;
+
+\/\*[^*]*\*+([^/*][^*]*\*+)*\/                    /* ignore comments */
+
+.                return *yytext;&lt;/pre&gt;
+
+
+
+&lt;h2&gt;&lt;a name=downlevel&gt;11. Namespaces and down-level clients&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;An important issue is the interaction of CSS selectors with XML
+documents in web clients that were produced prior to this
+document. Unfortunately, due to the fact that namespaces must be
+matched based on the URI which identifies the namespace, not the
+namespace prefix, some mechanism is required to identify namespaces in
+CSS by their URI as well. Without such a mechanism, it is impossible
+to construct a CSS style sheet which will properly match selectors in
+all cases against a random set of XML documents. However, given
+complete knowledge of the XML document to which a style sheet is to be
+applied, and a limited use of namespaces within the XML document, it
+is possible to construct a style sheet in which selectors would match
+elements and attributes correctly.&lt;/p&gt;
+
+&lt;p&gt;It should be noted that a down-level CSS client will (if it
+properly conforms to CSS forward compatible parsing rules) ignore all
+&lt;code&gt;@namespace&lt;/code&gt; at-rules, as well as all style rules that make
+use of namespace qualified element type or attribute selectors. The
+syntax of delimiting namespace prefixes in CSS was deliberately chosen
+so that down-level CSS clients would ignore the style rules rather
+than possibly match them incorrectly.&lt;/p&gt;
+
+&lt;p&gt;The use of default namespaces in CSS makes it possible to write
+element type selectors that will function in both namespace aware CSS
+clients as well as down-level clients. It should be noted that
+down-level clients may incorrectly match selectors against XML
+elements in other namespaces.&lt;/p&gt;
+
+&lt;p&gt;The following are scenarios and examples in which it is possible to
+construct style sheets which would function properly in web clients
+that do not implement this proposal.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+
+   &lt;p&gt;The XML document does not use namespaces.&lt;/p&gt;
+
+   &lt;ul&gt;
+
+    &lt;li&gt;In this case, it is obviously not necessary to declare or use
+    namespaces in the style sheet. Standard CSS element type and
+    attribute selectors will function adequately in a down-level
+    client.&lt;/li&gt;
+
+    &lt;li&gt;In a CSS namespace aware client, the default behavior of
+    element selectors matching without regard to namespace will
+    function properly against all elements, since no namespaces are
+    present. However, the use of specific element type selectors that
+    match only elements that have no namespace ("&lt;code&gt;|name&lt;/code&gt;")
+    will guarantee that selectors will match only XML elements that do
+    not have a declared namespace. &lt;/li&gt;
+
+   &lt;/ul&gt;
+
+  &lt;/li&gt;
+
+  &lt;li&gt;
+
+   &lt;p&gt;The XML document defines a single, default namespace used
+   throughout the document. No namespace prefixes are used in element
+   names.&lt;/p&gt;
+
+   &lt;ul&gt;
+
+    &lt;li&gt;In this case, a down-level client will function as if
+    namespaces were not used in the XML document at all. Standard CSS
+    element type and attribute selectors will match against all
+    elements. &lt;/li&gt;
+
+   &lt;/ul&gt;
+
+  &lt;/li&gt;
+
+  &lt;li&gt;
+
+   &lt;p&gt;The XML document does &lt;b&gt;not&lt;/b&gt; use a default namespace, all
+   namespace prefixes used are known to the style sheet author, and
+   there is a direct mapping between namespace prefixes and namespace
+   URIs. (A given prefix may only be mapped to one namespace URI
+   throughout the XML document; there may be multiple prefixes mapped
+   to the same URI).&lt;/p&gt;
+
+   &lt;ul&gt;
+
+    &lt;li&gt;In this case, the down-level client will view and match
+    element type and attribute selectors based on their fully
+    qualified name, not the local part as outlined in the &lt;a
+    href="#typenmsp"&gt;Type selectors and Namespaces&lt;/a&gt; section. CSS
+    selectors may be declared using an escaped colon "&lt;code&gt;\:&lt;/code&gt;"
+    to describe the fully qualified names, e.g.
+    "&lt;code&gt;html\:h1&lt;/code&gt;" will match
+    &lt;code&gt;&amp;lt;html:h1&amp;gt;&lt;/code&gt;. Selectors using the qualified name
+    will only match XML elements that use the same prefix. Other
+    namespace prefixes used in the XML that are mapped to the same URI
+    will not match as expected unless additional CSS style rules are
+    declared for them.&lt;/li&gt;
+
+    &lt;li&gt;Note that selectors declared in this fashion will
+    &lt;em&gt;only&lt;/em&gt; match in down-level clients. A CSS namespace aware
+    client will match element type and attribute selectors based on
+    the name's local part. Selectors declared with the fully
+    qualified name will not match (unless there is no namespace prefix
+    in the fully qualified name).&lt;/li&gt;
+
+   &lt;/ul&gt;
+
+  &lt;/li&gt;
+
+ &lt;/ol&gt;
+
+&lt;p&gt;In other scenarios: when the namespace prefixes used in the XML are
+not known in advance by the style sheet author; or a combination of
+elements with no namespace are used in conjunction with elements using
+a default namespace; or the same namespace prefix is mapped to
+&lt;em&gt;different&lt;/em&gt; namespace URIs within the same document, or in
+different documents; it is impossible to construct a CSS style sheet
+that will function properly against all elements in those documents,
+unless, the style sheet is written using a namespace URI syntax (as
+outlined in this document or similar) and the document is processed by
+a CSS and XML namespace aware client.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=profiling&gt;12. Profiles&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;Each specification using Selectors must define the subset of W3C
+Selectors it allows and excludes, and describe the local meaning of
+all the components of that subset.&lt;/p&gt;
+
+&lt;p&gt;Non normative examples:
+
+&lt;div class="profile"&gt;
+&lt;table class="tprofile"&gt;
+  &lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;th class="title" colspan=2&gt;Selectors profile&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Specification&lt;/th&gt;
+    &lt;td&gt;CSS level 1&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Accepts&lt;/th&gt;
+    &lt;td&gt;type selectors&lt;br&gt;class selectors&lt;br&gt;ID selectors&lt;br&gt;:link,
+      :visited and :active pseudo-classes&lt;br&gt;descendant combinator
+     &lt;br&gt;::first-line and ::first-letter pseudo-elements&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Excludes&lt;/th&gt;
+    &lt;td&gt;
+      
+&lt;p&gt;universal selector&lt;br&gt;attribute selectors&lt;br&gt;:hover and :focus
+      pseudo-classes&lt;br&gt;:target pseudo-class&lt;br&gt;:lang() pseudo-class&lt;br&gt;all UI
+      element states pseudo-classes&lt;br&gt;all structural
+      pseudo-classes&lt;br&gt;negation pseudo-class&lt;br&gt;all
+      UI element fragments pseudo-elements&lt;br&gt;::before and ::after
+      pseudo-elements&lt;br&gt;child combinators&lt;br&gt;sibling combinators
+      
+&lt;p&gt;namespaces&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Extra constraints&lt;/th&gt;
+    &lt;td&gt;only one class selector allowed per sequence of simple
+  selectors&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;br&gt;&lt;br&gt;
+&lt;table class="tprofile"&gt;
+  &lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;th class="title" colspan=2&gt;Selectors profile&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Specification&lt;/th&gt;
+    &lt;td&gt;CSS level 2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Accepts&lt;/th&gt;
+    &lt;td&gt;type selectors&lt;br&gt;universal selector&lt;br&gt;attribute presence and
+      values selectors&lt;br&gt;class selectors&lt;br&gt;ID selectors&lt;br&gt;:link, :visited,
+      :active, :hover, :focus, :lang() and :first-child pseudo-classes
+     &lt;br&gt;descendant combinator&lt;br&gt;child combinator&lt;br&gt;adjacent sibling
+      combinator&lt;br&gt;::first-line and ::first-letter pseudo-elements&lt;br&gt;::before
+      and ::after pseudo-elements&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Excludes&lt;/th&gt;
+    &lt;td&gt;
+      
+&lt;p&gt;content selectors&lt;br&gt;substring matching attribute
+      selectors&lt;br&gt;:target pseudo-classes&lt;br&gt;all UI element
+      states pseudo-classes&lt;br&gt;all structural pseudo-classes other
+      than :first-child&lt;br&gt;negation pseudo-class&lt;br&gt;all UI element
+      fragments pseudo-elements&lt;br&gt;general sibling combinators
+      
+&lt;p&gt;namespaces&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Extra constraints&lt;/th&gt;
+    &lt;td&gt;more than one class selector per sequence of simple selectors (CSS1
+      constraint) allowed&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;p&gt;In CSS, selectors express pattern matching rules that determine which style
+rules apply to elements in the document tree. 
+
+&lt;p&gt;The following selector (CSS level 2) will &lt;b&gt;match&lt;/b&gt; all anchors &lt;code&gt;a&lt;/code&gt;
+with attribute &lt;code&gt;name&lt;/code&gt; set inside a section 1 header &lt;code&gt;h1&lt;/code&gt;: 
+&lt;pre&gt;h1 a[name]&lt;/pre&gt;
+
+&lt;p&gt;All CSS declarations attached to such a selector are applied to elements
+matching it. &lt;/div&gt;
+
+&lt;div class="profile"&gt;
+&lt;table class="tprofile"&gt;
+  &lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;th class="title" colspan=2&gt;Selectors profile&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Specification&lt;/th&gt;
+      &lt;td&gt;STTS 3&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Accepts&lt;/th&gt;
+    &lt;td&gt;
+      
+&lt;p&gt;type selectors&lt;br&gt;universal selectors&lt;br&gt;attribute selectors&lt;br&gt;class
+      selectors&lt;br&gt;ID selectors&lt;br&gt;all structural pseudo-classes&lt;br&gt;
+          all combinators
+      
+&lt;p&gt;namespaces&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Excludes&lt;/th&gt;
+    &lt;td&gt;non-accepted pseudo-classes&lt;br&gt;pseudo-elements&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Extra constraints&lt;/th&gt;
+    &lt;td&gt;some selectors and combinators are not allowed in fragment
+      descriptions on the right side of STTS declarations.&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+  
+&lt;p&gt;Selectors can be used in STTS 3 in two different
+    manners: 
+&lt;ol&gt;
+  &lt;li&gt;a selection mechanism equivalent to CSS selection mechanism: declarations
+  attached to a given selector are applied to elements matching that selector,
+  &lt;li&gt;fragment descriptions that appear on the right side of declarations.
+&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;
+
+&lt;h2&gt;&lt;a name=Conformance&gt;&lt;/a&gt;13. Conformance and requirements&lt;/h2&gt;
+
+&lt;p&gt;This section defines conformance with the present specification only.
+
+&lt;p&gt;The inability of a user agent to implement part of this specification due to
+the limitations of a particular device (e.g., non interactive user agents will
+probably not implement dynamic pseudo-classes because they make no sense without
+interactivity) does not imply non-conformance.
+
+&lt;p&gt;All specifications reusing Selectors must contain a &lt;a
+href="#profiling"&gt;Profile&lt;/a&gt; listing the
+subset of Selectors it accepts or excludes, and describing the constraints
+it adds to the current specification. 
+
+&lt;p&gt;Invalidity is caused by a parsing error, e.g. an unrecognized token or a token
+which is not allowed at the current parsing point.
+
+&lt;p&gt;User agents must observe the rules for handling parsing errors:
+&lt;ul&gt;
+  &lt;li&gt;a simple selector containing an undeclared namespace prefix is invalid&lt;/li&gt;
+  &lt;li&gt;a selector containing an invalid simple selector, an invalid combinator
+    or an invalid token is invalid. &lt;/li&gt;
+  &lt;li&gt;a group of selectors containing an invalid selector is invalid.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Specifications reusing Selectors must define how to handle parsing
+errors. (In the case of CSS, the entire rule in which the selector is
+used is dropped.)&lt;/p&gt;
+
+&lt;!-- Apparently all these references are out of date:
+&lt;p&gt;Implementations of this specification must behave as
+"recipients of text data" as defined by &lt;a href="#refsCWWW"&gt;[CWWW]&lt;/a&gt;
+when parsing selectors and attempting matches. (In particular,
+implementations must assume the data is normalized and must not
+normalize it.) Normative rules for matching strings are defined in
+&lt;a href="#refsCWWW"&gt;[CWWW]&lt;/a&gt; and &lt;a
+href="#refsUNICODE"&gt;[UNICODE]&lt;/a&gt; and apply to implementations of this
+specification.&lt;/p&gt;--&gt;
+
+&lt;h2&gt;&lt;a name=Tests&gt;&lt;/a&gt;14. Tests&lt;/h2&gt;
+
+&lt;p&gt;This specification has &lt;a
+href="http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/"&gt;a test
+suite&lt;/a&gt; allowing user agents to verify their basic conformance to
+the specification. This test suite does not pretend to be exhaustive
+and does not cover all possible combined cases of Selectors.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=ACKS&gt;&lt;/a&gt;15. Acknowledgements&lt;/h2&gt;
+
+&lt;p&gt;The CSS working group would like to thank everyone who has sent
+comments on this specification over the years.&lt;/p&gt;
+
+&lt;p&gt;The working group would like to extend special thanks to Donna
+McManus, Justin Baker, Joel Sklar, and Molly Ives Brower who perfermed
+the final editorial review.&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=references&gt;16. References&lt;/a&gt;&lt;/h2&gt;
+
+&lt;dl class="refs"&gt;
+
+  &lt;dt&gt;[CSS1]
+  &lt;dd&gt;&lt;a name=refsCSS1&gt;&lt;/a&gt; Bert Bos, H&amp;aring;kon Wium Lie; "&lt;cite&gt;Cascading Style Sheets, level 1&lt;/cite&gt;", W3C Recommendation, 17 Dec 1996, revised 11 Jan 1999
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.w3.org/TR/REC-CSS1"&gt;http://www.w3.org/TR/REC-CSS1&lt;/a&gt;&lt;/code&gt;)
+
+  &lt;dt&gt;[CSS21]
+  &lt;dd&gt;&lt;a name=refsCSS21&gt;&lt;/a&gt; Bert Bos, Tantek &amp;Ccedil;elik, Ian Hickson, H&amp;aring;kon Wium Lie, editors; "&lt;cite&gt;Cascading Style Sheets, level 2 revision 1&lt;/cite&gt;", W3C Working Draft, 13 June 2005 
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.w3.org/TR/CSS21"&gt;http://www.w3.org/TR/CSS21&lt;/a&gt;&lt;/code&gt;)
+
+  &lt;dt&gt;[CWWW]
+  &lt;dd&gt;&lt;a name=refsCWWW&gt;&lt;/a&gt; Martin J. D&amp;uuml;rst, Fran&amp;ccedil;ois Yergeau, Misha Wolf, Asmus Freytag, Tex Texin, editors; "&lt;cite&gt;Character Model for the World Wide Web&lt;/cite&gt;", W3C Recommendation, 15 February 2005
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.w3.org/TR/charmod/"&gt;http://www.w3.org/TR/charmod/&lt;/a&gt;&lt;/code&gt;)
+
+  &lt;dt&gt;[FLEX]
+  &lt;dd&gt;&lt;a name="refsFLEX"&gt;&lt;/a&gt; "&lt;cite&gt;Flex: The Lexical Scanner Generator&lt;/cite&gt;", Version 2.3.7, ISBN 1882114213
+
+  &lt;dt&gt;[HTML4]
+  &lt;dd&gt;&lt;a name="refsHTML4"&gt;&lt;/a&gt; Dave Ragget, Arnaud Le Hors, Ian Jacobs, editors; "&lt;cite&gt;HTML 4.01 Specification&lt;/cite&gt;", W3C Recommendation, 24 December 1999
+  &lt;dd&gt;(&lt;a href="http://www.w3.org/TR/html4/"&gt;&lt;code&gt;http://www.w3.org/TR/html4/&lt;/code&gt;&lt;/a&gt;)
+
+  &lt;dt&gt;[MATH]
+  &lt;dd&gt;&lt;a name="refsMATH"&gt;&lt;/a&gt; Patrick Ion, Robert Miner, editors; "&lt;cite&gt;Mathematical Markup Language (MathML) 1.01&lt;/cite&gt;", W3C Recommendation, revision of 7 July 1999
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.w3.org/TR/REC-MathML/"&gt;http://www.w3.org/TR/REC-MathML/&lt;/a&gt;&lt;/code&gt;)
+
+  &lt;dt&gt;[RFC3066]
+  &lt;dd&gt;&lt;a name="refsRFC3066"&gt;&lt;/a&gt; H. Alvestrand; "&lt;cite&gt;Tags for the Identification of Languages&lt;/cite&gt;", Request for Comments 3066, January 2001
+  &lt;dd&gt;(&lt;a href="http://www.ietf.org/rfc/rfc3066.txt"&gt;&lt;code&gt;http://www.ietf.org/rfc/rfc3066.txt&lt;/code&gt;&lt;/a&gt;)
+
+  &lt;dt&gt;[STTS]
+  &lt;dd&gt;&lt;a name=refsSTTS&gt;&lt;/a&gt; Daniel Glazman; "&lt;cite&gt;Simple Tree Transformation Sheets 3&lt;/cite&gt;", Electricit&amp;eacute; de France, submission to the W3C, 11 November 1998 
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.w3.org/TR/NOTE-STTS3"&gt;http://www.w3.org/TR/NOTE-STTS3&lt;/a&gt;&lt;/code&gt;)
+
+  &lt;dt&gt;[SVG]
+  &lt;dd&gt;&lt;a name="refsSVG"&gt;&lt;/a&gt; Jon Ferraiolo, &amp;#34276;&amp;#27810; &amp;#28147;, Dean Jackson, editors; "&lt;cite&gt;Scalable Vector Graphics (SVG) 1.1 Specification&lt;/cite&gt;", W3C Recommendation, 14 January 2003
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.w3.org/TR/SVG/"&gt;http://www.w3.org/TR/SVG/&lt;/a&gt;&lt;/code&gt;)
+
+  &lt;dt&gt;[UNICODE]&lt;/dt&gt;
+  &lt;dd&gt;&lt;a name="refsUNICODE"&gt;&lt;/a&gt; &lt;cite&gt;&lt;a
+   href="http://www.unicode.org/versions/Unicode4.1.0/"&gt;The Unicode Standard, Version 4.1&lt;/a&gt;&lt;/cite&gt;, The Unicode Consortium. Boston, MA, Addison-Wesley, March 2005. ISBN 0-321-18578-1, as amended by &lt;a href="http://www.unicode.org/versions/Unicode4.0.1/"&gt;Unicode 4.0.1&lt;/a&gt; and &lt;a href="http://www.unicode.org/versions/Unicode4.1.0/"&gt;Unicode  4.1.0&lt;/a&gt;.
+  &lt;dd&gt;(&lt;code&gt;&lt;a href="http://www.unicode.org/versions/"&gt;http://www.unicode.org/versions/&lt;/a&gt;&lt;/code&gt;)&lt;/dd&gt;
+
+  &lt;dt&gt;[XML10]
+  &lt;dd&gt;&lt;a name="refsXML10"&gt;&lt;/a&gt; Tim Bray, Jean Paoli, C. M. Sperberg-McQueen, Eve Maler, Fran&amp;ccedil;ois Yergeau, editors; "&lt;cite&gt;Extensible Markup Language (XML) 1.0 (Third Edition)&lt;/cite&gt;", W3C Recommendation, 4 February 2004
+  &lt;dd&gt;(&lt;a href="http://www.w3.org/TR/REC-xml/"&gt;&lt;code&gt;http://www.w3.org/TR/REC-xml/&lt;/code&gt;&lt;/a&gt;)
+
+  &lt;dt&gt;[XMLNAMES]
+  &lt;dd&gt;&lt;a name="refsXMLNAMES"&gt;&lt;/a&gt; Tim Bray, Dave Hollander, Andrew Layman, editors; "&lt;cite&gt;Namespaces in XML&lt;/cite&gt;", W3C Recommendation, 14 January 1999
+  &lt;dd&gt;(&lt;a href="http://www.w3.org/TR/REC-xml-names/"&gt;&lt;code&gt;http://www.w3.org/TR/REC-xml-names/&lt;/code&gt;&lt;/a&gt;)
+
+  &lt;dt&gt;[YACC]
+  &lt;dd&gt;&lt;a name="refsYACC"&gt;&lt;/a&gt; S. C. Johnson; "&lt;cite&gt;YACC &amp;mdash; Yet another compiler compiler&lt;/cite&gt;", Technical Report, Murray Hill, 1975
+
+&lt;/dl&gt;</value>
+  </data>
+</root>
