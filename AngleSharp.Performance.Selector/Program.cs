@@ -59,7 +59,7 @@
 
             var testsuite = new TestSuite(parsers, tests, new Output(), new Warmup())
             {
-                NumberOfRepeats = 5,
+                NumberOfRepeats = 20,
                 NumberOfReRuns = 1
             };
 
