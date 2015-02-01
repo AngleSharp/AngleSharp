@@ -1161,8 +1161,6 @@
 
                 if (parent == null)
                     return false;
-                else if (step == 0)
-                    return parent.ChildElementCount >= offset && offset > 0 && parent.Children[offset - 1] == element;
 
                 var n = Math.Sign(step);
                 var k = 0;
@@ -1291,8 +1289,6 @@
 
                 if (parent == null)
                     return false;
-                else if (step == 0)
-                    return parent.ChildElementCount >= offset && offset > 0 && parent.Children[parent.ChildElementCount - offset] == element;
 
                 var n = Math.Sign(step);
                 var k = 0;
