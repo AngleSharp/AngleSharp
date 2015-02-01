@@ -439,7 +439,6 @@
     <Compile Include="Services\IAudioService.cs" />
     <Compile Include="Services\ICookieService.cs" />
     <Compile Include="Services\IEventService.cs" />
-    <Compile Include="Services\IExtensionService.cs" />
     <Compile Include="Services\IImageService.cs" />
     <Compile Include="Services\IResourceService.cs" />
     <Compile Include="Interfaces\IScriptEngine.cs" />
