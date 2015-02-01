@@ -14,8 +14,8 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Represents a helper to construct objects with externally
-    /// defined classes and libraries.
+    /// Represents a helper to construct objects with externally defined
+    /// classes and libraries.
     /// </summary>
     [DebuggerStepThrough]
     static class ConfigurationExtensions
@@ -25,7 +25,9 @@
         /// <summary>
         /// Gets the default encoding for the given configuration.
         /// </summary>
-        /// <param name="configuration">The configuration to use for getting the default encoding.</param>
+        /// <param name="configuration">
+        /// The configuration to use for getting the default encoding.
+        /// </param>
         /// <returns>The current encoding.</returns>
         public static Encoding DefaultEncoding(this IConfiguration configuration)
         {
@@ -50,9 +52,9 @@
         }
 
         /// <summary>
-        /// Gets the culture from the given language string or falls back to the
-        /// default culture of the provided configuration (if any). Last resort
-        /// is to use the current UI culture.
+        /// Gets the culture from the given language string or falls back to
+        /// the default culture of the provided configuration (if any). Last
+        /// resort is to use the current UI culture.
         /// </summary>
         /// <param name="options">The configuration to use.</param>
         /// <param name="language">The language string, e.g. en-US.</param>
@@ -84,10 +86,15 @@
         #region Services
 
         /// <summary>
-        /// Gets a service with a specific type from the configuration, if it has been registered.
+        /// Gets a service with a specific type from the configuration, if it
+        /// has been registered.
         /// </summary>
-        /// <typeparam name="TService">The type of the service to get.</typeparam>
-        /// <param name="configuration">The configuration instance to use.</param>
+        /// <typeparam name="TService">
+        /// The type of the service to get.
+        /// </typeparam>
+        /// <param name="configuration">
+        /// The configuration instance to use.
+        /// </param>
         /// <returns>The service, if any.</returns>
         public static TService GetService<TService>(this IConfiguration configuration)
             where TService : IService
@@ -102,10 +109,15 @@
         }
 
         /// <summary>
-        /// Gets services with a specific type from the configuration, if it has been registered.
+        /// Gets services with a specific type from the configuration, if it
+        /// has been registered.
         /// </summary>
-        /// <typeparam name="TService">The type of the service to get.</typeparam>
-        /// <param name="configuration">The configuration instance to use.</param>
+        /// <typeparam name="TService">
+        /// The type of the service to get.
+        /// </typeparam>
+        /// <param name="configuration">
+        /// The configuration instance to use.
+        /// </param>
         /// <returns>An enumerable over all services.</returns>
         public static IEnumerable<TService> GetServices<TService>(this IConfiguration configuration)
             where TService : IService
@@ -215,7 +227,9 @@
         /// </summary>
         /// <param name="options">The configuration to use.</param>
         /// <param name="url">The address of the image.</param>
-        /// <param name="cancel">Token to trigger in case of cancellation.</param>
+        /// <param name="cancel">
+        /// Token to trigger in case of cancellation.
+        /// </param>
         /// <returns>A task that will end with an image info or null.</returns>
         public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
             where TResource : IResourceInfo
@@ -251,7 +265,9 @@
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="type">The mime-type of the source code.</param>
-        /// <returns>The style engine or null, if the type if unknown.</returns>
+        /// <returns>
+        /// The style engine or null, if the type if unknown.
+        /// </returns>
         public static IStyleEngine GetStyleEngine(this IConfiguration configuration, String type)
         {
             foreach (var styleEngine in configuration.StyleEngines)
@@ -264,13 +280,19 @@
         }
         
         /// <summary>
-        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
-        /// returns the created stylesheet.
+        /// Parses the given source code by using the supplied type name
+        /// (otherwise it is text/css) and returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
-        /// <param name="source">The source code describing the style sheet.</param>
-        /// <param name="options">The options with the parameters for evaluating the style.</param>
-        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <param name="source">
+        /// The source code describing the style sheet.
+        /// </param>
+        /// <param name="options">
+        /// The options with the parameters for evaluating the style.
+        /// </param>
+        /// <param name="type">
+        /// The optional mime-type of the source code.
+        /// </param>
         /// <returns>A freshly created stylesheet, if any.</returns>
         public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, StyleOptions options, String type = null)
         {
@@ -283,13 +305,20 @@
         }
 
         /// <summary>
-        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
-        /// returns the created stylesheet.
+        /// Parses the given source code by using the supplied type name
+        /// (otherwise it is text/css) and returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
-        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
-        /// <param name="options">The options with the parameters for evaluating the style.</param>
-        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <param name="response">
+        /// The response with the stream representing the source of the
+        /// stylesheet.
+        /// </param>
+        /// <param name="options">
+        /// The options with the parameters for evaluating the style.
+        /// </param>
+        /// <param name="type">
+        /// The optional mime-type of the source code.
+        /// </param>
         /// <returns>A freshly created stylesheet, if any.</returns>
         public static IStyleSheet ParseStyling(this IConfiguration configuration, IResponse response, StyleOptions options, String type = null)
         {
@@ -310,7 +339,9 @@
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="type">The mime-type of the source code.</param>
-        /// <returns>The script engine or null, if the type if unknown.</returns>
+        /// <returns>
+        /// The script engine or null, if the type if unknown.
+        /// </returns>
         public static IScriptEngine GetScriptEngine(this IConfiguration configuration, String type)
         {
             foreach (var scriptEngine in configuration.ScriptEngines)
@@ -323,13 +354,15 @@
         }
 
         /// <summary>
-        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
-        /// returns the created stylesheet.
+        /// Parses the given source code by using the supplied type name
+        /// (otherwise it is text/css) and returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="source">The source code of the style sheet.</param>
         /// <param name="options">The options for running the script.</param>
-        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <param name="type">
+        /// The optional mime-type of the source code.
+        /// </param>
         public static void RunScript(this IConfiguration configuration, String source, ScriptOptions options, String type = null)
         {
             if (configuration.IsScripting)
@@ -342,13 +375,19 @@
         }
 
         /// <summary>
-        /// Parses the given source code by using the supplied type name (otherwise it is text/css) and
-        /// returns the created stylesheet.
+        /// Parses the given source code by using the supplied type name
+        /// (otherwise it is text/css) and returns the created stylesheet.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
-        /// <param name="response">The response with the stream representing the source of the script.</param>
-        /// <param name="options">The options for running the script.</param>
-        /// <param name="type">The optional mime-type of the source code.</param>
+        /// <param name="response">
+        /// The response with the stream representing the source of the script.
+        /// </param>
+        /// <param name="options">
+        /// The options for running the script.
+        /// </param>
+        /// <param name="type">
+        /// The optional mime-type of the source code.
+        /// </param>
         public static void RunScript(this IConfiguration configuration, IResponse response, ScriptOptions options, String type = null)
         {
             if (configuration.IsScripting)
@@ -385,7 +424,10 @@
         /// </summary>
         /// <param name="options">The configuration to use.</param>
         /// <param name="name">The name of the context to find.</param>
-        /// <returns>The existing context, or null, if no context with the provided name could be find.</returns>
+        /// <returns>
+        /// The existing context, or null, if no context with the provided
+        /// name could be find.
+        /// </returns>
         public static IBrowsingContext FindContext(this IConfiguration options, String name)
         {
             var service = options.GetService<IContextService>();
@@ -403,9 +445,13 @@
         /// <summary>
         /// Tries to resolve a command service with the given command id.
         /// </summary>
-        /// <param name="options">The configuration that contains all command services.</param>
+        /// <param name="options">
+        /// The configuration that contains all command services.
+        /// </param>
         /// <param name="commandId">The id of the command to find.</param>
-        /// <returns>The command with the given id if that exists, otherwise null.</returns>
+        /// <returns>
+        /// The command with the given id if that exists, otherwise null.
+        /// </returns>
         public static ICommandService GetCommand(this IConfiguration options, String commandId)
         {
             foreach (var command in options.GetServices<ICommandService>())
@@ -437,7 +483,9 @@
         /// </summary>
         /// <param name="options">The configuration to use.</param>
         /// <param name="url">The address of the resource.</param>
-        /// <param name="cancel">Token to trigger in case of cancellation.</param>
+        /// <param name="cancel">
+        /// Token to trigger in case of cancellation.
+        /// </param>
         /// <returns>A task with the contents or null.</returns>
         public static async Task<Stream> LoadCached(this IConfiguration options, Url url, CancellationToken cancel)
         {

@@ -16,7 +16,10 @@
         /// </summary>
         /// <param name="attributes">The list of attributes.</param>
         /// <param name="name">The local name to check for.</param>
-        /// <returns>True if an attribute without a prefix and the given local name exists.</returns>
+        /// <returns>
+        /// True if an attribute without a prefix and the given local name
+        /// exists.
+        /// </returns>
         public static Boolean Has(this List<IAttr> attributes, String name)
         {
             for (int i = 0; i < attributes.Count; i++)
@@ -29,12 +32,18 @@
         }
 
         /// <summary>
-        /// Checks if an attribute with the provided local name and namespace URI is given.
+        /// Checks if an attribute with the provided local name and namespace
+        /// URI is given.
         /// </summary>
         /// <param name="attributes">The list of attributes.</param>
-        /// <param name="namespaceUri">The namespace URI of the attribute.</param>
+        /// <param name="namespaceUri">
+        /// The namespace URI of the attribute.
+        /// </param>
         /// <param name="localName">The local name to check for.</param>
-        /// <returns>True if an attribute with the provided namespace and the given local name exists.</returns>
+        /// <returns>
+        /// True if an attribute with the provided namespace and the given
+        /// local name exists.
+        /// </returns>
         public static Boolean Has(this List<IAttr> attributes, String namespaceUri, String localName)
         {
             for (int i = 0; i < attributes.Count; i++)
@@ -64,12 +73,17 @@
         }
 
         /// <summary>
-        /// Gets the an attribute with the provided local name and namespace URI.
+        /// Gets the an attribute with the provided local name and namespace
+        /// URI.
         /// </summary>
         /// <param name="attributes">The list of attributes.</param>
-        /// <param name="namespaceUri">The namespace URI of the attribute.</param>
+        /// <param name="namespaceUri">
+        /// The namespace URI of the attribute.
+        /// </param>
         /// <param name="localName">The local name to get.</param>
-        /// <returns>The attribute with the local name and namespace or null.</returns>
+        /// <returns>
+        /// The attribute with the local name and namespace or null.
+        /// </returns>
         public static IAttr Get(this List<IAttr> attributes, String namespaceUri, String localName)
         {
             for (int i = 0; i < attributes.Count; i++)
@@ -85,7 +99,9 @@
         /// Compares another attribute container to the current container.
         /// </summary>
         /// <param name="sourceAttributes">The original attribute list.</param>
-        /// <param name="targetAttributes">The list of attributes to compare to.</param>
+        /// <param name="targetAttributes">
+        /// The list of attributes to compare to.
+        /// </param>
         /// <returns>True if both objects are equal, otherwise false.</returns>
         public static Boolean AreEqual(this List<IAttr> sourceAttributes, List<IAttr> targetAttributes)
         {

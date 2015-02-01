@@ -13,10 +13,13 @@
     static class CharExtensions
     {
         /// <summary>
-        /// Converts a given character from the hex representation (0-9A-Fa-f) to an integer.
+        /// Converts a given character from the hex representation (0-9A-Fa-f)
+        /// to an integer.
         /// </summary>
         /// <param name="c">The character to convert.</param>
-        /// <returns>The integer value or undefined behavior if invalid.</returns>
+        /// <returns>
+        /// The integer value or undefined behavior if invalid.
+        /// </returns>
         public static Int32 FromHex(this Char c)
         {
             return c.IsDigit() ? c - 0x30 : c - (c.IsLowercaseAscii() ? 0x57 : 0x37);
@@ -85,7 +88,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a uppercase character (A-Z) as specified here:
+        /// Determines if the given character is a uppercase character (A-Z) as
+        /// specified here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#uppercase-ascii-letters
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -97,7 +101,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a lowercase character (a-z) as specified here:
+        /// Determines if the given character is a lowercase character (a-z) as
+        /// specified here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#lowercase-ascii-letters
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -109,7 +114,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a alphanumeric character (0-9a-zA-z) as specified here:
+        /// Determines if the given character is a alphanumeric character
+        /// (0-9a-zA-z) as specified here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#alphanumeric-ascii-characters
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -121,7 +127,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a hexadecimal (0-9a-fA-F) as specified here:
+        /// Determines if the given character is a hexadecimal (0-9a-fA-F) as
+        /// specified here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#ascii-hex-digits
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -144,7 +151,8 @@
         }
 
         /// <summary>
-        /// Gets if the character is actually a non-printable (special) character.
+        /// Gets if the character is actually a non-printable (special)
+        /// character.
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
@@ -177,7 +185,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a valid character for starting an identifier.
+        /// Determines if the given character is a valid character for starting
+        /// an identifier.
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
@@ -188,7 +197,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a line break character as specified here:
+        /// Determines if the given character is a line break character as
+        /// specified here:
         /// http://www.w3.org/TR/html401/struct/text.html#h-9.3.2
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -200,7 +210,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a space character as specified here:
+        /// Determines if the given character is a space character as specified
+        /// here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#space-character
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -212,7 +223,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a white-space character as specified here:
+        /// Determines if the given character is a white-space character as
+        /// specified here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#white_space
         /// </summary>
         /// <param name="c">The character to examine.</param>
@@ -226,7 +238,8 @@
         }
 
         /// <summary>
-        /// Determines if the given character is a digit (0-9) as specified here:
+        /// Determines if the given character is a digit (0-9) as specified
+        /// here:
         /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#ascii-digits
         /// </summary>
         /// <param name="c">The character to examine.</param>
