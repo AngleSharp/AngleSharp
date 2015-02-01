@@ -1,10 +1,11 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance.Html
 {
+    using System;
     using System.Collections.Generic;
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main(String[] args)
         {
             UrlTest.UseBuffer = true;
 
@@ -64,7 +65,7 @@
 
             var statistics = new StatisticParser();
 
-            var parsers = new List<IHtmlParser>
+            var parsers = new List<ITestee>
             {
                 //statistics
                 new AngleSharpParser(),
@@ -72,16 +73,12 @@
                 new AgilityPackParser()
             };
 
-            Warmup.ForceJit(typeof(AngleSharp.DocumentBuilder));
-            Warmup.ForceJit(typeof(CsQuery.CsQueryConfig));
-            Warmup.ForceJit(typeof(HtmlAgilityPack.HtmlDocument));
-
             //Majestic is neither HTML5 conform, nor building a realistic DOM structure.
             //Therefore Majestic has been excluded. You could, however, just re-enable
             //it by uncommenting the following line.
             //parsers.Add(new MajesticParser());
 
-            var testsuite = new TestSuite(parsers, tests)
+            var testsuite = new TestSuite(parsers, tests, new Output(), new Warmup())
             {
                 NumberOfRepeats = 5,
                 NumberOfReRuns = 1

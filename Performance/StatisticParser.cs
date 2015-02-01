@@ -1,4 +1,4 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance.Html
 {
     using AngleSharp;
     using AngleSharp.Parser.Html;
@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    class StatisticParser : IHtmlParser
+    class StatisticParser : ITestee
     {
         static readonly IConfiguration configuration = new Configuration { IsStyling = false, IsScripting = true };
 
@@ -17,7 +17,12 @@
             get { return "AngleSharp-Statistics"; }
         }
 
-        public void Parse(String source)
+        public Type Library
+        {
+            get { return typeof(HtmlParser); }
+        }
+
+        public void Run(String source)
         {
             var parser = new HtmlParser(source, configuration);
             var document = parser.Parse();

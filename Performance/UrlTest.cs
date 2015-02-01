@@ -1,4 +1,4 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance.Html
 {
     using System;
     using System.IO;

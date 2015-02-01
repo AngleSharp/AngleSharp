@@ -1,4 +1,4 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance.Html
 {
     using CsQuery;
     using CsQuery.ExtensionMethods.Internal;
@@ -6,14 +6,19 @@
     using System;
     using System.Text;
 
-    class CsQueryParser : IHtmlParser
+    class CsQueryParser : ITestee
     {
         public String Name
         {
             get { return "CsQuery"; }
         }
 
-        public void Parse(String source)
+        public Type Library
+        {
+            get { return typeof(ElementFactory); }
+        }
+
+        public void Run(String source)
         {
             var factory = new ElementFactory(DomIndexProviders.Simple);
 

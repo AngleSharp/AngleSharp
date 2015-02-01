@@ -1,12 +1,12 @@
-﻿namespace Performance
+﻿namespace AngleSharp.Performance.Html
 {
     using System;
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
-    static class Warmup
+    sealed class Warmup : IWarmup
     {
-        public static void ForceJit(Type type)
+        public void ForceJit(Type type)
         {
             ForceJit(Assembly.GetAssembly(type));
         }
