@@ -29,8 +29,6 @@ namespace ConsoleInteraction
             //form.Submit();
 
             TestAsync().Wait();
-  
-            CssSelectorTest.Slickspeed();
 
             TestCSSFrom("http://www.facebook.com");
 
