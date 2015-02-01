@@ -155,7 +155,7 @@
             {
                 if (fieldSet.IsDisabled)
                 {
-                    var firstLegend = fieldSet.Children.FirstOrDefault(m => m is IHtmlLegendElement);
+                    var firstLegend = fieldSet.ChildNodes.FirstOrDefault(m => m is IHtmlLegendElement);
                     return this.IsDescendantOf(firstLegend) == false;
                 }
             }

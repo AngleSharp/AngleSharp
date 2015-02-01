@@ -185,15 +185,18 @@
                         if (parent == null)
                             return new IElement[0];
 
-                        var kids = parent.Children;
                         var siblings = new List<IElement>();
 
-                        foreach (var kid in kids)
+                        foreach (var child in parent.ChildNodes)
                         {
-                            if (kid == el)
-                                break;
+                            var element = child as IElement;
 
-                            siblings.Add(kid);
+                            if (element == null)
+                                continue;
+                            else if (Object.ReferenceEquals(element, el))
+                                break;
+                            else
+                                siblings.Add(element);
                         }
 
                         return siblings;

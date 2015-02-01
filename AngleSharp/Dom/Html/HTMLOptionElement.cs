@@ -75,14 +75,14 @@
 
                 if (group != null)
                 {
-                    int i = 0;
+                    var i = 0;
 
-                    foreach (var child in group.Children)
+                    foreach (var child in group.ChildNodes)
                     {
-                        if (child == this)
+                        if (Object.ReferenceEquals(child, this))
                             return i;
-                        else
-                            i++;
+
+                        i++;
                     }
                 }
 
