@@ -7,8 +7,8 @@
     using System.Text;
 
     /// <summary>
-    /// Represents an Url class according to RFC3986.
-    /// This is the base for all internal Url manipulation.
+    /// Represents an Url class according to RFC3986. This is the base for all
+    /// internal Url manipulation.
     /// </summary>
     public class Url : IEquatable<Url>
     {
@@ -62,10 +62,13 @@
         }
 
         /// <summary>
-        /// Creates a new absolute Url from the relative Url with the given base address.
+        /// Creates a new absolute Url from the relative Url with the given
+        /// base address.
         /// </summary>
         /// <param name="baseAddress">The base address to use.</param>
-        /// <param name="relativeAddress">The relative address to represent.</param>
+        /// <param name="relativeAddress">
+        /// The relative address to represent.
+        /// </param>
         public Url(Url baseAddress, String relativeAddress)
             : this()
         {
@@ -170,8 +173,8 @@
         }
 
         /// <summary>
-        /// Gets the additional stored data of the URL.
-        /// This is data that could not be assigned.
+        /// Gets the additional stored data of the URL. This is data that could
+        /// not be assigned.
         /// </summary>
         public String Data
         {
@@ -270,10 +273,15 @@
         }
 
         /// <summary>
-        /// Determines whether the specified object is equal to the current object.
+        /// Determines whether the specified object is equal to the current
+        /// object.
         /// </summary>
-        /// <param name="obj">The object to compare with the current object.</param>
-        /// <returns>True if the object is equal to the current object, otherwise false.</returns>
+        /// <param name="obj">
+        /// The object to compare with the current object.
+        /// </param>
+        /// <returns>
+        /// True if the object is equal to the current object, otherwise false.
+        /// </returns>
         public override Boolean Equals(Object obj)
         {
             var url = obj as Url;
@@ -285,10 +293,15 @@
         }
 
         /// <summary>
-        /// Determines whether the specified url is equal to the current object.
+        /// Determines whether the specified url is equal to the current
+        /// object.
         /// </summary>
-        /// <param name="other">The url to compare with the current one.</param>
-        /// <returns>True if the given url is equal to the current url, otherwise false.</returns>
+        /// <param name="other">
+        /// The url to compare with the current one.
+        /// </param>
+        /// <returns>
+        /// True if the given url is equal to the current url, otherwise false.
+        /// </returns>
         public Boolean Equals(Url other)
         {
             return Compare(_fragment, other._fragment) &&
@@ -831,7 +844,7 @@
                 if (fragment = (!onlyQuery && input[index] == Symbols.Num))
                     break;
 
-                if (c.IsInRange(0x21, 0x7e) && c != Symbols.DoubleQuote && c != Symbols.Num && c != Symbols.LessThan && c != Symbols.GreaterThan && c != Symbols.CurvedQuote)
+                if (c.IsNormalQueryCharacter())
                     buffer.Append(c);
                 else
                     buffer.Append(Symbols.Percent).Append(((Byte)c).ToString("X2"));

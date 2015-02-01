@@ -2,6 +2,9 @@
 {
     using System;
     using System.Diagnostics;
+#if !LEGACY
+    using System.Runtime.CompilerServices;
+#endif
 
     /// <summary>
     /// Useful methods for chars.
@@ -51,9 +54,23 @@
         /// <param name="lower">The lower bound of the range.</param>
         /// <param name="upper">The upper bound of the range.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsInRange(this Char c, Int32 lower, Int32 upper)
         {
             return c >= lower && c <= upper;
+        }
+
+        /// <summary>
+        /// Determines if the given character is allowed as-it-is in queries.
+        /// </summary>
+        /// <param name="c">The character to examine.</param>
+        /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsNormalQueryCharacter(this Char c)
+        {
+            return c.IsInRange(0x20, 0x7e) && c != Symbols.DoubleQuote &&
+                c != Symbols.CurvedQuote && c != Symbols.Num &&
+                c != Symbols.LessThan && c != Symbols.GreaterThan;
         }
 
         /// <summary>
@@ -61,12 +78,10 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNormalPathCharacter(this Char c)
         {
-            return c.IsInRange(0x20, 0x7e) && c != Symbols.Space &&
-                c != Symbols.DoubleQuote && c != Symbols.CurvedQuote &&
-                c != Symbols.Num && c != Symbols.LessThan &&
-                c != Symbols.GreaterThan && c != Symbols.QuestionMark;
+            return c.IsNormalQueryCharacter() && c != Symbols.Space && c != Symbols.QuestionMark;
         }
 
         /// <summary>
@@ -75,6 +90,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsUppercaseAscii(this Char c)
         {
             return c >= 0x41 && c <= 0x5a;
@@ -86,6 +102,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsLowercaseAscii(this Char c)
         {
             return c >= 0x61 && c <= 0x7a;
@@ -97,6 +114,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsAlphanumericAscii(this Char c)
         {
             return c.IsDigit() || c.IsUppercaseAscii() || c.IsLowercaseAscii();
@@ -108,6 +126,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsHex(this Char c)
         {
             return c.IsDigit() || (c >= 0x41 && c <= 0x46) || (c >= 0x61 && c <= 0x66);
@@ -118,6 +137,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNonAscii(this Char c)
         {
             return c >= 0x80;
@@ -128,6 +148,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNonPrintable(this Char c)
         {
             return (c >= 0x0 && c <= 0x8) || (c >= 0xe && c <= 0x1f) || (c >= 0x7f && c <= 0x9f);
@@ -138,6 +159,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsLetter(this Char c)
         {
             return IsUppercaseAscii(c) || IsLowercaseAscii(c);
@@ -148,9 +170,10 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || IsDigit(c);
+            return c >= 0x80 || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
         }
 
         /// <summary>
@@ -158,6 +181,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNameStart(this Char c)
         {
             return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Symbols.Underscore;
@@ -169,9 +193,9 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsLineBreak(this Char c)
         {
-            //line feed, carriage return
             return c == Symbols.LineFeed || c == Symbols.CarriageReturn;
         }
 
@@ -181,9 +205,9 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsSpaceCharacter(this Char c)
         {
-            //white space, tab, line feed, form feed, carriage return
             return c == Symbols.Space || c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn || c == Symbols.FormFeed;
         }
 
@@ -193,6 +217,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsWhiteSpaceCharacter(this Char c)
         {
             return c.IsInRange(0x0009, 0x000d) || c == 0x0020 || c == 0x0085 || c == 0x00a0 ||
@@ -206,6 +231,7 @@
         /// </summary>
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsDigit(this Char c)
         {
             return c >= 0x30 && c <= 0x39;
