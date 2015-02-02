@@ -1047,6 +1047,7 @@
         /// </summary>
         public void Dispose()
         {
+            //Important to fix #45
             ReplaceAll(null, true);
             _scripts.Clear();
 
