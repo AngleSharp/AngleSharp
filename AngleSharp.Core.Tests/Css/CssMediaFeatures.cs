@@ -5,7 +5,7 @@ using AngleSharp.Dom.Css;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace UnitTests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     [TestFixture]
     public class CssMediaFeaturesTests

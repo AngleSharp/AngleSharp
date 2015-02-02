@@ -1,4 +1,4 @@
-﻿namespace UnitTests
+﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Network;
     using System;

@@ -2,7 +2,7 @@
 using AngleSharp.Parser.Css;
 using NUnit.Framework;
 
-namespace UnitTests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     [TestFixture]
     public class CssListPropertyTests

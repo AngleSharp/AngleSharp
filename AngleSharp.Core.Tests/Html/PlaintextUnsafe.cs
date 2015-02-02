@@ -2,7 +2,7 @@
 using AngleSharp;
 using AngleSharp.Dom;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class PlaintextUnsafeTests

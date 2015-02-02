@@ -4,7 +4,7 @@ using AngleSharp.Html;
 using NUnit.Framework;
 using System.Linq;
 
-namespace UnitTests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class LiveCollectionTests

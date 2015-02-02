@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace UnitTests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class FormSubmitTests

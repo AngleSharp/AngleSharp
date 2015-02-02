@@ -1,7 +1,7 @@
 ﻿using AngleSharp.Dom.Css;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class ColorTests

@@ -3,7 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Linq;
 using NUnit.Framework;
 
-namespace UnitTests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class DOMActions

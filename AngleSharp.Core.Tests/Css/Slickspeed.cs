@@ -3,7 +3,7 @@ using AngleSharp.Dom;
 using NUnit.Framework;
 using System.Globalization;
 
-namespace UnitTests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     [TestFixture]
     public class SlickspeedTests

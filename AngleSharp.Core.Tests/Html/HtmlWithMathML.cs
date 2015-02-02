@@ -3,7 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class HtmlWithMathMLTests

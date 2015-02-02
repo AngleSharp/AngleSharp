@@ -4,7 +4,7 @@ using AngleSharp.Extensions;
 using AngleSharp.Html;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests (*)

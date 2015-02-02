@@ -4,7 +4,7 @@ using AngleSharp.Dom.Html;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace UnitTests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class NodeIteratorTests

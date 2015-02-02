@@ -1,11 +1,11 @@
-﻿namespace UnitTests
+﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp;
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
     using System.Text;
-    using UnitTests.Mocks;
 
     [TestFixture]
     public class AsyncParsingTests

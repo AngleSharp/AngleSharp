@@ -4,7 +4,7 @@ using AngleSharp.Dom.Html;
 using AngleSharp.Extensions;
 using NUnit.Framework;
 
-namespace UnitTests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     [TestFixture]
     public class HtmlTemplateTests

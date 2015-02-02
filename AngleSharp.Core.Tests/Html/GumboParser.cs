@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     /// <summary>
     /// Tests taken (and ported) from

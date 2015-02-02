@@ -3,7 +3,7 @@ using NUnit.Framework;
 using AngleSharp.Parser.Css;
 using AngleSharp.Dom.Css;
 
-namespace UnitTests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     [TestFixture]
     public class CssMediaListTests

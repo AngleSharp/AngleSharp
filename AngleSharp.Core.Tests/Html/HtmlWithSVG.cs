@@ -4,7 +4,7 @@ using AngleSharp;
 using AngleSharp.Extensions;
 using AngleSharp.Dom;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class HtmlWithSVGTests

@@ -3,7 +3,7 @@ using AngleSharp.Dom;
 using NUnit.Framework;
 using System.Text;
 
-namespace UnitTests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class AnalysisWindowTests

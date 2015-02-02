@@ -3,7 +3,7 @@ using AngleSharp.Dom;
 using NUnit.Framework;
 using System;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class CssSelectorTests

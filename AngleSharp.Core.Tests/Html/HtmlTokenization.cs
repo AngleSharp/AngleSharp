@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Text;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class HtmlTokenizationTests

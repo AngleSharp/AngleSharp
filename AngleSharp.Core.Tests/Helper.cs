@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Net.NetworkInformation;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     /// <summary>
     /// Small (but quite useable) code to enable / disable some

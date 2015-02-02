@@ -1,4 +1,4 @@
-﻿namespace UnitTests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Values;

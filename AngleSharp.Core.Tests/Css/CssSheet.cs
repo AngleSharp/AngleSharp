@@ -6,7 +6,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class CssSheetTests

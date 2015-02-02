@@ -7,7 +7,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class DOMTests

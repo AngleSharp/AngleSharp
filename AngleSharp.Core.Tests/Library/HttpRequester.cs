@@ -1,4 +1,4 @@
-﻿namespace UnitTests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
     using AngleSharp.Extensions;
@@ -6,7 +6,6 @@
     using NUnit.Framework;
     using System.IO;
     using System.Linq;
-    using UnitTests.Mocks;
 
     [TestFixture]
     public class HttpRequesterTests

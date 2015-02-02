@@ -2,7 +2,7 @@ using AngleSharp;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
-namespace UnitTests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     /// <summary>
     /// Tests generated according to the W3C-Test.org page:

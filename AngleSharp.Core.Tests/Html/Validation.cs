@@ -2,7 +2,7 @@
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
-namespace UnitTests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     [TestFixture]
     public class ValidationTests

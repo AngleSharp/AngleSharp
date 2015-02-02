@@ -5,7 +5,7 @@ using AngleSharp.Extensions;
 using AngleSharp.Dom;
 using System.Linq;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class HtmlFormattingTests

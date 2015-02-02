@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UnitTests {
+namespace AngleSharp.Core.Tests {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace UnitTests {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UnitTests.Assets", typeof(Assets).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AngleSharp.Core.Tests.Assets", typeof(Assets).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -325,7 +325,7 @@ namespace UnitTests {
         ///    &lt;dt&gt;Latest version:
         ///
         ///    &lt;dd&gt;&lt;a href=&quot;http://www.w3.org/TR/css3-selectors&quot;&gt;
-        ///                 http://www.w3.org/TR/ [rest of string was truncated]&quot;;.
+        ///                 http [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string w3c_selectors {
             get {

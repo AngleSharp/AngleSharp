@@ -3,7 +3,7 @@ using AngleSharp;
 using AngleSharp.Dom;
 using System;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests (*)

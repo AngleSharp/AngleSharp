@@ -6,7 +6,7 @@ using AngleSharp.Parser.Html;
 using NUnit.Framework;
 using System.Linq;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class HtmlTreeTests

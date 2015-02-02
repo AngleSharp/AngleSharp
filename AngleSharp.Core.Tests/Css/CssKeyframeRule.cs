@@ -4,7 +4,7 @@ using AngleSharp.Dom.Css;
 using AngleSharp.Parser.Css;
 using System.Linq;
 
-namespace UnitTests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     [TestFixture]
     public class CssKeyframeRuleTests

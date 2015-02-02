@@ -4,7 +4,7 @@ using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class CssW3CSelectorTests

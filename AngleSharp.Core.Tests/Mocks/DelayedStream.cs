@@ -1,4 +1,4 @@
-﻿namespace UnitTests.Mocks
+﻿namespace AngleSharp.Core.Tests.Mocks
 {
     using System;
     using System.IO;

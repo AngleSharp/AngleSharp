@@ -3,7 +3,7 @@ using AngleSharp.Parser;
 using AngleSharp.Parser.Css;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     [TestFixture]
     public class CssTokenizationTests

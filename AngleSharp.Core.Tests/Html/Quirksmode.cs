@@ -3,7 +3,7 @@ using AngleSharp.Dom.Html;
 using AngleSharp;
 using AngleSharp.Dom;
 
-namespace UnitTests
+namespace AngleSharp.Core.Tests
 {
     /// <summary>
     /// These tests are taken from http://www.quirksmode.org/dom/tests/.
