@@ -46,7 +46,6 @@
     <Compile Include="Tools\MSDNCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Samples.cs" />
     <Compile Include="Assets\Snippets.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
