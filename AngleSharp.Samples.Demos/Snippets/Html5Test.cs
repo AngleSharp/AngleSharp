@@ -4,7 +4,8 @@
     using System;
     using System.Threading.Tasks;
 
-    class Html5Test : ISnippet
+    //Not used at the moment (wait for more to be integrated)
+    class Html5Test// : ISnippet
     {
         public async Task Run()
         {
