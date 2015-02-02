@@ -39,10 +39,10 @@
                     Console.WriteLine();
 
                     if (usepause)
-                        Console.ReadKey(true);
+                        PauseConsole();
 
                     if (clearscr)
-                        Console.Clear();
+                        ClearConsole();
                 }
             });
         }
@@ -50,6 +50,17 @@
         static void RunSynchronously(Func<Task> runner)
         {
             runner().Wait();
+        }
+
+        static void ClearConsole()
+        {
+            Console.Clear();
+        }
+
+        static void PauseConsole()
+        {
+            Console.WriteLine("Press any key to continue ...");
+            Console.ReadKey(true);
         }
     }
 }
