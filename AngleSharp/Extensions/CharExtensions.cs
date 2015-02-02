@@ -71,7 +71,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNormalQueryCharacter(this Char c)
         {
-            return c.IsInRange(0x20, 0x7e) && c != Symbols.DoubleQuote &&
+            return c.IsInRange(0x21, 0x7e) && c != Symbols.DoubleQuote &&
                 c != Symbols.CurvedQuote && c != Symbols.Num &&
                 c != Symbols.LessThan && c != Symbols.GreaterThan;
         }
@@ -84,7 +84,10 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNormalPathCharacter(this Char c)
         {
-            return c.IsNormalQueryCharacter() && c != Symbols.Space && c != Symbols.QuestionMark;
+            return c.IsInRange(0x20, 0x7e) && c != Symbols.DoubleQuote &&
+                c != Symbols.CurvedQuote && c != Symbols.Num &&
+                c != Symbols.LessThan && c != Symbols.GreaterThan && 
+                c != Symbols.Space && c != Symbols.QuestionMark;
         }
 
         /// <summary>
