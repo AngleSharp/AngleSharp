@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Attributes;
-    using System;
 
     /// <summary>
     /// A collection of error codes.

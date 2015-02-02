@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly ElementLocation _location;
+        readonly BoundLocation _location;
         TokenList _relList;
         SettableTokenList _ping;
 
@@ -25,7 +25,7 @@
         public HtmlAreaElement(Document owner)
             : base(owner, Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _location = new ElementLocation(this);
+            _location = new BoundLocation(this);
             RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);
         }
 

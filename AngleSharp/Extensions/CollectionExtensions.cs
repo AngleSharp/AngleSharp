@@ -25,7 +25,7 @@
         /// considered.
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>
-        /// <param name="result">The result collection.</param>
+        /// <returns>The collection with the corresponding elements.</returns>
         public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Predicate<T> predicate = null)
             where T : class, INode
         {

@@ -9,6 +9,7 @@
     /// Defines a set of options to use with the mutation observer.
     /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver#MutationObserverInit
     /// </summary>
+    [DomNoInterfaceObject]
     [DomName("MutationObserverInit")]
     public sealed class MutationObserverInit
     {
@@ -19,17 +20,6 @@
         {
             IsObservingChildNodes = false;
             IsObservingSubtree = false;
-        }
-
-        internal MutationObserverInit(MutationObserverInit original)
-        {
-            IsObservingAttributes = original.IsObservingAttributes;
-            AttributeFilters = original.AttributeFilters.ToArray();
-            IsObservingChildNodes = original.IsObservingChildNodes;
-            IsObservingCharacterData = original.IsObservingCharacterData;
-            IsObservingSubtree = original.IsObservingSubtree;
-            IsExaminingOldAttributeValue = original.IsExaminingOldAttributeValue;
-            IsExaminingOldCharacterData = original.IsExaminingOldCharacterData;
         }
 
         /// <summary>

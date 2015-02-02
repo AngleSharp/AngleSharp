@@ -106,7 +106,6 @@
     <Compile Include="Css\Values\ScaleTransform.cs" />
     <Compile Include="Css\Values\SkewTransform.cs" />
     <Compile Include="Css\Values\TranslateTransform.cs" />
-    <Compile Include="Dom\ElementLocation.cs" />
     <Compile Include="Dom\Events\ErrorEvent.cs" />
     <Compile Include="Dom\Events\FocusEvent.cs" />
     <Compile Include="Dom\Events\HashChangedEvent.cs" />
