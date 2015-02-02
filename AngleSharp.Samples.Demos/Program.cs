@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
 
     class Program
     {
@@ -26,21 +27,29 @@
             var usepause = args.Contains("--pause") || defaults.pause;
             var clearscr = args.Contains("--clear") || defaults.clear;
 
-            foreach (var snippet in snippets)
+            RunSynchronously(async () =>
             {
-                Console.WriteLine(">>> {0}", snippet.GetType().Name);
-                Console.WriteLine();
+                foreach (var snippet in snippets)
+                {
+                    Console.WriteLine(">>> {0}", snippet.GetType().Name);
+                    Console.WriteLine();
 
-                snippet.Run().Wait();
+                    await snippet.Run();
 
-                Console.WriteLine();
+                    Console.WriteLine();
 
-                if (usepause)
-                    Console.ReadKey(true);
+                    if (usepause)
+                        Console.ReadKey(true);
 
-                if (clearscr)
-                    Console.Clear();
-            }
+                    if (clearscr)
+                        Console.Clear();
+                }
+            });
+        }
+
+        static void RunSynchronously(Func<Task> runner)
+        {
+            runner().Wait();
         }
     }
 }
