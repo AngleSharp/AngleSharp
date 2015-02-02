@@ -14,15 +14,15 @@
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    sealed class HtmlFormElement : HtmlElement, IHtmlFormElement
+    sealed class HtmlFormElement : HtmlElement, IHtmlFormElement, IDisposable
     {
         #region Fields
 
         static readonly String UsAscii = "us-ascii";
 
         HtmlFormControlsCollection _elements;
-        Task<IDocument> _plannedNavigation;
-        CancellationTokenSource _cancel;
+        Task<IDocument> _navigationTask;
+        CancellationTokenSource _cts;
 
         #endregion
 
@@ -34,7 +34,7 @@
         public HtmlFormElement(Document owner)
             : base(owner, Tags.Form, NodeFlags.Special)
         {
-            _cancel = new CancellationTokenSource();
+            _cts = new CancellationTokenSource();
         }
 
         #endregion
@@ -174,13 +174,22 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _navigationTask = null;
+        }
+
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
         public Task<IDocument> Submit()
         {
             SubmitForm(this, true);
-            return _plannedNavigation;
+            return _navigationTask;
         }
 
         /// <summary>
@@ -364,7 +373,7 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _plannedNavigation = NavigateTo(action, HttpMethod.Get);
+            _navigationTask = NavigateTo(action, HttpMethod.Get);
         }
 
         /// <summary>
@@ -421,7 +430,7 @@
         /// </summary>
         void GetActionUrl(Url action)
         {
-            _plannedNavigation = NavigateTo(action, HttpMethod.Get);
+            _navigationTask = NavigateTo(action, HttpMethod.Get);
         }
 
         /// <summary>
@@ -452,7 +461,7 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            _plannedNavigation = NavigateTo(action, HttpMethod.Post, result, mimeType);
+            _navigationTask = NavigateTo(action, HttpMethod.Post, result, mimeType);
         }
 
         /// <summary>
@@ -466,24 +475,19 @@
         /// <param name="mime">The MIME type of the entity body.</param>
         async Task<IDocument> NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
         {
-            var owner = Owner;
-
-            if (owner != null)
+            if (_navigationTask != null)
             {
-                if (_plannedNavigation != null)
-                {
-                    _cancel.Cancel();
-                    _plannedNavigation = null;
-                    _cancel = new CancellationTokenSource();
-                }
+                _cts.Cancel();
+                _navigationTask = null;
+                _cts = new CancellationTokenSource();
+            }
 
-                var requester = owner.Options.GetRequester(action.Scheme);
+            var requester = Owner.Options.GetRequester(action.Scheme);
 
-                if (requester != null)
-                {
-                    using (var response = await requester.SendAsync(action, body, mime, method, _cancel.Token).ConfigureAwait(false))
-                        return await owner.Context.OpenAsync(response, _cancel.Token).ConfigureAwait(false);
-                }
+            if (requester != null)
+            {
+                using (var response = await requester.SendAsync(action, body, mime, method, _cts.Token).ConfigureAwait(false))
+                    return await Owner.Context.OpenAsync(response, _cts.Token).ConfigureAwait(false);
             }
 
             return null;

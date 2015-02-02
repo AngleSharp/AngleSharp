@@ -6,26 +6,21 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement
+    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement, IDisposable
         where TResource : IMediaInfo
     {
         #region Fields
 
-        /// <summary>
-        /// The state of the network.
-        /// </summary>
         protected MediaNetworkState _network;
-
-        /// <summary>
-        /// The task that loads the resource.
-        /// </summary>
         protected Task<TResource> _resourceTask;
 
+        CancellationTokenSource _cts;
         ITextTrackList _texts;
 
         #endregion
@@ -416,6 +411,15 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _resourceTask = null;
+        }
+
         /// <summary>
         /// Loads the media specified for this element.
         /// </summary>
@@ -425,6 +429,8 @@
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
             if (_resourceTask != null)
                 return;
+            else if (_cts != null)
+                _cts.Cancel();
             
             var src = CurrentSource;
 
@@ -432,16 +438,21 @@
             {
                 _network = MediaNetworkState.Idle;
                 var url = this.HyperReference(src);
-                _resourceTask = Owner.Options.LoadResource<TResource>(url);
+                _cts = new CancellationTokenSource();
                 _network = MediaNetworkState.Loading;
-                _resourceTask.ContinueWith(_ =>
-                {
-                    if (_.Result == null)
-                        _network = MediaNetworkState.NoSource;
-
-                    this.FireSimpleEvent(EventNames.Load);
-                });
+                _resourceTask = LoadAsync(url, _cts.Token);
             }
+        }
+
+        async Task<TResource> LoadAsync(Url url, CancellationToken cancel)
+        {
+            var media = await Owner.Options.LoadResource<TResource>(url, cancel).ConfigureAwait(false);
+
+            if (media == null)
+                _network = MediaNetworkState.NoSource;
+
+            this.FireSimpleEvent(EventNames.Load);
+            return media;
         }
 
         /// <summary>

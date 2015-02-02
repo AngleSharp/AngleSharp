@@ -10,7 +10,7 @@
     /// content.
     /// </summary>
     [DomName("Document")]
-    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle, INonElementParentNode
+    public interface IDocument : INode, IParentNode, IGlobalEventHandlers, IDocumentStyle, INonElementParentNode, IDisposable
     {
         /// <summary>
         /// Gets a list of all elements in the document.

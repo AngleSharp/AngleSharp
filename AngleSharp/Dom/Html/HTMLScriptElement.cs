@@ -4,12 +4,13 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML script element.
     /// </summary>
-    sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement
+    sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement, IDisposable
     {
         #region Fields
 
@@ -18,7 +19,8 @@
         Boolean _wasParserInserted;
         Boolean _forceAsync;
         Boolean _readyToBeExecuted;
-        Task<IResponse> _load;
+        CancellationTokenSource _cts;
+        Task<IResponse> _loadingTask;
 
         #endregion
 
@@ -146,27 +148,25 @@
         /// </summary>
         internal void Run()
         {
-            var owner = Owner;
-
-            if (_load == null || owner == null)
+            if (_loadingTask == null)
                 return;
 
-            if (_load.Exception != null || _load.IsFaulted)
+            if (_loadingTask.Exception != null || _loadingTask.IsFaulted)
             {
                 Error();
-                return;
             }
+            else if (!CancelledBeforeScriptExecute())
+            {
+                using (var result = _loadingTask.Result)
+                    Owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
 
-            if (CancelledBeforeScriptExecute())
-                return;
+                AfterScriptExecute();
 
-            using (var result = _load.Result)
-                owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
-
-            AfterScriptExecute();
-
-            if (Source != null) Load();
-            else owner.QueueTask(Load);
+                if (Source != null) 
+                    Load();
+                else 
+                    Owner.QueueTask(Load);
+            }
         }
 
         /// <summary>
@@ -175,19 +175,17 @@
         /// </summary>
         internal void Prepare()
         {
-            var owner = Owner;
-
-            if (_started || owner == null)
+            if (_started || Owner == null)
                 return;
 
-            var options = owner.Options;
+            var options = Owner.Options;
 
             _wasParserInserted = _parserInserted;
             _parserInserted = false;
 
             _forceAsync = _wasParserInserted && !IsAsync;
 
-            if ((String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text)) || owner == null)
+            if (String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text))
                 return;
 
             if (options.GetScriptEngine(ScriptLanguage) == null)
@@ -201,7 +199,7 @@
 
             _started = true;
 
-            if (!owner.Options.IsScripting)
+            if (!Owner.Options.IsScripting)
                 return;
 
             var eventAttr = GetAttribute(AttributeNames.Event);
@@ -225,7 +223,7 @@
             {
                 if (src == String.Empty)
                 {
-                    owner.QueueTask(Error);
+                    Owner.QueueTask(Error);
                     return;
                 }
 
@@ -235,27 +233,10 @@
                 if (requester == null)
                     return;
 
-                _load = requester.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), owner.Origin, OriginBehavior.Taint);
-
-                if (_parserInserted && !IsAsync)
-                {
-                    if (IsDeferred)
-                        owner.AddScript(this);
-
-                    _load.ContinueWith(task => _readyToBeExecuted = true);
-                }
-                else if (!IsAsync && !_forceAsync)
-                {
-                    //Add to end of list of scripts (in order) --> sufficient
-                    owner.AddScript(this);
-                }
-                else
-                {
-                    //Just add to the set of scripts
-                    owner.AddScript(this);
-                }
+                _cts = new CancellationTokenSource();
+                _loadingTask = PrepareAsync(requester, url, _cts.Token);
             }
-            else if (_parserInserted && owner.HasScriptBlockingStyleSheet())
+            else if (_parserInserted && Owner.HasScriptBlockingStyleSheet())
             {
                 _readyToBeExecuted = true;
             }
@@ -263,6 +244,32 @@
             {
                 options.RunScript(Text, CreateOptions(), ScriptLanguage);
             }
+        }
+
+        async Task<IResponse> PrepareAsync(IRequester requester, Url url, CancellationToken cancel)
+        {
+            if (_parserInserted && !IsAsync)
+            {
+                if (IsDeferred)
+                    Owner.AddScript(this);
+            }
+            else if (!IsAsync && !_forceAsync)
+            {
+                //Add to end of list of scripts (in order) --> sufficient
+                Owner.AddScript(this);
+            }
+            else
+            {
+                //Just add to the set of scripts
+                Owner.AddScript(this);
+            }
+
+            var response = await requester.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint, cancel);
+
+            if (_parserInserted && !IsAsync)
+                _readyToBeExecuted = true;
+
+            return response;
         }
 
         void Load()
@@ -294,6 +301,19 @@
                 Element = this,
                 Encoding = TextEncoding.Resolve(CharacterSet)
             };
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _loadingTask = null;
         }
 
         #endregion
