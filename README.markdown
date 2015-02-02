@@ -39,10 +39,25 @@ The API is close to the DOM4 specification, however, the naming has been adjuste
 
 This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts (and related description languages like CSS).
 
+**Update** With version v0.8.0 further refactorings have been applied. The namespace `AngleSharp.DOM` (and sub-namespaces) has been modified. The new name `AngleSharp.Dom` fits much better into the .NET naming scheme.
+
 **Update** With version v0.6.0 the new API has been published. This API seems to be much cleaner and more extensible than the previous one. It also separates the implementation from the specification, which is important for working with the API, as new changes are less likely to break existing code (API usage). Most API changes have also been included to mainly reflect DOM4, with some (obsolete) parts being removed.
 
 Change log
 ----------
+
+**0.8.0**
+- New CSS value model integrated
+- PseudoElement available
+- Mutation records connected
+- Encoding basically finished
+- Memory leak fixed
+- All CSS4 selectors (excluding `||`) included
+- Finished `Url` implementation
+- HTML5 form validation
+- Media features and CSS properties extended
+- Namespace naming fix
+- All HTML5 input types are supported
 
 **0.7.0**
 - Native (callback based) async parsing
@@ -103,26 +118,25 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(December 2014) **0.8.0**
-- Interface for rendering defined
-- Full HTML DOM implemented
-- New CSS value model integrated
-- CSS computation works with everything
-- PseudoElement available
-- Mutation records connected
-- MathML support improved
-
-(March 2015) **0.9.0**
+(April 2015) **0.9.0**
 - (Simple?) XPath query support
-- MathML DOM finished
-- SVG document included
-- SVG DOM skeleton implemented
-- Most important SVG elements implemented
+- Interface for rendering defined
+- CSS layout box
+- Improved DOM algorithms and performance
+- Parser token output
+- More neat helpers
+- CSS computation works with everything
+- MathML support improved
+- ShadowDOM 
+- AngleSharp.Scripting with generated JS bindings
 
-(July 2015) **1.0.0**
+(September 2015) **1.0.0**
 - Final release of the first version
 - MathML and SVG finalized (for HTML)
 - HTML5 parser at 100% with complete DOM
+- SVG document included
+- SVG DOM skeleton implemented
+- Most important SVG elements implemented
 
 The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e. released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
 
@@ -147,14 +161,14 @@ Participating in the project
 
 If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
 
-If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that are used by AngleSharp (e.g. `HTMLDocument` instead of `HtmlDocument`). In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IHtmlDocument`. This change would not have been possible without fruitful discussions.
+If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that have been used by AngleSharp (e.g. `HTMLDocument` instead of `HtmlDocument`) in the past. In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IDocument`, `IHtmlElement` and so on. This change would not have been possible without fruitful discussions.
 
 The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active. 
 
 Some legal stuff
 ----------------
 
-Copyright (c) 2013-2014, Florian Rappl and collaborators.
+Copyright (c) 2013-2015, Florian Rappl and collaborators.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
