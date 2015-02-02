@@ -19,7 +19,7 @@
     /// Represents a document node.
     /// </summary>
     [DebuggerStepThrough]
-    class Document : Node, IDocument, IDisposable
+    class Document : Node, IDocument
     {
         #region Fields
 
@@ -1042,8 +1042,12 @@
 
         #region Methods
 
+        /// <summary>
+        /// Destroys the current document.
+        /// </summary>
         public void Dispose()
         {
+            ReplaceAll(null, true);
             _scripts.Clear();
 
             if (_source != null)
@@ -1663,7 +1667,7 @@
             this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
         }
 
-        void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
+        async void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
         {
             if (e.IsHashChanged)
             {
@@ -1680,14 +1684,13 @@
                 if (requester == null)
                     return;
 
-                requester.LoadAsync(url).ContinueWith(m =>
+                var response = await requester.LoadAsync(url).ConfigureAwait(false);
+                
+                if (response != null)
                 {
-                    if (m.IsCompleted && !m.IsFaulted && m.Result != null)
-                    {
-                        using (var result = m.Result)
-                            LoadAsync(result, CancellationToken.None);
-                    }
-                });
+                    await LoadAsync(response, CancellationToken.None).ConfigureAwait(false);
+                    response.Dispose();
+                }
             }
         }
 
