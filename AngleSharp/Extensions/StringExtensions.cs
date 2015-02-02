@@ -129,15 +129,21 @@
 
                 if (parts.Length == 2)
                 {
-                    //TODO must be one of:
-                    //* A width descriptor, consisting of: a space character, a
-                    //  valid non-negative integer giving a number greater than
-                    //  zero representing the width descriptor value, and 'w'.
-                    //* A pixel density descriptor, consisting of: a space
-                    //  character, a valid floating-point number giving a
-                    //  number greater than zero representing the pixel density
-                    //  descriptor value, and 'x'.
-                    pred = rd => false;
+                    var idx = parts[1].Length - 1;
+                    var chr = parts[1][idx];
+                    var dim = 0;
+
+                    if (Int32.TryParse(parts[1].Substring(0, idx), out dim))
+                    {
+                        if (chr == 'x')
+                            pred = rd => rd.Resolution / 72 >= dim;
+                        else if (chr == 'w')
+                            pred = rd => rd.ViewPortWidth >= dim;
+                        else
+                            return null;
+                    }
+                    else
+                        return null;
                 }
                 else
                     pred = rd => true;
