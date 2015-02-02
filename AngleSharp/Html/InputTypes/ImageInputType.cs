@@ -4,13 +4,15 @@
     using AngleSharp.Extensions;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
-    class ImageInputType : BaseInputType
+    class ImageInputType : BaseInputType, IDisposable
     {
         #region Fields
 
-        readonly Task<IImageInfo> _imageTask;
+        CancellationTokenSource _cts;
+        Task<IImageInfo> _imageTask;
 
         #endregion
 
@@ -25,8 +27,8 @@
             if (src != null && inp != null)
             {
                 var url = inp.HyperReference(src);
-                _imageTask = inp.Owner.Options.LoadResource<IImageInfo>(url);
-                _imageTask.ContinueWith(task => inp.FireSimpleEvent(EventNames.Load));
+                _cts = new CancellationTokenSource();
+                _imageTask = LoadAsync(inp, url, _cts.Token);
             }
         }
 
@@ -48,6 +50,15 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _imageTask = null;
+        }
+
         public override void ConstructDataSet(FormDataSet dataSet)
         {
             if (!String.IsNullOrEmpty(Input.Name))
@@ -64,6 +75,17 @@
                 dataSet.Append(namex, "0", Input.Type);
                 dataSet.Append(namey, "0", Input.Type);
             }
+        }
+
+        #endregion
+
+        #region Helper
+
+        async Task<IImageInfo> LoadAsync(HtmlInputElement inp, Url url, CancellationToken cancel)
+        {
+            var image = await inp.Owner.Options.LoadResource<IImageInfo>(url, cancel).ConfigureAwait(false);
+            inp.FireSimpleEvent(EventNames.Load);
+            return image;
         }
 
         #endregion

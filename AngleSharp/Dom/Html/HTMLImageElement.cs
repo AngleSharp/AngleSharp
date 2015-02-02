@@ -4,15 +4,17 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
     /// </summary>
-    sealed class HtmlImageElement : HtmlElement, IHtmlImageElement
+    sealed class HtmlImageElement : HtmlElement, IHtmlImageElement, IDisposable
     {
         #region Fields
 
+        CancellationTokenSource _cts;
         Task<IImageInfo> _imageTask;
 
         #endregion
@@ -152,16 +154,35 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _imageTask = null;
+        }
+
         void UpdateSource(String value)
         {
+            if (_cts != null)
+                _cts.Cancel();
+
             if (!String.IsNullOrEmpty(value))
             {
                 //TODO Implement with srcset etc. --> see:
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 var url = this.HyperReference(value);
-                _imageTask = Owner.Options.LoadResource<IImageInfo>(url);
-                _imageTask.ContinueWith(task => this.FireSimpleEvent(EventNames.Load));
+                _cts = new CancellationTokenSource();
+                _imageTask = LoadAsync(url, _cts.Token);
             }
+        }
+
+        async Task<IImageInfo> LoadAsync(Url image, CancellationToken cancel)
+        {
+            var info = await Owner.Options.LoadResource<IImageInfo>(image, cancel).ConfigureAwait(false);
+            this.FireSimpleEvent(EventNames.Load);
+            return info;
         }
 
         #endregion

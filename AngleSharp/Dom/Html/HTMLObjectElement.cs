@@ -4,18 +4,20 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement
+    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement, IDisposable
     {
         #region Fields
 
         IDocument _contentDocument;
         IWindow _contentWindow;
         Task<IObjectInfo> _resourceTask;
+        private CancellationTokenSource _cts;
 
         #endregion
 
@@ -126,6 +128,15 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _resourceTask = null;
+        }
+
         protected override Boolean CanBeValidated()
         {
             return false;
@@ -133,12 +144,22 @@
 
         void UpdateSource(String value)
         {
+            if (_cts != null)
+                _cts.Cancel();
+
             if (!String.IsNullOrEmpty(value))
             {
                 var url = this.HyperReference(value);
-                _resourceTask = Owner.Options.LoadResource<IObjectInfo>(url);
-                _resourceTask.ContinueWith(_ => this.FireSimpleEvent(EventNames.Load));
+                _cts = new CancellationTokenSource();
+                _resourceTask = LoadAsync(url, _cts.Token);
             }
+        }
+
+        async Task<IObjectInfo> LoadAsync(Url url, CancellationToken cancel)
+        {
+            var resource = await Owner.Options.LoadResource<IObjectInfo>(url, cancel).ConfigureAwait(false);
+            this.FireSimpleEvent(EventNames.Load);
+            return resource;
         }
 
         #endregion

@@ -4,18 +4,22 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
     /// </summary>
-    sealed class HtmlIFrameElement : HtmlFrameElementBase, IHtmlInlineFrameElement
+    sealed class HtmlIFrameElement : HtmlFrameElementBase, IHtmlInlineFrameElement, IDisposable
     {
         #region Fields
 
+        CancellationTokenSource _cts;
         SettableTokenList _sandbox;
         Document _doc;
+        Task _docTask;
         
         #endregion
 
@@ -94,8 +98,21 @@
 
         #region Methods
 
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _docTask = null;
+            _cts = null;
+            _doc.Dispose();
+        }
+
         void UpdateSource(String src)
         {
+            if (_cts != null)
+                _cts.Cancel();
+
             if (!String.IsNullOrEmpty(src))
             {
                 var url = this.HyperReference(src);
@@ -104,14 +121,19 @@
                 if (requester == null)
                     return;
 
-                requester.LoadAsync(url).ContinueWith(task =>
-                {
-                    if (!task.IsFaulted && task.Result != null)
-                    {
-                        using (var result = task.Result)
-                            _doc.LoadAsync(result, CancellationToken.None).Wait();
-                    }
-                });
+                _cts = new CancellationTokenSource();
+                _docTask = LoadAsync(requester, url, _cts.Token);
+            }
+        }
+
+        async Task LoadAsync(IRequester requester, Url url, CancellationToken cancel)
+        {
+            var response = await requester.LoadAsync(url).ConfigureAwait(false);
+
+            if (response != null)
+            {
+                await _doc.LoadAsync(response, cancel);
+                response.Dispose();
             }
         }
 

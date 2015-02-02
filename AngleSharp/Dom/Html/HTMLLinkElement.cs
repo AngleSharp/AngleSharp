@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -10,7 +11,7 @@
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    sealed class HtmlLinkElement : HtmlElement, IHtmlLinkElement
+    sealed class HtmlLinkElement : HtmlElement, IHtmlLinkElement, IDisposable
     {
         #region Fields
 
@@ -18,7 +19,7 @@
         Url _buffer;
         TokenList _relList;
         SettableTokenList _sizes;
-        Task _current;
+        Task _loadingTask;
         CancellationTokenSource _cts;
 
         #endregion
@@ -31,7 +32,6 @@
         public HtmlLinkElement(Document owner)
             : base(owner, Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _cts = new CancellationTokenSource();
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
             RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
             RegisterAttributeObserver(AttributeNames.Href, value => TargetChanged());
@@ -213,50 +213,59 @@
 
         #endregion
 
+        #region Methods
+
+        public void Dispose()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+
+            _cts = null;
+            _loadingTask = null;
+        }
+
+        #endregion
+
         #region Helpers
 
         void TargetChanged()
         {
             if (Owner.Options.IsStyling)
             {
+                if (_cts != null)
+                    _cts.Cancel();
+
                 var url = Url;
 
                 if (url != null && (_buffer == null || !url.Equals(_buffer)))
                 {
                     _buffer = url;
-                    TryCancelCurrent();
                     var requester = Owner.Options.GetRequester(url.Scheme);
 
                     if (requester == null)
                         return;
 
-                    _current = requester.LoadAsync(url, _cts.Token).ContinueWith(task =>
-                    {
-                        if (task.IsCompleted && !task.IsFaulted && task.Result != null)
-                        {
-                            using (var result = task.Result)
-                            {
-                                var options = new StyleOptions
-                                {
-                                    Element = this,
-                                    Title = Title,
-                                    IsDisabled = IsDisabled,
-                                    IsAlternate = RelationList.Contains(Keywords.Alternate)
-                                };
-                                _sheet = Owner.Options.ParseStyling(result, options, Type);
-                            }
-                        }
-                    });
+                    _cts = new CancellationTokenSource();
+                    _loadingTask = LoadAsync(requester, url, _cts.Token);
                 }
             }
         }
 
-        void TryCancelCurrent()
+        async Task LoadAsync(IRequester requester, Url url, CancellationToken cancel)
         {
-            if (_current != null && !_current.IsCompleted)
+            var response = await requester.LoadAsync(url, _cts.Token).ConfigureAwait(false);
+
+            if (response != null)
             {
-                _cts.Cancel();
-                _cts = new CancellationTokenSource();
+                var options = new StyleOptions
+                {
+                    Element = this,
+                    Title = Title,
+                    IsDisabled = IsDisabled,
+                    IsAlternate = RelationList.Contains(Keywords.Alternate)
+                };
+                _sheet = Owner.Options.ParseStyling(response, options, Type);
+                response.Dispose();
             }
         }
 
