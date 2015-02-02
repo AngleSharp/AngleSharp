@@ -531,7 +531,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlWithLangAttributeFromStream()
         {
-            var fs = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Pages.encoding.html");
+            var fs = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("AngleSharp.Core.Tests.Pages.encoding.html");
             var doc = DocumentBuilder.Html(fs);
 
             var body = doc.Body;

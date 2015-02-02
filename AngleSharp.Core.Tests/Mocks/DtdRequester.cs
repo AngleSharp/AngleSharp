@@ -15,7 +15,7 @@
         public IResponse Request(IRequest request)
         {
             var name = request.Address.Path;
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.Resources." + name);
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("AngleSharp.Core.Tests.Resources." + name);
 
             if (stream == null)
                 throw new ArgumentException("The DTD " + name + " could not be found! Check the name and the availability of this DTD.");
