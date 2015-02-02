@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jint">
-      <HintPath>..\packages\Jint.2.2.0\lib\portable-net40+sl50+win+wp80\Jint.dll</HintPath>
+    <Reference Include="Jint, Version=2.4.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Jint.2.4.0\lib\portable-net40+sl50+win+wpa81+wp80\Jint.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

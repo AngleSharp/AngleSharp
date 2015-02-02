@@ -12,7 +12,7 @@
         public static Delegate ToDelegate(this Type type, FunctionInstance function)
         {
             if (type == typeof(DomEventHandler))
-                return ToListener(function);
+                return function.ToListener();
 
             var method = typeof(DomDelegates).GetMethod("ToCallback").MakeGenericMethod(type);
             return method.Invoke(null, new Object[] { function }) as Delegate;
@@ -23,7 +23,7 @@
             return (obj, ev) =>
             {
                 var engine = function.Engine;
-                function.Call(obj.ToJsValue(engine), new[] { ev.ToJsValue(engine) });
+                function.Call(obj.ToJsValue(engine), new [] { ev.ToJsValue(engine) });
             };
         }
 
