@@ -840,8 +840,9 @@
             while (index < input.Length)
             {
                 var c = input[index];
+                fragment = !onlyQuery && input[index] == Symbols.Num;
 
-                if (fragment = (!onlyQuery && input[index] == Symbols.Num))
+                if (fragment)
                     break;
 
                 if (c.IsNormalQueryCharacter())
@@ -853,11 +854,7 @@
             }
 
             _query = buffer.ToPool();
-
-            if (fragment)
-                return ParseFragment(input, index + 1);
-
-            return true;
+            return fragment ? ParseFragment(input, index + 1) : true;
         }
 
         Boolean ParseFragment(String input, Int32 index)
