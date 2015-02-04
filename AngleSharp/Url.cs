@@ -401,7 +401,7 @@
                 _port = baseUrl._port;
             }
 
-            _error = ParseScheme(input.Trim());
+            _error = ParseScheme(input.Trim()) == false;
         }
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)
@@ -680,11 +680,12 @@
                     case Symbols.Num:
                     case Symbols.QuestionMark:
                         _host = SanatizeHost(input, start, index - start);
-                        
-                        if (onlyHost)
-                            return true;
+                        var error = String.IsNullOrEmpty(_host);
 
-                        return ParsePath(input, index);
+                        if (onlyHost)
+                            return !error;
+
+                        return ParsePath(input, index) && !error;
                 }
 
                 index++;
@@ -697,7 +698,6 @@
                 _path = String.Empty;
                 _query = null;
                 _fragment = null;
-                return false;
             }
 
             return true;
