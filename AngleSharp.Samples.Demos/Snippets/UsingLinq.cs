@@ -7,7 +7,9 @@
 
     class UsingLinq : ISnippet
     {
+#pragma warning disable CS1998
         public async Task Run()
+#pragma warning restore CS1998
         {
             //Create a new document from the given source
             var document = DocumentBuilder.Html("<ul><li>First item<li>Second item<li class='blue'>Third item!<li class='blue red'>Last item!</ul>");

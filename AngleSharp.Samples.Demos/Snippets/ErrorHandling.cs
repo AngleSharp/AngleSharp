@@ -5,7 +5,9 @@
 
     class ErrorHandling : ISnippet
     {
+#pragma warning disable CS1998
         public async Task Run()
+#pragma warning restore CS1998
         {
             //The original source, see
             //http://www.google.com/error

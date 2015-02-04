@@ -6,7 +6,9 @@
 
     class GatherDataFromRssFeed : ISnippet
     {
+#pragma warning disable CS1998
         public async Task Run()
+#pragma warning restore CS1998
         {
             var feed = DocumentBuilder.Html(new Uri("http://www.florian-rappl.de/RSS"));
             var items = feed.QuerySelectorAll("item").Select(m => new

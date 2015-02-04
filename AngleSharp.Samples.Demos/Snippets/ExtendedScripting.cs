@@ -6,7 +6,9 @@
 
     class ExtendedScripting : ISnippet
     {
+#pragma warning disable CS1998
         public async Task Run()
+#pragma warning restore CS1998
         {
             //We require a custom configuration
             var config = new Configuration();
