@@ -1,4 +1,3 @@
-using AngleSharp;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
@@ -6,7 +5,7 @@ namespace AngleSharp.Core.Tests.Library
 {
     /// <summary>
     /// Tests automatically generated from:
-    /// 
+    /// https://w3c-test.org/url/a-element.html
     /// </summary>
     [TestFixture]
 	public class UrlValidationTests
