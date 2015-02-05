@@ -318,12 +318,12 @@
         /// <param name="s">The characters to append.</param>
         internal void InsertText(Int32 index, String s)
         {
-            if (index > 0 && index <= _children.Length && _children[index - 1] is IText)
+            if (index > 0 && index <= _children.Length && _children[index - 1].NodeType == NodeType.Text)
             {
                 var node = (IText)_children[index - 1];
                 node.Append(s);
             }
-            else if (index >= 0 && index < _children.Length && _children[index] is IText)
+            else if (index >= 0 && index < _children.Length && _children[index].NodeType == NodeType.Text)
             {
                 var node = (IText)_children[index];
                 node.Insert(0, s);
@@ -622,7 +622,7 @@
             
             if (node != null)
             {
-                if (node is IDocumentFragment)
+                if (node.NodeType == NodeType.DocumentFragment)
                     addedNodes.AddRange(node._children);
                 else
                     addedNodes.Add(node);
@@ -653,7 +653,7 @@
         /// <returns>The inserted node.</returns>
         internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
         {
-            var count = newElement is IDocumentFragment ? newElement.ChildNodes.Length : 1;
+            var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
 
             if (referenceElement != null)
             {
@@ -662,7 +662,7 @@
                 _owner.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
             }
 
-            if (newElement is IDocument || newElement.Contains(this))
+            if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
                 throw new DomException(ErrorCode.HierarchyRequest);
 
             var addedNodes = new NodeList();
@@ -762,7 +762,10 @@
             else if (child.Parent != this)
                 throw new DomException(ErrorCode.NotFound);
 
-            if (node is IElement || node is ICharacterData || node is IDocumentFragment || node is IDocumentType)
+            var type = node.NodeType;
+
+            if (type == NodeType.Element || type == NodeType.Comment || type == NodeType.Text || 
+                type == NodeType.ProcessingInstruction || type == NodeType.DocumentFragment || type == NodeType.DocumentType)
             {
                 var document = _parent as IDocument;
 

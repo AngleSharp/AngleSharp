@@ -90,7 +90,7 @@
 
         public void StartWith(INode refNode, Int32 offset)
         {
-            if (refNode is IDocumentType)
+            if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
             else if (offset > refNode.ChildNodes.Length)
                 throw new DomException(ErrorCode.IndexSizeError);
@@ -103,7 +103,7 @@
 
         public void EndWith(INode refNode, Int32 offset)
         {
-            if (refNode is IDocumentType)
+            if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
             else if (offset > refNode.ChildNodes.Length)
                 throw new DomException(ErrorCode.IndexSizeError);
@@ -176,7 +176,7 @@
 
         public void SelectContent(INode refNode)
         {
-            if (refNode is IDocumentType)
+            if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
 
             var length = refNode.ChildNodes.Length;
@@ -407,39 +407,51 @@
 
         public void Insert(INode node)
         {
-            if (_start.Node is IProcessingInstruction || _start.Node is IComment || (_start.Node is IText) && _start.Node.Parent == null)
+            var snode = _start.Node;
+            var type = snode.NodeType;
+            var istext = type == NodeType.Text;
+
+            if (type == NodeType.ProcessingInstruction || type == NodeType.Comment || (istext && snode.Parent == null))
                 throw new DomException(ErrorCode.HierarchyRequest);
 
-            var referenceNode = _start.Node is IText ? _start.Node : _start.ChildAtOffset;
-            var parent = referenceNode == null ? _start.Node : referenceNode.Parent;
+            var referenceNode = istext ? snode : _start.ChildAtOffset;
+            var parent = referenceNode == null ? snode : referenceNode.Parent;
             parent.EnsurePreInsertionValidity(node, referenceNode);
             
-            if (_start.Node is IText)
+            if (istext)
             {
-                referenceNode = ((IText)_start.Node).Split(_start.Offset);
+                referenceNode = ((IText)snode).Split(_start.Offset);
                 parent = referenceNode.Parent;
             }
 
             if (node == referenceNode)
+            {
                 referenceNode = referenceNode.NextSibling;
+            }
 
             if (node.Parent != null)
+            {
                 node.Parent.RemoveChild(node);
+            }
 
             var newOffset = referenceNode == null ? parent.ChildNodes.Length : parent.ChildNodes.Index(referenceNode);
-            newOffset += node is IDocumentFragment ? node.ChildNodes.Length : 1;
+            newOffset += node.NodeType == NodeType.DocumentFragment ? node.ChildNodes.Length : 1;
             parent.PreInsert(node, referenceNode);
 
             if (_start.Equals(_end))
+            {
                 _end = new Boundary { Node = parent, Offset = newOffset };
+            }
         }
 
         public void Surround(INode newParent)
         {
-            if (Nodes.Any(m => m is IText == false && IsPartiallyContained(m)))
+            if (Nodes.Any(m => m.NodeType != NodeType.Text && IsPartiallyContained(m)))
                 throw new DomException(ErrorCode.InvalidState);
 
-            if (newParent is IDocument || newParent is IDocumentType || newParent is IDocumentFragment)
+            var type = newParent.NodeType;
+
+            if (type == NodeType.Document || type == NodeType.DocumentType || type == NodeType.DocumentFragment)
                 throw new DomException(ErrorCode.InvalidNodeType);
 
             var fragment = ExtractContent();
@@ -466,7 +478,7 @@
         {
             if (node.GetRoot() != Root)
                 return false;
-            else if (node is IDocumentType)
+            else if (node.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
             else if (offset > node.ChildNodes.Length)
                 throw new DomException(ErrorCode.IndexSizeError);
@@ -517,7 +529,7 @@
         {
             if (Root != _start.Node.GetRoot())
                 throw new DomException(ErrorCode.WrongDocument);
-            else if (node is IDocumentType)
+            else if (node.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
             else if (offset > node.ChildNodes.Length)
                 throw new DomException(ErrorCode.IndexSizeError);

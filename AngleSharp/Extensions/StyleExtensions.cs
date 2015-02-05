@@ -116,7 +116,7 @@
         {
             foreach (var child in parent.ChildNodes)
             {
-                if (child is IElement)
+                if (child.NodeType == NodeType.Element)
                 {
                     var linkStyle = child as ILinkStyle;
 

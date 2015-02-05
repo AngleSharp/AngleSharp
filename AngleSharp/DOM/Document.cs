@@ -1182,7 +1182,7 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Import(INode externalNode, Boolean deep = true)
         {
-            if (externalNode is IDocument)
+            if (externalNode.NodeType == NodeType.Document)
                 throw new DomException(ErrorCode.NotSupported);
 
             return externalNode.Clone(deep);
@@ -1196,7 +1196,7 @@
         /// since it has not yet been inserted into the document tree.</returns>
         public INode Adopt(INode externalNode)
         {
-            if (externalNode is IDocument)
+            if (externalNode.NodeType == NodeType.Document)
                 throw new DomException(ErrorCode.NotSupported);
 
             this.AdoptNode(externalNode);
