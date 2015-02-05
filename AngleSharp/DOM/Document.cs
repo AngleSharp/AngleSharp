@@ -1136,7 +1136,7 @@
             if (ReadyState == DocumentReadyState.Complete)
             {
                 var newDoc = Open();
-                newDoc.Write(content);
+                newDoc.Write(content ?? String.Em);
             }
             else
                 _source.InsertText(content);
