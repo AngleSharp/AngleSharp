@@ -90,7 +90,9 @@
 
         public void StartWith(INode refNode, Int32 offset)
         {
-            if (refNode.NodeType == NodeType.DocumentType)
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+            else if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
             else if (offset > refNode.ChildNodes.Length)
                 throw new DomException(ErrorCode.IndexSizeError);
@@ -103,7 +105,9 @@
 
         public void EndWith(INode refNode, Int32 offset)
         {
-            if (refNode.NodeType == NodeType.DocumentType)
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+            else if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
             else if (offset > refNode.ChildNodes.Length)
                 throw new DomException(ErrorCode.IndexSizeError);
@@ -116,6 +120,9 @@
 
         public void StartBefore(INode refNode)
         {
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+
             var parent = refNode.Parent;
 
             if (parent == null)
@@ -126,6 +133,9 @@
 
         public void EndBefore(INode refNode)
         {
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+
             var parent = refNode.Parent;
 
             if (parent == null)
@@ -136,6 +146,9 @@
 
         public void StartAfter(INode refNode)
         {
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+
             var parent = refNode.Parent;
 
             if (parent == null)
@@ -146,6 +159,9 @@
 
         public void EndAfter(INode refNode)
         {
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+
             var parent = refNode.Parent;
 
             if (parent == null)
@@ -164,6 +180,9 @@
 
         public void Select(INode refNode)
         {
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+
             var parent = refNode.Parent;
 
             if (parent == null)
@@ -176,7 +195,9 @@
 
         public void SelectContent(INode refNode)
         {
-            if (refNode.NodeType == NodeType.DocumentType)
+            if (refNode == null)
+                throw new ArgumentNullException(nameof(refNode));
+            else if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
 
             var length = refNode.ChildNodes.Length;
@@ -407,6 +428,9 @@
 
         public void Insert(INode node)
         {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
             var snode = _start.Node;
             var type = snode.NodeType;
             var istext = type == NodeType.Text;
@@ -446,7 +470,9 @@
 
         public void Surround(INode newParent)
         {
-            if (Nodes.Any(m => m.NodeType != NodeType.Text && IsPartiallyContained(m)))
+            if (newParent == null)
+                throw new ArgumentNullException(nameof(newParent));
+            else if (Nodes.Any(m => m.NodeType != NodeType.Text && IsPartiallyContained(m)))
                 throw new DomException(ErrorCode.InvalidState);
 
             var type = newParent.NodeType;
@@ -476,7 +502,9 @@
 
         public Boolean Contains(INode node, Int32 offset)
         {
-            if (node.GetRoot() != Root)
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            else if (node.GetRoot() != Root)
                 return false;
             else if (node.NodeType == NodeType.DocumentType)
                 throw new DomException(ErrorCode.InvalidNodeType);
@@ -490,7 +518,9 @@
 
         public RangePosition CompareBoundaryTo(RangeType how, IRange sourceRange)
         {
-            if (Root != sourceRange.Head.GetRoot())
+            if (sourceRange == null)
+                throw new ArgumentNullException(nameof(sourceRange));
+            else if (Root != sourceRange.Head.GetRoot())
                 throw new DomException(ErrorCode.WrongDocument);
 
             Boundary thisPoint;
@@ -527,6 +557,9 @@
 
         public RangePosition CompareTo(INode node, Int32 offset)
         {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
             if (Root != _start.Node.GetRoot())
                 throw new DomException(ErrorCode.WrongDocument);
             else if (node.NodeType == NodeType.DocumentType)
@@ -544,7 +577,9 @@
 
         public Boolean Intersects(INode node)
         {
-            if (Root != node.GetRoot())
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            else if (Root != node.GetRoot())
                 return false;
 
             var parent = node.Parent;
