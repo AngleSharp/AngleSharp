@@ -27,6 +27,9 @@
         public static TElement CreateElement<TElement>(this IDocument document)
             where TElement : IElement
         {
+            if (document == null)
+                throw new ArgumentNullException("document");
+
             var type = typeof(ApiExtensions).GetAssembly().GetTypes()
                 .Where(m => m.Implements<TElement>())
                 .FirstOrDefault(m => !m.IsAbstractClass());
@@ -62,6 +65,11 @@
         public static async Task<Event> AwaitEvent<TEventTarget>(this TEventTarget node, String eventName)
             where TEventTarget : IEventTarget
         {
+            if (node == null)
+                throw new ArgumentNullException("node");
+            else if (eventName == null)
+                throw new ArgumentNullException("eventName");
+
             var completion = new TaskCompletionSource<Event>();
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
@@ -79,6 +87,9 @@
         public static IEnumerable<TNode> Descendents<TNode>(this INode parent)
             where TNode : INode
         {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+
             return parent.GetDescendants().OfType<TNode>();
         }
 
@@ -91,6 +102,9 @@
         public static IEnumerable<TNode> Ancestors<TNode>(this INode child)
             where TNode : INode
         {
+            if (child == null)
+                throw new ArgumentNullException("child");
+
             return child.GetAncestors().OfType<TNode>();
         }
 
