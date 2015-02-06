@@ -209,7 +209,7 @@
         public static IDocument Html(String sourceCode, IConfiguration configuration = null, String url = null)
         {
             if (sourceCode == null)
-                throw new ArgumentException("The provided argument sourceCode must be non-null.");
+                throw new ArgumentNullException("sourceCode");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -252,7 +252,7 @@
         public static async Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (url == null)
-                throw new ArgumentException("The provided argument url must be non-null.");
+                throw new ArgumentNullException("url");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -278,7 +278,7 @@
         public static IDocument Html(Stream content, IConfiguration configuration = null, String url = null)
         {
             if (content == null)
-                throw new ArgumentException("The provided argument content must be non-null.");
+                throw new ArgumentNullException("content");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -312,7 +312,7 @@
         public static async Task<IDocument> HtmlAsync(Stream content, CancellationToken cancel, IConfiguration configuration = null, String url = null)
         {
             if (content == null)
-                throw new ArgumentException("The provided argument content must be non-null.");
+                throw new ArgumentException("content");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -334,7 +334,7 @@
         public static INodeList HtmlFragment(String sourceCode, IElement context = null, IConfiguration configuration = null)
         {
             if (sourceCode == null)
-                throw new ArgumentException("The provided argument sourceCode must be non-null.");
+                throw new ArgumentException("sourceCode");
 
             if (configuration == null)
                 configuration = new Configuration();
@@ -370,7 +370,7 @@
         public static ICssStyleSheet Css(String sourceCode, IConfiguration configuration = null, String url = null)
         {
             if (sourceCode == null)
-                throw new ArgumentException("The provided argument sourceCode must be non-null.");
+                throw new ArgumentException("sourceCode");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -412,7 +412,7 @@
         public static async Task<ICssStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (url == null)
-                throw new ArgumentException("The provided argument url must be non-null.");
+                throw new ArgumentException("url");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -437,7 +437,7 @@
         public static ICssStyleSheet Css(Stream stream, IConfiguration configuration = null, String url = null)
         {
             if (stream == null)
-                throw new ArgumentException("The provided argument stream must be non-null.");
+                throw new ArgumentException("stream");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
@@ -470,7 +470,7 @@
         public static async Task<ICssStyleSheet> CssAsync(Stream stream, CancellationToken cancel, IConfiguration configuration = null, String url = null)
         {
             if (stream == null)
-                throw new ArgumentException("The provided argument stream must be non-null.");
+                throw new ArgumentException("stream");
 
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
