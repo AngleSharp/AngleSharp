@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using System;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
@@ -22,6 +23,9 @@
         /// <returns>The new, yet empty, document.</returns>
         public static IDocument OpenNew(this IBrowsingContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
             return new Document(context);
         }
 
@@ -45,6 +49,11 @@
         /// <returns>The task that creates the document.</returns>
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+            else if (response == null)
+                throw new ArgumentNullException("response");
+
             var doc = new Document(context);
             return await doc.LoadAsync(response, cancel).ConfigureAwait(false);
         }
@@ -69,6 +78,11 @@
         /// <returns>The task that creates the document.</returns>
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+            else if (url == null)
+                throw new ArgumentNullException("url");
+
             var config = context.Configuration;
             var requester = config.GetRequester(url.Scheme);
 
