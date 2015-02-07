@@ -14,163 +14,157 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Color> _colors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase);
-
-        #endregion
-
-        #region ctor
-
-        static Colors()
+        static readonly Dictionary<String, Color> _colors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase)
         {
-            Add("aliceblue", 240, 248, 255);
-            Add("antiquewhite", 250, 235, 215);
-            Add("aqua", 0, 255, 255);
-            Add("aquamarine", 127, 255, 212);
-            Add("azure", 240, 255, 255);
-            Add("beige", 245, 245, 220);
-            Add("bisque", 255, 228, 196);
-            Add("black", 0, 0, 0);
-            Add("blanchedalmond", 255, 235, 205);
-            Add("blue", 0, 0, 255);
-            Add("blueviolet", 138, 43, 226);
-            Add("brown", 165, 42, 42);
-            Add("burlywood", 222, 184, 135);
-            Add("cadetblue", 95, 158, 160);
-            Add("chartreuse", 127, 255, 0);
-            Add("chocolate", 210, 105, 30);
-            Add("coral", 255, 127, 80);
-            Add("cornflowerblue", 100, 149, 237);
-            Add("cornsilk", 255, 248, 220);
-            Add("crimson", 220, 20, 60);
-            Add("cyan", 0, 255, 255);
-            Add("darkblue", 0, 0, 139);
-            Add("darkcyan", 0, 139, 139);
-            Add("darkgoldenrod", 184, 134, 11);
-            Add("darkgray", 169, 169, 169);
-            Add("darkgreen", 0, 100, 0);
-            Add("darkgrey", 169, 169, 169);
-            Add("darkkhaki", 189, 183, 107);
-            Add("darkmagenta", 139, 0, 139);
-            Add("darkolivegreen", 85, 107, 47);
-            Add("darkorange", 255, 140, 0);
-            Add("darkorchid", 153, 50, 204);
-            Add("darkred", 139, 0, 0);
-            Add("darksalmon", 233, 150, 122);
-            Add("darkseagreen", 143, 188, 143);
-            Add("darkslateblue", 72, 61, 139);
-            Add("darkslategray", 47, 79, 79);
-            Add("darkslategrey", 47, 79, 79);
-            Add("darkturquoise", 0, 206, 209);
-            Add("darkviolet", 148, 0, 211);
-            Add("deeppink", 255, 20, 147);
-            Add("deepskyblue", 0, 191, 255);
-            Add("dimgray", 105, 105, 105);
-            Add("dimgrey", 105, 105, 105);
-            Add("dodgerblue", 30, 144, 255);
-            Add("firebrick", 178, 34, 34);
-            Add("floralwhite", 255, 250, 240);
-            Add("forestgreen", 34, 139, 34);
-            Add("fuchsia", 255, 0, 255);
-            Add("gainsboro", 220, 220, 220);
-            Add("ghostwhite", 248, 248, 255);
-            Add("gold", 255, 215, 0);
-            Add("goldenrod", 218, 165, 32);
-            Add("gray", 128, 128, 128);
-            Add("green", 0, 128, 0);
-            Add("greenyellow", 173, 255, 47);
-            Add("grey", 128, 128, 128);
-            Add("honeydew", 240, 255, 240);
-            Add("hotpink", 255, 105, 180);
-            Add("indianred", 205, 92, 92);
-            Add("indigo", 75, 0, 130);
-            Add("ivory", 255, 255, 240);
-            Add("khaki", 240, 230, 140);
-            Add("lavender", 230, 230, 250);
-            Add("lavenderblush", 255, 240, 245);
-            Add("lawngreen", 124, 252, 0);
-            Add("lemonchiffon", 255, 250, 205);
-            Add("lightblue", 173, 216, 230);
-            Add("lightcoral", 240, 128, 128);
-            Add("lightcyan", 224, 255, 255);
-            Add("lightgoldenrodyellow", 250, 250, 210);
-            Add("lightgray", 211, 211, 211);
-            Add("lightgreen", 144, 238, 144);
-            Add("lightgrey", 211, 211, 211);
-            Add("lightpink", 255, 182, 193);
-            Add("lightsalmon", 255, 160, 122);
-            Add("lightseagreen", 32, 178, 170);
-            Add("lightskyblue", 135, 206, 250);
-            Add("lightslategray", 119, 136, 153);
-            Add("lightslategrey", 119, 136, 153);
-            Add("lightsteelblue", 176, 196, 222);
-            Add("lightyellow", 255, 255, 224);
-            Add("lime", 0, 255, 0);
-            Add("limegreen", 50, 205, 50);
-            Add("linen", 250, 240, 230);
-            Add("magenta", 255, 0, 255);
-            Add("maroon", 128, 0, 0);
-            Add("mediumaquamarine", 102, 205, 170);
-            Add("mediumblue", 0, 0, 205);
-            Add("mediumorchid", 186, 85, 211);
-            Add("mediumpurple", 147, 112, 219);
-            Add("mediumseagreen", 60, 179, 113);
-            Add("mediumslateblue", 123, 104, 238);
-            Add("mediumspringgreen", 0, 250, 154);
-            Add("mediumturquoise", 72, 209, 204);
-            Add("mediumvioletred", 199, 21, 133);
-            Add("midnightblue", 25, 25, 112);
-            Add("mintcream", 245, 255, 250);
-            Add("mistyrose", 255, 228, 225);
-            Add("moccasin", 255, 228, 181);
-            Add("navajowhite", 255, 222, 173);
-            Add("navy", 0, 0, 128);
-            Add("oldlace", 253, 245, 230);
-            Add("olive", 128, 128, 0);
-            Add("olivedrab", 107, 142, 35);
-            Add("orange", 255, 165, 0);
-            Add("orangered", 255, 69, 0);
-            Add("orchid", 218, 112, 214);
-            Add("palegoldenrod", 238, 232, 170);
-            Add("palegreen", 152, 251, 152);
-            Add("paleturquoise", 175, 238, 238);
-            Add("palevioletred", 219, 112, 147);
-            Add("papayawhip", 255, 239, 213);
-            Add("peachpuff", 255, 218, 185);
-            Add("peru", 205, 133, 63);
-            Add("pink", 255, 192, 203);
-            Add("plum", 221, 160, 221);
-            Add("powderblue", 176, 224, 230);
-            Add("purple", 128, 0, 128);
-            Add("red", 255, 0, 0);
-            Add("rosybrown", 188, 143, 143);
-            Add("royalblue", 65, 105, 225);
-            Add("saddlebrown", 139, 69, 19);
-            Add("salmon", 250, 128, 114);
-            Add("sandybrown", 244, 164, 96);
-            Add("seagreen", 46, 139, 87);
-            Add("seashell", 255, 245, 238);
-            Add("sienna", 160, 82, 45);
-            Add("silver", 192, 192, 192);
-            Add("skyblue", 135, 206, 235);
-            Add("slateblue", 106, 90, 205);
-            Add("slategray", 112, 128, 144);
-            Add("slategrey", 112, 128, 144);
-            Add("snow", 255, 250, 250);
-            Add("springgreen", 0, 255, 127);
-            Add("steelblue", 70, 130, 180);
-            Add("tan", 210, 180, 140);
-            Add("teal", 0, 128, 128);
-            Add("thistle", 216, 191, 216);
-            Add("tomato", 255, 99, 71);
-            Add("turquoise", 64, 224, 208);
-            Add("violet", 238, 130, 238);
-            Add("wheat", 245, 222, 179);
-            Add("white", 255, 255, 255);
-            Add("whitesmoke", 245, 245, 245);
-            Add("yellow", 255, 255, 0);
-            Add("yellowgreen", 154, 205, 50);
-            Add("transparent", Color.Transparent);
-        }
+            { "aliceblue", new Color(240, 248, 255) },
+            { "antiquewhite", new Color(250, 235, 215) },
+            { "aqua", new Color(0, 255, 255) },
+            { "aquamarine", new Color(127, 255, 212) },
+            { "azure", new Color(240, 255, 255) },
+            { "beige", new Color(245, 245, 220) },
+            { "bisque", new Color(255, 228, 196) },
+            { "black", new Color(0, 0, 0) },
+            { "blanchedalmond", new Color(255, 235, 205) },
+            { "blue", new Color(0, 0, 255) },
+            { "blueviolet", new Color(138, 43, 226) },
+            { "brown", new Color(165, 42, 42) },
+            { "burlywood", new Color(222, 184, 135) },
+            { "cadetblue", new Color(95, 158, 160) },
+            { "chartreuse", new Color(127, 255, 0) },
+            { "chocolate", new Color(210, 105, 30) },
+            { "coral", new Color(255, 127, 80) },
+            { "cornflowerblue", new Color(100, 149, 237) },
+            { "cornsilk", new Color(255, 248, 220) },
+            { "crimson", new Color(220, 20, 60) },
+            { "cyan", new Color(0, 255, 255) },
+            { "darkblue", new Color(0, 0, 139) },
+            { "darkcyan", new Color(0, 139, 139) },
+            { "darkgoldenrod", new Color(184, 134, 11) },
+            { "darkgray", new Color(169, 169, 169) },
+            { "darkgreen", new Color(0, 100, 0) },
+            { "darkgrey", new Color(169, 169, 169) },
+            { "darkkhaki", new Color(189, 183, 107) },
+            { "darkmagenta", new Color(139, 0, 139) },
+            { "darkolivegreen", new Color(85, 107, 47) },
+            { "darkorange", new Color(255, 140, 0) },
+            { "darkorchid", new Color(153, 50, 204) },
+            { "darkred", new Color(139, 0, 0) },
+            { "darksalmon", new Color(233, 150, 122) },
+            { "darkseagreen", new Color(143, 188, 143) },
+            { "darkslateblue", new Color(72, 61, 139) },
+            { "darkslategray", new Color(47, 79, 79) },
+            { "darkslategrey", new Color(47, 79, 79) },
+            { "darkturquoise", new Color(0, 206, 209) },
+            { "darkviolet", new Color(148, 0, 211) },
+            { "deeppink", new Color(255, 20, 147) },
+            { "deepskyblue", new Color(0, 191, 255) },
+            { "dimgray", new Color(105, 105, 105) },
+            { "dimgrey", new Color(105, 105, 105) },
+            { "dodgerblue", new Color(30, 144, 255) },
+            { "firebrick", new Color(178, 34, 34) },
+            { "floralwhite", new Color(255, 250, 240) },
+            { "forestgreen", new Color(34, 139, 34) },
+            { "fuchsia", new Color(255, 0, 255) },
+            { "gainsboro", new Color(220, 220, 220) },
+            { "ghostwhite", new Color(248, 248, 255) },
+            { "gold", new Color(255, 215, 0) },
+            { "goldenrod", new Color(218, 165, 32) },
+            { "gray", new Color(128, 128, 128) },
+            { "green", new Color(0, 128, 0) },
+            { "greenyellow", new Color(173, 255, 47) },
+            { "grey", new Color(128, 128, 128) },
+            { "honeydew", new Color(240, 255, 240) },
+            { "hotpink", new Color(255, 105, 180) },
+            { "indianred", new Color(205, 92, 92) },
+            { "indigo", new Color(75, 0, 130) },
+            { "ivory", new Color(255, 255, 240) },
+            { "khaki", new Color(240, 230, 140) },
+            { "lavender", new Color(230, 230, 250) },
+            { "lavenderblush", new Color(255, 240, 245) },
+            { "lawngreen", new Color(124, 252, 0) },
+            { "lemonchiffon", new Color(255, 250, 205) },
+            { "lightblue", new Color(173, 216, 230) },
+            { "lightcoral", new Color(240, 128, 128) },
+            { "lightcyan", new Color(224, 255, 255) },
+            { "lightgoldenrodyellow", new Color(250, 250, 210) },
+            { "lightgray", new Color(211, 211, 211) },
+            { "lightgreen", new Color(144, 238, 144) },
+            { "lightgrey", new Color(211, 211, 211) },
+            { "lightpink", new Color(255, 182, 193) },
+            { "lightsalmon", new Color(255, 160, 122) },
+            { "lightseagreen", new Color(32, 178, 170) },
+            { "lightskyblue", new Color(135, 206, 250) },
+            { "lightslategray", new Color(119, 136, 153) },
+            { "lightslategrey", new Color(119, 136, 153) },
+            { "lightsteelblue", new Color(176, 196, 222) },
+            { "lightyellow", new Color(255, 255, 224) },
+            { "lime", new Color(0, 255, 0) },
+            { "limegreen", new Color(50, 205, 50) },
+            { "linen", new Color(250, 240, 230) },
+            { "magenta", new Color(255, 0, 255) },
+            { "maroon", new Color(128, 0, 0) },
+            { "mediumaquamarine", new Color(102, 205, 170) },
+            { "mediumblue", new Color(0, 0, 205) },
+            { "mediumorchid", new Color(186, 85, 211) },
+            { "mediumpurple", new Color(147, 112, 219) },
+            { "mediumseagreen", new Color(60, 179, 113) },
+            { "mediumslateblue", new Color(123, 104, 238) },
+            { "mediumspringgreen", new Color(0, 250, 154) },
+            { "mediumturquoise", new Color(72, 209, 204) },
+            { "mediumvioletred", new Color(199, 21, 133) },
+            { "midnightblue", new Color(25, 25, 112) },
+            { "mintcream", new Color(245, 255, 250) },
+            { "mistyrose", new Color(255, 228, 225) },
+            { "moccasin", new Color(255, 228, 181) },
+            { "navajowhite", new Color(255, 222, 173) },
+            { "navy", new Color(0, 0, 128) },
+            { "oldlace", new Color(253, 245, 230) },
+            { "olive", new Color(128, 128, 0) },
+            { "olivedrab", new Color(107, 142, 35) },
+            { "orange", new Color(255, 165, 0) },
+            { "orangered", new Color(255, 69, 0) },
+            { "orchid", new Color(218, 112, 214) },
+            { "palegoldenrod", new Color(238, 232, 170) },
+            { "palegreen", new Color(152, 251, 152) },
+            { "paleturquoise", new Color(175, 238, 238) },
+            { "palevioletred", new Color(219, 112, 147) },
+            { "papayawhip", new Color(255, 239, 213) },
+            { "peachpuff", new Color(255, 218, 185) },
+            { "peru", new Color(205, 133, 63) },
+            { "pink", new Color(255, 192, 203) },
+            { "plum", new Color(221, 160, 221) },
+            { "powderblue", new Color(176, 224, 230) },
+            { "purple", new Color(128, 0, 128) },
+            { "red", new Color(255, 0, 0) },
+            { "rosybrown", new Color(188, 143, 143) },
+            { "royalblue", new Color(65, 105, 225) },
+            { "saddlebrown", new Color(139, 69, 19) },
+            { "salmon", new Color(250, 128, 114) },
+            { "sandybrown", new Color(244, 164, 96) },
+            { "seagreen", new Color(46, 139, 87) },
+            { "seashell", new Color(255, 245, 238) },
+            { "sienna", new Color(160, 82, 45) },
+            { "silver", new Color(192, 192, 192) },
+            { "skyblue", new Color(135, 206, 235) },
+            { "slateblue", new Color(106, 90, 205) },
+            { "slategray", new Color(112, 128, 144) },
+            { "slategrey", new Color(112, 128, 144) },
+            { "snow", new Color(255, 250, 250) },
+            { "springgreen", new Color(0, 255, 127) },
+            { "steelblue", new Color(70, 130, 180) },
+            { "tan", new Color(210, 180, 140) },
+            { "teal", new Color(0, 128, 128) },
+            { "thistle", new Color(216, 191, 216) },
+            { "tomato", new Color(255, 99, 71) },
+            { "turquoise", new Color(64, 224, 208) },
+            { "violet", new Color(238, 130, 238) },
+            { "wheat", new Color(245, 222, 179) },
+            { "white", new Color(255, 255, 255) },
+            { "whitesmoke", new Color(245, 245, 245) },
+            { "yellow", new Color(255, 255, 0) },
+            { "yellowgreen", new Color(154, 205, 50) },
+            { "transparent", new Color(0, 0, 0) }
+        };
 
         #endregion
 
@@ -180,8 +174,8 @@
         /// Gets a color from the specified name.
         /// </summary>
         /// <param name="name">The name of the color</param>
-        /// <returns>The color or transparent if no color was found.</returns>
-        public static Color? FromName(String name)
+        /// <returns>The color with the given name or null.</returns>
+        public static Color? GetColor(String name)
         {
             Color color;
 
@@ -194,29 +188,17 @@
         /// <summary>
         /// Gets the name of the given color.
         /// </summary>
-        /// <param name="color">The color that searches its name.</param>
+        /// <param name="color">The color associated with a name.</param>
         /// <returns>The name of the given color or null.</returns>
-        public static String GetNameFromColor(Color color)
+        public static String GetName(Color color)
         {
             foreach (var pair in _colors)
+            {
                 if (pair.Value.Equals(color))
                     return pair.Key;
+            }
 
             return null;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static void Add(String name, Byte r, Byte g, Byte b)
-        {
-            _colors.Add(name, Color.FromRgb(r, g, b));
-        }
-
-        static void Add(String name, Color value)
-        {
-            _colors.Add(name, value);
         }
 
         #endregion

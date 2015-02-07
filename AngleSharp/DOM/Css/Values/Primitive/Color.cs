@@ -145,7 +145,7 @@
         /// <returns>The CSS color value.</returns>
         public static Color? FromName(String name)
         {
-            return Colors.FromName(name);
+            return Colors.GetColor(name);
         }
 
         /// <summary>

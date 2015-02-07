@@ -76,13 +76,13 @@
             Assert.AreEqual(Angle.Quarter.Value, gradient.Angle);
             var stops = gradient.Stops.ToArray();
             Assert.AreEqual(7, stops.Length);
-            Assert.AreEqual(Colors.FromName("red").Value, stops[0].Color);
-            Assert.AreEqual(Colors.FromName("orange").Value, stops[1].Color);
-            Assert.AreEqual(Colors.FromName("yellow").Value, stops[2].Color);
-            Assert.AreEqual(Colors.FromName("green").Value, stops[3].Color);
-            Assert.AreEqual(Colors.FromName("blue").Value, stops[4].Color);
-            Assert.AreEqual(Colors.FromName("indigo").Value, stops[5].Color);
-            Assert.AreEqual(Colors.FromName("violet").Value, stops[6].Color);
+            Assert.AreEqual(Colors.GetColor("red").Value, stops[0].Color);
+            Assert.AreEqual(Colors.GetColor("orange").Value, stops[1].Color);
+            Assert.AreEqual(Colors.GetColor("yellow").Value, stops[2].Color);
+            Assert.AreEqual(Colors.GetColor("green").Value, stops[3].Color);
+            Assert.AreEqual(Colors.GetColor("blue").Value, stops[4].Color);
+            Assert.AreEqual(Colors.GetColor("indigo").Value, stops[5].Color);
+            Assert.AreEqual(Colors.GetColor("violet").Value, stops[6].Color);
         }
 
         [Test]
@@ -141,8 +141,8 @@
             Assert.IsFalse(gradient.IsRepeating);
             Assert.AreEqual(Angle.Half.Value, gradient.Angle);
             Assert.AreEqual(3, gradient.Stops.Count());
-            Assert.AreEqual(Colors.FromName("yellow").Value, gradient.Stops.First().Color);
-            Assert.AreEqual(Colors.FromName("blue").Value, gradient.Stops.Skip(1).First().Color);
+            Assert.AreEqual(Colors.GetColor("yellow").Value, gradient.Stops.First().Color);
+            Assert.AreEqual(Colors.GetColor("blue").Value, gradient.Stops.Skip(1).First().Color);
             Assert.AreEqual(Color.FromRgb(0, 255, 0), gradient.Stops.Skip(2).First().Color);
         }
 
