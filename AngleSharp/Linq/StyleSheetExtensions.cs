@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -19,6 +20,9 @@
         public static IEnumerable<TRule> RulesOf<TRule>(this IEnumerable<IStyleSheet> sheets)
             where TRule : ICssRule
         {
+            if (sheets == null)
+                throw new ArgumentNullException("sheets");
+
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
         }
 
@@ -30,6 +34,9 @@
         /// <returns>The list of style rules.</returns>
         public static IEnumerable<ICssStyleRule> StylesWith(this IEnumerable<IStyleSheet> sheets, ISelector selector)
         {
+            if (selector == null)
+                throw new ArgumentNullException("selector");
+
             var selectorText = selector.Text;
             return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
         }
