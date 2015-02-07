@@ -6,6 +6,9 @@
     using AngleSharp.Extensions;
     using System;
 
+    /// <summary>
+    /// A set of already constructed CSS value converters.
+    /// </summary>
     static class Converters
     {
         #region Elementary
@@ -466,35 +469,6 @@
 
         #endregion
 
-        #region Arguments
-
-        static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
-        {
-            return converter.Atomic();
-        }
-
-        static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> converter, Int32 arguments, Func<T1[], T> transform)
-        {
-            return new ArgumentsValueConverter<T1>(converter, arguments).To(transform);
-        }
-
-        static IValueConverter<T> WithArgs<T1, T2, T>(IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2>(first, second).To(converter);
-        }
-
-        static IValueConverter<T> WithArgs<T1, T2, T3, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Func<Tuple<T1, T2, T3>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3>(first, second, third).To(converter);
-        }
-
-        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
-        {
-            return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
-        }
-
-        #endregion
-
         #region Misc
 
         /// <summary>
@@ -712,6 +686,31 @@
         static IValueConverter<T> Construct<T>(Func<IValueConverter<T>> f)
         {
             return f();
+        }
+
+        static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
+        {
+            return converter.Atomic();
+        }
+
+        static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> converter, Int32 arguments, Func<T1[], T> transform)
+        {
+            return new ArgumentsValueConverter<T1>(converter, arguments).To(transform);
+        }
+
+        static IValueConverter<T> WithArgs<T1, T2, T>(IValueConverter<T1> first, IValueConverter<T2> second, Func<Tuple<T1, T2>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2>(first, second).To(converter);
+        }
+
+        static IValueConverter<T> WithArgs<T1, T2, T3, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, Func<Tuple<T1, T2, T3>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2, T3>(first, second, third).To(converter);
+        }
+
+        static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
+        {
+            return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
         }
 
         #endregion
