@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -25,6 +24,9 @@
         public static T Attr<T>(this T elements, String attributeName, String attributeValue)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
                 element.SetAttribute(attributeName, attributeValue);
 
@@ -42,6 +44,9 @@
         public static T Attr<T>(this T elements, IEnumerable<KeyValuePair<String, String>> attributes)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 foreach (var attribute in attributes)
@@ -75,6 +80,9 @@
         public static T Empty<T>(this T elements)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
                 element.InnerHtml = String.Empty;
 
@@ -92,6 +100,9 @@
         public static T Css<T>(this T elements, String propertyName, String propertyValue)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements.OfType<IHtmlElement>())
                 element.Style.SetProperty(propertyName, propertyValue);
 
@@ -108,6 +119,9 @@
         public static T Css<T>(this T elements, IEnumerable<KeyValuePair<String, String>> properties)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements.OfType<IHtmlElement>())
             {
                 foreach (var property in properties)
@@ -140,6 +154,9 @@
         public static String Html<T>(this T element)
             where T : IElement
         {
+            if (element == null)
+                throw new ArgumentNullException("element");
+
             return element.InnerHtml;
         }
 
@@ -153,6 +170,9 @@
         public static T Html<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
                 element.InnerHtml = html;
 
@@ -169,7 +189,10 @@
         public static T AddClass<T>(this T elements, String className)
             where T : IEnumerable<IElement>
         {
-            var classes = className.Split(' ');
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
+            var classes = className.SplitSpaces();
 
             foreach (var element in elements)
                 element.ClassList.Add(classes);
@@ -187,7 +210,10 @@
         public static T RemoveClass<T>(this T elements, String className)
             where T : IEnumerable<IElement>
         {
-            var classes = className.Split(' ');
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
+            var classes = className.SplitSpaces();
 
             foreach (var element in elements)
                 element.ClassList.Remove(classes);
@@ -205,7 +231,10 @@
         public static T ToggleClass<T>(this T elements, String className)
             where T : IEnumerable<IElement>
         {
-            var classes = className.Split(' ');
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
+            var classes = className.SplitSpaces();
 
             foreach (var element in elements)
             {
@@ -226,8 +255,11 @@
         public static Boolean HasClass<T>(this T elements, String className)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             var found = false;
-            var classes = className.Split(' ');
+            var classes = className.SplitSpaces();
 
             foreach (var element in elements)
             {
