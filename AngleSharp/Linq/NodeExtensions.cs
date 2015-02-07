@@ -18,6 +18,9 @@
         public static String Text<T>(this T element)
             where T : INode
         {
+            if (element == null)
+                throw new ArgumentNullException("element");
+
             return element.TextContent;
         }
 
@@ -31,6 +34,9 @@
         public static T Text<T>(this T elements, String text)
             where T : IEnumerable<INode>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
                 element.TextContent = text;
 
@@ -47,6 +53,9 @@
         public static Int32 Index<T>(this IEnumerable<T> elements, T item)
             where T : INode
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             if (item != null)
             {
                 int i = 0;
