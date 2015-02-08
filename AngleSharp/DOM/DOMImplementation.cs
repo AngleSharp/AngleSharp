@@ -67,6 +67,9 @@
         /// <returns>A new DocumentType node with the owner document set to null.</returns>
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
+            if (qualifiedName == null)
+                throw new ArgumentNullException("qualifiedName");
+
             if (!qualifiedName.IsXmlName())
                 throw new DomException(ErrorCode.InvalidCharacter);
             else if (!qualifiedName.IsQualifiedName())
@@ -135,6 +138,9 @@
         /// <returns>True if the feature is implemented in the specified version, false otherwise.</returns>
         public Boolean HasFeature(String feature, String version = null)
         {
+            if (feature == null)
+                throw new ArgumentNullException("feature");
+
             version = version ?? String.Empty;
             String[] versions;
 
