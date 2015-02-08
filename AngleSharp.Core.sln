@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22231.1
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core", "AngleSharp\AngleSharp.Core.csproj", "{91F78C48-287E-41B5-9E49-44D6E1E31290}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{DA318620-F6B5-4DFA-B012-38F06141A2DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Legacy", "AngleSharp.Legacy\AngleSharp.Core.Legacy.csproj", "{24FE559B-6557-4078-9B66-75B300BA1CDB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Scripting", "AngleSharp.Scripting\AngleSharp.Scripting.csproj", "{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Common", "AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj", "{CB9D1E29-D529-4525-B139-2A25115BCA96}"
 EndProject
@@ -45,10 +43,6 @@ Global
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4ED5A0B3-AE7A-40B6-BBAC-FF408D6C6BC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB9D1E29-D529-4525-B139-2A25115BCA96}.Release|Any CPU.ActiveCfg = Release|Any CPU
