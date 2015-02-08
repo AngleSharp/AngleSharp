@@ -28,6 +28,9 @@
         [DomConstructor]
         public MutationObserver(MutationCallback callback)
         {
+            if (callback == null)
+                throw new ArgumentNullException("callback");
+
             _records = new Queue<IMutationRecord>();
             _callback = callback;
             _observing = new List<MutationObserving>();
@@ -160,6 +163,8 @@
 
             if (node == null)
                 return;
+            else if (options == null)
+                options = new MutationObserverInit();
 
             if (options.IsExaminingOldCharacterData.HasValue == false)
                 options.IsExaminingOldCharacterData = false;
@@ -206,15 +211,19 @@
         [DomName("observe")]
         public void Connect(INode target, IDictionary<String, Object> options)
         {
-            var init = new MutationObserverInit();
+            if (options == null)
+                throw new ArgumentNullException("options");
 
-            init.AttributeFilters = options.TryGet("attributeFilter") as IEnumerable<String>;
-            init.IsObservingAttributes = options.TryGet<Boolean>("attributes");
-            init.IsObservingChildNodes = options.TryGet<Boolean>("childList") ?? false;
-            init.IsObservingCharacterData = options.TryGet<Boolean>("characterData");
-            init.IsObservingSubtree = options.TryGet<Boolean>("subtree") ?? false;
-            init.IsExaminingOldAttributeValue = options.TryGet<Boolean>("attributeOldValue");
-            init.IsExaminingOldCharacterData = options.TryGet<Boolean>("characterDataOldValue");
+            var init = new MutationObserverInit
+            {
+                AttributeFilters = options.TryGet("attributeFilter") as IEnumerable<String>,
+                IsObservingAttributes = options.TryGet<Boolean>("attributes"),
+                IsObservingChildNodes = options.TryGet<Boolean>("childList") ?? false,
+                IsObservingCharacterData = options.TryGet<Boolean>("characterData"),
+                IsObservingSubtree = options.TryGet<Boolean>("subtree") ?? false,
+                IsExaminingOldAttributeValue = options.TryGet<Boolean>("attributeOldValue"),
+                IsExaminingOldCharacterData = options.TryGet<Boolean>("characterDataOldValue")
+            };
 
             Connect(target, init);
         }
@@ -237,7 +246,7 @@
 
         #region Options
 
-        class MutationObserving
+        sealed class MutationObserving
         {
             readonly INode _target;
             readonly MutationObserverInit _options;
