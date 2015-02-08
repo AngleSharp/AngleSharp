@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp">
+      <HintPath>..\packages\AngleSharp.0.8.0\lib\portable-windows8+net45+windowsphone8+wpa\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AngleSharp.Scripting.JavaScript">
+      <HintPath>..\packages\AngleSharp.Scripting.JavaScript.0.1.1\lib\net45\AngleSharp.Scripting.JavaScript.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,12 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
-      <Project>{91f78c48-287e-41b5-9e49-44d6e1e31290}</Project>
-      <Name>AngleSharp.Core</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

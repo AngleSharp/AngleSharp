@@ -40,6 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="AngleSharp">
+      <HintPath>..\packages\AngleSharp.0.8.0\lib\portable-windows8+net45+windowsphone8+wpa\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AngleSharp.Scripting.JavaScript">
+      <HintPath>..\packages\AngleSharp.Scripting.JavaScript.0.1.1\lib\net45\AngleSharp.Scripting.JavaScript.dll</HintPath>
+    </Reference>
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.4\lib\net45\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
@@ -205,12 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
-      <Project>{91f78c48-287e-41b5-9e49-44d6e1e31290}</Project>
-      <Name>AngleSharp.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo.ico" />

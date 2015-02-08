@@ -32,6 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.8.0.43114, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AngleSharp.0.8.0\lib\portable-windows8+net45+windowsphone8+wpa\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AngleSharp.Scripting.JavaScript">
+      <HintPath>..\packages\AngleSharp.Scripting.JavaScript.0.1.1\lib\net45\AngleSharp.Scripting.JavaScript.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -71,12 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
-      <Project>{91f78c48-287e-41b5-9e49-44d6e1e31290}</Project>
-      <Name>AngleSharp.Core</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Snippets.resx">

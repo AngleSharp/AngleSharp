@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Samples.Demos.Snippets
 {
-    using AngleSharp.Scripting;
+    using AngleSharp.Scripting.JavaScript;
     using System;
     using System.Threading.Tasks;
 
