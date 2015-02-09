@@ -118,21 +118,17 @@
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public Boolean Validate(RenderDevice device)
         {
-            var condition = IsInverse;
-
-            if (!String.IsNullOrEmpty(Type) && Types.Contains(Type) == condition)
+            if (!String.IsNullOrEmpty(Type) && Types.Contains(Type) == IsInverse)
                 return false;
 
-            if (Type == Keywords.Screen && (device.DeviceType == RenderDevice.Kind.Screen) == condition)
-                return false;
-            else if (Type == Keywords.Speech && (device.DeviceType == RenderDevice.Kind.Speech) == condition)
-                return false;
-            else if (Type == Keywords.Print && (device.DeviceType == RenderDevice.Kind.Printer) == condition)
+            if (IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
+                IsInvalid(device, Keywords.Speech, RenderDevice.Kind.Speech) ||
+                IsInvalid(device, Keywords.Print, RenderDevice.Kind.Printer))
                 return false;
 
             foreach (var feature in _features)
             {
-                if (feature.Validate(device) == condition)
+                if (feature.Validate(device) == IsInverse)
                     return false;
             }
 
@@ -145,8 +141,7 @@
         /// <returns>The specialized enumerator.</returns>
         public IEnumerator<MediaFeature> GetEnumerator()
         {
-            foreach (var feature in _features)
-                yield return feature;
+            return _features.GetEnumerator();
         }
 
         /// <summary>
@@ -172,6 +167,15 @@
 
             _features.Add(feature);
             return true;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        Boolean IsInvalid(RenderDevice device, String keyword, RenderDevice.Kind kind)
+        {
+            return Type == keyword && (device.DeviceType == kind) == IsInverse;
         }
 
         #endregion
