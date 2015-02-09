@@ -172,6 +172,9 @@
         /// <param name="configuration">The configuration to set.</param>
         public static void SetDefault(IConfiguration configuration)
         {
+            if (configuration == null)
+                throw new ArgumentNullException("configuration");
+
             customConfiguration = configuration;
         }
 
@@ -182,6 +185,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Register(IService service)
         {
+            if (service == null)
+                throw new ArgumentNullException("service");
+
             _services.Add(service);
             return this;
         }
@@ -193,6 +199,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Register(IScriptEngine scriptEngine)
         {
+            if (scriptEngine == null)
+                throw new ArgumentNullException("scriptEngine");
+
             _scripts.Add(scriptEngine);
             return this;
         }
@@ -204,6 +213,8 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Register(IRequester requester)
         {
+            if (requester == null)
+                throw new ArgumentNullException("requester");
             _requesters.Add(requester);
             return this;
         }
@@ -215,6 +226,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Register(IStyleEngine styleEngine)
         {
+            if (styleEngine == null)
+                throw new ArgumentNullException("styleEngine");
+
             _styles.Add(styleEngine);
             return this;
         }
@@ -226,6 +240,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Unregister(IScriptEngine scriptEngine)
         {
+            if (scriptEngine == null)
+                throw new ArgumentNullException("scriptEngine");
+
             _scripts.Remove(scriptEngine);
             return this;
         }
@@ -237,6 +254,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Unregister(IStyleEngine styleEngine)
         {
+            if (styleEngine == null)
+                throw new ArgumentNullException("styleEngine");
+
             _styles.Remove(styleEngine);
             return this;
         }
@@ -248,6 +268,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Unregister(IService service)
         {
+            if (service == null)
+                throw new ArgumentNullException("service");
+
             _services.Remove(service);
             return this;
         }
@@ -259,6 +282,9 @@
         /// <returns>The current instance for chaining.</returns>
         public Configuration Unregister(IRequester requester)
         {
+            if (requester == null)
+                throw new ArgumentNullException("requester");
+
             _requesters.Remove(requester);
             return this;
         }
