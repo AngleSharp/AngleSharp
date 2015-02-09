@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core", "AngleSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleInteraction", "ConsoleInteraction\ConsoleInteraction.csproj", "{7214C939-0434-4880-972A-9E1BC2E6E025}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{DA318620-F6B5-4DFA-B012-38F06141A2DD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Legacy", "AngleSharp.Legacy\AngleSharp.Core.Legacy.csproj", "{24FE559B-6557-4078-9B66-75B300BA1CDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Common", "AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj", "{CB9D1E29-D529-4525-B139-2A25115BCA96}"
@@ -18,8 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Tests", "AngleSharp.Core.Tests\AngleSharp.Core.Tests.csproj", "{C3074D7E-CA6C-4F2C-813D-BD97462DC3EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Selector", "AngleSharp.Performance.Selector\AngleSharp.Performance.Selector.csproj", "{B35FC486-0C5B-4A71-9AA4-E1D53680486C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Samples.Demos", "AngleSharp.Samples.Demos\AngleSharp.Samples.Demos.csproj", "{3F8D45C0-140D-4A48-B1DC-91BF3F4EC760}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +31,6 @@ Global
 		{7214C939-0434-4880-972A-9E1BC2E6E025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7214C939-0434-4880-972A-9E1BC2E6E025}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7214C939-0434-4880-972A-9E1BC2E6E025}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA318620-F6B5-4DFA-B012-38F06141A2DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24FE559B-6557-4078-9B66-75B300BA1CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,10 +51,6 @@ Global
 		{B35FC486-0C5B-4A71-9AA4-E1D53680486C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B35FC486-0C5B-4A71-9AA4-E1D53680486C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B35FC486-0C5B-4A71-9AA4-E1D53680486C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F8D45C0-140D-4A48-B1DC-91BF3F4EC760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F8D45C0-140D-4A48-B1DC-91BF3F4EC760}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F8D45C0-140D-4A48-B1DC-91BF3F4EC760}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F8D45C0-140D-4A48-B1DC-91BF3F4EC760}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
