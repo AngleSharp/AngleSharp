@@ -19,7 +19,7 @@
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class HtmlParser
     {
         #region Fields
@@ -1093,6 +1093,7 @@
                 switch (insert)
                 {
                     case HtmlTreeMode.InTable:
+                    case HtmlTreeMode.InTableBody:
                     case HtmlTreeMode.InCaption:
                     case HtmlTreeMode.InRow:
                     case HtmlTreeMode.InCell:
