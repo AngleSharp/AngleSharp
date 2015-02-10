@@ -1050,7 +1050,7 @@
             }
             else if (tagName == Tags.Table)
             {
-                if (doc.QuirksMode == QuirksMode.Off && IsInButtonScope())
+                if (doc.QuirksMode != QuirksMode.On && IsInButtonScope())
                     InBodyEndTagParagraph();
 
                 AddElement(new HtmlTableElement(doc), tag);
