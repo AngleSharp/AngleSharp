@@ -19,7 +19,7 @@
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class HtmlParser
     {
         #region Fields
@@ -1019,7 +1019,7 @@
                 RaiseErrorOccurred(ErrorCode.TagCannotStartHere);
             }
             else if (tagName.IsOneOf(Tags.Style, Tags.Link) ||
-                     tagName.IsOneOf(Tags.Meta, Tags.MenuItem, Tags.Title, Tags.NoFrames, Tags.Template) ||
+                     tagName.IsOneOf(Tags.Meta, Tags.Title, Tags.NoFrames, Tags.Template) ||
                      tagName.IsOneOf(Tags.Base, Tags.BaseFont, Tags.Bgsound))
             {
                 InHead(tag);
@@ -1061,7 +1061,7 @@
             {
                 InBodyStartTagBreakrow(tag);
             }
-            else if (tagName.IsOneOf(Tags.Param, Tags.Source, Tags.Track))
+            else if (tagName.IsOneOf(Tags.MenuItem, Tags.Param, Tags.Source, Tags.Track))
             {
                 AddElement(tag, true);
                 CloseCurrentNode();
