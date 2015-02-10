@@ -994,9 +994,19 @@ namespace AngleSharp.Core.Tests
         }
 
         [Test]
-        public void TableInParagraphElement()
+        public void TableInParagraphElementInQuirksMode()
         {
-            var doc = DocumentBuilder.Html(@"<p><table>");
+            var doc = DocumentBuilder.Html("<p><table>");
+            Assert.AreEqual(1, doc.Body.ChildElementCount);
+            Assert.IsInstanceOf<HtmlParagraphElement>(doc.Body.Children[0]);
+            Assert.AreEqual(1, doc.Body.Children[0].ChildElementCount);
+            Assert.IsInstanceOf<HtmlTableElement>(doc.Body.Children[0].Children[0]);
+        }
+
+        [Test]
+        public void TableInParagraphElementInStandardMode()
+        {
+            var doc = DocumentBuilder.Html(@"<!doctype html><p><table>");
             Assert.AreEqual(2, doc.Body.ChildElementCount);
             Assert.IsInstanceOf<HtmlParagraphElement>(doc.Body.Children[0]);
             Assert.IsInstanceOf<HtmlTableElement>(doc.Body.Children[1]);
