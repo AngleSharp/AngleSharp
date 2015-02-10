@@ -29,6 +29,7 @@ namespace AngleSharp.Core.Tests.Css
             var result = document.QuerySelectorAll("body");
             Assert.AreEqual(1, result.Length);
         }
+
         [Test]
         public void SlickspeedFindDivElement()
         {

@@ -94,6 +94,7 @@
     <Compile Include="Css\Gradient.cs" />
     <Compile Include="Css\CssMediaFeatures.cs" />
     <Compile Include="Css\Slickspeed.cs" />
+    <Compile Include="Css\WebsiteQuery.cs" />
     <Compile Include="Html\DomManipulation.cs" />
     <Compile Include="Html\Validation.cs" />
     <Compile Include="Html\ValidityCheck.cs" />
@@ -186,6 +187,7 @@
     <None Include="Resources\big5.com" />
     <None Include="Resources\gb18030.com" />
     <None Include="Resources\gb2312.com" />
+    <None Include="Resources\htmlcodetutorial.com" />
     <None Include="Resources\iso-8859-1.it" />
     <None Include="Resources\item.jd.com" />
     <None Include="Resources\real_shift_jit.net" />

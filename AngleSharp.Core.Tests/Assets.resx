@@ -139,6 +139,9 @@
   <data name="gb2312" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\gb2312.com;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="htmlcodetutorial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\htmlcodetutorial.com;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="iso_8859_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\iso-8859-1.it;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
