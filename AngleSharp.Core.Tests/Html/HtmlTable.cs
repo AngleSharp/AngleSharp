@@ -992,5 +992,14 @@ namespace AngleSharp.Core.Tests
             tr.Style.Display = "none";
             Assert.AreEqual("none", tr.Style.Display);
         }
+
+        [Test]
+        public void TableInParagraphElement()
+        {
+            var doc = DocumentBuilder.Html(@"<p><table>");
+            Assert.AreEqual(2, doc.Body.ChildElementCount);
+            Assert.IsInstanceOf<HtmlParagraphElement>(doc.Body.Children[0]);
+            Assert.IsInstanceOf<HtmlTableElement>(doc.Body.Children[1]);
+        }
     }
 }
