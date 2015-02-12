@@ -128,6 +128,7 @@
                 if (content.Substring(0, index).Equals(_content.ToString(0, index)))
                 {
                     //If everything seems to fit up to this point, do an instant switch
+                    _confidence = EncodingConfidence.Certain;
                     _content.Remove(index, _content.Length - index);
                     _content.Append(content.Substring(index));
                 }
