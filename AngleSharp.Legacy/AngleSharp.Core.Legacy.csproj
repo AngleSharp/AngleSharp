@@ -7,8 +7,8 @@
     <ProjectGuid>{24FE559B-6557-4078-9B66-75B300BA1CDB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AngleSharp.Legacy</RootNamespace>
-    <AssemblyName>AngleSharp.Legacy</AssemblyName>
+    <RootNamespace>AngleSharp</RootNamespace>
+    <AssemblyName>AngleSharp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,6 +28,7 @@
     <DefineConstants>TRACE;LEGACY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\AngleSharp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks">
