@@ -13,5 +13,13 @@
     <releaseNotes>For all changes see: https://github.com/FlorianRappl/AngleSharp/wiki/ChangeLog.</releaseNotes>
     <copyright>Copyright 2015, Florian Rappl.</copyright>
     <tags>html html5 css css3 dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text</tags>
+    <dependencies>
+        <group targetFramework="net40">
+            <dependency id="Microsoft.Bcl.Async" />
+        </group>
+        <group targetFramework="sl50">
+            <dependency id="Microsoft.Bcl.Async" />
+        </group>
+    </dependencies>
   </metadata>
 </package>

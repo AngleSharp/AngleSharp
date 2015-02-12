@@ -1,14 +1,31 @@
-$dest = "Nuget\lib\portable-windows8+net45+windowsphone8+wpa"
 $spec = "Nuget\AngleSharp.nuspec"
-New-Item $dest -type directory -Force
-Copy-Item "AngleSharp\bin\Release\AngleSharp.dll" $dest
-Copy-Item "AngleSharp\bin\Release\AngleSharp.xml" $dest
-$file = $dest + "\AngleSharp.dll"
-$ver = (Get-Item $file).VersionInfo.FileVersion
-$file = "Nuget\AngleSharp." + $ver + ".nupkg"
-$repl = '<version>' + $ver + '</version>'
-(Get-Content $spec) | 
-    Foreach-Object { $_ -replace "<version>([0-9\.]+)</version>", $repl } | 
-    Set-Content $spec
-nuget pack $spec -OutputDirectory "Nuget"
-nuget push $file
+
+Function Update-Content($target, $source) {
+    $dest = "Nuget\lib\$target"
+    New-Item $dest -type directory -Force
+    Copy-Item "$source\bin\Release\AngleSharp.dll" $dest
+    Copy-Item "$source\bin\Release\AngleSharp.xml" $dest
+}
+
+Function Update-Version($file) {
+    $ver = (Get-Item $file).VersionInfo.FileVersion
+    $repl = "<version>$ver</version>"
+    (Get-Content $spec) | 
+        Foreach-Object { $_ -replace "<version>(.*)</version>", $repl } | 
+        Set-Content $spec
+    return $ver
+}
+
+Function Publish-Package() {
+    $file = "Nuget\AngleSharp.$ver.nupkg"
+    nuget pack $spec -OutputDirectory "Nuget"
+    nuget push $file
+    return $LastExitCode
+}
+
+Update-Content "net40" "AngleSharp.Legacy"
+Update-Content "sl50" "AngleSharp.Silverlight"
+Update-Content "portable-windows8+net45+windowsphone8+wpa" "AngleSharp"
+
+$version = Update-Version "Nuget\lib\net40\AngleSharp.dll"
+$success = Publish-Package $version
