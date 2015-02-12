@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.Extensions
 {
+#if SILVERLIGHT
+    using System.Linq;
+#endif
     using AngleSharp.Attributes;
     using AngleSharp.Css;
     using AngleSharp.Dom;
@@ -41,8 +44,11 @@
         /// <returns>The compatibility string.</returns>
         public static String GetCompatiblity(this QuirksMode mode)
         {
+#if !SILVERLIGHT
             var attr = typeof(QuirksMode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
-
+#else
+            var attr = typeof(ErrorCode).GetField(mode.ToString()).GetCustomAttributes(typeof(DomDescriptionAttribute), false).OfType<DomDescriptionAttribute>().FirstOrDefault();
+#endif
             if (attr != null)
                 return attr.Description;
 
@@ -160,7 +166,7 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
-        public static T ToEnum<T>(this String value, T defaultValue) 
+        public static T ToEnum<T>(this String value, T defaultValue)
             where T : struct, IComparable
         {
             if (String.IsNullOrEmpty(value))
@@ -730,7 +736,7 @@
                         throw new DomException(ErrorCode.InvalidCharacter);
                     else if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
                         builder.Append(Symbols.ReverseSolidus).Append(character);
-                    else if (character.IsInRange(0x1, 0x1f) || character == (Char)0x7b)
+                    else if (character.IsInRange((Int32)0x1, (Int32)0x1f) || character == (Char)0x7b)
                         builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(Symbols.Space);
                     else
                         builder.Append(character);

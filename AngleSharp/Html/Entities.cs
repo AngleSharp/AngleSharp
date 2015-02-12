@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Core;
 
     /// <summary>
     /// Represents the list of all Html entities.
@@ -2617,7 +2618,7 @@
         /// <returns>The array containing the character.</returns>
         public static String Convert(Int32 code)
         {
-            return Char.ConvertFromUtf32(code);
+            return code.ConvertFromUtf32();
         }
 
         /// <summary>
@@ -2628,7 +2629,7 @@
         /// <returns>The array containing the two characters.</returns>
         public static String Convert(Int32 leadingCode, Int32 trailingCode)
         {
-            return Char.ConvertFromUtf32(leadingCode) + Char.ConvertFromUtf32(trailingCode);
+            return leadingCode.ConvertFromUtf32() + trailingCode.ConvertFromUtf32();
         }
 
         /// <summary>

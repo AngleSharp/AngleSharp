@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Core;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
@@ -1238,7 +1239,7 @@
                     Back();
 
                 var code = Int32.Parse(new String(escape.ToArray()), NumberStyles.HexNumber);
-                return Char.ConvertFromUtf32(code);
+                return code.ConvertFromUtf32();
             }
 
             return current.ToString();

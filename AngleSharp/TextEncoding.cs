@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Core;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
@@ -650,7 +651,7 @@
 
                         for (m = MaxIntValue, j = iAfterLastDot; j < iNextDot; j += IsSupplementary(test) ? 2 : 1)
                         {
-                            test = Char.ConvertToUtf32(unicode, j);
+                            test = Plateform.ConvertToUtf32(unicode, j);
 
                             if (test >= n && test < m)
                                 m = test;
@@ -664,7 +665,7 @@
                         for (j = iAfterLastDot; j < iNextDot; j += IsSupplementary(test) ? 2 : 1)
                         {
                             // Make sure we're aware of surrogates
-                            test = Char.ConvertToUtf32(unicode, j);
+                            test = Plateform.ConvertToUtf32(unicode, j);
 
                             // Adjust for character position (only the chars in our string already, some
                             // haven't been processed.
