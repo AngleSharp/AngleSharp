@@ -81,8 +81,13 @@
         {
             var charset = Charset;
 
-            if (charset != null && TextEncoding.IsSupported(charset.Trim()))
-                return TextEncoding.Resolve(charset);
+            if (charset != null)
+            {
+                charset = charset.Trim();
+
+                if (TextEncoding.IsSupported(charset))
+                    return TextEncoding.Resolve(charset);
+            }
 
             var equiv = HttpEquivalent;
 
