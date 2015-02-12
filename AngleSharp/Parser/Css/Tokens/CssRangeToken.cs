@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using AngleSharp.Core;
 
     /// <summary>
     /// Represents the CSS range token.
@@ -38,12 +39,12 @@
                         f = Symbols.MaximumCodepoint;
 
                     for (; index <= f; index++)
-                        list.Add(Char.ConvertFromUtf32(index));
+                        list.Add(index.ConvertFromUtf32());
 
                     _range = list.ToArray();
                 }
                 else
-                    _range = new String[] { Char.ConvertFromUtf32(index) };
+                    _range = new String[] { index.ConvertFromUtf32() };
             }
         }
 
@@ -78,12 +79,10 @@
         public override String ToValue()
         {
             if (IsEmpty)
-                return String.Empty;
-
+                return String.Empty; 
             if (_range.Length == 1)
-                return "#" + Char.ConvertToUtf32(_range[0], 0).ToString("x");
-
-            return "#" + Char.ConvertToUtf32(_range[0], 0).ToString("x") + "-#" + Char.ConvertToUtf32(_range[_range.Length - 1], 0).ToString("x");
+                return "#" + Plateform.ConvertToUtf32(_range[0], 0).ToString("x");
+            return "#" + Plateform.ConvertToUtf32(_range[0], 0).ToString("x") + "-#" + Plateform.ConvertToUtf32(_range[_range.Length - 1], 0).ToString("x");
         }
 
         #endregion

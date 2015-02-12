@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.Extensions
 {
+#if SILVERLIGHT
+    using System.Linq;
+#endif
     using AngleSharp.Attributes;
     using System;
     using System.Diagnostics;
@@ -18,8 +21,11 @@
         /// <returns>The description of the error.</returns>
         public static String GetMessage(this ErrorCode code)
         {
+#if !SILVERLIGHT
             var attr = typeof(ErrorCode).GetTypeInfo().GetDeclaredField(code.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
-
+#else
+            var attr = typeof(ErrorCode).GetField(code.ToString()).GetCustomAttributes(typeof(DomDescriptionAttribute), false).OfType<DomDescriptionAttribute>().FirstOrDefault();
+#endif
             if (attr != null)
                 return attr.Description;
 

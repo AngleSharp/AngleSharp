@@ -17,8 +17,11 @@
         #region Constants
 
         const Int32 BufferSize = 4096;
-
+#if !SILVERLIGHT
         static readonly String _version = typeof(DefaultRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+#else
+        static readonly String _version = typeof(DefaultRequester).Assembly.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false).OfType<AssemblyFileVersionAttribute>().Select(a => a.Version).FirstOrDefault();
+#endif
         static readonly String _agentName = "AngleSharp/" + _version;
         static readonly Dictionary<String, PropertyInfo> _propCache;
         static readonly List<String> _restricted;
@@ -249,7 +252,13 @@
             void SetProperty(String name, Object value)
             {
                 if (!_propCache.ContainsKey(name))
+                {
+#if !SILVERLIGHT
                     _propCache.Add(name, _http.GetType().GetTypeInfo().GetDeclaredProperty(name));
+#else
+                    _propCache.Add(name, _http.GetType().GetProperty(name));
+#endif
+                }
 
                 var property = _propCache[name];
 
@@ -258,7 +267,7 @@
                     try
                     {
                         //This might fail on certain platforms
-                        property.SetValue(_http, value);
+                        property.SetValue(_http, value, null);
                     }
                     catch
                     {

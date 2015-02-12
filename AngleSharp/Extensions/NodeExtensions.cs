@@ -11,7 +11,7 @@
     /// Useful methods for node objects.
     /// </summary>
     [DebuggerStepThrough]
-    static class NodeExtensions
+    public static class NodeExtensions
     {
         /// <summary>
         /// Gets the root of the given node, which is the node itself, if it has
