@@ -2799,6 +2799,9 @@
     <Compile Include="..\AngleSharp\Parser\SourceManager.cs">
       <Link>Parser\SourceManager.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
     </Compile>
@@ -2879,9 +2882,7 @@
     </Compile>
     <Compile Include="Extensions\SilverlightExtensions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
