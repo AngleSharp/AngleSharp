@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using AngleSharp.Core;
 
     /// <summary>
     /// Represents the CSS range token.
@@ -80,9 +80,10 @@
         {
             if (IsEmpty)
                 return String.Empty; 
-            if (_range.Length == 1)
-                return "#" + Plateform.ConvertToUtf32(_range[0], 0).ToString("x");
-            return "#" + Plateform.ConvertToUtf32(_range[0], 0).ToString("x") + "-#" + Plateform.ConvertToUtf32(_range[_range.Length - 1], 0).ToString("x");
+            else if (_range.Length == 1)
+                return "#" + _range[0].ConvertToUtf32(0).ToString("x");
+
+            return "#" + _range[0].ConvertToUtf32(0).ToString("x") + "-#" + _range[_range.Length - 1].ConvertToUtf32(0).ToString("x");
         }
 
         #endregion

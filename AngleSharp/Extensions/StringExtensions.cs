@@ -44,11 +44,8 @@
         /// <returns>The compatibility string.</returns>
         public static String GetCompatiblity(this QuirksMode mode)
         {
-#if !SILVERLIGHT
             var attr = typeof(QuirksMode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
-#else
-            var attr = typeof(ErrorCode).GetField(mode.ToString()).GetCustomAttributes(typeof(DomDescriptionAttribute), false).OfType<DomDescriptionAttribute>().FirstOrDefault();
-#endif
+
             if (attr != null)
                 return attr.Description;
 

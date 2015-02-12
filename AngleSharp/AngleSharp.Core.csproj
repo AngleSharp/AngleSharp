@@ -114,7 +114,6 @@
     <Compile Include="Dom\Events\MouseEvent.cs" />
     <Compile Include="Dom\Events\PageTransitionEvent.cs" />
     <Compile Include="Dom\Html\HtmlPictureElement.cs" />
-    <Compile Include="Extensions\PlateformHelper.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />

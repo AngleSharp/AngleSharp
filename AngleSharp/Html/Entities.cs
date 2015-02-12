@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using AngleSharp.Core;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents the list of all Html entities.
