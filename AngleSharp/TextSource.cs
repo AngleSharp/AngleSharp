@@ -123,12 +123,13 @@
 
                 var raw = _raw.ToArray();
                 var content = _encoding.GetString(raw, 0, raw.Length);
+                var index = Math.Min(_index, content.Length);
 
-                if (content.Substring(0, _index).Equals(_content.ToString(0, _index)))
+                if (content.Substring(0, index).Equals(_content.ToString(0, index)))
                 {
                     //If everything seems to fit up to this point, do an instant switch
-                    _content.Remove(_index, _content.Length - _index);
-                    _content.Append(content.Substring(_index));
+                    _content.Remove(index, _content.Length - index);
+                    _content.Append(content.Substring(index));
                 }
                 else
                 {
