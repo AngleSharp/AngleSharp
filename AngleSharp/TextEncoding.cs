@@ -311,6 +311,9 @@
             encodings.Add("iso-2022-cn-ext", isocn);
             encodings.Add("shift_jis", GetEncoding("shift_jis"));
 
+            var eucjp = Encoding.GetEncoding("euc-jp");
+            encodings.Add("euc-jp", eucjp);
+
             suggestions.Add("ar", Utf8);
             suggestions.Add("cy", Utf8);
             suggestions.Add("fa", Utf8);
