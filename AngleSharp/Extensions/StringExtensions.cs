@@ -1,8 +1,5 @@
 ﻿namespace AngleSharp.Extensions
 {
-#if SILVERLIGHT
-    using System.Linq;
-#endif
     using AngleSharp.Attributes;
     using AngleSharp.Css;
     using AngleSharp.Dom;

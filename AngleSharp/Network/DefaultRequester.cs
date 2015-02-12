@@ -17,11 +17,8 @@
         #region Constants
 
         const Int32 BufferSize = 4096;
-#if !SILVERLIGHT
+
         static readonly String _version = typeof(DefaultRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-#else
-        static readonly String _version = typeof(DefaultRequester).Assembly.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false).OfType<AssemblyFileVersionAttribute>().Select(a => a.Version).FirstOrDefault();
-#endif
         static readonly String _agentName = "AngleSharp/" + _version;
         static readonly Dictionary<String, PropertyInfo> _propCache;
         static readonly List<String> _restricted;
