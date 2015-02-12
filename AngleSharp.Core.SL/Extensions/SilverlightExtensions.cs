@@ -27,6 +27,27 @@
             return TaskEx.Run(action);
         }
 
+        public static Type GetTypeInfo(this Type type)
+        {
+            return type;
+        }
+
+        public static FieldInfo GetDeclaredField(this Type type, String name)
+        {
+            return type.GetField(name);
+        }
+
+        public static T GetCustomAttribute<T>(this ICustomAttributeProvider provider, Boolean inherit = false)
+            where T : Attribute
+        {
+            var objs = provider.GetCustomAttributes(typeof(T), inherit);
+
+            if (objs.Length > 0)
+                return (T)objs[0];
+
+            return null;
+        }
+
         public static String ConvertFromUtf32(this Int32 utf32)
         {
             // For UTF32 values from U+00D800 ~ U+00DFFF, we should throw.  They
