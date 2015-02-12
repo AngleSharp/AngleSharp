@@ -1713,9 +1713,6 @@
     <Compile Include="..\AngleSharp\Extensions\ParentNodeExtensions.cs">
       <Link>Extensions\ParentNodeExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Extensions\PlateformHelper.cs">
-      <Link>Extensions\PlateformHelper.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Extensions\QueryExtensions.cs">
       <Link>Extensions\QueryExtensions.cs</Link>
     </Compile>

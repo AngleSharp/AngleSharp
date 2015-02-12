@@ -12,6 +12,16 @@
     /// </summary>
     static class LegacyExtensions
     {
+        public static String ConvertFromUtf32(this Int32 utf32)
+        {
+            return Char.ConvertFromUtf32(utf32);
+        }
+
+        public static Int32 ConvertToUtf32(this String s, Int32 index)
+        {
+            return Char.ConvertToUtf32(s, index);
+        }
+
         public static Task InvokeAsync(this Action action)
         {
             return Task.Factory.StartNew(action);
