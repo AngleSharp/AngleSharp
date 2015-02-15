@@ -3132,7 +3132,7 @@
                              tagName.IsOneOf(Tags.Code, Tags.Dd, Tags.Div, Tags.Dl, Tags.Dt, Tags.Em) ||
                              tagName.IsOneOf(Tags.Embed, Tags.Head, Tags.Hr, Tags.I, Tags.Img, Tags.Li, Tags.Ul) ||
                              tagName.IsOneOf(Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5) ||
-                             tagName.IsOneOf(Tags.Listing, Tags.Main, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol) ||
+                             tagName.IsOneOf(Tags.Listing, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol) ||
                              tagName.IsOneOf(Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike) ||
                              tagName.IsOneOf(Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var))
                         ForeignNormalTag(token);
