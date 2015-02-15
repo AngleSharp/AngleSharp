@@ -998,7 +998,7 @@
             }
             else if (tagName.IsOneOf(Tags.Ol, Tags.Dl, Tags.Fieldset) ||
                      tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) ||
-                     tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details) ||
+                     tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Main) ||
                      tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup))
             {
                 if (IsInButtonScope())
