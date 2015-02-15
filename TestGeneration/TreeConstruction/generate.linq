@@ -224,7 +224,7 @@ sealed class TestMethod
 		{
 			sb.Append(@"var doc = DocumentBuilder.Html(@""SOURCE"");
 			"
-		.Replace("SOURCE", Source)
+		.Replace("SOURCE", Source.Replace("\"", "\"\""))
 			);
 		}
 		else
