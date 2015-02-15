@@ -2838,13 +2838,11 @@
                     lastNode = node;
                 }
 
-                if (!commonAncestor.IsTableElement())
-                {
-                    if (lastNode.Parent != null)
-                        lastNode.Parent.RemoveChild(lastNode);
+                if (lastNode.Parent != null)
+                    lastNode.Parent.RemoveChild(lastNode);
 
+                if (!commonAncestor.IsTableElement())
                     commonAncestor.AddNode(lastNode);
-                }
                 else
                     AddElementWithFoster(lastNode);
 
