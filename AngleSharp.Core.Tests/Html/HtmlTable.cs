@@ -1,8 +1,7 @@
-﻿using NUnit.Framework;
-using AngleSharp;
-using AngleSharp.Extensions;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
+using AngleSharp.Extensions;
+using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
 {

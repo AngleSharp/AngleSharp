@@ -98,6 +98,7 @@
     <Compile Include="Html\Adoption.cs" />
     <Compile Include="Html\Doctype.cs" />
     <Compile Include="Html\DomManipulation.cs" />
+    <Compile Include="Html\MainElement.cs" />
     <Compile Include="Html\TreeConstruction.cs" />
     <Compile Include="Html\Validation.cs" />
     <Compile Include="Html\ValidityCheck.cs" />
