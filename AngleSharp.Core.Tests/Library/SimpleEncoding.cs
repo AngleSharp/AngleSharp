@@ -7,6 +7,12 @@ using System.Text;
 
 namespace AngleSharp.Core.Tests
 {
+    /// <summary>
+    /// Tests from https://github.com/html5lib/html5lib-tests (*)
+    /// to be more specific: (*)/blob/master/encoding/tests1.dat
+    /// to be more specific: (*)/blob/master/encoding/tests2.dat
+    /// to be more specific: (*)/blob/master/encoding/test-yahoo-jp.dat
+    /// </summary>
     [TestFixture]
     public class SimpleEncodingTests
     {
