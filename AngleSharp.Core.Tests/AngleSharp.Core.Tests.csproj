@@ -95,6 +95,7 @@
     <Compile Include="Css\CssMediaFeatures.cs" />
     <Compile Include="Css\Slickspeed.cs" />
     <Compile Include="Css\WebsiteQuery.cs" />
+    <Compile Include="Html\Adoption.cs" />
     <Compile Include="Html\DomManipulation.cs" />
     <Compile Include="Html\TreeConstruction.cs" />
     <Compile Include="Html\Validation.cs" />
