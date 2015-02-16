@@ -681,7 +681,6 @@
                     var child = newElement.ChildNodes[0];
                     newElement.RemoveChild(child, true);
                     InsertNode(end, child);
-                    AddNode(child);
                     end++;
                 }
 
