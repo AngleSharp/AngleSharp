@@ -21,6 +21,26 @@ namespace AngleSharp.Core.Tests
         }
 
         [Test]
+        public void AppendMultipleNodesToParentNode()
+        {
+            var document = DocumentBuilder.Html("");
+            var children = new[]
+            {
+                document.CreateElement("span"),
+                document.CreateElement("em")
+            };
+            Assert.AreEqual(2, children.Length);
+            document.Body.Append(children);
+            Assert.AreEqual(2, document.Body.ChildNodes.Length);
+            var span = document.Body.ChildNodes[0];
+            var em = document.Body.ChildNodes[1];
+            Assert.AreEqual("span", span.NodeName);
+            Assert.AreEqual(0, span.ChildNodes.Length);
+            Assert.AreEqual("em", em.NodeName);
+            Assert.AreEqual(0, em.ChildNodes.Length);
+        }
+
+        [Test]
         public void DOMTokenListWritesBack()
         {
             var testClass = "myclass";
