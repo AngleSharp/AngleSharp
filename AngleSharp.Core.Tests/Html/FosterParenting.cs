@@ -1735,7 +1735,7 @@ X</listing>");
             Assert.AreEqual(NodeType.Element, dochtml0body1keygen1.NodeType);
         }
         [Test]
-        public void TestMethod0()
+        public void StandardDoctypeProvidedAndSpaceShouldBePlacedInBodyWithSecondHeadIgnored()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html></head> <head>");
 
@@ -1769,7 +1769,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod1()
+        public void StandardDoctypeProvidedAndFormShouldNotCloseInDiv()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><form><div></form><div>");
 
@@ -1817,7 +1817,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod2()
+        public void StandardDoctypeProvidedAndEntityInTitleUsed()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><title>&amp;</title>");
 
@@ -1857,7 +1857,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod3()
+        public void StandardDoctypeProvidedAndStrangeTitleEntered()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><title><!--&amp;--></title>");
 
@@ -1897,7 +1897,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod4()
+        public void BareDocTypeProvidedWithNoOtherContent()
         {
             var doc = DocumentBuilder.Html(@"<!doctype>");
 
@@ -1905,6 +1905,8 @@ X</listing>");
             Assert.IsNotNull(docType0);
             Assert.AreEqual(NodeType.DocumentType, docType0.NodeType);
             Assert.AreEqual(@"", docType0.Name);
+            Assert.AreEqual(@"", docType0.SystemIdentifier);
+            Assert.AreEqual(@"", docType0.PublicIdentifier);
 
             var dochtml1 = doc.ChildNodes[1];
             Assert.AreEqual(2, dochtml1.ChildNodes.Length);
@@ -1927,7 +1929,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod5()
+        public void UnfinishedCommentShouldBePlacedOnTop()
         {
             var doc = DocumentBuilder.Html(@"<!---x");
 
@@ -1957,7 +1959,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod6()
+        public void FragmentAnotherBodyAndDivOpenedInContextOfADiv()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<body>
 <div>", Factory.HtmlElements.Create("div", null));
@@ -1976,7 +1978,7 @@ X</listing>");
         }
 
         [Test]
-        public void TestMethod7()
+        public void FramesetOpenedAndClosedDirectlyFollowedByText()
         {
             var doc = DocumentBuilder.Html(@"<frameset></frameset>
 foo");
@@ -2006,7 +2008,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod8()
+        public void FramesetOpenedAndClosedDirectlyFollowedByNoframes()
         {
             var doc = DocumentBuilder.Html(@"<frameset></frameset>
 <noframes>");
@@ -2042,7 +2044,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod9()
+        public void FramesetOpenedAndClosedDirectlyFollowedByOpenedDiv()
         {
             var doc = DocumentBuilder.Html(@"<frameset></frameset>
 <div>");
@@ -2072,7 +2074,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod10()
+        public void FramesetOpenedAndClosedDirectlyFollowedByClosedHtml()
         {
             var doc = DocumentBuilder.Html(@"<frameset></frameset>
 </html>");
@@ -2102,7 +2104,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod11()
+        public void FramesetOpenedAndClosedDirectlyFollowedByClosedDiv()
         {
             var doc = DocumentBuilder.Html(@"<frameset></frameset>
 </div>");
@@ -2132,7 +2134,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod12()
+        public void FormOpenedInExistingForm()
         {
             var doc = DocumentBuilder.Html(@"<form><form>");
 
@@ -2163,7 +2165,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod13()
+        public void ButtonOpenedInExistingButton()
         {
             var doc = DocumentBuilder.Html(@"<button><button>");
 
@@ -2200,7 +2202,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod14()
+        public void NormalCellClosedAsHeaderCellInRowInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><td></th>");
 
@@ -2249,7 +2251,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod15()
+        public void CellInCaptionSpawnedInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><caption><td>");
 
@@ -2304,7 +2306,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod16()
+        public void DivOpenedInCaptionSpawnedInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><caption><div>");
 
@@ -2347,7 +2349,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod17()
+        public void FragmentWithClosedCaptionAndOpenDivInContextOfACaption()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</caption><div>", Factory.HtmlElements.Create("caption", null));
 
@@ -2360,7 +2362,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod18()
+        public void DivInCaptionSpawnedInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><caption><div></caption>");
 
@@ -2403,7 +2405,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod19()
+        public void CloseTableAfterCaptionHasBeenCreatedInsideTable()
         {
             var doc = DocumentBuilder.Html(@"<table><caption></table>");
 
@@ -2440,7 +2442,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod20()
+        public void FragmentCloseTableAndOpenDivInContextOfACaption()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</table><div>", Factory.HtmlElements.Create("caption", null));
 
@@ -2453,7 +2455,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod21()
+        public void UnexpectedClosingOfTheBodyInACaptionWithinATableElement()
         {
             var doc = DocumentBuilder.Html(@"<table><caption></body></col></colgroup></html></tbody></td></tfoot></th></thead></tr>");
 
@@ -2490,7 +2492,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod22()
+        public void DivInCaptionDirectlyPlacedInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><caption><div></div>");
 
@@ -2533,7 +2535,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod23()
+        public void ClosingBodyInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><td></body></caption></col></colgroup></html>");
 
@@ -2582,7 +2584,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod24()
+        public void FragmentWithMultipleClosingTableElementsInContextOfACell()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</table></tbody></tfoot></thead></tr><div>", Factory.HtmlElements.Create("td", null));
 
@@ -2595,7 +2597,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod25()
+        public void TextInColGroupSpawnedInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><colgroup>foo");
 
@@ -2636,7 +2638,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod26()
+        public void FragmentTextAndColInContextOfAColgroup()
         {
             var doc = DocumentBuilder.HtmlFragment(@"foo<col>", Factory.HtmlElements.Create("colgroup", null));
 
@@ -2649,7 +2651,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod27()
+        public void CloseColInColGroupSpawnedInTable()
         {
             var doc = DocumentBuilder.Html(@"<table><colgroup></col>");
 
@@ -2686,7 +2688,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod28()
+        public void OpenDivInFrameset()
         {
             var doc = DocumentBuilder.Html(@"<frameset><div>");
 
@@ -2711,7 +2713,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod29()
+        public void FragmentCloseFramesetAndOpenFrameInContextOfAFrameset()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Factory.HtmlElements.Create("frameset", null));
 
@@ -2724,7 +2726,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod30()
+        public void CloseDivInAFrameset()
         {
             var doc = DocumentBuilder.Html(@"<frameset></div>");
 
@@ -2749,7 +2751,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod31()
+        public void FragmentCloseBodyAndOpenDivInContextOfABody()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</body><div>", Factory.HtmlElements.Create("body", null));
 
@@ -2762,7 +2764,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod32()
+        public void OpenDivInARowSpawnedInATable()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><div>");
 
@@ -2811,7 +2813,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod33()
+        public void FragmentCloseRowAndOpenCellInContextOfARow()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</tr><td>", Factory.HtmlElements.Create("tr", null));
 
@@ -2824,7 +2826,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod34()
+        public void FragmentCloseBodyFootAndHeadAndOpenCellInContextOfARow()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</tbody></tfoot></thead><td>", Factory.HtmlElements.Create("tr", null));
 
@@ -2837,7 +2839,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod35()
+        public void FosterIncludedDivInARowSpawnedInATableFollowedByACell()
         {
             var doc = DocumentBuilder.Html(@"<table><tr><div><td>");
 
@@ -2892,7 +2894,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod36()
+        public void FragmentCaptionAndOtherTableElementsInContextOfATBody()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<caption><col><colgroup><tbody><tfoot><thead><tr>", Factory.HtmlElements.Create("tbody", null));
 
@@ -2905,7 +2907,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod37()
+        public void OpenTBodyAndCloseTHeadInATable()
         {
             var doc = DocumentBuilder.Html(@"<table><tbody></thead>");
 
@@ -2942,7 +2944,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod38()
+        public void FragmentCloseTableAndOpenRowInContextOfATBody()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create("tbody", null));
 
@@ -2955,7 +2957,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod39()
+        public void VariousTableElementsWithMisclosedBody()
         {
             var doc = DocumentBuilder.Html(@"<table><tbody></body></caption></col></colgroup></html></td></th></tr>");
 
@@ -2992,7 +2994,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod40()
+        public void OpenTBodyAndCloseADivSpawnedInATable()
         {
             var doc = DocumentBuilder.Html(@"<table><tbody></div>");
 
@@ -3029,7 +3031,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod41()
+        public void OpenTableInATable()
         {
             var doc = DocumentBuilder.Html(@"<table><table>");
 
@@ -3066,7 +3068,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod42()
+        public void OpenVariousTableElementsWhenMiscloseTheHtmlElement()
         {
             var doc = DocumentBuilder.Html(@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr>");
 
@@ -3097,7 +3099,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod43()
+        public void FragmentCloseTableAndOpenRowInContextOfATable()
         {
             var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create("table", null));
 
@@ -3116,7 +3118,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod44()
+        public void FragmentOpenAndCloseBodyCloseHtmlInContextOfAHtml()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<body></body></html>", Factory.HtmlElements.Create("html", null));
 
@@ -3136,7 +3138,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod45()
+        public void SimpleDocumentWithOnlyASingleFrameset()
         {
             var doc = DocumentBuilder.Html(@"<html><frameset></frameset></html> ");
 
@@ -3165,7 +3167,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod46()
+        public void LegacyDoctypeInConjunctionWithACorrectlyClosedHtmlElement()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD HTML 4.01//EN""><html></html>");
 
@@ -3197,7 +3199,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod47()
+        public void FramesetElementEnclosedInAParamElement()
         {
             var doc = DocumentBuilder.Html(@"<param><frameset></frameset>");
 
@@ -3222,7 +3224,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod48()
+        public void FramesetElementEnclosedInASourceElement()
         {
             var doc = DocumentBuilder.Html(@"<source><frameset></frameset>");
 
@@ -3247,7 +3249,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod49()
+        public void FramesetElementEnclosedInATrackElement()
         {
             var doc = DocumentBuilder.Html(@"<track><frameset></frameset>");
 
@@ -3272,7 +3274,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod50()
+        public void FramesetElementFollowingAMisclosedHtmlTag()
         {
             var doc = DocumentBuilder.Html(@"</html><frameset></frameset>");
 
@@ -3297,7 +3299,7 @@ foo");
         }
 
         [Test]
-        public void TestMethod51()
+        public void FramesetElementFollowingAMisclosedBodyElement()
         {
             var doc = DocumentBuilder.Html(@"</body><frameset></frameset>");
 
