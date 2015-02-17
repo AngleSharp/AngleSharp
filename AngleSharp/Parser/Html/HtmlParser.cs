@@ -1743,7 +1743,11 @@
                 {
                     var str = token.TrimStart();
                     AddCharacters(str);
-                    return;
+
+                    if (token.IsEmpty)
+                        return;
+
+                    break;
                 }
                 case HtmlTokenType.Comment:
                 {
