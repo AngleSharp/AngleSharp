@@ -1173,9 +1173,9 @@
             {
                 if (IsInScope<HtmlRubyElement>())
                 {
-                    GenerateImpliedEndTags();//TODO except for rtc elements
+                    GenerateImpliedEndTagsExceptFor(Tags.Rtc);
 
-                    if (CurrentNode is HtmlRubyElement == false && CurrentNode is HtmlRtcElement == false)
+                    if (CurrentNode.NodeName.IsOneOf(Tags.Ruby, Tags.Rtc) == false)
                         RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
                 }
 
