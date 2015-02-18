@@ -1157,13 +1157,25 @@
                 frameset = false;
                 RawtextAlgorithm(tag);
             }
-            else if (tagName.IsOneOf(Tags.Rp, Tags.Rt))
+            else if (tagName.IsOneOf(Tags.Rb, Tags.Rtc))
             {
                 if (IsInScope<HtmlRubyElement>())
                 {
                     GenerateImpliedEndTags();
 
                     if (CurrentNode is HtmlRubyElement == false)
+                        RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
+                }
+
+                AddElement(tag);
+            }
+            else if (tagName.IsOneOf(Tags.Rp, Tags.Rt))
+            {
+                if (IsInScope<HtmlRubyElement>())
+                {
+                    GenerateImpliedEndTags();//TODO except for rtc elements
+
+                    if (CurrentNode is HtmlRubyElement == false && CurrentNode is HtmlRtcElement == false)
                         RaiseErrorOccurred(ErrorCode.TagDoesNotMatchCurrentNode);
                 }
 

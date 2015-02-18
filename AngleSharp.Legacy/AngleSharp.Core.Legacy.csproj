@@ -1471,8 +1471,14 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlQuoteElement.cs">
       <Link>DOM\Html\HtmlQuoteElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\HtmlRbElement.cs">
+      <Link>DOM\Html\HtmlRbElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRpElement.cs">
       <Link>DOM\Html\HtmlRpElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Html\HtmlRtcElement.cs">
+      <Link>DOM\Html\HtmlRtcElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRtElement.cs">
       <Link>DOM\Html\HtmlRtElement.cs</Link>
