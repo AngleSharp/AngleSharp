@@ -4,9 +4,8 @@ using NUnit.Framework;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: 
-    /// (*)/blob/master/tree-construction/doctype01.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/doctype01.dat
     /// </summary>
     [TestFixture]
     public class DoctypeTests

@@ -1,6 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Parser;
-using AngleSharp.Parser.Html;
+﻿using AngleSharp.Parser.Html;
 using NUnit.Framework;
 using System;
 using System.Text;

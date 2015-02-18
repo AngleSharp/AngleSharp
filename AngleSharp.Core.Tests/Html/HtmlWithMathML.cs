@@ -5,9 +5,8 @@ using NUnit.Framework;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: 
-    /// (*)/blob/master/tree-construction/tests9.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tests9.dat
     /// </summary>
     [TestFixture]
     public class HtmlWithMathMLTests

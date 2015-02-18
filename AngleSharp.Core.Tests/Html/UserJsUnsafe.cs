@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using AngleSharp.Html;
 using NUnit.Framework;
@@ -7,8 +6,8 @@ using NUnit.Framework;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: (*)/blob/master/tree-construction/domjs-unsafe.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/domjs-unsafe.dat
     /// </summary>
     [TestFixture]
     public class UserJsUnsafeTests

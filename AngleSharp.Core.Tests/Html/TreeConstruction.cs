@@ -4,13 +4,12 @@ using NUnit.Framework;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: 
-    /// (*)/blob/master/tree-construction/tests12.dat
-    /// (*)/blob/master/tree-construction/tests17.dat
-    /// (*)/blob/master/tree-construction/tests24.dat
-    /// (*)/blob/master/tree-construction/tests25.dat
-    /// (*)/blob/master/tree-construction/tests26.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tests12.dat,
+    /// tree-construction/tests17.dat,
+    /// tree-construction/tests24.dat,
+    /// tree-construction/tests25.dat,
+    /// tree-construction/tests26.dat
     /// </summary>
     [TestFixture]
     public class TreeConstructionTests

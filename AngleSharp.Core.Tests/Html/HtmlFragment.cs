@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Extensions;
 using NUnit.Framework;
@@ -9,10 +8,9 @@ using System.Collections.Generic;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: (*)/blob/master/tree-construction/tests_innerHTML_1.dat
-    /// and
-    /// to be more specific: (*)/blob/master/tree-construction/tests4.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tests_innerHTML_1.dat,
+    /// tree-construction/tests4.dat
     /// </summary>
     [TestFixture]
     public class HtmlFragmentTests

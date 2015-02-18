@@ -7,8 +7,8 @@ using System.IO;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: (*)/blob/master/tree-construction/tricky01.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tricky01.dat
     /// </summary>
     [TestFixture]
     public class TrickyTests

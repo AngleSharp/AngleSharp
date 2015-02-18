@@ -1,6 +1,5 @@
-﻿using NUnit.Framework;
-using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
+using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
 {

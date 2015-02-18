@@ -7,12 +7,12 @@ using System.Linq;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: (*)/blob/master/encoding/isindex.dat
-    /// to be more specific: (*)/blob/master/encoding/tests16.dat
-    /// to be more specific: (*)/blob/master/encoding/inbody01.dat
-    /// to be more specific: (*)/blob/master/encoding/webkit01.dat
-    /// to be more specific: (*)/blob/master/encoding/webkit02.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// encoding/isindex.dat,
+    /// encoding/tests16.dat,
+    /// encoding/inbody01.dat,
+    /// encoding/webkit01.dat,
+    /// encoding/webkit02.dat
     /// </summary>
     [TestFixture]
     public class HtmlTreeTests

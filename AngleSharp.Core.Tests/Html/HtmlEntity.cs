@@ -1,13 +1,12 @@
-﻿using NUnit.Framework;
-using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
+using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: (*)/blob/master/tree-construction/entities01.dat
-    /// and also the following: (*)/blob/master/tree-construction/entities02.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/entities01.dat,
+    /// tree-construction/entities02.dat
     /// </summary>
     [TestFixture]
     public class HtmlEntityTests

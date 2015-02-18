@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Extensions;
 using NUnit.Framework;
@@ -7,8 +6,8 @@ using NUnit.Framework;
 namespace AngleSharp.Core.Tests.Html
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: (*)/blob/master/encoding/template.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// encoding/template.dat
     /// </summary>
     [TestFixture]
     public class HtmlTemplateTests

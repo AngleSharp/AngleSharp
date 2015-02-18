@@ -4,10 +4,9 @@ using NUnit.Framework;
 namespace AngleSharp.Core.Tests
 {
     /// <summary>
-    /// Tests from https://github.com/html5lib/html5lib-tests (*)
-    /// to be more specific: 
-    /// (*)/blob/master/tree-construction/adoption01.dat
-    /// (*)/blob/master/tree-construction/adoption02.dat
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/adoption01.dat,
+    /// tree-construction/adoption02.dat
     /// </summary>
     [TestFixture]
     public class AdoptionTests
