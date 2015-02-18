@@ -193,6 +193,7 @@
     <None Include="Resources\gb18030.com" />
     <None Include="Resources\gb2312.com" />
     <None Include="Resources\htmlcodetutorial.com" />
+    <None Include="Resources\IrishCentral.com" />
     <None Include="Resources\iso-8859-1.it" />
     <None Include="Resources\item.jd.com" />
     <None Include="Resources\real_shift_jit.net" />

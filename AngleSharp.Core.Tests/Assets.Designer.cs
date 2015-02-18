@@ -202,6 +202,16 @@ namespace AngleSharp.Core.Tests {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] IrishCentral {
+            get {
+                object obj = ResourceManager.GetObject("IrishCentral", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] iso_8859_1 {
             get {
                 object obj = ResourceManager.GetObject("iso_8859_1", resourceCulture);

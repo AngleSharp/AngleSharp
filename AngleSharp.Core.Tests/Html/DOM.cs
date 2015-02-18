@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Css;
 using AngleSharp.Dom.Html;
 using AngleSharp.Html;
@@ -38,6 +37,41 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, span.ChildNodes.Length);
             Assert.AreEqual("em", em.NodeName);
             Assert.AreEqual(0, em.ChildNodes.Length);
+        }
+
+        [Test]
+        public void ReadAttributesCorrectlyInAttributeMadness()
+        {
+            var content = Helper.StreamFromBytes(Assets.IrishCentral);
+            var expected = new[]
+            {
+                "src",
+                "alt",
+                "hilde",
+                "michnia",
+                "is",
+                "under",
+                "investigation",
+                "as",
+                "a",
+                "former",
+                "concentration",
+                "camp",
+                "guard",
+                "after",
+                "holocaust",
+                "documentary.\\\"",
+                "class",
+                "style"
+            };
+            var document = DocumentBuilder.Html(content);
+            var img = document.QuerySelector("img.img-responsive");
+            Assert.IsNotNull(img);
+            var attributes = img.Attributes.ToArray();
+            Assert.AreEqual(18, attributes.Length);
+
+            for (int i = 0; i < attributes.Length; i++)
+                Assert.AreEqual(expected[i], attributes[i].Name);
         }
 
         [Test]
