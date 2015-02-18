@@ -125,6 +125,8 @@
             { Tags.Ruby, document => new HtmlRubyElement(document) },
             { Tags.Rt, document => new HtmlRtElement(document) },
             { Tags.Rp, document => new HtmlRpElement(document) },
+            { Tags.Rtc, document => new HtmlRtcElement(document) },
+            { Tags.Rb, document => new HtmlRbElement(document) },
             { Tags.Time, document => new HtmlTimeElement(document) },
             { Tags.Progress, document => new HtmlProgressElement(document) },
             { Tags.Output, document => new HtmlOutputElement(document) },

@@ -114,6 +114,16 @@
         public static readonly String Rt = "rt";
 
         /// <summary>
+        /// The rb tag.
+        /// </summary>
+        public static readonly String Rb = "rb";
+
+        /// <summary>
+        /// The rtc tag.
+        /// </summary>
+        public static readonly String Rtc = "rtc";
+
+        /// <summary>
         /// The applet tag.
         /// </summary>
         public static readonly String Applet = "applet";
