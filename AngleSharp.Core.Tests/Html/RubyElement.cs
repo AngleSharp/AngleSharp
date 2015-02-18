@@ -698,7 +698,7 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
-            Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
+            Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
             Assert.AreEqual("ruby", dochtml0body1ruby0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
@@ -708,7 +708,7 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual("a", dochtml0body1ruby0Text0.TextContent);
 
             var dochtml0body1ruby0rtc1 = dochtml0body1ruby0.ChildNodes[1];
-            Assert.AreEqual(1, dochtml0body1ruby0rtc1.ChildNodes.Length);
+            Assert.AreEqual(2, dochtml0body1ruby0rtc1.ChildNodes.Length);
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Count);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1.NodeType);
@@ -717,11 +717,11 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(NodeType.Text, dochtml0body1ruby0rtc1Text0.NodeType);
             Assert.AreEqual("b", dochtml0body1ruby0rtc1Text0.TextContent);
 
-            var dochtml0body1ruby0rp2 = dochtml0body1ruby0.ChildNodes[2];
-            Assert.AreEqual(0, dochtml0body1ruby0rp2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
-            Assert.AreEqual("rp", dochtml0body1ruby0rp2.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
+            var dochtml0body1ruby0rtc1rp1 = dochtml0body1ruby0rtc1.ChildNodes[1];
+            Assert.AreEqual(0, dochtml0body1ruby0rtc1rp1.ChildNodes.Length);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rp1).Attributes.Count);
+            Assert.AreEqual("rp", dochtml0body1ruby0rtc1rp1.NodeName);
+            Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1rp1.NodeType);
         }
 
         [Test]
