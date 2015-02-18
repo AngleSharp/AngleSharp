@@ -3,11 +3,15 @@ using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
 {
+    /// <summary>
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/ruby.dat
+    /// </summary>
     [TestFixture]
     public class RubyElementTests
     {
         [Test]
-        public void TestMethod0()
+        public void RubyElementImpliedEndForRbWithRb()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rb>b<rb></ruby></html>");
 
@@ -54,11 +58,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod1()
+        public void RubyElementImpliedEndForRbWithRt()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rb>b<rt></ruby></html>");
 
@@ -105,11 +108,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Count);
             Assert.AreEqual("rt", dochtml0body1ruby0rt2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod2()
+        public void RubyElementImpliedEndForRbWithRtc()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rb>b<rtc></ruby></html>");
 
@@ -156,11 +158,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod3()
+        public void RubyElementImpliedEndForRbWithRp()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rb>b<rp></ruby></html>");
 
@@ -207,11 +208,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod4()
+        public void RubyElementNoImpliedEndForRbWithSpan()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rb>b<span></ruby></html>");
 
@@ -258,11 +258,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1span1).Attributes.Count);
             Assert.AreEqual("span", dochtml0body1ruby0rb1span1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1span1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod5()
+        public void RubyElementImpliedEndForRtWithRb()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rt>b<rb></ruby></html>");
 
@@ -309,11 +308,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod6()
+        public void RubyElementImpliedEndForRtWithRt()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rt>b<rt></ruby></html>");
 
@@ -360,11 +358,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Count);
             Assert.AreEqual("rt", dochtml0body1ruby0rt2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod7()
+        public void RubyElementImpliedEndForRtWithRtc()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rt>b<rtc></ruby></html>");
 
@@ -411,11 +408,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod8()
+        public void RubyElementImpliedEndForRtWithRp()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rt>b<rp></ruby></html>");
 
@@ -462,11 +458,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod9()
+        public void RubyElementNoImpliedEndForRtWithSpan()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rt>b<span></ruby></html>");
 
@@ -513,11 +508,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1span1).Attributes.Count);
             Assert.AreEqual("span", dochtml0body1ruby0rt1span1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1span1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod10()
+        public void RubyElementImpliedEndForRtcWithRb()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rtc>b<rb></ruby></html>");
 
@@ -564,11 +558,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod11()
+        public void RubyElementNoImpliedEndForRtcWithRt()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>");
 
@@ -629,11 +622,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1ruby0rtc1rt2Text0 = dochtml0body1ruby0rtc1rt2.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1ruby0rtc1rt2Text0.NodeType);
             Assert.AreEqual("d", dochtml0body1ruby0rtc1rt2Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod12()
+        public void RubyElementImpliedEndForRtcWithRtc()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rtc>b<rtc></ruby></html>");
 
@@ -680,11 +672,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod13()
+        public void RubyElementImpliedEndForRtcWithRp()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rtc>b<rp></ruby></html>");
 
@@ -731,11 +722,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod14()
+        public void RubyElementNoImpliedEndForRtcWithSpan()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rtc>b<span></ruby></html>");
 
@@ -782,11 +772,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1span1).Attributes.Count);
             Assert.AreEqual("span", dochtml0body1ruby0rtc1span1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1span1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod15()
+        public void RubyElementImpliedEndForRpWithRb()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rp>b<rb></ruby></html>");
 
@@ -833,11 +822,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod16()
+        public void RubyElementImpliedEndForRpWithRt()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rp>b<rt></ruby></html>");
 
@@ -884,11 +872,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Count);
             Assert.AreEqual("rt", dochtml0body1ruby0rt2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod17()
+        public void RubyElementImpliedEndForRpWithRtc()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rp>b<rtc></ruby></html>");
 
@@ -935,11 +922,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod18()
+        public void RubyElementImpliedEndForRpWithRp()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rp>b<rp></ruby></html>");
 
@@ -986,11 +972,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod19()
+        public void RubyElementNoImpliedEndForRpWithSpan()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby>a<rp>b<span></ruby></html>");
 
@@ -1037,11 +1022,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1span1).Attributes.Count);
             Assert.AreEqual("span", dochtml0body1ruby0rp1span1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1span1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod20()
+        public void RubyElementImpliedEndWithRuby()
         {
             var doc = DocumentBuilder.Html(@"<html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>");
 
@@ -1100,8 +1084,6 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0rt2).Attributes.Count);
             Assert.AreEqual("rt", dochtml0body1ruby0rtc0ruby0rt2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc0ruby0rt2.NodeType);
-
         }
-
     }
 }
