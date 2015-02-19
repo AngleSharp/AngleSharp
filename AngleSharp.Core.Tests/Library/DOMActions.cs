@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
+using AngleSharp.Dom.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
 
@@ -8,6 +9,72 @@ namespace AngleSharp.Core.Tests.Library
     [TestFixture]
     public class DOMActions
     {
+        [Test]
+        public void ChangeImageSourceWithRelativeUrlResultsInUpdatedAbsoluteUrl()
+        {
+            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var img = document.CreateElement<IHtmlImageElement>();
+            img.Source = "test.png";
+            Assert.AreEqual("http://localhost/test.png", img.Source);
+            var url = new Url(img.Source);
+            Assert.AreEqual("test.png", url.Path);
+        }
+
+        [Test]
+        public void ChangeImageSourceWithAbsoluteUrlResultsInUpdatedAbsoluteUrl()
+        {
+            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var img = document.CreateElement<IHtmlImageElement>();
+            img.Source = "http://www.test.com/test.png";
+            Assert.AreEqual("http://www.test.com/test.png", img.Source);
+            var url = new Url(img.Source);
+            Assert.AreEqual("test.png", url.Path);
+        }
+
+        [Test]
+        public void ChangeVideoSourceResultsInUpdatedAbsoluteUrl()
+        {
+            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var video = document.CreateElement<IHtmlVideoElement>();
+            video.Source = "test.mp4";
+            Assert.AreEqual("http://localhost/test.mp4", video.Source);
+            var url = new Url(video.Source);
+            Assert.AreEqual("test.mp4", url.Path);
+        }
+
+        [Test]
+        public void ChangeVideoPosterResultsInUpdatedAbsoluteUrl()
+        {
+            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var video = document.CreateElement<IHtmlVideoElement>();
+            video.Poster = "test.jpg";
+            Assert.AreEqual("http://localhost/test.jpg", video.Poster);
+            var url = new Url(video.Poster);
+            Assert.AreEqual("test.jpg", url.Path);
+        }
+
+        [Test]
+        public void ChangeAudioSourceResultsInUpdatedAbsoluteUrl()
+        {
+            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var audio = document.CreateElement<IHtmlAudioElement>();
+            audio.Source = "test.mp3";
+            Assert.AreEqual("http://localhost/test.mp3", audio.Source);
+            var url = new Url(audio.Source);
+            Assert.AreEqual("test.mp3", url.Path);
+        }
+
+        [Test]
+        public void ChangeObjectSourceResultsInUpdatedAbsoluteUrl()
+        {
+            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var obj = document.CreateElement<IHtmlObjectElement>();
+            obj.Source = "test.swv";
+            Assert.AreEqual("http://localhost/test.swv", obj.Source);
+            var url = new Url(obj.Source);
+            Assert.AreEqual("test.swv", url.Path);
+        }
+
         [Test]
         public void ParentReplacementByCloneWithChildrenExpectedToHaveAParent()
         {
