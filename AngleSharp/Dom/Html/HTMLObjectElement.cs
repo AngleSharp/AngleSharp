@@ -14,10 +14,11 @@
     {
         #region Fields
 
+        readonly BoundLocation _data;
         IDocument _contentDocument;
         IWindow _contentWindow;
         Task<IObjectInfo> _resourceTask;
-        private CancellationTokenSource _cts;
+        CancellationTokenSource _cts;
 
         #endregion
 
@@ -26,9 +27,10 @@
         public HtmlObjectElement(Document owner)
             : base(owner, Tags.Object, NodeFlags.Scoped)
         {
+            _data = new BoundLocation(this, AttributeNames.Data);
             _contentDocument = null;
             _contentWindow = null;
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
         }
 
         #endregion
@@ -40,8 +42,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Data); }
-            set { SetAttribute(AttributeNames.Data, value); }
+            get { return _data.Href; }
+            set { _data.Href = value; }
         }
 
         /// <summary>
@@ -149,7 +151,7 @@
 
             if (!String.IsNullOrEmpty(value))
             {
-                var url = this.HyperReference(value);
+                var url = new Url(Source);
                 _cts = new CancellationTokenSource();
                 _resourceTask = LoadAsync(url, _cts.Token);
             }

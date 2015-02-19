@@ -11,6 +11,7 @@
     {
         #region Fields
 
+        readonly BoundLocation _src;
         TrackReadyState _ready;
 
         #endregion
@@ -23,6 +24,7 @@
         public HtmlTrackElement(Document owner)
             : base(owner, Tags.Track, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            _src = new BoundLocation(this, AttributeNames.Src);
             _ready = TrackReadyState.None;
         }
 
@@ -44,8 +46,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Src); }
-            set { SetAttribute(AttributeNames.Src, value); }
+            get { return _src.Href; }
+            set { _src.Href = value; }
         }
 
         /// <summary>

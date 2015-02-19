@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        readonly BoundLocation _location;
+        readonly BoundLocation _src;
         CancellationTokenSource _cts;
         Task<IImageInfo> _imageTask;
 
@@ -28,7 +28,7 @@
         public HtmlImageElement(Document owner)
             : base(owner, Tags.Img, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _location = new BoundLocation(this, AttributeNames.Src);
+            _src = new BoundLocation(this, AttributeNames.Src);
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
@@ -67,8 +67,8 @@
         /// </summary>
         public String Source
         {
-            get { return _location.Href; }
-            set { _location.Href = value; }
+            get { return _src.Href; }
+            set { _src.Href = value; }
         }
 
         /// <summary>
@@ -172,7 +172,7 @@
 
             if (!String.IsNullOrEmpty(value))
             {
-                var url = new Url(_location.Href);
+                var url = new Url(ActualSource);
                 //TODO Implement with srcset etc. --> see:
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 _cts = new CancellationTokenSource();

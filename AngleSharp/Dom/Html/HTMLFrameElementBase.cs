@@ -8,11 +8,18 @@
     /// </summary>
     abstract class HtmlFrameElementBase : HtmlFrameOwnerElement
     {
+        #region Fields
+
+        readonly BoundLocation _src;
+
+        #endregion
+
         #region ctor
 
         public HtmlFrameElementBase(Document owner, String name, NodeFlags flags = NodeFlags.None)
             : base(owner, name, flags | NodeFlags.Special)
         {
+            _src = new BoundLocation(this, AttributeNames.Src);
         }
 
         #endregion
@@ -33,8 +40,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Src); }
-            set { SetAttribute(AttributeNames.Src, value); }
+            get { return _src.Href; }
+            set { _src.Href = value; }
         }
 
         /// <summary>

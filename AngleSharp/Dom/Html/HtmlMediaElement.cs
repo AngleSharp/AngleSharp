@@ -17,6 +17,7 @@
     {
         #region Fields
 
+        readonly BoundLocation _src;
         protected MediaNetworkState _network;
         protected Task<TResource> _resourceTask;
 
@@ -118,6 +119,7 @@
         public HTMLMediaElement(Document owner, String name)
             : base(owner, name)
         {
+            _src = new BoundLocation(this, AttributeNames.Src);
             _network = MediaNetworkState.Empty;
             RegisterAttributeObserver(AttributeNames.Src, value => Load());
         }
@@ -131,8 +133,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Src); }
-            set { SetAttribute(AttributeNames.Src, value); }
+            get { return _src.Href; }
+            set { _src.Href = value; }
         }
 
         /// <summary>
@@ -437,7 +439,7 @@
             if (src != null)
             {
                 _network = MediaNetworkState.Idle;
-                var url = this.HyperReference(src);
+                var url = new Url(src);
                 _cts = new CancellationTokenSource();
                 _network = MediaNetworkState.Loading;
                 _resourceTask = LoadAsync(url, _cts.Token);
