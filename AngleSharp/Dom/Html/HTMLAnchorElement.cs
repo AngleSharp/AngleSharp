@@ -25,7 +25,7 @@
         public HtmlAnchorElement(Document owner)
             : base(owner, Tags.A, NodeFlags.HtmlFormatting)
         {
-            _location = new BoundLocation(this);
+            _location = new BoundLocation(this, AttributeNames.Href);
             RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);
         }
 

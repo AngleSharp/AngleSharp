@@ -25,7 +25,7 @@
         public HtmlAreaElement(Document owner)
             : base(owner, Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _location = new BoundLocation(this);
+            _location = new BoundLocation(this, AttributeNames.Href);
             RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);
         }
 

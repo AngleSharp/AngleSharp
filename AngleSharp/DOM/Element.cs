@@ -878,6 +878,7 @@
             #region Fields
 
             readonly Element _parent;
+            readonly String _attributeName;
             Location _location;
             Url _baseUrl;
             String _value;
@@ -886,9 +887,10 @@
 
             #region ctor
 
-            public BoundLocation(Element parent)
+            public BoundLocation(Element parent, String attributeName)
             {
                 _parent = parent;
+                _attributeName = attributeName;
             }
 
             #endregion
@@ -899,7 +901,7 @@
             {
                 get
                 {
-                    var value = _parent.GetAttribute(AttributeNames.Href) ?? String.Empty;
+                    var value = _parent.GetAttribute(_attributeName) ?? String.Empty;
                     var baseUrl = _parent.BaseUrl;
 
                     if (_location == null || !baseUrl.Equals(_baseUrl) || !value.Equals(_value, StringComparison.Ordinal))
@@ -985,7 +987,7 @@
 
             public void Assign(String url)
             {
-                _parent.SetAttribute(AttributeNames.Href, url);
+                _parent.SetAttribute(_attributeName, url);
                 _value = url;
             }
 
