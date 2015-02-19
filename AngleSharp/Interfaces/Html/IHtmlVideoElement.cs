@@ -37,6 +37,6 @@
         /// Gets or sets the URL to a preview image.
         /// </summary>
         [DomName("poster")]
-        String Poster { get; }
+        String Poster { get; set; }
     }
 }
