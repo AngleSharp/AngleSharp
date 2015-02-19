@@ -339,6 +339,15 @@
         #region Serialization
 
         /// <summary>
+        /// Returns a string that represents the current url.
+        /// </summary>
+        /// <returns>The currently stored url.</returns>
+        public override String ToString()
+        {
+            return Serialize();
+        }
+
+        /// <summary>
         /// Returns the string representation of the current location.
         /// </summary>
         /// <returns>The string that equals the hyper reference.</returns>
