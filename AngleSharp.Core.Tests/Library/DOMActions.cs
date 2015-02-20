@@ -76,6 +76,100 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void PassEmptyArrayToPrependNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+            document.Body.Prepend();
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+        }
+
+        [Test]
+        public void PassSingleElementWithPrependNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var newDiv = document.CreateElement<IHtmlDivElement>();
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+            document.Body.Prepend(newDiv);
+            Assert.AreEqual(1, document.Body.ChildElementCount);
+            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+        }
+
+        [Test]
+        public void PassTwoElementsWithPrependNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var newDiv = document.CreateElement<IHtmlDivElement>();
+            var newAnchor = document.CreateElement<IHtmlAnchorElement>();
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+            document.Body.Prepend(newDiv, newAnchor);
+            Assert.AreEqual(2, document.Body.ChildElementCount);
+            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+            Assert.AreEqual("a", document.Body.Children[1].NodeName);
+        }
+
+        [Test]
+        public void PassTwoElementsWithPrependNodesToNonEmptyElement()
+        {
+            var document = DocumentBuilder.Html("<span></span>");
+            var newDiv = document.CreateElement<IHtmlDivElement>();
+            var newAnchor = document.CreateElement<IHtmlAnchorElement>();
+            Assert.AreEqual(1, document.Body.ChildElementCount);
+            document.Body.Prepend(newDiv, newAnchor);
+            Assert.AreEqual(3, document.Body.ChildElementCount);
+            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+            Assert.AreEqual("a", document.Body.Children[1].NodeName);
+            Assert.AreEqual("span", document.Body.Children[2].NodeName);
+        }
+
+        [Test]
+        public void PassEmptyArrayToAppendNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+            document.Body.Append();
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+        }
+
+        [Test]
+        public void PassSingleElementWithAppendNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var newDiv = document.CreateElement<IHtmlDivElement>();
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+            document.Body.Append(newDiv);
+            Assert.AreEqual(1, document.Body.ChildElementCount);
+            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+        }
+
+        [Test]
+        public void PassTwoElementsWithAppendNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var newDiv = document.CreateElement<IHtmlDivElement>();
+            var newAnchor = document.CreateElement<IHtmlAnchorElement>();
+            Assert.AreEqual(0, document.Body.ChildElementCount);
+            document.Body.Append(newDiv, newAnchor);
+            Assert.AreEqual(2, document.Body.ChildElementCount);
+            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+            Assert.AreEqual("a", document.Body.Children[1].NodeName);
+        }
+
+        [Test]
+        public void PassTwoElementsWithAppendNodesToNonEmptyElement()
+        {
+            var document = DocumentBuilder.Html("<span></span>");
+            var newDiv = document.CreateElement<IHtmlDivElement>();
+            var newAnchor = document.CreateElement<IHtmlAnchorElement>();
+            Assert.AreEqual(1, document.Body.ChildElementCount);
+            document.Body.Append(newDiv, newAnchor);
+            Assert.AreEqual(3, document.Body.ChildElementCount);
+            Assert.AreEqual("span", document.Body.Children[0].NodeName);
+            Assert.AreEqual("div", document.Body.Children[1].NodeName);
+            Assert.AreEqual("a", document.Body.Children[2].NodeName);
+        }
+
+        [Test]
         public void ParentReplacementByCloneWithChildrenExpectedToHaveAParent()
         {
             const string html = @"
