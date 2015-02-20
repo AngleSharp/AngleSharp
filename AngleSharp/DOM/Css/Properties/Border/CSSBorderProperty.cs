@@ -116,10 +116,10 @@
             if (width == _topWidth.SerializeValue() && width == _bottomWidth.SerializeValue() && width == _rightWidth.SerializeValue())
                 values.Add(width);
 
-            if (style == _topWidth.SerializeValue() && style == _bottomWidth.SerializeValue() && style == _rightWidth.SerializeValue())
+            if (style == _topStyle.SerializeValue() && style == _bottomStyle.SerializeValue() && style == _rightStyle.SerializeValue())
                 values.Add(style);
 
-            if (color == _topWidth.SerializeValue() && color == _bottomWidth.SerializeValue() && color == _rightWidth.SerializeValue())
+            if (color == _topColor.SerializeValue() && color == _bottomColor.SerializeValue() && color == _rightColor.SerializeValue())
                 values.Add(color);
 
             return String.Join(" ", values);
