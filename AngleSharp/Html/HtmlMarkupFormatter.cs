@@ -20,24 +20,24 @@
 
         #region Methods
 
-        String IMarkupFormatter.Comment(IComment comment)
+        public virtual String Comment(IComment comment)
         {
             return String.Concat("<!--", comment.Data, "-->");
         }
 
-        String IMarkupFormatter.Doctype(IDocumentType doctype)
+        public virtual String Doctype(IDocumentType doctype)
         {
             var ids = GetIds(doctype.PublicIdentifier, doctype.SystemIdentifier);
             return String.Concat("<!DOCTYPE ", doctype.Name, ids, ">");
         }
 
-        String IMarkupFormatter.Processing(IProcessingInstruction processing)
+        public virtual String Processing(IProcessingInstruction processing)
         {
             var value = String.Concat(processing.Target, " ", processing.Data);
             return String.Concat("<?", value, ">");
         }
 
-        String IMarkupFormatter.Text(String text)
+        public virtual String Text(String text)
         {
             var temp = Pool.NewStringBuilder();
 
@@ -56,7 +56,7 @@
             return temp.ToPool();
         }
 
-        String IMarkupFormatter.Attribute(IAttr attr)
+        public virtual String Attribute(IAttr attr)
         {
             var namespaceUri = attr.NamespaceUri;
             var localName = attr.LocalName;
@@ -90,7 +90,7 @@
             return temp.Append(Symbols.DoubleQuote).ToPool();
         }
 
-        String IMarkupFormatter.OpenTag(String tagName, IEnumerable<String> attributes, Boolean selfClosing)
+        public virtual String OpenTag(String tagName, IEnumerable<String> attributes, Boolean selfClosing)
         {
             var temp = Pool.NewStringBuilder();
             temp.Append(Symbols.LessThan).Append(tagName);
@@ -102,7 +102,7 @@
             return temp.ToPool();
         }
 
-        String IMarkupFormatter.CloseTag(String tagName, Boolean selfClosing)
+        public virtual String CloseTag(String tagName, Boolean selfClosing)
         {
             return selfClosing ? String.Empty : String.Concat("</", tagName, ">");
         }
