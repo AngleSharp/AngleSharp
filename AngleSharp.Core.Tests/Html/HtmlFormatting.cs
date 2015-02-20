@@ -5,6 +5,11 @@ using System.Linq;
 
 namespace AngleSharp.Core.Tests
 {
+    /// <summary>
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tests22.dat,
+    /// tree-construction/tests23.dat
+    /// </summary>
     [TestFixture]
     public class HtmlFormattingTests
     {
