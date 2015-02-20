@@ -187,6 +187,11 @@
             return new OrderedOptionsConverter<Boolean, T>(delimiter.Required(), converter.Required()).To(m => m.Item2);
         }
 
+        public static IValueConverter<Color> WithCurrentColor(this IValueConverter<Color> converter)
+        {
+            return converter.Or(Keywords.CurrentColor, Color.Transparent);
+        }
+
         #endregion
     }
 }
