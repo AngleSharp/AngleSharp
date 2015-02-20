@@ -85,12 +85,21 @@
         /// <param name="parent">The parent of the nodes to gather.</param>
         /// <returns>The descendent nodes.</returns>
         public static IEnumerable<TNode> Descendents<TNode>(this INode parent)
-            where TNode : INode
+        {
+            return parent.Descendents().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the descendent nodes of the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendent nodes.</returns>
+        public static IEnumerable<INode> Descendents(this INode parent)
         {
             if (parent == null)
                 throw new ArgumentNullException("parent");
 
-            return parent.GetDescendants().OfType<TNode>();
+            return parent.GetDescendants();
         }
 
         /// <summary>
@@ -100,12 +109,21 @@
         /// <param name="child">The child of the nodes to gather.</param>
         /// <returns>The ancestor nodes.</returns>
         public static IEnumerable<TNode> Ancestors<TNode>(this INode child)
-            where TNode : INode
+        {
+            return child.Ancestors().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the ancestor nodes of the given child.
+        /// </summary>
+        /// <param name="child">The child of the nodes to gather.</param>
+        /// <returns>The ancestor nodes.</returns>
+        public static IEnumerable<INode> Ancestors(this INode child)
         {
             if (child == null)
                 throw new ArgumentNullException("child");
 
-            return child.GetAncestors().OfType<TNode>();
+            return child.GetAncestors();
         }
 
         #endregion
