@@ -1870,6 +1870,9 @@
     <Compile Include="..\AngleSharp\Html\NodeFlags.cs">
       <Link>Html\NodeFlags.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\StandardHtmlFormatter.cs">
+      <Link>Html\StandardHtmlFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
     </Compile>
@@ -1878,6 +1881,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IMarkupFormatter.cs">
+      <Link>IMarkupFormatter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssAnimationPlayStateProperty.cs">
       <Link>Interfaces\Css\ICssAnimationPlayStateProperty.cs</Link>
