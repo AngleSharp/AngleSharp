@@ -1807,6 +1807,9 @@
     <Compile Include="..\AngleSharp\Html\FormDataSet.cs">
       <Link>Html\FormDataSet.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
+      <Link>Html\HtmlMarkupFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypeNames.cs">
       <Link>Html\InputTypeNames.cs</Link>
     </Compile>
@@ -1870,9 +1873,6 @@
     <Compile Include="..\AngleSharp\Html\NodeFlags.cs">
       <Link>Html\NodeFlags.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\StandardHtmlFormatter.cs">
-      <Link>Html\StandardHtmlFormatter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
     </Compile>
@@ -1881,6 +1881,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IMarkupFormattable.cs">
+      <Link>IMarkupFormattable.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormatter.cs">
       <Link>IMarkupFormatter.cs</Link>
