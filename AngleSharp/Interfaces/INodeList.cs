@@ -8,7 +8,7 @@
     /// NodeList objects are collections of nodes.
     /// </summary>
     [DomName("NodeList")]
-    public interface INodeList : IEnumerable<INode>
+    public interface INodeList : IEnumerable<INode>, IMarkupFormattable
     {
         /// <summary>
         /// Returns an item in the list by its index, or null if out-of-bounds.

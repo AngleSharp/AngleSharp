@@ -8,7 +8,7 @@
     /// allows these various types to be treated similarly.
     /// </summary>
     [DomName("Node")]
-    public interface INode : IEventTarget
+    public interface INode : IEventTarget, IMarkupFormattable
     {
         /// <summary>
         /// Gets a string representing the base URL. 
@@ -238,18 +238,5 @@
         /// <returns>The old Node, if any.</returns>
         [DomName("replaceChild")]
         INode ReplaceChild(INode newChild, INode oldChild);
-
-        /// <summary>
-        /// Returns the (complete) HTML markup representation of the node.
-        /// </summary>
-        /// <returns>The source code snippet.</returns>
-        String ToHtml();
-
-        /// <summary>
-        /// Returns the serialization of the node guided by the formatter.
-        /// </summary>
-        /// <param name="formatter">The formatter to use.</param>
-        /// <returns>The source code snippet.</returns>
-        String ToHtml(IMarkupFormatter formatter);
     }
 }
