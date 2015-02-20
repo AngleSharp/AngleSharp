@@ -128,6 +128,8 @@
     <Compile Include="Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
     <Compile Include="Foundation\SimpleBrowsingContext.cs" />
+    <Compile Include="Html\StandardHtmlFormatter.cs" />
+    <Compile Include="IMarkupFormatter.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IWindowService.cs" />

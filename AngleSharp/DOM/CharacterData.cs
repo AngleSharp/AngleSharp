@@ -239,28 +239,15 @@
             owner.ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
             owner.ForEachRange(m => m.Tail == this && m.End > offset + count, m => m.EndWith(this, m.End + data.Length - count));
         }
-
+        
         /// <summary>
         /// Returns an HTML-code representation of the character data.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
+        public override String ToHtml(IMarkupFormatter formatter)
         {
-            var temp = Pool.NewStringBuilder();
-
-            for (int i = 0; i < _content.Length; i++)
-            {
-                switch (_content[i])
-                {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
-                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
-                    case Symbols.LessThan: temp.Append("&lt;"); break;
-                    default: temp.Append(_content[i]); break;
-                }
-            }
-            
-            return temp.ToPool();
+            return formatter.Text(_content);
         }
 
         /// <summary>

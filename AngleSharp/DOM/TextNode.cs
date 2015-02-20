@@ -135,20 +135,17 @@
             return newNode;
         }
 
-        #endregion
-
-        #region String representation
-
         /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
+        public override String ToHtml(IMarkupFormatter formatter)
         {
             if (Parent != null && Parent.Flags.HasFlag(NodeFlags.LiteralText))
                 return Data;
 
-            return base.ToHtml();
+            return base.ToHtml(formatter);
         }
 
         #endregion

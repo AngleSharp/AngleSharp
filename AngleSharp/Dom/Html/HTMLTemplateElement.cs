@@ -74,6 +74,28 @@
             return clone;
         }
 
+        /// <summary>
+        /// Returns an HTML-code representation of the node.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>A string containing the HTML code.</returns>
+        public override String ToHtml(IMarkupFormatter formatter)
+        {
+            var tagName = NodeName;
+            var attributeStrings = new String[Attributes.Count];
+
+            for (int i = 0; i < attributeStrings.Length; i++)
+            {
+                var attribute = Attributes[i];
+                attributeStrings[i] = formatter.Attribute(attribute);
+            }
+
+            var open = formatter.OpenTag(tagName, attributeStrings, false);
+            var children = _content.ChildNodes.ToHtml(formatter);
+            var close = formatter.CloseTag(tagName, false);
+            return String.Concat(open, children, close);
+        }
+
         #endregion
 
         #region Helpers
@@ -81,27 +103,6 @@
         internal override void NodeIsAdopted(Document oldDocument)
         {
             _content.Owner = oldDocument;
-        }
-
-        #endregion
-
-        #region String Representation
-
-        /// <summary>
-        /// Returns an HTML-code representation of the node.
-        /// </summary>
-        /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
-        {
-            var sb = Pool.NewStringBuilder().Append(Symbols.LessThan).Append(NodeName);
-
-            foreach (var attribute in Attributes)
-                sb.Append(Symbols.Space).Append(attribute.ToString());
-
-            sb.Append(Symbols.GreaterThan);
-            sb.Append(_content.ChildNodes.ToHtml());
-            sb.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(NodeName);
-            return sb.Append(Symbols.GreaterThan).ToPool();
         }
 
         #endregion

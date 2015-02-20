@@ -431,6 +431,11 @@
             _host.Remove();
         }
 
+        public String ToHtml(IMarkupFormatter formatter)
+        {
+            return _host.ToHtml(formatter);
+        }
+
         #endregion
 
         #region ::before

@@ -43,17 +43,14 @@
             return node;
         }
 
-        #endregion
-
-        #region String representation
-
         /// <summary>
-        /// Returns an HTML representation of the comment node.
+        /// Returns an HTML-code representation of the comment.
         /// </summary>
-        /// <returns>A string containing the HTML content.</returns>
-        public override String ToHtml()
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>A string containing the HTML code.</returns>
+        public override String ToHtml(IMarkupFormatter formatter)
         {
-            return String.Concat("<!--", Data, "-->");
+            return formatter.Comment(this);
         }
 
         #endregion

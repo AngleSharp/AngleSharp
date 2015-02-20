@@ -855,15 +855,21 @@
                 target.AddNode((Node)child.Clone(true));
         }
 
-        #endregion
-
-        #region String representation
-
         /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
         /// <returns>A string containing the HTML code.</returns>
-        public virtual String ToHtml()
+        public String ToHtml()
+        {
+            return ToHtml(HtmlMarkupFormatter.Instance);
+        }
+
+        /// <summary>
+        /// Returns an HTML-code representation of the node.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>A string containing the HTML code.</returns>
+        public virtual String ToHtml(IMarkupFormatter formatter)
         {
             return TextContent;
         }

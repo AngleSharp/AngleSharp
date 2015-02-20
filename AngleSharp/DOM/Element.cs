@@ -267,7 +267,7 @@
         /// </summary>
         public String InnerHtml
         {
-            get { return ChildNodes.ToHtml(); }
+            get { return ChildNodes.ToHtml(HtmlMarkupFormatter.Instance); }
             set { ReplaceAll(new DocumentFragment(this, value), false); }
         }
 
@@ -276,7 +276,7 @@
         /// </summary>
         public String OuterHtml
         {
-            get { return ToHtml(); }
+            get { return ToHtml(HtmlMarkupFormatter.Instance); }
             set
             {
                 var parent = Parent;
@@ -726,28 +726,31 @@
             }
         }
 
-        #endregion
-
-        #region String Representation
-
         /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
+        public override String ToHtml(IMarkupFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
+            var selfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
             var tagName = (Flags & (NodeFlags.HtmlMember | NodeFlags.SvgMember | NodeFlags.MathMember)) != NodeFlags.None ? LocalName : NodeName;
+            var attributeStrings = new String[_attributes.Count];
 
-            sb.Append(Symbols.LessThan).Append(tagName);
-
-            foreach (var attribute in _attributes)
-                sb.Append(Symbols.Space).Append(attribute.ToString());
-
-            sb.Append(Symbols.GreaterThan);
-
-            if (!Flags.HasFlag(NodeFlags.SelfClosing))
+            for (var i = 0; i < _attributes.Count; i++)
             {
+                var attribute = _attributes[i];
+                attributeStrings[i] = formatter.Attribute(attribute);
+            }
+
+            var open = formatter.OpenTag(tagName, attributeStrings, selfClosing);
+            var children = String.Empty;
+            var close = formatter.CloseTag(tagName, selfClosing);
+
+            if (!selfClosing)
+            {
+                var sb = Pool.NewStringBuilder();
+
                 if (Flags.HasFlag(NodeFlags.LineTolerance) && FirstChild is IText)
                 {
                     var text = (IText)FirstChild;
@@ -757,13 +760,12 @@
                 }
 
                 foreach (var child in ChildNodes)
-                    sb.Append(child.ToHtml());
+                    sb.Append(child.ToHtml(formatter));
 
-                sb.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(tagName);
-                sb.Append(Symbols.GreaterThan);
+                children = sb.ToPool();
             }
 
-            return sb.ToPool();
+            return String.Concat(open, children, close);
         }
 
         #endregion

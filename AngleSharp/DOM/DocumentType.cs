@@ -139,7 +139,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be 
+        /// cloned, or false to clone only the specified node. 
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
@@ -190,21 +193,14 @@
             this.RemoveFromParent();
         }
 
-        #endregion
-
-        #region String representation
-
         /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
+        public override String ToHtml(IMarkupFormatter formatter)
         {
-            var name = Name;
-            var publicId = PublicIdentifier;
-            var systemId = SystemIdentifier;
-            var ids = GetIds(publicId, systemId);
-            return String.Format("<!DOCTYPE {0}{1}>", name, ids);
+            return formatter.Doctype(this);
         }
 
         #endregion
@@ -219,18 +215,6 @@
         protected override String LocatePrefix(String namespaceUri)
         {
             return null;
-        }
-
-        static String GetIds(String publicId, String systemId)
-        {
-            if (String.IsNullOrEmpty(publicId) && String.IsNullOrEmpty(systemId))
-                return String.Empty;
-            else if (String.IsNullOrEmpty(systemId))
-                return String.Format(" PUBLIC \"{0}\"", publicId);
-            else if (String.IsNullOrEmpty(publicId))
-                return String.Format(" SYSTEM \"{0}\"", systemId);
-
-            return String.Format(" PUBLIC \"{0}\" \"{1}\"", publicId, systemId);
         }
 
         #endregion

@@ -156,20 +156,20 @@
             return _entries.GetEnumerator();
         }
 
-        #endregion
-
-        #region String representation
-
         /// <summary>
-        /// Returns an HTML-code representation of the nodelist.
+        /// Returns an HTML-code representation of the node.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public String ToHtml()
+        public String ToHtml(IMarkupFormatter formatter)
         {
             var sb = Pool.NewStringBuilder();
 
-            foreach (var entry in _entries)
-                sb.Append(entry.ToHtml());
+            for (int i = 0; i < _entries.Count; i++)
+            {
+                var htmlCode = _entries[i].ToHtml(formatter);
+                sb.Append(htmlCode);
+            }
 
             return sb.ToPool();
         }

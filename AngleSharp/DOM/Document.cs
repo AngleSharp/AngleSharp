@@ -1448,12 +1448,13 @@
         }
 
         /// <summary>
-        /// Returns an HTML-code representation of the document.
+        /// Returns an HTML-code representation of the node.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml()
+        public override String ToHtml(IMarkupFormatter formatter)
         {
-            return ChildNodes.ToHtml();
+            return ChildNodes.ToHtml(formatter);
         }
 
         /// <summary>
