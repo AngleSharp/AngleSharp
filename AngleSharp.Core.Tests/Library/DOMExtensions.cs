@@ -102,6 +102,83 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ExtensionWrapWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(2, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            inner.Wrap("<div class='new'></div>");
+            Assert.AreEqual(2, container.ChildElementCount);
+            Assert.AreEqual("div", container.Children[0].NodeName);
+            Assert.AreEqual("new", container.Children[0].ClassName);
+            Assert.AreEqual("div", container.Children[1].NodeName);
+            Assert.AreEqual("new", container.Children[1].ClassName);
+            Assert.AreEqual(1, container.Children[0].ChildElementCount);
+            Assert.AreEqual("Hello", container.Children[0].FirstElementChild.TextContent);
+            Assert.AreEqual(1, container.Children[1].ChildElementCount);
+            Assert.AreEqual("Goodbye", container.Children[1].FirstElementChild.TextContent);
+        }
+
+        [Test]
+        public void ExtensionWrapWithSimpleText()
+        {
+            var document = DocumentBuilder.Html(@"<p>Hello</p>
+<p>cruel</p>
+<p>World</p>");
+            var body = document.Body;
+            Assert.AreEqual(3, body.ChildElementCount);
+            var p = document.QuerySelectorAll("p");
+            Assert.AreEqual("p", body.Children[0].NodeName);
+            Assert.AreEqual("p", body.Children[1].NodeName);
+            Assert.AreEqual("p", body.Children[2].NodeName);
+            p.Wrap("<div></div>");
+            Assert.AreEqual(3, body.ChildElementCount);
+            Assert.AreEqual("div", body.Children[0].NodeName);
+            Assert.AreEqual("div", body.Children[1].NodeName);
+            Assert.AreEqual("div", body.Children[2].NodeName);
+            Assert.AreEqual(1, body.Children[0].ChildElementCount);
+            Assert.AreEqual(1, body.Children[1].ChildElementCount);
+            Assert.AreEqual(1, body.Children[2].ChildElementCount);
+            Assert.AreEqual("Hello", body.Children[0].FirstElementChild.TextContent);
+            Assert.AreEqual("cruel", body.Children[1].FirstElementChild.TextContent);
+            Assert.AreEqual("World", body.Children[2].FirstElementChild.TextContent);
+        }
+
+        [Test]
+        public void ExtensionWrapWithComplexElements()
+        {
+            var document = DocumentBuilder.Html(@"<span>Span Text</span>
+<strong>What about me?</strong>
+<span>Another One</span>");
+            var body = document.Body;
+            Assert.AreEqual(3, body.ChildElementCount);
+            var span = document.QuerySelectorAll("span");
+            Assert.AreEqual("span", body.Children[0].NodeName);
+            Assert.AreEqual("strong", body.Children[1].NodeName);
+            Assert.AreEqual("span", body.Children[2].NodeName);
+            span.Wrap("<div><div><p><em><b></b></em></p></div></div>");
+            Assert.AreEqual(3, body.ChildElementCount);
+            Assert.AreEqual("div", body.Children[0].NodeName);
+            Assert.AreEqual("strong", body.Children[1].NodeName);
+            Assert.AreEqual("div", body.Children[2].NodeName);
+            Assert.AreEqual(1, body.Children[0].ChildElementCount);
+            Assert.AreEqual(0, body.Children[1].ChildElementCount);
+            Assert.AreEqual(1, body.Children[2].ChildElementCount);
+            var bold = document.QuerySelectorAll("b");
+            Assert.AreEqual(2, bold.Length);
+            Assert.AreEqual(1, bold[0].ChildElementCount);
+            Assert.AreEqual(1, bold[1].ChildElementCount);
+            Assert.AreEqual("span", bold[0].FirstElementChild.NodeName);
+            Assert.AreEqual("span", bold[1].FirstElementChild.NodeName);
+            Assert.AreEqual("Span Text", bold[0].FirstElementChild.TextContent);
+            Assert.AreEqual("Another One", bold[1].FirstElementChild.TextContent);
+        }
+
+        [Test]
         public void ExtensionWrapAllWithSimpleElements()
         {
             var document = DocumentBuilder.Html(@"<div class='container'>
