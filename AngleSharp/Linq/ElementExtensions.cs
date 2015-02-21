@@ -370,7 +370,7 @@
             foreach (var element in elements)
             {
                 var fragment = element.CreateFragment(html);
-                element.Append(fragment, element);
+                element.Append(fragment);
             }
 
             return elements;
@@ -396,6 +396,87 @@
             return elements;
         }
 
+        /// <summary>
+        /// Wraps the given elements in the inner most element of the tree
+        /// generated form the provided HTML code.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the tree.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Wrap<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                var newParent = fragment.GetInnerMostElement();
+                var parent = element.Parent;
+
+                if (parent != null)
+                    parent.InsertBefore(fragment, element);
+
+                newParent.AppendChild(element);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Wraps the content of the given elements in the inner most element
+        /// of the tree generated form the provided HTML code.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the tree.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T WrapInner<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                var newParent = fragment.GetInnerMostElement();
+
+                while (element.ChildNodes.Length > 0)
+                    newParent.AppendChild(element.ChildNodes[0]);
+                
+                element.AppendChild(fragment);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Wraps all elements in the inner most element of the tree
+        /// generated form the provided HTML code. The tree is appended before
+        /// the first element of the given list.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to wrap.</param>
+        /// <param name="html">The HTML code that generates the tree.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T WrapAll<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            var element = elements.FirstOrDefault();
+
+            if (element != null)
+            {
+                var fragment = element.CreateFragment(html);
+                var newParent = fragment.GetInnerMostElement();
+                var parent = element.Parent;
+
+                if (parent != null)
+                    parent.InsertBefore(fragment, element);
+
+                foreach (var child in elements)
+                    parent.AppendChild(child);
+            }
+
+            return elements;
+        }
+
         #endregion
 
         #region Helpers
@@ -403,6 +484,24 @@
         static IDocumentFragment CreateFragment(this IElement context, String html)
         {
             return new DocumentFragment(context as Element, html);
+        }
+
+        static IElement GetInnerMostElement(this IDocumentFragment fragment)
+        {
+            if (fragment.ChildElementCount != 1)
+                throw new InvalidOperationException("The provided HTML code did not result in any element.");
+
+            var element = default(IElement);
+            var child = fragment.FirstElementChild;
+
+            do
+            {
+                element = child;
+                child = element.FirstElementChild;
+            }
+            while (child != null);
+
+            return element;
         }
 
         #endregion
