@@ -102,6 +102,43 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ExtensionWrapAllWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(2, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            inner.WrapAll("<div class='new' />");
+            Assert.AreEqual(1, container.ChildElementCount);
+            Assert.AreEqual("div", container.FirstElementChild.NodeName);
+            Assert.AreEqual("new", container.FirstElementChild.ClassName);
+            Assert.AreEqual(2, container.FirstElementChild.ChildElementCount);
+            Assert.AreEqual("Hello", container.FirstElementChild.Children[0].TextContent);
+            Assert.AreEqual("Goodbye", container.FirstElementChild.Children[1].TextContent);
+        }
+
+        [Test]
+        public void ExtensionWrapAllWithComplexElements()
+        {
+            var document = DocumentBuilder.Html(@"<span>Span Text</span>
+<strong>What about me?</strong>
+<span>Another One</span>");
+            Assert.AreEqual(3, document.Body.ChildElementCount);
+            var span = document.QuerySelectorAll("span");
+            span.WrapAll("<div><div><p><em><b></b></em></p></div></div>");
+            Assert.AreEqual(2, document.Body.ChildElementCount);
+            Assert.AreEqual("div", document.Body.FirstElementChild.NodeName);
+            var bold = document.QuerySelector("b");
+            Assert.IsNotNull(bold);
+            Assert.AreEqual(2, bold.ChildElementCount);
+            Assert.AreEqual("Span Text", bold.Children[0].TextContent);
+            Assert.AreEqual("Another One", bold.Children[1].TextContent);
+        }
+
+        [Test]
         public void ExtensionAttrWithOneElement()
         {
             var document = DocumentBuilder.Html("<ul><li>First element");
