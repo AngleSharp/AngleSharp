@@ -2653,6 +2653,9 @@
     <Compile Include="..\AngleSharp\Linq\NodeExtensions.cs">
       <Link>Linq\NodeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Linq\SelectorExtensions.cs">
+      <Link>Linq\SelectorExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Linq\StyleSheetExtensions.cs">
       <Link>Linq\StyleSheetExtensions.cs</Link>
     </Compile>
