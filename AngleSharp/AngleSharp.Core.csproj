@@ -131,6 +131,7 @@
     <Compile Include="Html\HtmlMarkupFormatter.cs" />
     <Compile Include="IMarkupFormattable.cs" />
     <Compile Include="IMarkupFormatter.cs" />
+    <Compile Include="Linq\SelectorExtensions.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IWindowService.cs" />
