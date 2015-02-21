@@ -30,20 +30,20 @@
 
         /// <summary>
         /// Gets a live NodeList containing all the children of this node.
-        /// NodeList being live means that if the children of the Node change,
-        /// the NodeList object is automatically updated.
+        /// Being live means that if the children of the node change, the
+        /// NodeList object is automatically updated.
         /// </summary>
         [DomName("childNodes")]
         INodeList ChildNodes { get; }
 
         /// <summary>
-        /// Clones the Node, and optionally, all of its contents.
+        /// Clones the node, and optionally, all of its contents.
         /// By default, it clones the content of the node.
         /// </summary>
         /// <param name="deep">
         /// Optionally: Sets if all of the content should be cloned as well.
         /// </param>
-        /// <returns>The cloned Node.</returns>
+        /// <returns>The cloned node.</returns>
         [DomName("cloneNode")]
         INode Clone(Boolean deep = true);
 
@@ -94,7 +94,7 @@
         IElement ParentElement { get; }
 
         /// <summary>
-        /// Gets a Node that is the parent of this node. If there is no such
+        /// Gets a node that is the parent of this node. If there is no such
         /// node, like if this node is the top of the tree or if doesn't
         /// participate in a tree, this property returns null.
         /// </summary>
@@ -121,7 +121,7 @@
         INode FirstChild { get; }
 
         /// <summary>
-        /// Gets a Node representing the last direct child node of the node,
+        /// Gets a node representing the last direct child node of the node,
         /// or null if the node has no child.
         /// </summary>
         [DomName("lastChild")]
@@ -181,42 +181,40 @@
 
         /// <summary>
         /// Gets or sets a string representing the value of an object. For most
-        /// Node type, this returns null and any set operation is ignored.
+        /// node types, this returns null and any set operation is ignored.
         /// </summary>
         [DomName("nodeValue")]
         String NodeValue { get; set; }
 
         /// <summary>
-        /// Gets or sets a string representing the textual content of an
-        /// element and all its descendants.
+        /// Gets or sets the textual content of an element and all its
+        /// descendants.
         /// </summary>
         [DomName("textContent")]
         String TextContent { get; set; }
 
         /// <summary>
-        /// Gets a Boolean indicating if the element has any child nodes, or
-        /// not.
+        /// Gets an indicator if the element has any child nodes, or not.
         /// </summary>
         [DomName("hasChildNodes")]
         Boolean HasChildNodes { get; }
 
         /// <summary>
-        /// Inserts a Node as the last child node of this element.
+        /// Inserts a node as the last child node of this element.
         /// </summary>
-        /// <param name="child">The Node to be appended.</param>
+        /// <param name="child">The node to be appended.</param>
         /// <returns>The appended Node.</returns>
         [DomName("appendChild")]
         INode AppendChild(INode child);
 
         /// <summary>
-        /// Inserts the first Node given in a parameter immediately before the
-        /// second, child of this element, Node
+        /// Inserts the newElement immediately before the referenceElement.
         /// </summary>
-        /// <param name="newElement">The Node to be inserted.</param>
+        /// <param name="newElement">The node to be inserted.</param>
         /// <param name="referenceElement">
-        /// The element that will succeed the new element.
+        /// The existing child element that will succeed the new element.
         /// </param>
-        /// <returns>The inserted Node.</returns>
+        /// <returns>The inserted node.</returns>
         [DomName("insertBefore")]
         INode InsertBefore(INode newElement, INode referenceElement);
 
@@ -225,17 +223,17 @@
         /// child of the current node.
         /// </summary>
         /// <param name="child">The child to be removed.</param>
-        /// <returns>The removed Node.</returns>
+        /// <returns>The removed node.</returns>
         [DomName("removeChild")]
         INode RemoveChild(INode child);
 
         /// <summary>
-        /// Replaces one child Node of the current one with the second one
+        /// Replaces one child node of the current one with the second one
         /// given in the parameters.
         /// </summary>
         /// <param name="newChild">The child to be inserted.</param>
         /// <param name="oldChild">The child to be removed.</param>
-        /// <returns>The old Node, if any.</returns>
+        /// <returns>The old node, if any.</returns>
         [DomName("replaceChild")]
         INode ReplaceChild(INode newChild, INode oldChild);
     }
