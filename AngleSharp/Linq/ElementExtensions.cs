@@ -12,6 +12,8 @@
     /// </summary>
     public static class ElementExtensions
     {
+        #region Methods
+
         /// <summary>
         /// Sets the specified attribute name to the specified value for all
         /// elements in the given collection.
@@ -303,5 +305,106 @@
 
             return found;
         }
+
+        /// <summary>
+        /// Inserts the nodes generated from the given HTML code before
+        /// each element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Before<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var parent = element.ParentElement;
+
+                if (parent != null)
+                {
+                    var fragment = parent.CreateFragment(html);
+                    parent.InsertBefore(fragment, element);
+                }
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Inserts the nodes generated from the given HTML code after
+        /// each element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T After<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var parent = element.ParentElement;
+
+                if (parent != null)
+                {
+                    var fragment = parent.CreateFragment(html);
+                    parent.InsertBefore(fragment, element.NextSibling);
+                }
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Appends the nodes generated from the given HTML code to each
+        /// element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Append<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                element.Append(fragment, element);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Prepends the nodes generated from the given HTML code to each
+        /// element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Prepend<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                element.InsertBefore(fragment, element.FirstChild);
+            }
+
+            return elements;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static IDocumentFragment CreateFragment(this IElement context, String html)
+        {
+            return new DocumentFragment(context as Element, html);
+        }
+
+        #endregion
     }
 }
