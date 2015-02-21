@@ -39,7 +39,9 @@
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="attributes">An enumeration of attributes in form of key-value pairs.</param>
+        /// <param name="attributes">
+        /// An enumeration of attributes in form of key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, IEnumerable<KeyValuePair<String, String>> attributes)
             where T : IEnumerable<IElement>
@@ -62,7 +64,10 @@
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="attributes">An enumeration of attributes in form of an anonymous object, that carries key-value pairs.</param>
+        /// <param name="attributes">
+        /// An enumeration of attributes in form of an anonymous object, that
+        /// carries key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, Object attributes)
             where T : IEnumerable<IElement>
@@ -90,12 +95,15 @@
         }
 
         /// <summary>
-        /// Extends the CSS of the given elements with the specified declarations.
+        /// Extends the CSS of the given elements with the specified 
+        /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="propertyName">The name of the property to set.</param>
-        /// <param name="propertyValue">The value of the property to set.</param>
+        /// <param name="propertyValue">
+        /// The value of the property to set.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, String propertyName, String propertyValue)
             where T : IEnumerable<IElement>
@@ -110,11 +118,14 @@
         }
 
         /// <summary>
-        /// Extends the CSS of the given elements with the specified declarations.
+        /// Extends the CSS of the given elements with the specified 
+        /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="properties">An enumeration of properties in form of key-value pairs.</param>
+        /// <param name="properties">
+        /// An enumeration of properties in form of key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, IEnumerable<KeyValuePair<String, String>> properties)
             where T : IEnumerable<IElement>
@@ -132,11 +143,15 @@
         }
 
         /// <summary>
-        /// Extends the CSS of the given elements with the specified declarations.
+        /// Extends the CSS of the given elements with the specified
+        /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="properties">An enumeration of properties in form of an anonymous object, that carries key-value pairs.</param>
+        /// <param name="properties">
+        /// An enumeration of properties in form of an anonymous object, that
+        /// carries key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, Object properties)
             where T : IEnumerable<IElement>
@@ -165,7 +180,9 @@
         /// </summary>
         /// <typeparam name="T">The type of collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="html">The source code of the inner HTML to set.</param>
+        /// <param name="html">
+        /// The source code of the inner HTML to set.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Html<T>(this T elements, String html)
             where T : IEnumerable<IElement>
@@ -180,7 +197,8 @@
         }
 
         /// <summary>
-        /// Adds the specified class name(s) for all elements in the given collection.
+        /// Adds the specified class name(s) for all elements in the given
+        /// collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
@@ -201,7 +219,8 @@
         }
 
         /// <summary>
-        /// Removes the specified class name(s) for all elements in the given collection.
+        /// Removes the specified class name(s) for all elements in the given
+        /// collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
@@ -222,7 +241,8 @@
         }
 
         /// <summary>
-        /// Toggles the specified class name(s) for all elements in the given collection.
+        /// Toggles the specified class name(s) for all elements in the given
+        /// collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
@@ -246,12 +266,15 @@
         }
 
         /// <summary>
-        /// Checks if any element in the given collection has the given class(es).
+        /// Checks if any element in the given collection has the given
+        /// class(es).
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="className">The name(s) of the class(es).</param>
-        /// <returns>True if any element has the class(es), otherwise false.</returns>
+        /// <returns>
+        /// True if any element has the class(es), otherwise false.
+        /// </returns>
         public static Boolean HasClass<T>(this T elements, String className)
             where T : IEnumerable<IElement>
         {
