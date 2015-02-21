@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
@@ -16,6 +15,90 @@ namespace AngleSharp.Core.Tests.Library
             var document = DocumentBuilder.Html("");
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(0, elements.Count());
+        }
+
+        [Test]
+        public void ExtensionBeforeWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <h2>Greetings</h2>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(3, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            inner.Before("<p>Test</p>");
+            Assert.AreEqual(5, container.ChildElementCount);
+            Assert.AreEqual("p", inner[0].PreviousElementSibling.NodeName);
+            Assert.AreEqual("p", inner[1].PreviousElementSibling.NodeName);
+        }
+
+        [Test]
+        public void ExtensionAfterWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <h2>Greetings</h2>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(3, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            inner.After("<p>Test</p>");
+            Assert.AreEqual(5, container.ChildElementCount);
+            Assert.AreEqual("p", inner[0].NextElementSibling.NodeName);
+            Assert.AreEqual("p", inner[1].NextElementSibling.NodeName);
+        }
+
+        [Test]
+        public void ExtensionAppendWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <h2>Greetings</h2>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(3, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            Assert.AreEqual(0, inner[0].ChildElementCount);
+            Assert.AreEqual(0, inner[1].ChildElementCount);
+            Assert.AreEqual(1, inner[0].ChildNodes.Length);
+            Assert.AreEqual(1, inner[1].ChildNodes.Length);
+            inner.Append("<p>Test</p>");
+            Assert.AreEqual(3, container.ChildElementCount);
+            Assert.AreEqual(1, inner[0].ChildElementCount);
+            Assert.AreEqual(1, inner[1].ChildElementCount);
+            Assert.AreEqual(2, inner[0].ChildNodes.Length);
+            Assert.AreEqual(2, inner[1].ChildNodes.Length);
+            Assert.AreEqual("p", inner[0].ChildNodes[1].NodeName);
+            Assert.AreEqual("p", inner[1].ChildNodes[1].NodeName);
+        }
+
+        [Test]
+        public void ExtensionPrependWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <h2>Greetings</h2>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(3, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            Assert.AreEqual(0, inner[0].ChildElementCount);
+            Assert.AreEqual(0, inner[1].ChildElementCount);
+            Assert.AreEqual(1, inner[0].ChildNodes.Length);
+            Assert.AreEqual(1, inner[1].ChildNodes.Length);
+            inner.Prepend("<p>Test</p>");
+            Assert.AreEqual(3, container.ChildElementCount);
+            Assert.AreEqual(1, inner[0].ChildElementCount);
+            Assert.AreEqual(1, inner[1].ChildElementCount);
+            Assert.AreEqual(2, inner[0].ChildNodes.Length);
+            Assert.AreEqual(2, inner[1].ChildNodes.Length);
+            Assert.AreEqual("p", inner[0].ChildNodes[0].NodeName);
+            Assert.AreEqual("p", inner[1].ChildNodes[0].NodeName);
         }
 
         [Test]
