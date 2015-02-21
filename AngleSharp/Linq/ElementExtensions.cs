@@ -471,7 +471,7 @@
                     parent.InsertBefore(fragment, element);
 
                 foreach (var child in elements)
-                    parent.AppendChild(child);
+                    newParent.AppendChild(child);
             }
 
             return elements;
