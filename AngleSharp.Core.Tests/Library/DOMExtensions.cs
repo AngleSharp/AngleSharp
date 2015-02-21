@@ -179,6 +179,65 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ExtensionWrapInnerWithSimpleElements()
+        {
+            var document = DocumentBuilder.Html(@"<div class='container'>
+  <div class='inner'>Hello</div>
+  <div class='inner'>Goodbye</div>
+</div>");
+            var container = document.QuerySelector(".container");
+            Assert.AreEqual(2, container.ChildElementCount);
+            var inner = document.QuerySelectorAll(".inner");
+            inner.WrapInner("<div class='new'></div>");
+            Assert.AreEqual(2, container.ChildElementCount);
+            Assert.AreEqual("div", container.Children[0].NodeName);
+            Assert.AreEqual("inner", container.Children[0].ClassName);
+            Assert.AreEqual(1, container.Children[0].ChildElementCount);
+            Assert.AreEqual("div", container.Children[0].FirstElementChild.NodeName);
+            Assert.AreEqual("new", container.Children[0].FirstElementChild.ClassName);
+            Assert.AreEqual("Hello", container.Children[0].FirstElementChild.TextContent);
+            Assert.AreEqual("div", container.Children[1].NodeName);
+            Assert.AreEqual("inner", container.Children[1].ClassName);
+            Assert.AreEqual(1, container.Children[1].ChildElementCount);
+            Assert.AreEqual("div", container.Children[1].FirstElementChild.NodeName);
+            Assert.AreEqual("new", container.Children[1].FirstElementChild.ClassName);
+            Assert.AreEqual("Goodbye", container.Children[1].FirstElementChild.TextContent);
+        }
+
+        [Test]
+        public void ExtensionWrapInnerWithSimpleText()
+        {
+            var document = DocumentBuilder.Html(@"<p>Hello</p>
+<p>cruel</p>
+<p>World</p>");
+            var body = document.Body;
+            Assert.AreEqual(3, body.ChildElementCount);
+            var p = document.QuerySelectorAll("p");
+            Assert.AreEqual("p", body.Children[0].NodeName);
+            Assert.AreEqual("p", body.Children[1].NodeName);
+            Assert.AreEqual("p", body.Children[2].NodeName);
+            p.WrapInner("<b></b>");
+            Assert.AreEqual(3, body.ChildElementCount);
+
+            Assert.AreEqual("p", body.Children[0].NodeName);
+            Assert.AreEqual(1, body.Children[0].ChildElementCount);
+            Assert.AreEqual("p", body.Children[1].NodeName);
+            Assert.AreEqual(1, body.Children[1].ChildElementCount);
+            Assert.AreEqual("p", body.Children[2].NodeName);
+            Assert.AreEqual(1, body.Children[2].ChildElementCount);
+
+            Assert.AreEqual("b", body.Children[0].FirstElementChild.NodeName);
+            Assert.AreEqual(0, body.Children[0].FirstElementChild.ChildElementCount);
+            Assert.AreEqual("Hello", body.Children[0].FirstElementChild.TextContent);
+            Assert.AreEqual("b", body.Children[1].FirstElementChild.NodeName);
+            Assert.AreEqual(0, body.Children[1].FirstElementChild.ChildElementCount);
+            Assert.AreEqual("cruel", body.Children[1].FirstElementChild.TextContent);
+            Assert.AreEqual("b", body.Children[2].FirstElementChild.NodeName);
+            Assert.AreEqual(0, body.Children[2].FirstElementChild.ChildElementCount);
+            Assert.AreEqual("World", body.Children[2].FirstElementChild.TextContent);
+        }
+
+        [Test]
         public void ExtensionWrapAllWithSimpleElements()
         {
             var document = DocumentBuilder.Html(@"<div class='container'>
