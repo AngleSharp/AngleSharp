@@ -8296,7 +8296,7 @@ namespace AngleSharp.Core.Tests
         }
 
         [Test]
-        public void TestMethod176()
+        public void SetIncomingDivElementAsChildOfAnnotationXmlWithLowerEncodingXmlElement()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml encoding=""application/xhtml+xml""><div>");
 
@@ -8338,11 +8338,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1math0annotationxml0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1math0annotationxml0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1math0annotationxml0div0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod177()
+        public void SetIncomingDivElementAsChildOfAnnotationXmlWithMixedEncodingXmlElement()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml encoding=""aPPlication/xhtmL+xMl""><div>");
 
@@ -8384,11 +8383,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1math0annotationxml0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1math0annotationxml0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1math0annotationxml0div0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod178()
+        public void SetIncomingDivElementAsChildOfAnnotationXmlWithLowerEncodingHtmlElement()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml encoding=""text/html""><div>");
 
@@ -8430,11 +8428,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1math0annotationxml0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1math0annotationxml0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1math0annotationxml0div0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod179()
+        public void SetIncomingDivElementAsChildOfAnnotationXmlWithMixedEncodingHtmlElement()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml encoding=""Text/htmL""><div>");
 
@@ -8476,11 +8473,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1math0annotationxml0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1math0annotationxml0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1math0annotationxml0div0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod180()
+        public void DoNotSetIncomingDivElementAsChildOfAnnotationXmlElementDueToInvalidEncoding()
         {
             var doc = DocumentBuilder.Html(@"<math><annotation-xml encoding="" text/html ""><div>");
 
