@@ -11,7 +11,7 @@ namespace AngleSharp.Core.Tests
     public class NamespaceTests
     {
         [Test]
-        public void TestMethod0()
+        public void UnknownElementWithUnknownNamespaceInBody()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc>");
 
@@ -43,11 +43,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1xyzabc0).Attributes.Count);
             Assert.AreEqual("xyz:abc", dochtml1body1xyzabc0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1xyzabc0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod1()
+        public void UnknownElementWithUnknownNamespaceInBodyBeforeSpan()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc><span></span>");
 
@@ -85,11 +84,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1span1).Attributes.Count);
             Assert.AreEqual("span", dochtml1body1span1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1span1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod2()
+        public void UnknownElementWithUnknownNamespaceInHtmlWithUnknownAttribute()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>");
 
@@ -124,11 +122,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1xyzabc0).Attributes.Count);
             Assert.AreEqual("xyz:abc", dochtml1body1xyzabc0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1xyzabc0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod3()
+        public void DuplicatedHtmlTagWithMultipleXmlLangAttributes()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>");
 
@@ -157,11 +154,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod4()
+        public void NumericAttributeWithNumericValue()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html 123=456>");
 
@@ -190,11 +186,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod5()
+        public void DuplicatedHtmlTagWithDifferentNumericAttributes()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html 123=456><html 789=012>");
 
@@ -226,11 +221,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod6()
+        public void BodyTagWithNumericAttribute()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><body 789=012>");
 
@@ -259,8 +253,6 @@ namespace AngleSharp.Core.Tests
 
             Assert.IsNotNull(((Element)dochtml1body1).GetAttribute("789"));
             Assert.AreEqual("012", ((Element)dochtml1body1).GetAttribute("789"));
-
         }
-
     }
 }
