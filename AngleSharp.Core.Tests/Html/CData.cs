@@ -11,7 +11,7 @@ namespace AngleSharp.Core.Tests
     public class CDataTests
     {
         [Test]
-        public void TestMethod0()
+        public void CDataInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[foo]]>");
 
@@ -45,7 +45,7 @@ namespace AngleSharp.Core.Tests
         }
 
         [Test]
-        public void TestMethod1()
+        public void CDataInMathElement()
         {
             var doc = DocumentBuilder.Html(@"<math><![CDATA[foo]]>");
 
@@ -76,11 +76,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1math0Text0 = dochtml0body1math0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1math0Text0.NodeType);
             Assert.AreEqual("foo", dochtml0body1math0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod2()
+        public void CDataInDivElement()
         {
             var doc = DocumentBuilder.Html(@"<div><![CDATA[foo]]>");
 
@@ -111,11 +110,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1div0Comment0 = dochtml0body1div0.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, dochtml0body1div0Comment0.NodeType);
             Assert.AreEqual(@"[CDATA[foo]]", dochtml0body1div0Comment0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod3()
+        public void CDataUnclosedInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[foo");
 
@@ -146,46 +144,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("foo", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod4()
-        {
-            var doc = DocumentBuilder.Html(@"<svg><![CDATA[foo");
-
-            var dochtml0 = doc.ChildNodes[0];
-            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
-            Assert.AreEqual("html", dochtml0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
-
-            var dochtml0head0 = dochtml0.ChildNodes[0];
-            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
-            Assert.AreEqual("head", dochtml0head0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
-
-            var dochtml0body1 = dochtml0.ChildNodes[1];
-            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
-            Assert.AreEqual("body", dochtml0body1.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
-
-            var dochtml0body1svg0 = dochtml0body1.ChildNodes[0];
-            Assert.AreEqual(1, dochtml0body1svg0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1svg0).Attributes.Count);
-            Assert.AreEqual("svg", dochtml0body1svg0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0body1svg0.NodeType);
-
-            var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
-            Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
-            Assert.AreEqual("foo", dochtml0body1svg0Text0.TextContent);
-
-        }
-
-        [Test]
-        public void TestMethod5()
+        public void CDataUnclosedWithoutTextInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[");
 
@@ -212,11 +174,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1svg0).Attributes.Count);
             Assert.AreEqual("svg", dochtml0body1svg0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod6()
+        public void CDataWithoutTextInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[]]>");
 
@@ -243,11 +204,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1svg0).Attributes.Count);
             Assert.AreEqual("svg", dochtml0body1svg0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod7()
+        public void CDataClosedWrongInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[]] >]]>");
 
@@ -278,46 +238,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("]] >", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod8()
-        {
-            var doc = DocumentBuilder.Html(@"<svg><![CDATA[]] >]]>");
-
-            var dochtml0 = doc.ChildNodes[0];
-            Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
-            Assert.AreEqual("html", dochtml0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
-
-            var dochtml0head0 = dochtml0.ChildNodes[0];
-            Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
-            Assert.AreEqual("head", dochtml0head0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
-
-            var dochtml0body1 = dochtml0.ChildNodes[1];
-            Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
-            Assert.AreEqual("body", dochtml0body1.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
-
-            var dochtml0body1svg0 = dochtml0body1.ChildNodes[0];
-            Assert.AreEqual(1, dochtml0body1svg0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1svg0).Attributes.Count);
-            Assert.AreEqual("svg", dochtml0body1svg0.NodeName);
-            Assert.AreEqual(NodeType.Element, dochtml0body1svg0.NodeType);
-
-            var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
-            Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
-            Assert.AreEqual("]] >", dochtml0body1svg0Text0.TextContent);
-
-        }
-
-        [Test]
-        public void TestMethod9()
+        public void CDataMissingClosingBracketInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[]]");
 
@@ -348,11 +272,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("]]", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod10()
+        public void CDataMissingClosingBracketsInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[]");
 
@@ -383,11 +306,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("]", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod11()
+        public void CDataMissingClosingSquareBracketInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[]>a");
 
@@ -418,11 +340,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("]>a", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod12()
+        public void CDataWithAdditionalClosingSquareBracketInSvgElementWithStandardDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><![CDATA[foo]]]>");
 
@@ -458,11 +379,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1svg0Text0 = dochtml1body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1svg0Text0.NodeType);
             Assert.AreEqual("foo]", dochtml1body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod13()
+        public void CDataWithManyClosingSquareBracketsInSvgElementWithStandardDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><![CDATA[foo]]]]>");
 
@@ -498,11 +418,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1svg0Text0 = dochtml1body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1svg0Text0.NodeType);
             Assert.AreEqual("foo]]", dochtml1body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod14()
+        public void CDataWithManyMoreClosingSquareBracketsInSvgElementWithStandardDoctype()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><![CDATA[foo]]]]]>");
 
@@ -538,11 +457,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1svg0Text0 = dochtml1body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1svg0Text0.NodeType);
             Assert.AreEqual("foo]]]", dochtml1body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod15()
+        public void CDataInDivLocatedInForeignObjectWhichIsPlacedInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><foreignObject><div><![CDATA[foo]]>");
 
@@ -585,11 +503,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0foreignObject0div0Comment0 = dochtml0body1svg0foreignObject0div0.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, dochtml0body1svg0foreignObject0div0Comment0.NodeType);
             Assert.AreEqual(@"[CDATA[foo]]", dochtml0body1svg0foreignObject0div0Comment0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod16()
+        public void CDataWithSvgTagInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<svg>]]>");
 
@@ -620,11 +537,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("<svg>", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod17()
+        public void CDataWithClosingSvgTagInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[</svg>a]]>");
 
@@ -655,11 +571,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("</svg>a", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod18()
+        public void CDataWithSvgTagUnclosedInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<svg>a");
 
@@ -690,11 +605,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("<svg>a", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod19()
+        public void CDataWithClosingSvgTagUnclosedInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[</svg>a");
 
@@ -725,11 +639,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("</svg>a", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod20()
+        public void CDataWithSvgTagInSvgElementFollowedByPath()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<svg>]]><path>");
 
@@ -766,11 +679,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml0body1svg0path1).Attributes.Count);
             Assert.AreEqual("path", dochtml0body1svg0path1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1svg0path1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod21()
+        public void CDataWithSvgTagInSvgElementFollowedByClosingPath()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<svg>]]></path>");
 
@@ -801,11 +713,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("<svg>", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod22()
+        public void CDataWithSvgTagInSvgElementFollowedByComment()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<svg>]]><!--path-->");
 
@@ -840,11 +751,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Comment1 = dochtml0body1svg0.ChildNodes[1];
             Assert.AreEqual(NodeType.Comment, dochtml0body1svg0Comment1.NodeType);
             Assert.AreEqual(@"path", dochtml0body1svg0Comment1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod23()
+        public void CDataWithSvgTagInSvgElementFollowedByText()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<svg>]]>path");
 
@@ -875,11 +785,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("<svg>path", dochtml0body1svg0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod24()
+        public void CDataWithCommentInSvgElement()
         {
             var doc = DocumentBuilder.Html(@"<svg><![CDATA[<!--svg-->]]>");
 
@@ -910,8 +819,6 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1svg0Text0 = dochtml0body1svg0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1svg0Text0.NodeType);
             Assert.AreEqual("<!--svg-->", dochtml0body1svg0Text0.TextContent);
-
         }
-
     }
 }
