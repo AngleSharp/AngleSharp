@@ -3,11 +3,18 @@ using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
 {
+    /// <summary>
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tests15.dat,
+    /// tree-construction/tests18.dat,
+    /// tree-construction/tests19.dat,
+    /// tree-construction/tests20.dat
+    /// </summary>
     [TestFixture]
     public class HtmlConstructionTests
     {
         [Test]
-        public void TestMethod0()
+        public void ParagraphWithNewFormattingElements()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><p><b><i><u></p> <p>X");
 
@@ -89,11 +96,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1b1i0u0p1Text0 = dochtml1body1b1i0u0p1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1b1i0u0p1Text0.NodeType);
             Assert.AreEqual("X", dochtml1body1b1i0u0p1Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod1()
+        public void NewLineAfterParagraphWithNewFormattingElements()
         {
             var doc = DocumentBuilder.Html(@"<p><b><i><u></p>
 <p>X");
@@ -171,11 +177,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0body1b1i0u0p1Text0 = dochtml0body1b1i0u0p1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1b1i0u0p1Text0.NodeType);
             Assert.AreEqual("X", dochtml0body1b1i0u0p1Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod2()
+        public void WronglyClosedHtmlTagAndSpaceBeforeHead()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html></html> <head>");
 
@@ -205,11 +210,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1Text0 = dochtml1body1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1Text0.NodeType);
             Assert.AreEqual(" ", dochtml1body1Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod3()
+        public void WronglyClosedBodyTagAndStandaloneMetaElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html></body><meta>");
 
@@ -241,11 +245,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1meta0).Attributes.Count);
             Assert.AreEqual("meta", dochtml1body1meta0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1meta0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod4()
+        public void CommentAfterClosedHtmlTag()
         {
             var doc = DocumentBuilder.Html(@"<html></html><!-- foo -->");
 
@@ -271,11 +274,10 @@ namespace AngleSharp.Core.Tests
             var docComment1 = doc.ChildNodes[1];
             Assert.AreEqual(NodeType.Comment, docComment1.NodeType);
             Assert.AreEqual(@" foo ", docComment1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod5()
+        public void WronglyClosedBodyElementAndTitleElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html></body><title>X</title>");
 
@@ -311,11 +313,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1title0Text0 = dochtml1body1title0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1title0Text0.NodeType);
             Assert.AreEqual("X", dochtml1body1title0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod6()
+        public void TableWithMissingBracketAndWronglyClosedMetaElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table> X<meta></table>");
 
@@ -357,11 +358,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table2).Attributes.Count);
             Assert.AreEqual("table", dochtml1body1table2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table2.NodeType);
-
         }
 
         [Test]
-        public void TestMethod7()
+        public void FosterParentedTextInTableElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table> x</table>");
 
@@ -397,11 +397,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1).Attributes.Count);
             Assert.AreEqual("table", dochtml1body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod8()
+        public void FosterParentedTextWithTrailingSpaceInTableElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table> x </table>");
 
@@ -437,11 +436,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1).Attributes.Count);
             Assert.AreEqual("table", dochtml1body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod9()
+        public void FosterParentedTextInRowElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><tr> x</table>");
 
@@ -489,11 +487,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1tbody0tr0).Attributes.Count);
             Assert.AreEqual("tr", dochtml1body1table1tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0tr0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod10()
+        public void WronglyPlacedStyleElementInTableElementWithFosteredText()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table>X<style> <tr>x </style> </table>");
 
@@ -543,11 +540,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1table1Text1 = dochtml1body1table1.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml1body1table1Text1.NodeType);
             Assert.AreEqual(" ", dochtml1body1table1Text1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod11()
+        public void TableInDivWithMultipleFosteredElements()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>");
 
@@ -625,11 +621,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1div0table1tbody1tr0Text1 = dochtml1body1div0table1tbody1tr0.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml1body1div0table1tbody1tr0Text1.NodeType);
             Assert.AreEqual(" ", dochtml1body1div0table1tbody1tr0Text1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod12()
+        public void FrameAndFramesetUsedPartiallyWrong()
         {
             var doc = DocumentBuilder.Html(@"<frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>");
 
@@ -678,11 +673,10 @@ namespace AngleSharp.Core.Tests
             var dochtml0frameset1noframes2Text0 = dochtml0frameset1noframes2.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0frameset1noframes2Text0.NodeType);
             Assert.AreEqual("</frameset><noframes>", dochtml0frameset1noframes2Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod13()
+        public void ObjectElementClosedByHtml()
         {
             var doc = DocumentBuilder.Html(@"<!DOCTYPE html><object></html>");
 
@@ -714,11 +708,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1object0).Attributes.Count);
             Assert.AreEqual("object", dochtml1body1object0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1object0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod14()
+        public void PlaintextElementCannotBeClosedAnymore()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><plaintext></plaintext>");
 
@@ -754,11 +747,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1plaintext0Text0 = dochtml1body1plaintext0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1plaintext0Text0.NodeType);
             Assert.AreEqual("</plaintext>", dochtml1body1plaintext0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod15()
+        public void FosteredPlaintextElementInTableThatCannotBeClosedAnymore()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><plaintext></plaintext>");
 
@@ -800,11 +792,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1).Attributes.Count);
             Assert.AreEqual("table", dochtml1body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod16()
+        public void FosteredPlaintextElementInTBodyThatCannotBeClosedAnymore()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><tbody><plaintext></plaintext>");
 
@@ -852,11 +843,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1tbody0).Attributes.Count);
             Assert.AreEqual("tbody", dochtml1body1table1tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod17()
+        public void FosteredPlaintextElementInRowThatCannotBeClosedAnymore()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><tbody><tr><plaintext></plaintext>");
 
@@ -910,11 +900,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1tbody0tr0).Attributes.Count);
             Assert.AreEqual("tr", dochtml1body1table1tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0tr0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod18()
+        public void PlaintextElementInTableCellThatCannotBeClosedAnymore()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><td><plaintext></plaintext>");
 
@@ -974,11 +963,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1table0tbody0tr0td0plaintext0Text0 = dochtml1body1table0tbody0tr0td0plaintext0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1table0tbody0tr0td0plaintext0Text0.NodeType);
             Assert.AreEqual("</plaintext>", dochtml1body1table0tbody0tr0td0plaintext0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod19()
+        public void PlaintextElementInTableCaptionThatCannotBeClosedAnymore()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><caption><plaintext></plaintext>");
 
@@ -1026,11 +1014,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1table0caption0plaintext0Text0 = dochtml1body1table0caption0plaintext0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1table0caption0plaintext0Text0.NodeType);
             Assert.AreEqual("</plaintext>", dochtml1body1table0caption0plaintext0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod20()
+        public void StyleTagInRowSwitchesToRawtextAndAbsorbsClosedScriptTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><tr><style></script></style>abc");
 
@@ -1088,11 +1075,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1table1tbody0tr0style0Text0 = dochtml1body1table1tbody0tr0style0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1body1table1tbody0tr0style0Text0.NodeType);
             Assert.AreEqual("</script>", dochtml1body1table1tbody0tr0style0Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod21()
+        public void ScriptTagInRowSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><tr><script></style></script>abc");
 
@@ -1154,7 +1140,7 @@ namespace AngleSharp.Core.Tests
         }
 
         [Test]
-        public void TestMethod22()
+        public void StyleTagInCaptionSwitchesToRawtextAndAbsorbsClosedScriptTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><caption><style></script></style>abc");
 
@@ -1206,11 +1192,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1table0caption0Text1 = dochtml1body1table0caption0.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml1body1table0caption0Text1.NodeType);
             Assert.AreEqual("abc", dochtml1body1table0caption0Text1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod23()
+        public void StyleTagInCellSwitchesToRawtextAndAbsorbsClosedScriptTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><td><style></script></style>abc");
 
@@ -1274,11 +1259,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1table0tbody0tr0td0Text1 = dochtml1body1table0tbody0tr0td0.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml1body1table0tbody0tr0td0Text1.NodeType);
             Assert.AreEqual("abc", dochtml1body1table0tbody0tr0td0Text1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod24()
+        public void ScriptTagInSelectSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><select><script></style></script>abc");
 
@@ -1324,11 +1308,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1body1select0Text1 = dochtml1body1select0.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml1body1select0Text1.NodeType);
             Assert.AreEqual("abc", dochtml1body1select0Text1.TextContent);
-
         }
 
         [Test]
-        public void TestMethod25()
+        public void ScriptTagInSelectLocatedInTableSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><select><script></style></script>abc");
 
@@ -1380,11 +1363,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1).Attributes.Count);
             Assert.AreEqual("table", dochtml1body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1.NodeType);
-
         }
 
         [Test]
-        public void TestMethod26()
+        public void ScriptTagInSelectLocatedInRowSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><table><tr><select><script></style></script>abc");
 
@@ -1448,11 +1430,10 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(0, ((Element)dochtml1body1table1tbody0tr0).Attributes.Count);
             Assert.AreEqual("tr", dochtml1body1table1tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1table1tbody0tr0.NodeType);
-
         }
 
         [Test]
-        public void TestMethod27()
+        public void NoframesAfterFramesetElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><frameset></frameset><noframes>abc");
 
@@ -1488,11 +1469,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1noframes2Text0 = dochtml1noframes2.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1noframes2Text0.NodeType);
             Assert.AreEqual("abc", dochtml1noframes2Text0.TextContent);
-
         }
 
         [Test]
-        public void TestMethod28()
+        public void NoframesAfterFramesetElementWithFollowingComment()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><frameset></frameset><noframes>abc</noframes><!--abc-->");
 
@@ -1532,11 +1512,10 @@ namespace AngleSharp.Core.Tests
             var dochtml1Comment3 = dochtml1.ChildNodes[3];
             Assert.AreEqual(NodeType.Comment, dochtml1Comment3.NodeType);
             Assert.AreEqual(@"abc", dochtml1Comment3.TextContent);
-
         }
 
         [Test]
-        public void TestMethod29()
+        public void NoframesAfterHtmlElement()
         {
             var doc = DocumentBuilder.Html(@"<!doctype html><frameset></frameset></html><noframes>abc");
 
@@ -1572,7 +1551,6 @@ namespace AngleSharp.Core.Tests
             var dochtml1noframes2Text0 = dochtml1noframes2.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml1noframes2Text0.NodeType);
             Assert.AreEqual("abc", dochtml1noframes2Text0.TextContent);
-
         }
 
         [Test]
