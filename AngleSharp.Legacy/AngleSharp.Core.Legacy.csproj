@@ -2884,6 +2884,9 @@
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
+      <Link>Xml\XmlMarkupFormatter.cs</Link>
+    </Compile>
     <Compile Include="Extensions\LegacyExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
