@@ -31,8 +31,7 @@
             {
                 switch (value[i])
                 {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Symbols.SingleQuote: temp.Append("&apos;"); break;
                     case Symbols.DoubleQuote: temp.Append("&quot;"); break;
                     default: temp.Append(value[i]); break;
                 }
@@ -53,7 +52,13 @@
 
         String IMarkupFormatter.Doctype(IDocumentType doctype)
         {
-            return String.Concat("<!DOCTYPE ", doctype.Name, " '", doctype.PublicIdentifier, "' SYSTEM '", doctype.SystemIdentifier, "'>");
+            var publicId = doctype.PublicIdentifier;
+            var systemId = doctype.SystemIdentifier;
+            var noExternalId = String.IsNullOrEmpty(publicId) && String.IsNullOrEmpty(systemId);
+            var externalId = noExternalId ? String.Empty : " " + (String.IsNullOrEmpty(publicId) ?
+                String.Concat("SYSTEM \"", systemId, "\"") :
+                String.Concat("PUBLIC \"", publicId, "\" \"", systemId, "\""));
+            return String.Concat("<!DOCTYPE ", doctype.Name, externalId, ">");
         }
 
         String IMarkupFormatter.OpenTag(String tagName, IEnumerable<String> attributes, Boolean selfClosing)
@@ -74,7 +79,7 @@
         String IMarkupFormatter.Processing(IProcessingInstruction processing)
         {
             var value = String.Concat(processing.Target, " ", processing.Data);
-            return String.Concat("<?", value, ">");
+            return String.Concat("<?", value, "?>");
         }
 
         String IMarkupFormatter.Text(String text)
@@ -86,7 +91,6 @@
                 switch (text[i])
                 {
                     case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
                     case Symbols.GreaterThan: temp.Append("&gt;"); break;
                     case Symbols.LessThan: temp.Append("&lt;"); break;
                     default: temp.Append(text[i]); break;
