@@ -56,6 +56,18 @@
         }
 
         /// <summary>
+        /// Creates a new DocumentFragment from the given HTML code. The
+        /// fragment is parsed with the Body element as context.
+        /// </summary>
+        /// <param name="document">The responsible document.</param>
+        /// <param name="html">The HTML to transform into a fragment.</param>
+        /// <returns>The fragment containing the new nodes.</returns>
+        static IDocumentFragment CreateFromHtml(this IDocument document, String html)
+        {
+            return new DocumentFragment(document.Body as Element, html);
+        }
+
+        /// <summary>
         /// Returns a task that is completed once the event is fired.
         /// </summary>
         /// <typeparam name="TEventTarget">The event target type.</typeparam>
