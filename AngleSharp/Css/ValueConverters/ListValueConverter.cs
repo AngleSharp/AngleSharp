@@ -49,7 +49,7 @@
 
         public Int32 MaxArgs
         {
-            get { return 65536; }
+            get { return UInt16.MaxValue; }
         }
     }
 }
