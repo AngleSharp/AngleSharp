@@ -1733,6 +1733,7 @@ X</listing>");
             Assert.AreEqual("keygen", dochtml0body1keygen1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1keygen1.NodeType);
         }
+
         [Test]
         public void StandardDoctypeProvidedAndSpaceShouldBePlacedInBodyWithSecondHeadIgnored()
         {
@@ -1764,7 +1765,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)dochtml1body2).Attributes.Count);
             Assert.AreEqual("body", dochtml1body2.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body2.NodeType);
-
         }
 
         [Test]
@@ -1812,7 +1812,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)dochtml1body1form0div0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml1body1form0div0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1form0div0div0.NodeType);
-
         }
 
         [Test]
@@ -1852,7 +1851,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
@@ -1892,7 +1890,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
@@ -1924,7 +1921,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
@@ -1954,7 +1950,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
@@ -1973,7 +1968,6 @@ X</listing>");
             Assert.AreEqual(0, ((Element)docdiv1).Attributes.Count);
             Assert.AreEqual("div", docdiv1.NodeName);
             Assert.AreEqual(NodeType.Element, docdiv1.NodeType);
-
         }
 
         [Test]
@@ -2003,7 +1997,6 @@ foo");
             var dochtml0Text2 = dochtml0.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, dochtml0Text2.NodeType);
             Assert.AreEqual("\n", dochtml0Text2.TextContent);
-
         }
 
         [Test]
@@ -2039,7 +2032,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0noframes3).Attributes.Count);
             Assert.AreEqual("noframes", dochtml0noframes3.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0noframes3.NodeType);
-
         }
 
         [Test]
@@ -2069,7 +2061,6 @@ foo");
             var dochtml0Text2 = dochtml0.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, dochtml0Text2.NodeType);
             Assert.AreEqual("\n", dochtml0Text2.TextContent);
-
         }
 
         [Test]
@@ -2099,7 +2090,6 @@ foo");
             var dochtml0Text2 = dochtml0.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, dochtml0Text2.NodeType);
             Assert.AreEqual("\n", dochtml0Text2.TextContent);
-
         }
 
         [Test]
@@ -2129,7 +2119,6 @@ foo");
             var dochtml0Text2 = dochtml0.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, dochtml0Text2.NodeType);
             Assert.AreEqual("\n", dochtml0Text2.TextContent);
-
         }
 
         [Test]
@@ -2160,7 +2149,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1form0).Attributes.Count);
             Assert.AreEqual("form", dochtml0body1form0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1form0.NodeType);
-
         }
 
         [Test]
@@ -2197,7 +2185,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1button1).Attributes.Count);
             Assert.AreEqual("button", dochtml0body1button1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1button1.NodeType);
-
         }
 
         [Test]
@@ -2246,7 +2233,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0tbody0tr0td0).Attributes.Count);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
-
         }
 
         [Test]
@@ -2301,7 +2287,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0tbody1tr0td0).Attributes.Count);
             Assert.AreEqual("td", dochtml0body1table0tbody1tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody1tr0td0.NodeType);
-
         }
 
         [Test]
@@ -2344,7 +2329,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0caption0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1table0caption0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0caption0div0.NodeType);
-
         }
 
         [Test]
@@ -2357,7 +2341,6 @@ foo");
             Assert.AreEqual(0, ((Element)docdiv0).Attributes.Count);
             Assert.AreEqual("div", docdiv0.NodeName);
             Assert.AreEqual(NodeType.Element, docdiv0.NodeType);
-
         }
 
         [Test]
@@ -2400,7 +2383,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0caption0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1table0caption0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0caption0div0.NodeType);
-
         }
 
         [Test]
@@ -2437,7 +2419,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0caption0).Attributes.Count);
             Assert.AreEqual("caption", dochtml0body1table0caption0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0caption0.NodeType);
-
         }
 
         [Test]
@@ -2450,7 +2431,6 @@ foo");
             Assert.AreEqual(0, ((Element)docdiv0).Attributes.Count);
             Assert.AreEqual("div", docdiv0.NodeName);
             Assert.AreEqual(NodeType.Element, docdiv0.NodeType);
-
         }
 
         [Test]
@@ -2487,7 +2467,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0caption0).Attributes.Count);
             Assert.AreEqual("caption", dochtml0body1table0caption0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0caption0.NodeType);
-
         }
 
         [Test]
@@ -2530,7 +2509,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0caption0div0).Attributes.Count);
             Assert.AreEqual("div", dochtml0body1table0caption0div0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0caption0div0.NodeType);
-
         }
 
         [Test]
@@ -2579,7 +2557,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0tbody0tr0td0).Attributes.Count);
             Assert.AreEqual("td", dochtml0body1table0tbody0tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0tr0td0.NodeType);
-
         }
 
         [Test]
@@ -2592,7 +2569,6 @@ foo");
             Assert.AreEqual(0, ((Element)docdiv0).Attributes.Count);
             Assert.AreEqual("div", docdiv0.NodeName);
             Assert.AreEqual(NodeType.Element, docdiv0.NodeType);
-
         }
 
         [Test]
@@ -2633,7 +2609,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table1colgroup0).Attributes.Count);
             Assert.AreEqual("colgroup", dochtml0body1table1colgroup0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1colgroup0.NodeType);
-
         }
 
         [Test]
@@ -2646,7 +2621,6 @@ foo");
             Assert.AreEqual(0, ((Element)doccol0).Attributes.Count);
             Assert.AreEqual("col", doccol0.NodeName);
             Assert.AreEqual(NodeType.Element, doccol0.NodeType);
-
         }
 
         [Test]
@@ -2683,7 +2657,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0colgroup0).Attributes.Count);
             Assert.AreEqual("colgroup", dochtml0body1table0colgroup0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0.NodeType);
-
         }
 
         [Test]
@@ -2708,7 +2681,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
 
         [Test]
@@ -2721,7 +2693,6 @@ foo");
             Assert.AreEqual(0, ((Element)docframe0).Attributes.Count);
             Assert.AreEqual("frame", docframe0.NodeName);
             Assert.AreEqual(NodeType.Element, docframe0.NodeType);
-
         }
 
         [Test]
@@ -2746,7 +2717,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
 
         [Test]
@@ -2759,7 +2729,6 @@ foo");
             Assert.AreEqual(0, ((Element)docdiv0).Attributes.Count);
             Assert.AreEqual("div", docdiv0.NodeName);
             Assert.AreEqual(NodeType.Element, docdiv0.NodeType);
-
         }
 
         [Test]
@@ -2808,7 +2777,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table1tbody0tr0).Attributes.Count);
             Assert.AreEqual("tr", dochtml0body1table1tbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0tr0.NodeType);
-
         }
 
         [Test]
@@ -2821,7 +2789,6 @@ foo");
             Assert.AreEqual(0, ((Element)doctd0).Attributes.Count);
             Assert.AreEqual("td", doctd0.NodeName);
             Assert.AreEqual(NodeType.Element, doctd0.NodeType);
-
         }
 
         [Test]
@@ -2834,7 +2801,6 @@ foo");
             Assert.AreEqual(0, ((Element)doctd0).Attributes.Count);
             Assert.AreEqual("td", doctd0.NodeName);
             Assert.AreEqual(NodeType.Element, doctd0.NodeType);
-
         }
 
         [Test]
@@ -2889,7 +2855,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table1tbody0tr0td0).Attributes.Count);
             Assert.AreEqual("td", dochtml0body1table1tbody0tr0td0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1tbody0tr0td0.NodeType);
-
         }
 
         [Test]
@@ -2902,7 +2867,6 @@ foo");
             Assert.AreEqual(0, ((Element)doctr0).Attributes.Count);
             Assert.AreEqual("tr", doctr0.NodeName);
             Assert.AreEqual(NodeType.Element, doctr0.NodeType);
-
         }
 
         [Test]
@@ -2939,7 +2903,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0tbody0).Attributes.Count);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
-
         }
 
         [Test]
@@ -2952,7 +2915,6 @@ foo");
             Assert.AreEqual(0, ((Element)doctr0).Attributes.Count);
             Assert.AreEqual("tr", doctr0.NodeName);
             Assert.AreEqual(NodeType.Element, doctr0.NodeType);
-
         }
 
         [Test]
@@ -2989,7 +2951,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0tbody0).Attributes.Count);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
-
         }
 
         [Test]
@@ -3026,7 +2987,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0tbody0).Attributes.Count);
             Assert.AreEqual("tbody", dochtml0body1table0tbody0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0tbody0.NodeType);
-
         }
 
         [Test]
@@ -3063,7 +3023,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table1).Attributes.Count);
             Assert.AreEqual("table", dochtml0body1table1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table1.NodeType);
-
         }
 
         [Test]
@@ -3094,7 +3053,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0body1table0).Attributes.Count);
             Assert.AreEqual("table", dochtml0body1table0.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0body1table0.NodeType);
-
         }
 
         [Test]
@@ -3113,7 +3071,6 @@ foo");
             Assert.AreEqual(0, ((Element)doctbody0tr0).Attributes.Count);
             Assert.AreEqual("tr", doctbody0tr0.NodeName);
             Assert.AreEqual(NodeType.Element, doctbody0tr0.NodeType);
-
         }
 
         [Test]
@@ -3133,7 +3090,6 @@ foo");
             Assert.AreEqual(0, ((Element)docbody1).Attributes.Count);
             Assert.AreEqual("body", docbody1.NodeName);
             Assert.AreEqual(NodeType.Element, docbody1.NodeType);
-
         }
 
         [Test]
@@ -3162,7 +3118,6 @@ foo");
             var dochtml0Text2 = dochtml0.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, dochtml0Text2.NodeType);
             Assert.AreEqual(" ", dochtml0Text2.TextContent);
-
         }
 
         [Test]
@@ -3194,7 +3149,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml1body1).Attributes.Count);
             Assert.AreEqual("body", dochtml1body1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml1body1.NodeType);
-
         }
 
         [Test]
@@ -3219,7 +3173,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
 
         [Test]
@@ -3244,7 +3197,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
 
         [Test]
@@ -3269,7 +3221,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
 
         [Test]
@@ -3294,7 +3245,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
 
         [Test]
@@ -3319,7 +3269,6 @@ foo");
             Assert.AreEqual(0, ((Element)dochtml0frameset1).Attributes.Count);
             Assert.AreEqual("frameset", dochtml0frameset1.NodeName);
             Assert.AreEqual(NodeType.Element, dochtml0frameset1.NodeType);
-
         }
     }
 }

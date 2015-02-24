@@ -457,9 +457,8 @@
         public static readonly IValueConverter<Shadow> ShadowConverter = WithAny(
             Assign(Keywords.Inset, true).Option(false),
             LengthConverter.Many(2, 4).Required(),
-            ColorConverter.Option(Color.Black)).To(
+            ColorConverter.WithCurrentColor().Option(Color.Black)).To(
             m => new Shadow(m.Item1, m.Item2[0], m.Item2[1], Get(m.Item2, 2, Length.Zero), Get(m.Item2, 3, Length.Zero), m.Item3));
-
 
         /// <summary>
         /// Represents an image source object.

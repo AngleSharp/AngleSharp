@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Extensions;
+﻿using AngleSharp.Extensions;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests.Library

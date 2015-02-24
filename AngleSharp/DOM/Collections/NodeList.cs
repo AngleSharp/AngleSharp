@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
+    using AngleSharp.Html;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -154,6 +155,20 @@
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _entries.GetEnumerator();
+        }
+
+        #endregion
+
+        #region Methods
+        
+        /// <summary>
+        /// Returns an HTML-code representation of the node using the default
+        /// HTML formatter.
+        /// </summary>
+        /// <returns>A string containing the HTML code.</returns>
+        public String ToHtml()
+        {
+            return ToHtml(HtmlMarkupFormatter.Instance);
         }
 
         /// <summary>

@@ -97,9 +97,12 @@
     <Compile Include="Css\WebsiteQuery.cs" />
     <Compile Include="Html\Adoption.cs" />
     <Compile Include="Html\BasicRuleSet.cs" />
+    <Compile Include="Html\CData.cs" />
     <Compile Include="Html\Doctype.cs" />
     <Compile Include="Html\DomManipulation.cs" />
+    <Compile Include="Html\HtmlConstruction.cs" />
     <Compile Include="Html\MainElement.cs" />
+    <Compile Include="Html\Namespace.cs" />
     <Compile Include="Html\Rawtext.cs" />
     <Compile Include="Html\RubyElement.cs" />
     <Compile Include="Html\TreeConstruction.cs" />

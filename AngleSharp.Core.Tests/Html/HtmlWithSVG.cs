@@ -4,6 +4,11 @@ using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
 {
+    /// <summary>
+    /// Tests from https://github.com/html5lib/html5lib-tests:
+    /// tree-construction/tests10.dat
+    /// tree-construction/tests11.dat
+    /// </summary>
     [TestFixture]
     public class HtmlWithSVGTests
     {

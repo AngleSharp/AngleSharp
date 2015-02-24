@@ -745,7 +745,6 @@
 
             var open = formatter.OpenTag(tagName, attributeStrings, selfClosing);
             var children = String.Empty;
-            var close = formatter.CloseTag(tagName, selfClosing);
 
             if (!selfClosing)
             {
@@ -765,6 +764,7 @@
                 children = sb.ToPool();
             }
 
+            var close = formatter.CloseTag(tagName, selfClosing);
             return String.Concat(open, children, close);
         }
 

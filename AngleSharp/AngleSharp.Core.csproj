@@ -128,8 +128,10 @@
     <Compile Include="Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
     <Compile Include="Foundation\SimpleBrowsingContext.cs" />
-    <Compile Include="Html\StandardHtmlFormatter.cs" />
+    <Compile Include="Html\HtmlMarkupFormatter.cs" />
+    <Compile Include="IMarkupFormattable.cs" />
     <Compile Include="IMarkupFormatter.cs" />
+    <Compile Include="Linq\SelectorExtensions.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IWindowService.cs" />
@@ -977,6 +979,7 @@
     <Compile Include="Parser\Html\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlTagToken.cs" />
     <Compile Include="Dom\Window.cs" />
+    <Compile Include="Xml\XmlMarkupFormatter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

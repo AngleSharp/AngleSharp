@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
     /// </summary>
-    public class HtmlMarkupFormatter : IMarkupFormatter
+    public sealed class HtmlMarkupFormatter : IMarkupFormatter
     {
         #region Instance
 

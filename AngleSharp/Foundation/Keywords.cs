@@ -1311,5 +1311,10 @@
         /// The scale-down keyword.
         /// </summary>
         public static readonly String ScaleDown = "scale-down";
+
+        /// <summary>
+        /// The currentColor keyword.
+        /// </summary>
+        public static readonly String CurrentColor = "currentColor";
     }
 }

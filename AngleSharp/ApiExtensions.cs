@@ -85,12 +85,21 @@
         /// <param name="parent">The parent of the nodes to gather.</param>
         /// <returns>The descendent nodes.</returns>
         public static IEnumerable<TNode> Descendents<TNode>(this INode parent)
-            where TNode : INode
+        {
+            return parent.Descendents().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the descendent nodes of the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendent nodes.</returns>
+        public static IEnumerable<INode> Descendents(this INode parent)
         {
             if (parent == null)
                 throw new ArgumentNullException("parent");
 
-            return parent.GetDescendants().OfType<TNode>();
+            return parent.GetDescendants();
         }
 
         /// <summary>
@@ -100,12 +109,21 @@
         /// <param name="child">The child of the nodes to gather.</param>
         /// <returns>The ancestor nodes.</returns>
         public static IEnumerable<TNode> Ancestors<TNode>(this INode child)
-            where TNode : INode
+        {
+            return child.Ancestors().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the ancestor nodes of the given child.
+        /// </summary>
+        /// <param name="child">The child of the nodes to gather.</param>
+        /// <returns>The ancestor nodes.</returns>
+        public static IEnumerable<INode> Ancestors(this INode child)
         {
             if (child == null)
                 throw new ArgumentNullException("child");
 
-            return child.GetAncestors().OfType<TNode>();
+            return child.GetAncestors();
         }
 
         #endregion
@@ -113,11 +131,13 @@
         #region Construction helpers
 
         /// <summary>
-        /// Interprets the string as HTML source code and returns new HTMLDocument
-        /// with the DOM representation.
+        /// Interprets the string as HTML source code and returns new
+        /// HTMLDocument with the DOM representation.
         /// </summary>
         /// <param name="content">The string to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The HTML document.</returns>
         public static IDocument ParseHtml(this String content, IConfiguration configuration = null)
         {
@@ -125,11 +145,13 @@
         }
 
         /// <summary>
-        /// Interprets the string as CSS source code and returns new CSSStyleSheet
-        /// with the CSS-OM representation.
+        /// Interprets the string as CSS source code and returns new
+        /// CSSStyleSheet with the CSS-OM representation.
         /// </summary>
         /// <param name="content">The string to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The CSS stylesheet.</returns>
         public static ICssStyleSheet ParseCss(this String content, IConfiguration configuration = null)
         {
@@ -137,11 +159,15 @@
         }
 
         /// <summary>
-        /// Uses the URL to download the content, parse it as HTML and returning
-        /// a new HTMLDocument with the DOM representation.
+        /// Uses the URL to download the content, parse it as HTML and
+        /// returning a new HTMLDocument with the DOM representation.
         /// </summary>
-        /// <param name="uri">The source of the HTML content.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="uri">
+        /// The source of the HTML content.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The HTML document.</returns>
         public static IDocument GetHtml(this Uri uri, IConfiguration configuration = null)
         {
@@ -153,7 +179,9 @@
         /// a new CSSStyleSheet with the CSS-OM representation.
         /// </summary>
         /// <param name="uri">The source of the CSS content.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The CSS stylesheet.</returns>
         public static ICssStyleSheet GetCss(this Uri uri, IConfiguration configuration = null)
         {
@@ -161,11 +189,13 @@
         }
 
         /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as HTML and returning
-        /// a new HTMLDocument with the DOM representation.
+        /// Uses the URL to download the content asynchronously, parse it as
+        /// HTML and returning a new HTMLDocument with the DOM representation.
         /// </summary>
         /// <param name="uri">The source of the HTML content.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The HTML document.</returns>
         public static Task<IDocument> GetHtmlAsync(this Uri uri, IConfiguration configuration = null)
         {
@@ -173,12 +203,15 @@
         }
 
         /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as HTML and returning
-        /// a new HTMLDocument with the DOM representation.
+        /// Uses the URL to download the content asynchronously, parse it as
+        /// HTML and returning a new HTMLDocument with the DOM representation.
         /// </summary>
         /// <param name="uri">The source of the HTML content.</param>
-        /// <param name="cancel">The cancellation token for aborting the download.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="cancel">
+        /// The cancellation token for aborting the download.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The HTML document.</returns>
         public static Task<IDocument> GetHtmlAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
         {
@@ -186,11 +219,14 @@
         }
 
         /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as CSS and returning
-        /// a new CSSStyleSheet with the CSS-OM representation.
+        /// Uses the URL to download the content asynchronously, parse it as
+        /// CSS and returning a new CSSStyleSheet with the CSS-OM
+        /// representation.
         /// </summary>
         /// <param name="uri">The source of the CSS content.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The CSS stylesheet.</returns>
         public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, IConfiguration configuration = null)
         {
@@ -198,12 +234,17 @@
         }
 
         /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as CSS and returning
-        /// a new CSSStyleSheet with the CSS-OM representation.
+        /// Uses the URL to download the content asynchronously, parse it as
+        /// CSS and returning a new CSSStyleSheet with the CSS-OM
+        /// representation.
         /// </summary>
         /// <param name="uri">The source of the CSS content.</param>
-        /// <param name="cancel">The cancellation token for aborting the download.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="cancel">
+        /// The cancellation token for aborting the download.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The CSS stylesheet.</returns>
         public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
         {

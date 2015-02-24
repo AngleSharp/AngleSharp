@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -11,7 +12,7 @@
         #region Fields
 
         internal static readonly Color Default = Color.Transparent;
-        internal static readonly IValueConverter<Color> Converter = Converters.ColorConverter;
+        internal static readonly IValueConverter<Color> Converter = Converters.ColorConverter.WithCurrentColor();
         Color _color;
 
         #endregion

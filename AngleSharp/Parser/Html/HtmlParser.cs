@@ -3128,16 +3128,15 @@
                 case HtmlTokenType.StartTag:
                 {
                     var tagName = token.Name;
+                    var tag = token.AsTag();
 
                     if (tagName == Tags.Font)
                     {
-                        var tag = token.AsTag();
-
                         for (var i = 0; i != tag.Attributes.Count; i++)
                         {
                             if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
                             {
-                                ForeignNormalTag(token);
+                                ForeignNormalTag(tag);
                                 return;
                             }
                         }
@@ -3151,9 +3150,9 @@
                              tagName.IsOneOf(Tags.Listing, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol) ||
                              tagName.IsOneOf(Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike) ||
                              tagName.IsOneOf(Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var))
-                        ForeignNormalTag(token);
+                        ForeignNormalTag(tag);
                     else
-                        ForeignSpecialTag(token.AsTag());
+                        ForeignSpecialTag(tag);
 
                     return;
                 }
@@ -3256,29 +3255,40 @@
         /// <summary>
         /// Processes a normal start tag token.
         /// </summary>
-        /// <param name="token">The token to process.</param>
-        void ForeignNormalTag(HtmlToken token)
+        /// <param name="tag">The token to process.</param>
+        void ForeignNormalTag(HtmlTagToken tag)
         {
             RaiseErrorOccurred(ErrorCode.TagCannotStartHere);
 
+            if (IsFragmentCase)
+            {
+                ForeignSpecialTag(tag);
+                return;
+            }
+
+            var node = CurrentNode;
+
             do
             {
-                CloseCurrentNode();
-
-                if (CurrentNode is MathAnnotationXmlElement)
+                if (node is MathAnnotationXmlElement)
                 {
-                    var value = CurrentNode.GetAttribute(AttributeNames.Encoding);
+                    var value = node.GetAttribute(AttributeNames.Encoding);
 
-                    if (!String.IsNullOrEmpty(value))
+                    if (!String.IsNullOrEmpty(value) && (
+                        value.Equals(MimeTypes.Html, StringComparison.OrdinalIgnoreCase) ||
+                        value.Equals(MimeTypes.ApplicationXHtml, StringComparison.OrdinalIgnoreCase)))
                     {
-                        if (value.Equals(MimeTypes.Html, StringComparison.OrdinalIgnoreCase) || value.Equals(MimeTypes.ApplicationXHtml, StringComparison.OrdinalIgnoreCase))
-                            break;
+                        AddElement(tag);
+                        return;
                     }
                 }
-            }
-            while ((CurrentNode.Flags & (NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember)) == NodeFlags.None);
 
-            Consume(token);
+                CloseCurrentNode();
+                node = CurrentNode;
+            }
+            while ((node.Flags & (NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember)) == NodeFlags.None);
+
+            Consume(tag);
         }
 
         #endregion

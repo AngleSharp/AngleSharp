@@ -12,6 +12,8 @@
     /// </summary>
     public static class ElementExtensions
     {
+        #region Methods
+
         /// <summary>
         /// Sets the specified attribute name to the specified value for all
         /// elements in the given collection.
@@ -39,7 +41,9 @@
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="attributes">An enumeration of attributes in form of key-value pairs.</param>
+        /// <param name="attributes">
+        /// An enumeration of attributes in form of key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, IEnumerable<KeyValuePair<String, String>> attributes)
             where T : IEnumerable<IElement>
@@ -62,7 +66,10 @@
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="attributes">An enumeration of attributes in form of an anonymous object, that carries key-value pairs.</param>
+        /// <param name="attributes">
+        /// An enumeration of attributes in form of an anonymous object, that
+        /// carries key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, Object attributes)
             where T : IEnumerable<IElement>
@@ -90,12 +97,15 @@
         }
 
         /// <summary>
-        /// Extends the CSS of the given elements with the specified declarations.
+        /// Extends the CSS of the given elements with the specified 
+        /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="propertyName">The name of the property to set.</param>
-        /// <param name="propertyValue">The value of the property to set.</param>
+        /// <param name="propertyValue">
+        /// The value of the property to set.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, String propertyName, String propertyValue)
             where T : IEnumerable<IElement>
@@ -110,11 +120,14 @@
         }
 
         /// <summary>
-        /// Extends the CSS of the given elements with the specified declarations.
+        /// Extends the CSS of the given elements with the specified 
+        /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="properties">An enumeration of properties in form of key-value pairs.</param>
+        /// <param name="properties">
+        /// An enumeration of properties in form of key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, IEnumerable<KeyValuePair<String, String>> properties)
             where T : IEnumerable<IElement>
@@ -132,11 +145,15 @@
         }
 
         /// <summary>
-        /// Extends the CSS of the given elements with the specified declarations.
+        /// Extends the CSS of the given elements with the specified
+        /// declarations.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="properties">An enumeration of properties in form of an anonymous object, that carries key-value pairs.</param>
+        /// <param name="properties">
+        /// An enumeration of properties in form of an anonymous object, that
+        /// carries key-value pairs.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Css<T>(this T elements, Object properties)
             where T : IEnumerable<IElement>
@@ -165,7 +182,9 @@
         /// </summary>
         /// <typeparam name="T">The type of collection.</typeparam>
         /// <param name="elements">The collection.</param>
-        /// <param name="html">The source code of the inner HTML to set.</param>
+        /// <param name="html">
+        /// The source code of the inner HTML to set.
+        /// </param>
         /// <returns>The collection itself.</returns>
         public static T Html<T>(this T elements, String html)
             where T : IEnumerable<IElement>
@@ -180,7 +199,8 @@
         }
 
         /// <summary>
-        /// Adds the specified class name(s) for all elements in the given collection.
+        /// Adds the specified class name(s) for all elements in the given
+        /// collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
@@ -201,7 +221,8 @@
         }
 
         /// <summary>
-        /// Removes the specified class name(s) for all elements in the given collection.
+        /// Removes the specified class name(s) for all elements in the given
+        /// collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
@@ -222,7 +243,8 @@
         }
 
         /// <summary>
-        /// Toggles the specified class name(s) for all elements in the given collection.
+        /// Toggles the specified class name(s) for all elements in the given
+        /// collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
@@ -246,12 +268,15 @@
         }
 
         /// <summary>
-        /// Checks if any element in the given collection has the given class(es).
+        /// Checks if any element in the given collection has the given
+        /// class(es).
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
         /// <param name="elements">The collection.</param>
         /// <param name="className">The name(s) of the class(es).</param>
-        /// <returns>True if any element has the class(es), otherwise false.</returns>
+        /// <returns>
+        /// True if any element has the class(es), otherwise false.
+        /// </returns>
         public static Boolean HasClass<T>(this T elements, String className)
             where T : IEnumerable<IElement>
         {
@@ -280,5 +305,205 @@
 
             return found;
         }
+
+        /// <summary>
+        /// Inserts the nodes generated from the given HTML code before
+        /// each element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Before<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var parent = element.ParentElement;
+
+                if (parent != null)
+                {
+                    var fragment = parent.CreateFragment(html);
+                    parent.InsertBefore(fragment, element);
+                }
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Inserts the nodes generated from the given HTML code after
+        /// each element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T After<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var parent = element.ParentElement;
+
+                if (parent != null)
+                {
+                    var fragment = parent.CreateFragment(html);
+                    parent.InsertBefore(fragment, element.NextSibling);
+                }
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Appends the nodes generated from the given HTML code to each
+        /// element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Append<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                element.Append(fragment);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Prepends the nodes generated from the given HTML code to each
+        /// element of the provided elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the nodes.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Prepend<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                element.InsertBefore(fragment, element.FirstChild);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Wraps the given elements in the inner most element of the tree
+        /// generated form the provided HTML code.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the tree.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T Wrap<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                var newParent = fragment.GetInnerMostElement();
+                var parent = element.Parent;
+
+                if (parent != null)
+                    parent.InsertBefore(fragment, element);
+
+                newParent.AppendChild(element);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Wraps the content of the given elements in the inner most element
+        /// of the tree generated form the provided HTML code.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to iterate through.</param>
+        /// <param name="html">The HTML code that generates the tree.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T WrapInner<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            foreach (var element in elements)
+            {
+                var fragment = element.CreateFragment(html);
+                var newParent = fragment.GetInnerMostElement();
+
+                while (element.ChildNodes.Length > 0)
+                    newParent.AppendChild(element.ChildNodes[0]);
+                
+                element.AppendChild(fragment);
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Wraps all elements in the inner most element of the tree
+        /// generated form the provided HTML code. The tree is appended before
+        /// the first element of the given list.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="elements">The elements to wrap.</param>
+        /// <param name="html">The HTML code that generates the tree.</param>
+        /// <returns>The unchanged collection.</returns>
+        public static T WrapAll<T>(this T elements, String html)
+            where T : IEnumerable<IElement>
+        {
+            var element = elements.FirstOrDefault();
+
+            if (element != null)
+            {
+                var fragment = element.CreateFragment(html);
+                var newParent = fragment.GetInnerMostElement();
+                var parent = element.Parent;
+
+                if (parent != null)
+                    parent.InsertBefore(fragment, element);
+
+                foreach (var child in elements)
+                    newParent.AppendChild(child);
+            }
+
+            return elements;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static IDocumentFragment CreateFragment(this IElement context, String html)
+        {
+            return new DocumentFragment(context as Element, html);
+        }
+
+        static IElement GetInnerMostElement(this IDocumentFragment fragment)
+        {
+            if (fragment.ChildElementCount != 1)
+                throw new InvalidOperationException("The provided HTML code did not result in any element.");
+
+            var element = default(IElement);
+            var child = fragment.FirstElementChild;
+
+            do
+            {
+                element = child;
+                child = element.FirstElementChild;
+            }
+            while (child != null);
+
+            return element;
+        }
+
+        #endregion
     }
 }
