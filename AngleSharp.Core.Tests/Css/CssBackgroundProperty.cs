@@ -783,6 +783,21 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void CssBackgroundWithoutColorLegal()
+        {
+            var snippet = "background: url(\"img_tree.png\") no-repeat right top";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CssBackgroundProperty>(property);
+            var concrete = (CssBackgroundProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url(\"img_tree.png\") no-repeat right top", concrete.Value.CssText);
+        }
+
+        [Test]
         public void CssBackgroundImageDataUrlLegal()
         {
             var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
