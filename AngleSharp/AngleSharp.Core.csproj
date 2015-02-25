@@ -113,6 +113,7 @@
     <Compile Include="Dom\Events\ModifierExtensions.cs" />
     <Compile Include="Dom\Events\MouseEvent.cs" />
     <Compile Include="Dom\Events\PageTransitionEvent.cs" />
+    <Compile Include="Dom\Html\HtmlDataElement.cs" />
     <Compile Include="Dom\Html\HtmlPictureElement.cs" />
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Html\HtmlMarkupFormatter.cs" />
     <Compile Include="IMarkupFormattable.cs" />
     <Compile Include="IMarkupFormatter.cs" />
+    <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />

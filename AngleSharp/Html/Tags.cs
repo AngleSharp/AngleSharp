@@ -289,6 +289,11 @@
         public static readonly String Pre = "pre";
 
         /// <summary>
+        /// The data tag.
+        /// </summary>
+        public static readonly String Data = "data";
+
+        /// <summary>
         /// The datalist tag.
         /// </summary>
         public static readonly String Datalist = "datalist";
