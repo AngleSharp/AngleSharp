@@ -13,8 +13,8 @@
     {
         #region Fields
 
-        readonly HtmlCollection<IHtmlTableSectionElement> _bodies;
-        readonly HtmlCollection<IHtmlTableRowElement> _rows;
+        HtmlCollection<IHtmlTableSectionElement> _bodies;
+        HtmlCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -23,8 +23,6 @@
         public HtmlTableElement(Document owner)
             : base(owner, Tags.Table, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
-            _rows = new HtmlCollection<IHtmlTableRowElement>(this);
-            _bodies = new HtmlCollection<IHtmlTableSectionElement>(this);
         }
 
         #endregion
@@ -54,7 +52,7 @@
         /// </summary>
         public IHtmlCollection Bodies
         {
-            get { return _bodies; }
+            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this)); }
         }
 
         /// <summary>
@@ -71,7 +69,7 @@
         /// </summary>
         public IHtmlCollection Rows
         {
-            get { return _rows; }
+            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this)); }
         }
 
         /// <summary>
