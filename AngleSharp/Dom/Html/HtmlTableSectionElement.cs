@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly HtmlCollection<IHtmlTableRowElement> _rows;
+        HtmlCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 
@@ -21,7 +21,6 @@
         public HtmlTableSectionElement(Document owner, String name)
             : base(owner, name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
         {
-            _rows = new HtmlCollection<IHtmlTableRowElement>(this);
         }
 
         #endregion
@@ -42,7 +41,7 @@
         /// </summary>
         public IHtmlCollection Rows
         {
-            get { return _rows; }
+            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this)); }
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Linq;
@@ -14,7 +13,7 @@
     {
         #region Fields
 
-        readonly HtmlCollection<HtmlTableCellElement> _cells;
+        HtmlCollection<HtmlTableCellElement> _cells;
 
         #endregion
 
@@ -23,7 +22,6 @@
         public HtmlTableRowElement(Document owner)
             : base(owner, Tags.Tr, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
-            _cells = new HtmlCollection<HtmlTableCellElement>(this);
         }
 
         #endregion
@@ -62,7 +60,7 @@
         /// </summary>
         public IHtmlCollection Cells
         {
-            get { return _cells; }
+            get { return _cells ?? (_cells = new HtmlCollection<HtmlTableCellElement>(this)); }
         }
 
         /// <summary>
