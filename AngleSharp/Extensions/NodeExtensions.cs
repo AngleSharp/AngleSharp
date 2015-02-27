@@ -131,6 +131,23 @@
         }
 
         /// <summary>
+        /// Gets the first ancestor node that is of the specified type.
+        /// </summary>
+        /// <param name="node">The child of the potential ancestor.</param>
+        /// <returns>The specified ancestor or its default value.</returns>
+        public static T GetAncestor<T>(this INode node)
+            where T : INode
+        {
+            while ((node = node.Parent) != null)
+            {
+                if (node is T)
+                    return (T)node;
+            }
+
+            return default(T);
+        }
+
+        /// <summary>
         /// Checks if any parent is an HTML datalist element..
         /// </summary>
         /// <param name="child">The node to use as starting point.</param>
