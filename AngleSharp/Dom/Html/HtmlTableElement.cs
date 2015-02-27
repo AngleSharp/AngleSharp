@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents the HTML table element.
@@ -34,7 +35,7 @@
         /// </summary>
         public IHtmlTableCaptionElement Caption
         {
-            get { return ChildNodes.QuerySelector<IHtmlTableCaptionElement>(SimpleSelector.Type(Tags.Caption)); }
+            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.NodeName == Tags.Caption); }
             set { DeleteCaption(); AppendChild(value); }
         }
 
@@ -43,7 +44,7 @@
         /// </summary>
         public IHtmlTableSectionElement Head
         {
-            get { return ChildNodes.QuerySelector<HtmlTableSectionElement>(SimpleSelector.Type(Tags.Thead)); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.NodeName == Tags.Thead); }
             set { DeleteHead(); AppendChild(value); }
         }
 
@@ -52,7 +53,7 @@
         /// </summary>
         public IHtmlCollection Bodies
         {
-            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this)); }
+            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false)); }
         }
 
         /// <summary>
@@ -60,8 +61,16 @@
         /// </summary>
         public IHtmlTableSectionElement Foot
         {
-            get { return ChildNodes.QuerySelector<HtmlTableSectionElement>(SimpleSelector.Type(Tags.Tfoot)); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.NodeName == Tags.Tfoot); }
             set { DeleteFoot(); AppendChild(value); }
+        }
+
+        /// <summary>
+        /// Gets an enumeration over all rows of the table.
+        /// </summary>
+        public IEnumerable<IHtmlTableRowElement> AllRows
+        {
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().SelectMany(m => m.Rows).OfType<IHtmlTableRowElement>(); }
         }
 
         /// <summary>
@@ -69,7 +78,7 @@
         /// </summary>
         public IHtmlCollection Rows
         {
-            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this)); }
+            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(AllRows)); }
         }
 
         /// <summary>
@@ -100,7 +109,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the value of the cellpadding (padding within a cell) attribute.
+        /// Gets or sets the value of the cellpadding (padding within a cell)
+        /// attribute.
         /// </summary>
         public Int32 CellPadding
         {
@@ -109,7 +119,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the value of the cellspacing (spacing between the cells) attribute.
+        /// Gets or sets the value of the cellspacing (spacing between the
+        /// cells) attribute.
         /// </summary>
         public Int32 CellSpacing
         {
@@ -158,15 +169,18 @@
         #region Methods
 
         /// <summary>
-        /// Inserts a new empty row in the table. The new row is inserted immediately before
-        /// and in the same section as the current indexth row in the table. If index is -1
-        /// or equal to the number of rows, the new row is appended. In addition, when the
-        /// table is empty the row is inserted into a TBODY which is created and inserted
-        /// into the table.
+        /// Inserts a new empty row in the table. The new row is inserted
+        /// immediately before and in the same section as the current index-th
+        /// row in the table. If index is -1 or equal to the number of rows,
+        /// the new row is appended. In addition, when the table is empty the
+        /// row is inserted into a TBODY which is created and inserted into the
+        /// table.
         /// </summary>
-        /// <param name="index">The row number where to insert a new row. This index starts
-        /// from 0 and is relative to the logical order (not document order) of all the rows
-        /// contained inside the table.</param>
+        /// <param name="index">
+        /// The row number where to insert a new row. This index starts from 0
+        /// and is relative to the logical order (not document order) of all
+        /// the rows  contained inside the table.
+        /// </param>
         /// <returns>The inserted table row.</returns>
         public IHtmlElement InsertRowAt(Int32 index = -1)
         {
@@ -201,10 +215,12 @@
         /// <summary>
         /// Deletes a table row.
         /// </summary>
-        /// <param name="index">The index of the row to be deleted. This index starts from
-        /// 0 and is relative to the logical order (not document order) of all the rows
-        /// contained inside the table. If the index is -1 the last row in the table is
-        /// deleted.</param>
+        /// <param name="index">
+        /// The index of the row to be deleted. This index starts from 0 and is
+        /// relative to the logical order (not document order) of all the rows
+        /// contained inside the table. If the index is -1 the last row in the
+        /// table is deleted.
+        /// </param>
         public void RemoveRowAt(Int32 index)
         {
             var rows = Rows;

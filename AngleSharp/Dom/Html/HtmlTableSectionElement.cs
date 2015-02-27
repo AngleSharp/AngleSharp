@@ -41,7 +41,7 @@
         /// </summary>
         public IHtmlCollection Rows
         {
-            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this)); }
+            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this, deep: false)); }
         }
 
         /// <summary>
@@ -58,13 +58,16 @@
         #region Methods
 
         /// <summary>
-        /// Inserts a row into this section. The new row is inserted immediately before the
-        /// current indexth row in this section. If index is -1 or equal to the number of
-        /// rows in this section, the new row is appended.
+        /// Inserts a row into this section. The new row is inserted
+        /// immediately before the current indexth row in this section. If
+        /// index is -1 or equal to the number of rows in this section, the new
+        /// row is appended. 
         /// </summary>
-        /// <param name="index">The row number where to insert a new row. This index
-        /// starts from 0 and is relative only to the rows contained inside this section,
-        /// not all the rows in the table.</param>
+        /// <param name="index">
+        /// The row number where to insert a new row. This index starts from 0
+        /// and is relative only to the rows contained inside this section, not
+        /// all the rows in the table.
+        /// </param> 
         /// <returns>The inserted table row.</returns>
         public IHtmlElement InsertRowAt(Int32 index = -1)
         {
@@ -82,9 +85,11 @@
         /// <summary>
         /// Deletes a row from this section.
         /// </summary>
-        /// <param name="index">The index of the row to be deleted, or -1 to delete the last
-        /// row. This index starts from 0 and is relative only to the rows contained inside
-        /// this section, not all the rows in the table.</param>
+        /// <param name="index">
+        /// The index of the row to be deleted, or -1 to delete the last row.
+        /// This index starts from 0 and is relative only to the rows contained
+        /// inside this section, not all the rows in the table.
+        /// </param>
         public void RemoveRowAt(Int32 index)
         {
             var row = Rows[index];
