@@ -12,8 +12,8 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// A handy helper to construct various kinds of documents
-    /// from a given source code, URL or stream.
+    /// A handy helper to construct various kinds of documents from a given
+    /// source code, URL or stream.
     /// </summary>
     public sealed class DocumentBuilder
     {
@@ -28,8 +28,10 @@
         /// <summary>
         /// Creates a new builder and optionally sets the configuration.
         /// </summary>
-        /// <param name="defaultConfiguration">The configuration to use. If this
-        /// is not specified, then the default configuration will be used.</param>
+        /// <param name="defaultConfiguration">
+        /// The configuration to use. If this is not specified, then the
+        /// default configuration will be used.
+        /// </param>
         public DocumentBuilder(IConfiguration defaultConfiguration = null)
         {
             configuration = defaultConfiguration ?? AngleSharp.Configuration.Default;
@@ -64,7 +66,9 @@
         /// <summary>
         /// Builds a new HTML Document with the given URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
         /// <returns>The constructed HTML document.</returns>
         public IDocument FromHtml(Uri url)
         {
@@ -72,9 +76,12 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given URL.
+        /// Builds a new HTML Document by asynchronously requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
         /// <returns>The task that constructs the HTML document.</returns>
         public Task<IDocument> FromHtmlAsync(Uri url)
         {
@@ -82,10 +89,15 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given URL.
+        /// Builds a new HTML Document by asynchronously requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
         /// <returns>The task that constructs the HTML document.</returns>
         public Task<IDocument> FromHtmlAsync(Uri url, CancellationToken cancel)
         {
@@ -103,7 +115,8 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document by asynchronously moving through the stream.
+        /// Builds a new HTML Document by asynchronously moving through the
+        /// stream.
         /// </summary>
         /// <param name="stream">The stream containing the source code.</param>
         /// <returns>The task that constructs the HTML document.</returns>
@@ -113,10 +126,13 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document by asynchronously moving through the stream.
+        /// Builds a new HTML Document by asynchronously moving through the
+        /// stream.
         /// </summary>
         /// <param name="stream">The stream containing the source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
         /// <returns>The task that constructs the HTML document.</returns>
         public Task<IDocument> FromHtmlAsync(Stream stream, CancellationToken cancel)
         {
@@ -136,7 +152,9 @@
         /// <summary>
         /// Builds a new CSSStyleSheet with the given URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
         /// <returns>The constructed CSS stylesheet.</returns>
         public ICssStyleSheet FromCss(Uri url)
         {
@@ -144,9 +162,12 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// Builds a new CSSStyleSheet asynchronously by requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public Task<ICssStyleSheet> FromCssAsync(Uri url)
         {
@@ -154,10 +175,15 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given URL.
+        /// Builds a new CSSStyleSheet asynchronously by requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public Task<ICssStyleSheet> FromCssAsync(Uri url, CancellationToken cancel)
         {
@@ -175,7 +201,8 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by moving through the stream.
+        /// Builds a new CSSStyleSheet asynchronously by moving through the
+        /// stream.
         /// </summary>
         /// <param name="stream">The stream containing the source code.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
@@ -185,10 +212,13 @@
         }
 
         /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by moving through the stream.
+        /// Builds a new CSSStyleSheet asynchronously by moving through the
+        /// stream.
         /// </summary>
         /// <param name="stream">The stream containing the source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public Task<ICssStyleSheet> FromCssAsync(Stream stream, CancellationToken cancel)
         {
@@ -203,7 +233,9 @@
         /// Builds a new HTML Document with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The constructed HTML document.</returns>
         public static IDocument Html(String sourceCode, IConfiguration configuration = null, String url = null)
@@ -223,8 +255,12 @@
         /// <summary>
         /// Builds a new HTML Document with the given URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The constructed HTML document.</returns>
         public static IDocument Html(Uri url, IConfiguration configuration = null)
         {
@@ -232,10 +268,15 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given URL.
+        /// Builds a new HTML Document by asynchronously requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The task that constructs the HTML document.</returns>
         public static Task<IDocument> HtmlAsync(Uri url, IConfiguration configuration = null)
         {
@@ -243,11 +284,18 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given URL.
+        /// Builds a new HTML Document by asynchronously requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The task that constructs the HTML document.</returns>
         public static async Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
@@ -271,8 +319,12 @@
         /// <summary>
         /// Builds a new HTML Document with the given (network) stream.
         /// </summary>
-        /// <param name="content">The stream of chars to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="content">
+        /// The stream of chars to use as source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The constructed HTML document.</returns>
         public static IDocument Html(Stream content, IConfiguration configuration = null, String url = null)
@@ -290,10 +342,15 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document asynchronously with the given (network) stream.
+        /// Builds a new HTML Document asynchronously with the given (network)
+        /// stream.
         /// </summary>
-        /// <param name="content">The stream of chars to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="content">
+        /// The stream of chars to use as source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The task to construct the HTML document.</returns>
         public static Task<IDocument> HtmlAsync(Stream content, IConfiguration configuration = null, String url = null)
@@ -302,11 +359,18 @@
         }
 
         /// <summary>
-        /// Builds a new HTML Document asynchronously with the given (network) stream.
+        /// Builds a new HTML Document asynchronously with the given (network)
+        /// stream.
         /// </summary>
-        /// <param name="content">The stream of chars to use as source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="content">
+        /// The stream of chars to use as source code.
+        /// </param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The task to construct the HTML document.</returns>
         public static async Task<IDocument> HtmlAsync(Stream content, CancellationToken cancel, IConfiguration configuration = null, String url = null)
@@ -328,8 +392,12 @@
         /// Builds a list of nodes according with 8.4 Parsing HTML fragments.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="context">[Optional] The context element to use.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="context">
+        /// [Optional] The context element to use.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>A list of parsed nodes.</returns>
         public static INodeList HtmlFragment(String sourceCode, IElement context = null, IConfiguration configuration = null)
         {
@@ -364,7 +432,9 @@
         /// Builds a new CSS StyleSheet with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
         public static ICssStyleSheet Css(String sourceCode, IConfiguration configuration = null, String url = null)
@@ -383,8 +453,12 @@
         /// <summary>
         /// Builds a new CSS StyleSheet with the given URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The constructed CSS stylesheet.</returns>
         public static ICssStyleSheet Css(Uri url, IConfiguration configuration = null)
         {
@@ -392,10 +466,15 @@
         }
 
         /// <summary>
-        /// Builds a new CSS StyleSheet asynchronously by requesting the given URL.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static Task<ICssStyleSheet> CssAsync(Uri url, IConfiguration configuration = null)
         {
@@ -403,11 +482,18 @@
         }
 
         /// <summary>
-        /// Builds a new CSS StyleSheet asynchronously by requesting the given URL.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given
+        /// URL.
         /// </summary>
-        /// <param name="url">The URL which points to the address containing the source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="url">
+        /// The URL which points to the address containing the source code.
+        /// </param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static async Task<ICssStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
@@ -430,8 +516,12 @@
         /// <summary>
         /// Builds a new CSS StyleSheet with the given (network) stream.
         /// </summary>
-        /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="stream">
+        /// The stream of chars to use as source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The constructed CSS stylesheet.</returns>
         public static ICssStyleSheet Css(Stream stream, IConfiguration configuration = null, String url = null)
@@ -448,10 +538,15 @@
         }
 
         /// <summary>
-        /// Builds a new CSS StyleSheet asynchronously by requesting the given (network) stream.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given
+        /// (network) stream.
         /// </summary>
-        /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="stream">
+        /// The stream of chars to use as source code.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static Task<ICssStyleSheet> CssAsync(Stream stream, IConfiguration configuration = null, String url = null)
@@ -460,11 +555,18 @@
         }
 
         /// <summary>
-        /// Builds a new CSS StyleSheet asynchronously by requesting the given (network) stream.
+        /// Builds a new CSS StyleSheet asynchronously by requesting the given
+        /// (network) stream.
         /// </summary>
-        /// <param name="stream">The stream of chars to use as source code.</param>
-        /// <param name="cancel">The cancellation token for cancelling the asynchronous request.</param>
-        /// <param name="configuration">[Optional] Custom options to use for the document generation.</param>
+        /// <param name="stream">
+        /// The stream of chars to use as source code.
+        /// </param>
+        /// <param name="cancel">
+        /// The cancellation token for cancelling the asynchronous request.
+        /// </param>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
         /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static async Task<ICssStyleSheet> CssAsync(Stream stream, CancellationToken cancel, IConfiguration configuration = null, String url = null)
@@ -488,7 +590,9 @@
         /// Creates a new parser with the specified source.
         /// </summary>
         /// <param name="document">The document to fill.</param>
-        /// <param name="configuration">Options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// Options to use for the document generation.
+        /// </param>
         static HtmlParser Construct(Document document, IConfiguration configuration)
         {
             var parser = new HtmlParser(document);
@@ -500,7 +604,9 @@
         /// Creates a new parser with the specified source.
         /// </summary>
         /// <param name="sheet">The document to fill.</param>
-        /// <param name="configuration">Options to use for the document generation.</param>
+        /// <param name="configuration">
+        /// Options to use for the document generation.
+        /// </param>
         static CssParser Construct(CssStyleSheet sheet, IConfiguration configuration)
         {
             var parser = new CssParser(sheet);
