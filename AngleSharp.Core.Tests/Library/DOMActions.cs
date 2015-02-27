@@ -359,5 +359,36 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(test3, text3.Data);
             Assert.AreEqual(test, text3.Text);
         }
+
+        [Test]
+        public void GetRowsFromTable()
+        {
+            var html = @"<table><tr></tr><tr></tr></table>";
+            var doc = DocumentBuilder.Html(html);
+            var table = doc.QuerySelector("table") as IHtmlTableElement;
+
+            Assert.IsNotNull(table);
+            Assert.AreEqual(2, table.Rows.Length);
+            Assert.AreEqual(0, (table.Rows[0] as IHtmlTableRowElement).Cells.Length);
+            Assert.AreEqual(0, (table.Rows[1] as IHtmlTableRowElement).Cells.Length);
+        }
+
+        [Test]
+        public void GetRowsFromTableWithNesting()
+        {
+            var html = @"<table id=first><tr></tr><tr><td><table id=second><tr></tr></table></td></tr></table>";
+            var doc = DocumentBuilder.Html(html);
+            var first = doc.QuerySelector("#first") as IHtmlTableElement;
+            var second = doc.QuerySelector("#second") as IHtmlTableElement;
+
+            Assert.IsNotNull(first);
+            Assert.IsNotNull(second);
+
+            Assert.AreEqual(2, first.Rows.Length);
+            Assert.AreEqual(0, (first.Rows[0] as IHtmlTableRowElement).Cells.Length);
+            Assert.AreEqual(1, (first.Rows[1] as IHtmlTableRowElement).Cells.Length);
+            Assert.AreEqual(1, second.Rows.Length);
+            Assert.AreEqual(0, (second.Rows[0] as IHtmlTableRowElement).Cells.Length);
+        }
     }
 }
