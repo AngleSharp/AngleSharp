@@ -84,10 +84,7 @@
                 throw new ArgumentNullException("url");
 
             var config = context.Configuration;
-            var requester = config.GetRequester(url.Scheme);
-
-            if (requester == null)
-                return null;
+            var requester = config.GetRequesterOrDefault(url.Scheme);
 
             using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
                 return await context.OpenAsync(response, cancel).ConfigureAwait(false);

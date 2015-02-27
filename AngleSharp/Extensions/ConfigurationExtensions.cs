@@ -209,7 +209,19 @@
 
             return null;
         }
-        
+
+        /// <summary>
+        /// Tries to get a requester for the given scheme or a default
+        /// requester, if nothing could be found.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <param name="protocol">The scheme to find a requester for.</param>
+        /// <returns>A requester for the scheme or null.</returns>
+        public static IRequester GetRequesterOrDefault(this IConfiguration options, String protocol)
+        {
+            return options.GetRequester(protocol) ?? new DefaultRequester();
+        }
+
         /// <summary>
         /// Tries to load an image if a proper image service can be found.
         /// </summary>

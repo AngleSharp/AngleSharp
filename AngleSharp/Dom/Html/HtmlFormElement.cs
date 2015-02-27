@@ -482,15 +482,10 @@
                 _cts = new CancellationTokenSource();
             }
 
-            var requester = Owner.Options.GetRequester(action.Scheme);
+            var requester = Owner.Options.GetRequesterOrDefault(action.Scheme);
 
-            if (requester != null)
-            {
-                using (var response = await requester.SendAsync(action, body, mime, method, _cts.Token).ConfigureAwait(false))
-                    return await Owner.Context.OpenAsync(response, _cts.Token).ConfigureAwait(false);
-            }
-
-            return null;
+            using (var response = await requester.SendAsync(action, body, mime, method, _cts.Token).ConfigureAwait(false))
+                return await Owner.Context.OpenAsync(response, _cts.Token).ConfigureAwait(false);
         }
 
         /// <summary>

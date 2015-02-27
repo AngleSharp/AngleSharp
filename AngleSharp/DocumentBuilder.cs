@@ -257,7 +257,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester();
+            var requester = configuration.GetRequesterOrDefault(url.Scheme);
 
             using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
             {
