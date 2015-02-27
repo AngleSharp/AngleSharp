@@ -772,7 +772,7 @@
 
                 if (chr == Symbols.Space)
                     builder.Append(Symbols.Plus);
-                else if (chr == Symbols.Asterisk || chr == Symbols.Minus || chr == Symbols.Dot || chr.IsAlphanumericAscii())
+                else if (chr == Symbols.Asterisk || chr == Symbols.Minus || chr == Symbols.Dot || chr == Symbols.Underscore || chr == Symbols.Tilde || chr.IsAlphanumericAscii())
                     builder.Append(chr);
                 else
                     builder.Append(Symbols.Percent).Append(val.ToString("X2"));
