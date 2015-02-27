@@ -448,6 +448,12 @@
     <Compile Include="..\AngleSharp\DOM\Constants\SimpleChoice.cs">
       <Link>DOM\Constants\SimpleChoice.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Constants\TableFrames.cs">
+      <Link>Dom\Constants\TableFrames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Constants\TableRules.cs">
+      <Link>Dom\Constants\TableRules.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\DOM\Constants\TextTrackMode.cs">
       <Link>DOM\Constants\TextTrackMode.cs</Link>
     </Compile>
