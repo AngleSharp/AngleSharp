@@ -23,17 +23,17 @@
         /// <summary>
         /// Gets the UTF-8 encoding.
         /// </summary>
-        public static readonly Encoding Utf8 = Encoding.UTF8;
+        public static readonly Encoding Utf8 = new UTF8Encoding(false);
 
         /// <summary>
         /// Gets the UTF-16 (Big Endian) encoding.
         /// </summary>
-        public static readonly Encoding Utf16Be = Encoding.BigEndianUnicode;
+        public static readonly Encoding Utf16Be = new UnicodeEncoding(true, false);
 
         /// <summary>
         /// Gets the UTF-16 (Little Endian) encoding.
         /// </summary>
-        public static readonly Encoding Utf16Le = Encoding.Unicode;
+        public static readonly Encoding Utf16Le = new UnicodeEncoding(false, false);
 
         /// <summary>
         /// Gets the UTF-32 (Little Endian) encoding.
