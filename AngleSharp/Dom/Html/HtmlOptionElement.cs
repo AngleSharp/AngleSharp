@@ -60,7 +60,7 @@
         /// </summary>
         public String Value
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Value) ?? String.Empty; }
+            get { return GetAttribute(String.Empty, AttributeNames.Value) ?? Text; }
             set { SetAttribute(String.Empty, AttributeNames.Value, value); }
         }
 
