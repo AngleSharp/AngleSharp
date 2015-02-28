@@ -34,8 +34,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(AttributeNames.Disabled) != null; }
-            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return GetAttribute(String.Empty, AttributeNames.Disabled) != null; }
+            set { SetAttribute(String.Empty, AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -51,8 +51,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetAttribute(AttributeNames.Label); }
-            set { SetAttribute(AttributeNames.Label, value); }
+            get { return GetAttribute(String.Empty, AttributeNames.Label) ?? Text; }
+            set { SetAttribute(String.Empty, AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -60,8 +60,8 @@
         /// </summary>
         public String Value
         {
-            get { return GetAttribute(AttributeNames.Value) ?? String.Empty; }
-            set { SetAttribute(AttributeNames.Value, value); }
+            get { return GetAttribute(String.Empty, AttributeNames.Value) ?? String.Empty; }
+            set { SetAttribute(String.Empty, AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public Boolean IsDefaultSelected
         {
-            get { return GetAttribute(AttributeNames.Selected) != null; }
-            set { SetAttribute(AttributeNames.Selected, value ? String.Empty : null); }
+            get { return GetAttribute(String.Empty, AttributeNames.Selected) != null; }
+            set { SetAttribute(String.Empty, AttributeNames.Selected, value ? String.Empty : null); }
         }
 
         /// <summary>
