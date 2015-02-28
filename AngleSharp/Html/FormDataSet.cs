@@ -53,7 +53,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsMultipart(Encoding encoding = null)
         {
-            encoding = encoding ?? Encoding.UTF8;
+            encoding = encoding ?? TextEncoding.Utf8;
             var ms = new MemoryStream();
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
@@ -84,7 +84,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsUrlEncoded(Encoding encoding = null)
         {
-            encoding = encoding ?? Encoding.UTF8;
+            encoding = encoding ?? TextEncoding.Utf8;
             var charset = encoding.WebName;
             var ms = new MemoryStream();
             CheckBoundaries(encoding);
@@ -118,7 +118,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsPlaintext(Encoding encoding = null)
         {
-            encoding = encoding ?? Encoding.UTF8;
+            encoding = encoding ?? TextEncoding.Utf8;
             var charset = encoding.WebName;
             var ms = new MemoryStream();
             CheckBoundaries(encoding);

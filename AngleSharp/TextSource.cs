@@ -39,7 +39,7 @@
             _chars = new Char[BufferSize];
             _raw = new MemoryStream();
             _index = 0;
-            _encoding = encoding ?? Encoding.UTF8;
+            _encoding = encoding ?? TextEncoding.Utf8;
             _decoder = _encoding.GetDecoder();
         }
 
@@ -49,7 +49,7 @@
         /// </summary>
         /// <param name="source">The data source.</param>
         public TextSource(String source)
-            : this(null, Encoding.UTF8)
+            : this(null, TextEncoding.Utf8)
         {
             _finished = true;
             _content.Append(source.Replace("\r\n", "\n"));
