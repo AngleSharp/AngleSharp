@@ -390,5 +390,70 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, second.Rows.Length);
             Assert.AreEqual(0, (second.Rows[0] as IHtmlTableRowElement).Cells.Length);
         }
+
+        [Test]
+        public void PlainOutputElement()
+        {
+            var document = DocumentBuilder.Html("");
+            var output = document.CreateElement<IHtmlOutputElement>();
+            Assert.AreEqual("output", output.Type);
+            Assert.AreEqual("", output.TextContent);
+            Assert.AreEqual("", output.Value);
+            Assert.AreEqual("", output.DefaultValue);
+        }
+
+        [Test]
+        public void OutputElementWithTextContent()
+        {
+            var document = DocumentBuilder.Html("");
+            var output = document.CreateElement<IHtmlOutputElement>();
+            output.TextContent = "5";
+            Assert.AreEqual("output", output.Type);
+            Assert.AreEqual("5", output.TextContent);
+            Assert.AreEqual("5", output.Value);
+            Assert.AreEqual("5", output.DefaultValue);
+        }
+
+        [Test]
+        public void OutputElementWithDefaultValueOverridesTextContent()
+        {
+            var document = DocumentBuilder.Html("");
+            var output = document.CreateElement<IHtmlOutputElement>();
+            output.TextContent = "5";
+            output.DefaultValue = "10";
+            Assert.AreEqual("output", output.Type);
+            Assert.AreEqual("10", output.TextContent);
+            Assert.AreEqual("10", output.Value);
+            Assert.AreEqual("10", output.DefaultValue);
+        }
+
+        [Test]
+        public void OutputElementWithCustomValueOverridesDefaultValue()
+        {
+            var document = DocumentBuilder.Html("");
+            var output = document.CreateElement<IHtmlOutputElement>();
+            output.TextContent = "5";
+            output.DefaultValue = "10";
+            output.Value = "20";
+            Assert.AreEqual("output", output.Type);
+            Assert.AreEqual("20", output.TextContent);
+            Assert.AreEqual("20", output.Value);
+            Assert.AreEqual("10", output.DefaultValue);
+        }
+
+        [Test]
+        public void OutputElementWithCustomValueAndDefaultValue()
+        {
+            var document = DocumentBuilder.Html("");
+            var output = document.CreateElement<IHtmlOutputElement>();
+            output.TextContent = "5";
+            output.DefaultValue = "10";
+            output.Value = "20";
+            output.DefaultValue = "15";
+            Assert.AreEqual("output", output.Type);
+            Assert.AreEqual("20", output.TextContent);
+            Assert.AreEqual("20", output.Value);
+            Assert.AreEqual("15", output.DefaultValue);
+        }
     }
 }
