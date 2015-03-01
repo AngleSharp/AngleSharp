@@ -455,5 +455,62 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual("20", output.Value);
             Assert.AreEqual("15", output.DefaultValue);
         }
+
+        [Test]
+        public void OptionWithId()
+        {
+            var document = DocumentBuilder.Html(@"<select>
+  <option id=op1>A</option>
+  <option name=op2>B</option>
+  <option id=op3 name=op4>C</option>
+  <option id=>D</option>
+  <option name=>D</option>
+</select>");
+            var select = document.QuerySelector("select") as IHtmlSelectElement;
+            Assert.AreEqual(select.Options[0], select.Options["op1"]);
+        }
+
+        [Test]
+        public void OptionWithName()
+        {
+            var document = DocumentBuilder.Html(@"<select>
+  <option id=op1>A</option>
+  <option name=op2>B</option>
+  <option id=op3 name=op4>C</option>
+  <option id=>D</option>
+  <option name=>D</option>
+</select>");
+            var select = document.QuerySelector("select") as IHtmlSelectElement;
+            Assert.AreEqual(select.Options[1], select.Options["op2"]);
+        }
+
+        [Test]
+        public void OptionWithNameAndId()
+        {
+            var document = DocumentBuilder.Html(@"<select>
+  <option id=op1>A</option>
+  <option name=op2>B</option>
+  <option id=op3 name=op4>C</option>
+  <option id=>D</option>
+  <option name=>D</option>
+</select>");
+            var select = document.QuerySelector("select") as IHtmlSelectElement;
+            Assert.AreEqual(select.Options[2], select.Options["op3"]);
+            Assert.AreEqual(select.Options[2], select.Options["op4"]);
+        }
+
+        [Test]
+        public void OptionEmptyStringName()
+        {
+            var document = DocumentBuilder.Html(@"<select>
+  <option id=op1>A</option>
+  <option name=op2>B</option>
+  <option id=op3 name=op4>C</option>
+  <option id=>D</option>
+  <option name=>D</option>
+</select>");
+            var select = document.QuerySelector("select") as IHtmlSelectElement;
+            Assert.AreEqual(null, select.Options[""]);
+        }
     }
 }
