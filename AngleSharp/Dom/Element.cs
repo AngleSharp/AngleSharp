@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets or sets the text content of a node and its descendants.
         /// </summary>
-        public sealed override String TextContent
+        public override String TextContent
         {
             get
             {

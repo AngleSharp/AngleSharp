@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        Boolean isDefaultValue;
         String _defaultValue;
+        String _value;
         SettableTokenList _for;
 
         #endregion
@@ -22,7 +22,6 @@
         public HtmlOutputElement(Document owner)
             : base(owner, Tags.Output)
         {
-            isDefaultValue = true;
         }
 
         #endregion
@@ -30,7 +29,8 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the default value of the element, initially the empty string.
+        /// Gets or sets the default value of the element, initially the empty
+        /// string.
         /// </summary>
         public String DefaultValue
         {
@@ -39,21 +39,21 @@
         }
 
         /// <summary>
+        /// Gets or sets the text content of a node and its descendants.
+        /// </summary>
+        public override String TextContent
+        {
+            get { return _value ?? _defaultValue ?? base.TextContent; }
+            set { base.TextContent = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the value of the contents of the elements.
         /// </summary>
         public String Value
         {
             get { return TextContent; }
-            set 
-            {
-                if (isDefaultValue)
-                {
-                    _defaultValue = Value;
-                    isDefaultValue = false;
-                }
-
-                TextContent = value; 
-            }
+            set { _value = value; }
         }
 
         /// <summary>
@@ -65,7 +65,7 @@
             { 
                 if (_for == null)
                 {
-                    _for = new SettableTokenList(GetAttribute(AttributeNames.For));
+                    _for = new SettableTokenList(GetAttribute(String.Empty, AttributeNames.For));
                     _for.Changed += (s, ev) => UpdateAttribute(AttributeNames.For, _for.Value);
                 }
 
@@ -95,11 +95,7 @@
         /// </summary>
         internal override void Reset()
         {
-            if (!isDefaultValue)
-            {
-                TextContent = _defaultValue;
-                isDefaultValue = true;
-            }
+            _value = null;
         }
 
         #endregion
