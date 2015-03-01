@@ -23,7 +23,7 @@
         public OptionsCollection(IElement parent)
         {
             _parent = parent;
-            _options = _parent.ChildNodes.OfType<IHtmlOptionElement>();
+            _options = GetOptions();
         }
 
         #endregion
@@ -116,6 +116,27 @@
         #endregion
 
         #region Enumerator
+
+        IEnumerable<IHtmlOptionElement> GetOptions()
+        {
+            foreach (var child in _parent.ChildNodes)
+            {
+                var optgroup = child as IHtmlOptionsGroupElement;
+
+                if (optgroup != null)
+                {
+                    foreach (var element in optgroup.ChildNodes)
+                    {
+                        var option = element as IHtmlOptionElement;
+
+                        if (option != null)
+                            yield return option;
+                    }
+                }
+                else if (child is IHtmlOptionElement)
+                    yield return (IHtmlOptionElement)child;
+            }
+        }
 
         public IEnumerator<IElement> GetEnumerator()
         {
