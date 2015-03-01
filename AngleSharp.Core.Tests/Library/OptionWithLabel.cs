@@ -260,83 +260,60 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual("5", options.GetOptionAt(4).Value);
         }
 
-        /*
-test(function() {
-  var option = document.createElement("option");
-  option.setAttribute("label", "label");
-  option.textContent = "text";
-  assert_equals(option.text, "text");
-}, "Option with non-empty label.");
+        [Test]
+        public void OptionWithNonEmptyLabel()
+        {
+            var document = DocumentBuilder.Html("");
+            var option = document.CreateElement<IHtmlOptionElement>();
+            option.SetAttribute("label", "label");
+            option.TextContent = "text";
+            Assert.AreEqual("text", option.Text);
+        }
 
-test(function() {
-  var option = document.createElement("option");
-  option.setAttribute("label", "");
-  option.textContent = "text";
-  assert_equals(option.text, "text");
-}, "Option with empty label.");
+        [Test]
+        public void OptionWithEmptyLabel()
+        {
+            var document = DocumentBuilder.Html("");
+            var option = document.CreateElement<IHtmlOptionElement>();
+            option.SetAttribute("label", "");
+            option.TextContent = "text";
+            Assert.AreEqual("text", option.Text);
+        }
 
-  spaces.forEach(function(space) {
-    test(function() {
-      var option = document.createElement("option");
-      option.textContent = space + "text";
-      assert_equals(option.text, "text");
-    }, "option.text should strip leading space characters (" +
-        format_value(space) + ")");
-  });
-  spaces.forEach(function(space) {
-    test(function() {
-      var option = document.createElement("option");
-      option.textContent = "text" + space;
-      assert_equals(option.text, "text");
-    }, "option.text should strip trailing space characters (" +
-        format_value(space) + ")");
-  });
-  spaces.forEach(function(space) {
-    test(function() {
-      var option = document.createElement("option");
-      option.textContent = space + "text" + space;
-      assert_equals(option.text, "text");
-    }, "option.text should strip leading and trailing space characters (" +
-        format_value(space) + ")");
-  });
-  spaces.forEach(function(space) {
-    test(function() {
-      var option = document.createElement("option");
-      option.textContent = "before" + space + "after";
-      assert_equals(option.text, "before after");
-    }, "option.text should replace single internal space characters (" +
-        format_value(space) + ")");
-  });
-  spaces.forEach(function(space1) {
-    spaces.forEach(function(space2) {
-      test(function() {
-        var option = document.createElement("option");
-        option.textContent = "before" + space1 + space2 + "after";
-        assert_equals(option.text, "before after");
-      }, "option.text should replace multiple internal space characters (" +
-          format_value(space1) + ", " + format_value(space2) + ")");
-    });
-  });
-  test(function() {
-    var option = document.createElement("option");
-    option.textContent = "\u00a0text";
-    assert_equals(option.text, "\u00a0text");
-  }, "option.text should leave leading NBSP alone.");
-  test(function() {
-    var option = document.createElement("option");
-    option.textContent = "text\u00a0";
-    assert_equals(option.text, "text\u00a0");
-  }, "option.text should leave trailing NBSP alone.");
-  test(function() {
-    var option = document.createElement("option");
-    option.textContent = "before\u00a0after";
-    assert_equals(option.text, "before\u00a0after");
-  }, "option.text should leave a single internal NBSP alone.");
-  test(function() {
-    var option = document.createElement("option");
-    option.textContent = "before\u00a0\u00a0after";
-    assert_equals(option.text, "before\u00a0\u00a0after");
-  }, "option.text should leave two internal NBSPs alone.");
-    */
+        [Test]
+        public void OptionTextShouldLeaveNbspAlone()
+        {
+            var document = DocumentBuilder.Html("");
+            var option = document.CreateElement<IHtmlOptionElement>();
+            option.TextContent = "\u00a0text";
+            Assert.AreEqual("\u00a0text", option.Text);
+        }
+
+        [Test]
+        public void OptionTextShouldLeaveTrailingNbspAlone()
+        {
+            var document = DocumentBuilder.Html("");
+            var option = document.CreateElement<IHtmlOptionElement>();
+            option.TextContent = "text\u00a0";
+            Assert.AreEqual("text\u00a0", option.Text);
+        }
+
+        [Test]
+        public void OptionTextShouldLeaveASingleInternalNbspAlone()
+        {
+            var document = DocumentBuilder.Html("");
+            var option = document.CreateElement<IHtmlOptionElement>();
+            option.TextContent = "before\u00a0after";
+            Assert.AreEqual("before\u00a0after", option.Text);
+        }
+
+        [Test]
+        public void OptionTextShouldLeaveMultipleInternalNbspAlone()
+        {
+            var document = DocumentBuilder.Html("");
+            var option = document.CreateElement<IHtmlOptionElement>();
+            option.TextContent = "before\u00a0\u00a0after";
+            Assert.AreEqual("before\u00a0\u00a0after", option.Text);
+        }
     }
 }
