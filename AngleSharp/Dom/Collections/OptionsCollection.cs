@@ -39,6 +39,9 @@
         {
             get 
             {
+                if (String.IsNullOrEmpty(name))
+                    return null;
+
                 foreach (var option in _options)
                 {
                     if (option.Id == name)
