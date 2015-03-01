@@ -315,5 +315,68 @@ namespace AngleSharp.Core.Tests.Library
             option.TextContent = "before\u00a0\u00a0after";
             Assert.AreEqual("before\u00a0\u00a0after", option.Text);
         }
+
+        [Test]
+        public void OptionTextShouldStripLeadingSpaceCharacters()
+        {
+            foreach (var space in spaces)
+            {
+                var document = DocumentBuilder.Html("");
+                var option = document.CreateElement<IHtmlOptionElement>();
+                option.TextContent = space + "text";
+                Assert.AreEqual("text", option.Text);
+            }
+        }
+
+        [Test]
+        public void OptionTextShouldStripTrailingSpaceCharacters()
+        {
+            foreach (var space in spaces)
+            {
+                var document = DocumentBuilder.Html("");
+                var option = document.CreateElement<IHtmlOptionElement>();
+                option.TextContent = "text" + space;
+                Assert.AreEqual("text", option.Text);
+            }
+        }
+
+        [Test]
+        public void OptionTextShouldStripLeadingAndTrailingSpaceCharacters()
+        {
+            foreach (var space in spaces)
+            {
+                var document = DocumentBuilder.Html("");
+                var option = document.CreateElement<IHtmlOptionElement>();
+                option.TextContent = space + "text" + space;
+                Assert.AreEqual("text", option.Text);
+            }
+        }
+
+        [Test]
+        public void OptionTextShouldReplaceSingleInternalSpaceCharacters()
+        {
+            foreach (var space in spaces)
+            {
+                var document = DocumentBuilder.Html("");
+                var option = document.CreateElement<IHtmlOptionElement>();
+                option.TextContent = "before" + space + "after";
+                Assert.AreEqual("before after", option.Text);
+            }
+        }
+
+        [Test]
+        public void OptionTextShouldReplaceMultipleInternalSpaceCharacters()
+        {
+            foreach (var space1 in spaces)
+            {
+                foreach (var space2 in spaces)
+                {
+                    var document = DocumentBuilder.Html("");
+                    var option = document.CreateElement<IHtmlOptionElement>();
+                    option.TextContent = "before" + space1 + space2 + "after";
+                    Assert.AreEqual("before after", option.Text);
+                }
+            }
+        }
     }
 }
