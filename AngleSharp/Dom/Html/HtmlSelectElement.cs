@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly OptionsCollection _options;
+        OptionsCollection _options;
 
         #endregion
 
@@ -25,7 +25,6 @@
         public HtmlSelectElement(Document owner)
             : base(owner, Tags.Select)
         {
-            _options = new OptionsCollection(this);
             RegisterAttributeObserver(AttributeNames.Value, value => Value = value);
         }
 
@@ -40,8 +39,8 @@
         /// <returns>The option at the given index.</returns>
         public IHtmlOptionElement this[Int32 index]
         {
-            get { return _options.GetOptionAt(index); }
-            set { _options.SetOptionAt(index, value); }
+            get { return Options.GetOptionAt(index); }
+            set { Options.SetOptionAt(index, value); }
         }
 
         #endregion
@@ -53,8 +52,8 @@
         /// </summary>
         public Int32 Size
         {
-            get { return GetAttribute(AttributeNames.Size).ToInteger(0); }
-            set { SetAttribute(AttributeNames.Size, value.ToString()); }
+            get { return GetAttribute(String.Empty, AttributeNames.Size).ToInteger(0); }
+            set { SetAttribute(String.Empty, AttributeNames.Size, value.ToString()); }
         }
 
         /// <summary>
@@ -62,8 +61,8 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return GetAttribute(AttributeNames.Required) != null; }
-            set { SetAttribute(AttributeNames.Required, value ? String.Empty : null); }
+            get { return GetAttribute(String.Empty, AttributeNames.Required) != null; }
+            set { SetAttribute(String.Empty, AttributeNames.Required, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -71,13 +70,14 @@
         /// </summary>
         public IHtmlCollection SelectedOptions
         {
-            get 
+            get
             {
+                var options = Options;
                 var result = new List<IHtmlOptionElement>();
 
-                for (int i = 0; i < _options.Length; i++)
+                for (int i = 0; i < options.Length; i++)
                 {
-                    var option = _options.GetOptionAt(i);
+                    var option = options.GetOptionAt(i);
 
                     if (option.IsSelected)
                         result.Add(option);
@@ -92,7 +92,7 @@
         /// </summary>
         public Int32 SelectedIndex
         {
-            get { return _options.SelectedIndex; }
+            get { return Options.SelectedIndex; }
         }
 
         /// <summary>
@@ -102,9 +102,11 @@
         {
             get
             {
-                for (int i = 0; i < _options.Length; i++)
+                var options = Options;
+
+                for (int i = 0; i < options.Length; i++)
                 {
-                    var option = _options.GetOptionAt(i);
+                    var option = options.GetOptionAt(i);
 
                     if (option.IsSelected)
                         return option.Value;
@@ -114,9 +116,11 @@
             }
             set
             {
-                for (int i = 0; i < _options.Length; i++)
+                var options = Options;
+
+                for (int i = 0; i < options.Length; i++)
                 {
-                    var option = _options.GetOptionAt(i);
+                    var option = options.GetOptionAt(i);
                     option.IsSelected = option.Value == value;
                 }
             }
@@ -135,8 +139,8 @@
         /// </summary>
         public Boolean IsMultiple
         {
-            get { return GetAttribute(AttributeNames.Multiple) != null; }
-            set { SetAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
+            get { return GetAttribute(String.Empty, AttributeNames.Multiple) != null; }
+            set { SetAttribute(String.Empty, AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -144,7 +148,7 @@
         /// </summary>
         public IHtmlOptionsCollection Options
         {
-            get { return _options; }
+            get { return _options ?? (_options = new OptionsCollection(this)); }
         }
 
         /// <summary>
@@ -177,7 +181,7 @@
         /// <param name="before">The following element.</param>
         public void AddOption(IHtmlOptionElement element, IHtmlElement before = null)
         {
-            _options.Add(element, before);
+            Options.Add(element, before);
         }
 
         /// <summary>
@@ -187,7 +191,7 @@
         /// <param name="before">The following element.</param>
         public void AddOption(IHtmlOptionsGroupElement element, IHtmlElement before = null)
         {
-            _options.Add(element, before);
+            Options.Add(element, before);
         }
 
         /// <summary>
@@ -196,7 +200,7 @@
         /// <param name="index">The index of the element to remove.</param>
         public void RemoveOptionAt(Int32 index)
         {
-            _options.Remove(index);
+            Options.Remove(index);
         }
 
         #endregion
@@ -224,9 +228,11 @@
 
         internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
         {
-            for (int i = 0; i < _options.Length; i++)
+            var options = Options;
+
+            for (int i = 0; i < options.Length; i++)
             {
-                var option = _options.GetOptionAt(i);
+                var option = options.GetOptionAt(i);
 
                 if (option.IsSelected && !option.IsDisabled)
                     dataSet.Append(Name, option.Value, Type);
@@ -243,9 +249,11 @@
         /// </summary>
         internal override void Reset()
         {
-            for (int i = 0; i < _options.Length; i++)
+            var options = Options;
+
+            for (int i = 0; i < options.Length; i++)
             {
-                var option = _options.GetOptionAt(i);
+                var option = options.GetOptionAt(i);
                 option.IsSelected = option.IsDefaultSelected;
             }
         }
