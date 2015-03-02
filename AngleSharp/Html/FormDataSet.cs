@@ -93,7 +93,7 @@
 
             if (_entries.Count > 0)
             {
-                if (_entries[0].Name.Equals("isindex") && _entries[0].Type.Equals("text", StringComparison.OrdinalIgnoreCase))
+                if (_entries[0].Name.Equals(Tags.IsIndex) && _entries[0].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
                     tw.Write(((TextDataSetEntry)_entries[0]).Value);
                 else
                     _entries[0].AsUrlEncoded(tw);
@@ -139,21 +139,23 @@
 
         public void Append(String name, String value, String type)
         {
-            if (String.Compare(type, "textarea", StringComparison.OrdinalIgnoreCase) == 0)
+            if (String.Compare(type, Tags.Textarea, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 name = Normalize(name);
                 value = Normalize(value);
             }
 
-            _entries.Add(new TextDataSetEntry { Name = name, Value = value, Type = type });
+            _entries.Add(new TextDataSetEntry(name, value, type));
         }
 
         public void Append(String name, FileEntry value, String type)
         {
-            if (String.Compare(type, "file", StringComparison.OrdinalIgnoreCase) == 0)
+            if (String.Compare(type, InputTypeNames.File, StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 name = Normalize(name);
+            }
 
-            _entries.Add(new FileDataSetEntry { Name = name, Value = value, Type = type });
+            _entries.Add(new FileDataSetEntry(name, value, type));
         }
 
         #endregion
@@ -170,8 +172,11 @@
             {
                 var entry = _entries[i];
 
-                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") && entry.Type.Equals("hidden", StringComparison.OrdinalIgnoreCase))
-                    _entries[i] = new TextDataSetEntry { Name = entry.Name, Type = entry.Type, Value = encoding.WebName };
+                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") && 
+                    entry.Type.Equals(InputTypeNames.Hidden, StringComparison.OrdinalIgnoreCase))
+                {
+                    _entries[i] = new TextDataSetEntry(entry.Name, encoding.WebName, entry.Type);
+                }
             }
         }
 
@@ -221,25 +226,29 @@
         /// </summary>
         abstract class FormDataSetEntry
         {
-            protected String _name;
-            protected String _type;
+            readonly String _name;
+            readonly String _type;
+
+            public FormDataSetEntry(String name, String type)
+            {
+                _name = name ?? String.Empty;
+                _type = type ?? InputTypeNames.Text;
+            }
 
             /// <summary>
-            /// Gets or sets the entry's name.
+            /// Gets the entry's name.
             /// </summary>
             public String Name
             {
                 get { return _name; }
-                set { _name = value; }
             }
 
             /// <summary>
-            /// Gets or sets the entry's type.
+            /// Gets the entry's type.
             /// </summary>
             public String Type
             {
                 get { return _type; }
-                set { _type = value; }
             }
 
             public abstract void AsMultipart(StreamWriter stream);
@@ -253,15 +262,20 @@
 
         sealed class TextDataSetEntry : FormDataSetEntry
         {
-            String _value;
+            readonly String _value;
+
+            public TextDataSetEntry(String name, String value, String type)
+                : base(name, type)
+            {
+                _value = value;
+            }
 
             /// <summary>
-            /// Gets or sets the entry's value.
+            /// Gets the entry's value.
             /// </summary>
             public String Value
             {
                 get { return _value; }
-                set { _value = value; }
             }
 
             public override Boolean Contains(String boundary, Encoding encoding)
@@ -274,9 +288,9 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (_name != null && _value != null)
+                if (!String.IsNullOrEmpty(Name) && _value != null)
                 {
-                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", _name.HtmlEncode(stream.Encoding), "\""));
+                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", Name.HtmlEncode(stream.Encoding), "\""));
                     stream.WriteLine();
                     stream.WriteLine(_value.HtmlEncode(stream.Encoding));
                 }
@@ -284,9 +298,9 @@
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                if (_name != null && _value != null)
+                if (!String.IsNullOrEmpty(Name) && _value != null)
                 {
-                    stream.Write(_name);
+                    stream.Write(Name);
                     stream.Write('=');
                     stream.Write(_value);
                 }
@@ -294,9 +308,9 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                if (_name != null && _value != null)
+                if (!String.IsNullOrEmpty(Name) && _value != null)
                 {
-                    stream.Write(_name.UrlEncode(stream.Encoding));
+                    stream.Write(Name.UrlEncode(stream.Encoding));
                     stream.Write('=');
                     stream.Write(_value.UrlEncode(stream.Encoding));
                 }
@@ -305,15 +319,20 @@
 
         sealed class FileDataSetEntry : FormDataSetEntry
         {
-            FileEntry _value;
+            readonly FileEntry _value;
+
+            public FileDataSetEntry(String name, FileEntry value, String type)
+                : base(name, type)
+            {
+                _value = value;
+            }
 
             /// <summary>
-            /// Gets or sets the entry's value.
+            /// Gets the entry's value.
             /// </summary>
             public FileEntry Value
             {
                 get { return _value; }
-                set { _value = value; }
             }
 
             public override Boolean Contains(String boundary, Encoding encoding)
@@ -350,9 +369,9 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (_name != null && _value != null && _value.Body != null && _value.Type != null && _value.Name != null)
+                if (!String.IsNullOrEmpty(Name) && _value != null && _value.Body != null && _value.Type != null && _value.Name != null)
                 {
-                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", _name.HtmlEncode(stream.Encoding), _value.Name.HtmlEncode(stream.Encoding));
+                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", Name.HtmlEncode(stream.Encoding), _value.Name.HtmlEncode(stream.Encoding));
                     stream.WriteLine("content-type: " + _value.Type);
                     stream.WriteLine("content-transfer-encoding: binary");
                     stream.WriteLine();
@@ -364,9 +383,9 @@
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                if (_name != null && _value != null && _value.Name != null)
+                if (!String.IsNullOrEmpty(Name) && _value != null && _value.Name != null)
                 {
-                    stream.Write(_name);
+                    stream.Write(Name);
                     stream.Write('=');
                     stream.Write(_value.Name);
                 }
@@ -374,9 +393,9 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                if (_name != null && _value != null && _value.Name != null)
+                if (!String.IsNullOrEmpty(Name) && _value != null && _value.Name != null)
                 {
-                    stream.Write(_name.UrlEncode(stream.Encoding));
+                    stream.Write(Name.UrlEncode(stream.Encoding));
                     stream.Write('=');
                     stream.Write(_value.Name.UrlEncode(stream.Encoding));
                 }
