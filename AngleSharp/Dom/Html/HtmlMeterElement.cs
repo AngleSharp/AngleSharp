@@ -78,7 +78,7 @@
 
         public Double Optimum
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Optimum).ToDouble((Maximum + Minimum) * 0.5).Constraint(Low, High); }
+            get { return GetAttribute(String.Empty, AttributeNames.Optimum).ToDouble((Maximum + Minimum) * 0.5).Constraint(Minimum, Maximum); }
             set { SetAttribute(String.Empty, AttributeNames.Optimum, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
