@@ -29,13 +29,17 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void PostDoNotEncounterNullReferenceExceptionWithoutName()
         {
-            var test = DocumentBuilder.Html(@"
+            if (Helper.IsNetworkAvailable())
+            {
+                var url = BaseUrl + "PostUrlencodeNormal";
+                var test = DocumentBuilder.Html(@"
 <form method=""post"">
     <input type=""button"" />
-</form>");
-            var form = test.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
-            var result = form.Submit().Result;
-            Assert.IsNotNull(result);
+</form>", url: url);
+                var form = test.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
+                var result = form.Submit().Result;
+                Assert.IsNotNull(result);
+            }
         }
 
         [Test]
