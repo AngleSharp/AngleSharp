@@ -69,7 +69,7 @@ namespace AngleSharp.Core.Tests.Library
             meter.Maximum = -1.0;
             Assert.AreEqual(0.0, meter.Value);
             Assert.AreEqual(0.0, meter.Minimum);
-            Assert.AreEqual(-1.0, meter.Maximum);
+            Assert.AreEqual(0.0, meter.Maximum);
             Assert.AreEqual(0.0, meter.Low);
             Assert.AreEqual(0.0, meter.High);
             Assert.AreEqual(0.0, meter.Optimum);
