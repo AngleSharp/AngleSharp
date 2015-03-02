@@ -48,37 +48,37 @@
 
         public Double Value
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Value).ToDouble(0.0); }
+            get { return GetAttribute(String.Empty, AttributeNames.Value).ToDouble(0.0).Constraint(Minimum, Maximum); }
             set { SetAttribute(String.Empty, AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         public Double Maximum
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Max).ToDouble(1.0); }
+            get { return GetAttribute(String.Empty, AttributeNames.Max).ToDouble(1.0).Constraint(Minimum, Double.PositiveInfinity); }
             set { SetAttribute(String.Empty, AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         public Double Minimum
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Min).ToDouble(1.0); }
+            get { return GetAttribute(String.Empty, AttributeNames.Min).ToDouble(0.0); }
             set { SetAttribute(String.Empty, AttributeNames.Min, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         public Double Low
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Low).ToDouble(1.0); }
+            get { return GetAttribute(String.Empty, AttributeNames.Low).ToDouble(Minimum).Constraint(Minimum, Maximum); }
             set { SetAttribute(String.Empty, AttributeNames.Low, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         public Double High
         {
-            get { return GetAttribute(String.Empty, AttributeNames.High).ToDouble(1.0); }
+            get { return GetAttribute(String.Empty, AttributeNames.High).ToDouble(Maximum).Constraint(Low, Maximum); }
             set { SetAttribute(String.Empty, AttributeNames.High, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         public Double Optimum
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Optimum).ToDouble(1.0); }
+            get { return GetAttribute(String.Empty, AttributeNames.Optimum).ToDouble((Maximum + Minimum) * 0.5).Constraint(Low, High); }
             set { SetAttribute(String.Empty, AttributeNames.Optimum, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
