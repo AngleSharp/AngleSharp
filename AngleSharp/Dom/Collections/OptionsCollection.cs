@@ -92,12 +92,17 @@
 
         public IHtmlOptionElement GetOptionAt(Int32 index)
         {
-            return _options.Skip(index).FirstOrDefault();
+            return index >= 0 ? _options.Skip(index).FirstOrDefault() : null;
         }
 
         public void SetOptionAt(Int32 index, IHtmlOptionElement value)
         {
-            _parent.ReplaceChild(value, GetOptionAt(index));
+            var child = GetOptionAt(index);
+
+            if (child != null)
+                _parent.ReplaceChild(value, child);
+            else
+                _parent.AppendChild(value);
         }
 
         public void Add(IHtmlOptionElement element, IHtmlElement before = null)
@@ -113,7 +118,9 @@
         public void Remove(Int32 index)
         {
             var child = GetOptionAt(index);
-            _parent.RemoveChild(child);
+
+            if (child != null)
+                _parent.RemoveChild(child);
         }
 
         #endregion
