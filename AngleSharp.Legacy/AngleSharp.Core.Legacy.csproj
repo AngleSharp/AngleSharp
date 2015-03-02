@@ -1429,6 +1429,9 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMetaElement.cs">
       <Link>DOM\Html\HtmlMetaElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlMeterElement.cs">
+      <Link>DOM\Html\HtmlMeterElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlModElement.cs">
       <Link>DOM\Html\HtmlModElement.cs</Link>
     </Compile>
