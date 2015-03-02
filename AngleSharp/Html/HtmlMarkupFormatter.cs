@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
@@ -56,7 +55,28 @@
             return temp.ToPool();
         }
 
-        String IMarkupFormatter.Attribute(IAttr attr)
+        String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
+        {
+            var temp = Pool.NewStringBuilder();
+            temp.Append(Symbols.LessThan).Append(element.NodeName);
+
+            foreach (var attribute in element.Attributes)
+                temp.Append(" ").Append(Stringify(attribute));
+
+            temp.Append(Symbols.GreaterThan);
+            return temp.ToPool();
+        }
+
+        String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
+        {
+            return selfClosing ? String.Empty : String.Concat("</", element.NodeName, ">");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static String Stringify(IAttr attr)
         {
             var namespaceUri = attr.NamespaceUri;
             var localName = attr.LocalName;
@@ -89,27 +109,6 @@
 
             return temp.Append(Symbols.DoubleQuote).ToPool();
         }
-
-        String IMarkupFormatter.OpenTag(String tagName, IEnumerable<String> attributes, Boolean selfClosing)
-        {
-            var temp = Pool.NewStringBuilder();
-            temp.Append(Symbols.LessThan).Append(tagName);
-
-            foreach (var attribute in attributes)
-                temp.Append(" ").Append(attribute);
-
-            temp.Append(Symbols.GreaterThan);
-            return temp.ToPool();
-        }
-
-        String IMarkupFormatter.CloseTag(String tagName, Boolean selfClosing)
-        {
-            return selfClosing ? String.Empty : String.Concat("</", tagName, ">");
-        }
-
-        #endregion
-
-        #region Helpers
 
         static String GetIds(String publicId, String systemId)
         {

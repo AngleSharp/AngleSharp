@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Basic interface for HTML node serialization.
@@ -38,27 +37,19 @@
         String Doctype(IDocumentType doctype);
 
         /// <summary>
-        /// Formats the provided attribute containing the given properties.
-        /// </summary>
-        /// <param name="attribute">The attribute to stringify.</param>
-        /// <returns>The formatted attribute.</returns>
-        String Attribute(IAttr attribute);
-
-        /// <summary>
         /// Formats opening a tag with the given name.
         /// </summary>
-        /// <param name="tagName">The name of the element.</param>
-        /// <param name="attributes">The attributes of the element.</param>
+        /// <param name="element">The element to open.</param>
         /// <param name="selfClosing">Is the element actually self-closing?</param>
         /// <returns>The formatted opening tag.</returns>
-        String OpenTag(String tagName, IEnumerable<String> attributes, Boolean selfClosing);
+        String OpenTag(IElement element, Boolean selfClosing);
 
         /// <summary>
         /// Formats closing a tag with the given name.
         /// </summary>
-        /// <param name="tagName">The name of the element.</param>
+        /// <param name="element">The element to close.</param>
         /// <param name="selfClosing">Is the element actually self-closing?</param>
         /// <returns>Th eformatted closing tag.</returns>
-        String CloseTag(String tagName, Boolean selfClosing);
+        String CloseTag(IElement element, Boolean selfClosing);
     }
 }

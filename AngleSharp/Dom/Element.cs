@@ -128,7 +128,7 @@
         }
 
         /// <summary>
-        /// Gets the tagname of the element.
+        /// Gets the uppercase representation of the tag name.
         /// </summary>
         public String TagName
         {
@@ -734,16 +734,7 @@
         public override String ToHtml(IMarkupFormatter formatter)
         {
             var selfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
-            var tagName = (Flags & (NodeFlags.HtmlMember | NodeFlags.SvgMember | NodeFlags.MathMember)) != NodeFlags.None ? LocalName : NodeName;
-            var attributeStrings = new String[_attributes.Count];
-
-            for (var i = 0; i < _attributes.Count; i++)
-            {
-                var attribute = _attributes[i];
-                attributeStrings[i] = formatter.Attribute(attribute);
-            }
-
-            var open = formatter.OpenTag(tagName, attributeStrings, selfClosing);
+            var open = formatter.OpenTag(this, selfClosing);
             var children = String.Empty;
 
             if (!selfClosing)
@@ -764,7 +755,7 @@
                 children = sb.ToPool();
             }
 
-            var close = formatter.CloseTag(tagName, selfClosing);
+            var close = formatter.CloseTag(this, selfClosing);
             return String.Concat(open, children, close);
         }
 

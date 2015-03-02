@@ -20,29 +20,9 @@
 
         #region Methods
 
-        String IMarkupFormatter.Attribute(IAttr attribute)
+        String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
         {
-            var value = attribute.Value;
-            var temp = Pool.NewStringBuilder();
-            temp.Append(attribute.Name);
-            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
-
-            for (int i = 0; i < value.Length; i++)
-            {
-                switch (value[i])
-                {
-                    case Symbols.SingleQuote: temp.Append("&apos;"); break;
-                    case Symbols.DoubleQuote: temp.Append("&quot;"); break;
-                    default: temp.Append(value[i]); break;
-                }
-            }
-
-            return temp.Append(Symbols.DoubleQuote).ToPool();
-        }
-
-        String IMarkupFormatter.CloseTag(String tagName, Boolean selfClosing)
-        {
-            return selfClosing ? String.Empty : String.Concat("</", tagName, ">");
+            return selfClosing ? String.Empty : String.Concat("</", element.NodeName, ">");
         }
 
         String IMarkupFormatter.Comment(IComment comment)
@@ -61,13 +41,13 @@
             return String.Concat("<!DOCTYPE ", doctype.Name, externalId, ">");
         }
 
-        String IMarkupFormatter.OpenTag(String tagName, IEnumerable<String> attributes, Boolean selfClosing)
+        String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
         {
             var temp = Pool.NewStringBuilder();
-            temp.Append(Symbols.LessThan).Append(tagName);
+            temp.Append(Symbols.LessThan).Append(element.NodeName);
 
-            foreach (var attribute in attributes)
-                temp.Append(" ").Append(attribute);
+            foreach (var attribute in element.Attributes)
+                temp.Append(" ").Append(Stringify(attribute));
 
             if (selfClosing)
                 temp.Append(" /");
@@ -98,6 +78,30 @@
             }
 
             return temp.ToPool();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static String Stringify(IAttr attribute)
+        {
+            var value = attribute.Value;
+            var temp = Pool.NewStringBuilder();
+            temp.Append(attribute.Name);
+            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                switch (value[i])
+                {
+                    case Symbols.SingleQuote: temp.Append("&apos;"); break;
+                    case Symbols.DoubleQuote: temp.Append("&quot;"); break;
+                    default: temp.Append(value[i]); break;
+                }
+            }
+
+            return temp.Append(Symbols.DoubleQuote).ToPool();
         }
 
         #endregion

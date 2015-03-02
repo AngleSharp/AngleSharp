@@ -81,18 +81,9 @@
         /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml(IMarkupFormatter formatter)
         {
-            var tagName = NodeName;
-            var attributeStrings = new String[Attributes.Count];
-
-            for (int i = 0; i < attributeStrings.Length; i++)
-            {
-                var attribute = Attributes[i];
-                attributeStrings[i] = formatter.Attribute(attribute);
-            }
-
-            var open = formatter.OpenTag(tagName, attributeStrings, false);
+            var open = formatter.OpenTag(this, false);
             var children = _content.ChildNodes.ToHtml(formatter);
-            var close = formatter.CloseTag(tagName, false);
+            var close = formatter.CloseTag(this, false);
             return String.Concat(open, children, close);
         }
 
