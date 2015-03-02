@@ -19,7 +19,7 @@
         /// Gets or sets the maximum value.
         /// </summary>
         [DomName("max")]
-        Double Max { get; set; }
+        Double Maximum { get; set; }
 
         /// <summary>
         /// Gets the position.

@@ -4,9 +4,11 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents the HTML progress element.
+    /// https://html.spec.whatwg.org/multipage/forms.html#the-progress-element
     /// </summary>
     sealed class HtmlProgressElement : HtmlElement, ILabelabelElement, IHtmlProgressElement
     {
@@ -53,7 +55,7 @@
         /// </summary>
         public Boolean IsDeterminate
         {
-            get { return !String.IsNullOrEmpty(GetAttribute(AttributeNames.Value)); }
+            get { return !String.IsNullOrEmpty(GetAttribute(String.Empty, AttributeNames.Value)); }
         }
 
         /// <summary>
@@ -61,17 +63,17 @@
         /// </summary>
         public Double Value
         {
-            get { return GetAttribute(AttributeNames.Value).ToDouble(0.0); }
-            set { SetAttribute(AttributeNames.Value, value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo)); }
+            get { return GetAttribute(String.Empty, AttributeNames.Value).ToDouble(0.0); }
+            set { SetAttribute(String.Empty, AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         /// <summary>
         /// Gets or sets the maximum value.
         /// </summary>
-        public Double Max
+        public Double Maximum
         {
-            get { return GetAttribute(AttributeNames.Max).ToDouble(1.0); }
-            set { SetAttribute(AttributeNames.Max, value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo)); }
+            get { return GetAttribute(String.Empty, AttributeNames.Max).ToDouble(1.0); }
+            set { SetAttribute(String.Empty, AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         /// <summary>
@@ -79,7 +81,7 @@
         /// </summary>
         public Double Position
         {
-            get { return IsDeterminate ? Math.Max(Math.Min(Value / Max, 1.0), 0.0) : -1.0; }
+            get { return IsDeterminate ? Math.Max(Math.Min(Value / Maximum, 1.0), 0.0) : -1.0; }
         }
 
         #endregion
