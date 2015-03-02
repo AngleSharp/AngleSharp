@@ -512,5 +512,73 @@ namespace AngleSharp.Core.Tests.Library
             var select = document.QuerySelector("select") as IHtmlSelectElement;
             Assert.AreEqual(null, select.Options[""]);
         }
+
+        [Test]
+        public void SelectRemoveOptionShouldWork()
+        {
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement<IHtmlDivElement>();
+            var select = document.CreateElement<IHtmlSelectElement>();
+            div.AppendChild(select);
+            Assert.AreEqual(div, select.Parent);
+            var options = new IHtmlOptionElement[3];
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                options[i] = document.CreateElement<IHtmlOptionElement>();
+                options[i].TextContent = i.ToString();
+                select.AppendChild(options[i]);
+            }
+
+            select.RemoveOptionAt(-1);
+            CollectionAssert.AreEqual(options, select.Options);
+
+            select.RemoveOptionAt(3);
+            CollectionAssert.AreEqual(options, select.Options);
+
+            select.RemoveOptionAt(0);
+            CollectionAssert.AreEqual(new[] { options[1], options[2] }, select.Options);
+        }
+
+        [Test]
+        public void SelectOptionsRemoveOptionShouldWork()
+        {
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement<IHtmlDivElement>();
+            var select = document.CreateElement<IHtmlSelectElement>();
+            div.AppendChild(select);
+            Assert.AreEqual(div, select.Parent);
+            var options = new IHtmlOptionElement[3];
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                options[i] = document.CreateElement<IHtmlOptionElement>();
+                options[i].TextContent = i.ToString();
+                select.AppendChild(options[i]);
+            }
+
+            select.Options.Remove(-1);
+            CollectionAssert.AreEqual(options, select.Options);
+
+            select.Options.Remove(3);
+            CollectionAssert.AreEqual(options, select.Options);
+
+            select.Options.Remove(0);
+            CollectionAssert.AreEqual(new[] { options[1], options[2] }, select.Options);
+        }
+
+        [Test]
+        public void RemoveShouldWorkOnSelectElements()
+        {
+            var document = DocumentBuilder.Html("");
+            var div = document.CreateElement<IHtmlDivElement>();
+            var select = document.CreateElement<IHtmlSelectElement>();
+            div.AppendChild(select);
+            Assert.AreEqual(div, select.Parent);
+            Assert.AreEqual(select, div.FirstChild);
+            select.Remove();
+            Assert.AreEqual(null, select.Parent);
+            Assert.AreEqual(null, div.FirstChild);
+        }
     }
 }
