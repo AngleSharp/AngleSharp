@@ -187,7 +187,7 @@
 
             Double converted;
 
-            if (Double.TryParse(value, out converted))
+            if (Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out converted))
                 return converted;
 
             return defaultValue;

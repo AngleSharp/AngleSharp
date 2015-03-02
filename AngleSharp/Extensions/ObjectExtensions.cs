@@ -53,5 +53,10 @@
 
             return null;
         }
+
+        public static Double Constraint(this Double value, Double min, Double max)
+        {
+            return value < min ? min : (value > max ? max : value);
+        }
     }
 }
