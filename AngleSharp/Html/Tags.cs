@@ -644,6 +644,11 @@
         public static readonly String Progress = "progress";
 
         /// <summary>
+        /// The meter tag.
+        /// </summary>
+        public static readonly String Meter = "meter";
+
+        /// <summary>
         /// The output tag.
         /// </summary>
         public static readonly String Output = "output";

@@ -129,6 +129,7 @@
             { Tags.Rb, document => new HtmlRbElement(document) },
             { Tags.Time, document => new HtmlTimeElement(document) },
             { Tags.Progress, document => new HtmlProgressElement(document) },
+            { Tags.Meter, document => new HtmlMeterElement(document) },
             { Tags.Output, document => new HtmlOutputElement(document) },
             { Tags.Map, document => new HtmlMapElement(document) },
             { Tags.Datalist, document => new HtmlDataListElement(document) },

@@ -116,6 +116,7 @@
     <Compile Include="Dom\Events\MouseEvent.cs" />
     <Compile Include="Dom\Events\PageTransitionEvent.cs" />
     <Compile Include="Dom\Html\HtmlDataElement.cs" />
+    <Compile Include="Dom\Html\HtmlMeterElement.cs" />
     <Compile Include="Dom\Html\HtmlPictureElement.cs" />
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />

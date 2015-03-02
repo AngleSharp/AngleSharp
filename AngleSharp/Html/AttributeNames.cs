@@ -726,5 +726,20 @@
         /// The datetime attribute.
         /// </summary>
         public static readonly String Datetime = "datetime";
+
+        /// <summary>
+        /// The low attribute.
+        /// </summary>
+        public static readonly String Low = "low";
+
+        /// <summary>
+        /// The high attribute.
+        /// </summary>
+        public static readonly String High = "high";
+
+        /// <summary>
+        /// The optimum attribute.
+        /// </summary>
+        public static readonly String Optimum = "optimum";
     }
 }
