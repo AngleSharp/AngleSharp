@@ -215,6 +215,7 @@
         {
             if (requester == null)
                 throw new ArgumentNullException("requester");
+
             _requesters.Add(requester);
             return this;
         }

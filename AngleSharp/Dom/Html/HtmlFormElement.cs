@@ -443,7 +443,7 @@
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
             var mimeType = String.Empty;
-            Stream result = null;
+            var result = default(Stream);
 
             if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
             {
