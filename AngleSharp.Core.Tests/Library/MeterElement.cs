@@ -214,5 +214,104 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(20.0, meter.High);
             Assert.AreEqual(20.0, meter.Optimum);
         }
+
+        [Test]
+        public void MeterValueMustBeZeroWhenAStringIsGiven()
+        {
+            var document = DocumentBuilder.Html("<meter value=abc></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(0.0, meter.Value);
+        }
+
+        [Test]
+        public void MeterDefaultValueOfMinIsZero()
+        {
+            var document = DocumentBuilder.Html("<meter value=-10></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(0.0, meter.Minimum);
+            Assert.AreEqual(0.0, meter.Value);
+        }
+
+        [Test]
+        public void MeterDefaultValueOfMaxIsOne()
+        {
+            var document = DocumentBuilder.Html("<meter value=10></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(1.0, meter.Maximum);
+            Assert.AreEqual(1.0, meter.Value);
+        }
+
+        [Test]
+        public void MeterValueSmallerThanOneGivenMinAndMaxNotSpecifiedSameAsDefaultMax()
+        {
+            var document = DocumentBuilder.Html("<meter value=10 min=-3.1></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(1.0, meter.Maximum);
+            Assert.AreEqual(1.0, meter.Value);
+        }
+
+        [Test]
+        public void MeterValueLargerThanOrEqualToOneGivenToMinAndMaxNotSpecified()
+        {
+            var document = DocumentBuilder.Html("<meter value=210 min=12.1></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(12.1, meter.Maximum);
+            Assert.AreEqual(12.1, meter.Value);
+        }
+
+        [Test]
+        public void MeterValueSmallerThanZeroGivenToMaxAndMinNotSpecifiedSameAsDefault()
+        {
+            var document = DocumentBuilder.Html("<meter value=-10 max=-5342.55></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(0.0, meter.Value);
+            Assert.AreEqual(0.0, meter.Minimum);
+            Assert.AreEqual(0.0, meter.Maximum);
+        }
+
+        [Test]
+        public void MeterValueLargerThanOrEqualToZeroGivenToMaxAndMinNoSpecifiedSameAsDefault()
+        {
+            var document = DocumentBuilder.Html("<meter value=210 max=-9.9></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(0.0, meter.Value);
+            Assert.AreEqual(0.0, meter.Minimum);
+            Assert.AreEqual(0.0, meter.Maximum);
+        }
+
+        [Test]
+        public void MeterMinMustBeZeroWhenAStringIsGiven()
+        {
+            var document = DocumentBuilder.Html("<meter value=-2 min=hugfe></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(0.0, meter.Minimum);
+            Assert.AreEqual(0.0, meter.Value);
+        }
+
+        [Test]
+        public void MeterMaxMustBeOneWhenAStringIsGiven()
+        {
+            var document = DocumentBuilder.Html("<meter value=2.4 max=min></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(1.0, meter.Maximum);
+            Assert.AreEqual(1.0, meter.Value);
+        }
+
+        [Test]
+        public void MeterIllegalLowWithMinNotAffectTheActualValue()
+        {
+            var document = DocumentBuilder.Html("<meter value=-20 min=-10.3 low=ahuge></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(-10.3, meter.Low);
+        }
+
+        [Test]
+        public void MeterIllegalHighWithMaxNotAffectTheActualValue()
+        {
+            var document = DocumentBuilder.Html("<meter value=2.4 high=old max=1.5></meter>");
+            var meter = document.QuerySelector("meter") as IHtmlMeterElement;
+            Assert.AreEqual(1.5, meter.High);
+            Assert.AreEqual(1.5, meter.Value);
+        }
     }
 }
