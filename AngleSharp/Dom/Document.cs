@@ -1522,12 +1522,7 @@
         internal Task<IDocument> LoadAsync(IResponse response, CancellationToken cancelToken)
         {
             _contentType = MimeTypes.Html;
-            var type = String.Empty;
-
-            if (!response.Headers.TryGetValue(HeaderNames.ContentType, out type))
-                type = MimeTypes.Html;
-                
-            Open(type);
+            Open(response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html));
             DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
             _source = new TextSource(response.Content, Options.DefaultEncoding());
