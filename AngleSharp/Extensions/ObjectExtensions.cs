@@ -57,7 +57,7 @@
         public static U GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U defaultValue)
         {
             U value;
-            return values.TryGetValue(key, out value) ? value : default(U);
+            return values.TryGetValue(key, out value) ? value : defaultValue;
         }
 
         public static Double Constraint(this Double value, Double min, Double max)
