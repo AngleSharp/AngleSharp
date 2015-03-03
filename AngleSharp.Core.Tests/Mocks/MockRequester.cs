@@ -3,6 +3,7 @@
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -10,17 +11,17 @@
     {
         public IResponse Request(IRequest request)
         {
-            return null;
+            return new DefaultResponse { Address = request.Address, Content = new MemoryStream() };
         }
 
         public Task<IResponse> RequestAsync(IRequest request)
         {
-            return null;
+            return RequestAsync(request, CancellationToken.None);
         }
 
-        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
+        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
-            return null;
+            return Request(request);
         }
 
         public Dictionary<String, String> Headers

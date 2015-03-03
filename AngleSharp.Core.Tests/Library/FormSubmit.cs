@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom.Io;
 using NUnit.Framework;
@@ -27,19 +28,33 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void AsUrlEncodedProducesRightAmountOfAmpersands()
+        {
+            var config = new Configuration().Register(new MockRequester());
+            var url = "http://localhost/";
+            var document = DocumentBuilder.Html(@"<form method=get>
+<input type=button />
+<input name=other type=text value=something /><input type=text value=something /><input name=another type=text value=test />
+</form>", config, url);
+            var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
+            var result = form.Submit().Result;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(url + "?other=something&another=test", result.Url);
+        }
+
+        [Test]
         public void PostDoNotEncounterNullReferenceExceptionWithoutName()
         {
-            if (Helper.IsNetworkAvailable())
-            {
-                var url = BaseUrl + "PostUrlencodeNormal";
-                var test = DocumentBuilder.Html(@"
+            var config = new Configuration().Register(new MockRequester());
+            var url = "http://localhost/";
+            var document = DocumentBuilder.Html(@"
 <form method=""post"">
-    <input type=""button"" />
-</form>", url: url);
-                var form = test.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
-                var result = form.Submit().Result;
-                Assert.IsNotNull(result);
-            }
+<input type=""button"" />
+</form>", config, url);
+            var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
+            var result = form.Submit().Result;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(url, result.Url);
         }
 
         [Test]
