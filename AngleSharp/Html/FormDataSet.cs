@@ -90,24 +90,30 @@
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
+            var offset = 0;
+            var requireAmpersand = false;
 
-            if (_entries.Count > 0)
+            if (offset < _entries.Count && 
+                _entries[offset].HasName &&
+                _entries[offset].Name.Equals(Tags.IsIndex) &&
+                _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
             {
-                if (_entries[0].Name.Equals(Tags.IsIndex) && 
-                    _entries[0].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+                tw.Write(((TextDataSetEntry)_entries[offset]).Value);
+                offset++;
+            }
+
+            while (offset < _entries.Count)
+            {
+                if (_entries[offset].HasName)
                 {
-                    tw.Write(((TextDataSetEntry)_entries[0]).Value);
-                }
-                else
-                {
-                    _entries[0].AsUrlEncoded(tw);
+                    if (requireAmpersand)
+                        tw.Write('&');
+
+                    _entries[offset].AsUrlEncoded(tw);
+                    requireAmpersand = true;
                 }
 
-                for (int i = 1; i < _entries.Count; i++)
-                {
-                    tw.Write('&');
-                    _entries[i].AsUrlEncoded(tw);
-                }
+                offset++;
             }
 
             tw.Flush();
