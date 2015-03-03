@@ -93,10 +93,15 @@
 
             if (_entries.Count > 0)
             {
-                if (_entries[0].Name.Equals(Tags.IsIndex) && _entries[0].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+                if (_entries[0].Name.Equals(Tags.IsIndex) && 
+                    _entries[0].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+                {
                     tw.Write(((TextDataSetEntry)_entries[0]).Value);
+                }
                 else
+                {
                     _entries[0].AsUrlEncoded(tw);
+                }
 
                 for (int i = 1; i < _entries.Count; i++)
                 {
@@ -231,8 +236,16 @@
 
             public FormDataSetEntry(String name, String type)
             {
-                _name = name ?? String.Empty;
-                _type = type ?? InputTypeNames.Text;
+                _name = name;
+                _type = type;
+            }
+
+            /// <summary>
+            /// Gets if the name has been given.
+            /// </summary>
+            public Boolean HasName
+            {
+                get { return _name != null; }
             }
 
             /// <summary>
@@ -240,7 +253,7 @@
             /// </summary>
             public String Name
             {
-                get { return _name; }
+                get { return _name ?? String.Empty; }
             }
 
             /// <summary>
@@ -248,7 +261,7 @@
             /// </summary>
             public String Type
             {
-                get { return _type; }
+                get { return _type ?? InputTypeNames.Text; }
             }
 
             public abstract void AsMultipart(StreamWriter stream);
@@ -271,6 +284,14 @@
             }
 
             /// <summary>
+            /// Gets if the value has been given.
+            /// </summary>
+            public Boolean HasValue
+            {
+                get { return _value != null; }
+            }
+
+            /// <summary>
             /// Gets the entry's value.
             /// </summary>
             public String Value
@@ -288,9 +309,10 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (!String.IsNullOrEmpty(Name) && _value != null)
+                if (HasName && HasValue)
                 {
-                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", Name.HtmlEncode(stream.Encoding), "\""));
+                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", 
+                        Name.HtmlEncode(stream.Encoding), "\""));
                     stream.WriteLine();
                     stream.WriteLine(_value.HtmlEncode(stream.Encoding));
                 }
@@ -298,7 +320,7 @@
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                if (!String.IsNullOrEmpty(Name) && _value != null)
+                if (HasName && HasValue)
                 {
                     stream.Write(Name);
                     stream.Write('=');
@@ -308,7 +330,7 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                if (!String.IsNullOrEmpty(Name) && _value != null)
+                if (HasName && HasValue)
                 {
                     stream.Write(Name.UrlEncode(stream.Encoding));
                     stream.Write('=');
@@ -325,6 +347,22 @@
                 : base(name, type)
             {
                 _value = value;
+            }
+
+            /// <summary>
+            /// Gets if the value has been given.
+            /// </summary>
+            public Boolean HasValue
+            {
+                get { return _value != null && _value.Name != null; }
+            }
+
+            /// <summary>
+            /// Gets if the value has a body and type.
+            /// </summary>
+            public Boolean HasValueBody
+            {
+                get { return _value != null && _value.Body != null && _value.Type != null; }
             }
 
             /// <summary>
@@ -369,9 +407,10 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (!String.IsNullOrEmpty(Name) && _value != null && _value.Body != null && _value.Type != null && _value.Name != null)
+                if (HasName && HasValue && HasValueBody)
                 {
-                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", Name.HtmlEncode(stream.Encoding), _value.Name.HtmlEncode(stream.Encoding));
+                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", 
+                        Name.HtmlEncode(stream.Encoding), _value.Name.HtmlEncode(stream.Encoding));
                     stream.WriteLine("content-type: " + _value.Type);
                     stream.WriteLine("content-transfer-encoding: binary");
                     stream.WriteLine();
@@ -383,7 +422,7 @@
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                if (!String.IsNullOrEmpty(Name) && _value != null && _value.Name != null)
+                if (HasName && HasValue)
                 {
                     stream.Write(Name);
                     stream.Write('=');
@@ -393,7 +432,7 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                if (!String.IsNullOrEmpty(Name) && _value != null && _value.Name != null)
+                if (HasName && HasValue)
                 {
                     stream.Write(Name.UrlEncode(stream.Encoding));
                     stream.Write('=');
