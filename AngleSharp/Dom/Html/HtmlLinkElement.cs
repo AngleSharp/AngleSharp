@@ -69,7 +69,7 @@
         /// </summary>
         public Url Url
         {
-            get { return this.HyperReference(GetAttribute(AttributeNames.Href)); }
+            get { return this.HyperReference(GetOwnAttribute(AttributeNames.Href)); }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@
         public String Href
         {
             get { return Url.Href; }
-            set { SetAttribute(AttributeNames.Href, value); }
+            set { SetOwnAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -86,8 +86,8 @@
         /// </summary>
         public String TargetLanguage
         {
-            get { return GetAttribute(AttributeNames.HrefLang); }
-            set { SetAttribute(AttributeNames.HrefLang, value); }
+            get { return GetOwnAttribute(AttributeNames.HrefLang); }
+            set { SetOwnAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -95,8 +95,8 @@
         /// </summary>
         public String Charset
         {
-            get { return GetAttribute(AttributeNames.Charset); }
-            set { SetAttribute(AttributeNames.Charset, value); }
+            get { return GetOwnAttribute(AttributeNames.Charset); }
+            set { SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public String Relation
         {
-            get { return GetAttribute(AttributeNames.Rel); }
-            set { SetAttribute(AttributeNames.Rel, value); }
+            get { return GetOwnAttribute(AttributeNames.Rel); }
+            set { SetOwnAttribute(AttributeNames.Rel, value); }
         }
 
         /// <summary>
@@ -117,7 +117,7 @@
             {
                 if (_relList == null)
                 {
-                    _relList = new TokenList(GetAttribute(AttributeNames.Rel));
+                    _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
                     _relList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Rel, _relList.ToString());
                 }
 
@@ -134,7 +134,7 @@
             {
                 if (_sizes == null)
                 {
-                    _sizes = new SettableTokenList(GetAttribute(AttributeNames.Sizes));
+                    _sizes = new SettableTokenList(GetOwnAttribute(AttributeNames.Sizes));
                     _sizes.Changed += (s, ev) => UpdateAttribute(AttributeNames.Sizes, _sizes.Value);
                 }
 
@@ -147,8 +147,8 @@
         /// </summary>
         public String Rev
         {
-            get { return GetAttribute(AttributeNames.Rev); }
-            set { SetAttribute(AttributeNames.Rev, value); }
+            get { return GetOwnAttribute(AttributeNames.Rev); }
+            set { SetOwnAttribute(AttributeNames.Rev, value); }
         }
 
         /// <summary>
@@ -156,8 +156,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(AttributeNames.Disabled).ToBoolean(); }
-            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
+            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -165,8 +165,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetAttribute(AttributeNames.Target); }
-            set { SetAttribute(AttributeNames.Target, value); }
+            get { return GetOwnAttribute(AttributeNames.Target); }
+            set { SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -174,8 +174,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetAttribute(AttributeNames.Media); }
-            set { SetAttribute(AttributeNames.Media, value); }
+            get { return GetOwnAttribute(AttributeNames.Media); }
+            set { SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -183,8 +183,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>

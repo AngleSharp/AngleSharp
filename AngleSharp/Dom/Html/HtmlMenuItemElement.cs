@@ -51,7 +51,7 @@
         {
             get
             {
-                var id = GetAttribute(AttributeNames.Command);
+                var id = GetOwnAttribute(AttributeNames.Command);
 
                 if (!String.IsNullOrEmpty(id) && Owner != null)
                     return Owner.GetElementById(id) as IHtmlElement;
@@ -65,8 +65,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -74,8 +74,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetAttribute(AttributeNames.Label); }
-            set { SetAttribute(AttributeNames.Label, value); }
+            get { return GetOwnAttribute(AttributeNames.Label); }
+            set { SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -83,8 +83,8 @@
         /// </summary>
         public String Icon
         {
-            get { return GetAttribute(AttributeNames.Icon); }
-            set { SetAttribute(AttributeNames.Icon, value); }
+            get { return GetOwnAttribute(AttributeNames.Icon); }
+            set { SetOwnAttribute(AttributeNames.Icon, value); }
         }
 
         /// <summary>
@@ -92,8 +92,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(AttributeNames.Disabled) != null; }
-            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Disabled) != null; }
+            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -101,8 +101,8 @@
         /// </summary>
         public Boolean IsChecked
         {
-            get { return GetAttribute(AttributeNames.Checked) != null; }
-            set { SetAttribute(AttributeNames.Checked, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Checked) != null; }
+            set { SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -110,8 +110,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return GetAttribute(AttributeNames.Default) != null; }
-            set { SetAttribute(AttributeNames.Default, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Default) != null; }
+            set { SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -120,8 +120,8 @@
         /// </summary>
         public String RadioGroup
         {
-            get { return GetAttribute(AttributeNames.Radiogroup); }
-            set { SetAttribute(AttributeNames.Radiogroup, value); }
+            get { return GetOwnAttribute(AttributeNames.Radiogroup); }
+            set { SetOwnAttribute(AttributeNames.Radiogroup, value); }
         }
 
         #endregion

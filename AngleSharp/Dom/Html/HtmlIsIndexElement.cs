@@ -36,8 +36,8 @@
         /// </summary>
         public String Prompt
         {
-            get { return GetAttribute(AttributeNames.Prompt); }
-            set { SetAttribute(AttributeNames.Prompt, value); }
+            get { return GetOwnAttribute(AttributeNames.Prompt); }
+            set { SetOwnAttribute(AttributeNames.Prompt, value); }
         }
 
         #endregion

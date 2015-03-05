@@ -27,8 +27,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetAttribute(AttributeNames.Label); }
-            set { SetAttribute(AttributeNames.Label, value); }
+            get { return GetOwnAttribute(AttributeNames.Label); }
+            set { SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         #endregion

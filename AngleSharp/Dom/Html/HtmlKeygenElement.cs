@@ -27,8 +27,8 @@
         /// </summary>
         public String Challenge
         {
-            get { return GetAttribute(AttributeNames.Challenge); }
-            set { SetAttribute(AttributeNames.Challenge, value); }
+            get { return GetOwnAttribute(AttributeNames.Challenge); }
+            set { SetOwnAttribute(AttributeNames.Challenge, value); }
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public String KeyEncryption
         {
-            get { return GetAttribute(AttributeNames.Keytype); }
-            set { SetAttribute(AttributeNames.Keytype, value); }
+            get { return GetOwnAttribute(AttributeNames.Keytype); }
+            set { SetOwnAttribute(AttributeNames.Keytype, value); }
         }
 
         /// <summary>

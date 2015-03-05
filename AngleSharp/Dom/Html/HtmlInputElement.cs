@@ -39,8 +39,8 @@
         /// </summary>
         public override String DefaultValue
         {
-            get { return GetAttribute(AttributeNames.Value); }
-            set { SetAttribute(AttributeNames.Value, value); }
+            get { return GetOwnAttribute(AttributeNames.Value); }
+            set { SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -48,8 +48,8 @@
         /// </summary>
         public Boolean IsDefaultChecked
         {
-            get { return GetAttribute(AttributeNames.Checked) != null; }
-            set { SetAttribute(AttributeNames.Checked, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Checked) != null; }
+            set { SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@
         public String Type
         {
             get { return _type.Name; }
-            set { SetAttribute(AttributeNames.Type, value); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -84,8 +84,8 @@
         /// </summary>
         public Boolean IsMultiple
         {
-            get { return GetAttribute(AttributeNames.Multiple) != null; }
-            set { SetAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Multiple) != null; }
+            set { SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -178,8 +178,8 @@
         /// </summary>
         public String Accept
         {
-            get { return GetAttribute(AttributeNames.Accept); }
-            set { SetAttribute(AttributeNames.Accept, value); }
+            get { return GetOwnAttribute(AttributeNames.Accept); }
+            set { SetOwnAttribute(AttributeNames.Accept, value); }
         }
 
         /// <summary>
@@ -187,8 +187,8 @@
         /// </summary>
         public Alignment Align
         {
-            get { return GetAttribute(AttributeNames.Align).ToEnum(Alignment.Left); }
-            set { SetAttribute(AttributeNames.Align, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Left); }
+            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -197,8 +197,8 @@
         /// </summary>
         public String AlternativeText
         {
-            get { return GetAttribute(AttributeNames.Alt); }
-            set { SetAttribute(AttributeNames.Alt, value); }
+            get { return GetOwnAttribute(AttributeNames.Alt); }
+            set { SetOwnAttribute(AttributeNames.Alt, value); }
         }
 
         /// <summary>
@@ -210,8 +210,8 @@
         /// </summary>
         public String Autocomplete
         {
-            get { return GetAttribute(AttributeNames.AutoComplete); }
-            set { SetAttribute(AttributeNames.AutoComplete, value); }
+            get { return GetOwnAttribute(AttributeNames.AutoComplete); }
+            set { SetOwnAttribute(AttributeNames.AutoComplete, value); }
         }
 
         /// <summary>
@@ -256,8 +256,8 @@
         /// </summary>
         public String Maximum
         {
-            get { return GetAttribute(AttributeNames.Max); }
-            set { SetAttribute(AttributeNames.Max, value); }
+            get { return GetOwnAttribute(AttributeNames.Max); }
+            set { SetOwnAttribute(AttributeNames.Max, value); }
         }
 
         /// <summary>
@@ -267,8 +267,8 @@
         /// </summary>
         public String Minimum
         {
-            get { return GetAttribute(AttributeNames.Min); }
-            set { SetAttribute(AttributeNames.Min, value); }
+            get { return GetOwnAttribute(AttributeNames.Min); }
+            set { SetOwnAttribute(AttributeNames.Min, value); }
         }
 
         /// <summary>
@@ -279,8 +279,8 @@
         /// </summary>
         public String Pattern
         {
-            get { return GetAttribute(AttributeNames.Pattern); }
-            set { SetAttribute(AttributeNames.Pattern, value); }
+            get { return GetOwnAttribute(AttributeNames.Pattern); }
+            set { SetOwnAttribute(AttributeNames.Pattern, value); }
         }
 
         /// <summary>
@@ -291,8 +291,8 @@
         /// </summary>
         public Int32 Size
         {
-            get { return GetAttribute(AttributeNames.Size).ToInteger(20); }
-            set { SetAttribute(AttributeNames.Size, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Size).ToInteger(20); }
+            set { SetOwnAttribute(AttributeNames.Size, value.ToString()); }
         }
 
         /// <summary>
@@ -302,8 +302,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Src); }
-            set { SetAttribute(AttributeNames.Src, value); }
+            get { return GetOwnAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -314,8 +314,8 @@
         /// </summary>
         public String Step
         {
-            get { return GetAttribute(AttributeNames.Step); }
-            set { SetAttribute(AttributeNames.Step, value); }
+            get { return GetOwnAttribute(AttributeNames.Step); }
+            set { SetOwnAttribute(AttributeNames.Step, value); }
         }
 
         /// <summary>
@@ -323,8 +323,8 @@
         /// </summary>
         public String UseMap
         {
-            get { return GetAttribute(AttributeNames.UseMap); }
-            set { SetAttribute(AttributeNames.UseMap, value); }
+            get { return GetOwnAttribute(AttributeNames.UseMap); }
+            set { SetOwnAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
@@ -333,8 +333,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetAttribute(AttributeNames.Width, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -344,8 +344,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetAttribute(AttributeNames.Height, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>

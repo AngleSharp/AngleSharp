@@ -9,6 +9,13 @@
     /// </summary>
     sealed class HtmlMapElement : HtmlElement, IHtmlMapElement
     {
+        #region Fields
+
+        HtmlCollection<IHtmlAreaElement> _areas;
+        HtmlCollection<IHtmlImageElement> _images;
+
+        #endregion
+
         #region ctor
 
         public HtmlMapElement(Document owner)
@@ -25,8 +32,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
+            get { return GetOwnAttribute(AttributeNames.Name); }
+            set { SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -35,7 +42,7 @@
         /// </summary>
         public IHtmlCollection Areas
         {
-            get { return new HtmlCollection<IHtmlAreaElement>(this, false); }
+            get { return _areas ?? (_areas = new HtmlCollection<IHtmlAreaElement>(this, false)); }
         }
 
         /// <summary>
@@ -44,7 +51,7 @@
         /// </summary>
         public IHtmlCollection Images
         {
-            get { return new HtmlCollection<IHtmlImageElement>(Owner.DocumentElement, predicate: IsAssociatedImage); }
+            get { return _images ?? (_images = new HtmlCollection<IHtmlImageElement>(Owner.DocumentElement, predicate: IsAssociatedImage)); }
         }
 
         #endregion

@@ -142,8 +142,8 @@
         /// </summary>
         public String CrossOrigin
         {
-            get { return GetAttribute(AttributeNames.CrossOrigin); }
-            set { SetAttribute(AttributeNames.CrossOrigin, value); }
+            get { return GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
@@ -151,8 +151,8 @@
         /// </summary>
         public String Preload
         {
-            get { return GetAttribute(AttributeNames.Preload); }
-            set { SetAttribute(AttributeNames.Preload, value); }
+            get { return GetOwnAttribute(AttributeNames.Preload); }
+            set { SetOwnAttribute(AttributeNames.Preload, value); }
         }
 
         /// <summary>
@@ -239,26 +239,26 @@
 
         public Boolean IsAutoplay
         {
-            get { return GetAttribute(AttributeNames.Autoplay) != null; }
-            set { SetAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Autoplay) != null; }
+            set { SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
         }
 
         public Boolean IsLoop
         {
-            get { return GetAttribute(AttributeNames.Loop) != null; }
-            set { SetAttribute(AttributeNames.Loop, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Loop) != null; }
+            set { SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
         }
 
         public Boolean IsShowingControls
         {
-            get { return GetAttribute(AttributeNames.Controls) != null; }
-            set { SetAttribute(AttributeNames.Controls, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Controls) != null; }
+            set { SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
         }
 
         public Boolean IsDefaultMuted
         {
-            get { return GetAttribute(AttributeNames.Muted) != null; }
-            set { SetAttribute(AttributeNames.Muted, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Muted) != null; }
+            set { SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
         }
 
         public Boolean IsPaused
@@ -305,8 +305,8 @@
 
         public String MediaGroup
         {
-            get { return GetAttribute(AttributeNames.MediaGroup); }
-            set { SetAttribute(AttributeNames.MediaGroup, value); }
+            get { return GetOwnAttribute(AttributeNames.MediaGroup); }
+            set { SetOwnAttribute(AttributeNames.MediaGroup, value); }
         }
 
         public Double Volume

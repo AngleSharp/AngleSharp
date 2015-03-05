@@ -29,8 +29,8 @@
         /// </summary>
         public String Content
         {
-            get { return GetAttribute(AttributeNames.Content); }
-            set { SetAttribute(AttributeNames.Content, value); }
+            get { return GetOwnAttribute(AttributeNames.Content); }
+            set { SetOwnAttribute(AttributeNames.Content, value); }
         }
 
         /// <summary>
@@ -38,8 +38,8 @@
         /// </summary>
         public String Charset
         {
-            get { return GetAttribute(AttributeNames.Charset); }
-            set { SetAttribute(AttributeNames.Charset, value); }
+            get { return GetOwnAttribute(AttributeNames.Charset); }
+            set { SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -47,8 +47,8 @@
         /// </summary>
         public String HttpEquivalent
         {
-            get { return GetAttribute(AttributeNames.HttpEquiv); }
-            set { SetAttribute(AttributeNames.HttpEquiv, value); }
+            get { return GetOwnAttribute(AttributeNames.HttpEquiv); }
+            set { SetOwnAttribute(AttributeNames.HttpEquiv, value); }
         }
 
         /// <summary>
@@ -56,8 +56,8 @@
         /// </summary>
         public String Scheme
         {
-            get { return GetAttribute(AttributeNames.Scheme); }
-            set { SetAttribute(AttributeNames.Scheme, value); }
+            get { return GetOwnAttribute(AttributeNames.Scheme); }
+            set { SetOwnAttribute(AttributeNames.Scheme, value); }
         }
 
         /// <summary>
@@ -65,8 +65,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
+            get { return GetOwnAttribute(AttributeNames.Name); }
+            set { SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         #endregion
@@ -90,11 +90,8 @@
             }
 
             var equiv = HttpEquivalent;
-
-            if (equiv != null && equiv.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
-                return TextEncoding.Parse(Content ?? String.Empty);
-
-            return null;
+            var shouldParseContent = equiv != null && equiv.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase);
+            return shouldParseContent ? TextEncoding.Parse(Content ?? String.Empty) : null;
         }
 
         #endregion

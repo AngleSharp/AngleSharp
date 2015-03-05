@@ -915,7 +915,7 @@
             {
                 get
                 {
-                    var value = _parent.GetAttribute(_attributeName) ?? String.Empty;
+                    var value = _parent.GetAttribute(null, _attributeName) ?? String.Empty;
                     var baseUrl = _parent.BaseUrl;
 
                     if (_location == null || !baseUrl.Equals(_baseUrl) || !value.Equals(_value, StringComparison.Ordinal))
@@ -1001,7 +1001,7 @@
 
             public void Assign(String url)
             {
-                _parent.SetAttribute(_attributeName, url);
+                _parent.SetAttribute(null, _attributeName, url);
                 _value = url;
             }
 

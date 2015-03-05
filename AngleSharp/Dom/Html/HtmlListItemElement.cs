@@ -24,8 +24,8 @@
 
         public Int32? Value
         {
-            get { var i = 0; return Int32.TryParse(GetAttribute(AttributeNames.Value), out i) ? i : new Int32?(); }
-            set { SetAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
+            get { var i = 0; return Int32.TryParse(GetOwnAttribute(AttributeNames.Value), out i) ? i : new Int32?(); }
+            set { SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
         }
 
         #endregion
