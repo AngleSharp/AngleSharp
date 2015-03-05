@@ -70,8 +70,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
+            get { return GetOwnAttribute(AttributeNames.Name); }
+            set { SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -103,8 +103,8 @@
         /// </summary>
         public String AcceptCharset
         {
-            get { return GetAttribute(AttributeNames.AcceptCharset); }
-            set { SetAttribute(AttributeNames.AcceptCharset, value); }
+            get { return GetOwnAttribute(AttributeNames.AcceptCharset); }
+            set { SetOwnAttribute(AttributeNames.AcceptCharset, value); }
         }
 
         /// <summary>
@@ -112,8 +112,8 @@
         /// </summary>
         public String Action
         {
-            get { return GetAttribute(AttributeNames.Action); }
-            set { SetAttribute(AttributeNames.Action, value); }
+            get { return GetOwnAttribute(AttributeNames.Action); }
+            set { SetOwnAttribute(AttributeNames.Action, value); }
         }
 
         /// <summary>
@@ -121,8 +121,8 @@
         /// </summary>
         public String Autocomplete
         {
-            get { return GetAttribute(AttributeNames.AutoComplete); }
-            set { SetAttribute(AttributeNames.AutoComplete, value); }
+            get { return GetOwnAttribute(AttributeNames.AutoComplete); }
+            set { SetOwnAttribute(AttributeNames.AutoComplete, value); }
         }
 
         /// <summary>
@@ -130,8 +130,8 @@
         /// </summary>
         public String Enctype
         {
-            get { return CheckEncType(GetAttribute(AttributeNames.Enctype)); }
-            set { SetAttribute(AttributeNames.Enctype, CheckEncType(value)); }
+            get { return CheckEncType(GetOwnAttribute(AttributeNames.Enctype)); }
+            set { SetOwnAttribute(AttributeNames.Enctype, CheckEncType(value)); }
         }
 
         /// <summary>
@@ -148,8 +148,8 @@
         /// </summary>
         public String Method
         {
-            get { return GetAttribute(AttributeNames.Method) ?? String.Empty; }
-            set { SetAttribute(AttributeNames.Method, value); }
+            get { return GetOwnAttribute(AttributeNames.Method) ?? String.Empty; }
+            set { SetOwnAttribute(AttributeNames.Method, value); }
         }
 
         /// <summary>
@@ -157,8 +157,8 @@
         /// </summary>
         public Boolean NoValidate
         {
-            get { return GetAttribute(AttributeNames.NoValidate) != null; }
-            set { SetAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.NoValidate) != null; }
+            set { SetOwnAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -166,8 +166,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetAttribute(AttributeNames.Target); }
-            set { SetAttribute(AttributeNames.Target, value); }
+            get { return GetOwnAttribute(AttributeNames.Target); }
+            set { SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         #endregion

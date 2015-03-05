@@ -40,8 +40,8 @@
         /// </summary>
         public String Download
         {
-            get { return GetAttribute(AttributeNames.Download); }
-            set { SetAttribute(AttributeNames.Download, value); }
+            get { return GetOwnAttribute(AttributeNames.Download); }
+            set { SetOwnAttribute(AttributeNames.Download, value); }
         }
 
         /// <summary>
@@ -152,8 +152,8 @@
         /// </summary>
         public String TargetLanguage
         {
-            get { return GetAttribute(AttributeNames.HrefLang); }
-            set { SetAttribute(AttributeNames.HrefLang, value); }
+            get { return GetOwnAttribute(AttributeNames.HrefLang); }
+            set { SetOwnAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -161,8 +161,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetAttribute(AttributeNames.Media); }
-            set { SetAttribute(AttributeNames.Media, value); }
+            get { return GetOwnAttribute(AttributeNames.Media); }
+            set { SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -171,8 +171,8 @@
         /// </summary>
         public String Relation
         {
-            get { return GetAttribute(AttributeNames.Rel); }
-            set { SetAttribute(AttributeNames.Rel, value); }
+            get { return GetOwnAttribute(AttributeNames.Rel); }
+            set { SetOwnAttribute(AttributeNames.Rel, value); }
         }
 
         /// <summary>
@@ -185,7 +185,7 @@
             { 
                 if (_relList == null)
                 {
-                    _relList = new TokenList(GetAttribute(AttributeNames.Rel));
+                    _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
                     _relList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Rel, _relList.ToString());
                 }
 
@@ -202,7 +202,7 @@
             { 
                 if (_ping == null)
                 {
-                    _ping = new SettableTokenList(GetAttribute(AttributeNames.Ping));
+                    _ping = new SettableTokenList(GetOwnAttribute(AttributeNames.Ping));
                     _ping.Changed += (s, ev) => UpdateAttribute(AttributeNames.Ping, _ping.Value);
                 }
 
@@ -215,8 +215,8 @@
         /// </summary>
         public String AlternativeText
         {
-            get { return GetAttribute(AttributeNames.Alt); }
-            set { SetAttribute(AttributeNames.Alt, value); }
+            get { return GetOwnAttribute(AttributeNames.Alt); }
+            set { SetOwnAttribute(AttributeNames.Alt, value); }
         }
 
         /// <summary>
@@ -224,8 +224,8 @@
         /// </summary>
         public String Coordinates
         {
-            get { return GetAttribute(AttributeNames.Coords); }
-            set { SetAttribute(AttributeNames.Coords, value); }
+            get { return GetOwnAttribute(AttributeNames.Coords); }
+            set { SetOwnAttribute(AttributeNames.Coords, value); }
         }
 
         /// <summary>
@@ -235,8 +235,8 @@
         /// </summary>
         public String Shape
         {
-            get { return GetAttribute(AttributeNames.Shape); }
-            set { SetAttribute(AttributeNames.Shape, value); }
+            get { return GetOwnAttribute(AttributeNames.Shape); }
+            set { SetOwnAttribute(AttributeNames.Shape, value); }
         }
 
         /// <summary>
@@ -244,8 +244,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetAttribute(AttributeNames.Target); }
-            set { SetAttribute(AttributeNames.Target, value); }
+            get { return GetOwnAttribute(AttributeNames.Target); }
+            set { SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -253,8 +253,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         #endregion

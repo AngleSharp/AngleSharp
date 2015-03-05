@@ -25,8 +25,8 @@
         /// </summary>
         public Boolean NoResize
         {
-            get { return GetAttribute(AttributeNames.NoResize).ToBoolean(false); }
-            set { SetAttribute(AttributeNames.NoResize, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.NoResize).ToBoolean(false); }
+            set { SetOwnAttribute(AttributeNames.NoResize, value.ToString()); }
         }
 
         #endregion

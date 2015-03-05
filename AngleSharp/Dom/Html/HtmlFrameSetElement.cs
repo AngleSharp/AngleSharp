@@ -28,8 +28,8 @@
         /// </summary>
         public Int32 Columns
         {
-            get { return GetAttribute(AttributeNames.Cols).ToInteger(1); }
-            set { SetAttribute(AttributeNames.Cols, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Cols).ToInteger(1); }
+            set { SetOwnAttribute(AttributeNames.Cols, value.ToString()); }
         }
 
         /// <summary>
@@ -37,8 +37,8 @@
         /// </summary>
         public Int32 Rows
         {
-            get { return GetAttribute(AttributeNames.Rows).ToInteger(1); }
-            set { SetAttribute(AttributeNames.Rows, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Rows).ToInteger(1); }
+            set { SetOwnAttribute(AttributeNames.Rows, value.ToString()); }
         }
 
         #endregion

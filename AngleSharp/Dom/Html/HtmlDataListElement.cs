@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly HtmlCollection<HtmlOptionElement> _options;
+        HtmlCollection<HtmlOptionElement> _options;
 
         #endregion
 
@@ -22,7 +22,6 @@
         public HtmlDataListElement(Document owner)
             : base(owner, Tags.Datalist)
         {
-            _options = new HtmlCollection<HtmlOptionElement>(this);
         }
 
         #endregion
@@ -34,7 +33,7 @@
         /// </summary>
         public IHtmlCollection Options
         {
-            get { return _options; }
+            get { return _options ?? (_options = new HtmlCollection<HtmlOptionElement>(this)); }
         }
 
         #endregion

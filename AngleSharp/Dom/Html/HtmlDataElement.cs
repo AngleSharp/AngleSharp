@@ -22,8 +22,8 @@
 
         public String Value
         {
-            get { return GetAttribute(AttributeNames.Value); }
-            set { SetAttribute(AttributeNames.Value, value); }
+            get { return GetOwnAttribute(AttributeNames.Value); }
+            set { SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         #endregion

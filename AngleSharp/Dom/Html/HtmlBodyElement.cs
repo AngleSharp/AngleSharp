@@ -27,8 +27,8 @@
         /// </summary>
         public String ALink
         {
-            get { return GetAttribute(AttributeNames.Alink); }
-            set { SetAttribute(AttributeNames.Alink, value); }
+            get { return GetOwnAttribute(AttributeNames.Alink); }
+            set { SetOwnAttribute(AttributeNames.Alink, value); }
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public String Background
         {
-            get { return GetAttribute(AttributeNames.Background); }
-            set { SetAttribute(AttributeNames.Background, value); }
+            get { return GetOwnAttribute(AttributeNames.Background); }
+            set { SetOwnAttribute(AttributeNames.Background, value); }
         }
 
         /// <summary>
@@ -45,8 +45,8 @@
         /// </summary>
         public String BgColor
         {
-            get { return GetAttribute(AttributeNames.BgColor); }
-            set { SetAttribute(AttributeNames.BgColor, value); }
+            get { return GetOwnAttribute(AttributeNames.BgColor); }
+            set { SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -54,8 +54,8 @@
         /// </summary>
         public String Link
         {
-            get { return GetAttribute(AttributeNames.Link); }
-            set { SetAttribute(AttributeNames.Link, value); }
+            get { return GetOwnAttribute(AttributeNames.Link); }
+            set { SetOwnAttribute(AttributeNames.Link, value); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@
         /// </summary>
         public String Text
         {
-            get { return GetAttribute(AttributeNames.Text); }
-            set { SetAttribute(AttributeNames.Text, value); }
+            get { return GetOwnAttribute(AttributeNames.Text); }
+            set { SetOwnAttribute(AttributeNames.Text, value); }
         }
 
         /// <summary>
@@ -72,8 +72,8 @@
         /// </summary>
         public String VLink
         {
-            get { return GetAttribute(AttributeNames.Vlink); }
-            set { SetAttribute(AttributeNames.Vlink, value); }
+            get { return GetOwnAttribute(AttributeNames.Vlink); }
+            set { SetOwnAttribute(AttributeNames.Vlink, value); }
         }
 
         #endregion

@@ -40,8 +40,8 @@
         /// <returns>The value of the custom attribute property.</returns>
         public String this[String name]
         {
-            get { return _parent.GetAttribute(_prefix + Check(name)); }
-            set { _parent.SetAttribute(_prefix + Check(name), value); }
+            get { return _parent.GetAttribute(null, _prefix + Check(name)); }
+            set { _parent.SetAttribute(null, _prefix + Check(name), value); }
         }
 
         #endregion
@@ -65,7 +65,7 @@
         /// <returns>True if the property is set, otherwise false.</returns>
         public Boolean Contains(String name)
         {
-            return _parent.HasAttribute(_prefix + Check(name));
+            return _parent.HasAttribute(null, _prefix + Check(name));
         }
 
         #endregion
@@ -81,8 +81,7 @@
         {
             if (name.StartsWith(Tags.Xml, StringComparison.OrdinalIgnoreCase))
                 throw new DomException(ErrorCode.Syntax);
-
-            if (name.IndexOf(Symbols.Semicolon) >= 0)
+            else if (name.IndexOf(Symbols.Semicolon) >= 0)
                 throw new DomException(ErrorCode.Syntax);
 
             for (int i = 0; i < name.Length; i++)
@@ -106,7 +105,7 @@
         {
             foreach (var attr in _parent.Attributes)
             {
-                if (attr.Name.StartsWith(_prefix, StringComparison.OrdinalIgnoreCase))
+                if (attr.NamespaceUri == null && attr.Name.StartsWith(_prefix, StringComparison.OrdinalIgnoreCase))
                     yield return new KeyValuePair<String, String>(attr.Name.Remove(0, _prefix.Length), attr.Value);
             }
         }

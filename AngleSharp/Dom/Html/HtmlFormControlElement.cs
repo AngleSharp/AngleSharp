@@ -37,8 +37,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
+            get { return GetOwnAttribute(AttributeNames.Name); }
+            set { SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -54,8 +54,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(AttributeNames.Disabled) != null || IsFieldsetDisabled(); }
-            set { SetAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Disabled) != null || IsFieldsetDisabled(); }
+            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -64,8 +64,8 @@
         /// </summary>
         public Boolean Autofocus
         {
-            get { return GetAttribute(AttributeNames.AutoFocus) != null; }
-            set { SetAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.AutoFocus) != null; }
+            set { SetOwnAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
         }
 
         /// <summary>

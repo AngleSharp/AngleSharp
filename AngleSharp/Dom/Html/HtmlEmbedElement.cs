@@ -24,26 +24,26 @@
 
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Src); }
-            set { SetAttribute(AttributeNames.Src, value); }
+            get { return GetOwnAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         public String DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width); }
-            set { SetAttribute(AttributeNames.Width, value); }
+            get { return GetOwnAttribute(AttributeNames.Width); }
+            set { SetOwnAttribute(AttributeNames.Width, value); }
         }
 
         public String DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height); }
-            set { SetAttribute(AttributeNames.Height, value); }
+            get { return GetOwnAttribute(AttributeNames.Height); }
+            set { SetOwnAttribute(AttributeNames.Height, value); }
         }
 
         #endregion

@@ -27,8 +27,8 @@
 
         public Boolean Open
         {
-            get { return GetAttribute(AttributeNames.Open) != null; }
-            set { SetAttribute(AttributeNames.Open, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Open) != null; }
+            set { SetOwnAttribute(AttributeNames.Open, value ? String.Empty : null); }
         }
 
         public String ReturnValue

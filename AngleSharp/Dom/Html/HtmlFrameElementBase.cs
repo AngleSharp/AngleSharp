@@ -31,8 +31,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
+            get { return GetOwnAttribute(AttributeNames.Name); }
+            set { SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -49,8 +49,8 @@
         /// </summary>
         public String Scrolling
         {
-            get { return GetAttribute(AttributeNames.Scrolling); }
-            set { SetAttribute(AttributeNames.Scrolling, value); }
+            get { return GetOwnAttribute(AttributeNames.Scrolling); }
+            set { SetOwnAttribute(AttributeNames.Scrolling, value); }
         }
 
         /// <summary>
@@ -67,8 +67,8 @@
         /// </summary>
         public String LongDesc
         {
-            get { return GetAttribute(AttributeNames.LongDesc); }
-            set { SetAttribute(AttributeNames.LongDesc, value); }
+            get { return GetOwnAttribute(AttributeNames.LongDesc); }
+            set { SetOwnAttribute(AttributeNames.LongDesc, value); }
         }
 
         /// <summary>
@@ -76,8 +76,8 @@
         /// </summary>
         public String FrameBorder
         {
-            get { return GetAttribute(AttributeNames.FrameBorder); }
-            set { SetAttribute(AttributeNames.FrameBorder, value); }
+            get { return GetOwnAttribute(AttributeNames.FrameBorder); }
+            set { SetOwnAttribute(AttributeNames.FrameBorder, value); }
         }
 
         #endregion

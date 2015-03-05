@@ -28,8 +28,8 @@
         /// </summary>
         public String Href
         {
-            get { return GetAttribute(AttributeNames.Href); }
-            set { SetAttribute(AttributeNames.Href, value); }
+            get { return GetOwnAttribute(AttributeNames.Href); }
+            set { SetOwnAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -37,8 +37,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetAttribute(AttributeNames.Target); }
-            set { SetAttribute(AttributeNames.Target, value); }
+            get { return GetOwnAttribute(AttributeNames.Target); }
+            set { SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         #endregion

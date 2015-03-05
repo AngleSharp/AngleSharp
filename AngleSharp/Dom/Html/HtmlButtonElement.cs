@@ -34,8 +34,8 @@
         /// </summary>
         public String Type
         {
-            get { return (GetAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLower(); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return (GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLower(); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
