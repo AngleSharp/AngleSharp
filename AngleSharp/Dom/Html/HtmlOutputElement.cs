@@ -65,7 +65,7 @@
             { 
                 if (_for == null)
                 {
-                    _for = new SettableTokenList(GetAttribute(String.Empty, AttributeNames.For));
+                    _for = new SettableTokenList(GetOwnAttribute(AttributeNames.For));
                     _for.Changed += (s, ev) => UpdateAttribute(AttributeNames.For, _for.Value);
                 }
 

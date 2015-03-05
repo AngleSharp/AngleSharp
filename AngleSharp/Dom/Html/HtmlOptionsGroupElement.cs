@@ -27,8 +27,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Label); }
-            set { SetAttribute(String.Empty, AttributeNames.Label, value); }
+            get { return GetOwnAttribute(AttributeNames.Label); }
+            set { SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Disabled) != null; }
-            set { SetAttribute(String.Empty, AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Disabled) != null; }
+            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         #endregion

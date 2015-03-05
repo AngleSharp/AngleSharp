@@ -27,8 +27,8 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { SetAttribute(AttributeNames.Align, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
+            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         #endregion

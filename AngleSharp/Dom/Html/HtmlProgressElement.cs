@@ -55,7 +55,7 @@
         /// </summary>
         public Boolean IsDeterminate
         {
-            get { return !String.IsNullOrEmpty(GetAttribute(String.Empty, AttributeNames.Value)); }
+            get { return !String.IsNullOrEmpty(GetOwnAttribute(AttributeNames.Value)); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@
         /// </summary>
         public Double Value
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Value).ToDouble(0.0); }
-            set { SetAttribute(String.Empty, AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo)); }
+            get { return GetOwnAttribute(AttributeNames.Value).ToDouble(0.0); }
+            set { SetOwnAttribute(AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         /// <summary>
@@ -72,8 +72,8 @@
         /// </summary>
         public Double Maximum
         {
-            get { return GetAttribute(String.Empty, AttributeNames.Max).ToDouble(1.0); }
-            set { SetAttribute(String.Empty, AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
+            get { return GetOwnAttribute(AttributeNames.Max).ToDouble(1.0); }
+            set { SetOwnAttribute(AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
         /// <summary>

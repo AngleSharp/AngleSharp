@@ -27,8 +27,8 @@
         /// </summary>
         public String Value
         {
-            get { return GetAttribute(AttributeNames.Value); }
-            set { SetAttribute(AttributeNames.Value, value); }
+            get { return GetOwnAttribute(AttributeNames.Value); }
+            set { SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetAttribute(AttributeNames.Name); }
-            set { SetAttribute(AttributeNames.Name, value); }
+            get { return GetOwnAttribute(AttributeNames.Name); }
+            set { SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         #endregion

@@ -28,8 +28,6 @@
             : base(owner, Tags.Object, NodeFlags.Scoped)
         {
             _data = new BoundLocation(this, AttributeNames.Data);
-            _contentDocument = null;
-            _contentWindow = null;
             RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
         }
 
@@ -51,8 +49,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -62,8 +60,8 @@
         /// </summary>
         public Boolean TypeMustMatch
         {
-            get { return GetAttribute(AttributeNames.TypeMustMatch) != null; }
-            set { SetAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.TypeMustMatch) != null; }
+            set { SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -71,8 +69,8 @@
         /// </summary>
         public String UseMap
         {
-            get { return GetAttribute(AttributeNames.UseMap); }
-            set { SetAttribute(AttributeNames.UseMap, value); }
+            get { return GetOwnAttribute(AttributeNames.UseMap); }
+            set { SetOwnAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
@@ -80,8 +78,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetAttribute(AttributeNames.Width, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -89,8 +87,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetAttribute(AttributeNames.Height, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
