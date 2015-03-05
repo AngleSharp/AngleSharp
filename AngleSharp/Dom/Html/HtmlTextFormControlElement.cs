@@ -44,8 +44,8 @@
         /// </summary>
         public String DirectionName
         {
-            get { return GetAttribute(AttributeNames.DirName); }
-            set { SetAttribute(AttributeNames.DirName, value); }
+            get { return GetOwnAttribute(AttributeNames.DirName); }
+            set { SetOwnAttribute(AttributeNames.DirName, value); }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@
         /// </summary>
         public Int32 MaxLength
         {
-            get { return GetAttribute(AttributeNames.MaxLength).ToInteger(-1); }
-            set { SetAttribute(AttributeNames.MaxLength, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.MaxLength).ToInteger(-1); }
+            set { SetOwnAttribute(AttributeNames.MaxLength, value.ToString()); }
         }
 
         /// <summary>
@@ -66,8 +66,8 @@
         /// </summary>
         public Int32 MinLength
         {
-            get { return GetAttribute(AttributeNames.MinLength).ToInteger(0); }
-            set { SetAttribute(AttributeNames.MinLength, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.MinLength).ToInteger(0); }
+            set { SetOwnAttribute(AttributeNames.MinLength, value.ToString()); }
         }
 
         /// <summary>
@@ -94,8 +94,8 @@
         /// </summary>
         public String Placeholder
         {
-            get { return GetAttribute(AttributeNames.Placeholder); }
-            set { SetAttribute(AttributeNames.Placeholder, value); }
+            get { return GetOwnAttribute(AttributeNames.Placeholder); }
+            set { SetOwnAttribute(AttributeNames.Placeholder, value); }
         }
 
         /// <summary>
@@ -103,8 +103,8 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return GetAttribute(AttributeNames.Required) != null; }
-            set { SetAttribute(AttributeNames.Required, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Required) != null; }
+            set { SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -112,8 +112,8 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return GetAttribute(AttributeNames.Readonly) != null; }
-            set { SetAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Readonly) != null; }
+            set { SetOwnAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
         }
 
         /// <summary>

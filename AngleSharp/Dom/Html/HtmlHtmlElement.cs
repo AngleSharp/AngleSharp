@@ -27,8 +27,8 @@
         /// </summary>
         public String Manifest 
         {
-            get { return GetAttribute(AttributeNames.Manifest); }
-            set { SetAttribute(AttributeNames.Manifest, value); }
+            get { return GetOwnAttribute(AttributeNames.Manifest); }
+            set { SetOwnAttribute(AttributeNames.Manifest, value); }
         }
 
         #endregion

@@ -37,8 +37,8 @@
         /// </summary>
         public String Kind
         {
-            get { return GetAttribute(AttributeNames.Kind); }
-            set { SetAttribute(AttributeNames.Kind, value); }
+            get { return GetOwnAttribute(AttributeNames.Kind); }
+            set { SetOwnAttribute(AttributeNames.Kind, value); }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@
         /// </summary>
         public String SourceLanguage
         {
-            get { return GetAttribute(AttributeNames.SrcLang); }
-            set { SetAttribute(AttributeNames.SrcLang, value); }
+            get { return GetOwnAttribute(AttributeNames.SrcLang); }
+            set { SetOwnAttribute(AttributeNames.SrcLang, value); }
         }
 
         /// <summary>
@@ -64,8 +64,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetAttribute(AttributeNames.Label); }
-            set { SetAttribute(AttributeNames.Label, value); }
+            get { return GetOwnAttribute(AttributeNames.Label); }
+            set { SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -73,8 +73,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return GetAttribute(AttributeNames.Default) != null; }
-            set { SetAttribute(AttributeNames.Default, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Default) != null; }
+            set { SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
         /// <summary>

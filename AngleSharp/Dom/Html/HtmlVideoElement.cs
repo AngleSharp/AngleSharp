@@ -44,8 +44,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetAttribute(AttributeNames.Width, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -53,8 +53,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetAttribute(AttributeNames.Height, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>

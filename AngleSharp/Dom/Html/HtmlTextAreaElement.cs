@@ -28,8 +28,8 @@
         /// </summary>
         public String Wrap
         {
-            get { return GetAttribute(AttributeNames.Wrap); }
-            set { SetAttribute(AttributeNames.Wrap, value); }
+            get { return GetOwnAttribute(AttributeNames.Wrap); }
+            set { SetOwnAttribute(AttributeNames.Wrap, value); }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@
         /// </summary>
         public Int32 Rows
         {
-            get { return GetAttribute(AttributeNames.Rows).ToInteger(2); }
-            set { SetAttribute(AttributeNames.Rows, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Rows).ToInteger(2); }
+            set { SetOwnAttribute(AttributeNames.Rows, value.ToString()); }
         }
 
         /// <summary>
@@ -65,8 +65,8 @@
         /// </summary>
         public Int32 Columns
         {
-            get { return GetAttribute(AttributeNames.Cols).ToInteger(20); }
-            set { SetAttribute(AttributeNames.Cols, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Cols).ToInteger(20); }
+            set { SetOwnAttribute(AttributeNames.Cols, value.ToString()); }
         }
 
         /// <summary>

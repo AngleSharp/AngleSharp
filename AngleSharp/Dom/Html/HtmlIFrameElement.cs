@@ -41,8 +41,8 @@
         /// </summary>
         public Alignment Align
         {
-            get { return GetAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom); }
-            set { SetAttribute(AttributeNames.Align, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom); }
+            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -50,8 +50,8 @@
         /// </summary>
         public String ContentHtml
         {
-            get { return GetAttribute(AttributeNames.SrcDoc); }
-            set { SetAttribute(AttributeNames.SrcDoc, value); }
+            get { return GetOwnAttribute(AttributeNames.SrcDoc); }
+            set { SetOwnAttribute(AttributeNames.SrcDoc, value); }
         }
 
         public ISettableTokenList Sandbox
@@ -60,7 +60,7 @@
             { 
                 if (_sandbox == null)
                 {
-                    _sandbox = new SettableTokenList(GetAttribute(AttributeNames.Sandbox));
+                    _sandbox = new SettableTokenList(GetOwnAttribute(AttributeNames.Sandbox));
                     _sandbox.Changed += (s, ev) => UpdateAttribute(AttributeNames.Sandbox, _sandbox.Value);
                 }
 
@@ -73,8 +73,8 @@
         /// </summary>
         public Boolean IsSeamless
         {
-            get { return GetAttribute(AttributeNames.SrcDoc) != null; }
-            set { SetAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.SrcDoc) != null; }
+            set { SetOwnAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -82,8 +82,8 @@
         /// </summary>
         public Boolean IsFullscreenAllowed
         {
-            get { return GetAttribute(AttributeNames.AllowFullscreen) != null; }
-            set { SetAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.AllowFullscreen) != null; }
+            set { SetOwnAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
         }
 
         /// <summary>
