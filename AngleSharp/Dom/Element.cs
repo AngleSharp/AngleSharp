@@ -476,6 +476,12 @@
             return attr != null ? attr.Value : null;
         }
 
+        protected String GetOwnAttribute(String name)
+        {
+            var attr = _attributes.Get(null, name);
+            return attr != null ? attr.Value : null;
+        }
+
         /// <summary>
         /// Returns the value of the named attribute on the specified element.
         /// </summary>
@@ -520,6 +526,21 @@
             }
             else
                 RemoveAttribute(name);
+        }
+
+        protected void SetOwnAttribute(String name, String value)
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                if (_attributes[i].LocalName == name && _attributes[i].NamespaceUri == null)
+                {
+                    _attributes[i].Value = value;
+                    return;
+                }
+            }
+
+            _attributes.Add(new Attr(this, null, name, value, null));
+            AttributeChanged(name, null, null);
         }
 
         /// <summary>
@@ -775,7 +796,7 @@
             if (_attributeHandlers.TryGetValue(name, out handler))
                 _attributeHandlers.Remove(name);
 
-            SetAttribute(name, value);
+            SetOwnAttribute(name, value);
 
             if (handler != null)
                 _attributeHandlers.Add(name, handler);
@@ -785,9 +806,9 @@
         {
             Action<String> handler = null;
 
-            if (_attributeHandlers.TryGetValue(localName, out handler))
+            if (namespaceUri == null && _attributeHandlers.TryGetValue(localName, out handler))
             {
-                var attr = _attributes.Get(localName);
+                var attr = _attributes.Get(null, localName);
                 handler(attr != null ? attr.Value : null);
             }
 
