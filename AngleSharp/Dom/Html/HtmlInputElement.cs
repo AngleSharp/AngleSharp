@@ -243,7 +243,7 @@
                 var owner = Owner;
 
                 if (owner != null)
-                    return owner.GetElementById(GetAttribute(AttributeNames.List)) as IHtmlDataListElement; 
+                    return owner.GetElementById(GetOwnAttribute(AttributeNames.List)) as IHtmlDataListElement; 
 
                 return null;
             }

@@ -283,7 +283,7 @@
             
             if (parent == null)
             {
-                var formid = GetAttribute(AttributeNames.Form);
+                var formid = GetOwnAttribute(AttributeNames.Form);
                 var owner = Owner;
 
                 if (owner != null && parent == null && !String.IsNullOrEmpty(formid))

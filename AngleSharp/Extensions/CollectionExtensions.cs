@@ -74,7 +74,7 @@
 
                 if (element != null)
                 {
-                    if (element.GetAttribute(AttributeNames.Name) == name)
+                    if (element.GetAttribute(null, AttributeNames.Name) == name)
                         result.Add(element);
 
                     element.ChildNodes.GetElementsByName(name, result);
@@ -144,7 +144,7 @@
 
             foreach (var element in elements)
             {
-                if (element.GetAttribute(AttributeNames.Name) == id)
+                if (element.GetAttribute(null, AttributeNames.Name) == id)
                     return element;
             }
 

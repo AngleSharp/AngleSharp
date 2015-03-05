@@ -171,7 +171,7 @@
         public static Boolean IsEnabled(this IElement element)
         {
             if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href));
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href));
             else if (element is HtmlButtonElement)
                 return !((HtmlButtonElement)element).IsDisabled;
             else if (element is HtmlInputElement)
@@ -183,7 +183,7 @@
             else if (element is HtmlOptionElement)
                 return !((HtmlOptionElement)element).IsDisabled;
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
-                return String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled));
+                return String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
 
             return false;
         }
@@ -206,7 +206,7 @@
             else if (element is HtmlOptionElement)
                 return ((HtmlOptionElement)element).IsDisabled;
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled));
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
 
             return false;
         }
@@ -244,7 +244,7 @@
                 }
             }
             else if (element is HtmlOptionElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Selected));
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Selected));
 
             return false;
         }
@@ -301,7 +301,7 @@
                 return inp.Type == InputTypeNames.Checkbox && inp.IsIndeterminate;
             }
             else if (element is HtmlProgressElement)
-                return String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Value));
+                return String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Value));
 
             return false;
         }
@@ -356,11 +356,11 @@
         public static Boolean IsActive(this IElement element)
         {
             if (element is HtmlAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAnchorElement)element).IsActive;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlAnchorElement)element).IsActive;
             else if (element is HtmlAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsActive;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlAreaElement)element).IsActive;
             else if (element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlLinkElement)element).IsActive;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlLinkElement)element).IsActive;
             else if (element is HtmlButtonElement)
                 return !((HtmlButtonElement)element).IsDisabled && ((HtmlButtonElement)element).IsActive;
             else if (element is HtmlInputElement)
@@ -370,7 +370,7 @@
                 return (type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button) && inp.IsActive;
             }
             else if (element is HtmlMenuItemElement)
-                return string.IsNullOrEmpty(element.GetAttribute(AttributeNames.Disabled)) && ((HtmlMenuItemElement)element).IsActive;
+                return string.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled)) && ((HtmlMenuItemElement)element).IsActive;
 
             return false;
         }
@@ -383,11 +383,11 @@
         public static Boolean IsVisited(this IElement element)
         {
             if (element is HtmlAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAnchorElement)element).IsVisited;
+                return !String.IsNullOrEmpty(element.GetAttribute( null, AttributeNames.Href)) && ((HtmlAnchorElement)element).IsVisited;
             else if (element is HtmlAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlAreaElement)element).IsVisited;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlAreaElement)element).IsVisited;
             else if (element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && ((HtmlLinkElement)element).IsVisited;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlLinkElement)element).IsVisited;
 
             return false;
         }
@@ -400,11 +400,11 @@
         public static Boolean IsLink(this IElement element)
         {
             if (element is HtmlAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlAnchorElement)element).IsVisited;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && !((HtmlAnchorElement)element).IsVisited;
             else if (element is HtmlAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlAreaElement)element).IsVisited;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && !((HtmlAreaElement)element).IsVisited;
             else if (element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(AttributeNames.Href)) && !((HtmlLinkElement)element).IsVisited;
+                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && !((HtmlLinkElement)element).IsVisited;
 
             return false;
         }

@@ -25,7 +25,7 @@
         public override void ConstructDataSet(FormDataSet dataSet)
         {
             base.ConstructDataSet(dataSet);
-            var dirname = Input.GetAttribute(AttributeNames.DirName);
+            var dirname = Input.GetAttribute(null, AttributeNames.DirName);
 
             if (!String.IsNullOrEmpty(dirname))
                 dataSet.Append(dirname, Input.Direction.ToLowerInvariant(), "Direction");

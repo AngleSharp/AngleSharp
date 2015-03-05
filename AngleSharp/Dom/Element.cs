@@ -101,7 +101,7 @@
             {
                 if (_classList == null)
                 {
-                    _classList = new TokenList(GetAttribute(AttributeNames.Class));
+                    _classList = new TokenList(GetOwnAttribute(AttributeNames.Class));
                     _classList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Class, _classList.ToString());
                 }
 
@@ -114,8 +114,8 @@
         /// </summary>
         public String ClassName
         {
-            get { return GetAttribute(AttributeNames.Class); }
-            set { SetAttribute(AttributeNames.Class, value); }
+            get { return GetOwnAttribute(AttributeNames.Class); }
+            set { SetOwnAttribute(AttributeNames.Class, value); }
         }
 
         /// <summary>
@@ -123,8 +123,8 @@
         /// </summary>
         public String Id
         {
-            get { return GetAttribute(AttributeNames.Id); }
-            set { SetAttribute(AttributeNames.Id, value); }
+            get { return GetOwnAttribute(AttributeNames.Id); }
+            set { SetOwnAttribute(AttributeNames.Id, value); }
         }
 
         /// <summary>
@@ -915,7 +915,7 @@
             {
                 get
                 {
-                    var value = _parent.GetAttribute(null, _attributeName) ?? String.Empty;
+                    var value = _parent.GetOwnAttribute(_attributeName) ?? String.Empty;
                     var baseUrl = _parent.BaseUrl;
 
                     if (_location == null || !baseUrl.Equals(_baseUrl) || !value.Equals(_value, StringComparison.Ordinal))
@@ -1001,7 +1001,7 @@
 
             public void Assign(String url)
             {
-                _parent.SetAttribute(null, _attributeName, url);
+                _parent.SetOwnAttribute(_attributeName, url);
                 _value = url;
             }
 

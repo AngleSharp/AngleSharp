@@ -39,7 +39,7 @@
         /// </summary>
         public virtual String Type
         {
-            get { return _owner != null ? (_owner.GetAttribute(AttributeNames.Type) ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? (_owner.GetAttribute(null, AttributeNames.Type) ?? String.Empty) : String.Empty; }
         }
 
         /// <summary>

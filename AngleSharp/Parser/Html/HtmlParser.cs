@@ -1281,7 +1281,7 @@
                     InBody(HtmlTagToken.Open(Tags.Form));
 
                     if (tag.GetAttribute(AttributeNames.Action) != String.Empty)
-                        form.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
+                        form.SetAttribute(null, AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
 
                     InBody(HtmlTagToken.Open(Tags.Hr));
                     InBody(HtmlTagToken.Open(Tags.Label));
@@ -3272,7 +3272,7 @@
             {
                 if (node is MathAnnotationXmlElement)
                 {
-                    var value = node.GetAttribute(AttributeNames.Encoding);
+                    var value = node.GetAttribute(null, AttributeNames.Encoding);
 
                     if (!String.IsNullOrEmpty(value) && (
                         value.Equals(MimeTypes.Html, StringComparison.OrdinalIgnoreCase) ||
