@@ -3,6 +3,8 @@
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Html;
     using System;
+    using System.IO;
+
 
     /// <summary>
     /// Represents the typedef for any rendering context.
@@ -26,5 +28,12 @@
         /// Gets or sets the bound host of the context.
         /// </summary>
         IHtmlCanvasElement Host { get; set; }
+
+        /// <summary>
+        /// Converts the current data to the given image format.
+        /// </summary>
+        /// <param name="type">The type of the image format.</param>
+        /// <returns>The raw content bytes of the image.</returns>
+        Byte[] ToImage(String type);
     }
 }

@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services;
     using System;
     using System.IO;
@@ -119,12 +120,8 @@
         /// <returns>A data URI with the data if any.</returns>
         public String ToDataUrl(String type = null)
         {
-            if (_current != null)
-            {
-                //TODO
-            }
-
-            return String.Empty;
+            var content = GetImageData(type);
+            return Convert.ToBase64String(content);
         }
 
         /// <summary>
@@ -135,15 +132,19 @@
         /// <param name="type">The type of object to create.</param>
         public void ToBlob(Action<Stream> callback, String type = null)
         {
-            if (_current == null)
-                return;
-
-            //TODO
+            var content = GetImageData(type);
+            var ms = new MemoryStream(content);
+            callback(ms);
         }
 
         #endregion
 
         #region Helpers
+
+        Byte[] GetImageData(String type)
+        {
+            return _current != null ? _current.ToImage(type ?? MimeTypes.Plain) : new Byte[0];
+        }
 
         static ContextMode GetModeFrom(String contextId)
         {
