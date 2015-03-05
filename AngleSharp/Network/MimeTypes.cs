@@ -485,6 +485,11 @@
         public static readonly String Html = "text/html";
 
         /// <summary>
+        /// Gets the mime-type for a PNG image: image/png.
+        /// </summary>
+        public static readonly String Png = "image/png";
+
+        /// <summary>
         /// Gets the mime-type for the text data, text/plain.
         /// </summary>
         public static readonly String Plain = "text/plain";
