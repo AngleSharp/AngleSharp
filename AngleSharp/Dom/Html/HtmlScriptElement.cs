@@ -66,12 +66,9 @@
         {
             get
             {
-                var type = Type ?? (GetAttribute(AttributeNames.Language) != null ? "text/" + GetAttribute(AttributeNames.Language) : null);
-
-                if (String.IsNullOrEmpty(type))
-                    return MimeTypes.DefaultJavaScript;
-
-                return type;
+                var language = GetOwnAttribute(AttributeNames.Language);
+                var type = Type ?? (language != null ? "text/" + language : null);
+                return String.IsNullOrEmpty(type) ? MimeTypes.DefaultJavaScript : type;
             }
         }
 
@@ -80,8 +77,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetAttribute(AttributeNames.Src); }
-            set { SetAttribute(AttributeNames.Src, value); }
+            get { return GetOwnAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -89,8 +86,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -98,8 +95,8 @@
         /// </summary>
         public String CharacterSet
         {
-            get { return GetAttribute(AttributeNames.Charset); }
-            set { SetAttribute(AttributeNames.Charset, value); }
+            get { return GetOwnAttribute(AttributeNames.Charset); }
+            set { SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -116,8 +113,8 @@
         /// </summary>
         public String CrossOrigin
         {
-            get { return GetAttribute(AttributeNames.CrossOrigin); }
-            set { SetAttribute(AttributeNames.CrossOrigin, value); }
+            get { return GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
@@ -125,8 +122,8 @@
         /// </summary>
         public Boolean IsDeferred
         {
-            get { return GetAttribute(AttributeNames.Defer) != null; }
-            set { SetAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Defer) != null; }
+            set { SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -134,8 +131,8 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get { return GetAttribute(AttributeNames.Async) != null; }
-            set { SetAttribute(AttributeNames.Async, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Async) != null; }
+            set { SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
         #endregion
@@ -202,8 +199,8 @@
             if (!Owner.Options.IsScripting)
                 return;
 
-            var eventAttr = GetAttribute(AttributeNames.Event);
-            var forAttr = GetAttribute(AttributeNames.For);
+            var eventAttr = GetOwnAttribute(AttributeNames.Event);
+            var forAttr = GetOwnAttribute(AttributeNames.For);
 
             if (!String.IsNullOrEmpty(eventAttr) && !String.IsNullOrEmpty(forAttr))
             {

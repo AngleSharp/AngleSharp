@@ -43,8 +43,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetAttribute(AttributeNames.Media); }
-            set { SetAttribute(AttributeNames.Media, value); }
+            get { return GetOwnAttribute(AttributeNames.Media); }
+            set { SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -52,8 +52,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -61,8 +61,8 @@
         /// </summary>
         public String SourceSet
         {
-            get { return GetAttribute(AttributeNames.SrcSet); }
-            set { SetAttribute(AttributeNames.SrcSet, value); }
+            get { return GetOwnAttribute(AttributeNames.SrcSet); }
+            set { SetOwnAttribute(AttributeNames.SrcSet, value); }
         }
 
         /// <summary>
@@ -70,8 +70,8 @@
         /// </summary>
         public String Sizes
         {
-            get { return GetAttribute(AttributeNames.Sizes); }
-            set { SetAttribute(AttributeNames.Sizes, value); }
+            get { return GetOwnAttribute(AttributeNames.Sizes); }
+            set { SetOwnAttribute(AttributeNames.Sizes, value); }
         }
 
         #endregion

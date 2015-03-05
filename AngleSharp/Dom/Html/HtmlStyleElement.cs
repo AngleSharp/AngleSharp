@@ -35,8 +35,8 @@
         /// </summary>
         public Boolean IsScoped
         {
-            get { return GetAttribute(AttributeNames.Scoped) != null; }
-            set { SetAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
+            get { return GetOwnAttribute(AttributeNames.Scoped) != null; }
+            set { SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -52,10 +52,10 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetAttribute(AttributeNames.Disabled).ToBoolean(); }
+            get { return GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
             set 
             {
-                SetAttribute(AttributeNames.Disabled, value ? String.Empty : null);
+                SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
 
                 if (_sheet != null) 
                     _sheet.IsDisabled = value; 
@@ -67,8 +67,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetAttribute(AttributeNames.Media); }
-            set { SetAttribute(AttributeNames.Media, value); }
+            get { return GetOwnAttribute(AttributeNames.Media); }
+            set { SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -76,8 +76,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetAttribute(AttributeNames.Type); }
-            set { SetAttribute(AttributeNames.Type, value); }
+            get { return GetOwnAttribute(AttributeNames.Type); }
+            set { SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         #endregion

@@ -42,7 +42,7 @@
         /// </summary>
         public IHtmlCollection Areas
         {
-            get { return _areas ?? (_areas = new HtmlCollection<IHtmlAreaElement>(this, false)); }
+            get { return _areas ?? (_areas = new HtmlCollection<IHtmlAreaElement>(this, deep: false)); }
         }
 
         /// <summary>

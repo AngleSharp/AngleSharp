@@ -86,8 +86,8 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return GetAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { SetAttribute(AttributeNames.Align, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
+            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -95,8 +95,8 @@
         /// </summary>
         public String BgColor
         {
-            get { return GetAttribute(AttributeNames.BgColor); }
-            set { SetAttribute(AttributeNames.BgColor, value); }
+            get { return GetOwnAttribute(AttributeNames.BgColor); }
+            set { SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public UInt32 Border
         {
-            get { return GetAttribute(AttributeNames.Border).ToInteger(0u); }
-            set { SetAttribute(AttributeNames.Border, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Border).ToInteger(0u); }
+            set { SetOwnAttribute(AttributeNames.Border, value.ToString()); }
         }
 
         /// <summary>
@@ -114,8 +114,8 @@
         /// </summary>
         public Int32 CellPadding
         {
-            get { return GetAttribute(AttributeNames.CellPadding).ToInteger(0); }
-            set { SetAttribute(AttributeNames.CellPadding, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.CellPadding).ToInteger(0); }
+            set { SetOwnAttribute(AttributeNames.CellPadding, value.ToString()); }
         }
 
         /// <summary>
@@ -124,8 +124,8 @@
         /// </summary>
         public Int32 CellSpacing
         {
-            get { return GetAttribute(AttributeNames.CellSpacing).ToInteger(0); }
-            set { SetAttribute(AttributeNames.CellSpacing, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.CellSpacing).ToInteger(0); }
+            set { SetOwnAttribute(AttributeNames.CellSpacing, value.ToString()); }
         }
 
         /// <summary>
@@ -133,8 +133,8 @@
         /// </summary>
         public TableFrames Frame
         {
-            get { return GetAttribute(AttributeNames.Frame).ToEnum(TableFrames.Void); }
-            set { SetAttribute(AttributeNames.Frame, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Frame).ToEnum(TableFrames.Void); }
+            set { SetOwnAttribute(AttributeNames.Frame, value.ToString()); }
         }
 
         /// <summary>
@@ -142,8 +142,8 @@
         /// </summary>
         public TableRules Rules
         {
-            get { return GetAttribute(AttributeNames.Rules).ToEnum(TableRules.All); }
-            set { SetAttribute(AttributeNames.Rules, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Rules).ToEnum(TableRules.All); }
+            set { SetOwnAttribute(AttributeNames.Rules, value.ToString()); }
         }
 
         /// <summary>
@@ -151,8 +151,8 @@
         /// </summary>
         public String Summary
         {
-            get { return GetAttribute(AttributeNames.Summary); }
-            set { SetAttribute(AttributeNames.Summary, value); }
+            get { return GetOwnAttribute(AttributeNames.Summary); }
+            set { SetOwnAttribute(AttributeNames.Summary, value); }
         }
 
         /// <summary>
@@ -160,8 +160,8 @@
         /// </summary>
         public String Width
         {
-            get { return GetAttribute(AttributeNames.Width); }
-            set { SetAttribute(AttributeNames.Width, value); }
+            get { return GetOwnAttribute(AttributeNames.Width); }
+            set { SetOwnAttribute(AttributeNames.Width, value); }
         }
 
         #endregion

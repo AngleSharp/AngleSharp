@@ -24,8 +24,8 @@
         /// </summary>
         public CaptionAlignment Align
         {
-            get { return GetAttribute(AttributeNames.Align).ToEnum(CaptionAlignment.Top); }
-            set { SetAttribute(AttributeNames.Align, value.ToString()); }
+            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(CaptionAlignment.Top); }
+            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         #endregion
