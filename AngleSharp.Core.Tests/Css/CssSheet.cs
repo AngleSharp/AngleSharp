@@ -27,6 +27,24 @@ h1 {
         }
 
         [Test]
+        public void CssSheetSerializeListStyleNone()
+        {
+            var cssSrc = ".T1 { list-style: none; }";
+            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.CssText;
+            Assert.AreEqual(cssSrc + Environment.NewLine, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorder1pxOutset()
+        {
+            var cssSrc = ".T2 { border: 1px outset; }";
+            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.CssText;
+            Assert.AreEqual(cssSrc + Environment.NewLine, cssText);
+        }
+
+        [Test]
         public void CssSheetSimpleStyleRuleStringification()
         {
             var css = @"html { font-family: sans-serif; }";
