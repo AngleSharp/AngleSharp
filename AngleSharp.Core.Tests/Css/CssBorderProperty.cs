@@ -729,5 +729,23 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(Color.Transparent, concrete.Color);
             Assert.AreEqual(LineStyle.Outset, concrete.Style);
         }
+
+        [Test]
+        public void CssBorderOutSetWithNoColor()
+        {
+            var snippet = "border: 1px outset";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("border", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CssBorderProperty>(property);
+            var concrete = (CssBorderProperty)property;
+            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("1px outset", concrete.Value.CssText);
+            Assert.AreEqual(new Length(1f, Length.Unit.Px), concrete.Width);
+            Assert.AreEqual(Color.Transparent, concrete.Color);
+            Assert.AreEqual(LineStyle.Outset, concrete.Style);
+        }
     }
 }
