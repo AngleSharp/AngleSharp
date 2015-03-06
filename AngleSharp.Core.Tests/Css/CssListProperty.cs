@@ -185,6 +185,21 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void CssListStyleNone()
+        {
+            var snippet = "list-style: none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("list-style", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CssListStyleProperty>(property);
+            var concrete = (CssListStyleProperty)property;
+            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("none", concrete.Value.CssText);
+        }
+
+        [Test]
         public void CssListStyleSquareInsideLegal()
         {
             var snippet = "list-style: square inside ";
