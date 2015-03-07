@@ -41,7 +41,5 @@
         /// </summary>
         [DomName("restore")]
         void RestoreState();
-
-        //TODO and much more ...
     }
 }

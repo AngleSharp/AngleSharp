@@ -132,7 +132,8 @@
         #region Methods
 
         /// <summary>
-        /// Determines if the given value represents a valid state of this property.
+        /// Determines if the given value represents a valid state of this
+        /// property.
         /// </summary>
         /// <param name="value">The state that should be used.</param>
         /// <returns>True if the state is valid, otherwise false.</returns>
@@ -153,8 +154,8 @@
         }
 
         /// <summary>
-        /// Instead of specifying individual longhand properties, a
-        /// keyword can be used to represent a specific system font.
+        /// Instead of specifying individual longhand properties, a keyword
+        /// can be used to represent a specific system font.
         /// </summary>
         /// <param name="font">The font to select.</param>
         void SetSystemFont(SystemFont font)

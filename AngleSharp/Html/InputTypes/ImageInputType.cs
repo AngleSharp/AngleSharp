@@ -68,12 +68,8 @@
                 if (!String.IsNullOrEmpty(Input.Value))
                     name = Input.Value + ".";
 
-                var namex = name + "x";
-                var namey = name + "y";
-
-                //TODO get x and y of submitter and save those
-                dataSet.Append(namex, "0", Input.Type);
-                dataSet.Append(namey, "0", Input.Type);
+                dataSet.Append(name + "x", "0", Input.Type);
+                dataSet.Append(name + "y", "0", Input.Type);
             }
         }
 
