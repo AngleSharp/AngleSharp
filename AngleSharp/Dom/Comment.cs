@@ -34,7 +34,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {

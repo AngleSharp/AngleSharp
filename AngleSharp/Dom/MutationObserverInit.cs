@@ -3,7 +3,6 @@
     using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Defines a set of options to use with the mutation observer.
@@ -34,8 +33,8 @@
         }
 
         /// <summary>
-        /// Gets or sets if mutations to not just target, but also
-        /// target's descendants are to be observed.
+        /// Gets or sets if mutations to not just target, but also target's
+        /// descendants are to be observed.
         /// </summary>
         [DomName("subtree")]
         public Boolean IsObservingSubtree
@@ -45,7 +44,8 @@
         }
 
         /// <summary>
-        /// Gets or sets if mutations to target's attributes are to be observed.
+        /// Gets or sets if mutations to target's attributes are to be
+        /// observed.
         /// </summary>
         [DomName("attributes")]
         public Boolean? IsObservingAttributes
@@ -76,8 +76,8 @@
         }
 
         /// <summary>
-        /// Gets or sets if characterData is set to true and target's
-        /// data before the mutation needs to be recorded.
+        /// Gets or sets if characterData is set to true and target's data
+        /// before the mutation needs to be recorded.
         /// </summary>
         [DomName("characterDataOldValue")]
         public Boolean? IsExaminingOldCharacterData
@@ -87,8 +87,8 @@
         }
 
         /// <summary>
-        /// Gets or sets if the attributes to observe. If this is not set,
-        /// then all attributes are being observed.
+        /// Gets or sets if the attributes to observe. If this is not set, then
+        /// all attributes are being observed.
         /// </summary>
         [DomName("attributeFilter")]
         public IEnumerable<String> AttributeFilters

@@ -45,8 +45,8 @@
         #region Public Properties
 
         /// <summary>
-        /// Gets a boolean value indicating whether the current Node 
-        /// has child nodes or not.
+        /// Gets a boolean value indicating whether the current Node has child
+        /// nodes or not.
         /// </summary>
         public Boolean HasChildNodes
         {
@@ -54,8 +54,8 @@
         }
 
         /// <summary>
-        /// Gets the absolute base URI of a node or null if
-        /// unable to obtain an absolute URI.
+        /// Gets the absolute base URI of a node or null if unable to obtain an
+        /// absolute URI.
         /// </summary>
         public String BaseUri
         {
@@ -173,8 +173,8 @@
         #region Internal Properties
 
         /// <summary>
-        /// Gets the node immediately preceding this node's parent's list of nodes, 
-        /// null if the specified node is the first in that list.
+        /// Gets the node immediately preceding this node's parent's list of
+        /// nodes, null if the specified node is the first in that list.
         /// </summary>
         internal Node PreviousSibling
         {
@@ -196,8 +196,8 @@
         }
 
         /// <summary>
-        /// Gets the node immediately following this node's parent's list of nodes,
-        /// or null if the current node is the last node in that list.
+        /// Gets the node immediately following this node's parent's list of
+        /// nodes, or null if the current node is the last node in that list.
         /// </summary>
         internal Node NextSibling
         {
@@ -337,7 +337,8 @@
         }
 
         /// <summary>
-        /// Inserts a child to the collection of children at the specified index.
+        /// Inserts a child to the collection of children at the specified
+        /// index.
         /// </summary>
         /// <param name="index">The index where to insert.</param>
         /// <param name="child">The child to insert.</param>
@@ -348,11 +349,15 @@
         }
 
         /// <summary>
-        /// Inserts the specified node before a reference element as a child of the current node.
+        /// Inserts the specified node before a reference element as a child of
+        /// the current node.
         /// </summary>
         /// <param name="newElement">The node to insert.</param>
-        /// <param name="referenceElement">The node before which newElement is inserted. If
-        /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
+        /// <param name="referenceElement">
+        /// The node before which newElement is inserted. If referenceElement
+        /// is null, newElement is inserted at the end of the list of child
+        /// nodes.
+        /// </param>
         /// <returns>The inserted node.</returns>
         public INode InsertBefore(INode newElement, INode referenceElement)
         {
@@ -362,9 +367,14 @@
         /// <summary>
         /// Replaces one child node of the specified element with another.
         /// </summary>
-        /// <param name="newChild">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
+        /// <param name="newChild">
+        /// The new node to replace oldChild. If it already exists in the DOM,
+        /// it is first removed.
+        /// </param>
         /// <param name="oldChild">The existing child to be replaced.</param>
-        /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        /// <returns>
+        /// The replaced node. This is the same node as oldChild.
+        /// </returns>
         public INode ReplaceChild(INode newChild, INode oldChild)
         {
             return this.ReplaceChild(newChild as Node, oldChild as Node, false);
@@ -383,7 +393,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public virtual INode Clone(Boolean deep = true)
         {
@@ -393,10 +406,15 @@
         }
 
         /// <summary>
-        /// Compares the position of the current node against another node in any other document.
+        /// Compares the position of the current node against another node in
+        /// any other document.
         /// </summary>
-        /// <param name="otherNode">The node that's being compared against.</param>
-        /// <returns>The relationship that otherNode has with node, given in a bitmask.</returns>
+        /// <param name="otherNode">
+        /// The node that's being compared against.
+        /// </param>
+        /// <returns>
+        /// The relationship that otherNode has with node, given in a bitmask.
+        /// </returns>
         public DocumentPositions CompareDocumentPosition(INode otherNode)
         {
             if (this == otherNode)
@@ -417,16 +435,22 @@
         /// <summary>
         /// Indicates whether a node is a descendent of this node.
         /// </summary>
-        /// <param name="otherNode">The node that's being compared against.</param>
-        /// <returns>The return value is true if otherNode is a descendent of node, or node itself. Otherwise the return value is false.</returns>
+        /// <param name="otherNode">
+        /// The node that's being compared against.
+        /// </param>
+        /// <returns>
+        /// The return value is true if otherNode is a descendent of node, or
+        /// node itself. Otherwise the return value is false.
+        /// </returns>
         public Boolean Contains(INode otherNode)
         {
             return this.IsInclusiveAncestorOf(otherNode);
         }
 
         /// <summary>
-        /// Puts the specified node and all of its subtree into a "normalized" form. In a normalized subtree, no text nodes in the
-        /// subtree are empty and there are no adjacent text nodes.
+        /// Puts the specified node and all of its subtree into a "normalized"
+        /// form. In a normalized subtree, no text nodes in the subtree are
+        /// empty and there are no adjacent text nodes.
         /// </summary>
         public void Normalize()
         {
@@ -474,8 +498,9 @@
         }
 
         /// <summary>
-        /// Takes a prefix and returns the namespaceURI associated with it on the given node if found (and null if not).
-        /// Supplying null for the prefix will return the default namespace.
+        /// Takes a prefix and returns the namespaceURI associated with it on
+        /// the given node if found (and null if not). Supplying null for the
+        /// prefix will return the default namespace.
         /// </summary>
         /// <param name="prefix">The prefix to look for.</param>
         /// <returns>The namespace URI.</returns>
@@ -488,8 +513,9 @@
         }
 
         /// <summary>
-        /// Returns the prefix for a given namespaceURI if present, and null if not. When multiple prefixes are possible,
-        /// the result is implementation-dependent.
+        /// Returns the prefix for a given namespaceURI if present, and null if
+        /// not. When multiple prefixes are possible, the result is
+        /// implementation-dependent.
         /// </summary>
         /// <param name="namespaceUri">The namespaceURI to lookup.</param>
         /// <returns>The prefix.</returns>
@@ -502,10 +528,17 @@
         }
 
         /// <summary>
-        /// Accepts a namespace URI as an argument and returns true if the namespace is the default namespace on the given node or false if not.
+        /// Accepts a namespace URI as an argument and returns true if the
+        /// namespace is the default namespace on the given node or false if
+        /// not.
         /// </summary>
-        /// <param name="namespaceUri">A string representing the namespace against which the element will be checked.</param>
-        /// <returns>True if the given namespaceURI is the default namespace.</returns>
+        /// <param name="namespaceUri">
+        /// A string representing the namespace against which the element will
+        /// be checked.
+        /// </param>
+        /// <returns>
+        /// True if the given namespaceURI is the default namespace.
+        /// </returns>
         public Boolean IsDefaultNamespace(String namespaceUri)
         {
             if (String.IsNullOrEmpty(namespaceUri))
@@ -554,7 +587,9 @@
         /// <summary>
         /// Tries to locate the prefix with the namespace.
         /// </summary>
-        /// <param name="namespaceUri">The namespace assigned to the prefix.</param>
+        /// <param name="namespaceUri">
+        /// The namespace assigned to the prefix.
+        /// </param>
         /// <returns>The prefix for the namespace.</returns>
         protected virtual String LocatePrefix(String namespaceUri)
         {
@@ -601,7 +636,9 @@
         /// Replaces all nodes with the given node, if any.
         /// </summary>
         /// <param name="node">The node to insert, if any.</param>
-        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
+        /// <param name="suppressObservers">
+        /// If mutation observers should be surpressed.
+        /// </param>
         internal void ReplaceAll(Node node, Boolean suppressObservers)
         {
             if (node != null)
@@ -634,12 +671,17 @@
         }
 
         /// <summary>
-        /// Inserts the specified node before a reference element as a child of the current node.
+        /// Inserts the specified node before a reference element as a child of
+        /// the current node.
         /// </summary>
         /// <param name="newElement">The node to insert.</param>
-        /// <param name="referenceElement">The node before which newElement is inserted. If
-        /// referenceElement is null, newElement is inserted at the end of the list of child nodes.</param>
-        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
+        /// <param name="referenceElement">
+        /// The node before which newElement is inserted. If referenceElement
+        /// is null, newElement is inserted at the end of the list of child nodes.
+        /// </param>
+        /// <param name="suppressObservers">
+        /// If mutation observers should be surpressed.
+        /// </param>
         /// <returns>The inserted node.</returns>
         internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
         {
@@ -705,7 +747,9 @@
         /// Removes a child from the collection of children.
         /// </summary>
         /// <param name="node">The child to remove.</param>
-        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
+        /// <param name="suppressObservers">
+        /// If mutation observers should be surpressed.
+        /// </param>
         internal void RemoveChild(Node node, Boolean suppressObservers)
         {
             var index = _children.Index(node);
@@ -738,10 +782,17 @@
         /// <summary>
         /// Replaces one child node of the specified element with another.
         /// </summary>
-        /// <param name="node">The new node to replace oldChild. If it already exists in the DOM, it is first removed.</param>
+        /// <param name="node">
+        /// The new node to replace oldChild. If it already exists in the DOM,
+        /// it is first removed.
+        /// </param>
         /// <param name="child">The existing child to be replaced.</param>
-        /// <param name="suppressObservers">If mutation observers should be surpressed.</param>
-        /// <returns>The replaced node. This is the same node as oldChild.</returns>
+        /// <param name="suppressObservers">
+        /// If mutation observers should be surpressed.
+        /// </param>
+        /// <returns>
+        /// The replaced node. This is the same node as oldChild.
+        /// </returns>
         internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (_type != NodeType.Document && _type != NodeType.DocumentFragment && _type != NodeType.Element)

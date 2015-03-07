@@ -71,8 +71,7 @@
         }
 
         /// <summary>
-        /// Gets if the stored location is relative and requires
-        /// a base URL.
+        /// Gets if the stored location is relative and requires a base URL.
         /// </summary>
         public Boolean IsRelative
         {

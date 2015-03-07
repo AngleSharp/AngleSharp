@@ -65,7 +65,8 @@
         #region Properties
 
         /// <summary>
-        /// Gets the namespace prefix of the specified node, or null if no prefix is specified.
+        /// Gets the namespace prefix of the specified node, or null if no
+        /// prefix is specified.
         /// </summary>
         public String Prefix
         {
@@ -81,7 +82,8 @@
         }
 
         /// <summary>
-        /// Gets if this attribute was explicitly given a value in the document.
+        /// Gets if this attribute was explicitly given a value in the
+        /// document.
         /// </summary>
         public Boolean Specified
         {
@@ -134,7 +136,9 @@
         /// Compares the given attribute to the current one.
         /// </summary>
         /// <param name="other">The attibute to compare to.</param>
-        /// <returns>True if both attributes are equal, otherwise false.</returns>
+        /// <returns>
+        /// True if both attributes are equal, otherwise false.
+        /// </returns>
         public Boolean Equals(IAttr other)
         {
             return other == this || (_value == other.Value && _localName == other.Name);

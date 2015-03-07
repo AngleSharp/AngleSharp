@@ -12,8 +12,8 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Represents a sample browsing Window implementation for
-    /// automated tests, analysis and as a useful playground.
+    /// Represents a sample browsing Window implementation for automated tests,
+    /// analysis and as a useful playground.
     /// </summary>
     sealed class Window : EventTarget, IWindow
     {
@@ -97,8 +97,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the horizontal distance of the left border of the user's
-        /// browser from the left side of the screen.
+        /// Gets or sets the horizontal distance of the left border of the 
+        /// user's browser from the left side of the screen.
         /// </summary>
         public Int32 ScreenX
         {
@@ -150,7 +150,7 @@
         /// applying the active stylesheets and resolving any basic computation
         /// those values may contain.
         /// </summary>
-        /// <param name="element">The element to compute the styles for.</param>
+        /// <param name="element">The element to compute the style for.</param>
         /// <param name="pseudo">The optional pseudo selector to use.</param>
         /// <returns>The style declaration describing the element.</returns>
         public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)

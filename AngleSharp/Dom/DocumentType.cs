@@ -27,8 +27,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the element immediately preceding in this node's parent's list of nodes, 
-        /// null if the current element is the first element in that list.
+        /// Gets the element immediately preceding in this node's parent's list
+        /// of nodes,  null if the current element is the first element in that
+        /// list.
         /// </summary>
         public IElement PreviousElementSibling
         {
@@ -54,8 +55,9 @@
         }
 
         /// <summary>
-        /// Gets the element immediately following in this node's parent's list of nodes,
-        /// or null if the current element is the last element in that list.
+        /// Gets the element immediately following in this node's parent's list
+        /// of nodes, or null if the current element is the last element in
+        /// that list.
         /// </summary>
         public IElement NextElementSibling
         {

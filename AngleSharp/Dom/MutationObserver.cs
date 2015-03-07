@@ -6,7 +6,8 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// MutationObserver provides developers a way to react to changes in a DOM.
+    /// MutationObserver provides developers a way to react to changes in a
+    /// DOM.
     /// </summary>
     [DomName("MutationObserver")]
     public sealed class MutationObserver
@@ -112,11 +113,15 @@
         }
 
         /// <summary>
-        /// Adds a transient observer for the given node with the provided ancestor,
-        /// if the node's ancestor is currently observed.
+        /// Adds a transient observer for the given node with the provided
+        /// ancestor, if the node's ancestor is currently observed.
         /// </summary>
-        /// <param name="ancestor">The ancestor that is currently observed.</param>
-        /// <param name="node">The node to observe as a transient observer.</param>
+        /// <param name="ancestor">
+        /// The ancestor that is currently observed.
+        /// </param>
+        /// <param name="node">
+        /// The node to observe as a transient observer.
+        /// </param>
         internal void AddTransient(INode ancestor, INode node)
         {
             var obs = this[ancestor];
@@ -152,11 +157,15 @@
         }
 
         /// <summary>
-        /// Registers the MutationObserver instance to receive
-        /// notifications of DOM mutations on the specified node.
+        /// Registers the MutationObserver instance to receive notifications of
+        /// DOM mutations on the specified node.
         /// </summary>
-        /// <param name="target">The Node on which to observe DOM mutations.</param>
-        /// <param name="options">Specifies which DOM mutations should be reported.</param>
+        /// <param name="target">
+        /// The Node on which to observe DOM mutations.
+        /// </param>
+        /// <param name="options">
+        /// Specifies which DOM mutations should be reported.
+        /// </param>
         public void Connect(INode target, MutationObserverInit options)
         {
             var node = target as Node;
@@ -203,10 +212,12 @@
         }
 
         /// <summary>
-        /// Registers the MutationObserver instance to receive
-        /// notifications of DOM mutations on the specified node.
+        /// Registers the MutationObserver instance to receive notifications of
+        /// DOM mutations on the specified node.
         /// </summary>
-        /// <param name="target">The Node on which to observe DOM mutations.</param>
+        /// <param name="target">
+        /// The Node on which to observe DOM mutations.
+        /// </param>
         /// <param name="options">A dictionary with options.</param>
         [DomName("observe")]
         public void Connect(INode target, IDictionary<String, Object> options)
@@ -229,8 +240,8 @@
         }
 
         /// <summary>
-        /// Empties the MutationObserver instance's record queue and
-        /// returns what was in there.
+        /// Empties the MutationObserver instance's record queue and returns
+        /// what was in there.
         /// </summary>
         /// <returns>Returns an Array of MutationRecords.</returns>
         [DomName("takeRecords")]

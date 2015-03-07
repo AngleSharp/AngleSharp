@@ -132,7 +132,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
@@ -160,10 +163,13 @@
         }
 
         /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the specified group of selectors.
+        /// Returns the first element within the document (using depth-first
+        /// pre-order traversal of the document's nodes) that matches the
+        /// specified group of selectors.
         /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectors">
+        /// A string containing one or more CSS selectors separated by commas.
+        /// </param>
         /// <returns>An element object.</returns>
         public IElement QuerySelector(String selectors)
         {
@@ -171,10 +177,13 @@
         }
 
         /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that match the specified group of selectors.
+        /// Returns a list of the elements within the document (using
+        /// depth-first pre-order traversal of the document's nodes) that match
+        /// the specified group of selectors.
         /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectors">
+        /// A string containing one or more CSS selectors separated by commas.
+        /// </param>
         /// <returns>An element object.</returns>
         public IHtmlCollection QuerySelectorAll(String selectors)
         {
@@ -184,7 +193,10 @@
         /// <summary>
         /// Returns a set of elements which have all the given class names.
         /// </summary>
-        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
+        /// <param name="classNames">
+        /// A string representing the list of class names to match; class names
+        /// are separated by whitespace.
+        /// </param>
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection GetElementsByClassName(String classNames)
         {
@@ -192,22 +204,36 @@
         }
 
         /// <summary>
-        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+        /// Returns a NodeList of elements with the given tag name. The
+        /// complete document is searched, including the root node.
         /// </summary>
-        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
-        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
+        /// <param name="tagName">
+        /// A string representing the name of the elements. The special string
+        /// "*" represents all elements.
+        /// </param>
+        /// <returns>
+        /// A NodeList of found elements in the order they appear in the tree.
+        /// </returns>
         public IHtmlCollection GetElementsByTagName(String tagName)
         {
             return ChildNodes.GetElementsByTagName(tagName);
         }
 
         /// <summary>
-        /// Returns a list of elements with the given tag name belonging to the given namespace.
-        /// The complete document is searched, including the root node.
+        /// Returns a list of elements with the given tag name belonging to the
+        /// given namespace. The complete document is searched, including the
+        /// root node.
         /// </summary>
-        /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
-        /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
-        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
+        /// <param name="namespaceURI">
+        /// The namespace URI of elements to look for.
+        /// </param>
+        /// <param name="tagName">
+        /// Either the local name of elements to look for or the special value
+        /// "*", which matches all elements.
+        /// </param>
+        /// <returns>
+        /// A NodeList of found elements in the order they appear in the tree.
+        /// </returns>
         public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);

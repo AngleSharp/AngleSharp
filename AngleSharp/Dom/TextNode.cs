@@ -85,7 +85,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
@@ -95,10 +98,13 @@
         }
 
         /// <summary>
-        /// Creates a new text node with the content starting at the specified offset.
-        /// Adds the new node to the DOM as a sibling. Truncates the current node.
+        /// Creates a new text node with the content starting at the specified
+        /// offset. Adds the new node to the DOM as a sibling. Truncates the
+        /// current node.
         /// </summary>
-        /// <param name="offset">The position where the split should occur.</param>
+        /// <param name="offset">
+        /// The position where the split should occur.
+        /// </param>
         /// <returns>The freshly created text node.</returns>
         public IText Split(Int32 offset)
         {

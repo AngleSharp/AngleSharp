@@ -537,7 +537,8 @@
         }
 
         /// <summary>
-        /// Gets an indicator if loading the document should be asynchronous or synchronous.
+        /// Gets an indicator if loading the document should be asynchronous or
+        /// synchronous.
         /// </summary>
         public Boolean IsAsync
         {
@@ -562,7 +563,8 @@
         }
 
         /// <summary>
-        /// Gets a string containing the date and time on which the current document was last modified.
+        /// Gets a string containing the date and time on which the current
+        /// document was last modified.
         /// </summary>
         public String LastModified
         {
@@ -601,7 +603,8 @@
         }
 
         /// <summary>
-        /// Gets a list of stylesheet objects for stylesheets explicitly linked into or embedded in a document.
+        /// Gets a list of stylesheet objects for stylesheets explicitly linked
+        /// into or embedded in a document.
         /// </summary>
         public IStyleSheetList StyleSheets
         {
@@ -609,7 +612,8 @@
         }
 
         /// <summary>
-        /// Gets a live list of all of the currently-available style sheet sets.
+        /// Gets a live list of all of the currently-available style sheet
+        /// sets.
         /// </summary>
         public IStringList StyleSheetSets
         {
@@ -657,7 +661,8 @@
         }
 
         /// <summary>
-        /// Gets the window object associated with the document or null if none available.
+        /// Gets the window object associated with the document or null if none
+        /// available.
         /// </summary>
         public IWindow DefaultView 
         {
@@ -690,7 +695,8 @@
         }
 
         /// <summary>
-        /// Gets the currently focused element, that is, the element that will get keystroke events if the user types any.
+        /// Gets the currently focused element, that is, the element that will
+        /// get keystroke events if the user types any.
         /// </summary>
         public IElement ActiveElement 
         {
@@ -699,8 +705,8 @@
         }
 
         /// <summary>
-        /// Gets a value to indicate whether the document is rendered in Quirks mode (BackComp) 
-        /// or Strict mode (CSS1Compat).
+        /// Gets a value to indicate whether the document is rendered in Quirks
+        /// mode (BackComp) or Strict mode (CSS1Compat).
         /// </summary>
         public String CompatMode
         {
@@ -748,7 +754,8 @@
         }
 
         /// <summary>
-        /// Gets a list of the commands (menu item, button, and link elements) within the current document.
+        /// Gets a list of the commands (menu item, button, and link elements)
+        /// within the current document.
         /// </summary>
         public IHtmlCollection Commands
         {
@@ -756,7 +763,8 @@
         }
 
         /// <summary>
-        /// Gets a collection of all AREA elements and anchor elements in a document with a value for the href attribute.
+        /// Gets a collection of all AREA elements and anchor elements in a
+        /// document with a value for the href attribute.
         /// </summary>
         public IHtmlCollection Links
         {
@@ -927,8 +935,8 @@
         }
 
         /// <summary>
-        /// Gets the last enabled style sheet set; this property's value changes
-        /// whenever the SelectedStyleSheetSet property is changed.
+        /// Gets the last enabled style sheet set; this property's value
+        /// changes whenever the SelectedStyleSheetSet property is changed.
         /// </summary>
         public String LastStyleSheetSet
         {
@@ -1059,10 +1067,13 @@
         }
 
         /// <summary>
-        /// Enables the stylesheets matching the specified name in the current stylesheet set,
-        /// and disables all other stylesheets (except those without a title, which are always enabled).
+        /// Enables the stylesheets matching the specified name in the current
+        /// stylesheet set, and disables all other stylesheets (except those
+        /// without a title, which are always enabled).
         /// </summary>
-        /// <param name="name">The name of the stylesheet set to enable.</param>
+        /// <param name="name">
+        /// The name of the stylesheet set to enable.
+        /// </param>
         public void EnableStyleSheetsForSet(String name)
         {
             if (name == null)
@@ -1072,8 +1083,8 @@
         }
 
         /// <summary>
-        /// Opens a new window. Basically just uses the current window (if any) to
-        /// open another window.
+        /// Opens a new window. Basically just uses the current window (if any)
+        /// to open another window.
         /// </summary>
         public IWindow OpenNew(String url, String name, String features, String replace = null)
         {
@@ -1130,7 +1141,9 @@
         /// <summary>
         /// Writes text to a document.
         /// </summary>
-        /// <param name="content">The text to be written on the document.</param>
+        /// <param name="content">
+        /// The text to be written on the document.
+        /// </param>
         public void Write(String content)
         {
             if (ReadyState == DocumentReadyState.Complete)
@@ -1145,7 +1158,9 @@
         /// <summary>
         /// Writes a line of text to a document.
         /// </summary>
-        /// <param name="content">The text to be written on the document.</param>
+        /// <param name="content">
+        /// The text to be written on the document.
+        /// </param>
         public void WriteLine(String content)
         {
             Write(content + Symbols.LineFeed);
@@ -1154,7 +1169,9 @@
         /// <summary>
         /// Returns a list of elements with a given name in the HTML document.
         /// </summary>
-        /// <param name="name">The value of the name attribute of the element.</param>
+        /// <param name="name">
+        /// The value of the name attribute of the element.
+        /// </param>
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection GetElementsByName(String name)
         {
@@ -1173,13 +1190,21 @@
         }
 
         /// <summary>
-        /// Creates a copy of a node from an external document that can be inserted into the current document.
+        /// Creates a copy of a node from an external document that can be 
+        /// inserted into the current document.
         /// </summary>
-        /// <param name="externalNode">The node from another document to be imported.</param>
-        /// <param name="deep">Optional argument, indicating whether the descendants of the imported
-        /// node need to be imported.</param>
-        /// <returns>The new node that is imported into the document. The new node's parentNode is null,
-        /// since it has not yet been inserted into the document tree.</returns>
+        /// <param name="externalNode">
+        /// The node from another document to be imported.
+        /// </param>
+        /// <param name="deep">
+        /// Optional argument, indicating whether the descendants of the
+        /// imported node need to be imported.
+        /// </param>
+        /// <returns>
+        /// The new node that is imported into the document. The new node's
+        /// parentNode is null, since it has not yet been inserted into the
+        /// document tree.
+        /// </returns>
         public INode Import(INode externalNode, Boolean deep = true)
         {
             if (externalNode.NodeType == NodeType.Document)
@@ -1189,11 +1214,17 @@
         }
 
         /// <summary>
-        /// Removes the node from its original document and places it in this document.
+        /// Removes the node from its original document and places it in this
+        /// document.
         /// </summary>
-        /// <param name="externalNode">The node from another document to be adopted.</param>
-        /// <returns>The new node that is imported into the document. The new node's parentNode is null,
-        /// since it has not yet been inserted into the document tree.</returns>
+        /// <param name="externalNode">
+        /// The node from another document to be adopted.
+        /// </param>
+        /// <returns>
+        /// The new node that is imported into the document. The new node's
+        /// parentNode is null, since it has not yet been inserted into the
+        /// document tree.
+        /// </returns>
         public INode Adopt(INode externalNode)
         {
             if (externalNode.NodeType == NodeType.Document)
@@ -1206,7 +1237,9 @@
         /// <summary>
         /// Creates an event of the type specified.
         /// </summary>
-        /// <param name="type">A string that represents the type of event to be created.</param>
+        /// <param name="type">
+        /// A string that represents the type of event to be created.
+        /// </param>
         /// <returns>The created Event object.</returns>
         public Event CreateEvent(String type)
         {
@@ -1221,9 +1254,15 @@
         /// <summary>
         /// Creates a new NodeIterator object.
         /// </summary>
-        /// <param name="root">The root node at which to begin the NodeIterator's traversal.</param>
-        /// <param name="settings">Indicates which nodes to iterate over.</param>
-        /// <param name="filter">An optional callback function for filtering.</param>
+        /// <param name="root">
+        /// The root node at which to begin the NodeIterator's traversal.
+        /// </param>
+        /// <param name="settings">
+        /// Indicates which nodes to iterate over.
+        /// </param>
+        /// <param name="filter">
+        /// An optional callback function for filtering.
+        /// </param>
         /// <returns>The created node NodeIterator.</returns>
         public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
         {
@@ -1233,9 +1272,15 @@
         /// <summary>
         /// Creates a new TreeWalker object.
         /// </summary>
-        /// <param name="root">Is the root Node of this TreeWalker traversal.</param>
-        /// <param name="settings">Indicates which nodes to iterate over.</param>
-        /// <param name="filter">An optional callback function for filtering.</param>
+        /// <param name="root">
+        /// Is the root Node of this TreeWalker traversal.
+        /// </param>
+        /// <param name="settings">
+        /// Indicates which nodes to iterate over.
+        /// </param>
+        /// <param name="filter">
+        /// An optional callback function for filtering.
+        /// </param>
         /// <returns>The created node TreeWalker.</returns>
         public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
         {
@@ -1274,7 +1319,9 @@
         /// <summary>
         /// Creates a new element with the given tag name.
         /// </summary>
-        /// <param name="localName">A string that specifies the type of element to be created.</param>
+        /// <param name="localName">
+        /// A string that specifies the type of element to be created.
+        /// </param>
         /// <returns>The created element object.</returns>
         public IElement CreateElement(String localName)
         {
@@ -1287,8 +1334,12 @@
         /// <summary>
         /// Creates a new element with the given tag name and namespace URI.
         /// </summary>
-        /// <param name="namespaceUri">Specifies the namespace URI to associate with the element.</param>
-        /// <param name="qualifiedName">A string that specifies the type of element to be created.</param>
+        /// <param name="namespaceUri">
+        /// Specifies the namespace URI to associate with the element.
+        /// </param>
+        /// <param name="qualifiedName">
+        /// A string that specifies the type of element to be created.
+        /// </param>
         /// <returns>The created element.</returns>
         public IElement CreateElement(String namespaceUri, String qualifiedName)
         {
@@ -1329,7 +1380,9 @@
         /// <summary>
         /// Creates a new comment node, and returns it.
         /// </summary>
-        /// <param name="data">A string containing the data to be added to the Comment.</param>
+        /// <param name="data">
+        /// A string containing the data to be added to the Comment.
+        /// </param>
         /// <returns>The new comment.</returns>
         public IComment CreateComment(String data)
         {
@@ -1346,9 +1399,12 @@
         }
 
         /// <summary>
-        /// Creates a ProcessingInstruction node given the specified name and data strings.
+        /// Creates a ProcessingInstruction node given the specified name and
+        /// data strings.
         /// </summary>
-        /// <param name="target">The target part of the processing instruction.</param>
+        /// <param name="target">
+        /// The target part of the processing instruction.
+        /// </param>
         /// <param name="data">The data for the node.</param>
         /// <returns>A new processing instruction.</returns>
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
@@ -1362,7 +1418,9 @@
         /// <summary>
         /// Creates a new Text node.
         /// </summary>
-        /// <param name="data">A string containing the data to be put in the text node.</param>
+        /// <param name="data">
+        /// A string containing the data to be put in the text node.
+        /// </param>
         /// <returns>The created Text node.</returns>
         public IText CreateTextNode(String data)
         {
@@ -1370,10 +1428,14 @@
         }
 
         /// <summary>
-        /// Returns the Element whose ID is given by elementId. If no such element exists, returns null.
-        /// The behavior is not defined if more than one element have this ID.
+        /// Returns the Element whose ID is given by elementId. If no such
+        /// element exists, returns null. The behavior is not defined if more
+        /// than one element have this ID.
         /// </summary>
-        /// <param name="elementId">A case-sensitive string representing the unique ID of the element being sought.</param>
+        /// <param name="elementId">
+        /// A case-sensitive string representing the unique ID of the element
+        /// being sought.
+        /// </param>
         /// <returns>The matching element.</returns>
         public IElement GetElementById(String elementId)
         {
@@ -1381,10 +1443,13 @@
         }
 
         /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the specified group of selectors.
+        /// Returns the first element within the document (using depth-first
+        /// pre-order traversal of the document's nodes) that matches the
+        /// specified group of selectors.
         /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectors">
+        /// A string containing one or more CSS selectors separated by commas.
+        /// </param>
         /// <returns>An element object.</returns>
         public IElement QuerySelector(String selectors)
         {
@@ -1392,10 +1457,13 @@
         }
 
         /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that match the specified group of selectors.
+        /// Returns a list of the elements within the document (using
+        /// depth-first pre-order traversal of the document's nodes) that match
+        /// the specified group of selectors.
         /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectors">
+        /// A string containing one or more CSS selectors separated by commas.
+        /// </param>
         /// <returns>A list of nodes.</returns>
         public IHtmlCollection QuerySelectorAll(String selectors)
         {
@@ -1405,7 +1473,10 @@
         /// <summary>
         /// Returns a set of elements which have all the given class names.
         /// </summary>
-        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
+        /// <param name="classNames">
+        /// A string representing the list of class names to match; class names
+        /// are separated by whitespace.
+        /// </param>
         /// <returns>A collection of elements.</returns>
         public IHtmlCollection GetElementsByClassName(String classNames)
         {
@@ -1413,22 +1484,36 @@
         }
 
         /// <summary>
-        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+        /// Returns a NodeList of elements with the given tag name. The
+        /// complete document is searched, including the root node.
         /// </summary>
-        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
-        /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        /// <param name="tagName">
+        /// A string representing the name of the elements. The special string
+        /// "*" represents all elements.
+        /// </param>
+        /// <returns>
+        /// A collection of elements in the order they appear in the tree.
+        /// </returns>
         public IHtmlCollection GetElementsByTagName(String tagName)
         {
             return ChildNodes.GetElementsByTagName(tagName);
         }
 
         /// <summary>
-        /// Returns a list of elements with the given tag name belonging to the given namespace.
-        /// The complete document is searched, including the root node.
+        /// Returns a list of elements with the given tag name belonging to the
+        /// given namespace. The complete document is searched, including the
+        /// root node.
         /// </summary>
-        /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
-        /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
-        /// <returns>A collection of elements in the order they appear in the tree.</returns>
+        /// <param name="namespaceURI">
+        /// The namespace URI of elements to look for.
+        /// </param>
+        /// <param name="tagName">
+        /// Either the local name of elements to look for or the special value
+        /// "*", which matches all elements.
+        /// </param>
+        /// <returns>
+        /// A collection of elements in the order they appear in the tree.
+        /// </returns>
         public IHtmlCollection GetElementsByTagName(String namespaceURI, String tagName)
         {
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
@@ -1437,7 +1522,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
@@ -1460,7 +1548,10 @@
         /// <summary>
         /// Checks if the document has focus.
         /// </summary>
-        /// <returns>True if the document's context is focused and the document is active, otherwise false.</returns>
+        /// <returns>
+        /// True if the document's context is focused and the document is
+        /// active, otherwise false.
+        /// </returns>
         public Boolean HasFocus()
         {
             return _context.Active == this;
@@ -1482,7 +1573,9 @@
         /// <summary>
         /// Checks if the document is waiting for a script to finish preparing.
         /// </summary>
-        /// <returns>True if any script is still preparing, otherwise false.</returns>
+        /// <returns>
+        /// True if any script is still preparing, otherwise false.
+        /// </returns>
         internal Boolean IsWaitingForScript()
         {
             return _scripts.Count > 0 && _scripts.Peek().IsReady == false;
@@ -1643,10 +1736,12 @@
         void EmptyAppCache()
         {
             //TODO
-            //If the Document has any pending application cache download process tasks, then queue each such
-            //task in the order they were added to the list of pending application cache download process tasks,
-            //and then empty the list of pending application cache download process tasks. The task source for
-            //these tasks is the networking task source.
+            //If the Document has any pending application cache download
+            //process tasks, then queue each such task in the order they were
+            //added to the list of pending application cache download process
+            //tasks, and then empty the list of pending application cache
+            //download process tasks. The task source for these tasks is the
+            //networking task source.
         }
 
         void Print()

@@ -46,7 +46,8 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the namespace prefix of the specified node, or null if no prefix is specified.
+        /// Gets or sets the namespace prefix of the specified node, or null if
+        /// no prefix is specified.
         /// </summary>
         public String Prefix
         {
@@ -136,8 +137,9 @@
         }
 
         /// <summary>
-        /// Gets the element immediately preceding in this node's parent's list of nodes, 
-        /// null if the current element is the first element in that list.
+        /// Gets the element immediately preceding in this node's parent's list
+        /// of nodes, null if the current element is the first element in that
+        /// list.
         /// </summary>
         public IElement PreviousElementSibling
         {
@@ -163,8 +165,9 @@
         }
 
         /// <summary>
-        /// Gets the element immediately following in this node's parent's list of nodes,
-        /// or null if the current element is the last element in that list.
+        /// Gets the element immediately following in this node's parent's list
+        /// of nodes, or null if the current element is the last element in
+        /// that list.
         /// </summary>
         public IElement NextElementSibling
         {
@@ -272,7 +275,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the HTML syntax describing the element including its descendants. 
+        /// Gets or sets the HTML syntax describing the element including its
+        /// descendants. 
         /// </summary>
         public String OuterHtml
         {
@@ -349,10 +353,13 @@
         #region Methods
 
         /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the specified group of selectors.
+        /// Returns the first element within the document (using depth-first
+        /// pre-order traversal of the document's nodes) that matches the
+        /// specified group of selectors.
         /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectors">
+        /// A string containing one or more CSS selectors separated by commas.
+        /// </param>
         /// <returns>An element object.</returns>
         public IElement QuerySelector(String selectors)
         {
@@ -360,10 +367,13 @@
         }
 
         /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that match the specified group of selectors.
+        /// Returns a list of the elements within the document (using
+        /// depth-first pre-order traversal of the document's nodes) that match
+        /// the specified group of selectors.
         /// </summary>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectors">
+        /// A string containing one or more CSS selectors separated by commas.
+        /// </param>
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection QuerySelectorAll(String selectors)
         {
@@ -373,7 +383,10 @@
         /// <summary>
         /// Returns a set of elements which have all the given class names.
         /// </summary>
-        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
+        /// <param name="classNames">
+        /// A string representing the list of class names to match; class names
+        /// are separated by whitespace.
+        /// </param>
         /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection GetElementsByClassName(String classNames)
         {
@@ -381,22 +394,36 @@
         }
 
         /// <summary>
-        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+        /// Returns a NodeList of elements with the given tag name. The
+        /// complete document is searched, including the root node.
         /// </summary>
-        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
-        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
+        /// <param name="tagName">
+        /// A string representing the name of the elements. The special string
+        /// "*" represents all elements.
+        /// </param>
+        /// <returns>
+        /// A NodeList of found elements in the order they appear in the tree.
+        /// </returns>
         public IHtmlCollection GetElementsByTagName(String tagName)
         {
             return ChildNodes.GetElementsByTagName(tagName);
         }
 
         /// <summary>
-        /// Returns a list of elements with the given tag name belonging to the given namespace.
-        /// The complete document is searched, including the root node.
+        /// Returns a list of elements with the given tag name belonging to the
+        /// given namespace. The complete document is searched, including the
+        /// root node.
         /// </summary>
-        /// <param name="namespaceURI">The namespace URI of elements to look for.</param>
-        /// <param name="tagName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
-        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
+        /// <param name="namespaceURI">
+        /// The namespace URI of elements to look for.
+        /// </param>
+        /// <param name="tagName">
+        /// Either the local name of elements to look for or the special value
+        /// "*", which matches all elements.
+        /// </param>
+        /// <returns>
+        /// A NodeList of found elements in the order they appear in the tree.
+        /// </returns>
         public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
@@ -406,7 +433,10 @@
         /// Checks if the element is matched by the given selector.
         /// </summary>
         /// <param name="selectors">Represents the selector to test.</param>
-        /// <returns>True if the element would be selected by the specified selector, otherwise false.</returns>
+        /// <returns>
+        /// True if the element would be selected by the specified selector,
+        /// otherwise false.
+        /// </returns>
         public Boolean Matches(String selectors)
         {
             return CssParser.ParseSelector(selectors).Match(this);
@@ -415,7 +445,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
@@ -428,7 +461,9 @@
         /// <summary>
         /// Creates a pseudo element for the current element.
         /// </summary>
-        /// <param name="pseudoElement">The element to create (e.g. ::after).</param>
+        /// <param name="pseudoElement">
+        /// The element to create (e.g. ::after).
+        /// </param>
         /// <returns>The created element or null, if not possible.</returns>
         public IPseudoElement Pseudo(String pseudoElement)
         {
@@ -436,7 +471,8 @@
         }
 
         /// <summary>
-        /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
+        /// Returns a boolean value indicating whether the specified element
+        /// has the specified attribute or not.
         /// </summary>
         /// <param name="name">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
@@ -449,9 +485,12 @@
         }
 
         /// <summary>
-        /// Returns a boolean value indicating whether the specified element has the specified attribute or not.
+        /// Returns a boolean value indicating whether the specified element
+        /// has the specified attribute or not.
         /// </summary>
-        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
+        /// <param name="namespaceUri">
+        /// A string specifying the namespace of the attribute.
+        /// </param>
         /// <param name="localName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String namespaceUri, String localName)
@@ -465,8 +504,13 @@
         /// <summary>
         /// Returns the value of the named attribute on the specified element.
         /// </summary>
-        /// <param name="name">The name of the attribute whose value you want to get.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
+        /// <param name="name">
+        /// The name of the attribute whose value you want to get.
+        /// </param>
+        /// <returns>
+        /// If the named attribute does not exist, the value returned will be
+        /// null, otherwise the attribute's value.
+        /// </returns>
         public String GetAttribute(String name)
         {
             if (_namespace == Namespaces.HtmlUri)
@@ -485,9 +529,16 @@
         /// <summary>
         /// Returns the value of the named attribute on the specified element.
         /// </summary>
-        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
-        /// <param name="localName">The name of the attribute whose value you want to get.</param>
-        /// <returns>If the named attribute does not exist, the value returned will be null, otherwise the attribute's value.</returns>
+        /// <param name="namespaceUri">
+        /// A string specifying the namespace of the attribute.
+        /// </param>
+        /// <param name="localName">
+        /// The name of the attribute whose value you want to get.
+        /// </param>
+        /// <returns>
+        /// If the named attribute does not exist, the value returned will be
+        /// null, otherwise the attribute's value.
+        /// </returns>
         public String GetAttribute(String namespaceUri, String localName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
@@ -498,7 +549,8 @@
         }
 
         /// <summary>
-        /// Adds a new attribute or changes the value of an existing attribute on the specified element.
+        /// Adds a new attribute or changes the value of an existing attribute
+        /// on the specified element.
         /// </summary>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
@@ -544,9 +596,12 @@
         }
 
         /// <summary>
-        /// Adds a new attribute or changes the value of an existing attribute on the specified element.
+        /// Adds a new attribute or changes the value of an existing attribute
+        /// on the specified element.
         /// </summary>
-        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
+        /// <param name="namespaceUri">
+        /// A string specifying the namespace of the attribute.
+        /// </param>
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         public void SetAttribute(String namespaceUri, String name, String value)
@@ -594,7 +649,9 @@
         /// <summary>
         /// Removes an attribute from the specified element.
         /// </summary>
-        /// <param name="name">Is a string that names the attribute to be removed.</param>
+        /// <param name="name">
+        /// Is a string that names the attribute to be removed.
+        /// </param>
         /// <returns>The current element.</returns>
         public void RemoveAttribute(String name)
         {
@@ -616,8 +673,12 @@
         /// <summary>
         /// Removes an attribute from the specified element.
         /// </summary>
-        /// <param name="namespaceUri">A string specifying the namespace of the attribute.</param>
-        /// <param name="localName">Is a string that names the attribute to be removed.</param>
+        /// <param name="namespaceUri">
+        /// A string specifying the namespace of the attribute.
+        /// </param>
+        /// <param name="localName">
+        /// Is a string that names the attribute to be removed.
+        /// </param>
         /// <returns>The current element.</returns>
         public void RemoveAttribute(String namespaceUri, String localName)
         {
@@ -716,8 +777,8 @@
         }
 
         /// <summary>
-        /// Inserts new HTML elements specified by the given HTML string at
-        /// a position relative to the current element specified by the position.
+        /// Inserts new HTML elements specified by the given HTML string at a
+        /// position relative to the current element specified by the position.
         /// </summary>
         /// <param name="position">The relation to the current element.</param>
         /// <param name="html">The HTML code to generate elements for.</param>
@@ -826,7 +887,9 @@
         /// Locates the namespace of the given prefix.
         /// </summary>
         /// <param name="prefix">The prefix of the namespace to find.</param>
-        /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
+        /// <returns>
+        /// The url of the namespace or null, if the prefix could not be found.
+        /// </returns>
         protected sealed override String LocateNamespace(String prefix)
         {
             return ElementExtensions.LocateNamespace(this, prefix);
@@ -836,18 +899,22 @@
         /// Locates the prefix of the given namespace.
         /// </summary>
         /// <param name="namespaceUri">The url of the namespace.</param>
-        /// <returns>The prefix or null, if the namespace could not be found.</returns>
+        /// <returns>
+        /// The prefix or null, if the namespace could not be found.
+        /// </returns>
         protected sealed override String LocatePrefix(String namespaceUri)
         {
             return ElementExtensions.LocatePrefix(this, namespaceUri);
         }
 
         /// <summary>
-        /// Copies the attributes from the source element to the target element.
-        /// Each attribute will be recreated on the target.
+        /// Copies the attributes from the source element to the target
+        /// element. Each attribute will be recreated on the target.
         /// </summary>
         /// <param name="source">The source of the attributes.</param>
-        /// <param name="target">The target where to create the attributes.</param>
+        /// <param name="target">
+        /// The target where to create the attributes.
+        /// </param>
         protected static void CopyAttributes(Element source, Element target)
         {
             target._namespace = source._namespace;
