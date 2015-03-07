@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ListStyle, ListPosition, IImageSource>> Converter = Converters.WithAny(
-            CssListStyleTypeProperty.Converter.Option(CssListStyleTypeProperty.Default),
-            CssListStylePositionProperty.Converter.Option(CssListStylePositionProperty.Default),
-            CssListStyleImageProperty.Converter.Option(CssListStyleImageProperty.Default));
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
+            CssListStyleTypeProperty.Converter.Option(CssListStyleTypeProperty.Default).Val(),
+            CssListStylePositionProperty.Converter.Option(CssListStylePositionProperty.Default).Val(),
+            CssListStyleImageProperty.Converter.Option(CssListStyleImageProperty.Default).Val());
 
         readonly CssListStyleTypeProperty _type;
         readonly CssListStyleImageProperty _image;
@@ -75,11 +75,11 @@
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, m =>
-                {
-                    _type.SetStyle(m.Item1);
-                    _position.SetPosition(m.Item2);
-                    _image.SetImage(m.Item3);
-                });
+            {
+                _type.TrySetValue(m.Item1);
+                _position.TrySetValue(m.Item2);
+                _image.TrySetValue(m.Item3);
+            });
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
@@ -87,7 +87,16 @@
             if (!IsComplete(properties))
                 return String.Empty;
 
-            return String.Format("{0} {1} {2}", _type.SerializeValue(), _image.SerializeValue(), _position.SerializeValue());
+            var result = Pool.NewStringBuilder();
+            result.Append(_type.SerializeValue());
+
+            if (_image.HasValue)
+                result.Append(' ').Append(_image.SerializeValue());
+
+            if (_position.HasValue)
+                result.Append(' ').Append(_position.SerializeValue());
+
+            return result.ToPool();
         }
 
         #endregion
