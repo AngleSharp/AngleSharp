@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/empty-cells
     /// </summary>
-    sealed class CssEmptyCellsProperty : CssProperty, ICssEmptyCellsProperty
+    sealed class CssEmptyCellsProperty : CssProperty
     {
         #region Fields
 

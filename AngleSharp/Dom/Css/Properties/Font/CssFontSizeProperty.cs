@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
     /// </summary>
-    sealed class CssFontSizeProperty : CssProperty, ICssFontSizeProperty
+    sealed class CssFontSizeProperty : CssProperty
     {
         #region Fields
 

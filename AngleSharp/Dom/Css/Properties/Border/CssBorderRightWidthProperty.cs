@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-width
     /// </summary>
-    sealed class CssBorderRightWidthProperty : CssBorderPartWidthProperty, ICssBorderWidthProperty
+    sealed class CssBorderRightWidthProperty : CssBorderPartWidthProperty
     {
         #region ctor
 

@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
     /// </summary>
-    sealed class CssTransformOriginProperty : CssProperty, ICssTransformOriginProperty
+    sealed class CssTransformOriginProperty : CssProperty
     {
         #region Fields
 

@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-origins
     /// </summary>
-    sealed class CssBackgroundOriginProperty : CssProperty, ICssBackgroundOriginProperty
+    sealed class CssBackgroundOriginProperty : CssProperty
     {
         #region Fields
 

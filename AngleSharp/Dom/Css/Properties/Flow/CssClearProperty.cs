@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clear
     /// </summary>
-    sealed class CssClearProperty : CssProperty, ICssClearProperty
+    sealed class CssClearProperty : CssProperty
     {
         #region Fields
 

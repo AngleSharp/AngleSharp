@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
     /// </summary>
-    sealed class CssFontStretchProperty : CssProperty, ICssFontStretchProperty
+    sealed class CssFontStretchProperty : CssProperty
     {
         #region Fields
 

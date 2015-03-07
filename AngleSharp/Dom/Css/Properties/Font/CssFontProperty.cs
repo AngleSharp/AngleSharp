@@ -10,7 +10,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font
     /// </summary>
-    sealed class CssFontProperty : CssShorthandProperty, ICssFontProperty
+    sealed class CssFontProperty : CssShorthandProperty
     {
         #region Fields
 

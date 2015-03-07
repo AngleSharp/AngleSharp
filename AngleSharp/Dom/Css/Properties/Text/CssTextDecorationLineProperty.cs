@@ -9,7 +9,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
     /// </summary>
-    sealed class CssTextDecorationLineProperty : CssProperty, ICssTextDecorationLineProperty
+    sealed class CssTextDecorationLineProperty : CssProperty
     {
         #region Fields
 

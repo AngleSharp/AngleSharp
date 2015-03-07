@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-reset
     /// </summary>
-    sealed class CssCounterResetProperty : CssCounterProperty, ICssCounterResetProperty
+    sealed class CssCounterResetProperty : CssCounterProperty
     {
         #region Fields
 

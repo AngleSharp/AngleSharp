@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-play-state
     /// </summary>
-    sealed class CssAnimationPlayStateProperty : CssProperty, ICssAnimationPlayStateProperty
+    sealed class CssAnimationPlayStateProperty : CssProperty
     {
         #region Fields
 

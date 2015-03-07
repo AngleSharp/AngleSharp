@@ -9,7 +9,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
     /// </summary>
-    sealed class CssFontFamilyProperty : CssProperty, ICssFontFamilyProperty
+    sealed class CssFontFamilyProperty : CssProperty
     {
         #region Fields
 

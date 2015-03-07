@@ -10,7 +10,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content
     /// </summary>
-    sealed class CssContentProperty : CssProperty, ICssContentProperty
+    sealed class CssContentProperty : CssProperty
     {
         #region Fields
 

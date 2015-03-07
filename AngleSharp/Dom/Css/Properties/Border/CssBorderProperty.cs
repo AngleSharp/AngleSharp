@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border
     /// </summary>
-    sealed class CssBorderProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderProperty : CssShorthandProperty
     {
         #region Fields
 

@@ -12,7 +12,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background
     /// </summary>
-    sealed class CssBackgroundProperty : CssShorthandProperty, ICssBackgroundProperty
+    sealed class CssBackgroundProperty : CssShorthandProperty
     {
         #region Fields
 

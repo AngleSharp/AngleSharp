@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-fill
     /// </summary>
-    sealed class CssColumnFillProperty : CssProperty, ICssColumnFillProperty
+    sealed class CssColumnFillProperty : CssProperty
     {
         #region Fields
 

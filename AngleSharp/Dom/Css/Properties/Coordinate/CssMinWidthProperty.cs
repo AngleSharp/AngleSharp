@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-width
     /// </summary>
-    sealed class CssMinWidthProperty : CssProperty, ICssMinWidthProperty
+    sealed class CssMinWidthProperty : CssProperty
     {
         #region Fields
 

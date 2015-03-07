@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-right-radius
     /// </summary>
-    sealed class CssBorderBottomRightRadiusProperty : CssBorderRadiusPartProperty, ICssBorderBottomRightRadiusProperty
+    sealed class CssBorderBottomRightRadiusProperty : CssBorderRadiusPartProperty
     {
         #region ctor
 

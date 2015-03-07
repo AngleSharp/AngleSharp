@@ -7,7 +7,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-width
     /// </summary>
-    sealed class CssOutlineWidthProperty : CssProperty, ICssOutlineWidthProperty
+    sealed class CssOutlineWidthProperty : CssProperty
     {
         #region Fields
 

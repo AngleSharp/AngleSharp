@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-top
     /// </summary>
-    sealed class CssMarginTopProperty : CssMarginPartProperty, ICssMarginTopProperty
+    sealed class CssMarginTopProperty : CssMarginPartProperty
     {
         #region ctor
 

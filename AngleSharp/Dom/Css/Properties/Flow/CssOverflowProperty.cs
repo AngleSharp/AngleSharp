@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow
     /// </summary>
-    sealed class CssOverflowProperty : CssProperty, ICssOverflowProperty
+    sealed class CssOverflowProperty : CssProperty
     {
         #region Fields
 

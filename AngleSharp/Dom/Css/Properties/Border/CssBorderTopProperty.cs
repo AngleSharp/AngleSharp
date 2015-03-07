@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top
     /// </summary>
-    sealed class CssBorderTopProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderTopProperty : CssShorthandProperty
     {
         #region Fields
 

@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
     /// </summary>
-    sealed class CssWordSpacingProperty : CssProperty, ICssWordSpacingProperty
+    sealed class CssWordSpacingProperty : CssProperty
     {
         #region Fields
 

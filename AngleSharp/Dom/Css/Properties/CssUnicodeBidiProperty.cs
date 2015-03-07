@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/unicode-bidi
     /// </summary>
-    sealed class CssUnicodeBidiProperty : CssProperty, ICssUnicodeBidiProperty
+    sealed class CssUnicodeBidiProperty : CssProperty
     {
         #region Fields
 

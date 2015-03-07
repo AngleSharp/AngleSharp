@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
     /// </summary>
-    sealed class CssFontVariantProperty : CssProperty, ICssFontVariantProperty
+    sealed class CssFontVariantProperty : CssProperty
     {
         #region Fields
 

@@ -10,7 +10,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow
     /// </summary>
-    sealed class CssTextShadowProperty : CssProperty, ICssTextShadowProperty
+    sealed class CssTextShadowProperty : CssProperty
     {
         #region Fields
 

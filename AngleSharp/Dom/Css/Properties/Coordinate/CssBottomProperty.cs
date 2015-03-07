@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/bottom
     /// </summary>
-    sealed class CssBottomProperty : CssCoordinateProperty, ICssBottomProperty
+    sealed class CssBottomProperty : CssCoordinateProperty
     {
         #region ctor
 

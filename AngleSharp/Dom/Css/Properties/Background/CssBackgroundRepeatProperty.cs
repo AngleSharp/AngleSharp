@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
     /// </summary>
-    sealed class CssBackgroundRepeatProperty : CssProperty, ICssBackgroundRepeatProperty
+    sealed class CssBackgroundRepeatProperty : CssProperty
     {
         #region Fields
 

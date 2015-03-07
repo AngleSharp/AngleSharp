@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/visibility
     /// </summary>
-    sealed class CssVisibilityProperty : CssProperty, ICssVisibilityProperty
+    sealed class CssVisibilityProperty : CssProperty
     {
         #region Fields
 

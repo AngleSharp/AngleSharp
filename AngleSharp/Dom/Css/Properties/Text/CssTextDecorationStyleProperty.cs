@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style
     /// </summary>
-    sealed class CssTextDecorationStyleProperty : CssProperty, ICssTextDecorationStyleProperty
+    sealed class CssTextDecorationStyleProperty : CssProperty
     {
         #region Fields
 

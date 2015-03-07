@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
     /// </summary>
-    sealed class CssZIndexProperty : CssProperty, ICssZIndexProperty
+    sealed class CssZIndexProperty : CssProperty
     {
         #region Fields
 

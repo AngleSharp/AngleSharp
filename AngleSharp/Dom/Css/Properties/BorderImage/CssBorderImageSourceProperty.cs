@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-source
     /// </summary>
-    sealed class CssBorderImageSourceProperty : CssProperty, ICssBorderImageSourceProperty
+    sealed class CssBorderImageSourceProperty : CssProperty
     {
         #region Fields
 

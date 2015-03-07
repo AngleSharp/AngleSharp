@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom
     /// </summary>
-    sealed class CssBorderBottomProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderBottomProperty : CssShorthandProperty
     {
         #region Fields
 

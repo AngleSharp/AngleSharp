@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-style
     /// </summary>
-    sealed class CssBorderBottomStyleProperty : CssBorderPartStyleProperty, ICssBorderStyleProperty
+    sealed class CssBorderBottomStyleProperty : CssBorderPartStyleProperty
     {
         #region ctor
 

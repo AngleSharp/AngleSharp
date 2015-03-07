@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-width
     /// </summary>
-    sealed class CssColumnWidthProperty : CssProperty, ICssColumnWidthProperty
+    sealed class CssColumnWidthProperty : CssProperty
     {
         #region Fields
 

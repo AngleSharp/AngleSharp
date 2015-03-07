@@ -9,7 +9,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-image
     /// </summary>
-    sealed class CssListStyleImageProperty : CssProperty, ICssListStyleImageProperty
+    sealed class CssListStyleImageProperty : CssProperty
     {
         #region Fields
 

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/display
     /// </summary>
-    sealed class CssDisplayProperty : CssProperty, ICssDisplayProperty
+    sealed class CssDisplayProperty : CssProperty
     {
         #region Fields
 

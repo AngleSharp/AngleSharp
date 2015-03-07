@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-style
     /// </summary>
-    sealed class CssBorderTopStyleProperty : CssBorderPartStyleProperty, ICssBorderStyleProperty
+    sealed class CssBorderTopStyleProperty : CssBorderPartStyleProperty
     {
         #region ctor
 

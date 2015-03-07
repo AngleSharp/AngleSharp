@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-after
     /// </summary>
-    sealed class CssPageBreakAfterProperty : CssProperty, ICssPageBreakAfterProperty
+    sealed class CssPageBreakAfterProperty : CssProperty
     {
         #region Fields
 

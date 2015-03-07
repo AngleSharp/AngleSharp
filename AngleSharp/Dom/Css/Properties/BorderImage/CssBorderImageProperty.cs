@@ -11,7 +11,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image
     /// </summary>
-    sealed class CssBorderImageProperty : CssShorthandProperty, ICssBorderImageProperty
+    sealed class CssBorderImageProperty : CssShorthandProperty
     {
         #region Fields
 

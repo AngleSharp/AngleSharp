@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-before
     /// </summary>
-    sealed class CssPageBreakBeforeProperty : CssProperty, ICssPageBreakBeforeProperty
+    sealed class CssPageBreakBeforeProperty : CssProperty
     {
         #region Fields
 

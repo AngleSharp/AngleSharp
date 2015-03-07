@@ -11,7 +11,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
     /// </summary>
-    sealed class CssBackgroundSizeProperty : CssProperty, ICssBackgroundSizeProperty
+    sealed class CssBackgroundSizeProperty : CssProperty
     {
         #region Fields
 

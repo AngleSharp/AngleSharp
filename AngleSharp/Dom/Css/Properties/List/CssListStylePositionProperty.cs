@@ -8,7 +8,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position
     /// </summary>
-    sealed class CssListStylePositionProperty : CssProperty, ICssListStylePositionProperty
+    sealed class CssListStylePositionProperty : CssProperty
     {
         #region Fields
 

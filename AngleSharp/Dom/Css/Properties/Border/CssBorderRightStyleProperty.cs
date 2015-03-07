@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right-style
     /// </summary>
-    sealed class CssBorderRightStyleProperty : CssBorderPartStyleProperty, ICssBorderStyleProperty
+    sealed class CssBorderRightStyleProperty : CssBorderPartStyleProperty
     {
         #region ctor
 

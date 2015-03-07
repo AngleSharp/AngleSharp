@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-right
     /// </summary>
-    sealed class CssPaddingRightProperty : CssPaddingPartProperty, ICssPaddingRightProperty
+    sealed class CssPaddingRightProperty : CssPaddingPartProperty
     {
         #region ctor
 

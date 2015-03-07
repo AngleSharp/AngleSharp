@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin-right
     /// </summary>
-    sealed class CssMarginRightProperty : CssMarginPartProperty, ICssMarginRightProperty
+    sealed class CssMarginRightProperty : CssMarginPartProperty
     {
         #region ctor
 

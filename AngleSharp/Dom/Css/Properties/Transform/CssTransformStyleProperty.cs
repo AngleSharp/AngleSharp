@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style
     /// </summary>
-    sealed class CssTransformStyleProperty : CssProperty, ICssTransformStyleProperty
+    sealed class CssTransformStyleProperty : CssProperty
     {
         #region Fields
 

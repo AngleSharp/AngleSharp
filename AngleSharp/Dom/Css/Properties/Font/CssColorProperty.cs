@@ -7,7 +7,7 @@
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/color
     /// </summary>
-    sealed class CssColorProperty : CssProperty, ICssColorProperty
+    sealed class CssColorProperty : CssProperty
     {
         #region Fields
 

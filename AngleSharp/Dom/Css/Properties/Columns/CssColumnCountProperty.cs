@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-count
     /// </summary>
-    sealed class CssColumnCountProperty : CssProperty, ICssColumnCountProperty
+    sealed class CssColumnCountProperty : CssProperty
     {
         #region Fields
 

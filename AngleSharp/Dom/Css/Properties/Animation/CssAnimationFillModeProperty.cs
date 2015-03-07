@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-fill-mode
     /// </summary>
-    sealed class CssAnimationFillModeProperty : CssProperty, ICssAnimationFillModeProperty
+    sealed class CssAnimationFillModeProperty : CssProperty
     {
         #region Fields
 

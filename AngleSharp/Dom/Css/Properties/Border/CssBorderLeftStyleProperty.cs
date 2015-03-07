@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-style
     /// </summary>
-    sealed class CssBorderLeftStyleProperty : CssBorderPartStyleProperty, ICssBorderStyleProperty
+    sealed class CssBorderLeftStyleProperty : CssBorderPartStyleProperty
     {
         #region ctor
 

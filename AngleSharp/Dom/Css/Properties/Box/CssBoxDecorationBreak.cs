@@ -8,7 +8,7 @@
     /// in condensed form at 
     /// http://css-infos.net/property/box-decoration-break
     /// </summary>
-    sealed class CssBoxDecorationBreak : CssProperty, ICssBoxDecorationBreak
+    sealed class CssBoxDecorationBreak : CssProperty
     {
         #region Fields
 

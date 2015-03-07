@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/orphans
     /// </summary>
-    sealed class CssOrphansProperty : CssProperty, ICssOrphansProperty
+    sealed class CssOrphansProperty : CssProperty
     {
         #region Fields
 

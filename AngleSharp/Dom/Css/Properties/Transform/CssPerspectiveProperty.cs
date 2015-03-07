@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/perspective
     /// </summary>
-    sealed class CssPerspectiveProperty : CssProperty, ICssPerspectiveProperty
+    sealed class CssPerspectiveProperty : CssProperty
     {
         #region Fields
 

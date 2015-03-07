@@ -9,7 +9,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/columns
     /// </summary>
-    sealed class CssColumnsProperty : CssShorthandProperty, ICssColumnsProperty
+    sealed class CssColumnsProperty : CssShorthandProperty
     {
         #region Fields
 

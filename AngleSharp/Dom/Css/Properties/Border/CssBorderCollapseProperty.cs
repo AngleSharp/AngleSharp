@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
     /// </summary>
-    sealed class CssBorderCollapseProperty : CssProperty, ICssBorderCollapseProperty
+    sealed class CssBorderCollapseProperty : CssProperty
     {
         #region Fields
 

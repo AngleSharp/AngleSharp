@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap
     /// </summary>
-    sealed class CssColumnGapProperty : CssProperty, ICssColumnGapProperty
+    sealed class CssColumnGapProperty : CssProperty
     {
         #region Fields
 

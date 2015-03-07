@@ -11,7 +11,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition
     /// </summary>
-    sealed class CssTransitionProperty : CssShorthandProperty, ICssTransitionProperty
+    sealed class CssTransitionProperty : CssShorthandProperty
     {
         #region Fields
 
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the properties for the transitions.
         /// </summary>
-        IEnumerable<String> ICssTransitionPropertyProperty.Properties
+        public IEnumerable<String> Properties
         {
             get { return _property.Properties; }
         }

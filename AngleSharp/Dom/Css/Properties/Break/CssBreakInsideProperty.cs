@@ -10,7 +10,7 @@
     /// or even better
     /// http://dev.w3.org/csswg/css-break/#break-inside
     /// </summary>
-    sealed class CssBreakInsideProperty : CssProperty, ICssBreakInsideProperty
+    sealed class CssBreakInsideProperty : CssProperty
     {
         #region Fields
 

@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent
     /// </summary>
-    sealed class CssTextIndentProperty : CssProperty, ICssTextIndentProperty
+    sealed class CssTextIndentProperty : CssProperty
     {
         #region Fields
 

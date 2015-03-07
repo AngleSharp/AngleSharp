@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/position
     /// </summary>
-    sealed class CssPositionProperty : CssProperty, ICssPositionProperty
+    sealed class CssPositionProperty : CssProperty
     {
         #region Fields
 

@@ -7,7 +7,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
     /// </summary>
-    sealed class CssLineHeightProperty : CssProperty, ICssLineHeightProperty
+    sealed class CssLineHeightProperty : CssProperty
     {
         #region Fields
 

@@ -10,7 +10,7 @@
     /// More information available at MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transform
     /// </summary>
-    sealed class CssTransformProperty : CssProperty, ICssTransformProperty
+    sealed class CssTransformProperty : CssProperty
     {
         #region Fields
 

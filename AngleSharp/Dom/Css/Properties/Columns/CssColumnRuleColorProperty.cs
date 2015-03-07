@@ -7,7 +7,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-color
     /// </summary>
-    sealed class CssColumnRuleColorProperty : CssProperty, ICssColumnRuleColorProperty
+    sealed class CssColumnRuleColorProperty : CssProperty
     {
         #region Fields
 

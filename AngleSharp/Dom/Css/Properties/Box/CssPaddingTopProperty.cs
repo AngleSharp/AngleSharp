@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-top
     /// </summary>
-    sealed class CssPaddingTopProperty : CssPaddingPartProperty, ICssPaddingTopProperty
+    sealed class CssPaddingTopProperty : CssPaddingPartProperty
     {
         #region ctor
 

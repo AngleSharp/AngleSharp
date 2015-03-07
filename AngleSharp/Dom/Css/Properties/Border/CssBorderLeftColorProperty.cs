@@ -6,7 +6,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-left-color
     /// </summary>
-    sealed class CssBorderLeftColorProperty : CssBorderPartColorProperty, ICssBorderColorProperty
+    sealed class CssBorderLeftColorProperty : CssBorderPartColorProperty
     {
         #region ctor
 

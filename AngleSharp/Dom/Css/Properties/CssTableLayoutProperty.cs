@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
     /// </summary>
-    sealed class CssTableLayoutProperty : CssProperty, ICssTableLayoutProperty
+    sealed class CssTableLayoutProperty : CssProperty
     {
         #region Fields
 

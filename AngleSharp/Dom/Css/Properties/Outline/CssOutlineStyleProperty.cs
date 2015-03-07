@@ -8,7 +8,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-style
     /// </summary>
-    sealed class CssOutlineStyleProperty : CssProperty, ICssOutlineStyleProperty
+    sealed class CssOutlineStyleProperty : CssProperty
     {
         #region Fields
 

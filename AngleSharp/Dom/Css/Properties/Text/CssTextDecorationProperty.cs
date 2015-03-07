@@ -9,7 +9,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
     /// </summary>
-    sealed class CssTextDecorationProperty : CssShorthandProperty, ICssTextDecorationProperty
+    sealed class CssTextDecorationProperty : CssShorthandProperty
     {
         #region Fields
 

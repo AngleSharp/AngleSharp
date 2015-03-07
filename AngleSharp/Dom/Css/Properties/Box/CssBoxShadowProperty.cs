@@ -10,7 +10,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
     /// </summary>
-    sealed class CssBoxShadowProperty : CssProperty, ICssBoxShadowProperty
+    sealed class CssBoxShadowProperty : CssProperty
     {
         #region Fields
 

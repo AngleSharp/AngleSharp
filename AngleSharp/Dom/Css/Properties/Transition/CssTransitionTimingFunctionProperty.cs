@@ -10,7 +10,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/transition-timing-function
     /// </summary>
-    sealed class CssTransitionTimingFunctionProperty : CssProperty, ICssTransitionTimingFunctionProperty
+    sealed class CssTransitionTimingFunctionProperty : CssProperty
     {
         #region Fields
 

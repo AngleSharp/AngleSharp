@@ -9,7 +9,7 @@
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline
     /// </summary>
-    sealed class CssOutlineProperty : CssShorthandProperty, ICssOutlineProperty
+    sealed class CssOutlineProperty : CssShorthandProperty
     {
         #region Fields
 

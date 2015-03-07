@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-image-repeat
     /// </summary>
-    sealed class CssBorderImageRepeatProperty : CssProperty, ICssBorderImageRepeatProperty
+    sealed class CssBorderImageRepeatProperty : CssProperty
     {
         #region Fields
 

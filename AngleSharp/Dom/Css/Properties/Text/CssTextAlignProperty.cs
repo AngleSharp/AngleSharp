@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-align
     /// </summary>
-    sealed class CssTextAlignProperty : CssProperty, ICssTextAlignProperty
+    sealed class CssTextAlignProperty : CssProperty
     {
         #region Fields
 

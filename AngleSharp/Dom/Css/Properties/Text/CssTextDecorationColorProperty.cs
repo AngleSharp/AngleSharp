@@ -7,7 +7,7 @@
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
     /// </summary>
-    sealed class CssTextDecorationColorProperty : CssProperty, ICssTextDecorationColorProperty
+    sealed class CssTextDecorationColorProperty : CssProperty
     {
         #region Fields
 

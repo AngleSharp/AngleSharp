@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-right
     /// </summary>
-    sealed class CssBorderRightProperty : CssShorthandProperty, ICssBorderProperty
+    sealed class CssBorderRightProperty : CssShorthandProperty
     {
         #region Fields
 

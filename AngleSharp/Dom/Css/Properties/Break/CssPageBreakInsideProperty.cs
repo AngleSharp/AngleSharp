@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/page-break-inside
     /// </summary>
-    sealed class CssPageBreakInsideProperty : CssProperty, ICssPageBreakInsideProperty
+    sealed class CssPageBreakInsideProperty : CssProperty
     {
         #region Fields
 

@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-before
     /// </summary>
-    sealed class CssBreakBeforeProperty : CssProperty, ICssBreakBeforeProperty
+    sealed class CssBreakBeforeProperty : CssProperty
     {
         #region Fields
 

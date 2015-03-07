@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
     /// </summary>
-    sealed class CssBorderColorProperty : CssShorthandProperty, ICssBorderColorsProperty
+    sealed class CssBorderColorProperty : CssShorthandProperty
     {
         #region Fields
 

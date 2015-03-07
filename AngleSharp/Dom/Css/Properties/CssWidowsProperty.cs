@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/widows
     /// </summary>
-    sealed class CssWidowsProperty : CssProperty, ICssWidowsProperty
+    sealed class CssWidowsProperty : CssProperty
     {
         #region Fields
 

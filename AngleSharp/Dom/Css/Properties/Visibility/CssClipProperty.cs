@@ -9,7 +9,7 @@
     /// More information can be found:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clip
     /// </summary>
-    sealed class CssClipProperty : CssProperty, ICssClipProperty
+    sealed class CssClipProperty : CssProperty
     {
         #region Fields
 

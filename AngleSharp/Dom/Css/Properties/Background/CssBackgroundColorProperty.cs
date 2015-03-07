@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-color
     /// </summary>
-    sealed class CssBackgroundColorProperty : CssProperty, ICssBackgroundColorProperty
+    sealed class CssBackgroundColorProperty : CssProperty
     {
         #region Fields
 

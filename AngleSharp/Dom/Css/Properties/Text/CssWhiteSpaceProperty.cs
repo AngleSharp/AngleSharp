@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
     /// </summary>
-    sealed class CssWhiteSpaceProperty : CssProperty, ICssWhitespaceProperty
+    sealed class CssWhiteSpaceProperty : CssProperty
     {
         #region Fields
 

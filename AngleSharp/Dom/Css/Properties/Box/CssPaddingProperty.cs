@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding
     /// </summary>
-    sealed class CssPaddingProperty : CssShorthandProperty, ICssPaddingProperty
+    sealed class CssPaddingProperty : CssShorthandProperty
     {
         #region Fields
 

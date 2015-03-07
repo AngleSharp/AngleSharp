@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/quotes
     /// </summary>
-    sealed class CssQuotesProperty : CssProperty, ICssQuotesProperty
+    sealed class CssQuotesProperty : CssProperty
     {
         #region Fields
 

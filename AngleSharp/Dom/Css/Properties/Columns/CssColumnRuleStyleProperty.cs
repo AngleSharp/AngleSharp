@@ -8,7 +8,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
     /// </summary>
-    sealed class CssColumnRuleStyleProperty : CssProperty, ICssColumnRuleStyleProperty
+    sealed class CssColumnRuleStyleProperty : CssProperty
     {
         #region Fields
 

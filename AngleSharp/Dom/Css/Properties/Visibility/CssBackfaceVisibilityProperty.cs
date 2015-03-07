@@ -7,7 +7,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
     /// </summary>
-    sealed class CssBackfaceVisibilityProperty : CssProperty, ICssBackfaceVisibilityProperty
+    sealed class CssBackfaceVisibilityProperty : CssProperty
     {
         #region Fields
 

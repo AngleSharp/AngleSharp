@@ -9,7 +9,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
     /// </summary>
-    sealed class CssBorderRadiusProperty : CssShorthandProperty, ICssBorderRadiusProperty
+    sealed class CssBorderRadiusProperty : CssShorthandProperty
     {
         #region Fields
 

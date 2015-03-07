@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-height
     /// </summary>
-    sealed class CssMaxHeightProperty : CssProperty, ICssMaxHeightProperty
+    sealed class CssMaxHeightProperty : CssProperty
     {
         #region Fields
 

@@ -11,7 +11,7 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation
     /// </summary>
-    sealed class CssAnimationProperty : CssShorthandProperty, ICssAnimationProperty
+    sealed class CssAnimationProperty : CssShorthandProperty
     {
         #region Fields
 

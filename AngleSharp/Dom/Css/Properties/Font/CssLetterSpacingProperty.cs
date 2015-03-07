@@ -8,7 +8,7 @@
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing
     /// </summary>
-    sealed class CssLetterSpacingProperty : CssProperty, ICssLetterSpacingProperty
+    sealed class CssLetterSpacingProperty : CssProperty
     {
         #region Fields
 

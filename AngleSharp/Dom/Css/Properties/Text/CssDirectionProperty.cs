@@ -8,7 +8,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/direction
     /// </summary>
-    sealed class CssDirectionProperty : CssProperty, ICssDirectionProperty
+    sealed class CssDirectionProperty : CssProperty
     {
         #region Fields
 

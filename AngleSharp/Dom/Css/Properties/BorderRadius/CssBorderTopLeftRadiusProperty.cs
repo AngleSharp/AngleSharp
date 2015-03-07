@@ -6,7 +6,7 @@
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-left-radius
     /// </summary>
-    sealed class CssBorderTopLeftRadiusProperty : CssBorderRadiusPartProperty, ICssBorderTopLeftRadiusProperty
+    sealed class CssBorderTopLeftRadiusProperty : CssBorderRadiusPartProperty
     {
         #region ctor
 

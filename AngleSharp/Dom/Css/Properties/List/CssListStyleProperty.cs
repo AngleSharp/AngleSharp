@@ -10,7 +10,7 @@
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style
     /// </summary>
-    sealed class CssListStyleProperty : CssShorthandProperty, ICssListStyleProperty
+    sealed class CssListStyleProperty : CssShorthandProperty
     {
         #region Fields
 
