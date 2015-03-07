@@ -346,7 +346,7 @@
             var enctype = Enctype;
             var result = String.Empty;
 
-            if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
+            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
             {
                 using (var sr = new StreamReader(formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding))))
                     result = sr.ReadToEnd();
@@ -404,7 +404,7 @@
             var encoding = TextEncoding.Resolve(UsAscii);
             var body = String.Empty;
 
-            if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
+            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
             {
                 using (var sr = new StreamReader(formDataSet.AsUrlEncoded(encoding)))
                     body = sr.ReadToEnd();
@@ -445,10 +445,10 @@
             var mimeType = String.Empty;
             var result = default(Stream);
 
-            if (enctype.Equals(MimeTypes.StandardForm, StringComparison.OrdinalIgnoreCase))
+            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
             {
                 result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
-                mimeType = MimeTypes.StandardForm;
+                mimeType = MimeTypes.UrlencodedForm;
             }
             else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
             {
@@ -537,7 +537,7 @@
             if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) || encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
                 return encType;
 
-            return MimeTypes.StandardForm;
+            return MimeTypes.UrlencodedForm;
         }
 
         #endregion
