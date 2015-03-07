@@ -107,22 +107,23 @@
         {
             if (!IsComplete(properties))
                 return String.Empty;
+            else if (_leftColor.Color != _rightColor.Color || _leftColor.Color != _topColor.Color || _leftColor.Color != _bottomColor.Color)
+                return String.Empty;
+            else if (_leftStyle.Style != _rightStyle.Style || _leftStyle.Style != _topStyle.Style || _leftStyle.Style != _bottomStyle.Style)
+                return String.Empty;
+            else if (_leftWidth.Width != _rightWidth.Width || _leftWidth.Width != _topWidth.Width || _leftWidth.Width != _bottomWidth.Width)
+                return String.Empty;
 
-            var values = new List<String>();
-            var width = _leftWidth.SerializeValue();
-            var style = _leftStyle.SerializeValue();
-            var color = _leftColor.SerializeValue();
+            var result = Pool.NewStringBuilder();
+            result.Append(_leftWidth.SerializeValue());
 
-            if (width == _topWidth.SerializeValue() && width == _bottomWidth.SerializeValue() && width == _rightWidth.SerializeValue())
-                values.Add(width);
+            if (_leftStyle.IsInitial == false)
+                result.Append(' ').Append(_leftStyle.SerializeValue());
 
-            if (style == _topStyle.SerializeValue() && style == _bottomStyle.SerializeValue() && style == _rightStyle.SerializeValue())
-                values.Add(style);
+            if (_leftColor.IsInitial == false)
+                result.Append(' ').Append(_leftColor.SerializeValue());
 
-            if (color == _topColor.SerializeValue() && color == _bottomColor.SerializeValue() && color == _rightColor.SerializeValue())
-                values.Add(color);
-
-            return String.Join(" ", values);
+            return result.ToPool();
         }
 
         #endregion

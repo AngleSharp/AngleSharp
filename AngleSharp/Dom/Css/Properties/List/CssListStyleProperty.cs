@@ -90,10 +90,10 @@
             var result = Pool.NewStringBuilder();
             result.Append(_type.SerializeValue());
 
-            if (_image.HasValue)
+            if (_image.IsInitial == false)
                 result.Append(' ').Append(_image.SerializeValue());
 
-            if (_position.HasValue)
+            if (_position.IsInitial == false)
                 result.Append(' ').Append(_position.SerializeValue());
 
             return result.ToPool();
