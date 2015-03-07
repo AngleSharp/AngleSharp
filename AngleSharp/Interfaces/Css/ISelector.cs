@@ -18,7 +18,9 @@
         /// Determines if the given object is matched by this selector.
         /// </summary>
         /// <param name="element">The element to be matched.</param>
-        /// <returns>True if the selector matches the given element, otherwise false.</returns>
+        /// <returns>
+        /// True if the selector matches the given element, otherwise false.
+        /// </returns>
         Boolean Match(IElement element);
 
         /// <summary>
