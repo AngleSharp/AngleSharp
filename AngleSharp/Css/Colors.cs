@@ -10,7 +10,7 @@
     /// Most names are derived from
     /// http://en.wikipedia.org/wiki/X11_color_names
     /// </summary>
-    static class Colors
+    public static class Colors
     {
         #region Fields
 
@@ -165,6 +165,18 @@
             { "yellowgreen", new Color(154, 205, 50) },
             { "transparent", new Color(0, 0, 0) }
         };
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the available color names.
+        /// </summary>
+        public static IEnumerable<String> Names
+        {
+            get { return _colors.Keys; }
+        }
 
         #endregion
 
