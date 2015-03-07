@@ -22,7 +22,6 @@
         String _lastStartTag;
         HtmlParseMode _state;
         HtmlToken _buffered;
-        TextPosition _begin;
 
         #endregion
 
@@ -218,7 +217,6 @@
 
                     case Symbols.LessThan:
                         // See 8.2.4.11 RCDATA less-than sign state
-                        _begin = GetCurrentPosition();
                         c = GetNext();
 
                         if (c == Symbols.Solidus)
@@ -608,7 +606,6 @@
         /// </summary>
         HtmlToken TagOpen()
         {
-            _begin = GetCurrentPosition();
             var c = GetNext();
 
             if (c == Symbols.Solidus)
@@ -2048,7 +2045,6 @@
                 {
                     case Symbols.LessThan:
                         //See 8.2.4.17 Script data less-than sign state
-                        _begin = GetCurrentPosition();
                         c = GetNext();
 
                         if (c == Symbols.Solidus)
@@ -2237,7 +2233,6 @@
         /// </summary>
         HtmlToken ScriptDataEscapedLT()
         {
-            _begin = GetCurrentPosition();
             var c = GetNext();
 
             if (c == Symbols.Solidus)
