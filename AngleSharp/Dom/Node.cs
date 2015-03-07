@@ -23,7 +23,6 @@
         Url _baseUri;
         Node _parent;
         NodeList _children;
-        TextRange _range;
 
         #endregion
 
@@ -44,15 +43,6 @@
         #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the positions of the node in the original source code.
-        /// </summary>
-        public TextRange OriginalPosition
-        {
-            get { return _range; }
-            internal set { _range = value; }
-        }
 
         /// <summary>
         /// Gets a boolean value indicating whether the current Node 
