@@ -2481,7 +2481,6 @@
 
         HtmlToken Emit(HtmlToken token)
         {
-            token.Range = new TextRange(_begin, GetCurrentPosition());
             return token;
         }
 

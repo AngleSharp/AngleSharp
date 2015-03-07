@@ -56,7 +56,6 @@
         #region Fields
 
         readonly HtmlTokenType _type;
-        TextRange _range;
         String _name;
 
         #endregion
@@ -103,15 +102,6 @@
 
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the range of the token.
-        /// </summary>
-        public TextRange Range
-        {
-            get { return _range; }
-            set { _range = value; }
         }
 
         /// <summary>
