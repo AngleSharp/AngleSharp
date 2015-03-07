@@ -15,8 +15,6 @@
         #region Fields
 
         readonly BoundLocation _data;
-        IDocument _contentDocument;
-        IWindow _contentWindow;
         Task<IObjectInfo> _resourceTask;
         CancellationTokenSource _cts;
 
@@ -45,7 +43,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the type of the resource. If present, the attribute must be a valid MIME type.
+        /// Gets or sets the type of the resource. If present, the attribute
+        /// must be a valid MIME type.
         /// </summary>
         public String Type
         {
@@ -54,8 +53,9 @@
         }
 
         /// <summary>
-        /// Gets or sets an attribute whose presence indicates that the resource specified by the data
-        /// attribute is only to be used if the value of the type attribute and the Content-Type of the
+        /// Gets or sets an attribute whose presence indicates that the
+        /// resource specified by the data attribute is only to be used if the
+        /// value of the type attribute and the Content-Type of the
         /// aforementioned resource match.
         /// </summary>
         public Boolean TypeMustMatch
@@ -65,7 +65,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the associated image map of the object if the object element represents an image.
+        /// Gets or sets the associated image map of the object if the object
+        /// element represents an image.
         /// </summary>
         public String UseMap
         {
@@ -108,20 +109,21 @@
         }
 
         /// <summary>
-        /// Gets the active document of the object element's nested browsing context, if it has one;
-        /// otherwise returns null.
+        /// Gets the active document of the object element's nested browsing
+        /// context, if it has one; otherwise returns null.
         /// </summary>
         public IDocument ContentDocument
         {
-            get { return _contentDocument; }
+            get { return null; }
         }
 
         /// <summary>
-        /// Gets the object element's nested browsing context, if it has one; otherwise returns null.
+        /// Gets the object element's nested browsing context, if it has one;
+        /// otherwise returns null.
         /// </summary>
         public IWindow ContentWindow
         {
-            get { return _contentWindow; }
+            get { return null; }
         }
 
         #endregion
