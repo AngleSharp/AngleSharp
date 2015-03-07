@@ -16,6 +16,7 @@
 
         static readonly Dictionary<String, Color> _colors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase)
         {
+            // Extended color keywords
             { "aliceblue", new Color(240, 248, 255) },
             { "antiquewhite", new Color(250, 235, 215) },
             { "aqua", new Color(0, 255, 255) },
@@ -163,7 +164,36 @@
             { "whitesmoke", new Color(245, 245, 245) },
             { "yellow", new Color(255, 255, 0) },
             { "yellowgreen", new Color(154, 205, 50) },
-            { "transparent", new Color(0, 0, 0) }
+            { "transparent", new Color(0, 0, 0) },
+            // CSS2 system colors
+            { "activeborder", new Color(255, 255, 255) },
+            { "activecaption", new Color(204, 204, 204) },
+            { "appworkspace", new Color(255, 255, 255) },
+            { "background", new Color(99, 99, 206) },
+            { "buttonface", new Color(221, 221, 221) },
+            { "buttonhighlight", new Color(221, 221, 221) },
+            { "buttonshadow", new Color(136, 136, 136) },
+            { "buttontext", new Color(0, 0, 0) },
+            { "captiontext", new Color(0, 0, 0) },
+            { "graytext", new Color(128, 128, 128) },
+            { "highlight", new Color(181, 213, 255) },
+            { "highlighttext", new Color(0, 0, 0) },
+            { "inactiveborder", new Color(255, 255, 255) },
+            { "inactivecaption", new Color(255, 255, 255) },
+            { "inactivecaptiontext", new Color(127, 127, 127) },
+            { "infobackground", new Color(251, 252, 197) },
+            { "infotext", new Color(0, 0, 0) },
+            { "menu", new Color(247, 247, 247) },
+            { "menutext", new Color(0, 0, 0) },
+            { "scrollbar", new Color(255, 255, 255) },
+            { "threeddarkshadow", new Color(102, 102, 102) },
+            { "threedface", new Color(255, 255, 255) },
+            { "threedhighlight", new Color(221, 221, 221) },
+            { "threedlightshadow", new Color(192, 192, 192) },
+            { "threedshadow", new Color(136, 136, 136) },
+            { "window", new Color(255, 255, 255) },
+            { "windowframe", new Color(204, 204, 204) },
+            { "windowtext", new Color(0, 0, 0) }
         };
 
         #endregion
