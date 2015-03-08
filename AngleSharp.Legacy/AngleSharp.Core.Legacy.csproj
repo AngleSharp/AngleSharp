@@ -970,9 +970,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSCounterIncrementProperty.cs">
       <Link>DOM\Css\Properties\List\CSSCounterIncrementProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSCounterProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSCounterProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSCounterResetProperty.cs">
       <Link>DOM\Css\Properties\List\CSSCounterResetProperty.cs</Link>
     </Compile>
