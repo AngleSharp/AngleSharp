@@ -7,14 +7,15 @@
     /// <summary>
     /// More information available:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color
+    /// Gets the color of the outline.
+    /// Gets if the color is inverted.
     /// </summary>
     sealed class CssOutlineColorProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Color? Default = null;
-        internal static readonly IValueConverter<Color?> Converter = Converters.ColorConverter.WithCurrentColor().ToNullable().Or(Keywords.Invert, Default);
-        Color? _color;
+        internal static readonly IValueConverter<Color?> Converter = 
+            Converters.ColorConverter.WithCurrentColor().ToNullable().Or(Keywords.Invert, null);
 
         #endregion
 
@@ -23,51 +24,25 @@
         internal CssOutlineColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.OutlineColor, rule, PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the color of the outline.
-        /// </summary>
-        public Color Color
-        {
-            get { return _color.HasValue ? _color.Value : Color.Transparent; }
-        }
-
-        /// <summary>
-        /// Gets if the color is inverted.
-        /// </summary>
-        public Boolean IsInverted
-        {
-            get { return !_color.HasValue; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetColor(Color? color)
+        protected override Object GetDefault(IElement element)
         {
-            _color = color;
+            return Color.Transparent;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _color = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetColor);
+            return Converter.Validate(value);
         }
 
         #endregion

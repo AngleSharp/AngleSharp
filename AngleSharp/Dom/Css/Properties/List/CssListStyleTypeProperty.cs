@@ -7,14 +7,14 @@
     /// <summary>
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type
+    /// Gets the selected style for the list.
     /// </summary>
     sealed class CssListStyleTypeProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly ListStyle Default = ListStyle.Disc;
-        internal static readonly IValueConverter<ListStyle> Converter = Map.ListStyles.ToConverter();
-        ListStyle _style;
+        internal static readonly IValueConverter<ListStyle> Converter = 
+            Map.ListStyles.ToConverter();
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssListStyleTypeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyleType, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected style for the list.
-        /// </summary>
-        public ListStyle Style
-        {
-            get { return _style; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetStyle(ListStyle style)
+        protected override Object GetDefault(IElement element)
         {
-            _style = style;
+            return ListStyle.Disc;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _style = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetStyle);
+            return Converter.Validate(value);
         }
 
         #endregion

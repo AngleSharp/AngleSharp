@@ -12,9 +12,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<ObjectFitting> Converter = Map.ObjectFittings.ToConverter();
-        internal static readonly ObjectFitting Default = ObjectFitting.Fill;
-        ObjectFitting _fitting;
+        static readonly IValueConverter<ObjectFitting> Converter = 
+            Map.ObjectFittings.ToConverter();
 
         #endregion
 
@@ -23,30 +22,25 @@
         internal CssObjectFitProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ObjectFit, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public ObjectFitting Fitting
-        {
-            get { return _fitting; }
         }
 
         #endregion
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Object GetDefault(IElement element)
         {
-            return Converter.TryConvert(value, m => _fitting = m);
+            return ObjectFitting.Fill;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _fitting = Default;
+            return Converter.Convert(Value);
+        }
+
+        protected override Boolean IsValid(ICssValue value)
+        {
+            return Converter.Validate(value);
         }
 
         #endregion

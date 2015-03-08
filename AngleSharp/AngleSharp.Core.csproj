@@ -97,7 +97,6 @@
     <Compile Include="Dom\Css\Properties\Font\CssFontSizeAdjustProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssUnicodeRangeProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssSrcProperty.cs" />
-    <Compile Include="Dom\Css\Properties\List\CssCounterProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectFitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectPositionProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />

@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at
@@ -14,14 +14,11 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
-            CssListStyleTypeProperty.Converter.Option(CssListStyleTypeProperty.Default).Val(),
-            CssListStylePositionProperty.Converter.Option(CssListStylePositionProperty.Default).Val(),
-            CssListStyleImageProperty.Converter.Option(CssListStyleImageProperty.Default).Val());
-
-        readonly CssListStyleTypeProperty _type;
-        readonly CssListStyleImageProperty _image;
-        readonly CssListStylePositionProperty _position;
+        static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
+            Converters.WithAny(
+                CssListStyleTypeProperty.Converter.Val().Option(null).Val(),
+                CssListStylePositionProperty.Converter.Val().Option(null).Val(),
+                CssListStyleImageProperty.Converter.Val().Option(null).Val());
 
         #endregion
 
@@ -30,71 +27,39 @@
         internal CssListStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited)
         {
-            _type = Get<CssListStyleTypeProperty>();
-            _image = Get<CssListStyleImageProperty>();
-            _position = Get<CssListStylePositionProperty>();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected list-style type.
-        /// </summary>
-        public ListStyle Style
-        {
-            get { return _type.Style; }
-        }
-
-        /// <summary>
-        /// Gets the selected image for the list.
-        /// </summary>
-        public IImageSource Image
-        {
-            get { return _image.Image; }
-        }
-
-        /// <summary>
-        /// Gets the selected position for the list-style.
-        /// </summary>
-        public ListPosition Position
-        {
-            get { return _position.Position; }
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, m =>
             {
-                _type.TrySetValue(m.Item1);
-                _position.TrySetValue(m.Item2);
-                _image.TrySetValue(m.Item3);
+                Get<CssListStyleTypeProperty>().TrySetValue(m.Item1);
+                Get<CssListStylePositionProperty>().TrySetValue(m.Item2);
+                Get<CssListStyleImageProperty>().TrySetValue(m.Item3);
             });
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
-            if (!IsComplete(properties))
+            var type = properties.OfType<CssListStyleTypeProperty>().FirstOrDefault();
+            var position = properties.OfType<CssListStylePositionProperty>().FirstOrDefault();
+            var image = properties.OfType<CssListStyleImageProperty>().FirstOrDefault();
+
+            if (type == null || position == null || image == null)
                 return String.Empty;
 
             var result = Pool.NewStringBuilder();
-            result.Append(_type.SerializeValue());
+            result.Append(type.SerializeValue());
 
-            if (_image.IsInitial == false)
-                result.Append(' ').Append(_image.SerializeValue());
+            if (image.HasValue)
+                result.Append(' ').Append(image.SerializeValue());
 
-            if (_position.IsInitial == false)
-                result.Append(' ').Append(_position.SerializeValue());
+            if (position.HasValue)
+                result.Append(' ').Append(position.SerializeValue());
 
             return result.ToPool();
         }

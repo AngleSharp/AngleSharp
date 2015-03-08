@@ -9,15 +9,16 @@
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/counter-increment
     /// </summary>
-    sealed class CssCounterIncrementProperty : CssCounterProperty
+    sealed class CssCounterIncrementProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = Converters.WithOrder(
+        static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = 
             Converters.WithOrder(
-                Converters.IdentifierConverter.Required(),
-                Converters.IntegerConverter.Option(1)).To(
-            m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
+                Converters.WithOrder(
+                    Converters.IdentifierConverter.Required(),
+                    Converters.IntegerConverter.Option(1)).To(
+                m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
 
         #endregion
 
@@ -32,14 +33,24 @@
 
         #region Methods
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
+        protected override Object GetDefault(IElement element)
+        {
+            return null;
+        }
+
+        protected override Object Compute(IElement element)
+        {
+            var pairs = Converter.Convert(Value);
+
+            if (pairs.Length == 0)
+                return null;
+
+            return pairs[0];
+        }
+
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetCounters);
+            return Converter.Validate(value);
         }
 
         #endregion

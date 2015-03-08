@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -12,9 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Point> Converter = Converters.PointConverter;
-        internal static readonly Point Default = Point.Center;
-        Point _position;
+        static readonly IValueConverter<Point> Converter = 
+            Converters.PointConverter;
 
         #endregion
 
@@ -23,30 +23,25 @@
         internal CssObjectPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ObjectPosition, rule, PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public Point Position
-        {
-            get { return _position; }
         }
 
         #endregion
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Object GetDefault(IElement element)
         {
-            return Converter.TryConvert(value, m => _position = m);
+            return Point.Center;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _position = Default;
+            return Converter.Convert(Value);
+        }
+
+        protected override Boolean IsValid(ICssValue value)
+        {
+            return Converter.Validate(value);
         }
 
         #endregion

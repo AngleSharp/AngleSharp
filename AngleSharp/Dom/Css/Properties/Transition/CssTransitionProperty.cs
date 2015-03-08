@@ -67,10 +67,10 @@
             values.Add(property.SerializeValue());
             values.Add(duration.SerializeValue());
 
-            if (timingFunction != null && timingFunction.IsInitial == false)
+            if (timingFunction != null && timingFunction.HasValue)
                 values.Add(timingFunction.SerializeValue());
 
-            if (delay != null && delay.IsInitial == false)
+            if (delay != null && delay.HasValue)
                 values.Add(delay.SerializeValue());
 
             return String.Join(" ", values);

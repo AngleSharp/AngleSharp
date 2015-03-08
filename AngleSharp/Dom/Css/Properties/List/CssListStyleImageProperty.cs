@@ -8,14 +8,14 @@
     /// <summary>
     /// More information available at
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-image
+    /// Gets the selected image.
     /// </summary>
     sealed class CssListStyleImageProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly IImageSource Default = null;
-        internal static readonly IValueConverter<IImageSource> Converter = Converters.ImageSourceConverter.Or(Keywords.None, Default);
-        IImageSource _image;
+        internal static readonly IValueConverter<IImageSource> Converter = 
+            Converters.ImageSourceConverter.Or(Keywords.None, null);
 
         #endregion
 
@@ -24,43 +24,25 @@
         internal CssListStyleImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ListStyleImage, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected image.
-        /// </summary>
-        public IImageSource Image
-        {
-            get { return _image; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetImage(IImageSource image)
+        protected override Object GetDefault(IElement element)
         {
-            _image = image;
+            return null;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _image = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetImage);
+            return Converter.Validate(value);
         }
 
         #endregion
