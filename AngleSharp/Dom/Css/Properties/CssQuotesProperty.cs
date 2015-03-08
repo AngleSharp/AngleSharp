@@ -1,21 +1,26 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/quotes
+    /// Gets the enumeration with pairs of values for open-quote and
+    /// close-quote. The first pair represents the outer level of quotation,
+    /// the second pair is for the first nested level, next pair for third
+    /// level and so on.
     /// </summary>
     sealed class CssQuotesProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Tuple<String, String>[] Default = new Tuple<String, String>[] { Tuple.Create("«", "»") };
-        internal static readonly IValueConverter<Tuple<String, String>[]> Converter = Converters.StringConverter.Many().Constraint(m => m.Length % 2 == 0).To(TransformArray).Or(Keywords.None, new Tuple<String, String>[0]);
-        Tuple<String, String>[] _quotes;
+        static readonly IValueConverter<Tuple<String, String>[]> Converter = 
+            Converters.StringConverter.Many().Constraint(m => m.Length % 2 == 0).
+                To(TransformArray).Or(Keywords.None, new Tuple<String, String>[0]);
 
         #endregion
 
@@ -24,46 +29,34 @@
         internal CssQuotesProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Quotes, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the enumeration with pairs of values for open-quote and
-        /// close-quote. The first pair represents the outer level of quotation,
-        /// the second pair is for the first nested level, next pair for third
-        /// level and so on.
-        /// </summary>
-        public IEnumerable<Tuple<String, String>> Quotes
-        {
-            get { return _quotes; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetQuotes(Tuple<String, String>[] quotes)
+        protected override Object GetDefault(IElement element)
         {
-            _quotes = quotes;
+            return Tuple.Create("«", "»");
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _quotes = Default;
+            var pairs = Converter.Convert(Value);
+
+            if (element is IHtmlQuoteElement && pairs.Length > 0)
+            {
+                var nesting = element.GetAncestors().OfType<IHtmlQuoteElement>().Count();
+                var index = Math.Min(pairs.Length - 1, nesting);
+                return pairs[index];
+            }
+
+            return Tuple.Create("", "");
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetQuotes);
+            return Converter.Validate(value);
         }
 
         #endregion

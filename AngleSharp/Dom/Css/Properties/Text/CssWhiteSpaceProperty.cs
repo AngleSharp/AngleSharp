@@ -7,14 +7,14 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
+    /// Gets the selected whitespace handling mode.
     /// </summary>
     sealed class CssWhiteSpaceProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Whitespace Default = Whitespace.Normal;
-        internal static readonly IValueConverter<Whitespace> Converter = Map.WhitespaceModes.ToConverter();
-        Whitespace _mode;
+        internal static readonly IValueConverter<Whitespace> Converter = 
+            Map.WhitespaceModes.ToConverter();
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssWhiteSpaceProperty(CssStyleDeclaration rule)
             : base(PropertyNames.WhiteSpace, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected whitespace handling mode.
-        /// </summary>
-        public Whitespace State
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetState(Whitespace mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return Whitespace.Normal;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetState);
+            return Converter.Validate(value);
         }
 
         #endregion

@@ -1,19 +1,20 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
     /// More Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
+    /// Gets the selected text-decoration color.
     /// </summary>
     sealed class CssTextDecorationColorProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Color Default = Color.Black;
-        internal static readonly IValueConverter<Color> Converter = Converters.ColorConverter;
-        Color _color;
+        internal static readonly IValueConverter<Color> Converter = 
+            Converters.ColorConverter;
 
         #endregion
 
@@ -22,43 +23,25 @@
         internal CssTextDecorationColorProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextDecorationColor, rule, PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected text-decoration color.
-        /// </summary>
-        public Color Color
-        {
-            get { return _color; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetColor(Color color)
+        protected override Object GetDefault(IElement element)
         {
-            _color = color;
+            return Color.Black;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _color = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetColor);
+            return Converter.Validate(value);
         }
 
         #endregion

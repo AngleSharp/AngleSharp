@@ -5,7 +5,8 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content
@@ -14,63 +15,52 @@
     {
         #region Fields
 
-        static readonly IValueConverter<ContentMode[]> Converter;
-        static readonly ContentMode[] Default;
-        static readonly Dictionary<String, ContentMode> ContentModes;
-
-        IEnumerable<ContentMode> _mode;
+        static readonly Dictionary<String, ContentMode> ContentModes = new Dictionary<String, ContentMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.OpenQuote, new OpenQuoteContentMode() },
+            { Keywords.NoOpenQuote, new NoOpenQuoteContentMode() },
+            { Keywords.CloseQuote, new CloseQuoteContentMode() },
+            { Keywords.NoCloseQuote, new NoCloseQuoteContentMode() }
+        };
+        static readonly ContentMode[] Default = new[] { new NormalContentMode() };
+        static readonly IValueConverter<ContentMode[]> Converter = 
+            Converters.Assign(Keywords.Normal, Default).Or(Keywords.None, new ContentMode[0]).Or(
+                ContentModes.ToConverter().Or(
+                Converters.UrlConverter.To(TransformUrl)).Or(
+                Converters.StringConverter.To(TransformString)).Or(
+                Converters.AttrConverter.To(TransformAttr)).Or(
+                Converters.CounterConverter.To(TransformCounter)).Many()
+            );
 
         #endregion
 
         #region ctor
 
-        static CssContentProperty()
-        {
-            ContentModes = new Dictionary<String, ContentMode>(StringComparer.OrdinalIgnoreCase);
-            ContentModes.Add(Keywords.OpenQuote, new OpenQuoteContentMode());
-            ContentModes.Add(Keywords.NoOpenQuote, new NoOpenQuoteContentMode());
-            ContentModes.Add(Keywords.CloseQuote, new CloseQuoteContentMode());
-            ContentModes.Add(Keywords.NoCloseQuote, new NoCloseQuoteContentMode());
-
-            Default = new[] { new NormalContentMode() };
-
-            Converter = Converters.Assign(Keywords.Normal, Default).Or(Keywords.None, new ContentMode[0]).Or(
-                    ContentModes.ToConverter().Or(
-                    Converters.UrlConverter.To(TransformUrl)).Or(
-                    Converters.StringConverter.To(TransformString)).Or(
-                    Converters.AttrConverter.To(TransformAttr)).Or(
-                    Converters.CounterConverter.To(TransformCounter)).Many()
-                );
-        }
-
         internal CssContentProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Content, rule)
         {
-            Reset();
         }
 
         #endregion
 
         #region Methods
 
-        internal override void Reset()
+        protected override Object GetDefault(IElement element)
         {
-            _mode = Default;
+            var parts = Default.Select(m => m.Stringify(element));
+            return String.Join(String.Empty, parts);
         }
 
-        void SetMode(ContentMode[] mode)
+        protected override Object Compute(IElement element)
         {
-            _mode = mode;
+            var values = Converter.Convert(Value);
+            var parts = values.Select(m => m.Stringify(element));
+            return String.Join(String.Empty, parts);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetMode);
+            return Converter.Validate(value);
         }
 
         #endregion
@@ -103,7 +93,7 @@
 
         abstract class ContentMode
         {
-            //TODO Add members that make sense
+            public abstract String Stringify(IElement element);
         }
 
         /// <summary>
@@ -111,34 +101,58 @@
         /// </summary>
         sealed class NormalContentMode : ContentMode
         {
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
-        /// The value is replaced by the open quote string from the quotes property.
+        /// The value is replaced by the open quote string from the quotes
+        /// property.
         /// </summary>
         sealed class OpenQuoteContentMode : ContentMode
         {
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
-        /// The value is replaced by the close string from the quotes property.
+        /// The value is replaced by the close string from the quotes
+        /// property.
         /// </summary>
         sealed class CloseQuoteContentMode : ContentMode
         {
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
-        /// Introduces no content, but increments the level of nesting for quotes.
+        /// Introduces no content, but increments the level of nesting for
+        /// quotes.
         /// </summary>
         sealed class NoOpenQuoteContentMode : ContentMode
         {
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
-        /// Introduces no content, but decrements the level of nesting for quotes.
+        /// Introduces no content, but decrements the level of nesting for
+        /// quotes.
         /// </summary>
         sealed class NoCloseQuoteContentMode : ContentMode
         {
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
@@ -152,12 +166,17 @@
             {
                 _text = text;
             }
+
+            public override String Stringify(IElement element)
+            {
+                return _text;
+            }
         }
 
         /// <summary>
-        /// The generated text is the value of all counters with
-        /// the given name in scope at this pseudo-element, from
-        /// outermost to innermost separated by the specified string.
+        /// The generated text is the value of all counters with the given name
+        /// in scope at this pseudo-element, from outermost to innermost
+        /// separated by the specified string.
         /// </summary>
         sealed class CounterContentMode : ContentMode
         {
@@ -167,11 +186,16 @@
             {
                 _counter = counter;
             }
+
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
-        /// Returns the value of the element's attribute X as a string.
-        /// If there is no attribute X, an empty string is returned.
+        /// Returns the value of the element's attribute X as a string. If
+        /// there is no attribute X, an empty string is returned.
         /// </summary>
         sealed class AttributeContentMode : ContentMode
         {
@@ -181,12 +205,17 @@
             {
                 _attribute = attribute;
             }
+
+            public override String Stringify(IElement element)
+            {
+                return element.GetAttribute(_attribute) ?? String.Empty;
+            }
         }
 
         /// <summary>
-        /// The value is a URI that designates an external resource (such as
-        /// an image). If the resource or image can't be displayed, it is
-        /// either ignored or some placeholder shows up.
+        /// The value is a URI that designates an external resource (such as an
+        /// image). If the resource or image can't be displayed, it is either
+        /// ignored or some placeholder shows up.
         /// </summary>
         sealed class UrlContentMode : ContentMode
         {
@@ -195,6 +224,11 @@
             public UrlContentMode(Url url)
             {
                 _url = url;
+            }
+
+            public override String Stringify(IElement element)
+            {
+                return String.Empty;
             }
         }
 

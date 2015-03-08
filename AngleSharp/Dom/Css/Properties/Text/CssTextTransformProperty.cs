@@ -7,14 +7,14 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
+    /// Gets the selected text transformation mode.
     /// </summary>
     sealed class CssTextTransformProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly TextTransform Default = TextTransform.None;
-        internal static readonly IValueConverter<TextTransform> Converter = Map.TextTransforms.ToConverter();
-        TextTransform _mode;
+        static readonly IValueConverter<TextTransform> Converter =
+            Map.TextTransforms.ToConverter();
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssTextTransformProperty(CssStyleDeclaration rule)
             : base(PropertyNames.TextTransform, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected text transformation mode.
-        /// </summary>
-        public TextTransform Transform
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetTransform(TextTransform mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return TextTransform.None;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetTransform);
+            return Converter.Validate(value);
         }
 
         #endregion

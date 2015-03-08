@@ -7,60 +7,35 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/orphans
+    /// Gets the minimum number of lines in a block container
+    /// that must be left at the bottom of the page. 
     /// </summary>
     sealed class CssOrphansProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly Int32 Default = 2;
-        Int32 _count;
-
-        #endregion
-
         #region ctor
 
         internal CssOrphansProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Orphans, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the minimum number of lines in a block container
-        /// that must be left at the bottom of the page. 
-        /// </summary>
-        public Int32 Count
-        {
-            get { return _count; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetCount(Int32 value)
+        protected override Object GetDefault(IElement element)
         {
-            if (value >= 0)
-                _count = value;
+            return 2;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _count = Default;
+            return Converters.PositiveIntegerConverter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converters.PositiveIntegerConverter.TryConvert(value, SetCount);
+            return Converters.PositiveIntegerConverter.Validate(value);
         }
 
         #endregion

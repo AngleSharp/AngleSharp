@@ -7,14 +7,14 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/direction
+    /// Gets the selected text direction.
     /// </summary>
     sealed class CssDirectionProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly DirectionMode Default = DirectionMode.Ltr;
-        internal static readonly IValueConverter<DirectionMode> Converter = Converters.Assign(Keywords.Ltr, DirectionMode.Ltr).Or(Keywords.Rtl, DirectionMode.Rtl);
-        DirectionMode _mode;
+        static readonly IValueConverter<DirectionMode> Converter = 
+            Converters.Assign(Keywords.Ltr, DirectionMode.Ltr).Or(Keywords.Rtl, DirectionMode.Rtl);
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssDirectionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Direction, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected text direction.
-        /// </summary>
-        public DirectionMode State
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetState(DirectionMode mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return DirectionMode.Ltr;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetState);
+            return Converter.Validate(value);
         }
 
         #endregion

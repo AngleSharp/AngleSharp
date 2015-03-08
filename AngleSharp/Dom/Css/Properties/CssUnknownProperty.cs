@@ -12,22 +12,22 @@
         internal CssUnknownProperty(String name, CssStyleDeclaration rule)
             : base(name, rule)
         {
-            Reset();
         }
 
         #endregion
 
         #region Methods
 
-        internal override void Reset()
+        protected override Object GetDefault(IElement element)
         {
+            return null;
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
+        protected override Object Compute(IElement element)
+        {
+            return null;
+        }
+
         protected override Boolean IsValid(ICssValue value)
         {
             return true;

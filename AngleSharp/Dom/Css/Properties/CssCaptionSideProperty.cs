@@ -1,19 +1,21 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/caption-side
+    /// Gets if the caption box will be above the table.
+    /// Otherwise the caption box will be below the table.
     /// </summary>
     sealed class CssCaptionSideProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Top, Keywords.Bottom);
-        internal static readonly Boolean Default = true;
-        Boolean _top;
+        static readonly IValueConverter<Boolean> Converter = 
+            Converters.Toggle(Keywords.Top, Keywords.Bottom);
 
         #endregion
 
@@ -22,44 +24,25 @@
         internal CssCaptionSideProperty(CssStyleDeclaration rule)
             : base(PropertyNames.CaptionSide, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if the caption box will be above the table.
-        /// Otherwise the caption box will be below the table.
-        /// </summary>
-        public Boolean IsOnTop
-        {
-            get { return _top; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetMode(Boolean onTop)
+        protected override Object GetDefault(IElement element)
         {
-            _top = onTop;
+            return true;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _top = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetMode);
+            return Converter.Validate(value);
         }
 
         #endregion

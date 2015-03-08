@@ -2,6 +2,8 @@
 {
     using AngleSharp.Css;
     using System;
+    using System.Collections.Generic;
+
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -182,11 +184,28 @@
         /// <summary>
         /// Resets the property to its initial state.
         /// </summary>
-        internal abstract void Reset();
+        internal virtual void Reset()
+        {
+            _value = null;
+        }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets the default value for the given element.
+        /// </summary>
+        /// <param name="element">The element to use.</param>
+        /// <returns>The value for the given element.</returns>
+        protected abstract Object GetDefault(IElement element);
+
+        /// <summary>
+        /// Computes the value for the given element.
+        /// </summary>
+        /// <param name="element">The element to use.</param>
+        /// <returns>The value for the given element.</returns>
+        protected abstract Object Compute(IElement element);
 
         /// <summary>
         /// Notified once the value changed.

@@ -38,20 +38,19 @@
 
         #region Methods
 
+        protected sealed override Object GetDefault(IElement element)
+        {
+            return null;
+        }
+
+        protected sealed override Object Compute(IElement element)
+        {
+            return null;
+        }
+
         protected TProperty Get<TProperty>()
         {
             return _properties.OfType<TProperty>().FirstOrDefault();
-        }
-
-        protected Boolean IsComplete(IEnumerable<CssProperty> properties)
-        {
-            foreach (var property in _properties)
-            {
-                if (!properties.Contains(property))
-                    return false;
-            }
-
-            return true;
         }
 
         protected static Boolean ExpandPeriodic(CssValueList list)
@@ -99,6 +98,8 @@
 
         internal sealed override void Reset()
         {
+            base.Reset();
+
             foreach (var property in _properties)
                 property.Reset();
         }
