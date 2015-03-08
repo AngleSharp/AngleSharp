@@ -21,6 +21,13 @@
 
         #region Methods
 
+        public static T Convert<T>(this IValueConverter<T> converter, ICssValue value)
+        {
+            var result = default(T);
+            converter.TryConvert(value, m => result = m);
+            return result;
+        }
+
         public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
         {
             return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
