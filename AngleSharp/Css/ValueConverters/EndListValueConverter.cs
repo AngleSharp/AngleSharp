@@ -59,7 +59,7 @@
                 var items = values.ToList();
                 end = items[items.Count - 1].Reduce();
                 items.RemoveAt(items.Count - 1);
-                values = new CssValueList(items.Select(m => m.Reduce()).ToList());
+                values = items.ToSeparatedList();
             }
             else
             {
@@ -67,7 +67,10 @@
                 end = value;
             }
 
-            return _endConverter.Validate(end) && (values.Length == 0 || _listConverter.Validate(values));
+            if (!_endConverter.Validate(end))
+                return false;
+
+            return values.Length == 0 || _listConverter.Validate(values);
         }
 
         public Int32 MinArgs

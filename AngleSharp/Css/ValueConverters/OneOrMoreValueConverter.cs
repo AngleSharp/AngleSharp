@@ -39,18 +39,18 @@
 
         public Boolean Validate(ICssValue value)
         {
-            var items = value.AsEnumeration();
-            var count = 0;
+            var items = value.AsEnumeration().ToArray();
 
-            foreach (var item in items)
+            if (items.Length < _minimum || items.Length > _maximum)
+                return false;
+
+            for (var i = 0; i < items.Length; i++)
             {
-                if (count > _maximum || !_converter.Validate(item))
+                if (!_converter.Validate(items[i]))
                     return false;
-
-                count++;
             }
 
-            return count >= _minimum;
+            return true;
         }
 
         public Int32 MinArgs

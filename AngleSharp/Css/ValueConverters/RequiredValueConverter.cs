@@ -14,18 +14,12 @@
 
         public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
-            if (value == null)
-                return false;
-
-            return _converter.TryConvert(value, setResult);
+            return value != null && _converter.TryConvert(value, setResult);
         }
 
         public Boolean Validate(ICssValue value)
         {
-            if (value == null)
-                return false;
-
-            return _converter.Validate(value);
+            return value != null && _converter.Validate(value);
         }
 
         public Int32 MinArgs
