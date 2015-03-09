@@ -76,6 +76,14 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ReplaceSingleNodeWithNothing()
+        {
+            var document = DocumentBuilder.Html("<span></span><em></em>");
+            document.QuerySelector("span").Replace();
+            Assert.AreEqual("<em></em>", document.Body.InnerHtml);
+        }
+
+        [Test]
         public void PassEmptyArrayToPrependNodes()
         {
             var document = DocumentBuilder.Html("");
