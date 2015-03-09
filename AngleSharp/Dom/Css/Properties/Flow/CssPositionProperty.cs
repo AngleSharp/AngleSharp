@@ -7,14 +7,14 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/position
+    /// Gets the currently selected position mode.
     /// </summary>
     sealed class CssPositionProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly PositionMode Default = PositionMode.Static;
-        internal static readonly IValueConverter<PositionMode> Converter = Map.PositionModes.ToConverter();
-        PositionMode _mode;
+        internal static readonly IValueConverter<PositionMode> Converter = 
+            Map.PositionModes.ToConverter();
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Position, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the currently selected position mode.
-        /// </summary>
-        public PositionMode State
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetState(PositionMode mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return PositionMode.Static;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetState);
+            return Converter.Validate(value);
         }
 
         #endregion

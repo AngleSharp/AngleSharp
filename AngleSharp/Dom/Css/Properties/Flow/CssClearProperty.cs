@@ -7,14 +7,14 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/clear
+    /// Gets the value of the clear mode.
     /// </summary>
     sealed class CssClearProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly ClearMode Default = ClearMode.None;
-        internal static readonly IValueConverter<ClearMode> Converter = Map.ClearModes.ToConverter();
-        ClearMode _mode;
+        internal static readonly IValueConverter<ClearMode> Converter = 
+            Map.ClearModes.ToConverter();
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssClearProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Clear, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the value of the clear mode.
-        /// </summary>
-        public ClearMode State
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetState(ClearMode mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return ClearMode.None;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetState);
+            return Converter.Validate(value);
         }
 
         #endregion

@@ -12,9 +12,8 @@
     {
         #region Fields
 
-        internal static readonly OverflowMode Default = OverflowMode.Visible;
-        internal static readonly IValueConverter<OverflowMode> Converter = Map.OverflowModes.ToConverter();
-        OverflowMode _mode;
+        internal static readonly IValueConverter<OverflowMode> Converter = 
+            Map.OverflowModes.ToConverter();
 
         #endregion
 
@@ -23,40 +22,25 @@
         internal CssOverflowProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Overflow, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public OverflowMode State
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetState(OverflowMode mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return OverflowMode.Visible;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetState);
+            return Converter.Validate(value);
         }
 
         #endregion
