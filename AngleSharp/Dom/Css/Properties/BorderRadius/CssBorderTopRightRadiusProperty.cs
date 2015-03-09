@@ -1,32 +1,47 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-top-right-radius
     /// </summary>
-    sealed class CssBorderTopRightRadiusProperty : CssBorderRadiusPartProperty
+    sealed class CssBorderTopRightRadiusProperty : CssProperty
     {
+        #region Fields
+
+        internal static readonly IValueConverter<Tuple<Length, Length?>> Converter = Converters.WithOrder(
+            Converters.LengthOrPercentConverter.Required(),
+            Converters.LengthOrPercentConverter.ToNullable().Option(null));
+
+        #endregion
+
         #region ctor
 
         internal CssBorderTopRightRadiusProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderTopRightRadius, rule)
+            : base(PropertyNames.BorderTopRightRadius, rule, PropertyFlags.Animatable)
         {
         }
 
         #endregion
 
-        #region Properties
+        #region Methods
 
-        public Length HorizontalTopRight
+        protected override Object GetDefault(IElement element)
         {
-            get { return HorizontalRadius; }
+            return Length.Zero;
         }
 
-        public Length VerticalTopRight
+        protected override Object Compute(IElement element)
         {
-            get { return VerticalRadius; }
+            return Converter.Convert(Value);
+        }
+
+        protected override Boolean IsValid(ICssValue value)
+        {
+            return Converter.Validate(value);
         }
 
         #endregion

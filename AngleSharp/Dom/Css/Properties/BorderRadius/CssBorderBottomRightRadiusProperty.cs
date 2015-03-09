@@ -1,32 +1,47 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-bottom-right-radius
     /// </summary>
-    sealed class CssBorderBottomRightRadiusProperty : CssBorderRadiusPartProperty
+    sealed class CssBorderBottomRightRadiusProperty : CssProperty
     {
+        #region Fields
+
+        internal static readonly IValueConverter<Tuple<Length, Length?>> Converter = Converters.WithOrder(
+            Converters.LengthOrPercentConverter.Required(),
+            Converters.LengthOrPercentConverter.ToNullable().Option(null));
+
+        #endregion
+
         #region ctor
 
         internal CssBorderBottomRightRadiusProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderBottomRightRadius, rule)
+            : base(PropertyNames.BorderBottomRightRadius, rule, PropertyFlags.Animatable)
         {
         }
 
         #endregion
 
-        #region Properties
+        #region Methods
 
-        public Length HorizontalBottomRight
+        protected override Object GetDefault(IElement element)
         {
-            get { return HorizontalRadius; }
+            return Length.Zero;
         }
 
-        public Length VerticalBottomRight
+        protected override Object Compute(IElement element)
         {
-            get { return VerticalRadius; }
+            return Converter.Convert(Value);
+        }
+
+        protected override Boolean IsValid(ICssValue value)
+        {
+            return Converter.Validate(value);
         }
 
         #endregion

@@ -283,7 +283,6 @@
     <Compile Include="Dom\Css\Properties\BorderImage\CssBorderImageWidthProperty.cs" />
     <Compile Include="Dom\Css\Properties\BorderRadius\CssBorderBottomLeftRadiusProperty.cs" />
     <Compile Include="Dom\Css\Properties\BorderRadius\CssBorderTopRightRadiusProperty.cs" />
-    <Compile Include="Dom\Css\Properties\BorderRadius\CssBorderRadiusPartProperty.cs" />
     <Compile Include="Dom\Css\Properties\BorderRadius\CssBorderRadiusProperty.cs" />
     <Compile Include="Dom\Css\Properties\BorderRadius\CssBorderBottomRightRadiusProperty.cs" />
     <Compile Include="Dom\Css\Properties\BorderRadius\CssBorderTopLeftRadiusProperty.cs" />

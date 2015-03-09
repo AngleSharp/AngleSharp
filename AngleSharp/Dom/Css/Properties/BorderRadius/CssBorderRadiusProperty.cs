@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -14,14 +15,9 @@
         #region Fields
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = Converters.WithOrder(
-            CssBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().Required(),
-            CssBorderRadiusPartProperty.SingleConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option()
+            Converters.LengthOrPercentConverter.Periodic().Atomic().Val().Required(),
+            Converters.LengthOrPercentConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option()
         );
-
-        readonly CssBorderTopLeftRadiusProperty _topLeft;
-        readonly CssBorderTopRightRadiusProperty _topRight;
-        readonly CssBorderBottomRightRadiusProperty _bottomRight;
-        readonly CssBorderBottomLeftRadiusProperty _bottomLeft;
 
         #endregion
 
@@ -30,112 +26,34 @@
         internal CssBorderRadiusProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderRadius, rule, PropertyFlags.Animatable)
         {
-            _topLeft = Get<CssBorderTopLeftRadiusProperty>();
-            _topRight = Get<CssBorderTopRightRadiusProperty>();
-            _bottomRight = Get<CssBorderBottomRightRadiusProperty>();
-            _bottomLeft = Get<CssBorderBottomLeftRadiusProperty>();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the value of the horizontal bottom-left radius.
-        /// </summary>
-        public Length HorizontalBottomLeft
-        {
-            get { return _bottomLeft.HorizontalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the vertical bottom-left radius.
-        /// </summary>
-        public Length VerticalBottomLeft
-        {
-            get { return _bottomLeft.VerticalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the horizontal bottom-right radius.
-        /// </summary>
-        public Length HorizontalBottomRight
-        {
-            get { return _bottomRight.HorizontalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the vertical bottom-right radius.
-        /// </summary>
-        public Length VerticalBottomRight
-        {
-            get { return _bottomRight.VerticalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the horizontal top-left radius.
-        /// </summary>
-        public Length HorizontalTopLeft
-        {
-            get { return _topLeft.HorizontalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the vertical top-left radius.
-        /// </summary>
-        public Length VerticalTopLeft
-        {
-            get { return _topLeft.VerticalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the horizontal top-right radius.
-        /// </summary>
-        public Length HorizontalTopRight
-        {
-            get { return _topRight.HorizontalRadius; }
-        }
-
-        /// <summary>
-        /// Gets the value of the vertical top-right radius.
-        /// </summary>
-        public Length VerticalTopRight
-        {
-            get { return _topRight.VerticalRadius; }
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
             return Converter.TryConvert(value, m =>
             {
-                _topLeft.TrySetValue(Extract(m, 0));
-                _topRight.TrySetValue(Extract(m, 1));
-                _bottomRight.TrySetValue(Extract(m, 2));
-                _bottomLeft.TrySetValue(Extract(m, 3));
+                Get<CssBorderTopLeftRadiusProperty>().TrySetValue(Extract(m, 0));
+                Get<CssBorderTopRightRadiusProperty>().TrySetValue(Extract(m, 1));
+                Get<CssBorderBottomRightRadiusProperty>().TrySetValue(Extract(m, 2));
+                Get<CssBorderBottomLeftRadiusProperty>().TrySetValue(Extract(m, 3));
             });
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
-            if (!IsComplete(properties))
+            var topLeft = properties.OfType<CssBorderTopLeftRadiusProperty>().FirstOrDefault();
+            var topRight = properties.OfType<CssBorderTopRightRadiusProperty>().FirstOrDefault();
+            var bottomRight = properties.OfType<CssBorderBottomRightRadiusProperty>().FirstOrDefault();
+            var bottomLeft = properties.OfType<CssBorderBottomLeftRadiusProperty>().FirstOrDefault();
+
+            if (topLeft == null || topRight == null || bottomRight == null || bottomLeft == null)
                 return String.Empty;
 
-            var horizontal = SerializePeriodic(_topLeft.HorizontalRadius, _topRight.HorizontalRadius, _bottomRight.HorizontalRadius, _bottomLeft.HorizontalRadius);
-
-            if (_topLeft.IsCircle && _topRight.IsCircle && _bottomRight.IsCircle && _bottomLeft.IsCircle)
-                return horizontal;
-
-            var vertical = SerializePeriodic(_topLeft.VerticalRadius, _topRight.VerticalRadius, _bottomRight.VerticalRadius, _bottomLeft.VerticalRadius);
-            return horizontal + " / " + vertical;
+            return SerializePeriodic(topLeft, topRight, bottomRight, bottomLeft);
         }
 
         #endregion
