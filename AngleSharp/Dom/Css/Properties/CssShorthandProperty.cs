@@ -22,7 +22,6 @@
             : base(name, rule, flags | PropertyFlags.Shorthand)
         {
             _properties = Factory.Properties.CreateLonghandsFor(name, rule).ToArray();
-            Reset();
         }
 
         #endregion
