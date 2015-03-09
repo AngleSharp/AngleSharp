@@ -664,9 +664,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs">
       <Link>DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderRadiusPartProperty.cs">
-      <Link>DOM\Css\Properties\BorderRadius\CSSBorderRadiusPartProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs">
       <Link>DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs</Link>
     </Compile>
