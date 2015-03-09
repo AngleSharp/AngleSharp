@@ -7,14 +7,15 @@
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/max-width
+    /// Gets the specified max-width of the element. A percentage is
+    /// calculated with respect to the width of the containing block.
     /// </summary>
     sealed class CssMaxWidthProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Length? Default = null;
-        internal static readonly IValueConverter<Length?> Converter = Converters.LengthOrPercentConverter.ToNullable().Or(Keywords.None, Default);
-        Length? _mode;
+        internal static readonly IValueConverter<Length?> Converter = 
+            Converters.LengthOrPercentConverter.ToNullable().Or(Keywords.None, null);
 
         #endregion
 
@@ -23,44 +24,25 @@
         internal CssMaxWidthProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MaxWidth, rule, PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the specified max-width of the element. A percentage is calculated
-        /// with respect to the width of the containing block.
-        /// </summary>
-        public Length? Limit
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetLimit(Length? mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return null;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetLimit);
+            return Converter.Validate(value);
         }
 
         #endregion

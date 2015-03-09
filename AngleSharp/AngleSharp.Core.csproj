@@ -392,7 +392,6 @@
     <Compile Include="Dom\Css\Properties\CssQuotesProperty.cs" />
     <Compile Include="Dom\Css\Properties\CssUnicodeBidiProperty.cs" />
     <Compile Include="Dom\Css\Properties\Text\CssVerticalAlignProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Coordinate\CssCoordinateProperty.cs" />
     <Compile Include="Dom\Css\Properties\Coordinate\CssBottomProperty.cs" />
     <Compile Include="Dom\Css\Properties\Coordinate\CssTopProperty.cs" />
     <Compile Include="Dom\Css\Properties\Coordinate\CssRightProperty .cs" />

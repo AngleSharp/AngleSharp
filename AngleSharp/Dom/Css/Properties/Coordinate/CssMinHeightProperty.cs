@@ -1,19 +1,20 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/min-height
+    /// Gets the minimum height of the element.
     /// </summary>
     sealed class CssMinHeightProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Length Default = Length.Zero;
-        internal static readonly IValueConverter<Length> Converter = Converters.LengthOrPercentConverter;
-        Length _mode;
+        internal static readonly IValueConverter<Length> Converter = 
+            Converters.LengthOrPercentConverter;
 
         #endregion
 
@@ -22,43 +23,25 @@
         internal CssMinHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.MinHeight, rule, PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the minimum height of the element.
-        /// </summary>
-        public Length? Limit
-        {
-            get { return _mode; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetLimit(Length mode)
+        protected override Object GetDefault(IElement element)
         {
-            _mode = mode;
+            return Length.Zero;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _mode = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetLimit);
+            return Converter.Validate(value);
         }
 
         #endregion

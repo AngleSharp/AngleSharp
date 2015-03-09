@@ -1,27 +1,46 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/right
     /// </summary>
-    sealed class CssRightProperty : CssCoordinateProperty
+    sealed class CssRightProperty : CssProperty
     {
+        #region Fields
+
+        internal static readonly IValueConverter<Length?> Converter =
+            Converters.AutoLengthOrPercentConverter;
+
+        #endregion
+
         #region ctor
 
         internal CssRightProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Right, rule)
+            : base(PropertyNames.Right, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 
         #endregion
 
-        #region Property
+        #region Methods
 
-        public Length? Right
+        protected override Object GetDefault(IElement element)
         {
-            get { return Position; }
+            return null;
+        }
+
+        protected override Object Compute(IElement element)
+        {
+            return Converter.Convert(Value);
+        }
+
+        protected override Boolean IsValid(ICssValue value)
+        {
+            return Converter.Validate(value);
         }
 
         #endregion
