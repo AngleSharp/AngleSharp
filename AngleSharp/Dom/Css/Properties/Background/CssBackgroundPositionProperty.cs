@@ -4,20 +4,18 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
+    /// Gets the list of all given positions.
     /// </summary>
     sealed class CssBackgroundPositionProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Point Default = Point.Center;
-        internal static readonly IValueConverter<Point> SingleConverter = Converters.PointConverter;
-        internal static readonly IValueConverter<Point[]> Converter = SingleConverter.FromList();
-        readonly List<Point> _positions;
+        internal static readonly IValueConverter<Point[]> Converter = 
+            Converters.PointConverter.FromList();
 
         #endregion
 
@@ -26,46 +24,25 @@
         internal CssBackgroundPositionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundPosition, rule, PropertyFlags.Animatable)
         {
-            _positions = new List<Point>();
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the list of all given positions.
-        /// </summary>
-        public IEnumerable<Point> Positions
-        {
-            get { return _positions; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetPositions(IEnumerable<Point> positions)
+        protected override Object GetDefault(IElement element)
         {
-            _positions.Clear();
-            _positions.AddRange(positions);
+            return Point.Center;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _positions.Clear();
-            _positions.Add(Default);
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetPositions);
+            return Converter.Validate(value);
         }
 
         #endregion

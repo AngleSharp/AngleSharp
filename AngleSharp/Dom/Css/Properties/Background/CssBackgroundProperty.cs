@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using BgLayer = System.Tuple<ICssValue, System.Tuple<ICssValue, ICssValue>, ICssValue, ICssValue, ICssValue, ICssValue>;
     using FinalBgLayer = System.Tuple<ICssValue, System.Tuple<ICssValue, ICssValue>, ICssValue, ICssValue, ICssValue, ICssValue, ICssValue>;
 
@@ -17,38 +17,27 @@
         #region Fields
 
         static readonly IValueConverter<BgLayer> NormalLayerConverter = Converters.WithAny(
-            CssBackgroundImageProperty.Converter.Val().Option(),
+            Converters.ImageSourceConverter.Val().Option(),
             Converters.WithOrder(
-                CssBackgroundPositionProperty.Converter.Val().Option(),
-                CssBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
-            CssBackgroundRepeatProperty.Converter.Val().Option(),
-            CssBackgroundAttachmentProperty.Converter.Val().Option(),
-            CssBackgroundOriginProperty.Converter.Val().Option(),
-            CssBackgroundClipProperty.Converter.Val().Option()
-        );
+                Converters.PointConverter.Val().Option(),
+                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Val().Option()),
+            CssBackgroundRepeatProperty.SingleConverter.Val().Option(),
+            Converters.BackgroundAttachmentConverter.Val().Option(),
+            Converters.BoxModelConverter.Val().Option(),
+            Converters.BoxModelConverter.Val().Option());
 
         static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = Converters.WithAny(
-            CssBackgroundImageProperty.Converter.Val().Option(),
+            Converters.ImageSourceConverter.Val().Option(),
             Converters.WithOrder(
-                CssBackgroundPositionProperty.Converter.Val().Option(),
-                CssBackgroundSizeProperty.Converter.StartsWithDelimiter().Val().Option()),
-            CssBackgroundRepeatProperty.Converter.Val().Option(),
-            CssBackgroundAttachmentProperty.Converter.Val().Option(),
-            CssBackgroundOriginProperty.Converter.Val().Option(),
-            CssBackgroundClipProperty.Converter.Val().Option(),
-            CssBackgroundColorProperty.Converter.Val().Option()
-        );
+                Converters.PointConverter.Val().Option(),
+                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Val().Option()),
+            CssBackgroundRepeatProperty.SingleConverter.Val().Option(),
+            Converters.BackgroundAttachmentConverter.Val().Option(),
+            Converters.BoxModelConverter.Val().Option(),
+            Converters.BoxModelConverter.Val().Option(),
+            Converters.CurrentColorConverter.Val().Option());
 
         static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> Converter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
-
-        readonly CssBackgroundImageProperty _image;
-        readonly CssBackgroundPositionProperty _position;
-        readonly CssBackgroundSizeProperty _size;
-        readonly CssBackgroundRepeatProperty _repeat;
-        readonly CssBackgroundAttachmentProperty _attachment;
-        readonly CssBackgroundOriginProperty _origin;
-        readonly CssBackgroundClipProperty _clip;
-        readonly CssBackgroundColorProperty _color;
 
         #endregion
 
@@ -57,117 +46,12 @@
         internal CssBackgroundProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Background, rule, PropertyFlags.Animatable)
         {
-            _image = Get<CssBackgroundImageProperty>();
-            _position = Get<CssBackgroundPositionProperty>();
-            _size = Get<CssBackgroundSizeProperty>();
-            _repeat = Get<CssBackgroundRepeatProperty>();
-            _attachment = Get<CssBackgroundAttachmentProperty>();
-            _origin = Get<CssBackgroundOriginProperty>();
-            _clip = Get<CssBackgroundClipProperty>();
-            _color = Get<CssBackgroundColorProperty>();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the value of the background image property.
-        /// </summary>
-        public IEnumerable<IImageSource> Images
-        {
-            get { return _image.Images; }
-        }
-
-        /// <summary>
-        /// Gets the value of the background position property.
-        /// </summary>
-        public IEnumerable<Point> Positions
-        {
-            get { return _position.Positions; }
-        }
-
-        /// <summary>
-        /// Gets the value of the horizontal repeat property.
-        /// </summary>
-        public IEnumerable<BackgroundRepeat> HorizontalRepeats
-        {
-            get { return _repeat.HorizontalRepeats; }
-        }
-
-        /// <summary>
-        /// Gets the value of the vertical repeat property.
-        /// </summary>
-        public IEnumerable<BackgroundRepeat> VerticalRepeats
-        {
-            get { return _repeat.VerticalRepeats; }
-        }
-
-        /// <summary>
-        /// Gets the value of the background attachment property.
-        /// </summary>
-        public IEnumerable<BackgroundAttachment> Attachments
-        {
-            get { return _attachment.Attachments; }
-        }
-
-        /// <summary>
-        /// Gets the value of the background origin property.
-        /// </summary>
-        public IEnumerable<BoxModel> Origins
-        {
-            get { return _origin.Origins; }
-        }
-
-        /// <summary>
-        /// Gets the value of the background clip property.
-        /// </summary>
-        public IEnumerable<BoxModel> Clips
-        {
-            get { return _clip.Clips; }
-        }
-
-        /// <summary>
-        /// Gets the value of the background color property.
-        /// </summary>
-        public Color Color
-        {
-            get { return _color.Color; }
-        }
-
-        /// <summary>
-        /// Gets if the background image should be covered, i.e. min(100%).
-        /// </summary>
-        public IEnumerable<Boolean> IsCovered
-        {
-            get { return _size.IsCovered; }
-        }
-
-        /// <summary>
-        /// Gets if the background image should be contained, i.e. max(100%).
-        /// </summary>
-        public IEnumerable<Boolean> IsContained
-        {
-            get { return _size.IsContained; }
-        }
-
-        /// <summary>
-        /// Gets the widths and heights of the background image, if specified.
-        /// </summary>
-        public IEnumerable<Point> Sizes
-        {
-            get { return _size.Sizes; }
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
             //[ <bg-layer> , ]* <final-bg-layer> where: 
@@ -178,14 +62,14 @@
 
             return Converter.TryConvert(value, m =>
             {
-                _image.TrySetValue(Transform(m, n => n.Item1));
-                _position.TrySetValue(Transform(m, n => n.Item2.Item1));
-                _size.TrySetValue(Transform(m, n => n.Item2.Item2));
-                _repeat.TrySetValue(Transform(m, n => n.Item3));
-                _attachment.TrySetValue(Transform(m, n => n.Item4));
-                _origin.TrySetValue(Transform(m, n => n.Item5));
-                _clip.TrySetValue(Transform(m, n => n.Item6));
-                _color.TrySetValue(m.Item2.Item7);
+                Get<CssBackgroundImageProperty>().TrySetValue(Transform(m, n => n.Item1));
+                Get<CssBackgroundPositionProperty>().TrySetValue(Transform(m, n => n.Item2.Item1));
+                Get<CssBackgroundSizeProperty>().TrySetValue(Transform(m, n => n.Item2.Item2));
+                Get<CssBackgroundRepeatProperty>().TrySetValue(Transform(m, n => n.Item3));
+                Get<CssBackgroundAttachmentProperty>().TrySetValue(Transform(m, n => n.Item4));
+                Get<CssBackgroundOriginProperty>().TrySetValue(Transform(m, n => n.Item5));
+                Get<CssBackgroundClipProperty>().TrySetValue(Transform(m, n => n.Item6));
+                Get<CssBackgroundColorProperty>().TrySetValue(m.Item2.Item7);
             });
         }
 
@@ -207,24 +91,33 @@
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
-            if (!IsComplete(properties))
+            var image = properties.OfType<CssBackgroundImageProperty>().FirstOrDefault();
+            var position = properties.OfType<CssBackgroundPositionProperty>().FirstOrDefault();
+            var size = properties.OfType<CssBackgroundSizeProperty>().FirstOrDefault();
+            var repeat = properties.OfType<CssBackgroundRepeatProperty>().FirstOrDefault();
+            var attachment = properties.OfType<CssBackgroundAttachmentProperty>().FirstOrDefault();
+            var origin = properties.OfType<CssBackgroundOriginProperty>().FirstOrDefault();
+            var clip = properties.OfType<CssBackgroundClipProperty>().FirstOrDefault();
+            var color = properties.OfType<CssBackgroundColorProperty>().FirstOrDefault();
+
+            if (image == null || position == null || size == null || repeat == null || attachment == null || origin == null || clip == null || color == null)
                 return String.Empty;
 
             var values = new List<String>();
-            values.Add(_image.SerializeValue());
-            values.Add(_position.SerializeValue());
+            values.Add(image.SerializeValue());
+            values.Add(position.SerializeValue());
 
-            if (_size.HasValue)
+            if (size.HasValue)
             {
                 values.Add("/");
-                values.Add(_size.SerializeValue());
+                values.Add(size.SerializeValue());
             }
 
-            values.Add(_repeat.SerializeValue());
-            values.Add(_attachment.SerializeValue());
-            values.Add(_clip.SerializeValue());
-            values.Add(_origin.SerializeValue());
-            values.Add(_color.SerializeValue());
+            values.Add(repeat.SerializeValue());
+            values.Add(attachment.SerializeValue());
+            values.Add(clip.SerializeValue());
+            values.Add(origin.SerializeValue());
+            values.Add(color.SerializeValue());
             values.RemoveAll(m => String.IsNullOrEmpty(m));
 
             return String.Join(" ", values);

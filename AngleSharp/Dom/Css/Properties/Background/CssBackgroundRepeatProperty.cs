@@ -3,12 +3,12 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
+    /// Gets an enumeration with the horizontal repeat modes.
+    /// Gets an enumeration with the vertical repeat modes.
     /// </summary>
     sealed class CssBackgroundRepeatProperty : CssProperty
     {
@@ -20,7 +20,6 @@
             Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
             Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()).To(m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
         internal static readonly IValueConverter<Repeat[]> Converter = SingleConverter.FromList();
-        readonly List<Repeat> _repeats;
 
         #endregion
 
@@ -29,54 +28,25 @@
         internal CssBackgroundRepeatProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundRepeat, rule)
         {
-            _repeats = new List<Repeat>();
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets an enumeration with the horizontal repeat modes.
-        /// </summary>
-        public IEnumerable<BackgroundRepeat> HorizontalRepeats
-        {
-            get { return _repeats.Select(m => m.Horizontal); }
-        }
-
-        /// <summary>
-        /// Gets an enumeration with the vertical repeat modes.
-        /// </summary>
-        public IEnumerable<BackgroundRepeat> VerticalRepeats
-        {
-            get { return _repeats.Select(m => m.Vertical); }
         }
 
         #endregion
 
         #region Methods
 
-        private void SetRepeats(IEnumerable<Repeat> repeats)
+        protected override Object GetDefault(IElement element)
         {
-            _repeats.Clear();
-            _repeats.AddRange(repeats);
+            return Default;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _repeats.Clear();
-            _repeats.Add(Default);
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetRepeats);
+            return Converter.Validate(value);
         }
 
         #endregion

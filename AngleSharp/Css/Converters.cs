@@ -480,6 +480,16 @@
         /// </summary>
         public static readonly IValueConverter<LineStyle> LineStyleConverter = Map.LineStyles.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the BackgroundAttachment enumeration.
+        /// </summary>
+        public static readonly IValueConverter<BackgroundAttachment> BackgroundAttachmentConverter = Map.BackgroundAttachments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BoxModel enumeration.
+        /// </summary>
+        public static readonly IValueConverter<BoxModel> BoxModelConverter = Map.BoxModels.ToConverter();
+
         #endregion
 
         #region Misc

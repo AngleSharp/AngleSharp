@@ -4,20 +4,19 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
+    /// Gets the enumeration of all images.
     /// </summary>
     sealed class CssBackgroundImageProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly IImageSource[] Default = new IImageSource[0];
-        internal static readonly IValueConverter<IImageSource> SingleConverter = Converters.ImageSourceConverter;
-        internal static readonly IValueConverter<IImageSource[]> Converter = SingleConverter.FromList().Or(Keywords.None, Default);
-        readonly List<IImageSource> _images;
+        static readonly IImageSource[] Default = new IImageSource[0];
+        internal static readonly IValueConverter<IImageSource[]> Converter = 
+            Converters.ImageSourceConverter.FromList().Or(Keywords.None, Default);
 
         #endregion
 
@@ -26,45 +25,25 @@
         internal CssBackgroundImageProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BackgroundImage, rule)
         {
-            _images = new List<IImageSource>();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the enumeration of all images.
-        /// </summary>
-        public IEnumerable<IImageSource> Images
-        {
-            get { return _images; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetImages(IEnumerable<IImageSource> images)
+        protected override Object GetDefault(IElement element)
         {
-            _images.Clear();
-            _images.AddRange(images);
+            return Default;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _images.Clear();
-            _images.AddRange(Default);
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetImages);
+            return Converter.Validate(value);
         }
 
         #endregion
