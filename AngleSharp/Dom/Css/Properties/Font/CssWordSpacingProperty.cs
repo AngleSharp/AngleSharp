@@ -7,14 +7,16 @@
     /// <summary>
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
+    /// Gets if normal inter-word space, as defined by the current font
+    /// and/or the browser, is active.
+    /// Gets the defined custom spacing, if any.
     /// </summary>
     sealed class CssWordSpacingProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Length? Default = null;
-        internal static readonly IValueConverter<Length?> Converter = Converters.LengthConverter.ToNullable().Or(Keywords.Normal, Default);
-        Length? _spacing;
+        internal static readonly IValueConverter<Length?> Converter = 
+            Converters.LengthConverter.ToNullable().Or(Keywords.Normal, null);
 
         #endregion
 
@@ -23,52 +25,25 @@
         internal CssWordSpacingProperty(CssStyleDeclaration rule)
             : base(PropertyNames.WordSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets if normal inter-word space, as defined by the current
-        /// font and/or the browser, is active.
-        /// </summary>
-        public Boolean IsNormal
-        {
-            get { return _spacing.HasValue == false; }
-        }
-
-        /// <summary>
-        /// Gets the defined custom spacing, if any.
-        /// </summary>
-        public Length? Spacing
-        {
-            get { return _spacing; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetSpacing(Length? spacing)
+        protected override Object GetDefault(IElement element)
         {
-            _spacing = spacing;
+            return null;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _spacing = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetSpacing);
+            return Converter.Validate(value);
         }
 
         #endregion

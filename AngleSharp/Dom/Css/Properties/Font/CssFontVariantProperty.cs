@@ -7,14 +7,14 @@
     /// <summary>
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
+    /// Gets the selected font variant transformation, if any.
     /// </summary>
     sealed class CssFontVariantProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly FontVariant Default = FontVariant.Normal;
-        internal static readonly IValueConverter<FontVariant> Converter = Converters.Assign(Keywords.Normal, FontVariant.Normal).Or(Keywords.SmallCaps, FontVariant.SmallCaps);
-        FontVariant _variant;
+        internal static readonly IValueConverter<FontVariant> Converter = 
+            Converters.Assign(Keywords.Normal, FontVariant.Normal).Or(Keywords.SmallCaps, FontVariant.SmallCaps);
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssFontVariantProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontVariant, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected font variant transformation, if any.
-        /// </summary>
-        public FontVariant Variant
-        {
-            get { return _variant; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetVariant(FontVariant variant)
+        protected override Object GetDefault(IElement element)
         {
-            _variant = variant;
+            return FontVariant.Normal;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _variant = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetVariant);
+            return Converter.Validate(value);
         }
 
         #endregion

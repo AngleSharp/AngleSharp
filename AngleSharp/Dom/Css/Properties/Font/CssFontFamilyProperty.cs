@@ -3,21 +3,20 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
+    /// Gets an enumeration over all font names.
     /// </summary>
     sealed class CssFontFamilyProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly String[] Default = new [] { "Times New Roman" };
-        internal static readonly IValueConverter<String[]> Converter = Map.DefaultFontFamilies.ToConverter().Or(
-            Converters.StringConverter).Or(
-            Converters.IdentifierConverter.Many().To(names => String.Join(" ", names))).FromList();
-        readonly List<String> _families;
+        internal static readonly IValueConverter<String[]> Converter = 
+            Map.DefaultFontFamilies.ToConverter().Or(
+                Converters.StringConverter).Or(
+                Converters.IdentifierConverter.Many().To(names => String.Join(" ", names))).FromList();
 
         #endregion
 
@@ -26,46 +25,26 @@
         internal CssFontFamilyProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontFamily, rule, PropertyFlags.Inherited)
         {
-            _families = new List<String>();
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets an enumeration over all font names.
-        /// </summary>
-        public IEnumerable<String> Families
-        {
-            get { return _families; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetFamilies(IEnumerable<String> families)
+        protected override Object GetDefault(IElement element)
         {
-            _families.Clear();
-            _families.AddRange(families);
+            return "Times New Roman";
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _families.Clear();
-            _families.AddRange(Default);
+            var values = Converter.Convert(Value);
+            return values[0];
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetFamilies);
+            return Converter.Validate(value);
         }
 
         #endregion

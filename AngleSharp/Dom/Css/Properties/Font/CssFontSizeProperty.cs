@@ -7,14 +7,14 @@
     /// <summary>
     /// Information:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
+    /// Gets the selected font-size.
     /// </summary>
     sealed class CssFontSizeProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Length Default = FontSize.Medium.ToLength();
-        internal static readonly IValueConverter<Length> Converter = Converters.LengthOrPercentConverter.Or(Map.FontSizes.ToConverter().To(m => m.ToLength()));
-        Length _size;
+        internal static readonly IValueConverter<Length> Converter = 
+            Converters.LengthOrPercentConverter.Or(Map.FontSizes.ToConverter().To(m => m.ToLength()));
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssFontSizeProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontSize, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected font-size.
-        /// </summary>
-        public Length Size
-        {
-            get { return _size; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetSize(Length size)
+        protected override Object GetDefault(IElement element)
         {
-            _size = size;
+            return FontSize.Medium.ToLength();
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _size = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetSize);
+            return Converter.Validate(value);
         }
 
         #endregion

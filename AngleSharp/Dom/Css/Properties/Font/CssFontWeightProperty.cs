@@ -21,11 +21,9 @@
             { Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 } }
         };
 
-        internal static readonly FontWeight Default = FontWeights[Keywords.Normal];
         internal static readonly IValueConverter<FontWeight> Converter = FontWeights.ToConverter().Or(
             Converters.IntegerConverter.Constraint(m => m >= 100 && m <= 900).To(
             m => new FontWeight { IsRelative = false, Value = m }));
-        FontWeight _weight;
 
         #endregion
 
@@ -34,45 +32,25 @@
         internal CssFontWeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontWeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public Int32 Weight
-        {
-            get { return _weight.Value; }
-        }
-
-        public Boolean IsRelative
-        {
-            get { return _weight.IsRelative; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetWeight(FontWeight weight)
+        protected override Object GetDefault(IElement element)
         {
-            _weight = weight;
+            return FontWeights[Keywords.Normal];
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _weight = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetWeight);
+            return Converter.Validate(value);
         }
 
         #endregion

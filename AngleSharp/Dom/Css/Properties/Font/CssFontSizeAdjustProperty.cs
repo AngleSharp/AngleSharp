@@ -7,14 +7,14 @@
     /// <summary>
     /// Information:
     /// http://dev.w3.org/csswg/css-fonts/#propdef-font-size-adjust
+    /// Gets the aspect value specified by the property, if any.
     /// </summary>
     sealed class CssFontSizeAdjustProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Single? Default = null;
-        internal static readonly IValueConverter<Single?> Converter = Converters.NumberConverter.ToNullable().Or(Keywords.None, Default);
-        Single? _aspectValue;
+        internal static readonly IValueConverter<Single?> Converter = 
+            Converters.NumberConverter.ToNullable().Or(Keywords.None, null);
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssFontSizeAdjustProperty(CssStyleDeclaration rule)
             : base(PropertyNames.FontSizeAdjust, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the aspect value specified by the property, if any.
-        /// </summary>
-        public Single? AspectValue
-        {
-            get { return _aspectValue; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetAspectValue(Single? aspectValue)
+        protected override Object GetDefault(IElement element)
         {
-            _aspectValue = aspectValue;
+            return null;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _aspectValue = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetAspectValue);
+            return Converter.Validate(value);
         }
 
         #endregion

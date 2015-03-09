@@ -14,8 +14,14 @@
         {
         }
 
-        internal override void Reset()
+        protected override Object GetDefault(IElement element)
         {
+            return null;
+        }
+
+        protected override Object Compute(IElement element)
+        {
+            return null;
         }
 
         protected override Boolean IsValid(ICssValue value)

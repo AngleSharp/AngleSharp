@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -11,9 +12,8 @@
     {
         #region Fields
 
-        internal static readonly Length Default = new Length(120f, Length.Unit.Percent);
-        internal static readonly IValueConverter<Length> Converter = Converters.LineHeightConverter;
-        Length _height;
+        internal static readonly IValueConverter<Length> Converter =
+            Converters.LineHeightConverter;
 
         #endregion
 
@@ -22,40 +22,25 @@
         internal CssLineHeightProperty(CssStyleDeclaration rule)
             : base(PropertyNames.LineHeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public Length Height
-        {
-            get { return _height; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetHeight(Length height)
+        protected override Object GetDefault(IElement element)
         {
-            _height = height;
+            return new Length(120f, Length.Unit.Percent);
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _height = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetHeight);
+            return Converter.Validate(value);
         }
 
         #endregion
