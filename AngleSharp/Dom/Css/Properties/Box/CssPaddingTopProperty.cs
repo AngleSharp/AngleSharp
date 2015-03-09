@@ -1,27 +1,41 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Information can be found on MDN:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding-top
+    /// Gets the padding relative to the height of the containing block or a
+    /// fixed height.
     /// </summary>
-    sealed class CssPaddingTopProperty : CssPaddingPartProperty
+    sealed class CssPaddingTopProperty : CssProperty
     {
         #region ctor
 
         internal CssPaddingTopProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.PaddingTop, rule)
+            : base(PropertyNames.PaddingTop, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 
         #endregion
 
-        #region Property
+        #region Methods
 
-        public Length Top
+        protected override Object GetDefault(IElement element)
         {
-            get { return Padding; }
+            return Length.Zero;
+        }
+
+        protected override Object Compute(IElement element)
+        {
+            return Converters.LengthOrPercentConverter.Convert(Value);
+        }
+
+        protected override Boolean IsValid(ICssValue value)
+        {
+            return Converters.LengthOrPercentConverter.Validate(value);
         }
 
         #endregion

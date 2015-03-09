@@ -313,8 +313,6 @@
     <Compile Include="Dom\Css\Properties\Border\CssBorderWidthProperty.cs" />
     <Compile Include="Dom\Css\Properties\Box\CssMarginBottomProperty.cs" />
     <Compile Include="Dom\Css\Properties\Box\CssMarginLeftProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Box\CssMarginPartProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Box\CssPaddingPartProperty.cs" />
     <Compile Include="Dom\Css\Properties\Box\CssMarginProperty.cs" />
     <Compile Include="Dom\Css\Properties\Box\CssMarginRightProperty.cs" />
     <Compile Include="Dom\Css\Properties\Box\CssMarginTopProperty.cs" />
