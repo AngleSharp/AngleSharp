@@ -7,14 +7,15 @@
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap
+    /// Gets the selected width of gaps between columns.
     /// </summary>
     sealed class CssColumnGapProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly Length Default = new Length(1f, Length.Unit.Em);
-        internal static readonly IValueConverter<Length> Converter = Converters.LengthConverter.Or(Keywords.Normal, Default);
-        Length _gap;
+        static readonly Length Default = new Length(1f, Length.Unit.Em);
+        internal static readonly IValueConverter<Length> Converter = 
+            Converters.LengthConverter.Or(Keywords.Normal, Default);
 
         #endregion
 
@@ -23,48 +24,25 @@
         internal CssColumnGapProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnGap, rule, PropertyFlags.Animatable)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected width of gaps between columns.
-        /// </summary>
-        public Length Gap
-        {
-            get { return _gap; }
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Sets the size of the gap between columns. It must not
-        /// be negative, but may be equal to 0.
-        /// </summary>
-        /// <param name="gap">The size between the gaps.</param>
-        public void SetGap(Length gap)
+        protected override Object GetDefault(IElement element)
         {
-            _gap = gap;
+            return Default;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _gap = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetGap);
+            return Converter.Validate(value);
         }
 
         #endregion

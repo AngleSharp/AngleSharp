@@ -7,14 +7,14 @@
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
+    /// Gets the selected column-rule line style.
     /// </summary>
     sealed class CssColumnRuleStyleProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly LineStyle Default = LineStyle.None;
-        internal static readonly IValueConverter<LineStyle> Converter = Map.LineStyles.ToConverter();
-        LineStyle _style;
+        internal static readonly IValueConverter<LineStyle> Converter = 
+            Map.LineStyles.ToConverter();
 
         #endregion
 
@@ -23,43 +23,25 @@
         internal CssColumnRuleStyleProperty(CssStyleDeclaration rule)
             : base(PropertyNames.ColumnRuleStyle, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected column-rule line style.
-        /// </summary>
-        public LineStyle Style
-        {
-            get { return _style; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetStyle(LineStyle style)
+        protected override Object GetDefault(IElement element)
         {
-            _style = style;
+            return LineStyle.None;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _style = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetStyle);
+            return Converter.Validate(value);
         }
 
         #endregion
