@@ -102,7 +102,11 @@
         {
             var parent = child.Parent;
 
-            if (parent != null && nodes.Length > 0)
+            if (nodes.Length == 0)
+            {
+                parent.RemoveChild(child);
+            }
+            else if (parent != null)
             {
                 var node = parent.MutationMacro(nodes);
                 parent.ReplaceChild(node, child);
