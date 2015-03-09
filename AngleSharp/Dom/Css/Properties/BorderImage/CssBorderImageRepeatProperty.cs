@@ -12,10 +12,8 @@
     {
         #region Fields
 
-        internal static readonly BorderRepeat Default = BorderRepeat.Stretch;
-        internal static readonly IValueConverter<BorderRepeat[]> Converter = Map.BorderRepeatModes.ToConverter().Many(1, 2);
-        BorderRepeat _horizontal;
-        BorderRepeat _vertical;
+        internal static readonly IValueConverter<BorderRepeat[]> Converter = 
+            Map.BorderRepeatModes.ToConverter().Many(1, 2);
 
         #endregion
 
@@ -28,48 +26,21 @@
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Gets the horizontal repeat value.
-        /// </summary>
-        public BorderRepeat Horizontal
-        {
-            get { return _horizontal; }
-        }
-
-        /// <summary>
-        /// Gets the vertical repeat value.
-        /// </summary>
-        public BorderRepeat Vertical
-        {
-            get { return _vertical; }
-        }
-
-        #endregion
-
         #region Methods
 
-        void SetRepeat(BorderRepeat horizontal, BorderRepeat vertical)
+        protected override Object GetDefault(IElement element)
         {
-            _horizontal = horizontal;
-            _vertical = vertical;
+            return BorderRepeat.Stretch;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _horizontal = Default;
-            _vertical = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, m => SetRepeat(m[0], m.Length == 2 ? m[1] : m[0]));
+            return Converter.Validate(value);
         }
 
         #endregion

@@ -13,9 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IImageSource Default = null;
-        internal static readonly IValueConverter<IImageSource> Converter = Converters.ImageSourceConverter.Or(Keywords.None, Default);
-        IImageSource _image;
+        internal static readonly IValueConverter<IImageSource> Converter = 
+            Converters.ImageSourceConverter.Or(Keywords.None, null);
 
         #endregion
 
@@ -24,43 +23,25 @@
         internal CssBorderImageSourceProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderImageSource, rule)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the selected image.
-        /// </summary>
-        public IImageSource Image
-        {
-            get { return _image; }
         }
 
         #endregion
 
         #region Methods
 
-        void SetImages(IImageSource image)
+        protected override Object GetDefault(IElement element)
         {
-            _image = image;
+            return null;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _image = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetImages);
+            return Converter.Validate(value);
         }
 
         #endregion
