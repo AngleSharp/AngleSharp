@@ -3,20 +3,20 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-iteration-count
+    /// Gets the iteration count of the covered animations.
     /// </summary>
     sealed class CssAnimationIterationCountProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly IValueConverter<Single> SingleConverter = Converters.NumberConverter.Constraint(m => m >= 0f).Or(Keywords.Infinite, Single.PositiveInfinity);
-        internal static readonly IValueConverter<Single[]> Converter = SingleConverter.FromList();
-        internal static readonly Single Default = 1f;
-        readonly List<Single> _iterations;
+        internal static readonly IValueConverter<Single> SingleConverter = 
+            Converters.NumberConverter.Constraint(m => m >= 0f).Or(Keywords.Infinite, Single.PositiveInfinity);
+        internal static readonly IValueConverter<Single[]> Converter = 
+            SingleConverter.FromList();
 
         #endregion
 
@@ -25,46 +25,25 @@
         internal CssAnimationIterationCountProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationIterationCount, rule)
         {
-            _iterations = new List<Single>();
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the iteration count of the covered animations.
-        /// </summary>
-        public IEnumerable<Single> Iterations
-        {
-            get { return _iterations; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetIterations(IEnumerable<Single> iterations)
+        protected override Object GetDefault(IElement element)
         {
-            _iterations.Clear();
-            _iterations.AddRange(iterations);
+            return 1f;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _iterations.Clear();
-            _iterations.Add(Default);
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetIterations);
+            return Converter.Validate(value);
         }
 
         #endregion

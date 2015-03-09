@@ -490,6 +490,16 @@
         /// </summary>
         public static readonly IValueConverter<BoxModel> BoxModelConverter = Map.BoxModels.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the AnimationDirection enumeration.
+        /// </summary>
+        public static readonly IValueConverter<AnimationDirection> AnimationDirectionConverter = Map.AnimationDirections.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the AnimationFillStyle enumeration.
+        /// </summary>
+        public static readonly IValueConverter<AnimationFillStyle> AnimationFillStyleConverter = Map.AnimationFillStyles.ToConverter();
+
         #endregion
 
         #region Misc

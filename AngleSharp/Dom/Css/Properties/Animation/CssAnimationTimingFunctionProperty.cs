@@ -4,20 +4,18 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/CSS/animation-timing-function
+    /// Gets the enumeration over all timing functions.
     /// </summary>
     sealed class CssAnimationTimingFunctionProperty : CssProperty
     {
         #region Fields
 
-        internal static readonly IValueConverter<ITimingFunction> SingleConverter = Converters.TransitionConverter;
-        internal static readonly IValueConverter<ITimingFunction[]> Converter = SingleConverter.FromList();
-        internal static readonly ITimingFunction Default = Map.TimingFunctions[Keywords.Ease];
-        readonly List<ITimingFunction> _functions;
+        internal static readonly IValueConverter<ITimingFunction[]> Converter = 
+            Converters.TransitionConverter.FromList();
 
         #endregion
 
@@ -26,46 +24,25 @@
         internal CssAnimationTimingFunctionProperty(CssStyleDeclaration rule)
             : base(PropertyNames.AnimationTimingFunction, rule)
         {
-            _functions = new List<ITimingFunction>();
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the enumeration over all timing functions.
-        /// </summary>
-        public IEnumerable<ITimingFunction> TimingFunctions
-        {
-            get { return _functions; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetTimingFunctions(IEnumerable<ITimingFunction> functions)
+        protected override Object GetDefault(IElement element)
         {
-            _functions.Clear();
-            _functions.AddRange(functions);
+            return Map.TimingFunctions[Keywords.Ease];
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _functions.Clear();
-            _functions.Add(Default);
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetTimingFunctions);
+            return Converter.Validate(value);
         }
 
         #endregion
