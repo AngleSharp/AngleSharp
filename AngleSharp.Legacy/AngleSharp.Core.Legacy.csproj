@@ -844,9 +844,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSBottomProperty.cs">
       <Link>DOM\Css\Properties\Coordinate\CSSBottomProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSCoordinateProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSCoordinateProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSHeightProperty.cs">
       <Link>DOM\Css\Properties\Coordinate\CSSHeightProperty.cs</Link>
     </Compile>
