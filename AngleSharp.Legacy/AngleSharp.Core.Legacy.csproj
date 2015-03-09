@@ -703,15 +703,6 @@
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderPartColorProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderPartStyleProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderPartWidthProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderProperty.cs">
       <Link>DOM\Css\Properties\Border\CSSBorderProperty.cs</Link>
     </Compile>
