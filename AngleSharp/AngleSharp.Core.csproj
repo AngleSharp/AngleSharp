@@ -295,9 +295,6 @@
     <Compile Include="Dom\Css\Properties\Border\CssBorderLeftProperty.cs" />
     <Compile Include="Dom\Css\Properties\Border\CssBorderLeftStyleProperty.cs" />
     <Compile Include="Dom\Css\Properties\Border\CssBorderLeftWidthProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Border\CssBorderPartColorProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Border\CssBorderPartStyleProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Border\CssBorderPartWidthProperty.cs" />
     <Compile Include="Dom\Css\Properties\Border\CssBorderProperty.cs" />
     <Compile Include="Dom\Css\Properties\Border\CssBorderRightColorProperty.cs" />
     <Compile Include="Dom\Css\Properties\Border\CssBorderRightProperty.cs" />

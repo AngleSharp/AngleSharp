@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// More information available at:
@@ -13,23 +14,11 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = Converters.WithAny(
-            CssBorderPartWidthProperty.Converter.Val().Option(CssValue.Initial),
-            CssBorderPartStyleProperty.Converter.Val().Option(CssValue.Initial),
-            CssBorderPartColorProperty.Converter.Val().Option(CssValue.Initial));
-
-        readonly CssBorderTopColorProperty _topColor;
-        readonly CssBorderTopStyleProperty _topStyle;
-        readonly CssBorderTopWidthProperty _topWidth;
-        readonly CssBorderRightColorProperty _rightColor;
-        readonly CssBorderRightStyleProperty _rightStyle;
-        readonly CssBorderRightWidthProperty _rightWidth;
-        readonly CssBorderBottomColorProperty _bottomColor;
-        readonly CssBorderBottomStyleProperty _bottomStyle;
-        readonly CssBorderBottomWidthProperty _bottomWidth;
-        readonly CssBorderLeftColorProperty _leftColor;
-        readonly CssBorderLeftStyleProperty _leftStyle;
-        readonly CssBorderLeftWidthProperty _leftWidth;
+        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
+            Converters.WithAny(
+                Converters.LineWidthConverter.Val().Option(),
+                Converters.LineStyleConverter.Val().Option(),
+                Converters.CurrentColorConverter.Val().Option());
 
         #endregion
 
@@ -38,46 +27,6 @@
         internal CssBorderProperty(CssStyleDeclaration rule)
             : base(PropertyNames.Border, rule, PropertyFlags.Animatable)
         {
-            _topColor = Get<CssBorderTopColorProperty>();
-            _topStyle = Get<CssBorderTopStyleProperty>();
-            _topWidth = Get<CssBorderTopWidthProperty>();
-            _rightColor = Get<CssBorderRightColorProperty>();
-            _rightStyle = Get<CssBorderRightStyleProperty>();
-            _rightWidth = Get<CssBorderRightWidthProperty>();
-            _bottomColor = Get<CssBorderBottomColorProperty>();
-            _bottomStyle = Get<CssBorderBottomStyleProperty>();
-            _bottomWidth = Get<CssBorderBottomWidthProperty>();
-            _leftColor = Get<CssBorderLeftColorProperty>();
-            _leftStyle = Get<CssBorderLeftStyleProperty>();
-            _leftWidth = Get<CssBorderLeftWidthProperty>();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the width of the given border property.
-        /// </summary>
-        public Length Width
-        {
-            get { return _leftWidth.Width; }
-        }
-
-        /// <summary>
-        /// Gets the color of the given border property.
-        /// </summary>
-        public Color Color
-        {
-            get { return _leftColor.Color; }
-        }
-
-        /// <summary>
-        /// Gets the style of the given border property.
-        /// </summary>
-        public LineStyle Style
-        {
-            get { return _leftStyle.Style; }
         }
 
         #endregion
@@ -88,40 +37,55 @@
         {
             return Converter.TryConvert(value, m =>
             {
-                _topWidth.TrySetValue(m.Item1);
-                _topStyle.TrySetValue(m.Item2);
-                _topColor.TrySetValue(m.Item3);
-                _leftWidth.TrySetValue(m.Item1);
-                _leftStyle.TrySetValue(m.Item2);
-                _leftColor.TrySetValue(m.Item3);
-                _rightWidth.TrySetValue(m.Item1);
-                _rightStyle.TrySetValue(m.Item2);
-                _rightColor.TrySetValue(m.Item3);
-                _bottomWidth.TrySetValue(m.Item1);
-                _bottomStyle.TrySetValue(m.Item2);
-                _bottomColor.TrySetValue(m.Item3);
+                Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
+                Get<CssBorderTopStyleProperty>().TrySetValue(m.Item2);
+                Get<CssBorderTopColorProperty>().TrySetValue(m.Item3);
+                Get<CssBorderLeftWidthProperty>().TrySetValue(m.Item1);
+                Get<CssBorderLeftStyleProperty>().TrySetValue(m.Item2);
+                Get<CssBorderLeftColorProperty>().TrySetValue(m.Item3);
+                Get<CssBorderRightWidthProperty>().TrySetValue(m.Item1);
+                Get<CssBorderRightStyleProperty>().TrySetValue(m.Item2);
+                Get<CssBorderRightColorProperty>().TrySetValue(m.Item3);
+                Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item1);
+                Get<CssBorderBottomStyleProperty>().TrySetValue(m.Item2);
+                Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
             });
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
-            if (!IsComplete(properties))
+            var leftColor = properties.OfType<CssBorderLeftColorProperty>().FirstOrDefault();
+            var topColor = properties.OfType<CssBorderTopColorProperty>().FirstOrDefault();
+            var rightColor = properties.OfType<CssBorderRightColorProperty>().FirstOrDefault();
+            var bottomColor = properties.OfType<CssBorderBottomColorProperty>().FirstOrDefault();
+
+            if (leftColor == null || rightColor == null || topColor == null || bottomColor == null)
                 return String.Empty;
-            else if (_leftColor.Color != _rightColor.Color || _leftColor.Color != _topColor.Color || _leftColor.Color != _bottomColor.Color)
+
+            var leftWidth = properties.OfType<CssBorderLeftWidthProperty>().FirstOrDefault();
+            var topWidth = properties.OfType<CssBorderTopWidthProperty>().FirstOrDefault();
+            var rightWidth = properties.OfType<CssBorderRightWidthProperty>().FirstOrDefault();
+            var bottomWidth = properties.OfType<CssBorderBottomWidthProperty>().FirstOrDefault();
+
+            if (leftWidth == null || rightWidth == null || topWidth == null || bottomWidth == null)
                 return String.Empty;
-            else if (_leftStyle.Style != _rightStyle.Style || _leftStyle.Style != _topStyle.Style || _leftStyle.Style != _bottomStyle.Style)
-                return String.Empty;
-            else if (_leftWidth.Width != _rightWidth.Width || _leftWidth.Width != _topWidth.Width || _leftWidth.Width != _bottomWidth.Width)
+
+            var leftStyle = properties.OfType<CssBorderLeftStyleProperty>().FirstOrDefault();
+            var topStyle = properties.OfType<CssBorderTopStyleProperty>().FirstOrDefault();
+            var rightStyle = properties.OfType<CssBorderRightStyleProperty>().FirstOrDefault();
+            var bottomStyle = properties.OfType<CssBorderBottomStyleProperty>().FirstOrDefault();
+
+            if (leftStyle == null || rightStyle == null || topStyle == null || bottomStyle == null)
                 return String.Empty;
 
             var result = Pool.NewStringBuilder();
-            result.Append(_leftWidth.SerializeValue());
+            result.Append(leftWidth.SerializeValue());
 
-            if (_leftStyle.IsInitial == false)
-                result.Append(' ').Append(_leftStyle.SerializeValue());
+            if (leftStyle != null && leftStyle.HasValue)
+                result.Append(' ').Append(leftStyle.SerializeValue());
 
-            if (_leftColor.IsInitial == false)
-                result.Append(' ').Append(_leftColor.SerializeValue());
+            if (leftColor != null && leftColor.HasValue)
+                result.Append(' ').Append(leftColor.SerializeValue());
 
             return result.ToPool();
         }

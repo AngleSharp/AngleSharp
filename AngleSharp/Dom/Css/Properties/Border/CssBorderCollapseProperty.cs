@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -11,9 +12,8 @@
     {
         #region Fields
 
-        internal static readonly Boolean Default = true;
-        internal static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Separate, Keywords.Collapse);
-        Boolean _separate;
+        internal static readonly IValueConverter<Boolean> Converter = 
+            Converters.Toggle(Keywords.Separate, Keywords.Collapse);
 
         #endregion
 
@@ -22,44 +22,25 @@
         internal CssBorderCollapseProperty(CssStyleDeclaration rule)
             : base(PropertyNames.BorderCollapse, rule, PropertyFlags.Inherited)
         {
-            Reset();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the use of the separated-border table rendering model.
-        /// Otherwise the collapsed-border table rendering model is used.
-        /// </summary>
-        public Boolean IsSeparated
-        {
-            get { return _separate; }
         }
 
         #endregion
 
         #region Methods
 
-        public void SetSeparated(Boolean separate)
+        protected override Object GetDefault(IElement element)
         {
-            _separate = separate;
+            return true;
         }
 
-        internal override void Reset()
+        protected override Object Compute(IElement element)
         {
-            _separate = Default;
+            return Converter.Convert(Value);
         }
 
-        /// <summary>
-        /// Determines if the given value represents a valid state of this property.
-        /// </summary>
-        /// <param name="value">The state that should be used.</param>
-        /// <returns>True if the state is valid, otherwise false.</returns>
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.TryConvert(value, SetSeparated);
+            return Converter.Validate(value);
         }
 
         #endregion

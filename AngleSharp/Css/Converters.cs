@@ -443,6 +443,11 @@
             HslColorConverter.Or(HslaColorConverter));
 
         /// <summary>
+        /// Represents a color object or, alternatively, the currentColor.
+        /// </summary>
+        public static readonly IValueConverter<Color> CurrentColorConverter = ColorConverter.WithCurrentColor();
+
+        /// <summary>
         /// Represents a ratio object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
         /// </summary>
@@ -465,6 +470,15 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
         public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)m).Or(GradientConverter);
+
+        #endregion
+
+        #region Maps
+
+        /// <summary>
+        /// Represents a converter for the LineStyle enumeration.
+        /// </summary>
+        public static readonly IValueConverter<LineStyle> LineStyleConverter = Map.LineStyles.ToConverter();
 
         #endregion
 
