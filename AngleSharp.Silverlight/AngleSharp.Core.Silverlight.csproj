@@ -778,9 +778,6 @@
     <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CssMarginLeftProperty.cs">
       <Link>Dom\Css\Properties\Box\CssMarginLeftProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CssMarginPartProperty.cs">
-      <Link>Dom\Css\Properties\Box\CssMarginPartProperty.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CssMarginProperty.cs">
       <Link>Dom\Css\Properties\Box\CssMarginProperty.cs</Link>
     </Compile>
@@ -795,9 +792,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CssPaddingLeftProperty.cs">
       <Link>Dom\Css\Properties\Box\CssPaddingLeftProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CssPaddingPartProperty.cs">
-      <Link>Dom\Css\Properties\Box\CssPaddingPartProperty.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CssPaddingProperty.cs">
       <Link>Dom\Css\Properties\Box\CssPaddingProperty.cs</Link>
