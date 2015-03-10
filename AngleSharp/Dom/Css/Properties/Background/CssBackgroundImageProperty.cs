@@ -12,14 +12,6 @@
     /// </summary>
     sealed class CssBackgroundImageProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IImageSource[] Default = new IImageSource[0];
-        internal static readonly IValueConverter<IImageSource[]> Converter = 
-            Converters.ImageSourceConverter.FromList().Or(Keywords.None, Default);
-
-        #endregion
-
         #region ctor
 
         internal CssBackgroundImageProperty(CssStyleDeclaration rule)
@@ -33,17 +25,17 @@
 
         protected override Object GetDefault(IElement element)
         {
-            return Default;
+            return new IImageSource[0];
         }
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.MultipleImageSourceConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.MultipleImageSourceConverter.Validate(value);
         }
 
         #endregion

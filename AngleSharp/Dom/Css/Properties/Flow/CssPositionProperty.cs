@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<PositionMode> Converter = 
+        static readonly IValueConverter<PositionMode> Converter = 
             Map.PositionModes.ToConverter();
 
         #endregion

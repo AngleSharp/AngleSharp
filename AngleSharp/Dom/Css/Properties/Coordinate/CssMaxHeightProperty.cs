@@ -14,13 +14,6 @@
     /// </summary>
     sealed class CssMaxHeightProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length?> Converter = 
-            Converters.LengthOrPercentConverter.ToNullable().Or(Keywords.None, null);
-
-        #endregion
-
         #region ctor
 
         internal CssMaxHeightProperty(CssStyleDeclaration rule)
@@ -39,12 +32,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.OptionalLengthOrPercentConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.OptionalLengthOrPercentConverter.Validate(value);
         }
 
         #endregion

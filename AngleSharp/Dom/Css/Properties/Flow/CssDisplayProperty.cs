@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<DisplayMode> Converter = 
+        static readonly IValueConverter<DisplayMode> Converter = 
             Map.DisplayModes.ToConverter();
 
         #endregion

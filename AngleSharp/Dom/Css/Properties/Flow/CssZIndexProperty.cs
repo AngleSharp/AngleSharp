@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Int32?> Converter = 
+        static readonly IValueConverter<Int32?> Converter = 
             Converters.IntegerConverter.OrNullDefault();
 
         #endregion

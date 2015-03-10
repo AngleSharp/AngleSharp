@@ -36,7 +36,7 @@
             ),
             Converters.WithOrder(
                 CssFontSizeProperty.Converter.Val().Required(),
-                CssLineHeightProperty.Converter.Val().StartsWithDelimiter().Option()
+                Converters.LineHeightConverter.Val().StartsWithDelimiter().Option()
             ),
             CssFontFamilyProperty.Converter.Val().Required()
         );

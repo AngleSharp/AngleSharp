@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Floating> Converter = 
+        static readonly IValueConverter<Floating> Converter = 
             Map.FloatingModes.ToConverter();
 
         #endregion

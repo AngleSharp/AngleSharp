@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
 
@@ -12,13 +11,6 @@
     /// </summary>
     sealed class CssListStyleImageProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<IImageSource> Converter = 
-            Converters.ImageSourceConverter.Or(Keywords.None, null);
-
-        #endregion
-
         #region ctor
 
         internal CssListStyleImageProperty(CssStyleDeclaration rule)
@@ -37,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.OptionalImageSourceConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.OptionalImageSourceConverter.Validate(value);
         }
 
         #endregion

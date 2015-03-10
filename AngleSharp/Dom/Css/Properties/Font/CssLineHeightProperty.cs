@@ -10,13 +10,6 @@
     /// </summary>
     sealed class CssLineHeightProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length> Converter =
-            Converters.LineHeightConverter;
-
-        #endregion
-
         #region ctor
 
         internal CssLineHeightProperty(CssStyleDeclaration rule)
@@ -35,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.LineHeightConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.LineHeightConverter.Validate(value);
         }
 
         #endregion

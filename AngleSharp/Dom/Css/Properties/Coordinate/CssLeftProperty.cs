@@ -10,13 +10,6 @@
     /// </summary>
     sealed class CssLeftProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length?> Converter =
-            Converters.AutoLengthOrPercentConverter;
-
-        #endregion
-
         #region ctor
 
         internal CssLeftProperty(CssStyleDeclaration rule)
@@ -35,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.AutoLengthOrPercentConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.AutoLengthOrPercentConverter.Validate(value);
         }
 
         #endregion

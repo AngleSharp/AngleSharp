@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<OverflowMode> Converter = 
+        static readonly IValueConverter<OverflowMode> Converter = 
             Map.OverflowModes.ToConverter();
 
         #endregion

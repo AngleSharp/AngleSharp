@@ -16,9 +16,9 @@
 
         static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
-                CssListStyleTypeProperty.Converter.Val().Option(null).Val(),
-                CssListStylePositionProperty.Converter.Val().Option(null).Val(),
-                CssListStyleImageProperty.Converter.Val().Option(null).Val());
+                Converters.ListStyleConverter.Val().Option(null).Val(),
+                Converters.ListPositionConverter.Val().Option(null).Val(),
+                Converters.OptionalImageSourceConverter.Val().Option(null).Val());
 
         #endregion
 

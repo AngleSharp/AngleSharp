@@ -127,6 +127,12 @@
         public static readonly IValueConverter<Length> LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
 
         /// <summary>
+        /// Represents a distance object (either Length or Percent) or none.
+        /// </summary>
+        public static readonly IValueConverter<Length?> OptionalLengthOrPercentConverter = LengthOrPercentConverter.ToNullable().Or(
+            Keywords.None, null);
+
+        /// <summary>
         /// Represents a distance object (or default).
         /// </summary>
         public static readonly IValueConverter<Length?> AutoLengthOrPercentConverter = LengthOrPercentConverter.OrNullDefault();
@@ -481,7 +487,20 @@
         /// Represents an image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)m).Or(GradientConverter);
+        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)m).Or(
+            GradientConverter);
+
+        /// <summary>
+        /// Represents an optional image source object.
+        /// </summary>
+        public static readonly IValueConverter<IImageSource> OptionalImageSourceConverter = ImageSourceConverter.Or(
+            Keywords.None, null);
+
+        /// <summary>
+        /// Represents multiple image source object.
+        /// </summary>
+        public static readonly IValueConverter<IImageSource[]> MultipleImageSourceConverter = ImageSourceConverter.FromList().Or(
+            Keywords.None, new IImageSource[0]);
 
         #endregion
 
@@ -516,6 +535,16 @@
         /// Represents a converter for the TextDecorationStyle enumeration.
         /// </summary>
         public static readonly IValueConverter<TextDecorationStyle> TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ListPosition enumeration.
+        /// </summary>
+        public static readonly IValueConverter<ListPosition> ListPositionConverter = Map.ListPositions.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ListStyle enumeration.
+        /// </summary>
+        public static readonly IValueConverter<ListStyle> ListStyleConverter = Map.ListStyles.ToConverter();
 
         #endregion
 

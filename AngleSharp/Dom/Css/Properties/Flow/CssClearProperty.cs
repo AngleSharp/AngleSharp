@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<ClearMode> Converter = 
+        static readonly IValueConverter<ClearMode> Converter = 
             Map.ClearModes.ToConverter();
 
         #endregion

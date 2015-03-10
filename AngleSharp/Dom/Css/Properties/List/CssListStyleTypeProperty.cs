@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssListStyleTypeProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<ListStyle> Converter = 
-            Map.ListStyles.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssListStyleTypeProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.ListStyleConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.ListStyleConverter.Validate(value);
         }
 
         #endregion
