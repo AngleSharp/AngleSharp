@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<AnimationDirection[]> Converter = 
+        static readonly IValueConverter<AnimationDirection[]> Converter = 
             Converters.AnimationDirectionConverter.FromList();
 
         #endregion

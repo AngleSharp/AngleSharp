@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<AnimationFillStyle[]> Converter = 
+        static readonly IValueConverter<AnimationFillStyle[]> Converter = 
             Converters.AnimationFillStyleConverter.FromList();
 
         #endregion

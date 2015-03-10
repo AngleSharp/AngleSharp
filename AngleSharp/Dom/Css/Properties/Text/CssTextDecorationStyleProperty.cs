@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssTextDecorationStyleProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<TextDecorationStyle> Converter = 
-            Map.TextDecorationStyles.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssTextDecorationStyleProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.TextDecorationStyleConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.TextDecorationStyleConverter.Validate(value);
         }
 
         #endregion

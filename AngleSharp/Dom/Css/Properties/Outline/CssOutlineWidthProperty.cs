@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssOutlineWidthProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length> Converter = 
-            Converters.LineWidthConverter;
-
-        #endregion
-
         #region ctor
 
         internal CssOutlineWidthProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.LineWidthConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.LineWidthConverter.Validate(value);
         }
 
         #endregion

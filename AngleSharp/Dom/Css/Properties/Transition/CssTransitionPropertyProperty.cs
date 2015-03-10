@@ -13,10 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<String> SingleConverter = 
-            Converters.AnimatableConverter;
-        static readonly IValueConverter<String[]> Converter = 
-            SingleConverter.FromList().Or(Keywords.None, new String[0]);
+        static readonly IValueConverter<String[]> Converter =
+            Converters.AnimatableConverter.FromList().Or(Keywords.None, new String[0]);
         
         #endregion
 

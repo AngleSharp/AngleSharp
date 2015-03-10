@@ -13,10 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Time> SingleConverter = 
-            Converters.TimeConverter;
-        static readonly IValueConverter<Time[]> Converter = 
-            SingleConverter.FromList();
+        static readonly IValueConverter<Time[]> Converter =
+            Converters.TimeConverter.FromList();
 
         #endregion
 

@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssTextIndentProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length> Converter = 
-            Converters.LengthOrPercentConverter;
-
-        #endregion
-
         #region ctor
 
         internal CssTextIndentProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.LengthOrPercentConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.LengthOrPercentConverter.Validate(value);
         }
 
         #endregion

@@ -18,15 +18,16 @@
     {
         #region Fields
 
-        internal static IValueConverter<Tuple<Point, Length>> Converter = Converters.WithOrder(
-            Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(Keywords.Center, Point.Center).Or(Converters.WithAny(
-                Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
-                Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(
-            m => new Point(m.Item1, m.Item2))).Or(Converters.WithAny(
-                Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
-                Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(
-            m => new Point(m.Item1, m.Item2))).Required(),
-            Converters.LengthConverter.Option(Length.Zero));
+        static IValueConverter<Tuple<Point, Length>> Converter = 
+            Converters.WithOrder(
+                Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(Keywords.Center, Point.Center).Or(Converters.WithAny(
+                    Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
+                    Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(
+                m => new Point(m.Item1, m.Item2))).Or(Converters.WithAny(
+                    Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
+                    Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half)).To(
+                m => new Point(m.Item1, m.Item2))).Required(),
+                Converters.LengthConverter.Option(Length.Zero));
 
         #endregion
 

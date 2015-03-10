@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssOutlineStyleProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<LineStyle> Converter =
-            Map.LineStyles.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssOutlineStyleProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.LineStyleConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.LineStyleConverter.Validate(value);
         }
 
         #endregion

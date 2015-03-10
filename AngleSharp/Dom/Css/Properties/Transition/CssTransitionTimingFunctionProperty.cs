@@ -14,10 +14,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<ITimingFunction> SingleConverter = 
-            Converters.TransitionConverter;
-        static readonly IValueConverter<ITimingFunction[]> Converter = 
-            SingleConverter.FromList();
+        static readonly IValueConverter<ITimingFunction[]> Converter =
+            Converters.TransitionConverter.FromList();
 
         #endregion
 

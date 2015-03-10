@@ -15,9 +15,8 @@
     {
         #region Fields
 
-        static readonly Length Default = Length.Zero;
-        internal static readonly IValueConverter<Length> Converter = 
-            Converters.LengthConverter.Or(Keywords.None, Default);
+        static readonly IValueConverter<Length> Converter = 
+            Converters.LengthConverter.Or(Keywords.None, Length.Zero);
 
         #endregion
 

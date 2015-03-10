@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Point> Converter = 
+        static readonly IValueConverter<Point> Converter = 
             Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(
                 Keywords.Left, new Point(Length.Zero, Length.Half)).Or(
                 Keywords.Center, new Point(Length.Half, Length.Half)).Or(

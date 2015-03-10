@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<HorizontalAlignment> Converter =
+        static readonly IValueConverter<HorizontalAlignment> Converter =
             Map.HorizontalAlignments.ToConverter();
 
         #endregion

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Whitespace> Converter = 
+        static readonly IValueConverter<Whitespace> Converter = 
             Map.WhitespaceModes.ToConverter();
 
         #endregion

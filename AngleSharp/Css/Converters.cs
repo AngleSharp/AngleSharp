@@ -443,9 +443,15 @@
             HslColorConverter.Or(HslaColorConverter));
 
         /// <summary>
-        /// Represents a color object or, alternatively, the currentColor.
+        /// Represents a color object or, alternatively, the current color.
         /// </summary>
         public static readonly IValueConverter<Color> CurrentColorConverter = ColorConverter.WithCurrentColor();
+
+        /// <summary>
+        /// Represents a color object, the current color, or the inverted current color.
+        /// </summary>
+        public static readonly IValueConverter<Color?> InvertedColorConverter = CurrentColorConverter.ToNullable().Or(
+            Keywords.Invert, null);
 
         /// <summary>
         /// Represents a ratio object.
@@ -464,6 +470,12 @@
             LengthConverter.Many(2, 4).Required(),
             ColorConverter.WithCurrentColor().Option(Color.Black)).To(
             m => new Shadow(m.Item1, m.Item2[0], m.Item2[1], Get(m.Item2, 2, Length.Zero), Get(m.Item2, 3, Length.Zero), m.Item3));
+
+        /// <summary>
+        /// Represents multiple shadow objects.
+        /// </summary>
+        public static readonly IValueConverter<Shadow[]> MultipleShadowConverter = ShadowConverter.FromList().Or(
+            Keywords.None, new Shadow[0]);
 
         /// <summary>
         /// Represents an image source object.
@@ -499,6 +511,11 @@
         /// Represents a converter for the AnimationFillStyle enumeration.
         /// </summary>
         public static readonly IValueConverter<AnimationFillStyle> AnimationFillStyleConverter = Map.AnimationFillStyles.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the TextDecorationStyle enumeration.
+        /// </summary>
+        public static readonly IValueConverter<TextDecorationStyle> TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
 
         #endregion
 

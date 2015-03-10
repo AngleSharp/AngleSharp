@@ -12,7 +12,8 @@
     {
         #region Fields
 
-        static readonly IValueConverter<UnicodeMode> Converter = Map.UnicodeModes.ToConverter();
+        static readonly IValueConverter<UnicodeMode> Converter = 
+            Map.UnicodeModes.ToConverter();
 
         #endregion
 

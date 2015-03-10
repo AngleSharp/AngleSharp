@@ -12,13 +12,6 @@
     /// </summary>
     sealed class CssOutlineColorProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Color?> Converter = 
-            Converters.ColorConverter.WithCurrentColor().ToNullable().Or(Keywords.Invert, null);
-
-        #endregion
-
         #region ctor
 
         internal CssOutlineColorProperty(CssStyleDeclaration rule)
@@ -37,12 +30,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.InvertedColorConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.InvertedColorConverter.Validate(value);
         }
 
         #endregion

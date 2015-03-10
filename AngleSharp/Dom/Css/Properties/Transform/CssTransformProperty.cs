@@ -14,8 +14,8 @@
     {
         #region Fields
 
-        internal static readonly ITransform[] Default = new ITransform[0];
-        internal static readonly IValueConverter<ITransform[]> Converter = 
+        static readonly ITransform[] Default = new ITransform[0];
+        static readonly IValueConverter<ITransform[]> Converter = 
             Converters.TransformConverter.Many().Or(Keywords.None, Default);
 
         #endregion

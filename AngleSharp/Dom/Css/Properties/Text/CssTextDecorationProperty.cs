@@ -16,8 +16,8 @@
 
         static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
-                CssTextDecorationColorProperty.Converter.Val().Option(),
-                CssTextDecorationStyleProperty.Converter.Val().Option(),
+                Converters.ColorConverter.Val().Option(),
+                Converters.TextDecorationStyleConverter.Val().Option(),
                 CssTextDecorationLineProperty.Converter.Val().Option());
 
         #endregion

@@ -16,7 +16,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<VerticalAlignment> Converter = 
+        static readonly IValueConverter<VerticalAlignment> Converter = 
             Map.VerticalAlignments.ToConverter();
 
         #endregion

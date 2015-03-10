@@ -16,10 +16,10 @@
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>[]> Converter = 
             Converters.WithAny(
-                CssTransitionPropertyProperty.SingleConverter.Val().Option(null),
-                CssTransitionDurationProperty.SingleConverter.Val().Option(null),
-                CssTransitionTimingFunctionProperty.SingleConverter.Val().Option(null),
-                CssTransitionDelayProperty.SingleConverter.Val().Option(null)).FromList();
+                Converters.AnimatableConverter.Val().Option(null),
+                Converters.TimeConverter.Val().Option(null),
+                Converters.TransitionConverter.Val().Option(null),
+                Converters.TimeConverter.Val().Option(null)).FromList();
 
         #endregion
 

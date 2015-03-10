@@ -12,14 +12,6 @@
     /// </summary>
     sealed class CssTextShadowProperty : CssProperty
     {
-        #region Fields
-
-        static readonly Shadow[] Default = new Shadow[0];
-        static readonly IValueConverter<Shadow[]> Converter = 
-            Converters.ShadowConverter.FromList().Or(Keywords.None, Default);
-
-        #endregion
-
         #region ctor
 
         internal CssTextShadowProperty(CssStyleDeclaration rule)
@@ -33,17 +25,17 @@
 
         protected override Object GetDefault(IElement element)
         {
-            return Default;
+            return new Shadow[0];
         }
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.MultipleShadowConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.MultipleShadowConverter.Validate(value);
         }
 
         #endregion
