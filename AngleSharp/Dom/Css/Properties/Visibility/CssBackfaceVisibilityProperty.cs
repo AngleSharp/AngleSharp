@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssBackfaceVisibilityProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Visible, Keywords.Hidden);
-
-        #endregion
-
         #region ctor
 
         internal CssBackfaceVisibilityProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.BackfaceVisibilityConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.BackfaceVisibilityConverter.Validate(value);
         }
 
         #endregion

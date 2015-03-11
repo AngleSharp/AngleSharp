@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssVisibilityProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Visibility> Converter = 
-            Map.Visibilities.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssVisibilityProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.VisibilityConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.VisibilityConverter.Validate(value);
         }
 
         #endregion

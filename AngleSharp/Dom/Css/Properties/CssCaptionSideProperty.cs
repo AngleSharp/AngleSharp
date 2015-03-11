@@ -12,13 +12,6 @@
     /// </summary>
     sealed class CssCaptionSideProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Top, Keywords.Bottom);
-
-        #endregion
-
         #region ctor
 
         internal CssCaptionSideProperty(CssStyleDeclaration rule)
@@ -37,12 +30,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.CaptionSideConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.CaptionSideConverter.Validate(value);
         }
 
         #endregion

@@ -16,13 +16,6 @@
     /// </summary>
     sealed class CssTableLayoutProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Fixed, Keywords.Auto);
-
-        #endregion
-
         #region ctor
 
         internal CssTableLayoutProperty(CssStyleDeclaration rule)
@@ -45,12 +38,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.TableLayoutConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.TableLayoutConverter.Validate(value);
         }
 
         #endregion

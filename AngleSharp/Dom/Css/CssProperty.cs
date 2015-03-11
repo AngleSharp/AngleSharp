@@ -2,8 +2,6 @@
 {
     using AngleSharp.Css;
     using System;
-    using System.Collections.Generic;
-
 
     /// <summary>
     /// Fore more information about CSS properties see:

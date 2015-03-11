@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
@@ -241,7 +242,7 @@
             return new FunctionValueConverter<Shape>(FunctionNames.Rect,
                         WithArgs(length, length, length, length, m => new Shape(m.Item1, m.Item2, m.Item3, m.Item4)).Or(
                         WithArg(LengthConverter.Many(4, 4).To(m => new Shape(m[0], m[1], m[2], m[3])))));
-        });
+        }).OrDefault();
 
         /// <summary>
         /// Represents a linear-gradient object.
@@ -577,6 +578,40 @@
         /// Represents a converter for the BreakMode enumeration (constraint to the page values).
         /// </summary>
         public static readonly IValueConverter<BreakMode> PageBreakModeConverter = Map.PageBreakModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the UnicodeMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<UnicodeMode> UnicodeModeConverter = Map.UnicodeModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the Visibility enumeration.
+        /// </summary>
+        public static readonly IValueConverter<Visibility> VisibilityConverter = Map.Visibilities.ToConverter();
+
+        #endregion
+
+        #region Toggles
+
+        /// <summary>
+        /// Represents a converter for the table layout mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> TableLayoutConverter = Converters.Toggle(Keywords.Fixed, Keywords.Auto);
+
+        /// <summary>
+        /// Represents a converter for the empty cells mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> EmptyCellsConverter = Converters.Toggle(Keywords.Show, Keywords.Hide);
+
+        /// <summary>
+        /// Represents a converter for the caption side mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> CaptionSideConverter = Converters.Toggle(Keywords.Top, Keywords.Bottom);
+
+        /// <summary>
+        /// Represents a converter for the backface visibility mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> BackfaceVisibilityConverter = Converters.Toggle(Keywords.Visible, Keywords.Hidden);
 
         #endregion
 

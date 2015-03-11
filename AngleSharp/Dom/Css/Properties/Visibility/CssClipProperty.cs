@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssClipProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Shape> Converter = 
-            Converters.ShapeConverter.OrDefault();
-
-        #endregion
-
         #region ctor
 
         internal CssClipProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.ShapeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.ShapeConverter.Validate(value);
         }
 
         #endregion

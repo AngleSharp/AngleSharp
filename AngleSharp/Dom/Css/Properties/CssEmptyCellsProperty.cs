@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssEmptyCellsProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Show, Keywords.Hide);
-
-        #endregion
-
         #region ctor
 
         internal CssEmptyCellsProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.EmptyCellsConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.EmptyCellsConverter.Validate(value);
         }
 
         #endregion

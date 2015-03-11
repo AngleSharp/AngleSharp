@@ -10,13 +10,6 @@
     /// </summary>
     sealed class CssUnicodeBidiProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<UnicodeMode> Converter = 
-            Map.UnicodeModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssUnicodeBidiProperty(CssStyleDeclaration rule)
@@ -35,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.UnicodeModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.UnicodeModeConverter.Validate(value);
         }
 
         #endregion
