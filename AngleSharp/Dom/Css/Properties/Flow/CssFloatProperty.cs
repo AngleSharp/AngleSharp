@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssFloatProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Floating> Converter = 
-            Map.FloatingModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssFloatProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.FloatingConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.FloatingConverter.Validate(value);
         }
 
         #endregion

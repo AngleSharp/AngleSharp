@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssClearProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<ClearMode> Converter = 
-            Map.ClearModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssClearProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.ClearModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.ClearModeConverter.Validate(value);
         }
 
         #endregion

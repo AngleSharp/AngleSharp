@@ -632,6 +632,31 @@
         /// </summary>
         public static readonly IValueConverter<ObjectFitting> ObjectFittingConverter = Map.ObjectFittings.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the PositionMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<PositionMode> PositionModeConverter = Map.PositionModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the OverflowMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<OverflowMode> OverflowModeConverter = Map.OverflowModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the Floating enumeration.
+        /// </summary>
+        public static readonly IValueConverter<Floating> FloatingConverter = Map.FloatingModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the DisplayMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<DisplayMode> DisplayModeConverter = Map.DisplayModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ClearMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<ClearMode> ClearModeConverter = Map.ClearModes.ToConverter();
+
         #endregion
 
         #region Toggles

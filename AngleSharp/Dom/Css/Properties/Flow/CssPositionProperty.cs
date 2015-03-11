@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssPositionProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<PositionMode> Converter = 
-            Map.PositionModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssPositionProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.PositionModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.PositionModeConverter.Validate(value);
         }
 
         #endregion

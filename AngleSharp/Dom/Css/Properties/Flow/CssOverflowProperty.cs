@@ -10,13 +10,6 @@
     /// </summary>
     sealed class CssOverflowProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<OverflowMode> Converter = 
-            Map.OverflowModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssOverflowProperty(CssStyleDeclaration rule)
@@ -35,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.OverflowModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.OverflowModeConverter.Validate(value);
         }
 
         #endregion

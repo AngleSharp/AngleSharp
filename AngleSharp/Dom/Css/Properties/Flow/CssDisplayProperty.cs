@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssDisplayProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<DisplayMode> Converter = 
-            Map.DisplayModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssDisplayProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.DisplayModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.DisplayModeConverter.Validate(value);
         }
 
         #endregion
