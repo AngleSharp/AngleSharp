@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssBreakInsideProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<BreakMode> Converter = 
-            Map.BreakInsideModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssBreakInsideProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.BreakInsideModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.BreakInsideModeConverter.Validate(value);
         }
 
         #endregion

@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssColumnWidthProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length?> Converter = 
-            Converters.LengthConverter.OrNullDefault();
-
-        #endregion
-
         #region ctor
 
         internal CssColumnWidthProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.AutoLengthConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.AutoLengthConverter.Validate(value);
         }
 
         #endregion

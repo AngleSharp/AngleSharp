@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssPageBreakAfterProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<BreakMode> Converter =
-            Map.PageBreakModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssPageBreakAfterProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.PageBreakModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.PageBreakModeConverter.Validate(value);
         }
 
         #endregion

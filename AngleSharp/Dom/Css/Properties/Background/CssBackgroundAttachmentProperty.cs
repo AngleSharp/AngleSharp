@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<BackgroundAttachment[]> Converter =
+        static readonly IValueConverter<BackgroundAttachment[]> Converter =
             Converters.BackgroundAttachmentConverter.FromList();
 
         #endregion

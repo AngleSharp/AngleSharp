@@ -16,8 +16,8 @@
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
-                CssColumnWidthProperty.Converter.Val().Option(),
-                CssColumnCountProperty.Converter.Val().Option());
+                Converters.AutoLengthConverter.Val().Option(),
+                Converters.OptionalIntegerConverter.Val().Option());
 
         #endregion
 

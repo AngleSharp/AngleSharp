@@ -15,7 +15,7 @@
 
         internal static readonly IValueConverter<PlayState> SingleConverter = 
             Converters.Assign(Keywords.Running, PlayState.Running).Or(Keywords.Paused, PlayState.Paused);
-        internal static readonly IValueConverter<PlayState[]> Converter = 
+        static readonly IValueConverter<PlayState[]> Converter = 
             SingleConverter.FromList();
 
         #endregion

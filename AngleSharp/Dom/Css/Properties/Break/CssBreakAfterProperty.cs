@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssBreakAfterProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<BreakMode> Converter = 
-            Map.BreakModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssBreakAfterProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.BreakModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.BreakModeConverter.Validate(value);
         }
 
         #endregion

@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter =
+        static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>> Converter =
             Converters.CurrentColorConverter.Val().Periodic();
 
         #endregion

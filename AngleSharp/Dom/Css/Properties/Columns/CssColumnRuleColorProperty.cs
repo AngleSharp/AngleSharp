@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssColumnRuleColorProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Color> Converter = 
-            Converters.ColorConverter;
-
-        #endregion
-
         #region ctor
 
         internal CssColumnRuleColorProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.ColorConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.ColorConverter.Validate(value);
         }
 
         #endregion

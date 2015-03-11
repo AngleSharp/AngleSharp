@@ -16,9 +16,9 @@
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
-                CssColumnRuleColorProperty.Converter.Val().Option(),
-                CssColumnRuleWidthProperty.Converter.Val().Option(),
-                CssColumnRuleStyleProperty.Converter.Val().Option());
+                Converters.ColorConverter.Val().Option(),
+                Converters.LineWidthConverter.Val().Option(),
+                Converters.LineStyleConverter.Val().Option());
 
         #endregion
 

@@ -14,10 +14,9 @@
     {
         #region Fields
 
-        static readonly Length Default = new Length(100f, Length.Unit.Percent);
         internal static readonly IValueConverter<Tuple<Length, Length?, Length?, Length?, Boolean>> Converter = 
             Converters.WithAny(
-                Converters.BorderSliceConverter.Option(Default),
+                Converters.BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
                 Converters.BorderSliceConverter.ToNullable().Option(null),
                 Converters.BorderSliceConverter.ToNullable().Option(null),
                 Converters.BorderSliceConverter.ToNullable().Option(null),
@@ -38,7 +37,7 @@
 
         protected override Object GetDefault(IElement element)
         {
-            return Default;
+            return new Length(100f, Length.Unit.Percent);
         }
 
         protected override Object Compute(IElement element)

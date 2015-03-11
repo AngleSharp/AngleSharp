@@ -92,6 +92,11 @@
         public static readonly IValueConverter<Int32> IntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToInteger);
 
         /// <summary>
+        /// Represents an optional integer object.
+        /// </summary>
+        public static readonly IValueConverter<Int32?> OptionalIntegerConverter = IntegerConverter.OrNullDefault();
+
+        /// <summary>
         /// Represents an integer object that is zero or greater.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
@@ -136,6 +141,11 @@
         /// Represents a distance object (or default).
         /// </summary>
         public static readonly IValueConverter<Length?> AutoLengthOrPercentConverter = LengthOrPercentConverter.OrNullDefault();
+
+        /// <summary>
+        /// Represents a length (or default).
+        /// </summary>
+        public static readonly IValueConverter<Length?> AutoLengthConverter = LengthConverter.OrNullDefault();
 
         /// <summary>
         /// Represents an color object (usually hex or name).
@@ -502,6 +512,13 @@
         public static readonly IValueConverter<IImageSource[]> MultipleImageSourceConverter = ImageSourceConverter.FromList().Or(
             Keywords.None, new IImageSource[0]);
 
+        /// <summary>
+        /// Represents the border-radius (horizontal / vertical; radius) converter.
+        /// </summary>
+        public static readonly IValueConverter<Tuple<Length, Length?>> BorderRadiusConverter = WithOrder(
+            LengthOrPercentConverter.Required(),
+            LengthOrPercentConverter.ToNullable().Option(null));
+
         #endregion
 
         #region Maps
@@ -545,6 +562,21 @@
         /// Represents a converter for the ListStyle enumeration.
         /// </summary>
         public static readonly IValueConverter<ListStyle> ListStyleConverter = Map.ListStyles.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BreakMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<BreakMode> BreakModeConverter = Map.BreakModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BreakMode enumeration (constraint to the inside values).
+        /// </summary>
+        public static readonly IValueConverter<BreakMode> BreakInsideModeConverter = Map.BreakInsideModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BreakMode enumeration (constraint to the page values).
+        /// </summary>
+        public static readonly IValueConverter<BreakMode> PageBreakModeConverter = Map.PageBreakModes.ToConverter();
 
         #endregion
 

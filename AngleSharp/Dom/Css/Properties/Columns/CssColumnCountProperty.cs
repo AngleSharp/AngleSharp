@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssColumnCountProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Int32?> Converter = 
-            Converters.IntegerConverter.OrNullDefault();
-
-        #endregion
-
         #region ctor
 
         internal CssColumnCountProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.OptionalIntegerConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.OptionalIntegerConverter.Validate(value);
         }
 
         #endregion

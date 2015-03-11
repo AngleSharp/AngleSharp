@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = Converters.WithOrder(
-            Converters.LengthOrPercentConverter.Periodic().Atomic().Val().Required(),
-            Converters.LengthOrPercentConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option()
-        );
+        static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = 
+            Converters.WithOrder(
+                Converters.LengthOrPercentConverter.Periodic().Atomic().Val().Required(),
+                Converters.LengthOrPercentConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option());
 
         #endregion
 

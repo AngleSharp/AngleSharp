@@ -10,14 +10,6 @@
     /// </summary>
     sealed class CssBorderTopRightRadiusProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Tuple<Length, Length?>> Converter = Converters.WithOrder(
-            Converters.LengthOrPercentConverter.Required(),
-            Converters.LengthOrPercentConverter.ToNullable().Option(null));
-
-        #endregion
-
         #region ctor
 
         internal CssBorderTopRightRadiusProperty(CssStyleDeclaration rule)
@@ -36,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.BorderRadiusConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.BorderRadiusConverter.Validate(value);
         }
 
         #endregion

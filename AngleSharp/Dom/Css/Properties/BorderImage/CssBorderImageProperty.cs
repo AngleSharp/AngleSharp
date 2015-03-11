@@ -14,9 +14,9 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, Tuple<ICssValue, ICssValue, ICssValue>, ICssValue>> Converter = 
+        static readonly IValueConverter<Tuple<ICssValue, Tuple<ICssValue, ICssValue, ICssValue>, ICssValue>> Converter = 
             Converters.WithAny(
-                CssBorderImageSourceProperty.Converter.Val().Option(),
+                Converters.OptionalImageSourceConverter.Val().Option(),
                 Converters.WithOrder(
                     CssBorderImageSliceProperty.Converter.Val().Option(),
                     CssBorderImageWidthProperty.Converter.Val().StartsWithDelimiter().Option(),

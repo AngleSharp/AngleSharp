@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Point[]> Converter = 
+        static readonly IValueConverter<Point[]> Converter = 
             Converters.PointConverter.FromList();
 
         #endregion

@@ -13,9 +13,8 @@
     {
         #region Fields
 
-        static readonly Length Default = new Length(1f, Length.Unit.Em);
-        internal static readonly IValueConverter<Length> Converter = 
-            Converters.LengthConverter.Or(Keywords.Normal, Default);
+        static readonly IValueConverter<Length> Converter = 
+            Converters.LengthConverter.Or(Keywords.Normal, new Length(1f, Length.Unit.Em));
 
         #endregion
 
@@ -32,7 +31,7 @@
 
         protected override Object GetDefault(IElement element)
         {
-            return Default;
+            return new Length(1f, Length.Unit.Em);
         }
 
         protected override Object Compute(IElement element)

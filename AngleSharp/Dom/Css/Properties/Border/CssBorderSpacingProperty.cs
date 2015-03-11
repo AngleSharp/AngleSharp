@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Length[]> Converter = 
+        static readonly IValueConverter<Length[]> Converter = 
             Converters.LengthConverter.Many(1, 2);
 
         #endregion

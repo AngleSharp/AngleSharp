@@ -14,12 +14,16 @@
     {
         #region Fields
 
-        internal static readonly Repeat Default = new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
-        internal static readonly IValueConverter<Repeat> SingleConverter = Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
-            Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
-            Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
-            Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()).To(m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
-        internal static readonly IValueConverter<Repeat[]> Converter = SingleConverter.FromList();
+        static readonly Repeat Default = 
+            new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
+        internal static readonly IValueConverter<Repeat> SingleConverter = 
+            Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
+                Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
+                Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
+                Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()).To(
+                    m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
+        static readonly IValueConverter<Repeat[]> Converter = 
+            SingleConverter.FromList();
 
         #endregion
 
