@@ -14,13 +14,6 @@
     /// </summary>
     sealed class CssVerticalAlignProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<VerticalAlignment> Converter = 
-            Map.VerticalAlignments.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssVerticalAlignProperty(CssStyleDeclaration rule)
@@ -39,12 +32,13 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.VerticalAlignmentConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converters.LengthOrPercentConverter.Validate(value) || Converter.Validate(value);
+            return Converters.LengthOrPercentConverter.Validate(value) || 
+                   Converters.VerticalAlignmentConverter.Validate(value);
         }
 
         #endregion

@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssTextTransformProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<TextTransform> Converter =
-            Map.TextTransforms.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssTextTransformProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.TextTransformConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.TextTransformConverter.Validate(value);
         }
 
         #endregion

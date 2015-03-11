@@ -601,6 +601,37 @@
         public static readonly IValueConverter<PlayState> PlayStateConverter = Converters.Assign(
             Keywords.Running, PlayState.Running).Or(Keywords.Paused, PlayState.Paused);
 
+        /// <summary>
+        /// Represents a converter for the DirectionMode enumeration.
+        /// </summary>
+        public static readonly IValueConverter<DirectionMode> DirectionModeConverter = Converters.Assign(
+            Keywords.Ltr, DirectionMode.Ltr).Or(Keywords.Rtl, DirectionMode.Rtl);
+
+        /// <summary>
+        /// Represents a converter for the HorizontalAlignment enumeration.
+        /// </summary>
+        public static readonly IValueConverter<HorizontalAlignment> HorizontalAlignmentConverter = Map.HorizontalAlignments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the VerticalAlignment enumeration.
+        /// </summary>
+        public static readonly IValueConverter<VerticalAlignment> VerticalAlignmentConverter = Map.VerticalAlignments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the Whitespace enumeration.
+        /// </summary>
+        public static readonly IValueConverter<Whitespace> WhitespaceConverter = Map.WhitespaceModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the TextTransform enumeration.
+        /// </summary>
+        public static readonly IValueConverter<TextTransform> TextTransformConverter = Map.TextTransforms.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the ObjectFitting enumeration.
+        /// </summary>
+        public static readonly IValueConverter<ObjectFitting> ObjectFittingConverter = Map.ObjectFittings.ToConverter();
+
         #endregion
 
         #region Toggles
@@ -629,6 +660,11 @@
         /// Represents a converter for the border collapse mode.
         /// </summary>
         public static readonly IValueConverter<Boolean> BorderCollapseConverter = Converters.Toggle(Keywords.Separate, Keywords.Collapse);
+
+        /// <summary>
+        /// Represents a converter for the box decoration break mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> BoxDecorationConverter = Converters.Toggle(Keywords.Clone, Keywords.Slice);
 
         #endregion
 

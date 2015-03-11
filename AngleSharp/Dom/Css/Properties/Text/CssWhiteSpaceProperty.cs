@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssWhiteSpaceProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Whitespace> Converter = 
-            Map.WhitespaceModes.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssWhiteSpaceProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.WhitespaceConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.WhitespaceConverter.Validate(value);
         }
 
         #endregion

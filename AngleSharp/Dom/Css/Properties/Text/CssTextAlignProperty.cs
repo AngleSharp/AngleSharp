@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssTextAlignProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<HorizontalAlignment> Converter =
-            Map.HorizontalAlignments.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssTextAlignProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.HorizontalAlignmentConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.HorizontalAlignmentConverter.Validate(value);
         }
 
         #endregion

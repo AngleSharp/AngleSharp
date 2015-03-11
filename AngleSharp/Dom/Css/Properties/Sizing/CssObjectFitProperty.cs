@@ -10,13 +10,6 @@
     /// </summary>
     sealed class CssObjectFitProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<ObjectFitting> Converter = 
-            Map.ObjectFittings.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssObjectFitProperty(CssStyleDeclaration rule)
@@ -35,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.ObjectFittingConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.ObjectFittingConverter.Validate(value);
         }
 
         #endregion

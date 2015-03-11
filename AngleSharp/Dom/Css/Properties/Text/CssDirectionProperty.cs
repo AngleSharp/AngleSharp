@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssDirectionProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<DirectionMode> Converter = 
-            Converters.Assign(Keywords.Ltr, DirectionMode.Ltr).Or(Keywords.Rtl, DirectionMode.Rtl);
-
-        #endregion
-
         #region ctor
 
         internal CssDirectionProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.DirectionModeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.DirectionModeConverter.Validate(value);
         }
 
         #endregion

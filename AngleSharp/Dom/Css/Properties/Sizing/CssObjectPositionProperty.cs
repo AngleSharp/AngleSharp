@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssObjectPositionProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Point> Converter = 
-            Converters.PointConverter;
-
-        #endregion
-
         #region ctor
 
         internal CssObjectPositionProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.PointConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.PointConverter.Validate(value);
         }
 
         #endregion

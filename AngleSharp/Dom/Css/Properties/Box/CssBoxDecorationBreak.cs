@@ -14,13 +14,6 @@
     /// </summary>
     sealed class CssBoxDecorationBreak : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Clone, Keywords.Slice);
-
-        #endregion
-
         #region ctor
 
         internal CssBoxDecorationBreak(CssStyleDeclaration rule)
@@ -39,12 +32,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.BoxDecorationConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.BoxDecorationConverter.Validate(value);
         }
 
         #endregion
