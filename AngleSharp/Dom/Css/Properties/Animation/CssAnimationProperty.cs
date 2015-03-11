@@ -19,10 +19,10 @@
                 Converters.TimeConverter.Val().Option(),
                 Converters.TransitionConverter.Val().Option(),
                 Converters.TimeConverter.Val().Option(),
-                CssAnimationIterationCountProperty.SingleConverter.Val().Option(),
+                Converters.PositiveOrInfiniteNumberConverter.Val().Option(),
                 Converters.AnimationDirectionConverter.Val().Option(),
                 Converters.AnimationFillStyleConverter.Val().Option(),
-                CssAnimationPlayStateProperty.SingleConverter.Val().Option(),
+                Converters.PlayStateConverter.Val().Option(),
                 Converters.IdentifierConverter.Val().Option()).FromList();
 
         #endregion

@@ -13,10 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<PlayState> SingleConverter = 
-            Converters.Assign(Keywords.Running, PlayState.Running).Or(Keywords.Paused, PlayState.Paused);
         static readonly IValueConverter<PlayState[]> Converter = 
-            SingleConverter.FromList();
+            Converters.PlayStateConverter.FromList();
 
         #endregion
 

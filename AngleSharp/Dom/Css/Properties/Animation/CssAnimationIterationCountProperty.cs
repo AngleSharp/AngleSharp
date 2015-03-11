@@ -13,10 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Single> SingleConverter = 
-            Converters.NumberConverter.Constraint(m => m >= 0f).Or(Keywords.Infinite, Single.PositiveInfinity);
         internal static readonly IValueConverter<Single[]> Converter = 
-            SingleConverter.FromList();
+            Converters.PositiveOrInfiniteNumberConverter.FromList();
 
         #endregion
 

@@ -10,13 +10,6 @@
     /// </summary>
     sealed class CssBorderCollapseProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Separate, Keywords.Collapse);
-
-        #endregion
-
         #region ctor
 
         internal CssBorderCollapseProperty(CssStyleDeclaration rule)
@@ -35,12 +28,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.BorderCollapseConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.BorderCollapseConverter.Validate(value);
         }
 
         #endregion

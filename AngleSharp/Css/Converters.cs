@@ -116,6 +116,12 @@
         public static readonly IValueConverter<Single> NumberConverter = new StructValueConverter<Single>(ValueExtensions.ToSingle);
 
         /// <summary>
+        /// Represents a positive or infinite number object.
+        /// </summary>
+        public static readonly IValueConverter<Single> PositiveOrInfiniteNumberConverter = NumberConverter.Constraint(
+            m => m >= 0f).Or(Keywords.Infinite, Single.PositiveInfinity);
+
+        /// <summary>
         /// Represents a percentage object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
         /// </summary>
@@ -589,6 +595,12 @@
         /// </summary>
         public static readonly IValueConverter<Visibility> VisibilityConverter = Map.Visibilities.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the PlayState enumeration.
+        /// </summary>
+        public static readonly IValueConverter<PlayState> PlayStateConverter = Converters.Assign(
+            Keywords.Running, PlayState.Running).Or(Keywords.Paused, PlayState.Paused);
+
         #endregion
 
         #region Toggles
@@ -612,6 +624,11 @@
         /// Represents a converter for the backface visibility mode.
         /// </summary>
         public static readonly IValueConverter<Boolean> BackfaceVisibilityConverter = Converters.Toggle(Keywords.Visible, Keywords.Hidden);
+
+        /// <summary>
+        /// Represents a converter for the border collapse mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> BorderCollapseConverter = Converters.Toggle(Keywords.Separate, Keywords.Collapse);
 
         #endregion
 
