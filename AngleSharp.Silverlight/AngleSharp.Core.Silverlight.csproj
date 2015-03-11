@@ -1306,7 +1306,7 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlCodeElement.cs">
       <Link>Dom\Html\HtmlCodeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlDataElement.cs">
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDataElement.cs">
       <Link>Dom\Html\HtmlDataElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDataListElement.cs">
@@ -1477,13 +1477,13 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlQuoteElement.cs">
       <Link>Dom\Html\HtmlQuoteElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlRbElement.cs">
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRbElement.cs">
       <Link>Dom\Html\HtmlRbElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRpElement.cs">
       <Link>Dom\Html\HtmlRpElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlRtcElement.cs">
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRtcElement.cs">
       <Link>Dom\Html\HtmlRtcElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRtElement.cs">
