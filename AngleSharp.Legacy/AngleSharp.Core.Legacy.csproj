@@ -316,140 +316,140 @@
     <Compile Include="..\AngleSharp\DocumentBuilder.cs">
       <Link>DocumentBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Attr.cs">
-      <Link>DOM\Attr.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Attr.cs">
+      <Link>Dom\Attr.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\CharacterData.cs">
-      <Link>DOM\CharacterData.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\CharacterData.cs">
+      <Link>Dom\CharacterData.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\ElementMap.cs">
-      <Link>DOM\Collections\ElementMap.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\ElementMap.cs">
+      <Link>Dom\Collections\ElementMap.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HtmlAllCollection.cs">
-      <Link>DOM\Collections\HtmlAllCollection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\HtmlAllCollection.cs">
+      <Link>Dom\Collections\HtmlAllCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HTMLCollection.cs">
-      <Link>DOM\Collections\HTMLCollection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\HTMLCollection.cs">
+      <Link>Dom\Collections\HTMLCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HtmlElementCollection.cs">
-      <Link>DOM\Collections\HtmlElementCollection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\HtmlElementCollection.cs">
+      <Link>Dom\Collections\HtmlElementCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\HtmlFormControlsCollection.cs">
-      <Link>DOM\Collections\HtmlFormControlsCollection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\HtmlFormControlsCollection.cs">
+      <Link>Dom\Collections\HtmlFormControlsCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\MediaList.cs">
-      <Link>DOM\Collections\MediaList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\MediaList.cs">
+      <Link>Dom\Collections\MediaList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\NodeIterator.cs">
-      <Link>DOM\Collections\NodeIterator.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\NodeIterator.cs">
+      <Link>Dom\Collections\NodeIterator.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\NodeList.cs">
-      <Link>DOM\Collections\NodeList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\NodeList.cs">
+      <Link>Dom\Collections\NodeList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\OptionsCollection.cs">
-      <Link>DOM\Collections\OptionsCollection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\OptionsCollection.cs">
+      <Link>Dom\Collections\OptionsCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\Range.cs">
-      <Link>DOM\Collections\Range.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\Range.cs">
+      <Link>Dom\Collections\Range.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\SettableTokenList.cs">
-      <Link>DOM\Collections\SettableTokenList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\SettableTokenList.cs">
+      <Link>Dom\Collections\SettableTokenList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\StringList.cs">
-      <Link>DOM\Collections\StringList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\StringList.cs">
+      <Link>Dom\Collections\StringList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\StringMap.cs">
-      <Link>DOM\Collections\StringMap.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\StringMap.cs">
+      <Link>Dom\Collections\StringMap.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\StyleCollection.cs">
-      <Link>DOM\Collections\StyleCollection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\StyleCollection.cs">
+      <Link>Dom\Collections\StyleCollection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\TokenList.cs">
-      <Link>DOM\Collections\TokenList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\TokenList.cs">
+      <Link>Dom\Collections\TokenList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Collections\TreeWalker.cs">
-      <Link>DOM\Collections\TreeWalker.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Collections\TreeWalker.cs">
+      <Link>Dom\Collections\TreeWalker.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Comment.cs">
-      <Link>DOM\Comment.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Comment.cs">
+      <Link>Dom\Comment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\AdjacentPosition.cs">
-      <Link>DOM\Constants\AdjacentPosition.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\AdjacentPosition.cs">
+      <Link>Dom\Constants\AdjacentPosition.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\Alignment.cs">
-      <Link>DOM\Constants\Alignment.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\Alignment.cs">
+      <Link>Dom\Constants\Alignment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\CacheStatus.cs">
-      <Link>DOM\Constants\CacheStatus.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\CacheStatus.cs">
+      <Link>Dom\Constants\CacheStatus.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\ContentEditableMode.cs">
-      <Link>DOM\Constants\ContentEditableMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\ContentEditableMode.cs">
+      <Link>Dom\Constants\ContentEditableMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\CorsSetting.cs">
-      <Link>DOM\Constants\CorsSetting.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\CorsSetting.cs">
+      <Link>Dom\Constants\CorsSetting.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\CssRuleType.cs">
-      <Link>DOM\Constants\CssRuleType.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\CssRuleType.cs">
+      <Link>Dom\Constants\CssRuleType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\DirectionMode.cs">
-      <Link>DOM\Constants\DirectionMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\DirectionMode.cs">
+      <Link>Dom\Constants\DirectionMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\DocumentPositions.cs">
-      <Link>DOM\Constants\DocumentPositions.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\DocumentPositions.cs">
+      <Link>Dom\Constants\DocumentPositions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\DocumentReadyState.cs">
-      <Link>DOM\Constants\DocumentReadyState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\DocumentReadyState.cs">
+      <Link>Dom\Constants\DocumentReadyState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\EventPhase.cs">
-      <Link>DOM\Constants\EventPhase.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\EventPhase.cs">
+      <Link>Dom\Constants\EventPhase.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\FilterResult.cs">
-      <Link>DOM\Constants\FilterResult.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\FilterResult.cs">
+      <Link>Dom\Constants\FilterResult.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\FilterSettings.cs">
-      <Link>DOM\Constants\FilterSettings.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\FilterSettings.cs">
+      <Link>Dom\Constants\FilterSettings.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\HorizontalAlignment.cs">
-      <Link>DOM\Constants\HorizontalAlignment.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\HorizontalAlignment.cs">
+      <Link>Dom\Constants\HorizontalAlignment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\KeyboardLocation.cs">
-      <Link>DOM\Constants\KeyboardLocation.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\KeyboardLocation.cs">
+      <Link>Dom\Constants\KeyboardLocation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\MediaControllerPlaybackState.cs">
-      <Link>DOM\Constants\MediaControllerPlaybackState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\MediaControllerPlaybackState.cs">
+      <Link>Dom\Constants\MediaControllerPlaybackState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\MediaErrorCode.cs">
-      <Link>DOM\Constants\MediaErrorCode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\MediaErrorCode.cs">
+      <Link>Dom\Constants\MediaErrorCode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\MediaNetworkState.cs">
-      <Link>DOM\Constants\MediaNetworkState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\MediaNetworkState.cs">
+      <Link>Dom\Constants\MediaNetworkState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\MediaReadyState.cs">
-      <Link>DOM\Constants\MediaReadyState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\MediaReadyState.cs">
+      <Link>Dom\Constants\MediaReadyState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\MouseButton.cs">
-      <Link>DOM\Constants\MouseButton.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\MouseButton.cs">
+      <Link>Dom\Constants\MouseButton.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\MouseButtons.cs">
-      <Link>DOM\Constants\MouseButtons.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\MouseButtons.cs">
+      <Link>Dom\Constants\MouseButtons.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\NodeType.cs">
-      <Link>DOM\Constants\NodeType.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\NodeType.cs">
+      <Link>Dom\Constants\NodeType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\QuirksMode.cs">
-      <Link>DOM\Constants\QuirksMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\QuirksMode.cs">
+      <Link>Dom\Constants\QuirksMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\RangePosition.cs">
-      <Link>DOM\Constants\RangePosition.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\RangePosition.cs">
+      <Link>Dom\Constants\RangePosition.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\RangeType.cs">
-      <Link>DOM\Constants\RangeType.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\RangeType.cs">
+      <Link>Dom\Constants\RangeType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\Sandboxes.cs">
-      <Link>DOM\Constants\Sandboxes.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\Sandboxes.cs">
+      <Link>Dom\Constants\Sandboxes.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\SimpleChoice.cs">
-      <Link>DOM\Constants\SimpleChoice.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\SimpleChoice.cs">
+      <Link>Dom\Constants\SimpleChoice.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\TableFrames.cs">
       <Link>Dom\Constants\TableFrames.cs</Link>
@@ -457,1184 +457,1184 @@
     <Compile Include="..\AngleSharp\Dom\Constants\TableRules.cs">
       <Link>Dom\Constants\TableRules.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\TextTrackMode.cs">
-      <Link>DOM\Constants\TextTrackMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\TextTrackMode.cs">
+      <Link>Dom\Constants\TextTrackMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\TrackReadyState.cs">
-      <Link>DOM\Constants\TrackReadyState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\TrackReadyState.cs">
+      <Link>Dom\Constants\TrackReadyState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\VerticalAlignment.cs">
-      <Link>DOM\Constants\VerticalAlignment.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\VerticalAlignment.cs">
+      <Link>Dom\Constants\VerticalAlignment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\Visibility.cs">
-      <Link>DOM\Constants\Visibility.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\Visibility.cs">
+      <Link>Dom\Constants\Visibility.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Constants\WheelMode.cs">
-      <Link>DOM\Constants\WheelMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Constants\WheelMode.cs">
+      <Link>Dom\Constants\WheelMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationDirection.cs">
-      <Link>DOM\Css\Constants\AnimationDirection.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\AnimationDirection.cs">
+      <Link>Dom\Css\Constants\AnimationDirection.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\AnimationFillStyle.cs">
-      <Link>DOM\Css\Constants\AnimationFillStyle.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\AnimationFillStyle.cs">
+      <Link>Dom\Css\Constants\AnimationFillStyle.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\BackgroundAttachment.cs">
-      <Link>DOM\Css\Constants\BackgroundAttachment.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\BackgroundAttachment.cs">
+      <Link>Dom\Css\Constants\BackgroundAttachment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\BackgroundRepeat.cs">
-      <Link>DOM\Css\Constants\BackgroundRepeat.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\BackgroundRepeat.cs">
+      <Link>Dom\Css\Constants\BackgroundRepeat.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\BlendMode.cs">
-      <Link>DOM\Css\Constants\BlendMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\BlendMode.cs">
+      <Link>Dom\Css\Constants\BlendMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\BorderRepeat.cs">
-      <Link>DOM\Css\Constants\BorderRepeat.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\BorderRepeat.cs">
+      <Link>Dom\Css\Constants\BorderRepeat.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\BoxModel.cs">
-      <Link>DOM\Css\Constants\BoxModel.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\BoxModel.cs">
+      <Link>Dom\Css\Constants\BoxModel.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\BreakMode.cs">
-      <Link>DOM\Css\Constants\BreakMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\BreakMode.cs">
+      <Link>Dom\Css\Constants\BreakMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\ClearMode.cs">
-      <Link>DOM\Css\Constants\ClearMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\ClearMode.cs">
+      <Link>Dom\Css\Constants\ClearMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\DisplayMode.cs">
-      <Link>DOM\Css\Constants\DisplayMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\DisplayMode.cs">
+      <Link>Dom\Css\Constants\DisplayMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\Floating.cs">
-      <Link>DOM\Css\Constants\Floating.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\Floating.cs">
+      <Link>Dom\Css\Constants\Floating.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\FontSize.cs">
-      <Link>DOM\Css\Constants\FontSize.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\FontSize.cs">
+      <Link>Dom\Css\Constants\FontSize.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\FontStretch.cs">
-      <Link>DOM\Css\Constants\FontStretch.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\FontStretch.cs">
+      <Link>Dom\Css\Constants\FontStretch.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\FontStyle.cs">
-      <Link>DOM\Css\Constants\FontStyle.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\FontStyle.cs">
+      <Link>Dom\Css\Constants\FontStyle.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\FontVariant.cs">
-      <Link>DOM\Css\Constants\FontVariant.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\FontVariant.cs">
+      <Link>Dom\Css\Constants\FontVariant.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\HoverAbility.cs">
-      <Link>DOM\Css\Constants\HoverAbility.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\HoverAbility.cs">
+      <Link>Dom\Css\Constants\HoverAbility.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\LineStyle.cs">
-      <Link>DOM\Css\Constants\LineStyle.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\LineStyle.cs">
+      <Link>Dom\Css\Constants\LineStyle.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\ListPosition.cs">
-      <Link>DOM\Css\Constants\ListPosition.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\ListPosition.cs">
+      <Link>Dom\Css\Constants\ListPosition.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\ListStyle.cs">
-      <Link>DOM\Css\Constants\ListStyle.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\ListStyle.cs">
+      <Link>Dom\Css\Constants\ListStyle.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\ObjectFitting.cs">
-      <Link>DOM\Css\Constants\ObjectFitting.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\ObjectFitting.cs">
+      <Link>Dom\Css\Constants\ObjectFitting.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\OverflowMode.cs">
-      <Link>DOM\Css\Constants\OverflowMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\OverflowMode.cs">
+      <Link>Dom\Css\Constants\OverflowMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\PlayState.cs">
-      <Link>DOM\Css\Constants\PlayState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\PlayState.cs">
+      <Link>Dom\Css\Constants\PlayState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\PointerAccuracy.cs">
-      <Link>DOM\Css\Constants\PointerAccuracy.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\PointerAccuracy.cs">
+      <Link>Dom\Css\Constants\PointerAccuracy.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\PositionMode.cs">
-      <Link>DOM\Css\Constants\PositionMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\PositionMode.cs">
+      <Link>Dom\Css\Constants\PositionMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\ScriptingState.cs">
-      <Link>DOM\Css\Constants\ScriptingState.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\ScriptingState.cs">
+      <Link>Dom\Css\Constants\ScriptingState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemCursor.cs">
-      <Link>DOM\Css\Constants\SystemCursor.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\SystemCursor.cs">
+      <Link>Dom\Css\Constants\SystemCursor.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\SystemFont.cs">
-      <Link>DOM\Css\Constants\SystemFont.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\SystemFont.cs">
+      <Link>Dom\Css\Constants\SystemFont.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\TextDecorationLine.cs">
-      <Link>DOM\Css\Constants\TextDecorationLine.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\TextDecorationLine.cs">
+      <Link>Dom\Css\Constants\TextDecorationLine.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\TextDecorationStyle.cs">
-      <Link>DOM\Css\Constants\TextDecorationStyle.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\TextDecorationStyle.cs">
+      <Link>Dom\Css\Constants\TextDecorationStyle.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\TextTransform.cs">
-      <Link>DOM\Css\Constants\TextTransform.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\TextTransform.cs">
+      <Link>Dom\Css\Constants\TextTransform.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\UnicodeMode.cs">
-      <Link>DOM\Css\Constants\UnicodeMode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\UnicodeMode.cs">
+      <Link>Dom\Css\Constants\UnicodeMode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\UpdateFrequency.cs">
-      <Link>DOM\Css\Constants\UpdateFrequency.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\UpdateFrequency.cs">
+      <Link>Dom\Css\Constants\UpdateFrequency.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Constants\Whitespace.cs">
-      <Link>DOM\Css\Constants\Whitespace.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Constants\Whitespace.cs">
+      <Link>Dom\Css\Constants\Whitespace.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CssMedium.cs">
-      <Link>DOM\Css\CssMedium.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\CssMedium.cs">
+      <Link>Dom\Css\CssMedium.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CSSProperty.cs">
-      <Link>DOM\Css\CSSProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\CSSProperty.cs">
+      <Link>Dom\Css\CSSProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CSSStyleDeclaration.cs">
-      <Link>DOM\Css\CSSStyleDeclaration.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\CSSStyleDeclaration.cs">
+      <Link>Dom\Css\CSSStyleDeclaration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssStyleEngine.cs">
       <Link>Dom\Css\CssStyleEngine.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CSSStyleSheet.cs">
-      <Link>DOM\Css\CSSStyleSheet.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\CSSStyleSheet.cs">
+      <Link>Dom\Css\CSSStyleSheet.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\CssValueType.cs">
-      <Link>DOM\Css\CssValueType.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\CssValueType.cs">
+      <Link>Dom\Css\CssValueType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationDelayProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationDelayProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationDelayProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDirectionProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationDirectionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationDirectionProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationDirectionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationDurationProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationDurationProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationDurationProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationDurationProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationFillModeProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationFillModeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationFillModeProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationFillModeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationIterationCountProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationNameProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationNameProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationNameProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationNameProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationPlayStateProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs">
-      <Link>DOM\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs">
+      <Link>Dom\Css\Properties\Animation\CSSAnimationTimingFunctionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundAttachmentProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundClipProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundClipProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundClipProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundColorProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundColorProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundImageProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundImageProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundImageProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundImageProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundOriginProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundOriginProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundOriginProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundOriginProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundPositionProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundPositionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundPositionProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundPositionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundRepeatProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundRepeatProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundRepeatProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs">
-      <Link>DOM\Css\Properties\Background\CSSBackgroundSizeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Background\CSSBackgroundSizeProperty.cs">
+      <Link>Dom\Css\Properties\Background\CSSBackgroundSizeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs">
-      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs">
+      <Link>Dom\Css\Properties\BorderImage\CSSBorderImageOutsetProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageProperty.cs">
-      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderImage\CSSBorderImageProperty.cs">
+      <Link>Dom\Css\Properties\BorderImage\CSSBorderImageProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs">
-      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs">
+      <Link>Dom\Css\Properties\BorderImage\CSSBorderImageRepeatProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs">
-      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs">
+      <Link>Dom\Css\Properties\BorderImage\CSSBorderImageSliceProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs">
-      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs">
+      <Link>Dom\Css\Properties\BorderImage\CSSBorderImageSourceProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs">
-      <Link>DOM\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs">
+      <Link>Dom\Css\Properties\BorderImage\CSSBorderImageWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs">
-      <Link>DOM\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs">
+      <Link>Dom\Css\Properties\BorderRadius\CSSBorderBottomLeftRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs">
-      <Link>DOM\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs">
+      <Link>Dom\Css\Properties\BorderRadius\CSSBorderBottomRightRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs">
-      <Link>DOM\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs">
+      <Link>Dom\Css\Properties\BorderRadius\CSSBorderRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs">
-      <Link>DOM\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs">
+      <Link>Dom\Css\Properties\BorderRadius\CSSBorderTopLeftRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs">
-      <Link>DOM\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs">
+      <Link>Dom\Css\Properties\BorderRadius\CSSBorderTopRightRadiusProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomColorProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderBottomColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderBottomColorProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderBottomColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderBottomProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderBottomProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderBottomProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderBottomStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderBottomStyleProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderBottomStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderBottomWidthProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderBottomWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderBottomWidthProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderBottomWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderCollapseProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderCollapseProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderCollapseProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderColorProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderColorProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftColorProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderLeftColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderLeftColorProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderLeftColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderLeftProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderLeftProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderLeftProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderLeftStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderLeftStyleProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderLeftStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderLeftWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderLeftWidthProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderLeftWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderRightColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderRightColorProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderRightColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderRightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderRightProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderRightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderRightStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderRightStyleProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderRightStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderRightWidthProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderRightWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderRightWidthProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderRightWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderSpacingProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderSpacingProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderSpacingProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderSpacingProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderStyleProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderStyleProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopColorProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderTopColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderTopColorProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderTopColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderTopProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderTopProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderTopProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderTopStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderTopStyleProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderTopStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderTopWidthProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderTopWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderTopWidthProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderTopWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Border\CSSBorderWidthProperty.cs">
-      <Link>DOM\Css\Properties\Border\CSSBorderWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Border\CSSBorderWidthProperty.cs">
+      <Link>Dom\Css\Properties\Border\CSSBorderWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs">
-      <Link>DOM\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSBoxDecorationBreak.cs">
+      <Link>Dom\Css\Properties\Box\CSSBoxDecorationBreak.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSBoxShadowProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSBoxShadowProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSBoxShadowProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSBoxShadowProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginBottomProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSMarginBottomProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSMarginBottomProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSMarginBottomProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginLeftProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSMarginLeftProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSMarginLeftProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSMarginLeftProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSMarginProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSMarginProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSMarginProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginRightProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSMarginRightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSMarginRightProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSMarginRightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSMarginTopProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSMarginTopProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSMarginTopProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSMarginTopProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSPaddingBottomProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSPaddingBottomProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSPaddingBottomProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSPaddingLeftProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSPaddingLeftProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSPaddingLeftProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSPaddingProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSPaddingProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSPaddingProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingRightProperty .cs">
-      <Link>DOM\Css\Properties\Box\CSSPaddingRightProperty .cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSPaddingRightProperty .cs">
+      <Link>Dom\Css\Properties\Box\CSSPaddingRightProperty .cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Box\CSSPaddingTopProperty.cs">
-      <Link>DOM\Css\Properties\Box\CSSPaddingTopProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Box\CSSPaddingTopProperty.cs">
+      <Link>Dom\Css\Properties\Box\CSSPaddingTopProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakAfterProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSBreakAfterProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Break\CSSBreakAfterProperty.cs">
+      <Link>Dom\Css\Properties\Break\CSSBreakAfterProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakBeforeProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSBreakBeforeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Break\CSSBreakBeforeProperty.cs">
+      <Link>Dom\Css\Properties\Break\CSSBreakBeforeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSBreakInsideProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSBreakInsideProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Break\CSSBreakInsideProperty.cs">
+      <Link>Dom\Css\Properties\Break\CSSBreakInsideProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSPageBreakAfterProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Break\CSSPageBreakAfterProperty.cs">
+      <Link>Dom\Css\Properties\Break\CSSPageBreakAfterProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSPageBreakBeforeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Break\CSSPageBreakBeforeProperty.cs">
+      <Link>Dom\Css\Properties\Break\CSSPageBreakBeforeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs">
-      <Link>DOM\Css\Properties\Break\CSSPageBreakInsideProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Break\CSSPageBreakInsideProperty.cs">
+      <Link>Dom\Css\Properties\Break\CSSPageBreakInsideProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnCountProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnCountProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnCountProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnCountProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnFillProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnFillProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnFillProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnFillProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnGapProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnGapProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnGapProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnGapProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleColorProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnRuleColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnRuleColorProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnRuleColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnRuleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnRuleProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnRuleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnRuleStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnRuleWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnSpanProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnSpanProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnSpanProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnSpanProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnsProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnsProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnsProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnsProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Columns\CSSColumnWidthProperty.cs">
-      <Link>DOM\Css\Properties\Columns\CSSColumnWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Columns\CSSColumnWidthProperty.cs">
+      <Link>Dom\Css\Properties\Columns\CSSColumnWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSBottomProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSBottomProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSBottomProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSBottomProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSHeightProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSHeightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSHeightProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSHeightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSLeftProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSLeftProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSLeftProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSLeftProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMaxHeightProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSMaxHeightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSMaxHeightProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSMaxHeightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSMaxWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSMaxWidthProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSMaxWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSMinHeightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSMinHeightProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSMinHeightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSMinWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSMinWidthProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSMinWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSRightProperty .cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSRightProperty .cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSRightProperty .cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSRightProperty .cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSTopProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSTopProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSTopProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSTopProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Coordinate\CSSWidthProperty.cs">
-      <Link>DOM\Css\Properties\Coordinate\CSSWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Coordinate\CSSWidthProperty.cs">
+      <Link>Dom\Css\Properties\Coordinate\CSSWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCaptionSideProperty.cs">
-      <Link>DOM\Css\Properties\CSSCaptionSideProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSCaptionSideProperty.cs">
+      <Link>Dom\Css\Properties\CSSCaptionSideProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSContentProperty.cs">
-      <Link>DOM\Css\Properties\CSSContentProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSContentProperty.cs">
+      <Link>Dom\Css\Properties\CSSContentProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSCursorProperty.cs">
-      <Link>DOM\Css\Properties\CSSCursorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSCursorProperty.cs">
+      <Link>Dom\Css\Properties\CSSCursorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSEmptyCellsProperty.cs">
-      <Link>DOM\Css\Properties\CSSEmptyCellsProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSEmptyCellsProperty.cs">
+      <Link>Dom\Css\Properties\CSSEmptyCellsProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSOrphansProperty.cs">
-      <Link>DOM\Css\Properties\CSSOrphansProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSOrphansProperty.cs">
+      <Link>Dom\Css\Properties\CSSOrphansProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSQuotesProperty.cs">
-      <Link>DOM\Css\Properties\CSSQuotesProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSQuotesProperty.cs">
+      <Link>Dom\Css\Properties\CSSQuotesProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSShorthandProperty.cs">
-      <Link>DOM\Css\Properties\CSSShorthandProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSShorthandProperty.cs">
+      <Link>Dom\Css\Properties\CSSShorthandProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSTableLayoutProperty.cs">
-      <Link>DOM\Css\Properties\CSSTableLayoutProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSTableLayoutProperty.cs">
+      <Link>Dom\Css\Properties\CSSTableLayoutProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSUnicodeBidiProperty.cs">
-      <Link>DOM\Css\Properties\CSSUnicodeBidiProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSUnicodeBidiProperty.cs">
+      <Link>Dom\Css\Properties\CSSUnicodeBidiProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSUnknownProperty.cs">
-      <Link>DOM\Css\Properties\CSSUnknownProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSUnknownProperty.cs">
+      <Link>Dom\Css\Properties\CSSUnknownProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\CSSWidowsProperty.cs">
-      <Link>DOM\Css\Properties\CSSWidowsProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSWidowsProperty.cs">
+      <Link>Dom\Css\Properties\CSSWidowsProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Flow\CSSClearProperty.cs">
-      <Link>DOM\Css\Properties\Flow\CSSClearProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Flow\CSSClearProperty.cs">
+      <Link>Dom\Css\Properties\Flow\CSSClearProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Flow\CSSDisplayProperty.cs">
-      <Link>DOM\Css\Properties\Flow\CSSDisplayProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Flow\CSSDisplayProperty.cs">
+      <Link>Dom\Css\Properties\Flow\CSSDisplayProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Flow\CSSFloatProperty.cs">
-      <Link>DOM\Css\Properties\Flow\CSSFloatProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Flow\CSSFloatProperty.cs">
+      <Link>Dom\Css\Properties\Flow\CSSFloatProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Flow\CSSOverflowProperty.cs">
-      <Link>DOM\Css\Properties\Flow\CSSOverflowProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Flow\CSSOverflowProperty.cs">
+      <Link>Dom\Css\Properties\Flow\CSSOverflowProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Flow\CSSPositionProperty.cs">
-      <Link>DOM\Css\Properties\Flow\CSSPositionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Flow\CSSPositionProperty.cs">
+      <Link>Dom\Css\Properties\Flow\CSSPositionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Flow\CSSZIndexProperty.cs">
-      <Link>DOM\Css\Properties\Flow\CSSZIndexProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Flow\CSSZIndexProperty.cs">
+      <Link>Dom\Css\Properties\Flow\CSSZIndexProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSColorProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSColorProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontFamilyProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontFamilyProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontFamilyProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontFamilyProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontSizeAdjustProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontSizeAdjustProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontSizeAdjustProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontSizeProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontSizeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontSizeProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontSizeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontStretchProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontStretchProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontStretchProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontStretchProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontStyleProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontStyleProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontVariantProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontVariantProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontVariantProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontVariantProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSFontWeightProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSFontWeightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSFontWeightProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSFontWeightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSLetterSpacingProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSLetterSpacingProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSLetterSpacingProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSLetterSpacingProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSLineHeightProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSLineHeightProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSLineHeightProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSLineHeightProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSSrcProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSSrcProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSSrcProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSSrcProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSUnicodeRangeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSUnicodeRangeProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSUnicodeRangeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Font\CSSWordSpacingProperty.cs">
-      <Link>DOM\Css\Properties\Font\CSSWordSpacingProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Font\CSSWordSpacingProperty.cs">
+      <Link>Dom\Css\Properties\Font\CSSWordSpacingProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSCounterIncrementProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSCounterIncrementProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\List\CSSCounterIncrementProperty.cs">
+      <Link>Dom\Css\Properties\List\CSSCounterIncrementProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSCounterResetProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSCounterResetProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\List\CSSCounterResetProperty.cs">
+      <Link>Dom\Css\Properties\List\CSSCounterResetProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStyleImageProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSListStyleImageProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\List\CSSListStyleImageProperty.cs">
+      <Link>Dom\Css\Properties\List\CSSListStyleImageProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStylePositionProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSListStylePositionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\List\CSSListStylePositionProperty.cs">
+      <Link>Dom\Css\Properties\List\CSSListStylePositionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStyleProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSListStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\List\CSSListStyleProperty.cs">
+      <Link>Dom\Css\Properties\List\CSSListStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\List\CSSListStyleTypeProperty.cs">
-      <Link>DOM\Css\Properties\List\CSSListStyleTypeProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\List\CSSListStyleTypeProperty.cs">
+      <Link>Dom\Css\Properties\List\CSSListStyleTypeProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs">
-      <Link>DOM\Css\Properties\Outline\CSSOutlineColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Outline\CSSOutlineColorProperty.cs">
+      <Link>Dom\Css\Properties\Outline\CSSOutlineColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineProperty.cs">
-      <Link>DOM\Css\Properties\Outline\CSSOutlineProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Outline\CSSOutlineProperty.cs">
+      <Link>Dom\Css\Properties\Outline\CSSOutlineProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs">
-      <Link>DOM\Css\Properties\Outline\CSSOutlineStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Outline\CSSOutlineStyleProperty.cs">
+      <Link>Dom\Css\Properties\Outline\CSSOutlineStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs">
-      <Link>DOM\Css\Properties\Outline\CSSOutlineWidthProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Outline\CSSOutlineWidthProperty.cs">
+      <Link>Dom\Css\Properties\Outline\CSSOutlineWidthProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Sizing\CSSObjectFitProperty.cs">
-      <Link>DOM\Css\Properties\Sizing\CSSObjectFitProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Sizing\CSSObjectFitProperty.cs">
+      <Link>Dom\Css\Properties\Sizing\CSSObjectFitProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Sizing\CSSObjectPositionProperty.cs">
-      <Link>DOM\Css\Properties\Sizing\CSSObjectPositionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Sizing\CSSObjectPositionProperty.cs">
+      <Link>Dom\Css\Properties\Sizing\CSSObjectPositionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSDirectionProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSDirectionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSDirectionProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSDirectionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextAlignProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextAlignProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextAlignProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextAlignProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextDecorationColorProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextDecorationColorProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextDecorationColorProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextDecorationColorProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextDecorationLineProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextDecorationLineProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextDecorationLineProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextDecorationLineProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextDecorationProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextDecorationProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextDecorationProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextDecorationProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextDecorationStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextDecorationStyleProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextDecorationStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextIndentProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextIndentProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextIndentProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextIndentProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextShadowProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextShadowProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextShadowProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextShadowProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSTextTransformProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSTextTransformProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSTextTransformProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSTextTransformProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSVerticalAlignProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSVerticalAlignProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSVerticalAlignProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSVerticalAlignProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Text\CSSWhiteSpaceProperty.cs">
-      <Link>DOM\Css\Properties\Text\CSSWhiteSpaceProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Text\CSSWhiteSpaceProperty.cs">
+      <Link>Dom\Css\Properties\Text\CSSWhiteSpaceProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs">
-      <Link>DOM\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs">
+      <Link>Dom\Css\Properties\Transform\CSSPerspectiveOriginProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs">
-      <Link>DOM\Css\Properties\Transform\CSSPerspectiveProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transform\CSSPerspectiveProperty.cs">
+      <Link>Dom\Css\Properties\Transform\CSSPerspectiveProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformOriginProperty.cs">
-      <Link>DOM\Css\Properties\Transform\CSSTransformOriginProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transform\CSSTransformOriginProperty.cs">
+      <Link>Dom\Css\Properties\Transform\CSSTransformOriginProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformProperty.cs">
-      <Link>DOM\Css\Properties\Transform\CSSTransformProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transform\CSSTransformProperty.cs">
+      <Link>Dom\Css\Properties\Transform\CSSTransformProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs">
-      <Link>DOM\Css\Properties\Transform\CSSTransformStyleProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transform\CSSTransformStyleProperty.cs">
+      <Link>Dom\Css\Properties\Transform\CSSTransformStyleProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionDelayProperty.cs">
-      <Link>DOM\Css\Properties\Transition\CSSTransitionDelayProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transition\CSSTransitionDelayProperty.cs">
+      <Link>Dom\Css\Properties\Transition\CSSTransitionDelayProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionDurationProperty.cs">
-      <Link>DOM\Css\Properties\Transition\CSSTransitionDurationProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transition\CSSTransitionDurationProperty.cs">
+      <Link>Dom\Css\Properties\Transition\CSSTransitionDurationProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionProperty.cs">
-      <Link>DOM\Css\Properties\Transition\CSSTransitionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transition\CSSTransitionProperty.cs">
+      <Link>Dom\Css\Properties\Transition\CSSTransitionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionPropertyProperty.cs">
-      <Link>DOM\Css\Properties\Transition\CSSTransitionPropertyProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transition\CSSTransitionPropertyProperty.cs">
+      <Link>Dom\Css\Properties\Transition\CSSTransitionPropertyProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs">
-      <Link>DOM\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs">
+      <Link>Dom\Css\Properties\Transition\CSSTransitionTimingFunctionProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs">
-      <Link>DOM\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs">
+      <Link>Dom\Css\Properties\Visibility\CSSBackfaceVisibilityProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Visibility\CSSClipProperty.cs">
-      <Link>DOM\Css\Properties\Visibility\CSSClipProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Visibility\CSSClipProperty.cs">
+      <Link>Dom\Css\Properties\Visibility\CSSClipProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Visibility\CSSOpacityProperty.cs">
-      <Link>DOM\Css\Properties\Visibility\CSSOpacityProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Visibility\CSSOpacityProperty.cs">
+      <Link>Dom\Css\Properties\Visibility\CSSOpacityProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Properties\Visibility\CSSVisibilityProperty.cs">
-      <Link>DOM\Css\Properties\Visibility\CSSVisibilityProperty.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\Visibility\CSSVisibilityProperty.cs">
+      <Link>Dom\Css\Properties\Visibility\CSSVisibilityProperty.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSCharsetRule.cs">
-      <Link>DOM\Css\Rules\CSSCharsetRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSCharsetRule.cs">
+      <Link>Dom\Css\Rules\CSSCharsetRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSConditionRule.cs">
-      <Link>DOM\Css\Rules\CSSConditionRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSConditionRule.cs">
+      <Link>Dom\Css\Rules\CSSConditionRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSDocumentRule.cs">
-      <Link>DOM\Css\Rules\CSSDocumentRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSDocumentRule.cs">
+      <Link>Dom\Css\Rules\CSSDocumentRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSFontFaceRule.cs">
-      <Link>DOM\Css\Rules\CSSFontFaceRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSFontFaceRule.cs">
+      <Link>Dom\Css\Rules\CSSFontFaceRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSGroupingRule.cs">
-      <Link>DOM\Css\Rules\CSSGroupingRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSGroupingRule.cs">
+      <Link>Dom\Css\Rules\CSSGroupingRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSImportRule.cs">
-      <Link>DOM\Css\Rules\CSSImportRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSImportRule.cs">
+      <Link>Dom\Css\Rules\CSSImportRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSKeyframeRule.cs">
-      <Link>DOM\Css\Rules\CSSKeyframeRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSKeyframeRule.cs">
+      <Link>Dom\Css\Rules\CSSKeyframeRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSKeyframesRule.cs">
-      <Link>DOM\Css\Rules\CSSKeyframesRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSKeyframesRule.cs">
+      <Link>Dom\Css\Rules\CSSKeyframesRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSMediaRule.cs">
-      <Link>DOM\Css\Rules\CSSMediaRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSMediaRule.cs">
+      <Link>Dom\Css\Rules\CSSMediaRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSNamespaceRule.cs">
-      <Link>DOM\Css\Rules\CSSNamespaceRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSNamespaceRule.cs">
+      <Link>Dom\Css\Rules\CSSNamespaceRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSPageRule.cs">
-      <Link>DOM\Css\Rules\CSSPageRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSPageRule.cs">
+      <Link>Dom\Css\Rules\CSSPageRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSRule.cs">
-      <Link>DOM\Css\Rules\CSSRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSRule.cs">
+      <Link>Dom\Css\Rules\CSSRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSRuleList.cs">
-      <Link>DOM\Css\Rules\CSSRuleList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSRuleList.cs">
+      <Link>Dom\Css\Rules\CSSRuleList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSStyleRule.cs">
-      <Link>DOM\Css\Rules\CSSStyleRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSStyleRule.cs">
+      <Link>Dom\Css\Rules\CSSStyleRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSSupportsRule.cs">
-      <Link>DOM\Css\Rules\CSSSupportsRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSSupportsRule.cs">
+      <Link>Dom\Css\Rules\CSSSupportsRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Rules\CSSUnknownRule.cs">
-      <Link>DOM\Css\Rules\CSSUnknownRule.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSUnknownRule.cs">
+      <Link>Dom\Css\Rules\CSSUnknownRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\ComplexSelector.cs">
-      <Link>DOM\Css\Selector\ComplexSelector.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\ComplexSelector.cs">
+      <Link>Dom\Css\Selector\ComplexSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\CompoundSelector.cs">
-      <Link>DOM\Css\Selector\CompoundSelector.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\CompoundSelector.cs">
+      <Link>Dom\Css\Selector\CompoundSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\KeyframeSelector.cs">
-      <Link>DOM\Css\Selector\KeyframeSelector.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\KeyframeSelector.cs">
+      <Link>Dom\Css\Selector\KeyframeSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\ListSelector.cs">
-      <Link>DOM\Css\Selector\ListSelector.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\ListSelector.cs">
+      <Link>Dom\Css\Selector\ListSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\Selectors.cs">
-      <Link>DOM\Css\Selector\Selectors.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\Selectors.cs">
+      <Link>Dom\Css\Selector\Selectors.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Selector\SimpleSelector.cs">
-      <Link>DOM\Css\Selector\SimpleSelector.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\SimpleSelector.cs">
+      <Link>Dom\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssFunction.cs">
-      <Link>DOM\Css\Values\CssFunction.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\CssFunction.cs">
+      <Link>Dom\Css\Values\CssFunction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssIdentifier.cs">
-      <Link>DOM\Css\Values\CssIdentifier.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\CssIdentifier.cs">
+      <Link>Dom\Css\Values\CssIdentifier.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssString.cs">
-      <Link>DOM\Css\Values\CssString.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\CssString.cs">
+      <Link>Dom\Css\Values\CssString.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssUrl.cs">
-      <Link>DOM\Css\Values\CssUrl.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\CssUrl.cs">
+      <Link>Dom\Css\Values\CssUrl.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssValue.cs">
-      <Link>DOM\Css\Values\CssValue.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\CssValue.cs">
+      <Link>Dom\Css\Values\CssValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\CssValueList.cs">
-      <Link>DOM\Css\Values\CssValueList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\CssValueList.cs">
+      <Link>Dom\Css\Values\CssValueList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Angle.cs">
-      <Link>DOM\Css\Values\Primitive\Angle.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Angle.cs">
+      <Link>Dom\Css\Values\Primitive\Angle.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Color.cs">
-      <Link>DOM\Css\Values\Primitive\Color.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Color.cs">
+      <Link>Dom\Css\Values\Primitive\Color.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Frequency.cs">
-      <Link>DOM\Css\Values\Primitive\Frequency.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Frequency.cs">
+      <Link>Dom\Css\Values\Primitive\Frequency.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Length.cs">
-      <Link>DOM\Css\Values\Primitive\Length.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Length.cs">
+      <Link>Dom\Css\Values\Primitive\Length.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Number.cs">
-      <Link>DOM\Css\Values\Primitive\Number.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Number.cs">
+      <Link>Dom\Css\Values\Primitive\Number.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Percent.cs">
-      <Link>DOM\Css\Values\Primitive\Percent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Percent.cs">
+      <Link>Dom\Css\Values\Primitive\Percent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Resolution.cs">
-      <Link>DOM\Css\Values\Primitive\Resolution.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Resolution.cs">
+      <Link>Dom\Css\Values\Primitive\Resolution.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Css\Values\Primitive\Time.cs">
-      <Link>DOM\Css\Values\Primitive\Time.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Time.cs">
+      <Link>Dom\Css\Values\Primitive\Time.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Document.cs">
-      <Link>DOM\Document.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Document.cs">
+      <Link>Dom\Document.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\DocumentFragment.cs">
-      <Link>DOM\DocumentFragment.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\DocumentFragment.cs">
+      <Link>Dom\DocumentFragment.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\DocumentType.cs">
-      <Link>DOM\DocumentType.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\DocumentType.cs">
+      <Link>Dom\DocumentType.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\DomEventHandler.cs">
       <Link>Dom\DomEventHandler.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\DOMException.cs">
-      <Link>DOM\DOMException.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\DOMException.cs">
+      <Link>Dom\DOMException.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\DOMImplementation.cs">
-      <Link>DOM\DOMImplementation.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\DOMImplementation.cs">
+      <Link>Dom\DOMImplementation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Element.cs">
-      <Link>DOM\Element.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Element.cs">
+      <Link>Dom\Element.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Entity.cs">
-      <Link>DOM\Entity.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Entity.cs">
+      <Link>Dom\Entity.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\EntityReference.cs">
-      <Link>DOM\EntityReference.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\EntityReference.cs">
+      <Link>Dom\EntityReference.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\CompositionEvent.cs">
-      <Link>DOM\Events\CompositionEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\CompositionEvent.cs">
+      <Link>Dom\Events\CompositionEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\CustomEvent.cs">
-      <Link>DOM\Events\CustomEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\CustomEvent.cs">
+      <Link>Dom\Events\CustomEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\ErrorEvent.cs">
-      <Link>DOM\Events\ErrorEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\ErrorEvent.cs">
+      <Link>Dom\Events\ErrorEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\Event.cs">
-      <Link>DOM\Events\Event.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\Event.cs">
+      <Link>Dom\Events\Event.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\FocusEvent.cs">
-      <Link>DOM\Events\FocusEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\FocusEvent.cs">
+      <Link>Dom\Events\FocusEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\HashChangedEvent.cs">
-      <Link>DOM\Events\HashChangedEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\HashChangedEvent.cs">
+      <Link>Dom\Events\HashChangedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\InputEvent.cs">
-      <Link>DOM\Events\InputEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\InputEvent.cs">
+      <Link>Dom\Events\InputEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\KeyboardEvent.cs">
-      <Link>DOM\Events\KeyboardEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\KeyboardEvent.cs">
+      <Link>Dom\Events\KeyboardEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\MessageEvent.cs">
-      <Link>DOM\Events\MessageEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\MessageEvent.cs">
+      <Link>Dom\Events\MessageEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\ModifierExtensions.cs">
-      <Link>DOM\Events\ModifierExtensions.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\ModifierExtensions.cs">
+      <Link>Dom\Events\ModifierExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\MouseEvent.cs">
-      <Link>DOM\Events\MouseEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\MouseEvent.cs">
+      <Link>Dom\Events\MouseEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\PageTransitionEvent.cs">
-      <Link>DOM\Events\PageTransitionEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\PageTransitionEvent.cs">
+      <Link>Dom\Events\PageTransitionEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\TouchEvent.cs">
-      <Link>DOM\Events\TouchEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\TouchEvent.cs">
+      <Link>Dom\Events\TouchEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\TrackEvent.cs">
-      <Link>DOM\Events\TrackEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\TrackEvent.cs">
+      <Link>Dom\Events\TrackEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\UiEvent.cs">
-      <Link>DOM\Events\UiEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\UiEvent.cs">
+      <Link>Dom\Events\UiEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Events\WheelEvent.cs">
-      <Link>DOM\Events\WheelEvent.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Events\WheelEvent.cs">
+      <Link>Dom\Events\WheelEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\EventTarget.cs">
-      <Link>DOM\EventTarget.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\EventTarget.cs">
+      <Link>Dom\EventTarget.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlAddressElement.cs">
-      <Link>DOM\Html\HtmlAddressElement.cs</Link>
+      <Link>Dom\Html\HtmlAddressElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlAnchorElement.cs">
-      <Link>DOM\Html\HtmlAnchorElement.cs</Link>
+      <Link>Dom\Html\HtmlAnchorElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlAppletElement.cs">
-      <Link>DOM\Html\HtmlAppletElement.cs</Link>
+      <Link>Dom\Html\HtmlAppletElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlAreaElement.cs">
-      <Link>DOM\Html\HtmlAreaElement.cs</Link>
+      <Link>Dom\Html\HtmlAreaElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlAudioElement.cs">
-      <Link>DOM\Html\HtmlAudioElement.cs</Link>
+      <Link>Dom\Html\HtmlAudioElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBaseElement.cs">
-      <Link>DOM\Html\HtmlBaseElement.cs</Link>
+      <Link>Dom\Html\HtmlBaseElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBaseFontElement.cs">
-      <Link>DOM\Html\HtmlBaseFontElement.cs</Link>
+      <Link>Dom\Html\HtmlBaseFontElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBgsoundElement.cs">
-      <Link>DOM\Html\HtmlBgsoundElement.cs</Link>
+      <Link>Dom\Html\HtmlBgsoundElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBigElement.cs">
-      <Link>DOM\Html\HtmlBigElement.cs</Link>
+      <Link>Dom\Html\HtmlBigElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBodyElement.cs">
-      <Link>DOM\Html\HtmlBodyElement.cs</Link>
+      <Link>Dom\Html\HtmlBodyElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBoldElement.cs">
-      <Link>DOM\Html\HtmlBoldElement.cs</Link>
+      <Link>Dom\Html\HtmlBoldElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlBreakRowElement.cs">
-      <Link>DOM\Html\HtmlBreakRowElement.cs</Link>
+      <Link>Dom\Html\HtmlBreakRowElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlButtonElement.cs">
-      <Link>DOM\Html\HtmlButtonElement.cs</Link>
+      <Link>Dom\Html\HtmlButtonElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlCanvasElement.cs">
-      <Link>DOM\Html\HtmlCanvasElement.cs</Link>
+      <Link>Dom\Html\HtmlCanvasElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlCodeElement.cs">
-      <Link>DOM\Html\HtmlCodeElement.cs</Link>
+      <Link>Dom\Html\HtmlCodeElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlDataElement.cs">
-      <Link>DOM\Html\HtmlDataElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlDataElement.cs">
+      <Link>Dom\Html\HtmlDataElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDataListElement.cs">
-      <Link>DOM\Html\HtmlDataListElement.cs</Link>
+      <Link>Dom\Html\HtmlDataListElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDefinitionListElement.cs">
-      <Link>DOM\Html\HtmlDefinitionListElement.cs</Link>
+      <Link>Dom\Html\HtmlDefinitionListElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDetailsElement.cs">
-      <Link>DOM\Html\HtmlDetailsElement.cs</Link>
+      <Link>Dom\Html\HtmlDetailsElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDialogElement.cs">
-      <Link>DOM\Html\HtmlDialogElement.cs</Link>
+      <Link>Dom\Html\HtmlDialogElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDirectoryElement.cs">
-      <Link>DOM\Html\HtmlDirectoryElement.cs</Link>
+      <Link>Dom\Html\HtmlDirectoryElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlDivElement.cs">
-      <Link>DOM\Html\HtmlDivElement.cs</Link>
+      <Link>Dom\Html\HtmlDivElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlElement.cs">
-      <Link>DOM\Html\HtmlElement.cs</Link>
+      <Link>Dom\Html\HtmlElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlEmbedElement.cs">
-      <Link>DOM\Html\HtmlEmbedElement.cs</Link>
+      <Link>Dom\Html\HtmlEmbedElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlEmphasizeElement.cs">
-      <Link>DOM\Html\HtmlEmphasizeElement.cs</Link>
+      <Link>Dom\Html\HtmlEmphasizeElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFieldSetElement.cs">
-      <Link>DOM\Html\HtmlFieldSetElement.cs</Link>
+      <Link>Dom\Html\HtmlFieldSetElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFontElement.cs">
-      <Link>DOM\Html\HtmlFontElement.cs</Link>
+      <Link>Dom\Html\HtmlFontElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFormControlElement.cs">
-      <Link>DOM\Html\HtmlFormControlElement.cs</Link>
+      <Link>Dom\Html\HtmlFormControlElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFormControlElementWithState.cs">
-      <Link>DOM\Html\HtmlFormControlElementWithState.cs</Link>
+      <Link>Dom\Html\HtmlFormControlElementWithState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFormElement.cs">
-      <Link>DOM\Html\HtmlFormElement.cs</Link>
+      <Link>Dom\Html\HtmlFormElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameElement.cs">
-      <Link>DOM\Html\HtmlFrameElement.cs</Link>
+      <Link>Dom\Html\HtmlFrameElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameElementBase.cs">
-      <Link>DOM\Html\HtmlFrameElementBase.cs</Link>
+      <Link>Dom\Html\HtmlFrameElementBase.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameOwnerElement.cs">
-      <Link>DOM\Html\HtmlFrameOwnerElement.cs</Link>
+      <Link>Dom\Html\HtmlFrameOwnerElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlFrameSetElement.cs">
-      <Link>DOM\Html\HtmlFrameSetElement.cs</Link>
+      <Link>Dom\Html\HtmlFrameSetElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlHeadElement.cs">
-      <Link>DOM\Html\HtmlHeadElement.cs</Link>
+      <Link>Dom\Html\HtmlHeadElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlHeadingElement.cs">
-      <Link>DOM\Html\HtmlHeadingElement.cs</Link>
+      <Link>Dom\Html\HtmlHeadingElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlHrElement.cs">
-      <Link>DOM\Html\HtmlHrElement.cs</Link>
+      <Link>Dom\Html\HtmlHrElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlHtmlElement.cs">
-      <Link>DOM\Html\HtmlHtmlElement.cs</Link>
+      <Link>Dom\Html\HtmlHtmlElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlIFrameElement.cs">
-      <Link>DOM\Html\HtmlIFrameElement.cs</Link>
+      <Link>Dom\Html\HtmlIFrameElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlImageElement.cs">
-      <Link>DOM\Html\HtmlImageElement.cs</Link>
+      <Link>Dom\Html\HtmlImageElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlInputElement.cs">
-      <Link>DOM\Html\HtmlInputElement.cs</Link>
+      <Link>Dom\Html\HtmlInputElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlIsIndexElement.cs">
-      <Link>DOM\Html\HtmlIsIndexElement.cs</Link>
+      <Link>Dom\Html\HtmlIsIndexElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlItalicElement.cs">
-      <Link>DOM\Html\HtmlItalicElement.cs</Link>
+      <Link>Dom\Html\HtmlItalicElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlKeygenElement.cs">
-      <Link>DOM\Html\HtmlKeygenElement.cs</Link>
+      <Link>Dom\Html\HtmlKeygenElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlLabelElement.cs">
-      <Link>DOM\Html\HtmlLabelElement.cs</Link>
+      <Link>Dom\Html\HtmlLabelElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlLegendElement.cs">
-      <Link>DOM\Html\HtmlLegendElement.cs</Link>
+      <Link>Dom\Html\HtmlLegendElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlLinkElement.cs">
-      <Link>DOM\Html\HtmlLinkElement.cs</Link>
+      <Link>Dom\Html\HtmlLinkElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlListItemElement.cs">
-      <Link>DOM\Html\HtmlListItemElement.cs</Link>
+      <Link>Dom\Html\HtmlListItemElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMapElement.cs">
-      <Link>DOM\Html\HtmlMapElement.cs</Link>
+      <Link>Dom\Html\HtmlMapElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMarqueeElement.cs">
-      <Link>DOM\Html\HtmlMarqueeElement.cs</Link>
+      <Link>Dom\Html\HtmlMarqueeElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMediaElement.cs">
-      <Link>DOM\Html\HtmlMediaElement.cs</Link>
+      <Link>Dom\Html\HtmlMediaElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMenuElement.cs">
-      <Link>DOM\Html\HtmlMenuElement.cs</Link>
+      <Link>Dom\Html\HtmlMenuElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMenuItemElement.cs">
-      <Link>DOM\Html\HtmlMenuItemElement.cs</Link>
+      <Link>Dom\Html\HtmlMenuItemElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMetaElement.cs">
-      <Link>DOM\Html\HtmlMetaElement.cs</Link>
+      <Link>Dom\Html\HtmlMetaElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlMeterElement.cs">
-      <Link>DOM\Html\HtmlMeterElement.cs</Link>
+      <Link>Dom\Html\HtmlMeterElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlModElement.cs">
-      <Link>DOM\Html\HtmlModElement.cs</Link>
+      <Link>Dom\Html\HtmlModElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlNoEmbedElement.cs">
-      <Link>DOM\Html\HtmlNoEmbedElement.cs</Link>
+      <Link>Dom\Html\HtmlNoEmbedElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlNoFramesElement.cs">
-      <Link>DOM\Html\HtmlNoFramesElement.cs</Link>
+      <Link>Dom\Html\HtmlNoFramesElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlNoNewlineElement.cs">
-      <Link>DOM\Html\HtmlNoNewlineElement.cs</Link>
+      <Link>Dom\Html\HtmlNoNewlineElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlNoScriptElement.cs">
-      <Link>DOM\Html\HtmlNoScriptElement.cs</Link>
+      <Link>Dom\Html\HtmlNoScriptElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlObjectElement.cs">
-      <Link>DOM\Html\HtmlObjectElement.cs</Link>
+      <Link>Dom\Html\HtmlObjectElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlOptionElement.cs">
-      <Link>DOM\Html\HtmlOptionElement.cs</Link>
+      <Link>Dom\Html\HtmlOptionElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlOptionsGroupElement.cs">
-      <Link>DOM\Html\HtmlOptionsGroupElement.cs</Link>
+      <Link>Dom\Html\HtmlOptionsGroupElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlOrderedListElement.cs">
-      <Link>DOM\Html\HtmlOrderedListElement.cs</Link>
+      <Link>Dom\Html\HtmlOrderedListElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlOutputElement.cs">
-      <Link>DOM\Html\HtmlOutputElement.cs</Link>
+      <Link>Dom\Html\HtmlOutputElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlParagraphElement.cs">
-      <Link>DOM\Html\HtmlParagraphElement.cs</Link>
+      <Link>Dom\Html\HtmlParagraphElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlParamElement.cs">
-      <Link>DOM\Html\HtmlParamElement.cs</Link>
+      <Link>Dom\Html\HtmlParamElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlPictureElement.cs">
-      <Link>DOM\Html\HtmlPictureElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlPictureElement.cs">
+      <Link>Dom\Html\HtmlPictureElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlPlaintextElement.cs">
-      <Link>DOM\Html\HtmlPlaintextElement.cs</Link>
+      <Link>Dom\Html\HtmlPlaintextElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlPreElement.cs">
-      <Link>DOM\Html\HtmlPreElement.cs</Link>
+      <Link>Dom\Html\HtmlPreElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlProgressElement.cs">
-      <Link>DOM\Html\HtmlProgressElement.cs</Link>
+      <Link>Dom\Html\HtmlProgressElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlQuoteElement.cs">
-      <Link>DOM\Html\HtmlQuoteElement.cs</Link>
+      <Link>Dom\Html\HtmlQuoteElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlRbElement.cs">
-      <Link>DOM\Html\HtmlRbElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRbElement.cs">
+      <Link>Dom\Html\HtmlRbElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRpElement.cs">
-      <Link>DOM\Html\HtmlRpElement.cs</Link>
+      <Link>Dom\Html\HtmlRpElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Html\HtmlRtcElement.cs">
-      <Link>DOM\Html\HtmlRtcElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRtcElement.cs">
+      <Link>Dom\Html\HtmlRtcElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRtElement.cs">
-      <Link>DOM\Html\HtmlRtElement.cs</Link>
+      <Link>Dom\Html\HtmlRtElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRubyElement.cs">
-      <Link>DOM\Html\HtmlRubyElement.cs</Link>
+      <Link>Dom\Html\HtmlRubyElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlScriptElement.cs">
-      <Link>DOM\Html\HtmlScriptElement.cs</Link>
+      <Link>Dom\Html\HtmlScriptElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSelectElement.cs">
-      <Link>DOM\Html\HtmlSelectElement.cs</Link>
+      <Link>Dom\Html\HtmlSelectElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSemanticElement.cs">
-      <Link>DOM\Html\HtmlSemanticElement.cs</Link>
+      <Link>Dom\Html\HtmlSemanticElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSmallElement.cs">
-      <Link>DOM\Html\HtmlSmallElement.cs</Link>
+      <Link>Dom\Html\HtmlSmallElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSourceElement.cs">
-      <Link>DOM\Html\HtmlSourceElement.cs</Link>
+      <Link>Dom\Html\HtmlSourceElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSpanElement.cs">
-      <Link>DOM\Html\HtmlSpanElement.cs</Link>
+      <Link>Dom\Html\HtmlSpanElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlStrikeElement.cs">
-      <Link>DOM\Html\HtmlStrikeElement.cs</Link>
+      <Link>Dom\Html\HtmlStrikeElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlStrongElement.cs">
-      <Link>DOM\Html\HtmlStrongElement.cs</Link>
+      <Link>Dom\Html\HtmlStrongElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlStruckElement.cs">
-      <Link>DOM\Html\HtmlStruckElement.cs</Link>
+      <Link>Dom\Html\HtmlStruckElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlStyleElement.cs">
-      <Link>DOM\Html\HtmlStyleElement.cs</Link>
+      <Link>Dom\Html\HtmlStyleElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableCaptionElement.cs">
-      <Link>DOM\Html\HtmlTableCaptionElement.cs</Link>
+      <Link>Dom\Html\HtmlTableCaptionElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableCellElement.cs">
-      <Link>DOM\Html\HtmlTableCellElement.cs</Link>
+      <Link>Dom\Html\HtmlTableCellElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableColElement.cs">
-      <Link>DOM\Html\HtmlTableColElement.cs</Link>
+      <Link>Dom\Html\HtmlTableColElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableColgroupElement.cs">
-      <Link>DOM\Html\HtmlTableColgroupElement.cs</Link>
+      <Link>Dom\Html\HtmlTableColgroupElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableDataCellElement.cs">
-      <Link>DOM\Html\HtmlTableDataCellElement.cs</Link>
+      <Link>Dom\Html\HtmlTableDataCellElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableElement.cs">
-      <Link>DOM\Html\HtmlTableElement.cs</Link>
+      <Link>Dom\Html\HtmlTableElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableHeaderCellElement.cs">
-      <Link>DOM\Html\HtmlTableHeaderCellElement.cs</Link>
+      <Link>Dom\Html\HtmlTableHeaderCellElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableRowElement.cs">
-      <Link>DOM\Html\HtmlTableRowElement.cs</Link>
+      <Link>Dom\Html\HtmlTableRowElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTableSectionElement.cs">
-      <Link>DOM\Html\HtmlTableSectionElement.cs</Link>
+      <Link>Dom\Html\HtmlTableSectionElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTeletypeTextElement.cs">
-      <Link>DOM\Html\HtmlTeletypeTextElement.cs</Link>
+      <Link>Dom\Html\HtmlTeletypeTextElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTemplateElement.cs">
-      <Link>DOM\Html\HtmlTemplateElement.cs</Link>
+      <Link>Dom\Html\HtmlTemplateElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTextAreaElement.cs">
-      <Link>DOM\Html\HtmlTextAreaElement.cs</Link>
+      <Link>Dom\Html\HtmlTextAreaElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTextFormControlElement.cs">
-      <Link>DOM\Html\HtmlTextFormControlElement.cs</Link>
+      <Link>Dom\Html\HtmlTextFormControlElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTimeElement.cs">
-      <Link>DOM\Html\HtmlTimeElement.cs</Link>
+      <Link>Dom\Html\HtmlTimeElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTitleElement.cs">
-      <Link>DOM\Html\HtmlTitleElement.cs</Link>
+      <Link>Dom\Html\HtmlTitleElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlTrackElement.cs">
-      <Link>DOM\Html\HtmlTrackElement.cs</Link>
+      <Link>Dom\Html\HtmlTrackElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlUnderlineElement.cs">
-      <Link>DOM\Html\HtmlUnderlineElement.cs</Link>
+      <Link>Dom\Html\HtmlUnderlineElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlUnknownElement.cs">
-      <Link>DOM\Html\HtmlUnknownElement.cs</Link>
+      <Link>Dom\Html\HtmlUnknownElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlUnorderedListElement.cs">
-      <Link>DOM\Html\HtmlUnorderedListElement.cs</Link>
+      <Link>Dom\Html\HtmlUnorderedListElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlVideoElement.cs">
-      <Link>DOM\Html\HtmlVideoElement.cs</Link>
+      <Link>Dom\Html\HtmlVideoElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlWbrElement.cs">
-      <Link>DOM\Html\HtmlWbrElement.cs</Link>
+      <Link>Dom\Html\HtmlWbrElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlXmpElement.cs">
-      <Link>DOM\Html\HtmlXmpElement.cs</Link>
+      <Link>Dom\Html\HtmlXmpElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\ValidityState.cs">
-      <Link>DOM\Html\ValidityState.cs</Link>
+      <Link>Dom\Html\ValidityState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Io\FileEntry.cs">
-      <Link>DOM\Io\FileEntry.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Io\FileEntry.cs">
+      <Link>Dom\Io\FileEntry.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Io\FileList.cs">
-      <Link>DOM\Io\FileList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Io\FileList.cs">
+      <Link>Dom\Io\FileList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Location.cs">
-      <Link>DOM\Location.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Location.cs">
+      <Link>Dom\Location.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathAnnotationXmlElement.cs">
-      <Link>DOM\Mathml\MathAnnotationXmlElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathAnnotationXmlElement.cs">
+      <Link>Dom\Mathml\MathAnnotationXmlElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathElement.cs">
-      <Link>DOM\Mathml\MathElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathElement.cs">
+      <Link>Dom\Mathml\MathElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathIdentifierElement.cs">
-      <Link>DOM\Mathml\MathIdentifierElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathIdentifierElement.cs">
+      <Link>Dom\Mathml\MathIdentifierElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathNumberElement.cs">
-      <Link>DOM\Mathml\MathNumberElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathNumberElement.cs">
+      <Link>Dom\Mathml\MathNumberElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathOperatorElement.cs">
-      <Link>DOM\Mathml\MathOperatorElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathOperatorElement.cs">
+      <Link>Dom\Mathml\MathOperatorElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathStringElement.cs">
-      <Link>DOM\Mathml\MathStringElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathStringElement.cs">
+      <Link>Dom\Mathml\MathStringElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Mathml\MathTextElement.cs">
-      <Link>DOM\Mathml\MathTextElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Mathml\MathTextElement.cs">
+      <Link>Dom\Mathml\MathTextElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\MutationCallback.cs">
       <Link>Dom\MutationCallback.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\MutationHost.cs">
-      <Link>DOM\MutationHost.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\MutationHost.cs">
+      <Link>Dom\MutationHost.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\MutationObserver.cs">
-      <Link>DOM\MutationObserver.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\MutationObserver.cs">
+      <Link>Dom\MutationObserver.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\MutationObserverInit.cs">
-      <Link>DOM\MutationObserverInit.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\MutationObserverInit.cs">
+      <Link>Dom\MutationObserverInit.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\MutationRecord.cs">
-      <Link>DOM\MutationRecord.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\MutationRecord.cs">
+      <Link>Dom\MutationRecord.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Node.cs">
-      <Link>DOM\Node.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Node.cs">
+      <Link>Dom\Node.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\NodeFilter.cs">
       <Link>Dom\NodeFilter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Notation.cs">
-      <Link>DOM\Notation.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Notation.cs">
+      <Link>Dom\Notation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\ProcessingInstruction.cs">
-      <Link>DOM\ProcessingInstruction.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\ProcessingInstruction.cs">
+      <Link>Dom\ProcessingInstruction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\PseudoElement.cs">
-      <Link>DOM\PseudoElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\PseudoElement.cs">
+      <Link>Dom\PseudoElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\ScriptOptions.cs">
       <Link>Dom\ScriptOptions.cs</Link>
@@ -1642,41 +1642,41 @@
     <Compile Include="..\AngleSharp\Dom\StyleOptions.cs">
       <Link>Dom\StyleOptions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\StyleSheet.cs">
-      <Link>DOM\StyleSheet.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\StyleSheet.cs">
+      <Link>Dom\StyleSheet.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\StyleSheetList.cs">
-      <Link>DOM\StyleSheetList.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\StyleSheetList.cs">
+      <Link>Dom\StyleSheetList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGCircleElement.cs">
-      <Link>DOM\Svg\SVGCircleElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Svg\SVGCircleElement.cs">
+      <Link>Dom\Svg\SVGCircleElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGDescElement.cs">
-      <Link>DOM\Svg\SVGDescElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Svg\SVGDescElement.cs">
+      <Link>Dom\Svg\SVGDescElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGElement.cs">
-      <Link>DOM\Svg\SVGElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Svg\SVGElement.cs">
+      <Link>Dom\Svg\SVGElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGForeignObjectElement.cs">
-      <Link>DOM\Svg\SVGForeignObjectElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Svg\SVGForeignObjectElement.cs">
+      <Link>Dom\Svg\SVGForeignObjectElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGSVGElement.cs">
-      <Link>DOM\Svg\SVGSVGElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Svg\SVGSVGElement.cs">
+      <Link>Dom\Svg\SVGSVGElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Svg\SVGTitleElement.cs">
-      <Link>DOM\Svg\SVGTitleElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Svg\SVGTitleElement.cs">
+      <Link>Dom\Svg\SVGTitleElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\TextNode.cs">
-      <Link>DOM\TextNode.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\TextNode.cs">
+      <Link>Dom\TextNode.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Window.cs">
-      <Link>DOM\Window.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Window.cs">
+      <Link>Dom\Window.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Xml\XmlDocument.cs">
-      <Link>DOM\Xml\XmlDocument.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Xml\XmlDocument.cs">
+      <Link>Dom\Xml\XmlDocument.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DOM\Xml\XmlElement.cs">
-      <Link>DOM\Xml\XmlElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Xml\XmlElement.cs">
+      <Link>Dom\Xml\XmlElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\AttrExtensions.cs">
       <Link>Extensions\AttrExtensions.cs</Link>
