@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssColumnFillProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> Converter = 
-            Converters.Toggle(Keywords.Balance, Keywords.Auto);
-
-        #endregion
-
         #region ctor
 
         internal CssColumnFillProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.ColumnFillConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.ColumnFillConverter.Validate(value);
         }
 
         #endregion

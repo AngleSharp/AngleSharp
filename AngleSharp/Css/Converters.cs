@@ -691,6 +691,16 @@
         /// </summary>
         public static readonly IValueConverter<Boolean> BoxDecorationConverter = Converters.Toggle(Keywords.Clone, Keywords.Slice);
 
+        /// <summary>
+        /// Represents a converter for the column span mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> ColumnSpanConverter = Converters.Toggle(Keywords.All, Keywords.None);
+
+        /// <summary>
+        /// Represents a converter for the column fill mode.
+        /// </summary>
+        public static readonly IValueConverter<Boolean> ColumnFillConverter = Converters.Toggle(Keywords.Balance, Keywords.Auto);
+
         #endregion
 
         #region Misc
