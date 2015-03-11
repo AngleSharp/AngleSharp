@@ -54,6 +54,7 @@
     <Compile Include="Css\PseudoClassNames.cs" />
     <Compile Include="Css\PseudoElementNames.cs" />
     <Compile Include="Css\RenderDevice.cs" />
+    <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\ValueConverters\AtomicValueConverter.cs" />
     <Compile Include="Css\Converters.cs" />
     <Compile Include="Css\ValueConverters\GradientConverter.cs" />
