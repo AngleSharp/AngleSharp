@@ -552,6 +552,12 @@
         /// </summary>
         public static readonly IValueConverter<Length?> AutoLengthOrPercentConverter = LengthOrPercentConverter.OrNullDefault();
 
+        /// <summary>
+        /// Represents a length for a font size.
+        /// </summary>
+        public static readonly IValueConverter<Length> FontSizeConverter = LengthOrPercentConverter.Or(
+            Map.FontSizes.ToConverter().To(m => m.ToLength()));
+
         #endregion
 
         #region Maps

@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssFontSizeProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length> Converter = 
-            Converters.LengthOrPercentConverter.Or(Map.FontSizes.ToConverter().To(m => m.ToLength()));
-
-        #endregion
-
         #region ctor
 
         internal CssFontSizeProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.FontSizeConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.FontSizeConverter.Validate(value);
         }
 
         #endregion

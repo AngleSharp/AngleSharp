@@ -32,7 +32,7 @@
                     CssFontWeightProperty.Converter.Val().Option(),
                     Converters.FontStretchConverter.Val().Option()),
                 Converters.WithOrder(
-                    CssFontSizeProperty.Converter.Val().Required(),
+                    Converters.FontSizeConverter.Val().Required(),
                     Converters.LineHeightConverter.Val().StartsWithDelimiter().Option()),
                 CssFontFamilyProperty.Converter.Val().Required());
 
