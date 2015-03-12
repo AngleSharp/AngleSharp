@@ -132,8 +132,10 @@
                         continue;
 
                     if (clearPreviousValue.HasValue == false || clearPreviousValue.Value == true)
+                    {
                         clearPreviousValue = (record.IsAttribute && options.IsExaminingOldAttributeValue.Value == false) ||
                             (record.IsCharacterData && options.IsExaminingOldCharacterData.Value == false);
+                    }
                 }
 
                 if (clearPreviousValue == null)
