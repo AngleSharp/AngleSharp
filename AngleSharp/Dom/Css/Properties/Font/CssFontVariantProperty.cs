@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssFontVariantProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<FontVariant> Converter = 
-            Converters.Assign(Keywords.Normal, FontVariant.Normal).Or(Keywords.SmallCaps, FontVariant.SmallCaps);
-
-        #endregion
-
         #region ctor
 
         internal CssFontVariantProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.FontVariantConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.FontVariantConverter.Validate(value);
         }
 
         #endregion

@@ -122,6 +122,11 @@
         /// </summary>
         public static readonly IValueConverter<Color> PureColorConverter = new StructValueConverter<Color>(ValueExtensions.ToColor);
 
+        /// <summary>
+        /// Represents a distance object (either Length or Percent).
+        /// </summary>
+        public static readonly IValueConverter<Length> LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
+
         #endregion
 
         #region Functions
@@ -236,9 +241,12 @@
         {
             var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
             var defaultValue = new { Width = Length.Zero, Height = Length.Zero, SizeMode = RadialGradient.SizeMode.FarthestCorner };
-            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.To(m => new { Width = m, Height = m, SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
-            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).To(m => new { Width = m[0], Height = m[1], SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
-            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter().To(m => new { Width = Length.Zero, Height = Length.Zero, SizeMode = m })), position);
+            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.To(
+                m => new { Width = m, Height = m, SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
+            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).To(
+                m => new { Width = m[0], Height = m[1], SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
+            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter().To(
+                m => new { Width = Length.Zero, Height = Length.Zero, SizeMode = m })), position);
 
             var gradient = new GradientConverter<Tuple<Boolean, Length, Length, RadialGradient.SizeMode, Point>>(
                 circle.Or(ellipse.Or(extents)).To(m => Tuple.Create(m.Item1.Item1, m.Item1.Item2.Width, m.Item1.Item2.Height, m.Item1.Item2.SizeMode, m.Item2)), 
@@ -394,11 +402,6 @@
         #region Composed
 
         /// <summary>
-        /// Represents a distance object (either Length or Percent).
-        /// </summary>
-        public static readonly IValueConverter<Length> LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
-
-        /// <summary>
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
@@ -528,6 +531,12 @@
             Keywords.Normal, new Length(1f, Length.Unit.Em));
 
         /// <summary>
+        /// Represents a length object or null, when "normal" is given.
+        /// </summary>
+        public static readonly IValueConverter<Length?> OptionalLengthConverter = LengthConverter.ToNullable().Or(
+            Keywords.Normal, null);
+
+        /// <summary>
         /// Represents a length (or default).
         /// </summary>
         public static readonly IValueConverter<Length?> AutoLengthConverter = LengthConverter.OrNullDefault();
@@ -619,6 +628,12 @@
             Keywords.Running, PlayState.Running).Or(Keywords.Paused, PlayState.Paused);
 
         /// <summary>
+        /// Represents a converter for the FontVariant enumeration.
+        /// </summary>
+        public static readonly IValueConverter<FontVariant> FontVariantConverter = Converters.Assign(
+            Keywords.Normal, FontVariant.Normal).Or(Keywords.SmallCaps, FontVariant.SmallCaps);
+
+        /// <summary>
         /// Represents a converter for the DirectionMode enumeration.
         /// </summary>
         public static readonly IValueConverter<DirectionMode> DirectionModeConverter = Converters.Assign(
@@ -679,6 +694,11 @@
         /// </summary>
         public static readonly IValueConverter<FontStretch> FontStretchConverter = Map.FontStretches.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the FontStyle enumeration.
+        /// </summary>
+        public static readonly IValueConverter<FontStyle> FontStyleConverter = Map.FontStyles.ToConverter();
+
         #endregion
 
         #region Toggles
@@ -686,42 +706,42 @@
         /// <summary>
         /// Represents a converter for the table layout mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> TableLayoutConverter = Converters.Toggle(Keywords.Fixed, Keywords.Auto);
+        public static readonly IValueConverter<Boolean> TableLayoutConverter = Toggle(Keywords.Fixed, Keywords.Auto);
 
         /// <summary>
         /// Represents a converter for the empty cells mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> EmptyCellsConverter = Converters.Toggle(Keywords.Show, Keywords.Hide);
+        public static readonly IValueConverter<Boolean> EmptyCellsConverter = Toggle(Keywords.Show, Keywords.Hide);
 
         /// <summary>
         /// Represents a converter for the caption side mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> CaptionSideConverter = Converters.Toggle(Keywords.Top, Keywords.Bottom);
+        public static readonly IValueConverter<Boolean> CaptionSideConverter = Toggle(Keywords.Top, Keywords.Bottom);
 
         /// <summary>
         /// Represents a converter for the backface visibility mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> BackfaceVisibilityConverter = Converters.Toggle(Keywords.Visible, Keywords.Hidden);
+        public static readonly IValueConverter<Boolean> BackfaceVisibilityConverter = Toggle(Keywords.Visible, Keywords.Hidden);
 
         /// <summary>
         /// Represents a converter for the border collapse mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> BorderCollapseConverter = Converters.Toggle(Keywords.Separate, Keywords.Collapse);
+        public static readonly IValueConverter<Boolean> BorderCollapseConverter = Toggle(Keywords.Separate, Keywords.Collapse);
 
         /// <summary>
         /// Represents a converter for the box decoration break mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> BoxDecorationConverter = Converters.Toggle(Keywords.Clone, Keywords.Slice);
+        public static readonly IValueConverter<Boolean> BoxDecorationConverter = Toggle(Keywords.Clone, Keywords.Slice);
 
         /// <summary>
         /// Represents a converter for the column span mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> ColumnSpanConverter = Converters.Toggle(Keywords.All, Keywords.None);
+        public static readonly IValueConverter<Boolean> ColumnSpanConverter = Toggle(Keywords.All, Keywords.None);
 
         /// <summary>
         /// Represents a converter for the column fill mode.
         /// </summary>
-        public static readonly IValueConverter<Boolean> ColumnFillConverter = Converters.Toggle(Keywords.Balance, Keywords.Auto);
+        public static readonly IValueConverter<Boolean> ColumnFillConverter = Toggle(Keywords.Balance, Keywords.Auto);
 
         #endregion
 

@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssFontStyleProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<FontStyle> Converter = 
-            Map.FontStyles.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssFontStyleProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.FontStyleConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.FontStyleConverter.Validate(value);
         }
 
         #endregion

@@ -13,13 +13,6 @@
     /// </summary>
     sealed class CssWordSpacingProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Length?> Converter = 
-            Converters.LengthConverter.ToNullable().Or(Keywords.Normal, null);
-
-        #endregion
-
         #region ctor
 
         internal CssWordSpacingProperty(CssStyleDeclaration rule)
@@ -38,12 +31,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.OptionalLengthConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.OptionalLengthConverter.Validate(value);
         }
 
         #endregion

@@ -13,15 +13,13 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase)
+        internal static readonly IValueConverter<FontWeight> Converter = (new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase)
         {
             { Keywords.Normal, new FontWeight { IsRelative = false, Value = 400 } },
             { Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 } },
             { Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 } },
             { Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 } }
-        };
-
-        internal static readonly IValueConverter<FontWeight> Converter = FontWeights.ToConverter().Or(
+        }).ToConverter().Or(
             Converters.IntegerConverter.Constraint(m => m >= 100 && m <= 900).To(
             m => new FontWeight { IsRelative = false, Value = m }));
 
@@ -40,7 +38,7 @@
 
         protected override Object GetDefault(IElement element)
         {
-            return FontWeights[Keywords.Normal];
+            return new FontWeight { IsRelative = false, Value = 400 };
         }
 
         protected override Object Compute(IElement element)

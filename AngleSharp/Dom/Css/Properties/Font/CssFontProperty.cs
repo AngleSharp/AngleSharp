@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, SystemFont> _parts = new Dictionary<String, SystemFont>()
+        internal static readonly IValueConverter<SystemFont> SystemFontConverter = (new Dictionary<String, SystemFont>()
         {
             { Keywords.Caption, SystemFont.Caption },
             { Keywords.Icon, SystemFont.Icon },
@@ -22,24 +22,19 @@
             { Keywords.MessageBox, SystemFont.MessageBox },
             { Keywords.SmallCaption, SystemFont.SmallCaption },
             { Keywords.StatusBar, SystemFont.StatusBar }
-        };
-
-        internal static readonly IValueConverter<SystemFont> SystemFontConverter = _parts.ToConverter();
+        }).ToConverter();
 
         internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = 
             Converters.WithOrder(
-            Converters.WithAny(
-                CssFontStyleProperty.Converter.Val().Option(),
-                CssFontVariantProperty.Converter.Val().Option(),
-                CssFontWeightProperty.Converter.Val().Option(),
-                Converters.FontStretchConverter.Val().Option()
-            ),
-            Converters.WithOrder(
-                CssFontSizeProperty.Converter.Val().Required(),
-                Converters.LineHeightConverter.Val().StartsWithDelimiter().Option()
-            ),
-            CssFontFamilyProperty.Converter.Val().Required()
-        );
+                Converters.WithAny(
+                    Converters.FontStyleConverter.Val().Option(),
+                    Converters.FontVariantConverter.Val().Option(),
+                    CssFontWeightProperty.Converter.Val().Option(),
+                    Converters.FontStretchConverter.Val().Option()),
+                Converters.WithOrder(
+                    CssFontSizeProperty.Converter.Val().Required(),
+                    Converters.LineHeightConverter.Val().StartsWithDelimiter().Option()),
+                CssFontFamilyProperty.Converter.Val().Required());
 
         #endregion
 
