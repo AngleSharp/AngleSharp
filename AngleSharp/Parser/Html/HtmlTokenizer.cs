@@ -359,38 +359,37 @@
             if (c == Symbols.Solidus)
             {
                 _stringBuffer.Clear();
-                return RawtextEndTag(position);
+                return RawtextEndTag();
             }
-
-            _buffer.Append(Symbols.LessThan);
-            return Rawtext(c);
+            else
+            {
+                _buffer.Append(Symbols.LessThan);
+                return Rawtext(c);
+            }
         }
 
         /// <summary>
         /// See 8.2.4.15 RAWTEXT end tag open state
         /// </summary>
-        /// <param name="position">The start position.</param>
-        HtmlToken RawtextEndTag(TextPosition position)
+        HtmlToken RawtextEndTag()
         {
             var c = GetNext();
 
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear().Append(Char.ToLower(c));
+                return RawtextNameEndTag(HtmlTagToken.Close());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear().Append(c);
+                return RawtextNameEndTag(HtmlTagToken.Close());
             }
             else
             {
                 _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return Rawtext(c);
             }
-
-            var tag = HtmlTagToken.Close();
-            //tag.Start = position;
-            return RawtextNameEndTag(tag);
         }
 
         /// <summary>
