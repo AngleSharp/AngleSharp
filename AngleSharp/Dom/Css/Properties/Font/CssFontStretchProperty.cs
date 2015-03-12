@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssFontStretchProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<FontStretch> Converter = 
-            Map.FontStretches.ToConverter();
-
-        #endregion
-
         #region ctor
 
         internal CssFontStretchProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.FontStretchConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.FontStretchConverter.Validate(value);
         }
 
         #endregion

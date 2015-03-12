@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
+        static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
                 Converters.ColorConverter.Val().Option(),
                 Converters.LineWidthConverter.Val().Option(),

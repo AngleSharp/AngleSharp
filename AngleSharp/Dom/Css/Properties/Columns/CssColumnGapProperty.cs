@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssColumnGapProperty : CssProperty
     {
-        #region Fields
-
-        static readonly IValueConverter<Length> Converter = 
-            Converters.LengthConverter.Or(Keywords.Normal, new Length(1f, Length.Unit.Em));
-
-        #endregion
-
         #region ctor
 
         internal CssColumnGapProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.LengthOrNormalConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.LengthOrNormalConverter.Validate(value);
         }
 
         #endregion

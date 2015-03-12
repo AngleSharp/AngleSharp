@@ -32,7 +32,7 @@
                 CssFontStyleProperty.Converter.Val().Option(),
                 CssFontVariantProperty.Converter.Val().Option(),
                 CssFontWeightProperty.Converter.Val().Option(),
-                CssFontStretchProperty.Converter.Val().Option()
+                Converters.FontStretchConverter.Val().Option()
             ),
             Converters.WithOrder(
                 CssFontSizeProperty.Converter.Val().Required(),

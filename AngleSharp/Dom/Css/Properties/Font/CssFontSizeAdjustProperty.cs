@@ -11,13 +11,6 @@
     /// </summary>
     sealed class CssFontSizeAdjustProperty : CssProperty
     {
-        #region Fields
-
-        internal static readonly IValueConverter<Single?> Converter = 
-            Converters.NumberConverter.ToNullable().Or(Keywords.None, null);
-
-        #endregion
-
         #region ctor
 
         internal CssFontSizeAdjustProperty(CssStyleDeclaration rule)
@@ -36,12 +29,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return Converters.OptionalNumberConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(ICssValue value)
         {
-            return Converter.Validate(value);
+            return Converters.OptionalNumberConverter.Validate(value);
         }
 
         #endregion

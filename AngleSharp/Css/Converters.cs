@@ -93,17 +93,6 @@
         public static readonly IValueConverter<Int32> IntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToInteger);
 
         /// <summary>
-        /// Represents an optional integer object.
-        /// </summary>
-        public static readonly IValueConverter<Int32?> OptionalIntegerConverter = IntegerConverter.OrNullDefault();
-
-        /// <summary>
-        /// Represents an integer object that is zero or greater.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
-        /// </summary>
-        public static readonly IValueConverter<Int32> PositiveIntegerConverter = IntegerConverter.Constraint(m => m >= 0);
-
-        /// <summary>
         /// Represents an angle object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/angle
         /// </summary>
@@ -116,12 +105,6 @@
         public static readonly IValueConverter<Single> NumberConverter = new StructValueConverter<Single>(ValueExtensions.ToSingle);
 
         /// <summary>
-        /// Represents a positive or infinite number object.
-        /// </summary>
-        public static readonly IValueConverter<Single> PositiveOrInfiniteNumberConverter = NumberConverter.Constraint(
-            m => m >= 0f).Or(Keywords.Infinite, Single.PositiveInfinity);
-
-        /// <summary>
         /// Represents a percentage object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
         /// </summary>
@@ -132,27 +115,6 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
         public static readonly IValueConverter<Byte> ByteConverter = new StructValueConverter<Byte>(ValueExtensions.ToByte);
-
-        /// <summary>
-        /// Represents a distance object (either Length or Percent).
-        /// </summary>
-        public static readonly IValueConverter<Length> LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
-
-        /// <summary>
-        /// Represents a distance object (either Length or Percent) or none.
-        /// </summary>
-        public static readonly IValueConverter<Length?> OptionalLengthOrPercentConverter = LengthOrPercentConverter.ToNullable().Or(
-            Keywords.None, null);
-
-        /// <summary>
-        /// Represents a distance object (or default).
-        /// </summary>
-        public static readonly IValueConverter<Length?> AutoLengthOrPercentConverter = LengthOrPercentConverter.OrNullDefault();
-
-        /// <summary>
-        /// Represents a length (or default).
-        /// </summary>
-        public static readonly IValueConverter<Length?> AutoLengthConverter = LengthConverter.OrNullDefault();
 
         /// <summary>
         /// Represents an color object (usually hex or name).
@@ -432,6 +394,11 @@
         #region Composed
 
         /// <summary>
+        /// Represents a distance object (either Length or Percent).
+        /// </summary>
+        public static readonly IValueConverter<Length> LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
+
+        /// <summary>
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
@@ -525,6 +492,56 @@
         public static readonly IValueConverter<Tuple<Length, Length?>> BorderRadiusConverter = WithOrder(
             LengthOrPercentConverter.Required(),
             LengthOrPercentConverter.ToNullable().Option(null));
+
+        #endregion
+
+        #region Specific
+
+        /// <summary>
+        /// Represents an optional integer object.
+        /// </summary>
+        public static readonly IValueConverter<Int32?> OptionalIntegerConverter = IntegerConverter.OrNullDefault();
+
+        /// <summary>
+        /// Represents an integer object that is zero or greater.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
+        /// </summary>
+        public static readonly IValueConverter<Int32> PositiveIntegerConverter = IntegerConverter.Constraint(
+            m => m >= 0);
+
+        /// <summary>
+        /// Represents a positive or infinite number object.
+        /// </summary>
+        public static readonly IValueConverter<Single> PositiveOrInfiniteNumberConverter = NumberConverter.Constraint(
+            m => m >= 0f).Or(Keywords.Infinite, Single.PositiveInfinity);
+
+        /// <summary>
+        /// Represents a positive or infinite number object.
+        /// </summary>
+        public static readonly IValueConverter<Single?> OptionalNumberConverter = NumberConverter.ToNullable().Or(
+            Keywords.None, null);
+
+        /// <summary>
+        /// Represents a length object or alternatively a fixed length when "normal" is given.
+        /// </summary>
+        public static readonly IValueConverter<Length> LengthOrNormalConverter = LengthConverter.Or(
+            Keywords.Normal, new Length(1f, Length.Unit.Em));
+
+        /// <summary>
+        /// Represents a length (or default).
+        /// </summary>
+        public static readonly IValueConverter<Length?> AutoLengthConverter = LengthConverter.OrNullDefault();
+
+        /// <summary>
+        /// Represents a distance object (either Length or Percent) or none.
+        /// </summary>
+        public static readonly IValueConverter<Length?> OptionalLengthOrPercentConverter = LengthOrPercentConverter.ToNullable().Or(
+            Keywords.None, null);
+
+        /// <summary>
+        /// Represents a distance object (or default).
+        /// </summary>
+        public static readonly IValueConverter<Length?> AutoLengthOrPercentConverter = LengthOrPercentConverter.OrNullDefault();
 
         #endregion
 
@@ -656,6 +673,11 @@
         /// Represents a converter for the ClearMode enumeration.
         /// </summary>
         public static readonly IValueConverter<ClearMode> ClearModeConverter = Map.ClearModes.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FontStretch enumeration.
+        /// </summary>
+        public static readonly IValueConverter<FontStretch> FontStretchConverter = Map.FontStretches.ToConverter();
 
         #endregion
 
