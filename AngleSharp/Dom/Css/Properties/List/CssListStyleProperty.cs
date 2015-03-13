@@ -16,9 +16,9 @@
 
         static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
-                Converters.ListStyleConverter.Val().Option(null).Val(),
-                Converters.ListPositionConverter.Val().Option(null).Val(),
-                Converters.OptionalImageSourceConverter.Val().Option(null).Val());
+                Converters.ListStyleConverter.Val().Option().Val(),
+                Converters.ListPositionConverter.Val().Option().Val(),
+                Converters.OptionalImageSourceConverter.Val().Option().Val());
 
         #endregion
 

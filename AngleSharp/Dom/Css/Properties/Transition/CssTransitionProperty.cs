@@ -16,10 +16,10 @@
 
         internal static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>[]> Converter = 
             Converters.WithAny(
-                Converters.AnimatableConverter.Val().Option(null),
-                Converters.TimeConverter.Val().Option(null),
-                Converters.TransitionConverter.Val().Option(null),
-                Converters.TimeConverter.Val().Option(null)).FromList();
+                Converters.AnimatableConverter.Val().Option(),
+                Converters.TimeConverter.Val().Option(),
+                Converters.TransitionConverter.Val().Option(),
+                Converters.TimeConverter.Val().Option()).FromList();
 
         #endregion
 

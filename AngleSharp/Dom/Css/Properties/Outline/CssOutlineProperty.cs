@@ -16,9 +16,9 @@
 
         static readonly IValueConverter<Tuple<ICssValue, ICssValue, ICssValue>> Converter = 
             Converters.WithAny(
-                Converters.LineWidthConverter.Val().Option(null),
-                Converters.LineStyleConverter.Val().Option(null),
-                Converters.InvertedColorConverter.Val().Option(null));
+                Converters.LineWidthConverter.Val().Option(),
+                Converters.LineStyleConverter.Val().Option(),
+                Converters.InvertedColorConverter.Val().Option());
 
         #endregion
 
