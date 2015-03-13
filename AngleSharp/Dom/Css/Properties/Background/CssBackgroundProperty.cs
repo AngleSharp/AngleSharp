@@ -104,21 +104,35 @@
                 return String.Empty;
 
             var values = new List<String>();
-            values.Add(image.SerializeValue());
-            values.Add(position.SerializeValue());
 
-            if (size.HasValue)
+            if (image.HasValue)
+                values.Add(image.SerializeValue());
+
+            if (position.HasValue || size.HasValue)
             {
-                values.Add("/");
-                values.Add(size.SerializeValue());
+                values.Add(position.SerializeValue());
+
+                if (size.HasValue)
+                {
+                    values.Add("/");
+                    values.Add(size.SerializeValue());
+                }
             }
 
-            values.Add(repeat.SerializeValue());
-            values.Add(attachment.SerializeValue());
-            values.Add(clip.SerializeValue());
-            values.Add(origin.SerializeValue());
-            values.Add(color.SerializeValue());
-            values.RemoveAll(m => String.IsNullOrEmpty(m));
+            if (repeat.HasValue)
+                values.Add(repeat.SerializeValue());
+
+            if (attachment.HasValue)
+                values.Add(attachment.SerializeValue());
+
+            if (clip.HasValue)
+                values.Add(clip.SerializeValue());
+
+            if (origin.HasValue)
+                values.Add(origin.SerializeValue());
+
+            if (color.HasValue)
+                values.Add(color.SerializeValue());
 
             return String.Join(" ", values);
         }
