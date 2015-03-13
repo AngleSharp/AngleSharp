@@ -56,33 +56,30 @@
             var outset = properties.OfType<CssBorderImageOutsetProperty>().FirstOrDefault();
             var repeat = properties.OfType<CssBorderImageRepeatProperty>().FirstOrDefault();
 
-            if (source == null)
+            if (source == null || slice == null || width == null || outset == null || repeat == null)
                 return String.Empty;
 
             var values = new List<String>();
             values.Add(source.SerializeValue());
 
-            if (slice != null && slice.HasValue)
+            if (slice.HasValue)
                 values.Add(slice.SerializeValue());
 
-            var hasWidth = (width != null && width.HasValue);
-            var hasOutset = (outset != null && outset.HasValue);
-
-            if (hasWidth || hasOutset)
+            if (width.HasValue || outset.HasValue)
             {
                 values.Add("/");
 
-                if (hasWidth)
+                if (width.HasValue)
                     values.Add(width.SerializeValue());
 
-                if (hasOutset)
+                if (outset.HasValue)
                 {
                     values.Add("/");
                     values.Add(outset.SerializeValue());
                 }
             }
 
-            if (repeat != null && repeat.HasValue)
+            if (repeat.HasValue)
                 values.Add(repeat.SerializeValue());
 
             return String.Format(" ", values);

@@ -52,6 +52,8 @@
 
             if (topLeft == null || topRight == null || bottomRight == null || bottomLeft == null)
                 return String.Empty;
+            else if (!topLeft.HasValue || !topRight.HasValue || !bottomRight.HasValue || !bottomLeft.HasValue)
+                return String.Empty;
 
             return SerializePeriodic(topLeft, topRight, bottomRight, bottomLeft);
         }

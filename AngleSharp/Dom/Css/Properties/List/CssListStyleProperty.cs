@@ -52,16 +52,18 @@
             if (type == null || position == null || image == null)
                 return String.Empty;
 
-            var result = Pool.NewStringBuilder();
-            result.Append(type.SerializeValue());
+            var result = new List<String>();
+
+            if (type.HasValue)
+                result.Add(type.SerializeValue());
 
             if (image.HasValue)
-                result.Append(' ').Append(image.SerializeValue());
+                result.Add(image.SerializeValue());
 
             if (position.HasValue)
-                result.Append(' ').Append(position.SerializeValue());
+                result.Add(position.SerializeValue());
 
-            return result.ToPool();
+            return String.Join(" ", result);
         }
 
         #endregion

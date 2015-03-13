@@ -52,7 +52,18 @@
             if (color == null || style == null || line == null)
                 return String.Empty;
 
-            return String.Format("{0} {1} {2}", line.SerializeValue(), style.SerializeValue(), color.SerializeValue());
+            var result = new List<String>();
+
+            if (line.HasValue)
+                result.Add(line.SerializeValue());
+
+            if (style.HasValue)
+                result.Add(style.SerializeValue());
+
+            if (color.HasValue)
+                result.Add(color.SerializeValue());
+
+            return String.Join(" ", result);
         }
 
         #endregion

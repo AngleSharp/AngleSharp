@@ -48,6 +48,8 @@
 
             if (width == null || count == null)
                 return String.Empty;
+            else if (!width.HasValue || !count.HasValue)
+                return String.Empty;
 
             return String.Concat(width.SerializeValue(), " ", count.SerializeValue());
         }
