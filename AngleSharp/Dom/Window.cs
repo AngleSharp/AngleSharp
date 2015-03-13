@@ -683,7 +683,6 @@
         {
             var id = _tasks.Count;
             var cts = new CancellationTokenSource();
-            var window = this;
             _document.QueueTask(() => _document.QueueTask(taskCreator(callback, timeout, cts.Token)));
             _tasks.Add(cts);
             return id;
