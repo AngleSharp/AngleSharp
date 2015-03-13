@@ -99,8 +99,16 @@
             {
                 var sb = Pool.NewStringBuilder();
 
-                foreach (var rule in _rules)
-                    sb.AppendLine(rule.CssText);
+                if (_rules.Length > 0)
+                {
+                    sb.Append(_rules[0].CssText);
+
+                    for (int i = 1; i < _rules.Length; i++)
+                    {
+                        sb.AppendLine();
+                        sb.Append(_rules[i].CssText);
+                    }
+                }
 
                 return sb.ToPool();
             }
