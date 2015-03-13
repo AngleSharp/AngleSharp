@@ -61,6 +61,8 @@
 
             if (leftColor == null || rightColor == null || topColor == null || bottomColor == null)
                 return String.Empty;
+            else if (leftColor.Value != rightColor.Value || leftColor.Value != topColor.Value || leftColor.Value != bottomColor.Value)
+                return String.Empty;
 
             var leftWidth = properties.OfType<CssBorderLeftWidthProperty>().FirstOrDefault();
             var topWidth = properties.OfType<CssBorderTopWidthProperty>().FirstOrDefault();
@@ -68,6 +70,8 @@
             var bottomWidth = properties.OfType<CssBorderBottomWidthProperty>().FirstOrDefault();
 
             if (leftWidth == null || rightWidth == null || topWidth == null || bottomWidth == null)
+                return String.Empty;
+            else if (leftWidth.Value != rightWidth.Value || leftWidth.Value != topWidth.Value || leftWidth.Value != bottomWidth.Value)
                 return String.Empty;
 
             var leftStyle = properties.OfType<CssBorderLeftStyleProperty>().FirstOrDefault();
@@ -77,17 +81,26 @@
 
             if (leftStyle == null || rightStyle == null || topStyle == null || bottomStyle == null)
                 return String.Empty;
+            else if (leftStyle.Value != rightStyle.Value || leftStyle.Value != topStyle.Value || leftStyle.Value != bottomStyle.Value)
+                return String.Empty;
 
-            var result = Pool.NewStringBuilder();
-            result.Append(leftWidth.SerializeValue());
+            return SerializeValue(leftWidth, leftStyle, leftColor);
+        }
 
-            if (leftStyle != null && leftStyle.HasValue)
-                result.Append(' ').Append(leftStyle.SerializeValue());
+        static internal String SerializeValue(CssProperty width, CssProperty style, CssProperty color)
+        {
+            var result = new List<String>();
 
-            if (leftColor != null && leftColor.HasValue)
-                result.Append(' ').Append(leftColor.SerializeValue());
+            if (width != null && width.HasValue)
+                result.Add(width.SerializeValue());
 
-            return result.ToPool();
+            if (style != null && style.HasValue)
+                result.Add(style.SerializeValue());
+
+            if (color != null && color.HasValue)
+                result.Add(color.SerializeValue());
+
+            return String.Join(" ", result);
         }
 
         #endregion

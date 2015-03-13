@@ -41,7 +41,7 @@
             if (color == null || width == null || style == null)
                 return String.Empty;
 
-            return String.Format("{0} {1} {2}", width.SerializeValue(), color.SerializeValue(), style.SerializeValue());
+            return CssBorderProperty.SerializeValue(width, style, color);
         }
 
         #endregion
