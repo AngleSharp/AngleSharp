@@ -32,9 +32,7 @@
         {
             var parser = new HtmlParser(html, Owner.Options);
             parser.SwitchToFragment(context);
-            parser.Parse();
-
-            var root = parser.Result.DocumentElement;
+            var root = parser.Parse().DocumentElement;
 
             while (root.HasChildNodes)
             {

@@ -64,7 +64,9 @@
         /// based on the given source.
         /// </summary>
         /// <param name="source">The source code as a string.</param>
-        /// <param name="configuration">[Optional] The configuration to use.</param>
+        /// <param name="configuration">
+        /// [Optional] The configuration to use.
+        /// </param>
         public HtmlParser(String source, IConfiguration configuration = null)
             : this(new Document(new SimpleBrowsingContext(configuration, Sandboxes.None), new TextSource(source)))
         {
@@ -75,17 +77,21 @@
         /// based on the given stream.
         /// </summary>
         /// <param name="stream">The stream to use as source.</param>
-        /// <param name="configuration">[Optional] The configuration to use.</param>
+        /// <param name="configuration">
+        /// [Optional] The configuration to use.
+        /// </param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
             : this(new Document(new SimpleBrowsingContext(configuration, Sandboxes.None), new TextSource(stream, configuration.DefaultEncoding())))
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the HTML parser with the specified document
-        /// based on the given source manager.
+        /// Creates a new instance of the HTML parser with the specified
+        /// document based on the given source manager.
         /// </summary>
-        /// <param name="document">The document instance to be constructed.</param>
+        /// <param name="document">
+        /// The document instance to be constructed.
+        /// </param>
         internal HtmlParser(Document document)
         {
             tokenizer = new HtmlTokenizer(document.Source);
@@ -108,11 +114,7 @@
         /// </summary>
         public IDocument Result
         {
-            get 
-            {
-                Parse();
-                return doc; 
-            }
+            get { return doc; }
         }
 
         /// <summary>
@@ -146,15 +148,6 @@
         internal Element CurrentNode
         {
             get { return open.Count > 0 ? open[open.Count - 1] : null; }
-        }
-
-        /// <summary>
-        /// Gets or sets the pending parsing block script.
-        /// </summary>
-        internal HtmlScriptElement PendingParsingBlock
-        {
-            get { return pendingParsingBlock; }
-            set { pendingParsingBlock = value; }
         }
 
         #endregion
@@ -194,10 +187,13 @@
         /// </summary>
         public IDocument Parse()
         {
-            if (!started)
+            lock (sync)
             {
-                started = true;
-				Kernel();
+                if (!started)
+                {
+                    started = true;
+                    Kernel();
+                }
             }
 
             return doc;
@@ -1338,7 +1334,9 @@
                     CloseCurrentNode();
                 }
                 else
+                {
                     RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
+                }
             }
             else if (tagName == Tags.P)
             {
@@ -1373,7 +1371,9 @@
                     open.Remove(node);
                 }
                 else
+                {
                     RaiseErrorOccurred(ErrorCode.FormNotInScope);
+                }
             }
             else if (tagName == Tags.Br)
             {
@@ -1393,7 +1393,9 @@
                     CloseCurrentNode();
                 }
                 else
+                {
                     RaiseErrorOccurred(ErrorCode.HeadingNotInScope);
+                }
             }
             else if (tagName.IsOneOf(Tags.Dd, Tags.Dt))
             {
@@ -1408,7 +1410,9 @@
                     CloseCurrentNode();
                 }
                 else
+                {
                     RaiseErrorOccurred(ErrorCode.ListItemNotInScope);
+                }
             }
             else if (tagName.IsOneOf(Tags.Applet, Tags.Marquee, Tags.Object))
             {
@@ -1424,7 +1428,9 @@
                     formatting.ClearFormatting();
                 }
                 else
+                {
                     RaiseErrorOccurred(ErrorCode.ObjectNotInScope);
+                }
             }
             else if (tagName == Tags.Body)
             {
@@ -1440,7 +1446,9 @@
                 InHead(tag);
             }
             else
+            {
                 InBodyEndTagAnythingElse(tag);
+            }
         }
 
         /// <summary>
@@ -1516,7 +1524,9 @@
                         insert = originalInsert;
                     }
                     else
+                    {
                         RunScript(CurrentNode as HtmlScriptElement);
+                    }
 
                     return;
                 }
@@ -1685,7 +1695,9 @@
                 InBodyWithFoster(token);
             }
             else
+            {
                 AddCharacters(token.Data);
+            }
         }
 
         /// <summary>
@@ -1787,7 +1799,9 @@
                         InHead(token);
                     }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1901,7 +1915,9 @@
                             InTableBody(token);
                     }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1929,9 +1945,13 @@
                             RaiseErrorOccurred(ErrorCode.TableSectionNotInScope);
                     }
                     else if (tagName.IsSpecialTableElement())
+                    {
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1960,7 +1980,9 @@
                             Home(token);
                         }
                         else
+                        {
                             RaiseErrorOccurred(ErrorCode.TableCellNotInScope);
+                        }
 
                         return;
                     }
@@ -1972,9 +1994,13 @@
                     var tagName = token.Name;
 
                     if (tagName.IsTableCellElement())
+                    {
                         InCellEndTagCell();
+                    }
                     else if (tagName.IsSpecialTableElement())
+                    {
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
+                    }
                     else if (tagName.IsTableElement())
                     {
                         if (IsInTableScope(tagName))
@@ -1986,7 +2012,9 @@
                             RaiseErrorOccurred(ErrorCode.TableNotInScope);
                     }
                     else
+                    {
                         InBody(token);
+                    }
 
                     return;
                 }
@@ -2023,7 +2051,9 @@
                     var tagName = token.Name;
 
                     if (tagName == Tags.Html)
+                    {
                         InBody(token);
+                    }
                     else if (tagName == Tags.Option)
                     {
                         if (CurrentNode is HtmlOptionElement)
@@ -2057,9 +2087,13 @@
                         }
                     }
                     else if (tagName.IsOneOf(Tags.Template, Tags.Script))
+                    {
                         InHead(token);
+                    }
                     else
+                    {
                         RaiseErrorOccurred(ErrorCode.IllegalElementInSelectDetected);
+                    }
 
                     return;
                 }
@@ -2073,13 +2107,10 @@
                         InSelectEndTagOptgroup();
                     else if (tagName == Tags.Option)
                         InSelectEndTagOption();
+                    else if (tagName == Tags.Select && IsInSelectScope(Tags.Select))
+                        InSelectEndTagSelect();
                     else if (tagName == Tags.Select)
-                    {
-                        if (IsInSelectScope(Tags.Select))
-                            InSelectEndTagSelect();
-                        else
-                            RaiseErrorOccurred(ErrorCode.SelectNotInScope);
-                    }
+                        RaiseErrorOccurred(ErrorCode.SelectNotInScope);
                     else
                         RaiseErrorOccurred(ErrorCode.TagCannotEndHere);
 
@@ -2737,8 +2768,8 @@
 
             while (outer < 8)
             {
-                Element formattingElement = null;
-                Element furthestBlock = null;
+                var formattingElement = default(Element);
+                var furthestBlock = default(Element);
 
                 outer++;
                 index = 0;
@@ -3148,9 +3179,13 @@
                              tagName.IsOneOf(Tags.Listing, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol) ||
                              tagName.IsOneOf(Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike) ||
                              tagName.IsOneOf(Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var))
+                    {
                         ForeignNormalTag(tag);
+                    }
                     else
+                    {
                         ForeignSpecialTag(tag);
+                    }
 
                     return;
                 }
@@ -3184,7 +3219,9 @@
                         }
                     }
                     else
+                    {
                         RunScript(script);
+                    }
 
                     return;
                 }
@@ -3209,7 +3246,9 @@
                     tokenizer.IsAcceptingCharacterData = true;
                 }
                 else if (tag.Name == Tags.Script)
+                {
                     Foreign(HtmlTagToken.Close(Tags.Script));
+                }
             }
         }
 
@@ -3306,8 +3345,7 @@
 
                 if (node.NodeName == tagName)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.Scoped))
+                else if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
             }
 
@@ -3326,8 +3364,7 @@
 
                 if (node is T)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.Scoped))
+                else if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
             }
 
@@ -3346,8 +3383,7 @@
 
                 if (node is HtmlListItemElement)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))
+                else if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))
                     return false;
             }
 
@@ -3366,8 +3402,7 @@
 
                 if (node is HtmlParagraphElement)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.Scoped) || node is HtmlButtonElement)
+                else if (node.Flags.HasFlag(NodeFlags.Scoped) || node is HtmlButtonElement)
                     return false;
             }
 
@@ -3386,8 +3421,7 @@
 
                 if (node is T)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
+                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
             }
 
@@ -3407,8 +3441,7 @@
 
                 if (node.NodeName == tagName)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
+                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
             }
 
@@ -3428,11 +3461,10 @@
 
                 if (node.NodeName == tagName)
                     return true;
-
-                if (node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
+                else if (node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                     continue;
-
-                return false;
+                else
+                    return false;
             }
 
             return false;
@@ -3447,7 +3479,7 @@
         /// </summary>
         void Kernel()
         {
-            HtmlToken token;
+            var token = default(HtmlToken);
 
             do
             {
@@ -3465,7 +3497,7 @@
         async Task<IDocument> KernelAsync(CancellationToken cancelToken)
         {
             var source = doc.Source;
-            HtmlToken token;
+            var token = default(HtmlToken);
 
             do
             {
@@ -3731,7 +3763,9 @@
 			    }
             }
             else
+            {
                 foster.AddNode(element);
+            }
         }
 
         /// <summary>
@@ -3750,15 +3784,15 @@
         /// <param name="text">The characters to insert.</param>
         void AddCharacters(String text)
         {
-            if (String.IsNullOrEmpty(text))
-                return;
+            if (!String.IsNullOrEmpty(text))
+            {
+                var node = CurrentNode;
 
-            var node = CurrentNode;
-
-            if (foster && node.IsTableElement())
-                AddCharactersWithFoster(text);
-            else
-                node.AppendText(text);
+                if (foster && node.IsTableElement())
+                    AddCharactersWithFoster(text);
+                else
+                    node.AppendText(text);
+            }
         }
 
         /// <summary>
@@ -3798,7 +3832,9 @@
                 }
             }
             else
+            {
                 foster.AppendText(text);
+            }
         }
 
         #endregion
@@ -3874,7 +3910,7 @@
             var index = formatting.Count - 1;
             var entry = formatting[index];
 
-            if (entry == null|| open.Contains(entry))
+            if (entry == null || open.Contains(entry))
                 return;
 
             while (index > 0)
