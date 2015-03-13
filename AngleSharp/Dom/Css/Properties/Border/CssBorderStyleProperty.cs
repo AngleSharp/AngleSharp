@@ -50,7 +50,7 @@
 
             if (top == null || right == null || bottom == null || left == null)
                 return String.Empty;
-            else if (top.Value != right.Value || top.Value != bottom.Value || top.Value != left.Value)
+            else if (!top.HasValue || !right.HasValue || !bottom.HasValue || !left.HasValue)
                 return String.Empty;
 
             return SerializePeriodic(top, right, bottom, left);
