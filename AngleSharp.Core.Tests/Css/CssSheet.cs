@@ -29,19 +29,31 @@ h1 {
         [Test]
         public void CssSheetSerializeListStyleNone()
         {
-            var cssSrc = ".T1 { list-style: none; }";
+            var cssSrc = ".T1 {list-style:NONE}";
+            var expected = ".T1 { list-style: none; }";
             var stylesheet = CssParser.ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
-            Assert.AreEqual(cssSrc + Environment.NewLine, cssText);
+            Assert.AreEqual(expected, cssText);
         }
 
         [Test]
         public void CssSheetSerializeBorder1pxOutset()
         {
-            var cssSrc = ".T2 { border: 1px outset; }";
+            var cssSrc = ".T2 { border:1px  outset }";
+            var expected = ".T2 { border: 1px outset; }";
             var stylesheet = CssParser.ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
-            Assert.AreEqual(cssSrc + Environment.NewLine, cssText);
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
+        public void CssSheetSerializeBorder1pxSolidWithColor()
+        {
+            var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
+            var expected = "#rule1 { border-top: none; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1); }";
+            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.CssText;
+            Assert.AreEqual(expected, cssText);
         }
 
         [Test]
