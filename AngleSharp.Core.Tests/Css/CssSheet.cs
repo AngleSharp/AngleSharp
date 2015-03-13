@@ -57,6 +57,16 @@ h1 {
         }
 
         [Test]
+        public void CssSheetSerializeBackgroundWithUrlPositionRepeatX()
+        {
+            var cssSrc = "#rule2 { background:url(/_static/img/bx_tile.gif) top left repeat-x; }";
+            var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") top left repeat-x; }";
+            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var cssText = stylesheet.CssText;
+            Assert.AreEqual(expected, cssText);
+        }
+
+        [Test]
         public void CssSheetSimpleStyleRuleStringification()
         {
             var css = @"html { font-family: sans-serif; }";
