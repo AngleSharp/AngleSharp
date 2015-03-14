@@ -212,7 +212,7 @@
             get { return _host.HasChildNodes; }
         }
 
-        public IHtmlCollection Children
+        public IHtmlCollection<IElement> Children
         {
             get { return _host.Children; }
         }
@@ -286,17 +286,17 @@
         {
         }
 
-        public IHtmlCollection GetElementsByClassName(String classNames)
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
         {
             return _host.GetElementsByClassName(classNames);
         }
 
-        public IHtmlCollection GetElementsByTagName(String tagName)
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
         {
             return _host.GetElementsByTagName(tagName);
         }
 
-        public IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName)
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceUri, String tagName)
         {
             return _host.GetElementsByTagNameNS(namespaceUri, tagName);
         }
@@ -406,7 +406,7 @@
             return _host.QuerySelector(selectors);
         }
 
-        public IHtmlCollection QuerySelectorAll(String selectors)
+        public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
             return _host.QuerySelectorAll(selectors);
         }

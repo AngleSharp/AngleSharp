@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the set of options that are selected.
         /// </summary>
-        public IHtmlCollection SelectedOptions
+        public IHtmlCollection<IHtmlOptionElement> SelectedOptions
         {
             get
             {

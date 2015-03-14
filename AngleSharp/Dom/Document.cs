@@ -472,7 +472,7 @@
         /// <summary>
         /// Gets a list of all of the anchors in the document.
         /// </summary>
-        public IHtmlCollection Anchors
+        public IHtmlCollection<IHtmlAnchorElement> Anchors
         {
             get { return new HtmlCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name)); }
         }
@@ -488,7 +488,7 @@
         /// <summary>
         /// Gets the child elements.
         /// </summary>
-        public IHtmlCollection Children
+        public IHtmlCollection<IElement> Children
         {
             get { return new HtmlElementCollection(ChildNodes.OfType<Element>()); }
         }
@@ -724,7 +724,7 @@
         /// <summary>
         /// Gets the forms in the document.
         /// </summary>
-        public IHtmlCollection Forms
+        public IHtmlCollection<IHtmlFormElement> Forms
         {
             get { return new HtmlCollection<IHtmlFormElement>(this); }
         }
@@ -732,7 +732,7 @@
         /// <summary>
         /// Gets the images in the document.
         /// </summary>
-        public IHtmlCollection Images
+        public IHtmlCollection<IHtmlImageElement> Images
         {
             get { return new HtmlCollection<IHtmlImageElement>(this); }
         }
@@ -740,7 +740,7 @@
         /// <summary>
         /// Gets the scripts in the document.
         /// </summary>
-        public IHtmlCollection Scripts
+        public IHtmlCollection<IHtmlScriptElement> Scripts
         {
             get { return new HtmlCollection<IHtmlScriptElement>(this); }
         }
@@ -748,7 +748,7 @@
         /// <summary>
         /// Gets a list of the plugin elements within the current document.
         /// </summary>
-        public IHtmlCollection Plugins
+        public IHtmlCollection<IHtmlEmbedElement> Plugins
         {
             get { return new HtmlCollection<IHtmlEmbedElement>(this); }
         }
@@ -757,7 +757,7 @@
         /// Gets a list of the commands (menu item, button, and link elements)
         /// within the current document.
         /// </summary>
-        public IHtmlCollection Commands
+        public IHtmlCollection<IElement> Commands
         {
             get { return new HtmlElementCollection(this, predicate: element => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement); }
         }
@@ -766,7 +766,7 @@
         /// Gets a collection of all AREA elements and anchor elements in a
         /// document with a value for the href attribute.
         /// </summary>
-        public IHtmlCollection Links
+        public IHtmlCollection<IElement> Links
         {
             get { return new HtmlElementCollection(this, predicate: element => (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
         }
@@ -1173,7 +1173,7 @@
         /// The value of the name attribute of the element.
         /// </param>
         /// <returns>A collection of HTML elements.</returns>
-        public IHtmlCollection GetElementsByName(String name)
+        public IHtmlCollection<IElement> GetElementsByName(String name)
         {
             var result = new List<IElement>();
             ChildNodes.GetElementsByName(name, result);
@@ -1465,7 +1465,7 @@
         /// A string containing one or more CSS selectors separated by commas.
         /// </param>
         /// <returns>A list of nodes.</returns>
-        public IHtmlCollection QuerySelectorAll(String selectors)
+        public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
             return ChildNodes.QuerySelectorAll(selectors);
         }
@@ -1478,7 +1478,7 @@
         /// are separated by whitespace.
         /// </param>
         /// <returns>A collection of elements.</returns>
-        public IHtmlCollection GetElementsByClassName(String classNames)
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
         {
             return ChildNodes.GetElementsByClassName(classNames);
         }
@@ -1494,7 +1494,7 @@
         /// <returns>
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
-        public IHtmlCollection GetElementsByTagName(String tagName)
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
         {
             return ChildNodes.GetElementsByTagName(tagName);
         }
@@ -1514,7 +1514,7 @@
         /// <returns>
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
-        public IHtmlCollection GetElementsByTagName(String namespaceURI, String tagName)
+        public IHtmlCollection<IElement> GetElementsByTagName(String namespaceURI, String tagName)
         {
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }

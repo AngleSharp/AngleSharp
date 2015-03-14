@@ -77,17 +77,17 @@
             return _elements.GetEnumerator();
         }
 
-        IElement IHtmlCollection.this[int index]
+        IHtmlElement IHtmlCollection<IHtmlElement>.this[int index]
         {
             get { return _elements.Skip(index).FirstOrDefault(); }
         }
 
-        IElement IHtmlCollection.this[string id]
+        IHtmlElement IHtmlCollection<IHtmlElement>.this[string id]
         {
             get { return _elements.GetElementById(id); }
         }
 
-        IEnumerator<IElement> IEnumerable<IElement>.GetEnumerator()
+        IEnumerator<IHtmlElement> IEnumerable<IHtmlElement>.GetEnumerator()
         {
             return _elements.GetEnumerator();
         }

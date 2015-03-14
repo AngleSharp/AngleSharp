@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the assigned body sections.
         /// </summary>
-        public IHtmlCollection Bodies
+        public IHtmlCollection<IHtmlTableSectionElement> Bodies
         {
             get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false)); }
         }
@@ -76,7 +76,7 @@
         /// <summary>
         /// Gets the assigned table rows.
         /// </summary>
-        public IHtmlCollection Rows
+        public IHtmlCollection<IHtmlTableRowElement> Rows
         {
             get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(AllRows)); }
         }

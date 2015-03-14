@@ -8,7 +8,7 @@
     /// fashion.
     /// </summary>
     [DomName("HTMLAllCollection")]
-    public interface IHtmlAllCollection : IHtmlCollection
+    public interface IHtmlAllCollection : IHtmlCollection<IElement>
     {
     }
 }

@@ -20,13 +20,13 @@
         /// associated to this map.
         /// </summary>
         [DomName("areas")]
-        IHtmlCollection Areas { get; }
+        IHtmlCollection<IHtmlAreaElement> Areas { get; }
 
         /// <summary>
         /// Gets a collection representing the img and object
         /// elements associated to this element.
         /// </summary>
         [DomName("images")]
-        IHtmlCollection Images { get; }
+        IHtmlCollection<IHtmlImageElement> Images { get; }
     }
 }

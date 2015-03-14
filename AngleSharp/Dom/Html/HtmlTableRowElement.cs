@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        HtmlCollection<HtmlTableCellElement> _cells;
+        HtmlCollection<IHtmlTableCellElement> _cells;
 
         #endregion
 
@@ -58,9 +58,9 @@
         /// <summary>
         /// Gets the assigned table cells.
         /// </summary>
-        public IHtmlCollection Cells
+        public IHtmlCollection<IHtmlTableCellElement> Cells
         {
-            get { return _cells ?? (_cells = new HtmlCollection<HtmlTableCellElement>(this, deep: false)); }
+            get { return _cells ?? (_cells = new HtmlCollection<IHtmlTableCellElement>(this, deep: false)); }
         }
 
         /// <summary>

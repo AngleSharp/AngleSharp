@@ -15,7 +15,7 @@
         /// Gets the child elements.
         /// </summary>
         [DomName("children")]
-        IHtmlCollection Children { get; }
+        IHtmlCollection<IElement> Children { get; }
 
         /// <summary>
         /// Gets the first child element of this element.
@@ -67,6 +67,6 @@
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>A non-live NodeList of element objects.</returns>
         [DomName("querySelectorAll")]
-        IHtmlCollection QuerySelectorAll(String selectors);
+        IHtmlCollection<IElement> QuerySelectorAll(String selectors);
     }
 }

@@ -217,7 +217,7 @@
         /// <summary>
         /// Gets the child elements.
         /// </summary>
-        public IHtmlCollection Children
+        public IHtmlCollection<IElement> Children
         {
             get { return _elements ?? (_elements = new HtmlElementCollection(this, deep: false)); }
         }
@@ -375,7 +375,7 @@
         /// A string containing one or more CSS selectors separated by commas.
         /// </param>
         /// <returns>A collection of HTML elements.</returns>
-        public IHtmlCollection QuerySelectorAll(String selectors)
+        public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
             return ChildNodes.QuerySelectorAll(selectors);
         }
@@ -388,7 +388,7 @@
         /// are separated by whitespace.
         /// </param>
         /// <returns>A collection of HTML elements.</returns>
-        public IHtmlCollection GetElementsByClassName(String classNames)
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
         {
             return ChildNodes.GetElementsByClassName(classNames);
         }
@@ -404,7 +404,7 @@
         /// <returns>
         /// A NodeList of found elements in the order they appear in the tree.
         /// </returns>
-        public IHtmlCollection GetElementsByTagName(String tagName)
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
         {
             return ChildNodes.GetElementsByTagName(tagName);
         }
@@ -424,7 +424,7 @@
         /// <returns>
         /// A NodeList of found elements in the order they appear in the tree.
         /// </returns>
-        public IHtmlCollection GetElementsByTagNameNS(String namespaceURI, String tagName)
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }

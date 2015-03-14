@@ -9,7 +9,7 @@
     /// <summary>
     /// A general collection containing elements of type IElement.
     /// </summary>
-    sealed class HtmlElementCollection : IHtmlCollection
+    sealed class HtmlElementCollection : IHtmlCollection<IElement>
     {
         #region Fields
 

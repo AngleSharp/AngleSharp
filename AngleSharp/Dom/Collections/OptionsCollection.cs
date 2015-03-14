@@ -30,12 +30,12 @@
 
         #region Index
 
-        public IElement this[Int32 index]
+        public IHtmlOptionElement this[Int32 index]
         {
             get { return GetOptionAt(index); }
         }
 
-        public IElement this[String name]
+        public IHtmlOptionElement this[String name]
         {
             get 
             {
@@ -48,7 +48,7 @@
                         return option;
                 }
 
-                return _parent.Children[name];
+                return _parent.Children[name] as IHtmlOptionElement;
             }
         }
 
@@ -148,7 +148,7 @@
             }
         }
 
-        public IEnumerator<IElement> GetEnumerator()
+        public IEnumerator<IHtmlOptionElement> GetEnumerator()
         {
             return _options.GetEnumerator();
         }

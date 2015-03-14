@@ -166,7 +166,7 @@
         /// </param>
         /// <returns>A collection of elements.</returns>
         [DomName("getElementsByClassName")]
-        IHtmlCollection GetElementsByClassName(String classNames);
+        IHtmlCollection<IElement> GetElementsByClassName(String classNames);
 
         /// <summary>
         /// Returns a NodeList of elements with the given tag name. The
@@ -180,7 +180,7 @@
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
         [DomName("getElementsByTagName")]
-        IHtmlCollection GetElementsByTagName(String tagName);
+        IHtmlCollection<IElement> GetElementsByTagName(String tagName);
 
         /// <summary>
         /// Returns a list of elements with the given tag name belonging to the
@@ -198,7 +198,7 @@
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
         [DomName("getElementsByTagNameNS")]
-        IHtmlCollection GetElementsByTagNameNS(String namespaceUri, String tagName);
+        IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceUri, String tagName);
 
         /// <summary>
         /// Checks if the element is matched by the given selector.

@@ -12,6 +12,6 @@
         /// Gets the associated options.
         /// </summary>
         [DomName("options")]
-        IHtmlCollection Options { get; }
+        IHtmlCollection<IHtmlOptionElement> Options { get; }
     }
 }

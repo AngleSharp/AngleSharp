@@ -22,7 +22,7 @@
         /// Gets a list of all of the anchors in the document.
         /// </summary>
         [DomName("anchors")]
-        IHtmlCollection Anchors { get; }
+        IHtmlCollection<IHtmlAnchorElement> Anchors { get; }
 
         /// <summary>
         /// Gets the DOM implementation associated with the current document.
@@ -143,7 +143,7 @@
         /// </param>
         /// <returns>A collection of HTML elements.</returns>
         [DomName("getElementsByName")]
-        IHtmlCollection GetElementsByName(String name);
+        IHtmlCollection<IElement> GetElementsByName(String name);
 
         /// <summary>
         /// Returns a set of elements which have all the given class names.
@@ -154,7 +154,7 @@
         /// </param>
         /// <returns>A collection of elements.</returns>
         [DomName("getElementsByClassName")]
-        IHtmlCollection GetElementsByClassName(String classNames);
+        IHtmlCollection<IElement> GetElementsByClassName(String classNames);
 
         /// <summary>
         /// Returns a NodeList of elements with the given tag name. The
@@ -168,7 +168,7 @@
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
         [DomName("getElementsByTagName")]
-        IHtmlCollection GetElementsByTagName(String tagName);
+        IHtmlCollection<IElement> GetElementsByTagName(String tagName);
 
         /// <summary>
         /// Returns a list of elements with the given tag name belonging to the
@@ -186,7 +186,7 @@
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
         [DomName("getElementsByTagNameNS")]
-        IHtmlCollection GetElementsByTagName(String namespaceUri, String tagName);
+        IHtmlCollection<IElement> GetElementsByTagName(String namespaceUri, String tagName);
 
         /// <summary>
         /// Creates an event of the type specified. 
@@ -359,40 +359,40 @@
         /// Gets the forms in the document.
         /// </summary>
         [DomName("forms")]
-        IHtmlCollection Forms { get; }
+        IHtmlCollection<IHtmlFormElement> Forms { get; }
 
         /// <summary>
         /// Gets the images in the document.
         /// </summary>
         [DomName("images")]
-        IHtmlCollection Images { get; }
+        IHtmlCollection<IHtmlImageElement> Images { get; }
 
         /// <summary>
         /// Gets the scripts in the document.
         /// </summary>
         [DomName("scripts")]
-        IHtmlCollection Scripts { get; }
+        IHtmlCollection<IHtmlScriptElement> Scripts { get; }
 
         /// <summary>
         /// Gets a list of the embed elements within the current document.
         /// </summary>
         [DomName("embeds")]
         [DomName("plugins")]
-        IHtmlCollection Plugins { get; }
+        IHtmlCollection<IHtmlEmbedElement> Plugins { get; }
 
         /// <summary>
         /// Gets a list of the commands (menu item, button, and link elements)
         /// within the current document.
         /// </summary>
         [DomName("commands")]
-        IHtmlCollection Commands { get; }
+        IHtmlCollection<IElement> Commands { get; }
 
         /// <summary>
         /// Gets a collection of all area and anchor elements in a document
         /// with a value for the href attribute.
         /// </summary>
         [DomName("links")]
-        IHtmlCollection Links { get; }
+        IHtmlCollection<IElement> Links { get; }
 
         /// <summary>
         /// Gets or sets the title of the document.

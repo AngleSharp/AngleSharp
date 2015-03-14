@@ -70,7 +70,7 @@
         /// Gets the assigned body sections.
         /// </summary>
         [DomName("tBodies")]
-        IHtmlCollection Bodies { get; }
+        IHtmlCollection<IHtmlTableSectionElement> Bodies { get; }
 
         /// <summary>
         /// Creates a new table body section.
@@ -83,7 +83,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DomName("rows")]
-        IHtmlCollection Rows { get; }
+        IHtmlCollection<IHtmlTableRowElement> Rows { get; }
 
         /// <summary>
         /// Inserts a new empty row in the table. The new row is inserted immediately before

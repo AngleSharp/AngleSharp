@@ -7,7 +7,7 @@
     /// Represents a collection of HTML option elements.
     /// </summary>
     [DomName("HTMLOptionsCollection")]
-    public interface IHtmlOptionsCollection : IHtmlCollection
+    public interface IHtmlOptionsCollection : IHtmlCollection<IHtmlOptionElement>
     {
         /// <summary>
         /// Gets an HTML option element at the specified index.

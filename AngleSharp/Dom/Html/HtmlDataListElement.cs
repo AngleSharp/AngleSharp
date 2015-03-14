@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        HtmlCollection<HtmlOptionElement> _options;
+        HtmlCollection<IHtmlOptionElement> _options;
 
         #endregion
 
@@ -31,9 +31,9 @@
         /// <summary>
         /// Gets a collection whose filter matches option elements.
         /// </summary>
-        public IHtmlCollection Options
+        public IHtmlCollection<IHtmlOptionElement> Options
         {
-            get { return _options ?? (_options = new HtmlCollection<HtmlOptionElement>(this)); }
+            get { return _options ?? (_options = new HtmlCollection<IHtmlOptionElement>(this)); }
         }
 
         #endregion

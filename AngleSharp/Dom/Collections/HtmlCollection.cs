@@ -10,7 +10,7 @@
     /// A specialized collection containing elements of type T.
     /// </summary>
     /// <typeparam name="T">The type of elements that can be contained.</typeparam>
-    sealed class HtmlCollection<T> : IHtmlCollection
+    sealed class HtmlCollection<T> : IHtmlCollection<T>
         where T : class, IElement
     {
         #region Fields
@@ -73,7 +73,7 @@
             return _elements.GetEnumerator();
         }
 
-        IEnumerator<IElement> IEnumerable<IElement>.GetEnumerator()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             return _elements.GetEnumerator();
         }
@@ -87,12 +87,12 @@
 
         #region IHtmlCollection
 
-        IElement IHtmlCollection.this[Int32 index]
+        T IHtmlCollection<T>.this[Int32 index]
         {
             get { return _elements.Skip(index).FirstOrDefault(); }
         }
 
-        IElement IHtmlCollection.this[String id]
+        T IHtmlCollection<T>.this[String id]
         {
             get { return _elements.GetElementById(id); }
         }

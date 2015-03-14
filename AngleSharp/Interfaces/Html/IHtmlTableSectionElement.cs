@@ -13,7 +13,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DomName("rows")]
-        IHtmlCollection Rows { get; }
+        IHtmlCollection<IHtmlTableRowElement> Rows { get; }
 
         /// <summary>
         /// Inserts a row into this section. The new row is inserted immediately before the

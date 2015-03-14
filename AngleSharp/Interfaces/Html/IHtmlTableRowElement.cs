@@ -25,7 +25,7 @@
         /// Gets the assigned table cells.
         /// </summary>
         [DomName("cells")]
-        IHtmlCollection Cells { get; }
+        IHtmlCollection<IHtmlTableCellElement> Cells { get; }
 
         /// <summary>
         /// Insert an empty TD cell into this row. If index is -1 or equal to the number

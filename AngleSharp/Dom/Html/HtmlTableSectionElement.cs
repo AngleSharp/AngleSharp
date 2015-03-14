@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets the assigned table rows.
         /// </summary>
-        public IHtmlCollection Rows
+        public IHtmlCollection<IHtmlTableRowElement> Rows
         {
             get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this, deep: false)); }
         }

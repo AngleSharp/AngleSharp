@@ -62,7 +62,7 @@
         /// Gets the set of options that are selected.
         /// </summary>
         [DomName("selectedOptions")]
-        IHtmlCollection SelectedOptions { get; }
+        IHtmlCollection<IHtmlOptionElement> SelectedOptions { get; }
 
         /// <summary>
         /// Gets or sets the display size of the element.
