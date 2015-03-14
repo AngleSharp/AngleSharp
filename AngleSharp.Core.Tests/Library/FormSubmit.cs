@@ -1,5 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Core.Tests.Mocks;
+﻿using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom.Html;
 using AngleSharp.Dom.Io;
 using NUnit.Framework;
