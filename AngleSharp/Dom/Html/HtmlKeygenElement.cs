@@ -69,20 +69,5 @@
         }
 
         #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration of possible keytype values.
-        /// </summary>
-        public enum Encryption : ushort
-        {
-            /// <summary>
-            /// The RSA encryption.
-            /// </summary>
-            RSA
-        }
-
-        #endregion
     }
 }

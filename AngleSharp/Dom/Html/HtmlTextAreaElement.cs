@@ -112,24 +112,5 @@
         }
 
         #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration with possible wrap types.
-        /// </summary>
-        public enum WrapType : ushort
-        {
-            /// <summary>
-            /// The text will be wrapped with tolerance.
-            /// </summary>
-            Soft,
-            /// <summary>
-            /// The text will be wrapped without tolerance.
-            /// </summary>
-            Hard
-        }
-
-        #endregion
     }
 }

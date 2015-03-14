@@ -41,24 +41,5 @@
         }
 
         #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// All possible values for the type of the menu.
-        /// </summary>
-        public enum MenuType : ushort
-        {
-            /// <summary>
-            /// As a context menu.
-            /// </summary>
-            Popup,
-            /// <summary>
-            /// Represented as a toolbar.
-            /// </summary>
-            Toolbar
-        }
-
-        #endregion
     }
 }

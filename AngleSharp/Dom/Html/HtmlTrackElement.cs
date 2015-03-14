@@ -91,36 +91,5 @@
         }
 
         #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration with various track kinds.
-        /// </summary>
-        public enum TrackKind : ushort
-        {
-            /// <summary>
-            /// A track with subtitles.
-            /// </summary>
-            Subtitles,
-            /// <summary>
-            /// A track with captions.
-            /// </summary>
-            Captions,
-            /// <summary>
-            /// A track with descriptions.
-            /// </summary>
-            Descriptions,
-            /// <summary>
-            /// A track consisting of chapters.
-            /// </summary>
-            Chapters,
-            /// <summary>
-            /// A track consisting only of metadata.
-            /// </summary>
-            Metadata
-        }
-
-        #endregion
     }
 }
