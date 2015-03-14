@@ -91,6 +91,34 @@
         }
 
         /// <summary>
+        /// Returns the first element matching the selectors with the provided
+        /// type, or null.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <param name="selectors">The group of selectors to use.</param>
+        /// <returns>The element, if there is any.</returns>
+        public static TElement QuerySelector<TElement>(this IParentNode parent, String selectors)
+            where TElement : class, IElement
+        {
+            return parent.QuerySelector(selectors) as TElement;
+        }
+
+        /// <summary>
+        /// Returns a list of elements matching the selectors with the
+        /// provided type.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <param name="selectors">The group of selectors to use.</param>
+        /// <returns>An enumeration with the elements.</returns>
+        public static IEnumerable<TElement> QuerySelectorAll<TElement>(this IParentNode parent, String selectors)
+            where TElement : IElement
+        {
+            return parent.QuerySelectorAll(selectors).OfType<TElement>();
+        }
+
+        /// <summary>
         /// Gets the descendent nodes of the given parent.
         /// </summary>
         /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
