@@ -248,8 +248,10 @@
 
         void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, SelectionType selectionType)
         {
-            if (selectionEnd > Value.Length)
-                selectionEnd = Value.Length;
+            var length = (Value ?? String.Empty).Length;
+
+            if (selectionEnd > length)
+                selectionEnd = length;
 
             if (selectionEnd < selectionStart)
                 selectionStart = selectionEnd;

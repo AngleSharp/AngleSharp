@@ -39,7 +39,7 @@
         /// </summary>
         public override String DefaultValue
         {
-            get { return GetOwnAttribute(AttributeNames.Value); }
+            get { return GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
             set { SetOwnAttribute(AttributeNames.Value, value); }
         }
 
