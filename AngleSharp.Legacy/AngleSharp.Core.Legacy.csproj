@@ -2575,6 +2575,9 @@
     <Compile Include="..\AngleSharp\Services\ICacheLoaderService.cs">
       <Link>Services\ICacheLoaderService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IClipboardService.cs">
+      <Link>Services\IClipboardService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\ICommandService.cs">
       <Link>Services\ICommandService.cs</Link>
     </Compile>
