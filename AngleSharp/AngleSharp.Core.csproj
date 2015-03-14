@@ -138,6 +138,7 @@
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
+    <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="TextRange.cs" />
