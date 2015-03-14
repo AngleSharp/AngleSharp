@@ -121,11 +121,27 @@
 
         #endregion
 
+        #region Methods
+
+        public override void DoClick()
+        {
+            base.DoClick();
+            var type = Type;
+            var form = Form;
+
+            if (type == InputTypeNames.Submit && form != null)
+                form.Submit();
+            else if (type == InputTypeNames.Reset && form != null)
+                form.Reset();
+        }
+
+        #endregion
+
         #region Helper
 
         protected override Boolean CanBeValidated()
         {
-            return Type.ToEnum(ButtonType.Submit) == ButtonType.Submit && this.HasDataListAncestor() == false;
+            return Type == InputTypeNames.Submit && this.HasDataListAncestor() == false;
         }
 
         /// <summary>
@@ -138,37 +154,10 @@
             if (this == submitter)
                 return;
 
-            var type = Type.ToEnum(ButtonType.Submit);
+            var type = Type;
 
-            if (type == ButtonType.Submit || type == ButtonType.Reset)
+            if (type == InputTypeNames.Submit || type == InputTypeNames.Reset)
                 dataSet.Append(Name, Value, Type.ToString());
-        }
-
-        #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration with possible input types.
-        /// </summary>
-        public enum ButtonType : ushort
-        {
-            /// <summary>
-            /// The button submits the form.
-            /// </summary>
-            Submit,
-            /// <summary>
-            /// The button resets the form.
-            /// </summary>
-            Reset,
-            /// <summary>
-            /// The button does nothing.
-            /// </summary>
-            Button,
-            /// <summary>
-            /// The button displays a menu.
-            /// </summary>
-            Menu
         }
 
         #endregion

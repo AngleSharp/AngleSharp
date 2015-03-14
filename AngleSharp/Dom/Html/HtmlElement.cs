@@ -233,7 +233,7 @@
             //Provide additional information on the Text Nodes which words (if any) have errors.
         }
 
-        public void DoClick()
+        public virtual void DoClick()
         {
             //TODO Perform click on the element.
         }
@@ -243,7 +243,7 @@
             //Only certain elements can be focused
         }
 
-        public void DoBlur()
+        public virtual void DoBlur()
         {
             //Only certain elements can be focused
         }

@@ -406,6 +406,23 @@
 
         #region Methods
 
+        public override void DoClick()
+        {
+            base.DoClick();
+
+            var type = Type;
+            var form = Form;
+
+            if (type == InputTypeNames.Submit && form != null)
+            {
+                form.Submit();
+            }
+            else if (type == InputTypeNames.Reset && form != null)
+            {
+                form.Reset();
+            }
+        }
+
         public sealed override INode Clone(Boolean deep = true)
         {
             var node = (HtmlInputElement)base.Clone(deep);
