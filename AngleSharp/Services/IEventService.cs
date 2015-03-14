@@ -16,18 +16,6 @@
         void Enqueue(Task task);
 
         /// <summary>
-        /// Gets the currently running task.
-        /// </summary>
-        Task Current { get; }
-
-        /// <summary>
-        /// Performs a microtask checkpoint, which cleans up pending
-        /// microtasks.
-        /// </summary>
-        /// <returns>An awaitable task.</returns>
-        Task Check();
-
-        /// <summary>
         /// Executes the compound subtask by invoking the series of
         /// steps from a microtask source.
         /// </summary>
