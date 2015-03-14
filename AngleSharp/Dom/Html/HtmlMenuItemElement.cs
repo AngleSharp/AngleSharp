@@ -125,28 +125,5 @@
         }
 
         #endregion
-
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration of possible type states for a menuitem.
-        /// </summary>
-        public enum ItemType : ushort
-        {
-            /// <summary>
-            /// The command state.
-            /// </summary>
-            Command,
-            /// <summary>
-            /// The checkbox state.
-            /// </summary>
-            Checkbox,
-            /// <summary>
-            /// The radio state.
-            /// </summary>
-            Radio
-        }
-
-        #endregion
     }
 }

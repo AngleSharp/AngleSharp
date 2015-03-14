@@ -278,9 +278,9 @@
             else if (element is HtmlMenuItemElement)
             {
                 var mi = (HtmlMenuItemElement)element;
-                var type = mi.Type.ToEnum(HtmlMenuItemElement.ItemType.Command);
+                var type = mi.Type;
 
-                return (type == HtmlMenuItemElement.ItemType.Checkbox || type == HtmlMenuItemElement.ItemType.Radio) && mi.IsChecked;
+                return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && mi.IsChecked;
             }
             else if (element is HtmlOptionElement)
                 return ((HtmlOptionElement)element).IsSelected;
@@ -337,10 +337,8 @@
             else if (element is HtmlMenuItemElement)
             {
                 var mi = (HtmlMenuItemElement)element;
-                var type = mi.Type.ToEnum(HtmlMenuItemElement.ItemType.Command);
-
-                return (type == HtmlMenuItemElement.ItemType.Checkbox || type == HtmlMenuItemElement.ItemType.Radio)
-                    && !mi.IsChecked;
+                var type = mi.Type;
+                return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && !mi.IsChecked;
             }
             else if (element is HtmlOptionElement)
                 return !((HtmlOptionElement)element).IsSelected;
