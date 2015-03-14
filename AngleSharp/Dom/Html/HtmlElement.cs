@@ -113,8 +113,7 @@
         /// </summary>
         public String Language
         {
-            get { return GetOwnAttribute(AttributeNames.Lang) ?? 
-                    (ParentElement as IHtmlElement != null ? (ParentElement as IHtmlElement).Language : Owner.Options.GetLanguage()); }
+            get { return GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage(); }
             set { SetOwnAttribute(AttributeNames.Lang, value); }
         }
 
@@ -293,6 +292,12 @@
             }
 
             return parent as IHtmlFormElement;
+        }
+
+        String GetDefaultLanguage()
+        {
+            var parent = ParentElement as IHtmlElement;
+            return parent != null ? parent.Language : Owner.Options.GetLanguage();
         }
 
         CssStyleDeclaration CreateStyle()
