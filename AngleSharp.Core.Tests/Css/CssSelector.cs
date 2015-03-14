@@ -26,7 +26,7 @@ namespace AngleSharp.Core.Tests
             return null;
         }
 
-        IHtmlCollection RunQuery(String query)
+        IHtmlCollection<IElement> RunQuery(String query)
         {
             return document.QuerySelectorAll(query);
         }
