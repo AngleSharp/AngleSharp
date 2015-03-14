@@ -250,11 +250,27 @@
         internal override void Reset()
         {
             var options = Options;
+            var selected = 0;
+            var maxSelected = 0;
 
             for (int i = 0; i < options.Length; i++)
             {
                 var option = options.GetOptionAt(i);
                 option.IsSelected = option.IsDefaultSelected;
+
+                if (option.IsSelected)
+                {
+                    maxSelected = i;
+                    selected++;
+                }
+            }
+
+            if (selected != 1 && IsMultiple == false && options.Length > 0)
+            {
+                for (int i = 0; i < options.Length; i++)
+                    options[i].IsSelected = false;
+
+                options[maxSelected].IsSelected = true;
             }
         }
 
