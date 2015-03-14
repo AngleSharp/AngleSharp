@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents the select element.
@@ -14,6 +15,7 @@
         #region Fields
 
         OptionsCollection _options;
+        HtmlCollection<IHtmlOptionElement> _selected;
 
         #endregion
 
@@ -70,21 +72,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlOptionElement> SelectedOptions
         {
-            get
-            {
-                var options = Options;
-                var result = new List<IHtmlOptionElement>();
-
-                for (int i = 0; i < options.Length; i++)
-                {
-                    var option = options.GetOptionAt(i);
-
-                    if (option.IsSelected)
-                        result.Add(option);
-                }
-
-                return new HtmlCollection<IHtmlOptionElement>(result);
-            }
+            get { return _selected ?? (_selected = new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected))); }
         }
 
         /// <summary>
@@ -104,10 +92,8 @@
             {
                 var options = Options;
 
-                for (int i = 0; i < options.Length; i++)
+                foreach (var option in options)
                 {
-                    var option = options.GetOptionAt(i);
-
                     if (option.IsSelected)
                         return option.Value;
                 }
@@ -118,9 +104,8 @@
             {
                 var options = Options;
 
-                for (int i = 0; i < options.Length; i++)
+                foreach (var option in options)
                 {
-                    var option = options.GetOptionAt(i);
                     option.IsSelected = option.Value == value;
                 }
             }
@@ -205,25 +190,6 @@
 
         #endregion
 
-        #region Enumeration
-
-        /// <summary>
-        /// An enumeration with possible select types.
-        /// </summary>
-        public enum SelectType : ushort
-        {
-            /// <summary>
-            /// Only one element can be selected.
-            /// </summary>
-            SelectOne,
-            /// <summary>
-            /// Multiple elements can be selected.
-            /// </summary>
-            SelectMultiple
-        }
-
-        #endregion
-
         #region Helpers
 
         internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
@@ -267,8 +233,8 @@
 
             if (selected != 1 && IsMultiple == false && options.Length > 0)
             {
-                for (int i = 0; i < options.Length; i++)
-                    options[i].IsSelected = false;
+                foreach (var option in options)
+                    option.IsSelected = false;
 
                 options[maxSelected].IsSelected = true;
             }
