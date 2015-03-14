@@ -26,7 +26,7 @@
         static readonly String AboutBlank = "about:blank";
 
         readonly StyleSheetList _styleSheets;
-        readonly Queue<HtmlScriptElement> _scripts;
+        readonly Queue<HtmlScriptElement> _loadingScripts;
         readonly List<WeakReference> _ranges;
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
@@ -46,6 +46,16 @@
         String _preferredStyleSheetSet;
         Location _location;
         IElement _focus;
+        HtmlAllCollection _all;
+        HtmlCollection<IHtmlAnchorElement> _anchors;
+        HtmlElementCollection _children;
+        DomImplementation _implementation;
+        StringList _styleSheetSets;
+        HtmlCollection<IHtmlImageElement> _images;
+        HtmlCollection<IHtmlScriptElement> _scripts;
+        HtmlCollection<IHtmlEmbedElement> _plugins;
+        HtmlElementCollection _commands;
+        HtmlElementCollection _links;
 
         #endregion
 
@@ -434,7 +444,7 @@
             _styleSheets = new StyleSheetList(this);
             _mutations = new MutationHost(this);
             _preferredStyleSheetSet = String.Empty;
-            _scripts = new Queue<HtmlScriptElement>();
+            _loadingScripts = new Queue<HtmlScriptElement>();
             _quirksMode = QuirksMode.Off;
             _designMode = false;
             _location = new Location(AboutBlank);
@@ -466,7 +476,7 @@
         /// </summary>
         public IHtmlAllCollection All
         {
-            get { return new HtmlAllCollection(this); }
+            get { return _all ?? (_all = new HtmlAllCollection(this)); }
         }
 
         /// <summary>
@@ -474,7 +484,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlAnchorElement> Anchors
         {
-            get { return new HtmlCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name)); }
+            get { return _anchors ?? (_anchors = new HtmlCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
         }
 
         /// <summary>
@@ -490,7 +500,7 @@
         /// </summary>
         public IHtmlCollection<IElement> Children
         {
-            get { return new HtmlElementCollection(ChildNodes.OfType<Element>()); }
+            get { return _children ?? (_children = new HtmlElementCollection(ChildNodes.OfType<Element>())); }
         }
 
         /// <summary>
@@ -551,7 +561,7 @@
         /// </summary>
         public IHtmlScriptElement CurrentScript
         {
-            get { return _scripts.Count > 0 ? _scripts.Peek() : null; }
+            get { return _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null; }
         }
 
         /// <summary>
@@ -559,7 +569,7 @@
         /// </summary>
         public IImplementation Implementation
         {
-            get { return new DomImplementation(this); }
+            get { return _implementation ?? (_implementation = new DomImplementation(this)); }
         }
 
         /// <summary>
@@ -617,7 +627,7 @@
         /// </summary>
         public IStringList StyleSheetSets
         {
-            get { return new StringList(_styleSheets.Select(m => m.Title)); }
+            get { return _styleSheetSets ?? (_styleSheetSets = new StringList(_styleSheets.Select(m => m.Title))); }
         }
 
         /// <summary>
@@ -734,7 +744,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlImageElement> Images
         {
-            get { return new HtmlCollection<IHtmlImageElement>(this); }
+            get { return _images ?? (_images = new HtmlCollection<IHtmlImageElement>(this)); }
         }
 
         /// <summary>
@@ -742,7 +752,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlScriptElement> Scripts
         {
-            get { return new HtmlCollection<IHtmlScriptElement>(this); }
+            get { return _scripts ?? (_scripts = new HtmlCollection<IHtmlScriptElement>(this)); }
         }
 
         /// <summary>
@@ -750,7 +760,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlEmbedElement> Plugins
         {
-            get { return new HtmlCollection<IHtmlEmbedElement>(this); }
+            get { return _plugins ?? (_plugins = new HtmlCollection<IHtmlEmbedElement>(this)); }
         }
 
         /// <summary>
@@ -759,7 +769,7 @@
         /// </summary>
         public IHtmlCollection<IElement> Commands
         {
-            get { return new HtmlElementCollection(this, predicate: element => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement); }
+            get { return _commands ?? (_commands = new HtmlElementCollection(this, predicate: element => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement)); }
         }
 
         /// <summary>
@@ -768,7 +778,7 @@
         /// </summary>
         public IHtmlCollection<IElement> Links
         {
-            get { return new HtmlElementCollection(this, predicate: element => (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href)); }
+            get { return _links ?? (_links = new HtmlElementCollection(this, predicate: element => (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
         }
 
         /// <summary>
@@ -1019,7 +1029,7 @@
         /// <param name="script"></param>
         internal void AddScript(HtmlScriptElement script)
         {
-            _scripts.Enqueue(script);
+            _loadingScripts.Enqueue(script);
         }
 
         /// <summary>
@@ -1057,7 +1067,7 @@
         {
             //Important to fix #45
             ReplaceAll(null, true);
-            _scripts.Clear();
+            _loadingScripts.Clear();
 
             if (_source != null)
             {
@@ -1110,7 +1120,7 @@
 
             var shallReplace = Keywords.Replace.Equals(replace, StringComparison.OrdinalIgnoreCase);
 
-            if (_scripts.Count > 0)
+            if (_loadingScripts.Count > 0)
                 return this;
 
             if (shallReplace)
@@ -1578,7 +1588,7 @@
         /// </returns>
         internal Boolean IsWaitingForScript()
         {
-            return _scripts.Count > 0 && _scripts.Peek().IsReady == false;
+            return _loadingScripts.Count > 0 && _loadingScripts.Peek().IsReady == false;
         }
 
         /// <summary>
@@ -1588,10 +1598,10 @@
         {
             ReadyState = DocumentReadyState.Interactive;
 
-            while (_scripts.Count > 0)
+            while (_loadingScripts.Count > 0)
             {
                 this.WaitForReady();
-                _scripts.Dequeue().Run();
+                _loadingScripts.Dequeue().Run();
             }
 
             this.QueueTask(RaiseDomContentLoaded);
