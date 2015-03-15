@@ -35,7 +35,7 @@
         /// A negative value indicates that the cell should be appended to the row.</param>
         /// <returns>The inserted table cell.</returns>
         [DomName("insertCell")]
-        IHtmlElement InsertCellAt(Int32 index = -1);
+        IHtmlTableCellElement InsertCellAt(Int32 index = -1);
 
         /// <summary>
         /// Deletes a cell from the current row.

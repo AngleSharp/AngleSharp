@@ -108,10 +108,10 @@
         /// The place to insert the cell, starting from 0.
         /// </param>
         /// <returns>The inserted table cell.</returns>
-        public IHtmlElement InsertCellAt(Int32 index = -1)
+        public IHtmlTableCellElement InsertCellAt(Int32 index = -1)
         {
             var cell = Cells[index];
-            var newCell = Owner.CreateElement(Tags.Td) as HtmlTableCellElement;
+            var newCell = Owner.CreateElement(Tags.Td) as IHtmlTableCellElement;
 
             if (cell != null)
                 InsertBefore(newCell, cell);
