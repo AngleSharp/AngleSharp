@@ -91,10 +91,23 @@
         }
 
         /// <summary>
+        /// Inserts a node as the last child node of this element.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element to add.</typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <param name="element">The element to be appended.</param>
+        /// <returns>The appended element.</returns>
+        public static TElement AppendChild<TElement>(this INode parent, TElement element)
+            where TElement : class, IElement
+        {
+            return parent.AppendChild(element) as TElement;
+        }
+
+        /// <summary>
         /// Returns the first element matching the selectors with the provided
         /// type, or null.
         /// </summary>
-        /// <typeparam name="TElement"></typeparam>
+        /// <typeparam name="TElement">The type to look for.</typeparam>
         /// <param name="parent">The parent of the nodes to gather.</param>
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>The element, if there is any.</returns>
@@ -108,7 +121,7 @@
         /// Returns a list of elements matching the selectors with the
         /// provided type.
         /// </summary>
-        /// <typeparam name="TElement"></typeparam>
+        /// <typeparam name="TElement">The type to look for.</typeparam>
         /// <param name="parent">The parent of the nodes to gather.</param>
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>An enumeration with the elements.</returns>
