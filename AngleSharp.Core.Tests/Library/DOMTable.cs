@@ -8,11 +8,38 @@ namespace AngleSharp.Core.Tests.Library
     public class DOMTable
     {
         [Test]
-        public void ChildrenOfTable()
+        public void ChildrenOfTableDirectly()
         {
             var document = DocumentBuilder.Html("");
             var table = document.CreateElement("table");
             SimpleTableTest(document, table, table);
+        }
+
+        [Test]
+        public void ChildrenOfTableHead()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table");
+            var group = table.AppendChild(document.CreateElement("thead")) as IElement;
+            SimpleTableTest(document, group, table);
+        }
+
+        [Test]
+        public void ChildrenOfTableFoot()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table");
+            var group = table.AppendChild(document.CreateElement("tfoot")) as IElement;
+            SimpleTableTest(document, group, table);
+        }
+
+        [Test]
+        public void ChildrenOfTableBody()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table");
+            var group = table.AppendChild(document.CreateElement("tbody")) as IElement;
+            SimpleTableTest(document, group, table);
         }
 
         static void SimpleTableTest(IDocument document, IElement group, IElement table)
