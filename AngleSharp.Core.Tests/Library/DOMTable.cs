@@ -166,6 +166,40 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.IsNull(rows[id]);
         }
 
+        [Test]
+        public void MoveTableAndAppendCells()
+        {
+            var text =
+              "<html xmlns=\"http://www.w3.org/1999/xhtml\">" +
+              "  <head>" +
+              "    <title>Virtual Library</title>" +
+              "  </head>" +
+              "  <body>" +
+              "    <table id=\"mytable\" border=\"1\">" +
+              "      <tbody>" +
+              "        <tr><td>Cell 1</td><td>Cell 2</td></tr>" +
+              "        <tr><td>Cell 3</td><td>Cell 4</td></tr>" +
+              "      </tbody>" +
+              "    </table>" +
+              "  </body>" +
+              "</html>";
+            var document = DocumentBuilder.Html("");
+            var doc = DocumentBuilder.Html(text);
+            // import <table>
+            var table = doc.DocumentElement.GetElementsByTagName("table")[0];
+            var mytable = document.Body.AppendChild(document.Import(table, true)) as IHtmlTableElement;
+            Assert.IsNotNull(mytable);
+            Assert.AreEqual(1, mytable.Bodies.Length);
+            var tbody = document.CreateElement("tbody") as IHtmlTableSectionElement;
+            mytable.AppendChild(tbody);
+            var tr = tbody.InsertRowAt(-1);
+            tr.InsertCellAt(-1).AppendChild(document.CreateTextNode("Cell 5"));
+            tr.InsertCellAt(-1).AppendChild(document.CreateTextNode("Cell 6"));
+            Assert.AreEqual(2, mytable.Bodies.Length);
+            Assert.AreEqual(3, mytable.Rows.Length);
+            Assert.AreEqual(2, tr.Index);
+        }
+
         static void SimpleTableTest(IDocument document, IElement group, IElement table)
         {
             var foo1 = group.AppendChild(document.CreateElement("tr")) as IElement;
