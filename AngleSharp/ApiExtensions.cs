@@ -94,13 +94,43 @@
         /// Inserts a node as the last child node of this element.
         /// </summary>
         /// <typeparam name="TElement">The type of element to add.</typeparam>
-        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <param name="parent">The parent of the node to add.</param>
         /// <param name="element">The element to be appended.</param>
         /// <returns>The appended element.</returns>
-        public static TElement AppendChild<TElement>(this INode parent, TElement element)
+        public static TElement Append<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
             return parent.AppendChild(element) as TElement;
+        }
+
+        /// <summary>
+        /// Inserts the newElement immediately before the referenceElement.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element to add.</typeparam>
+        /// <param name="parent">The parent of the node to add.</param>
+        /// <param name="newElement">The node to be inserted.</param>
+        /// <param name="referenceElement">
+        /// The existing child element that will succeed the new element.
+        /// </param>
+        /// <returns>The inserted element.</returns>
+        public static TElement Insert<TElement>(this INode parent, TElement newElement, INode referenceElement)
+            where TElement : class, IElement
+        {
+            return parent.InsertBefore(newElement, referenceElement) as TElement;
+        }
+
+        /// <summary>
+        /// Removes a child node from the current element, which must be a
+        /// child of the current node.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element.</typeparam>
+        /// <param name="parent">The parent of the node to remove.</param>
+        /// <param name="element">The element to be removed.</param>
+        /// <returns>The removed element.</returns>
+        public static TElement Remove<TElement>(this INode parent, TElement element)
+            where TElement : class, IElement
+        {
+            return parent.RemoveChild(element) as TElement;
         }
 
         /// <summary>
