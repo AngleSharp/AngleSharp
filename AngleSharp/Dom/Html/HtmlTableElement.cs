@@ -70,6 +70,22 @@
         /// </summary>
         public IEnumerable<IHtmlTableRowElement> AllRows
         {
+            get { return ChildRows.Concat(SectionRows); }
+        }
+
+        /// <summary>
+        /// Gets an enumeration over all direct rows of the table.
+        /// </summary>
+        public IEnumerable<IHtmlTableRowElement> ChildRows
+        {
+            get { return ChildNodes.OfType<IHtmlTableRowElement>(); }
+        }
+
+        /// <summary>
+        /// Gets an enumeration over all rows of the table's sections.
+        /// </summary>
+        public IEnumerable<IHtmlTableRowElement> SectionRows
+        {
             get { return ChildNodes.OfType<IHtmlTableSectionElement>().SelectMany(m => m.Rows).OfType<IHtmlTableRowElement>(); }
         }
 
