@@ -26,7 +26,7 @@
         /// </param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        IHtmlElement InsertRowAt(Int32 index = -1);
+        IHtmlTableRowElement InsertRowAt(Int32 index = -1);
 
         /// <summary>
         /// Deletes a row from this section.

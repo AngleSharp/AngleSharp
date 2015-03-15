@@ -69,7 +69,7 @@
         /// all the rows in the table.
         /// </param> 
         /// <returns>The inserted table row.</returns>
-        public IHtmlElement InsertRowAt(Int32 index = -1)
+        public IHtmlTableRowElement InsertRowAt(Int32 index = -1)
         {
             var row = Rows[index];
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
