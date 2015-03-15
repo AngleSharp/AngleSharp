@@ -20,7 +20,7 @@
         /// </summary>
         /// <returns>A caption element.</returns>
         [DomName("createCaption")]
-        IHtmlElement CreateCaption();
+        IHtmlTableCaptionElement CreateCaption();
 
         /// <summary>
         /// Deletes the table caption, if one exists.
@@ -39,7 +39,7 @@
         /// </summary>
         /// <returns>A table header element.</returns>
         [DomName("createTHead")]
-        IHtmlElement CreateHead();
+        IHtmlTableSectionElement CreateHead();
 
         /// <summary>
         /// Deletes the header from the table, if one exists. 
@@ -58,7 +58,7 @@
         /// </summary>
         /// <returns>A footer element.</returns>
         [DomName("createTFoot")]
-        IHtmlElement CreateFoot();
+        IHtmlTableSectionElement CreateFoot();
 
         /// <summary>
         /// Deletes the footer from the table, if one exists.
@@ -77,7 +77,7 @@
         /// </summary>
         /// <returns>A body element.</returns>
         [DomName("createTBody")]
-        IHtmlElement CreateBody();
+        IHtmlTableSectionElement CreateBody();
 
         /// <summary>
         /// Gets the assigned table rows.
@@ -98,7 +98,7 @@
         /// </param>
         /// <returns>The inserted table row.</returns>
         [DomName("insertRow")]
-        IHtmlElement InsertRowAt(Int32 index = -1);
+        IHtmlTableRowElement InsertRowAt(Int32 index = -1);
 
         /// <summary>
         /// Deletes a table row.

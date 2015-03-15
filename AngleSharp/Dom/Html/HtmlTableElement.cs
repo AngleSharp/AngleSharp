@@ -198,7 +198,7 @@
         /// the rows  contained inside the table.
         /// </param>
         /// <returns>The inserted table row.</returns>
-        public IHtmlElement InsertRowAt(Int32 index = -1)
+        public IHtmlTableRowElement InsertRowAt(Int32 index = -1)
         {
             var rows = Rows;
             var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
@@ -249,7 +249,7 @@
         /// Create a table header row or return an existing one.
         /// </summary>
         /// <returns>A new table header element.</returns>
-        public IHtmlElement CreateHead()
+        public IHtmlTableSectionElement CreateHead()
         {
             var head = Head;
 
@@ -266,7 +266,7 @@
         /// Creates a new table body and appends it.
         /// </summary>
         /// <returns>The created table body.</returns>
-        public IHtmlElement CreateBody()
+        public IHtmlTableSectionElement CreateBody()
         {
             var body = Owner.CreateElement(Tags.Tbody) as IHtmlTableSectionElement;
             AppendChild(body);
@@ -288,7 +288,7 @@
         /// Create a table footer row or return an existing one.
         /// </summary>
         /// <returns>A footer element.</returns>
-        public IHtmlElement CreateFoot()
+        public IHtmlTableSectionElement CreateFoot()
         {
             var foot = Foot;
 
@@ -316,7 +316,7 @@
         /// Create a new table caption object or return an existing one.
         /// </summary>
         /// <returns>A caption element.</returns>
-        public IHtmlElement CreateCaption()
+        public IHtmlTableCaptionElement CreateCaption()
         {
             var caption = Caption;
 
