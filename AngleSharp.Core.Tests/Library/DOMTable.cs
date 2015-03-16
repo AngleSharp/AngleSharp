@@ -1,6 +1,7 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
+using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
 {
@@ -47,49 +48,49 @@ namespace AngleSharp.Core.Tests.Library
         {
             var document = DocumentBuilder.Html("");
             var table = document.CreateElement("table");
-            var orphan1 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan1 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan1.Id = "orphan1";
             var foot1 = table.AppendChild(document.CreateElement("tfoot"));
-            var orphan2 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan2 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan2.Id = "orphan2";
             var foot2 = table.AppendChild(document.CreateElement("tfoot"));
-            var orphan3 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan3 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan3.Id = "orphan3";
             var body1 = table.AppendChild(document.CreateElement("tbody"));
-            var orphan4 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan4 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan4.Id = "orphan4";
             var body2 = table.AppendChild(document.CreateElement("tbody"));
-            var orphan5 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan5 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan5.Id = "orphan5";
             var head1 = table.AppendChild(document.CreateElement("thead"));
-            var orphan6 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan6 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan6.Id = "orphan6";
             var head2 = table.AppendChild(document.CreateElement("thead"));
-            var orphan7 = table.AppendChild(document.CreateElement("tr")) as IElement;
+            var orphan7 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan7.Id = "orphan7";
-            var foot1row1 = foot1.AppendChild(document.CreateElement("tr")) as IElement;
+            var foot1row1 = foot1.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             foot1row1.Id = "foot1row1";
-            var foot1row2 = foot1.AppendChild(document.CreateElement("tr")) as IElement;
+            var foot1row2 = foot1.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             foot1row2.Id = "foot1row2";
-            var foot2row1 = foot2.AppendChild(document.CreateElement("tr")) as IElement;
+            var foot2row1 = foot2.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             foot2row1.Id = "foot2row1";
-            var foot2row2 = foot2.AppendChild(document.CreateElement("tr")) as IElement;
+            var foot2row2 = foot2.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             foot2row2.Id = "foot2row2";
-            var body1row1 = body1.AppendChild(document.CreateElement("tr")) as IElement;
+            var body1row1 = body1.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             body1row1.Id = "body1row1";
-            var body1row2 = body1.AppendChild(document.CreateElement("tr")) as IElement;
+            var body1row2 = body1.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             body1row2.Id = "body1row2";
-            var body2row1 = body2.AppendChild(document.CreateElement("tr")) as IElement;
+            var body2row1 = body2.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             body2row1.Id = "body2row1";
-            var body2row2 = body2.AppendChild(document.CreateElement("tr")) as IElement;
+            var body2row2 = body2.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             body2row2.Id = "body2row2";
-            var head1row1 = head1.AppendChild(document.CreateElement("tr")) as IElement;
+            var head1row1 = head1.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             head1row1.Id = "head1row1";
-            var head1row2 = head1.AppendChild(document.CreateElement("tr")) as IElement;
+            var head1row2 = head1.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             head1row2.Id = "head1row2";
-            var head2row1 = head2.AppendChild(document.CreateElement("tr")) as IElement;
+            var head2row1 = head2.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             head2row1.Id = "head2row1";
-            var head2row2 = head2.AppendChild(document.CreateElement("tr")) as IElement;
+            var head2row2 = head2.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             head2row2.Id = "head2row2";
 
             // These elements should not end up in any collection.
@@ -109,7 +110,7 @@ namespace AngleSharp.Core.Tests.Library
             var rows = (table as IHtmlTableElement).Rows;
             Assert.IsNotNull(rows);
 
-            CollectionAssert.AreEquivalent(new[] {
+            CollectionAssert.AreEqual(new IHtmlTableRowElement[] {
                 // thead
                 head1row1,
                 head1row2,
@@ -132,7 +133,7 @@ namespace AngleSharp.Core.Tests.Library
                 foot1row2,
                 foot2row1,
                 foot2row2
-            }, rows);
+            }, rows.ToArray());
 
             var ids = new[] {
                 "orphan1",
@@ -216,10 +217,10 @@ namespace AngleSharp.Core.Tests.Library
             var document = DocumentBuilder.Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
-            CollectionAssert.AreEquivalent(new[] { before }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody() as IHtmlTableSectionElement;
-            CollectionAssert.AreEquivalent(new[] { before, tbody }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -230,10 +231,10 @@ namespace AngleSharp.Core.Tests.Library
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
-            CollectionAssert.AreEquivalent(new[] { before1, before2 }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before1, before2 }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEquivalent(new[] { before1, before2, tbody }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before1, before2, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -244,10 +245,10 @@ namespace AngleSharp.Core.Tests.Library
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("thead")) as IHtmlTableSectionElement;
             var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
-            CollectionAssert.AreEquivalent(new[] { before1, before2 }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before1, before2 }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEquivalent(new[] { before1, before2, tbody }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before1, before2, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -258,10 +259,24 @@ namespace AngleSharp.Core.Tests.Library
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tfoot"));
             var before2 = table.AppendChild(document.CreateElement("tbody"));
-            CollectionAssert.AreEquivalent(new[] { before1, before2 }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before1, before2 }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEquivalent(new[] { before1, before2, tbody }, table.ChildNodes);
+            CollectionAssert.AreEqual(new[] { before1, before2, tbody }, table.ChildNodes.ToArray());
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyTbodyAndTheadChildNode()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            var after = table.AppendChild(document.CreateElement("thead")) as IHtmlTableSectionElement;
+            CollectionAssert.AreEqual(new INode[] { before, after }, table.ChildNodes.ToArray());
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEqual(new INode[] { before, tbody, after }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
