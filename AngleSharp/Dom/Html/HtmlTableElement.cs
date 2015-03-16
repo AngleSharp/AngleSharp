@@ -53,7 +53,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlTableSectionElement> Bodies
         {
-            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false)); }
+            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.NodeName == Tags.Tbody)); }
         }
 
         /// <summary>
@@ -268,8 +268,10 @@
         /// <returns>The created table body.</returns>
         public IHtmlTableSectionElement CreateBody()
         {
+            var lastBody = Bodies.LastOrDefault();
             var body = Owner.CreateElement(Tags.Tbody) as IHtmlTableSectionElement;
-            AppendChild(body);
+            var index = lastBody != null ? lastBody.Index() + 1 : ChildNodes.Length;
+            InsertChild(index, body);
             return body;
         }
 
