@@ -70,23 +70,39 @@
         /// </summary>
         public IEnumerable<IHtmlTableRowElement> AllRows
         {
-            get { return ChildRows.Concat(SectionRows); }
-        }
+            get
+            {
+                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.NodeName == Tags.Thead);
+                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.NodeName == Tags.Tfoot);
 
-        /// <summary>
-        /// Gets an enumeration over all direct rows of the table.
-        /// </summary>
-        public IEnumerable<IHtmlTableRowElement> ChildRows
-        {
-            get { return ChildNodes.OfType<IHtmlTableRowElement>(); }
-        }
+                foreach (var head in heads)
+                {
+                    foreach (var row in head.Rows)
+                        yield return row;
+                }
 
-        /// <summary>
-        /// Gets an enumeration over all rows of the table's sections.
-        /// </summary>
-        public IEnumerable<IHtmlTableRowElement> SectionRows
-        {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().SelectMany(m => m.Rows).OfType<IHtmlTableRowElement>(); }
+                foreach (var child in ChildNodes)
+                {
+                    if (child is IHtmlTableSectionElement)
+                    {
+                        var body = (IHtmlTableSectionElement)child;
+
+                        if (body.LocalName == Tags.Tbody)
+                        {
+                            foreach (var row in body.Rows)
+                                yield return row;
+                        }
+                    }
+                    else if (child is IHtmlTableRowElement)
+                        yield return (IHtmlTableRowElement)child;
+                }
+
+                foreach (var foot in foots)
+                {
+                    foreach (var row in foot.Rows)
+                        yield return row;
+                }
+            }
         }
 
         /// <summary>
