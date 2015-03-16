@@ -200,6 +200,50 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(2, tr.Index);
         }
 
+        [Test]
+        public void TableBodyNoChildNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var tbody = table.CreateBody();
+            Assert.AreEqual(table.FirstChild, tbody);
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyOneTbodyChildNode()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            CollectionAssert.AreEquivalent(new[] { before }, table.ChildNodes);
+
+            var tbody = table.CreateBody() as IHtmlTableSectionElement;
+            CollectionAssert.AreEquivalent(new[] { before, tbody }, table.ChildNodes);
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyTwoTbodyChildNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before1 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            CollectionAssert.AreEquivalent(new[] { before1, before2 }, table.ChildNodes);
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEquivalent(new[] { before1, before2, tbody }, table.ChildNodes);
+            AssertTableBody(tbody);
+        }
+
+        static void AssertTableBody(IHtmlTableSectionElement body)
+        {
+            Assert.AreEqual("tbody", body.LocalName);
+            Assert.AreEqual("http://www.w3.org/1999/xhtml", body.NamespaceUri);
+            Assert.IsNull(body.Prefix);
+        }
+
         static void SimpleTableTest(IDocument document, IElement group, IElement table)
         {
             var foo1 = group.AppendChild(document.CreateElement("tr")) as IElement;
