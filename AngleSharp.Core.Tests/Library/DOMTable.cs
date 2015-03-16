@@ -237,6 +237,34 @@ namespace AngleSharp.Core.Tests.Library
             AssertTableBody(tbody);
         }
 
+        [Test]
+        public void TableBodyTheadAndTbodyChildNode()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before1 = table.AppendChild(document.CreateElement("thead")) as IHtmlTableSectionElement;
+            var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            CollectionAssert.AreEquivalent(new[] { before1, before2 }, table.ChildNodes);
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEquivalent(new[] { before1, before2, tbody }, table.ChildNodes);
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyTbodyAndTfootChildNode()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before1 = table.AppendChild(document.CreateElement("tfoot"));
+            var before2 = table.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEquivalent(new[] { before1, before2 }, table.ChildNodes);
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEquivalent(new[] { before1, before2, tbody }, table.ChildNodes);
+            AssertTableBody(tbody);
+        }
+
         static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
