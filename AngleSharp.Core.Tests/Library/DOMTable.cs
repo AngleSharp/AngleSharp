@@ -253,7 +253,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void TableBodyTbodyAndTfootChildNode()
+        public void TableBodyTfootAndTbodyChildNode()
         {
             var document = DocumentBuilder.Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
@@ -277,6 +277,63 @@ namespace AngleSharp.Core.Tests.Library
 
             var tbody = table.CreateBody();
             CollectionAssert.AreEqual(new INode[] { before, tbody, after }, table.ChildNodes.ToArray());
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyTbodyAndTfootChildNode()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            var after = table.AppendChild(document.CreateElement("tfoot")) as IHtmlTableSectionElement;
+            CollectionAssert.AreEqual(new INode[] { before, after }, table.ChildNodes.ToArray());
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEqual(new INode[] { before, tbody, after }, table.ChildNodes.ToArray());
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyTwoTbodyChildNodesAndADiv()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before1 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
+            var after = table.AppendChild(document.CreateElement("div"));
+            CollectionAssert.AreEqual(new INode[] { before1, before2, after }, table.ChildNodes.ToArray());
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEqual(new INode[] { before1, before2, tbody, after }, table.ChildNodes.ToArray());
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyOneHtmlOneNamespacedTBodyElement()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before = table.AppendChild(document.CreateElement("tbody"));
+            var after = table.AppendChild(document.CreateElement("x", "tbody"));
+            CollectionAssert.AreEqual(new[] { before, after }, table.ChildNodes.ToArray());
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEqual(new[] { before, tbody, after }, table.ChildNodes.ToArray());
+            AssertTableBody(tbody);
+        }
+
+        [Test]
+        public void TableBodyTwoNestedTBodyChildNodes()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var before1 = table.AppendChild(document.CreateElement("tbody"));
+            var before2 = before1.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEqual(new INode[] { before1 }, table.ChildNodes.ToArray());
+
+            var tbody = table.CreateBody();
+            CollectionAssert.AreEqual(new INode[] { before1, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
