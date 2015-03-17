@@ -437,6 +437,21 @@ namespace AngleSharp.Core.Tests.Library
             CollectionAssert.AreEqual(new INode[] { row }, table.Rows.ToArray());
         }
 
+        [Test]
+        public void TableInsertRowShouldInsertIntoTbodyNotTfootIfTableRowsIsEmpty()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var foot = table.AppendChild(document.CreateElement("tfoot"));
+            CollectionAssert.AreEqual(new INode[0], table.Rows.ToArray());
+            var row = table.InsertRowAt(-1);
+            var body = row.Parent;
+            CollectionAssert.AreEqual(new INode[] { foot, body }, table.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[0], foot.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { row }, body.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { row }, table.Rows.ToArray());
+        }
+
         static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
