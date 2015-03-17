@@ -133,7 +133,7 @@
         /// </summary>
         public String TagName
         {
-            get { return NodeName.ToUpperInvariant(); }
+            get { return (_prefix != null ? String.Concat(_prefix, ":", NodeName) : NodeName).ToUpperInvariant(); }
         }
 
         /// <summary>
