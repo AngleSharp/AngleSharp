@@ -1,6 +1,7 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
@@ -8,6 +9,8 @@ namespace AngleSharp.Core.Tests.Library
     [TestFixture]
     public class DOMTable
     {
+        static readonly String HTMLNS = "http://www.w3.org/1999/xhtml";
+
         [Test]
         public void ChildrenOfTableDirectly()
         {
@@ -395,10 +398,34 @@ namespace AngleSharp.Core.Tests.Library
             AssertTableBody(tbody);
         }
 
+        [Test]
+        public void TableInsertRowShouldNotCopyPrefixes()
+        {
+            var document = DocumentBuilder.Html("");
+            var parentEl = document.CreateElement(HTMLNS, "html:table") as IHtmlTableElement;
+            Assert.AreEqual(HTMLNS, parentEl.NamespaceUri);
+            Assert.AreEqual("html", parentEl.Prefix);
+            Assert.AreEqual("table", parentEl.LocalName);
+            Assert.AreEqual("HTML:TABLE", parentEl.TagName);
+            var row = parentEl.InsertRowAt(-1);
+            Assert.AreEqual(HTMLNS, row.NamespaceUri);
+            Assert.IsNull(row.Prefix);
+            Assert.AreEqual("tr", row.LocalName);
+            Assert.AreEqual("TR", row.TagName);
+            var body = row.ParentElement;
+            Assert.AreEqual(HTMLNS, body.NamespaceUri);
+            Assert.IsNull(body.Prefix);
+            Assert.AreEqual("tbody", body.LocalName);
+            Assert.AreEqual("TBODY", body.TagName);
+            CollectionAssert.AreEqual(new INode[] { body }, parentEl.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { row }, body.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new IHtmlTableRowElement[] { row }, parentEl.Rows.ToArray());
+        }
+
         static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
-            Assert.AreEqual("http://www.w3.org/1999/xhtml", body.NamespaceUri);
+            Assert.AreEqual(HTMLNS, body.NamespaceUri);
             Assert.IsNull(body.Prefix);
         }
 
