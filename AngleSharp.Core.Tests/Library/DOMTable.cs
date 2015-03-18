@@ -500,6 +500,38 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNull(table.Caption);
         }
 
+        [Test]
+        public void TableFirstCaptionElementChild()
+        {
+            var document = DocumentBuilder.Html(@"<table>
+      <tr><td></td></tr>
+      <caption>first caption</caption>
+      <caption>second caption</caption>
+    </table>");
+            var table = document.QuerySelector("table") as IHtmlTableElement;
+            Assert.AreEqual("first caption", table.Caption.InnerHtml);
+        }
+
+        [Test]
+        public void TableSettingCaption()
+        {
+            var document = DocumentBuilder.Html(@"<table>
+      <tr><td></td></tr>
+      <caption>first caption</caption>
+      <caption>second caption</caption>
+    </table>");
+            var caption = document.CreateElement("caption") as IHtmlTableCaptionElement;
+            caption.InnerHtml = "new caption";
+            var table = document.QuerySelector("table") as IHtmlTableElement;
+            table.Caption = caption;
+            Assert.AreEqual(table, caption.Parent);
+            Assert.AreEqual("new caption", table.Caption.InnerHtml);
+            var captions = table.GetElementsByTagName("caption");
+            Assert.AreEqual(2, captions.Length);
+            Assert.AreEqual("new caption", captions[0].InnerHtml);
+            Assert.AreEqual("second caption", captions[1].InnerHtml);
+        }
+
         static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
