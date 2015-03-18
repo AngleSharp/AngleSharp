@@ -2,6 +2,7 @@
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
@@ -776,6 +777,89 @@ namespace AngleSharp.Core.Tests.Library
             var document = DocumentBuilder.Html(SectionRowIndexCode);
             var childBodyRow = document.GetElementById("nbt1") as IHtmlTableRowElement;
             Assert.AreEqual(0, childBodyRow.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTable()
+        {
+            Assert.AreEqual(0, MakeRowElement().IndexInSection);
+        }
+
+
+        [Test]
+        public void TableRowInScriptCreatedDivInTable()
+        {
+            Assert.AreEqual(-1, MakeRowElement("div").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTheadInTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("thead").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTbodyInTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("tbody").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTfootInTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("tfoot").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTrInTbodyInTable()
+        {
+            Assert.AreEqual(-1, MakeRowElement("tbody", "tr").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTdInTrInTbodyInTable()
+        {
+            Assert.AreEqual(-1, MakeRowElement("tbody", "tr", "td").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedNestedTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("tbody", "tr", "td", "table").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTheadInNestedTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("tbody", "tr", "td", "table", "thead").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTbodyInNestedTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("tbody", "tr", "td", "table", "tbody").IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInScriptCreatedTfootInNestedTable()
+        {
+            Assert.AreEqual(0, MakeRowElement("tbody", "tr", "td", "table", "tfoot").IndexInSection);
+        }
+
+
+        static IHtmlTableRowElement MakeRowElement(params String[] names)
+        {
+            var document = DocumentBuilder.Html("");
+            var elm = document.CreateElement("table");
+
+            foreach (var name in names)
+            {
+                var node = document.CreateElement(name);
+                elm.AppendChild(node);
+                elm = node;
+            }
+
+            return elm.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
         }
 
         static void AssertTableBody(IHtmlTableSectionElement body)
