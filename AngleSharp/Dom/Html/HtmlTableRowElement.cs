@@ -92,7 +92,7 @@
                 if (parent != null)
                     return parent.Rows.Index(this);
 
-                return 0; 
+                return Index; 
             }
         }
 
