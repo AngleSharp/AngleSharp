@@ -10,6 +10,35 @@ namespace AngleSharp.Core.Tests.Library
     public class DOMTable
     {
         static readonly String HTMLNS = "http://www.w3.org/1999/xhtml";
+        static readonly String SectionRowIndexCode = @"<table>
+  <thead>
+    <tr id=ht1></tr>
+  </thead>
+  <tr id=t1></tr>
+  <tr id=t2>
+    <td>
+      <table>
+        <thead>
+          <tr id=nht1></tr>
+        </thead>
+        <tr></tr>
+        <tr id=nt1></tr>
+        <tbody>
+          <tr id=nbt1></tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  <tbody>
+    <tr></tr>
+    <tr id=bt1></tr>
+  </tbody>
+  <tfoot>
+    <tr></tr>
+    <tr></tr>
+    <tr id=ft1></tr>
+  </tfoot>
+</table> ";
 
         [Test]
         public void ChildrenOfTableDirectly()
@@ -683,6 +712,70 @@ namespace AngleSharp.Core.Tests.Library
                               .AppendChild(document.CreateElement("", "tfoot"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
             Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowInThead()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var tHeadRow = document.GetElementById("ht1") as IHtmlTableRowElement;
+            Assert.AreEqual(0, tHeadRow.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInImplicitTbody()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var tRow1 = document.GetElementById("t1") as IHtmlTableRowElement;
+            Assert.AreEqual(0, tRow1.IndexInSection);
+        }
+
+        [Test]
+        public void TableOtherRowInImplicitTbody()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var tRow2 = document.GetElementById("t2") as IHtmlTableRowElement;
+            Assert.AreEqual(1, tRow2.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInExplicitTbody()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var tBodyRow = document.GetElementById("bt1") as IHtmlTableRowElement;
+            Assert.AreEqual(1, tBodyRow.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInTfoot()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var tFootRow = document.GetElementById("ft1") as IHtmlTableRowElement;
+            Assert.AreEqual(2, tFootRow.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInTheadInNestedTable()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var childHeadRow = document.GetElementById("nht1") as IHtmlTableRowElement;
+            Assert.AreEqual(0, childHeadRow.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInImplicitTbodyInNestedTable()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var childRow = document.GetElementById("nt1") as IHtmlTableRowElement;
+            Assert.AreEqual(1, childRow.IndexInSection);
+        }
+
+        [Test]
+        public void TableRowInExplicitTbodyInNestedTable()
+        {
+            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var childBodyRow = document.GetElementById("nbt1") as IHtmlTableRowElement;
+            Assert.AreEqual(0, childBodyRow.IndexInSection);
         }
 
         static void AssertTableBody(IHtmlTableSectionElement body)
