@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the object for HTML td elements.
     /// </summary>
-    sealed class HtmlTableDataCellElement : HtmlTableCellElement, IHtmlTableCellElement
+    sealed class HtmlTableDataCellElement : HtmlTableCellElement, IHtmlTableDataCellElement
     {
         #region ctor
 
