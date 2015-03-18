@@ -36,7 +36,7 @@
         public IHtmlTableCaptionElement Caption
         {
             get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.NodeName == Tags.Caption); }
-            set { DeleteCaption(); AppendChild(value); }
+            set { DeleteCaption(); InsertChild(0, value); }
         }
 
         /// <summary>
