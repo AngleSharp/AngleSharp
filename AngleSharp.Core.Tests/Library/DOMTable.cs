@@ -567,6 +567,124 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNull(table.Caption);
         }
 
+        [Test]
+        public void TableRowIndexUndefinedInDiv()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("div"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexDefinedInTableHead()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("thead"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(0, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexDefinedInTableBody()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("tbody"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(0, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexDefinedInTableFoot()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("tfoot"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(0, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexDefinedInTable()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(0, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInTableHeadOfNamespacedTable()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("", "table")
+                              .AppendChild(document.CreateElement("thead"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInTableBodyOfNamespacedTable()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("", "table")
+                              .AppendChild(document.CreateElement("tbody"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInTableFootOfNamespacedTable()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("", "table")
+                              .AppendChild(document.CreateElement("tfoot"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInNamespacedTable()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("", "table")
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInNamespacedTableHead()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("", "thead"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInNamespacedTableBody()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("", "tbody"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
+        [Test]
+        public void TableRowIndexUndefinedInNamespacedTableFoot()
+        {
+            var document = DocumentBuilder.Html("");
+            var row = document.CreateElement("table")
+                              .AppendChild(document.CreateElement("", "tfoot"))
+                              .AppendElement(document.CreateElement<IHtmlTableRowElement>());
+            Assert.AreEqual(-1, row.Index);
+        }
+
         static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
