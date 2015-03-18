@@ -341,7 +341,7 @@
             if (caption == null)
             {
                 caption = Owner.CreateElement(Tags.Caption) as IHtmlTableCaptionElement;
-                AppendChild(caption);
+                InsertChild(0, caption);
             }
 
             return caption;
