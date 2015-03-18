@@ -45,7 +45,7 @@
                 if (row != null)
                     return row.IndexOf(this);
 
-                return 0;
+                return -1;
             }
         }
 
