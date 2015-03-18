@@ -846,6 +846,48 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(0, MakeRowElement("tbody", "tr", "td", "table", "tfoot").IndexInSection);
         }
 
+        [Test]
+        public void TableForCellsWithoutAParentCellIndexShouldBeMissing()
+        {
+            var document = DocumentBuilder.Html("");
+            var th = document.CreateElement("th") as IHtmlTableHeaderCellElement;
+            Assert.AreEqual(-1, th.Index);
+            var td = document.CreateElement("td") as IHtmlTableDataCellElement;
+            Assert.AreEqual(-1, td.Index);
+        }
+        
+        [Test]
+        public void TableForCellsWhoseParentIsNotRowCellIndexShouldBeMissing()
+        {
+            var document = DocumentBuilder.Html("");
+            var table = document.CreateElement("table");
+            var th = table.AppendChild(document.CreateElement("th")) as IHtmlTableHeaderCellElement;
+            Assert.AreEqual(-1, th.Index);
+            var td = table.AppendChild(document.CreateElement("td")) as IHtmlTableDataCellElement;
+            Assert.AreEqual(-1, td.Index);
+        }
+        
+        [Test]
+        public void TableForCellsWhoseParentIsNotARowCellIndexShouldBeMissing()
+        {
+            var document = DocumentBuilder.Html("");
+            var tr = document.CreateElement("", "tr");
+            var th = tr.AppendChild(document.CreateElement("th")) as IHtmlTableHeaderCellElement;
+            Assert.AreEqual(-1, th.Index);
+            var td = tr.AppendChild(document.CreateElement("td")) as IHtmlTableDataCellElement;
+            Assert.AreEqual(-1, td.Index);
+        }
+        
+        [Test]
+        public void TableForCellsWhoseParentIsARowCellIndexShouldBeTheIndex()
+        {
+            var document = DocumentBuilder.Html("");
+            var tr = document.CreateElement("tr");
+            var th = tr.AppendChild(document.CreateElement("th")) as IHtmlTableHeaderCellElement;
+            Assert.AreEqual(0, th.Index);
+            var td = tr.AppendChild(document.CreateElement("td")) as IHtmlTableDataCellElement;
+            Assert.AreEqual(1, td.Index);
+        }
 
         static IHtmlTableRowElement MakeRowElement(params String[] names)
         {
