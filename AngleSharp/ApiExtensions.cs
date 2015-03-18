@@ -97,7 +97,7 @@
         /// <param name="parent">The parent of the node to add.</param>
         /// <param name="element">The element to be appended.</param>
         /// <returns>The appended element.</returns>
-        public static TElement Append<TElement>(this INode parent, TElement element)
+        public static TElement AppendElement<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
             return parent.AppendChild(element) as TElement;
@@ -113,7 +113,7 @@
         /// The existing child element that will succeed the new element.
         /// </param>
         /// <returns>The inserted element.</returns>
-        public static TElement Insert<TElement>(this INode parent, TElement newElement, INode referenceElement)
+        public static TElement InsertElement<TElement>(this INode parent, TElement newElement, INode referenceElement)
             where TElement : class, IElement
         {
             return parent.InsertBefore(newElement, referenceElement) as TElement;
@@ -127,7 +127,7 @@
         /// <param name="parent">The parent of the node to remove.</param>
         /// <param name="element">The element to be removed.</param>
         /// <returns>The removed element.</returns>
-        public static TElement Remove<TElement>(this INode parent, TElement element)
+        public static TElement RemoveElement<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
             return parent.RemoveChild(element) as TElement;
