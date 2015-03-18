@@ -75,7 +75,7 @@
                 if (table != null)
                     return table.Rows.Index(this);
 
-                return 0;
+                return -1;
             }
         }
 
