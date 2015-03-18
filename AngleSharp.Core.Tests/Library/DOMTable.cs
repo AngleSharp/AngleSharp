@@ -452,6 +452,54 @@ namespace AngleSharp.Core.Tests.Library
             CollectionAssert.AreEqual(new INode[] { row }, table.Rows.ToArray());
         }
 
+        [Test]
+        public void TableCreateCaptionReturnsTheFirstCaptionElementChildOfTheTable()
+        {
+            var document = DocumentBuilder.Html(@"<table>
+		<caption>caption</caption>
+		<tr>
+			<td>cell</td>
+			<td>cell</td>
+		</tr>
+	</table>");
+            var table = document.QuerySelector("table") as IHtmlTableElement;
+            var testCaption = table.CreateCaption();
+            var tableFirstCaption = table.Caption;
+            Assert.AreEqual(tableFirstCaption, testCaption);
+        }
+
+        [Test]
+        public void TableCreateCaptionCreatesNewCaptionAndInsertsItAsTheFirstNodeOfTheTableElement()
+        {
+            var document = DocumentBuilder.Html(@"<table>
+		<tr>
+			<td>cell</td>
+			<td>cell</td>
+		</tr>
+	</table>");
+            var table = document.QuerySelector("table") as IHtmlTableElement;
+            var testCaption = table.CreateCaption();
+            var tableFirstNode = table.FirstChild;
+            Assert.IsNotNull(testCaption);
+            Assert.AreEqual(testCaption, tableFirstNode);
+        }
+
+        [Test]
+        public void TableDeleteCaptionRemovesTheFirstCaptionElementChildOfTheTableElement()
+        {
+            var document = DocumentBuilder.Html(@"<table>
+		<caption>caption</caption>
+		<tr>
+			<td>cell</td>
+			<td>cell</td>
+		</tr>
+	</table>");
+            var table = document.QuerySelector("table") as IHtmlTableElement;
+            Assert.AreEqual("caption", table.Caption.TextContent);
+            table.DeleteCaption();
+            Assert.IsNull(table.Caption);
+        }
+
         static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
