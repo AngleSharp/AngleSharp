@@ -624,5 +624,89 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(null, select.Parent);
             Assert.AreEqual(null, div.FirstChild);
         }
+
+        [Test]
+        public void TheTypeAttributeMustReturnFieldset()
+        {
+            var document = DocumentBuilder.Html(@"<form name=fm1>
+  <fieldset id=fs_outer>
+  <legend><input type=""checkbox"" name=""cb""></legend>
+  <input type=text name=""txt"" id=""ctl1"">
+  <button id=""ctl2"" name=""btn"">BUTTON</button>
+    <fieldset id=fs_inner>
+      <input type=text name=""txt_inner"">
+      <progress name=""pg"" value=""0.5""></progress>
+    </fieldset>
+  </fieldset>
+</form>");
+            var fm1 = document.Forms["fm1"];
+            var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
+            var children_outer = fs_outer.Elements;
+            Assert.AreEqual("fieldset", fs_outer.Type);
+        }
+
+        [Test]
+        public void TheFormAttributeMustReturnTheFieldsetsFormOwner()
+        {
+            var document = DocumentBuilder.Html(@"<form name=fm1>
+  <fieldset id=fs_outer>
+  <legend><input type=""checkbox"" name=""cb""></legend>
+  <input type=text name=""txt"" id=""ctl1"">
+  <button id=""ctl2"" name=""btn"">BUTTON</button>
+    <fieldset id=fs_inner>
+      <input type=text name=""txt_inner"">
+      <progress name=""pg"" value=""0.5""></progress>
+    </fieldset>
+  </fieldset>
+</form>");
+            var fm1 = document.Forms["fm1"];
+            var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
+            var children_outer = fs_outer.Elements;
+            Assert.AreEqual(fm1, fs_outer.Form);
+        }
+
+        [Test]
+        public void TheElementsMustReturnAnHtmlFormControlsCollectionObject()
+        {
+            var document = DocumentBuilder.Html(@"<form name=fm1>
+  <fieldset id=fs_outer>
+  <legend><input type=""checkbox"" name=""cb""></legend>
+  <input type=text name=""txt"" id=""ctl1"">
+  <button id=""ctl2"" name=""btn"">BUTTON</button>
+    <fieldset id=fs_inner>
+      <input type=text name=""txt_inner"">
+      <progress name=""pg"" value=""0.5""></progress>
+    </fieldset>
+  </fieldset>
+</form>");
+            var fm1 = document.Forms["fm1"];
+            var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
+            var children_outer = fs_outer.Elements;
+            Assert.IsInstanceOf<IHtmlFormControlsCollection>(children_outer);
+            Assert.IsNotNull(children_outer);
+        }
+
+        [Test]
+        public void TheControlsMustRootAtTheFieldsetElement()
+        {
+            var document = DocumentBuilder.Html(@"<form name=fm1>
+  <fieldset id=fs_outer>
+  <legend><input type=""checkbox"" name=""cb""></legend>
+  <input type=text name=""txt"" id=""ctl1"">
+  <button id=""ctl2"" name=""btn"">BUTTON</button>
+    <fieldset id=fs_inner>
+      <input type=text name=""txt_inner"">
+      <progress name=""pg"" value=""0.5""></progress>
+    </fieldset>
+  </fieldset>
+</form>");
+            var fm1 = document.Forms["fm1"];
+            var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
+            var children_outer = fs_outer.Elements;
+            var fs_inner = document.GetElementById("fs_inner") as IHtmlFieldSetElement;
+            var children_inner = fs_inner.Elements;
+            CollectionAssert.AreEqual(new [] { fm1["txt_inner"] as IHtmlElement }, children_inner.ToArray());
+            CollectionAssert.AreEqual(new[] { fm1["cb"], fm1["txt"], fm1["btn"], fm1["fs_inner"], fm1["txt_inner"] }.OfType<IHtmlElement>().ToArray(), children_outer.ToArray());
+        }
     }
 }
