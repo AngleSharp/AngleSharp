@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
+using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
 {
@@ -73,6 +74,41 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual("http://localhost/test.swv", obj.Source);
             var url = new Url(obj.Source);
             Assert.AreEqual("test.swv", url.Path);
+        }
+
+        [Test]
+        public void InputTypeImageShouldNotBePresentInTheFormElementsCollection()
+        {
+            var document = DocumentBuilder.Html(@"<form id=""form"">
+<input type=""image"">
+</form>");
+            Assert.AreEqual(0, document.Forms[0].Elements.Length);
+        }
+
+        [Test]
+        public void FormElementsShouldIncludeElementsWhoseNameStartsWithANumber()
+        {
+            var document = DocumentBuilder.Html(@"<form id=""form"">
+<input type=""image"">
+</form>");
+            var form = document.Forms[0];
+            var two = document.CreateElement<IHtmlInputElement>();
+            two.Name = "2";
+            form.AppendChild(two);
+            var othree = document.CreateElement<IHtmlInputElement>();
+            othree.Name = "03";
+            form.AppendChild(othree);
+            Assert.IsNull(form.Elements[-1]);
+            Assert.IsNull(form.Elements["-1"]);
+            Assert.AreEqual(two, form.Elements[0]);
+            Assert.AreEqual(othree, form.Elements[1]);
+            Assert.IsNull(form.Elements[2]);
+            Assert.AreEqual(two, form.Elements["2"]);
+            Assert.IsNull(form.Elements[03]);
+            Assert.AreEqual(othree, form.Elements["03"]);
+            CollectionAssert.AreEqual(new IHtmlElement[] { two, othree }, form.Elements.ToArray());
+            form.RemoveChild(two);
+            form.RemoveChild(othree);
         }
 
         [Test]
