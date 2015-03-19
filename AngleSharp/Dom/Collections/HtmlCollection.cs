@@ -47,7 +47,7 @@
 
         public T this[Int32 index]
         {
-            get { return _elements.Skip(index).FirstOrDefault(); }
+            get { return index >= 0 ? _elements.Skip(index).FirstOrDefault() : null; }
         }
 
         public T this[String id]
@@ -73,28 +73,9 @@
             return _elements.GetEnumerator();
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _elements.GetEnumerator();
-        }
-
-        #endregion
-
-        #region IHtmlCollection
-
-        T IHtmlCollection<T>.this[Int32 index]
-        {
-            get { return _elements.Skip(index).FirstOrDefault(); }
-        }
-
-        T IHtmlCollection<T>.this[String id]
-        {
-            get { return _elements.GetElementById(id); }
         }
 
         #endregion

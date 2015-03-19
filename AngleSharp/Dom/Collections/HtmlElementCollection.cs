@@ -54,7 +54,7 @@
 
         public IElement this[Int32 index]
         {
-            get { return _elements.Skip(index).FirstOrDefault(); }
+            get { return index >= 0 ? _elements.Skip(index).FirstOrDefault() : null; }
         }
 
         public IElement this[String id]

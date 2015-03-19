@@ -55,7 +55,7 @@
 
         public HtmlFormControlElement this[Int32 index]
         {
-            get { return _elements.Skip(index).FirstOrDefault(); }
+            get { return index >= 0 ? _elements.Skip(index).FirstOrDefault() : null; }
         }
 
         public HtmlFormControlElement this[String id]
@@ -77,14 +77,14 @@
             return _elements.GetEnumerator();
         }
 
-        IHtmlElement IHtmlCollection<IHtmlElement>.this[int index]
+        IHtmlElement IHtmlCollection<IHtmlElement>.this[Int32 index]
         {
-            get { return _elements.Skip(index).FirstOrDefault(); }
+            get { return this[index]; }
         }
 
-        IHtmlElement IHtmlCollection<IHtmlElement>.this[string id]
+        IHtmlElement IHtmlCollection<IHtmlElement>.this[String id]
         {
-            get { return _elements.GetElementById(id); }
+            get { return this[id]; }
         }
 
         IEnumerator<IHtmlElement> IEnumerable<IHtmlElement>.GetEnumerator()
