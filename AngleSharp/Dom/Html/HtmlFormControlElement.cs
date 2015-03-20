@@ -147,7 +147,7 @@
 
         #region Helpers
 
-        Boolean IsFieldsetDisabled()
+        protected virtual Boolean IsFieldsetDisabled()
         {
             var fieldSets = this.GetAncestors().OfType<IHtmlFieldSetElement>();
 

@@ -49,6 +49,11 @@
 
         #region Methods
 
+        protected override Boolean IsFieldsetDisabled()
+        {
+            return false;
+        }
+
         protected override Boolean CanBeValidated()
         {
             return true;
