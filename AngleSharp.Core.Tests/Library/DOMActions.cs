@@ -768,7 +768,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void TheLegendElementIsChildOfTheDisabledFieldsetDescendantsShouldBeDisabled()
+        public void TheLegendElementIsChildOfTheDisabledFieldsetDescendantsShouldNotBeDisabled()
         {
             var document = DocumentBuilder.Html(@"<form>
   <fieldset disabled>
