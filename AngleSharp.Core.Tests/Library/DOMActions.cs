@@ -705,8 +705,84 @@ namespace AngleSharp.Core.Tests.Library
             var children_outer = fs_outer.Elements;
             var fs_inner = document.GetElementById("fs_inner") as IHtmlFieldSetElement;
             var children_inner = fs_inner.Elements;
-            CollectionAssert.AreEqual(new [] { fm1["txt_inner"] as IHtmlElement }, children_inner.ToArray());
+            CollectionAssert.AreEqual(new[] { fm1["txt_inner"] as IHtmlElement }, children_inner.ToArray());
             CollectionAssert.AreEqual(new[] { fm1["cb"], fm1["txt"], fm1["btn"], fm1["fs_inner"], fm1["txt_inner"] }.OfType<IHtmlElement>().ToArray(), children_outer.ToArray());
+        }
+
+        [Test]
+        public void TheDisabledAttributeCausesAllFormControlDescendantsOfTheFieldsetElementToBeDisabled()
+        {
+            var document = DocumentBuilder.Html(@"<form>
+  <fieldset disabled>
+    <legend>
+      <input type=checkbox id=clubc_l1>
+      <input type=radio id=clubr_l1>
+      <input type=text id=clubt_l1>
+    </legend>
+    <legend><input type=checkbox id=club_l2></legend>
+    <p><label>Name on card: <input id=clubname required></label></p>
+    <p><label>Card number: <input id=clubnum required pattern=""[-0-9]+""></label></p>
+  </fieldset>
+</form>");
+            Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum").WillValidate);
+            Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#clubc_l1").WillValidate);
+            Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#clubr_l1").WillValidate);
+            Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#clubt_l1").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#club_l2").WillValidate);
+        }
+
+        [Test]
+        public void TheFirstLegendElementIsNotAChildOfTheDisabledFieldsetDescendantsShouldBeDisabled()
+        {
+            var document = DocumentBuilder.Html(@"<form>
+  <fieldset disabled>
+    <p><legend><input type=checkbox id=club2></legend></p>
+    <p><label>Name on card: <input id=clubname2 required></label></p>
+    <p><label>Card number: <input id=clubnum2 required pattern=""[-0-9]+""></label></p>
+  </fieldset>
+</form>");
+            Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname2").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum2").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#club2").WillValidate);
+        }
+
+        [Test]
+        public void TheLegendElementIsNotAChildOfTheDisabledFieldsetDescendantsShouldBeDisabled()
+        {
+            var document = DocumentBuilder.Html(@"<form>
+  <fieldset disabled>
+    <fieldset>
+      <legend><input type=checkbox id=club3></legend>
+    </fieldset>
+    <p><label>Name on card: <input id=clubname3 required></label></p>
+    <p><label>Card number: <input id=clubnum3 required pattern=""[-0-9]+""></label></p>
+  </fieldset>
+</form>");
+            Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname3").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum3").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#club3").WillValidate);
+        }
+
+        [Test]
+        public void TheLegendElementIsChildOfTheDisabledFieldsetDescendantsShouldBeDisabled()
+        {
+            var document = DocumentBuilder.Html(@"<form>
+  <fieldset disabled>
+    <legend>
+      <fieldset><input type=checkbox id=club4></fieldset>
+    </legend>
+    <p><label>Name on card: <input id=clubname4 required></label></p>
+    <p><label>Card number: <input id=clubnum4 required pattern=""[-0-9]+""></label></p>
+  </fieldset>
+</form>");
+            Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname4").WillValidate);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum4").WillValidate);
+            Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#club4").WillValidate);
         }
     }
 }
