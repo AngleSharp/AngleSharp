@@ -44,8 +44,8 @@
         }
 
         /// <summary>
-        /// Creates a new text source from a string. No
-        /// underlying stream will be used.
+        /// Creates a new text source from a string. No underlying stream will
+        /// be used.
         /// </summary>
         /// <param name="source">The data source.</param>
         public TextSource(String source)
@@ -57,11 +57,15 @@
         }
 
         /// <summary>
-        /// Creates a new text source from a string. The underlying stream is used
-        /// as an unknown data source.
+        /// Creates a new text source from a string. The underlying stream is
+        /// used as an unknown data source.
         /// </summary>
-        /// <param name="baseStream">The underlying stream as data source.</param>
-        /// <param name="encoding">The initial encoding. Otherwise UTF-8.</param>
+        /// <param name="baseStream">
+        /// The underlying stream as data source.
+        /// </param>
+        /// <param name="encoding">
+        /// The initial encoding. Otherwise UTF-8.
+        /// </param>
         public TextSource(Stream baseStream, Encoding encoding = null)
             : this(encoding)
         {
@@ -127,7 +131,8 @@
 
                 if (content.Substring(0, index).Equals(_content.ToString(0, index)))
                 {
-                    //If everything seems to fit up to this point, do an instant switch
+                    //If everything seems to fit up to this point, do an
+                    //instant switch
                     _confidence = EncodingConfidence.Certain;
                     _content.Remove(index, _content.Length - index);
                     _content.Append(content.Substring(index));
@@ -174,7 +179,8 @@
         #region Text Methods
 
         /// <summary>
-        /// Reads the next character from the buffer or underlying stream, if any.
+        /// Reads the next character from the buffer or underlying stream, if
+        /// any.
         /// </summary>
         /// <returns>The next character.</returns>
         public Char ReadCharacter()
@@ -188,7 +194,8 @@
         }
 
         /// <summary>
-        /// Reads the upcoming numbers of characters from the buffer or underlying stream, if any.
+        /// Reads the upcoming numbers of characters from the buffer or
+        /// underlying stream, if any.
         /// </summary>
         /// <param name="characters">The number of characters to read.</param>
         /// <returns>The string with the next characters.</returns>
@@ -210,7 +217,8 @@
         }
 
         /// <summary>
-        /// Reads the next character from the buffer or underlying stream asynchronously, if any.
+        /// Reads the next character from the buffer or underlying stream
+        /// asynchronously, if any.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token</param>
         /// <returns>The task resulting in the next character.</returns>
@@ -225,7 +233,8 @@
         }
 
         /// <summary>
-        /// Reads the upcoming numbers of characters from the buffer or underlying stream asynchronously.
+        /// Reads the upcoming numbers of characters from the buffer or
+        /// underlying stream asynchronously.
         /// </summary>
         /// <param name="characters">The number of characters to read.</param>
         /// <param name="cancellationToken">The cancellation token</param>
@@ -253,8 +262,8 @@
         }
 
         /// <summary>
-        /// Inserts the given content at the current insertation mark.
-        /// The insertation mark won't be changed.
+        /// Inserts the given content at the current insertation mark. The
+        /// insertation mark won't be changed.
         /// </summary>
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)

@@ -56,7 +56,9 @@
         /// <summary>
         /// Returns a string representation of the range in the text.
         /// </summary>
-        /// <returns>A string that contains the start and end positions.</returns>
+        /// <returns>
+        /// A string that contains the start and end positions.
+        /// </returns>
         public override String ToString()
         {
             return String.Format("({0}) -- ({1})", _start, _end);
@@ -65,7 +67,9 @@
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
-        /// <returns>An integer that is the hash code for this instance.</returns>
+        /// <returns>
+        /// An integer that is the hash code for this instance.
+        /// </returns>
         public override Int32 GetHashCode()
         {
             return _end.GetHashCode() ^ _start.GetHashCode();
@@ -74,8 +78,13 @@
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
-        /// <param name="obj">The object to compare with the current instance.</param>
-        /// <returns>True if the given object is a text position with the same values, otherwise false.</returns>
+        /// <param name="obj">
+        /// The object to compare with the current instance.
+        /// </param>
+        /// <returns>
+        /// True if the given object is a text position with the same values,
+        /// otherwise false.
+        /// </returns>
         public override Boolean Equals(Object obj)
         {
             if (obj is TextRange)
@@ -88,7 +97,10 @@
         /// Indicates whether the current range is equal to the given range.
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
-        /// <returns>True if the given range has the same start and end position, otherwise false.</returns>
+        /// <returns>
+        /// True if the given range has the same start and end position,
+        /// otherwise false.
+        /// </returns>
         public Boolean Equals(TextRange other)
         {
             return this._start.Equals(other._start) && this._end.Equals(other._end);
@@ -99,7 +111,10 @@
         /// </summary>
         /// <param name="a">The first operand.</param>
         /// <param name="b">The second operand.</param>
-        /// <returns>True if the start position of the first operand is greater than the end position of the second operand.</returns>
+        /// <returns>
+        /// True if the start position of the first operand is greater than the
+        /// end position of the second operand.
+        /// </returns>
         public static Boolean operator >(TextRange a, TextRange b)
         {
             return a._start > b._end;
@@ -110,7 +125,10 @@
         /// </summary>
         /// <param name="a">The first operand.</param>
         /// <param name="b">The second operand.</param>
-        /// <returns>True if the end position of the first operand is less than the start position of the second operand.</returns>
+        /// <returns>
+        /// True if the end position of the first operand is less than the
+        /// start position of the second operand.
+        /// </returns>
         public static Boolean operator <(TextRange a, TextRange b)
         {
             return a._end < b._start;
@@ -120,7 +138,10 @@
         /// Compares the current range with another range.
         /// </summary>
         /// <param name="other">The range to compare to.</param>
-        /// <returns>A mathematical representation of the relation (1 = greater, -1 = less, 0 = equal).</returns>
+        /// <returns>
+        /// A mathematical representation of the relation (1 = greater, -1 =
+        /// less, 0 = equal).
+        /// </returns>
         public Int32 CompareTo(TextRange other)
         {
             if (this > other)
