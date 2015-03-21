@@ -363,10 +363,13 @@
         #region Methods
 
         /// <summary>
-        /// Tries to extract the encoding from the given http-equiv content string.
+        /// Tries to extract the encoding from the given http-equiv content
+        /// string.
         /// </summary>
         /// <param name="content">The value of the attribute.</param>
-        /// <returns>The extracted encoding or null if the encoding is invalid.</returns>
+        /// <returns>
+        /// The extracted encoding or null if the encoding is invalid.
+        /// </returns>
         public static Encoding Parse(String content)
         {
             var encoding = String.Empty;
@@ -450,10 +453,13 @@
         }
 
         /// <summary>
-        /// Detects if a valid encoding has been found in the given charset string.
+        /// Detects if a valid encoding has been found in the given charset
+        /// string.
         /// </summary>
         /// <param name="charset">The parsed charset string.</param>
-        /// <returns>True if a valid encdoing has been found, otherwise false.</returns>
+        /// <returns>
+        /// True if a valid encdoing has been found, otherwise false.
+        /// </returns>
         public static Boolean IsSupported(String charset)
         {
             return encodings.ContainsKey(charset);
@@ -479,7 +485,9 @@
         /// <summary>
         /// Suggests an Encoding for the given local.
         /// </summary>
-        /// <param name="local">The local defined by the BCP 47 language tag.</param>
+        /// <param name="local">
+        /// The local defined by the BCP 47 language tag.
+        /// </param>
         /// <returns>The suggested encoding.</returns>
         public static Encoding Suggest(String local)
         {
@@ -514,7 +522,8 @@
             }
             catch
             {
-                // We use a catch em all since WP8 does throw a different exception than W*.
+                // We use a catch em all since WP8 does throw a different
+                // exception than W*.
                 return Utf8;
             }
         }
@@ -545,7 +554,7 @@
             if (d > 25)
                 return (Char)(d - 26 + '0');
 
-            //  0-25 map to a-z or A-Z
+            // 0-25 map to a-z or A-Z
             return (Char)(d + 'a');
         }
 
@@ -659,8 +668,8 @@
                                 m = test;
                         }
 
-                        /* Increase delta enough to advance the decoder's    */
-                        /* <n,i> state to <m,0>, but guard against overflow: */
+                        // Increase delta enough to advance the decoder's 
+                        // <n,i> state to <m,0>, but guard against overflow:
                         delta += (m - n) * ((numProcessed - numSurrogatePairs) + 1);
                         n = m;
 

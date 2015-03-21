@@ -23,14 +23,18 @@
         String Comment(IComment comment);
 
         /// <summary>
-        /// Formats the given processing instruction using the target and the data.
+        /// Formats the given processing instruction using the target and the
+        /// data.
         /// </summary>
-        /// <param name="processing">The processing instruction to stringify.</param>
+        /// <param name="processing">
+        /// The processing instruction to stringify.
+        /// </param>
         /// <returns>The formatted processing instruction.</returns>
         String Processing(IProcessingInstruction processing);
 
         /// <summary>
-        /// Formats the given doctype using the name, public and system identifiers.
+        /// Formats the given doctype using the name, public and system
+        /// identifiers.
         /// </summary>
         /// <param name="doctype">The document type to stringify.</param>
         /// <returns>The formatted doctype.</returns>
@@ -40,7 +44,9 @@
         /// Formats opening a tag with the given name.
         /// </summary>
         /// <param name="element">The element to open.</param>
-        /// <param name="selfClosing">Is the element actually self-closing?</param>
+        /// <param name="selfClosing">
+        /// Is the element actually self-closing?
+        /// </param>
         /// <returns>The formatted opening tag.</returns>
         String OpenTag(IElement element, Boolean selfClosing);
 
@@ -48,7 +54,9 @@
         /// Formats closing a tag with the given name.
         /// </summary>
         /// <param name="element">The element to close.</param>
-        /// <param name="selfClosing">Is the element actually self-closing?</param>
+        /// <param name="selfClosing">
+        /// Is the element actually self-closing?
+        /// </param>
         /// <returns>Th eformatted closing tag.</returns>
         String CloseTag(IElement element, Boolean selfClosing);
     }
