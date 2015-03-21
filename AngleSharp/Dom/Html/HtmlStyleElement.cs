@@ -116,14 +116,16 @@
         {
             if (Owner.Options.IsStyling)
             {
+                var config = Owner.Options;
                 var options = new StyleOptions
                 {
                     Element = this,
                     IsDisabled = IsDisabled,
                     Title = Title,
-                    IsAlternate = false
+                    IsAlternate = false,
+                    Configuration = config
                 };
-                return Owner.Options.ParseStyling(TextContent, options, Type);
+                return config.ParseStyling(TextContent, options, Type);
             }
 
             return null;

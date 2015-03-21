@@ -257,14 +257,16 @@
 
             if (response != null)
             {
+                var config = Owner.Options;
                 var options = new StyleOptions
                 {
                     Element = this,
                     Title = Title,
                     IsDisabled = IsDisabled,
-                    IsAlternate = RelationList.Contains(Keywords.Alternate)
+                    IsAlternate = RelationList.Contains(Keywords.Alternate),
+                    Configuration = config
                 };
-                _sheet = Owner.Options.ParseStyling(response, options, Type);
+                _sheet = config.ParseStyling(response, options, Type);
                 response.Dispose();
             }
         }
