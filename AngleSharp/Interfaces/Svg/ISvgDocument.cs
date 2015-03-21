@@ -6,7 +6,7 @@
     /// <summary>
     /// Serves as an entry point to the content of an SVG document.
     /// </summary>
-    [DomName("SVGDocument ")]
+    [DomName("SVGDocument")]
     public interface ISvgDocument : IDocument
     {
         /// <summary>
