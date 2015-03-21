@@ -136,6 +136,7 @@
     <Compile Include="IMarkupFormattable.cs" />
     <Compile Include="IMarkupFormatter.cs" />
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
+    <Compile Include="Interfaces\Svg\ISvgDocument.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
