@@ -13,39 +13,49 @@
 
         readonly CssRuleList _rules;
         readonly TextSource _source;
+        readonly IConfiguration _config;
 
         ICssRule _ownerRule;
-        IConfiguration _options;
 
         #endregion
 
         #region ctor
-        
+
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
-        internal CssStyleSheet()
-            : this(String.Empty)
+        /// <param name="config">
+        /// The configuration to use for the stylesheet.
+        /// </param>
+        internal CssStyleSheet(IConfiguration config)
+            : this(config, new TextSource(String.Empty))
         {
         }
 
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
+        /// <param name="config">
+        /// The configuration to use for the stylesheet.
+        /// </param>
         /// <param name="source">The CSS source code.</param>
-        internal CssStyleSheet(String source)
-            : this(new TextSource(source))
+        internal CssStyleSheet(IConfiguration config, String source)
+            : this(config, new TextSource(source))
         {
         }
 
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
+        /// <param name="config">
+        /// The configuration to use for the stylesheet.
+        /// </param>
         /// <param name="source">The underlying source.</param>
-        internal CssStyleSheet(TextSource source)
+        internal CssStyleSheet(IConfiguration config, TextSource source)
         {
             _source = source;
             _rules = new CssRuleList();
+            _config = config ?? Configuration.Default;
         }
 
         #endregion
@@ -147,8 +157,7 @@
 
         internal IConfiguration Options
         {
-            get { return _options ?? Configuration.Default; }
-            set { _options = value; }
+            get { return _config; }
         }
 
         #endregion

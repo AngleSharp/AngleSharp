@@ -15,219 +15,26 @@
     /// A handy helper to construct various kinds of documents from a given
     /// source code, URL or stream.
     /// </summary>
-    public sealed class DocumentBuilder
+    public static class DocumentBuilder
     {
-        #region Fields
-
-        readonly IConfiguration configuration;
-
-        #endregion
-
-        #region ctor
-
-        /// <summary>
-        /// Creates a new builder and optionally sets the configuration.
-        /// </summary>
-        /// <param name="defaultConfiguration">
-        /// The configuration to use. If this is not specified, then the
-        /// default configuration will be used.
-        /// </param>
-        public DocumentBuilder(IConfiguration defaultConfiguration = null)
-        {
-            configuration = defaultConfiguration ?? AngleSharp.Configuration.Default;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the configuration to use.
-        /// </summary>
-        public IConfiguration Configuration
-        {
-            get { return configuration; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Builds a new HTML Document with the given source code string.
-        /// </summary>
-        /// <param name="sourceCode">The string to use as source code.</param>
-        /// <returns>The constructed HTML document.</returns>
-        public IDocument FromHtml(String sourceCode)
-        {
-            return Html(sourceCode, configuration);
-        }
-
-        /// <summary>
-        /// Builds a new HTML Document with the given URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <returns>The constructed HTML document.</returns>
-        public IDocument FromHtml(Uri url)
-        {
-            return HtmlAsync(url, configuration).Result;
-        }
-
-        /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given
-        /// URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <returns>The task that constructs the HTML document.</returns>
-        public Task<IDocument> FromHtmlAsync(Uri url)
-        {
-            return HtmlAsync(url, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Builds a new HTML Document by asynchronously requesting the given
-        /// URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <param name="cancel">
-        /// The cancellation token for cancelling the asynchronous request.
-        /// </param>
-        /// <returns>The task that constructs the HTML document.</returns>
-        public Task<IDocument> FromHtmlAsync(Uri url, CancellationToken cancel)
-        {
-            return HtmlAsync(url, cancel, configuration);
-        }
-
-        /// <summary>
-        /// Builds a new HTML Document with the given stream.
-        /// </summary>
-        /// <param name="stream">The stream containing the source code.</param>
-        /// <returns>The constructed HTML document.</returns>
-        public IDocument FromHtml(Stream stream)
-        {
-            return HtmlAsync(stream, configuration).Result;
-        }
-
-        /// <summary>
-        /// Builds a new HTML Document by asynchronously moving through the
-        /// stream.
-        /// </summary>
-        /// <param name="stream">The stream containing the source code.</param>
-        /// <returns>The task that constructs the HTML document.</returns>
-        public Task<IDocument> FromHtmlAsync(Stream stream)
-        {
-            return HtmlAsync(stream, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Builds a new HTML Document by asynchronously moving through the
-        /// stream.
-        /// </summary>
-        /// <param name="stream">The stream containing the source code.</param>
-        /// <param name="cancel">
-        /// The cancellation token for cancelling the asynchronous request.
-        /// </param>
-        /// <returns>The task that constructs the HTML document.</returns>
-        public Task<IDocument> FromHtmlAsync(Stream stream, CancellationToken cancel)
-        {
-            return HtmlAsync(stream, cancel, configuration);
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet with the given source code string.
-        /// </summary>
-        /// <param name="sourceCode">The string to use as source code.</param>
-        /// <returns>The constructed CSS stylesheet.</returns>
-        public ICssStyleSheet FromCss(String sourceCode)
-        {
-            return Css(sourceCode, configuration);
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet with the given URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <returns>The constructed CSS stylesheet.</returns>
-        public ICssStyleSheet FromCss(Uri url)
-        {
-            return CssAsync(url).Result;
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given
-        /// URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public Task<ICssStyleSheet> FromCssAsync(Uri url)
-        {
-            return CssAsync(url, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by requesting the given
-        /// URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <param name="cancel">
-        /// The cancellation token for cancelling the asynchronous request.
-        /// </param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public Task<ICssStyleSheet> FromCssAsync(Uri url, CancellationToken cancel)
-        {
-            return CssAsync(url, cancel);
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet with the given stream.
-        /// </summary>
-        /// <param name="stream">The stream containing the source code.</param>
-        /// <returns>The constructed CSS stylesheet.</returns>
-        public ICssStyleSheet FromCss(Stream stream)
-        {
-            return CssAsync(stream).Result;
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by moving through the
-        /// stream.
-        /// </summary>
-        /// <param name="stream">The stream containing the source code.</param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public Task<ICssStyleSheet> FromCssAsync(Stream stream)
-        {
-            return CssAsync(stream, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Builds a new CSSStyleSheet asynchronously by moving through the
-        /// stream.
-        /// </summary>
-        /// <param name="stream">The stream containing the source code.</param>
-        /// <param name="cancel">
-        /// The cancellation token for cancelling the asynchronous request.
-        /// </param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public Task<ICssStyleSheet> FromCssAsync(Stream stream, CancellationToken cancel)
-        {
-            return CssAsync(stream, cancel);
-        }
-
-        #endregion
-
         #region HTML Construction
+
+        /// <summary>
+        /// Builds a new empty HTML Document with the provided configuration.
+        /// </summary>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
+        /// <param name="url">[Optional] The base URL of the document.</param>
+        /// <returns>The constructed HTML document.</returns>
+        public static IDocument Html(IConfiguration configuration, String url = null)
+        {
+            if (configuration == null)
+                configuration = AngleSharp.Configuration.Default;
+
+            var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
+            return new Document(browsingContext) { DocumentUri = url };
+        }
 
         /// <summary>
         /// Builds a new HTML Document with the given source code string.
@@ -429,6 +236,22 @@
         #region CSS Construction
 
         /// <summary>
+        /// Builds a new empty CSS StyleSheet with the provided configuration.
+        /// </summary>
+        /// <param name="configuration">
+        /// [Optional] Custom options to use for the document generation.
+        /// </param>
+        /// <param name="url">[Optional] The base URL of the document.</param>
+        /// <returns>The constructed CSS stylesheet.</returns>
+        public static ICssStyleSheet Css(IConfiguration configuration = null, String url = null)
+        {
+            if (configuration == null)
+                configuration = AngleSharp.Configuration.Default;
+
+            return new CssStyleSheet(configuration) { Href = url };
+        }
+
+        /// <summary>
         /// Builds a new CSS StyleSheet with the given source code string.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
@@ -446,7 +269,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode);
-            var sheet = new CssStyleSheet(stream) { Options = configuration };
+            var sheet = new CssStyleSheet(configuration, stream) { Href = url };
             return Construct(sheet, configuration).Result;
         }
 
@@ -508,7 +331,7 @@
             using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
             {
                 var source = new TextSource(response.Content, configuration.DefaultEncoding());
-                var sheet = new CssStyleSheet(source) { Href = url.OriginalString, Options = configuration };
+                var sheet = new CssStyleSheet(configuration, source) { Href = url.OriginalString };
                 return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
             }
         }
@@ -533,7 +356,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CssStyleSheet(source) { Options = configuration };
+            var sheet = new CssStyleSheet(configuration, source) { Href = url };
             return Construct(sheet, configuration).Result;
         }
 
@@ -551,7 +374,7 @@
         /// <returns>The task which constructs the CSS stylesheet.</returns>
         public static Task<ICssStyleSheet> CssAsync(Stream stream, IConfiguration configuration = null, String url = null)
         {
-            return CssAsync(stream, CancellationToken.None, configuration);
+            return CssAsync(stream, CancellationToken.None, configuration, url);
         }
 
         /// <summary>
@@ -578,7 +401,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CssStyleSheet(source) { Href = url, Options = configuration };
+            var sheet = new CssStyleSheet(configuration, source) { Href = url };
             return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
         }
 

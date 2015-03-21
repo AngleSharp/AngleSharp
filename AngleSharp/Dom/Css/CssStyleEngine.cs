@@ -41,12 +41,16 @@
         /// <summary>
         /// Creates a style sheet for the given source.
         /// </summary>
-        /// <param name="source">The source code describing the style sheet.</param>
-        /// <param name="options">The options with the parameters for evaluating the style.</param>
+        /// <param name="source">
+        /// The source code describing the style sheet.
+        /// </param>
+        /// <param name="options">
+        /// The options with the parameters for evaluating the style.
+        /// </param>
         /// <returns>The created style sheet.</returns>
         public IStyleSheet Parse(String source, StyleOptions options)
         {
-            var style = new CssStyleSheet(source) 
+            var style = new CssStyleSheet(options.Configuration, source) 
             {
                 OwnerNode = options.Element,
                 IsDisabled = options.IsDisabled,
@@ -60,12 +64,18 @@
         /// <summary>
         /// Creates a style sheet for the given response from a request.
         /// </summary>
-        /// <param name="response">The response with the stream representing the source of the stylesheet.</param>
-        /// <param name="options">The options with the parameters for evaluating the style.</param>
+        /// <param name="response">
+        /// The response with the stream representing the source of the
+        /// stylesheet.
+        /// </param>
+        /// <param name="options">
+        /// The options with the parameters for evaluating the style.
+        /// </param>
         /// <returns>The created style sheet.</returns>
         public IStyleSheet Parse(IResponse response, StyleOptions options)
         {
-            var style = new CssStyleSheet(new TextSource(response.Content)) 
+            var source = new TextSource(response.Content);
+            var style = new CssStyleSheet(options.Configuration, source) 
             { 
                 Href = response.Address.Href, 
                 OwnerNode = options.Element,

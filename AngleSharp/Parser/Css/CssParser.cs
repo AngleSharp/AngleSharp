@@ -53,9 +53,11 @@
         /// based on the given source.
         /// </summary>
         /// <param name="source">The source code as a string.</param>
-        /// <param name="configuration">[Optional] The configuration to use.</param>
+        /// <param name="configuration">
+        /// [Optional] The configuration to use.
+        /// </param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CssStyleSheet(new TextSource(source)) { Options = configuration })
+            : this(new CssStyleSheet(configuration, new TextSource(source)))
         { }
 
         /// <summary>
@@ -63,14 +65,16 @@
         /// based on the given stream.
         /// </summary>
         /// <param name="stream">The stream to use as source.</param>
-        /// <param name="configuration">[Optional] The configuration to use.</param>
+        /// <param name="configuration">
+        /// [Optional] The configuration to use.
+        /// </param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CssStyleSheet(new TextSource(stream, configuration.DefaultEncoding())) { Options = configuration })
+            : this(new CssStyleSheet(configuration, new TextSource(stream, configuration.DefaultEncoding())))
         { }
 
         /// <summary>
-        /// Creates a new CSS parser instance parser with the specified stylesheet
-        /// based on the given source manager.
+        /// Creates a new CSS parser instance parser with the specified
+        /// stylesheet based on the given source manager.
         /// </summary>
         /// <param name="stylesheet">The stylesheet to be constructed.</param>
         internal CssParser(CssStyleSheet stylesheet)
@@ -119,7 +123,9 @@
         /// <summary>
         /// Parses the given source asynchronously and creates the stylesheet.
         /// </summary>
-        /// <returns>The task which could be awaited or continued differently.</returns>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
         public Task<ICssStyleSheet> ParseAsync()
         {
             return ParseAsync(CancellationToken.None);
@@ -129,7 +135,9 @@
         /// Parses the given source asynchronously and creates the stylesheet.
         /// </summary>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        /// <returns>The task which could be awaited or continued differently.</returns>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
         public Task<ICssStyleSheet> ParseAsync(CancellationToken cancelToken)
         {
             lock (sync)
@@ -578,7 +586,9 @@
         /// Called before a document function has been found.
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>A single document function or null if none has been found.</returns>
+        /// <returns>
+        /// A single document function or null if none has been found.
+        /// </returns>
         Tuple<CssDocumentRule.DocumentFunction, String> InDocumentFunction(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
@@ -1395,7 +1405,9 @@
         /// Takes a string and transforms it into a selector object.
         /// </summary>
         /// <param name="selectorText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The Selector object.</returns>
         public static ISelector ParseSelector(String selectorText, IConfiguration configuration = null)
         {
@@ -1415,7 +1427,9 @@
         /// Takes a string and transforms it into a selector object.
         /// </summary>
         /// <param name="keyText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The Selector object.</returns>
         public static IKeyframeSelector ParseKeyText(String keyText, IConfiguration configuration = null)
         {
@@ -1437,7 +1451,9 @@
         /// Takes a string and transforms it into a CSS stylesheet.
         /// </summary>
         /// <param name="stylesheet">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSStyleSheet object.</returns>
         public static ICssStyleSheet ParseStyleSheet(String stylesheet, IConfiguration configuration = null)
         {
@@ -1448,7 +1464,9 @@
         /// Takes a string and transforms it into a CSS rule.
         /// </summary>
         /// <param name="ruleText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSRule object.</returns>
         internal static CssRule ParseRule(String ruleText, IConfiguration configuration = null)
         {
@@ -1470,7 +1488,9 @@
         /// Takes a string and transforms it into CSS declarations.
         /// </summary>
         /// <param name="declarations">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSStyleDeclaration object.</returns>
         internal static CssStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
         {
@@ -1480,10 +1500,13 @@
         }
 
         /// <summary>
-        /// Takes a string and transforms it into a CSS declaration (CSS property).
+        /// Takes a string and transforms it into a CSS declaration (CSS
+        /// property).
         /// </summary>
         /// <param name="declarationText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSProperty object.</returns>
         internal static CssProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
         {
@@ -1505,7 +1528,9 @@
         /// Takes a string and transforms it into a CSS value.
         /// </summary>
         /// <param name="valueText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSValue object.</returns>
         public static ICssValue ParseValue(String valueText, IConfiguration configuration = null)
         {
@@ -1527,7 +1552,9 @@
         /// Takes a string and transforms it into a stream of CSS mediums.
         /// </summary>
         /// <param name="mediaText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The stream of medias.</returns>
         internal static IEnumerable<CssMedium> ParseMediaList(String mediaText, IConfiguration configuration = null)
         {
@@ -1556,7 +1583,9 @@
         /// Takes a string and transforms it into supports condition.
         /// </summary>
         /// <param name="conditionText">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The condition.</returns>
         internal static CssSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
         {
@@ -1593,7 +1622,9 @@
         /// Takes a string and transforms it into a list of CSS values.
         /// </summary>
         /// <param name="source">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSValueList object.</returns>
         internal static CssValueList ParseValueList(String source, IConfiguration configuration = null)
         {
@@ -1624,6 +1655,14 @@
             return values;
         }
 
+        /// <summary>
+        /// Takes a valid media string and parses the medium information.
+        /// </summary>
+        /// <param name="source">The string to parse.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
+        /// <returns>The CssMedium object.</returns>
         internal static CssMedium ParseMedium(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
@@ -1643,10 +1682,13 @@
         }
 
         /// <summary>
-        /// Takes a comma separated string and transforms it into a list of CSS values.
+        /// Takes a comma separated string and transforms it into a list of CSS
+        /// values.
         /// </summary>
         /// <param name="source">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSValueList object.</returns>
         internal static List<CssValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
         {
@@ -1670,7 +1712,9 @@
         /// Takes a string and transforms it into a CSS keyframe rule.
         /// </summary>
         /// <param name="rule">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         /// <returns>The CSSKeyframeRule object.</returns>
         internal static CssKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
         {
@@ -1684,11 +1728,14 @@
         }
 
         /// <summary>
-        /// Takes a string and appends all rules to the given list of properties.
+        /// Takes a string and appends all rules to the given list of
+        /// properties.
         /// </summary>
         /// <param name="list">The list of css properties to append to.</param>
         /// <param name="declarations">The string to parse.</param>
-        /// <param name="configuration">Optional: The configuration to use for construction.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
         internal static void AppendDeclarations(CssStyleDeclaration list, String declarations, IConfiguration configuration = null)
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
