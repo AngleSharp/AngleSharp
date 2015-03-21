@@ -2395,6 +2395,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgDescriptionElement.cs">
       <Link>Interfaces\Svg\ISvgDescriptionElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgDocument.cs">
+      <Link>Interfaces\Svg\ISvgDocument.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Svg\ISvgElement.cs">
       <Link>Interfaces\Svg\ISvgElement.cs</Link>
     </Compile>
