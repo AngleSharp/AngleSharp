@@ -484,7 +484,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlAnchorElement> Anchors
         {
-            get { return _anchors ?? (_anchors = new HtmlCollection<IHtmlAnchorElement>(this, predicate: element => element.Attributes.Any(m => m.Name == AttributeNames.Name))); }
+            get { return _anchors ?? (_anchors = new HtmlCollection<IHtmlAnchorElement>(this, predicate: IsAnchor)); }
         }
 
         /// <summary>
@@ -769,7 +769,7 @@
         /// </summary>
         public IHtmlCollection<IElement> Commands
         {
-            get { return _commands ?? (_commands = new HtmlElementCollection(this, predicate: element => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement)); }
+            get { return _commands ?? (_commands = new HtmlElementCollection(this, predicate: IsCommand)); }
         }
 
         /// <summary>
@@ -778,7 +778,7 @@
         /// </summary>
         public IHtmlCollection<IElement> Links
         {
-            get { return _links ?? (_links = new HtmlElementCollection(this, predicate: element => (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href))); }
+            get { return _links ?? (_links = new HtmlElementCollection(this, predicate: IsLink)); }
         }
 
         /// <summary>
@@ -1731,6 +1731,21 @@
         #endregion
 
         #region Helpers
+
+        static Boolean IsCommand(IElement element)
+        {
+            return element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement;
+        }
+
+        static Boolean IsLink(IElement element)
+        {
+            return (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href);
+        }
+
+        static Boolean IsAnchor(IHtmlAnchorElement element)
+        {
+            return element.Attributes.Any(m => m.Name == AttributeNames.Name);
+        }
 
         void RaiseDomContentLoaded()
         {
