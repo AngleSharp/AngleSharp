@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Xml
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Network;
     using System;
 
@@ -17,6 +18,17 @@
         internal XmlDocument(IBrowsingContext context = null)
             : this(context, new TextSource(String.Empty))
         {
+        }
+
+        public override IElement DocumentElement
+        {
+            get { return this.FindChild<IElement>(); }
+        }
+
+        public override String Title
+        {
+            get { return String.Empty; }
+            set { }
         }
 
         public override INode Clone(Boolean deep = true)

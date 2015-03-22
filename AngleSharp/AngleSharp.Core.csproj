@@ -120,6 +120,7 @@
     <Compile Include="Dom\Html\HtmlPictureElement.cs" />
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
+    <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />

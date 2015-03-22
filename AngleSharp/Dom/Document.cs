@@ -699,7 +699,7 @@
         /// <summary>
         /// Gets the root element of the document.
         /// </summary>
-        public IElement DocumentElement
+        public virtual IElement DocumentElement
         {
             get { return this.FindChild<HtmlHtmlElement>(); }
         }
@@ -784,13 +784,11 @@
         /// <summary>
         /// Gets or sets the title of the document.
         /// </summary>
-        public String Title
+        public virtual String Title
         {
             get
             {
-                var title = DocumentElement is ISvgSvgElement ?
-                    DocumentElement.FindChild<ISvgTitleElement>() as IElement :
-                    DocumentElement.FindDescendant<IHtmlTitleElement>();
+                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
                 
                 if (title != null)
                     return title.TextContent.CollapseAndStrip();
@@ -799,35 +797,20 @@
             }
             set
             {
-                if (DocumentElement is ISvgSvgElement)
+                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+
+                if (title == null)
                 {
-                    var title = DocumentElement.FindChild<ISvgTitleElement>();
+                    var head = Head;
 
-                    if (title == null)
-                    {
-                        title = new SvgTitleElement(this);
-                        DocumentElement.AppendChild(title);
-                    }
+                    if (head == null)
+                        return;
 
-                    title.TextContent = value;
+                    title = new HtmlTitleElement(this);
+                    head.AppendChild(title);
                 }
-                else if (DocumentElement is IHtmlElement)
-                {
-                    var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
 
-                    if (title == null)
-                    {
-                        var head = Head;
-
-                        if (head == null)
-                            return;
-
-                        title = new HtmlTitleElement(this);
-                        head.AppendChild(title);
-                    }
-
-                    title.TextContent = value;
-                }
+                title.TextContent = value;
             }
         }
 
