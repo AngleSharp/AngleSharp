@@ -57,8 +57,7 @@ namespace AngleSharp.Core.Tests.Html
         public void BodyFollowedByFramesetInsideAnonHtmlElement()
         {
             var doc = CreateDocument();
-            var html =
-              doc.AppendChild(doc.CreateElement("http://example.org/test", "html"));
+            var html = doc.AppendChild(doc.CreateElement("http://example.org/test", "html"));
             html.AppendChild(doc.CreateElement("body"));
             html.AppendChild(doc.CreateElement("frameset"));
             Assert.IsNull(doc.Body);
