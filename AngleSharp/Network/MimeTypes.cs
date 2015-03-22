@@ -498,6 +498,11 @@
         public static readonly String Xml = "text/xml";
 
         /// <summary>
+        /// Gets the mime-type for SVG text: image/svg+xml.
+        /// </summary>
+        public static readonly String Svg = "image/svg+xml";
+
+        /// <summary>
         /// Gets the mime-type for a cascading style sheet: text/css.
         /// </summary>
         public static readonly String Css = "text/css";
