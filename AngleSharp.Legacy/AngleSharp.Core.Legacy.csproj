@@ -1654,6 +1654,9 @@
     <Compile Include="..\AngleSharp\Dom\Svg\SVGDescElement.cs">
       <Link>Dom\Svg\SVGDescElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Svg\SvgDocument.cs">
+      <Link>Dom\Svg\SvgDocument.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Svg\SVGElement.cs">
       <Link>Dom\Svg\SVGElement.cs</Link>
     </Compile>
