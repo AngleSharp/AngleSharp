@@ -22,11 +22,14 @@
         };
 
         /// <summary>
-        /// Gets the default port for the given protocol, if the protocol
-        /// is a relative scheme protocol.
+        /// Gets the default port for the given protocol, if the protocol is a
+        /// relative scheme protocol.
         /// </summary>
         /// <param name="protocol">The protocol to get the port for.</param>
-        /// <returns>The string representing the default port, or null, if the protocol is not known.</returns>
+        /// <returns>
+        /// The string representing the default port, or null, if the protocol
+        /// is not known.
+        /// </returns>
         public static String GetDefaultPort(String protocol)
         {
             var value = String.Empty;

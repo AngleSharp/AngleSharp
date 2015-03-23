@@ -75,10 +75,12 @@
 
         /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
-        /// what is called a relative scheme.
+        /// following a relative scheme.
         /// </summary>
         /// <param name="protocol">The protocol to examine.</param>
-        /// <returns>True if the protocol is a relative scheme, otherwise false.</returns>
+        /// <returns>
+        /// True if the protocol is a relative scheme, otherwise false.
+        /// </returns>
         public static Boolean IsRelative(String protocol)
         {
             return protocol.IsOneOf(Http, Https, Ftp, File, Ws, Wss, Gopher);
@@ -86,10 +88,12 @@
 
         /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
-        /// what is suitable for deriving the origin.
+        /// suitable for deriving the origin.
         /// </summary>
         /// <param name="protocol">The protocol to examine.</param>
-        /// <returns>True if the protocol is suited for origin, otherwise false.</returns>
+        /// <returns>
+        /// True if the protocol is suited for origin, otherwise false.
+        /// </returns>
         public static Boolean IsOriginable(String protocol)
         {
             return protocol.IsOneOf(Http, Https, Ftp, Ws, Wss, Gopher);

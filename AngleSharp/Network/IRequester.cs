@@ -12,8 +12,12 @@
         /// <summary>
         /// Checks if the given protocol is supported.
         /// </summary>
-        /// <param name="protocol">The protocol to check for, e.g. http.</param>
-        /// <returns>True if the protocol is supported, otherwise false.</returns>
+        /// <param name="protocol">
+        /// The protocol to check for, e.g. http.
+        /// </param>
+        /// <returns>
+        /// True if the protocol is supported, otherwise false.
+        /// </returns>
         Boolean SupportsProtocol(String protocol);
 
         /// <summary>
@@ -21,7 +25,9 @@
         /// </summary>
         /// <param name="request">The options to consider.</param>
         /// <param name="cancel">The token for cancelling the task.</param>
-        /// <returns>The task that will eventually give the response data.</returns>
+        /// <returns>
+        /// The task that will eventually give the response data.
+        /// </returns>
         Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel);
     }
 }
