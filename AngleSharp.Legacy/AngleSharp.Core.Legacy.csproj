@@ -2569,9 +2569,6 @@
     <Compile Include="..\AngleSharp\Parser\ParseErrorEventArgs.cs">
       <Link>Parser\ParseErrorEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\SourceManager.cs">
-      <Link>Parser\SourceManager.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
