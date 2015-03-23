@@ -16,8 +16,8 @@
 
         protected readonly StringBuilder _stringBuffer;
         protected readonly StringBuilder _textBuffer;
-        readonly Stack<UInt16> _collengths;
-        readonly TextSource _reader;
+        readonly Stack<UInt16> _columns;
+        readonly TextSource _source;
 
         UInt16 _column;
         UInt16 _row;
@@ -40,8 +40,8 @@
         {
             _stringBuffer = Pool.NewStringBuilder();
             _textBuffer = Pool.NewStringBuilder();
-            _collengths = new Stack<UInt16>();
-            _reader = source;
+            _columns = new Stack<UInt16>();
+            _source = source;
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
@@ -56,10 +56,10 @@
         /// </summary>
         public Int32 InsertionPoint
         {
-            get { return _reader.Index; }
+            get { return _source.Index; }
             set
             {
-                var delta = _reader.Index - value;
+                var delta = _source.Index - value;
 
                 while (delta > 0)
                 {
@@ -96,7 +96,7 @@
         /// </summary>
         public Int32 Position
         {
-            get { return _reader.Index; }
+            get { return _source.Index; }
         }
 
         /// <summary>
@@ -124,7 +124,7 @@
         /// </summary>
         public void Dispose()
         {
-            var disposable = _reader as IDisposable;
+            var disposable = _source as IDisposable;
 
             if (disposable != null)
                 disposable.Dispose();
@@ -150,10 +150,10 @@
         /// <returns>The status of the check.</returns>
         protected Boolean ContinuesWith(String s, Boolean ignoreCase = true)
         {
-            var mark = _reader.Index;
-            _reader.Index--;
-            var content = _reader.ReadCharacters(s.Length);
-            _reader.Index = mark;
+            var mark = _source.Index;
+            _source.Index--;
+            var content = _source.ReadCharacters(s.Length);
+            _source.Index = mark;
             return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
 
@@ -162,7 +162,7 @@
         /// </summary>
         public void ResetInsertionPoint()
         {
-            InsertionPoint = _reader.Length;
+            InsertionPoint = _source.Length;
         }
 
         /// <summary>
@@ -266,17 +266,18 @@
         {
             if (_current.IsLineBreak())
             {
-                _collengths.Push(_column);
-                _column = 1;
+                _columns.Push(_column);
+                _column = 0;
                 _row++;
             }
-            else
-                _column++;
 
-            _current = _reader.ReadCharacter();
+            _column++;
+            _current = _source.ReadCharacter();
 
             if (_current == Symbols.CarriageReturn)
-                _current = _reader.ReadCharacter();
+            {
+                _current = _source.ReadCharacter();
+            }
         }
 
         /// <summary>
@@ -285,16 +286,16 @@
         /// </summary>
         void BackUnsafe()
         {
-            _reader.Index -= 1;
+            _source.Index -= 1;
 
-            if (_reader.Index == 0)
+            if (_source.Index == 0)
             {
                 _column = 0;
                 _current = Symbols.Null;
                 return;
             }
 
-            _current = _reader[_reader.Index - 1];
+            _current = _source[_source.Index - 1];
 
             if (_current == Symbols.CarriageReturn)
             {
@@ -304,11 +305,13 @@
 
             if (_current.IsLineBreak())
             {
-                _column = _collengths.Count != 0 ? _collengths.Pop() : (UInt16)1;
+                _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
                 _row--;
             }
             else
+            {
                 _column--;
+            }
         }
 
         #endregion
