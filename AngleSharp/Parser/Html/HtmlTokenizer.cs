@@ -15,9 +15,7 @@
     sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Fields
-
-        readonly StringBuilder _buffer;
-
+        
         Boolean _acceptsCharacterData;
         String _lastStartTag;
         HtmlParseMode _state;
@@ -36,7 +34,6 @@
         {
             _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
-            _buffer = new StringBuilder();
         }
 
         #endregion
@@ -107,20 +104,14 @@
                     break;
             }
 
-            if (_buffer.Length > 0)
+            if (_textBuffer.Length > 0)
             {
                 _buffered = token;
-                token = HtmlToken.Character(_buffer.ToString());
-                _buffer.Clear();
+                token = HtmlToken.Character(_textBuffer.ToString());
+                _textBuffer.Clear();
             }
 
             return token;
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            _buffer.ToPool();
         }
 
         #endregion
@@ -139,14 +130,14 @@
                 {
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         break;
 
                     case Symbols.EndOfFile:
                         return HtmlToken.EndOfFile;
 
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         break;
                 }
 
@@ -168,9 +159,9 @@
                         var value = CharacterReference(GetNext());
 
                         if (value == null)
-                            _buffer.Append(Symbols.Ampersand);
+                            _textBuffer.Append(Symbols.Ampersand);
 
-                        _buffer.Append(value);
+                        _textBuffer.Append(value);
                         break;
 
                     case Symbols.LessThan:
@@ -184,7 +175,7 @@
                         return HtmlToken.EndOfFile;
 
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         break;
                 }
 
@@ -210,9 +201,9 @@
                         var value = CharacterReference(GetNext());
 
                         if (value == null)
-                            _buffer.Append(Symbols.Ampersand);
+                            _textBuffer.Append(Symbols.Ampersand);
 
-                        _buffer.Append(value);
+                        _textBuffer.Append(value);
                         break;
 
                     case Symbols.LessThan:
@@ -225,19 +216,19 @@
                             return RCDataEndTag();
                         }
 
-                        _buffer.Append(Symbols.LessThan);
+                        _textBuffer.Append(Symbols.LessThan);
                         continue;
 
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         break;
 
                     case Symbols.EndOfFile:
                         return HtmlToken.EndOfFile;
 
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         break;
                 }
 
@@ -263,7 +254,7 @@
             }
             else
             {
-                _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return RCData(c);
             }
 
@@ -308,7 +299,7 @@
                 }
                 else
                 {
-                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return RCData(c);
                 }
             }
@@ -333,14 +324,14 @@
 
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         break;
 
                     case Symbols.EndOfFile:
                         return HtmlToken.EndOfFile;
 
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         break;
                 }
 
@@ -353,7 +344,6 @@
         /// </summary>
         HtmlToken RawtextLT()
         {
-            var position = GetCurrentPosition();
             var c = GetNext();
 
             if (c == Symbols.Solidus)
@@ -363,7 +353,7 @@
             }
             else
             {
-                _buffer.Append(Symbols.LessThan);
+                _textBuffer.Append(Symbols.LessThan);
                 return Rawtext(c);
             }
         }
@@ -387,7 +377,7 @@
             }
             else
             {
-                _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return Rawtext(c);
             }
         }
@@ -430,7 +420,7 @@
                 }
                 else
                 {
-                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return Rawtext(c);
                 }
             }
@@ -635,7 +625,7 @@
 
             _state = HtmlParseMode.PCData;
             RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
-            _buffer.Append(Symbols.LessThan);
+            _textBuffer.Append(Symbols.LessThan);
             return Data(c);
         }
 
@@ -667,7 +657,7 @@
             {
                 Back();
                 RaiseErrorOccurred(ErrorCode.EOF);
-                _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return HtmlToken.EndOfFile;
             }
             else
@@ -2058,27 +2048,27 @@
                                 return ScriptDataNameEndTag(tag);
                             }
 
-                            _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                            _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                             continue;
                         }
 
-                        _buffer.Append(Symbols.LessThan);
+                        _textBuffer.Append(Symbols.LessThan);
 
                         if (c == Symbols.ExclamationMark)
                         {
                             //See 8.2.4.20 Script data escape start state
                             c = GetNext();
-                            _buffer.Append(Symbols.ExclamationMark);
+                            _textBuffer.Append(Symbols.ExclamationMark);
 
                             if (c == Symbols.Minus)
                             {
                                 //See 8.2.4.21 Script data escape start dash state
                                 c = GetNext();
-                                _buffer.Append(Symbols.Minus);
+                                _textBuffer.Append(Symbols.Minus);
 
                                 if (c == Symbols.Minus)
                                 {
-                                    _buffer.Append(Symbols.Minus);
+                                    _textBuffer.Append(Symbols.Minus);
                                     return ScriptDataEscapedDashDash();
                                 }
                             }
@@ -2088,14 +2078,14 @@
 
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         break;
 
                     case Symbols.EndOfFile:
                         return HtmlToken.EndOfFile;
 
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         break;
                 }
 
@@ -2137,7 +2127,7 @@
                 
                 if (!c.IsLetter())
                 {
-                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return ScriptData(c);
                 }
 
@@ -2156,25 +2146,25 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _buffer.Append(Symbols.Minus);
+                        _textBuffer.Append(Symbols.Minus);
                         c = GetNext();
 
                         //See 8.2.4.23 Script data escaped dash state
                         switch (c)
                         {
                             case Symbols.Minus:
-                                _buffer.Append(Symbols.Minus);
+                                _textBuffer.Append(Symbols.Minus);
                                 return ScriptDataEscapedDashDash();
                             case Symbols.LessThan:
                                 return ScriptDataEscapedLT();
                             case Symbols.Null:
                                 RaiseErrorOccurred(ErrorCode.Null);
-                                _buffer.Append(Symbols.Replacement);
+                                _textBuffer.Append(Symbols.Replacement);
                                 break;
                             case Symbols.EndOfFile:
                                 return HtmlToken.EndOfFile;
                             default:
-                                _buffer.Append(c);
+                                _textBuffer.Append(c);
                                 break;
                         }
 
@@ -2183,7 +2173,7 @@
                         return ScriptDataEscapedLT();
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
                         return HtmlToken.EndOfFile;
@@ -2207,21 +2197,21 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _buffer.Append(Symbols.Minus);
+                        _textBuffer.Append(Symbols.Minus);
                         break;
                     case Symbols.LessThan:
                         return ScriptDataEscapedLT();
                     case Symbols.GreaterThan:
-                        _buffer.Append(Symbols.GreaterThan);
+                        _textBuffer.Append(Symbols.GreaterThan);
                         return ScriptData(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscaped(GetNext());
                     case Symbols.EndOfFile:
                         return HtmlToken.EndOfFile;
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         return ScriptDataEscaped(GetNext());
                 }
             }
@@ -2240,11 +2230,11 @@
             if (c.IsLetter())
             {
                 _stringBuffer.Clear().Append(c);
-                _buffer.Append(Symbols.LessThan).Append(c);
+                _textBuffer.Append(Symbols.LessThan).Append(c);
                 return ScriptDataStartDoubleEscape();
             }
 
-            _buffer.Append(Symbols.LessThan);
+            _textBuffer.Append(Symbols.LessThan);
             return ScriptDataEscaped(c);
         }
 
@@ -2263,7 +2253,7 @@
                 return ScriptDataEscapedNameTag(tag);
             }
 
-            _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+            _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
             return ScriptDataEscaped(c);
         }
 
@@ -2301,7 +2291,7 @@
 
                 if (!c.IsLetter())
                 {
-                    _buffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return ScriptDataEscaped(c);
                 }
 
@@ -2320,7 +2310,7 @@
 
                 if (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter())
                 {
-                    _buffer.Append(c);
+                    _textBuffer.Append(c);
 
                     if (_stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
                         return ScriptDataEscapedDouble(GetNext());
@@ -2330,7 +2320,7 @@
                 else if (c.IsLetter())
                 {
                     _stringBuffer.Append(c);
-                    _buffer.Append(c);
+                    _textBuffer.Append(c);
                 }
                 else
                 {
@@ -2350,17 +2340,17 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _buffer.Append(Symbols.Minus);
+                        _textBuffer.Append(Symbols.Minus);
                         //See 8.2.4.30 Script data double escaped dash state
                         c = GetNext();
 
                         switch (c)
                         {
                             case Symbols.Minus:
-                                _buffer.Append(Symbols.Minus);
+                                _textBuffer.Append(Symbols.Minus);
                                 return ScriptDataEscapedDoubleDashDash();
                             case Symbols.LessThan:
-                                _buffer.Append(Symbols.LessThan);
+                                _textBuffer.Append(Symbols.LessThan);
                                 return ScriptDataEscapedDoubleLT();
                             case Symbols.Null:
                                 RaiseErrorOccurred(ErrorCode.Null);
@@ -2372,18 +2362,18 @@
                         }
                         break;
                     case Symbols.LessThan:
-                        _buffer.Append(Symbols.LessThan);
+                        _textBuffer.Append(Symbols.LessThan);
                         return ScriptDataEscapedDoubleLT();
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return HtmlToken.EndOfFile;
                 }
 
-                _buffer.Append(c);
+                _textBuffer.Append(c);
                 c = GetNext();
             }
         }
@@ -2400,23 +2390,23 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _buffer.Append(Symbols.Minus);
+                        _textBuffer.Append(Symbols.Minus);
                         break;
                     case Symbols.LessThan:
-                        _buffer.Append(Symbols.LessThan);
+                        _textBuffer.Append(Symbols.LessThan);
                         return ScriptDataEscapedDoubleLT();
                     case Symbols.GreaterThan:
-                        _buffer.Append(Symbols.GreaterThan);
+                        _textBuffer.Append(Symbols.GreaterThan);
                         return ScriptData(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(ErrorCode.Null);
-                        _buffer.Append(Symbols.Replacement);
+                        _textBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscapedDouble(GetNext());
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(ErrorCode.EOF);
                         return HtmlToken.EndOfFile;
                     default:
-                        _buffer.Append(c);
+                        _textBuffer.Append(c);
                         return ScriptDataEscapedDouble(GetNext());
                 }
             }
@@ -2432,7 +2422,7 @@
             if (c == Symbols.Solidus)
             {
                 _stringBuffer.Clear();
-                _buffer.Append(Symbols.Solidus);
+                _textBuffer.Append(Symbols.Solidus);
                 return ScriptDataEndDoubleEscape();
             }
 
@@ -2450,7 +2440,7 @@
 
                 if (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan)
                 {
-                    _buffer.Append(c);
+                    _textBuffer.Append(c);
 
                     if (_stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
                         return ScriptDataEscaped(GetNext());
@@ -2460,7 +2450,7 @@
                 else if (c.IsLetter())
                 {
                     _stringBuffer.Append(c);
-                    _buffer.Append(c);
+                    _textBuffer.Append(c);
                 }
                 else
                 {
