@@ -1784,18 +1784,7 @@
             else
             {
                 var url = new Url(e.CurrentLocation);
-                var requester = Options.GetRequester(url.Scheme);
-
-                if (requester == null)
-                    return;
-
-                var response = await requester.LoadAsync(url).ConfigureAwait(false);
-                
-                if (response != null)
-                {
-                    await LoadAsync(response, CancellationToken.None).ConfigureAwait(false);
-                    response.Dispose();
-                }
+                await _context.OpenAsync(url);
             }
         }
 
