@@ -55,7 +55,8 @@
                 throw new ArgumentNullException("response");
 
             var doc = new Document(context);
-            return await doc.LoadAsync(response, cancel).ConfigureAwait(false);
+            await doc.LoadAsync(response, cancel).ConfigureAwait(false);
+            return doc;
         }
 
         /// <summary>

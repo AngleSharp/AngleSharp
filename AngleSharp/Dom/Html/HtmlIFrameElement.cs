@@ -16,9 +16,10 @@
     {
         #region Fields
 
+        readonly Document _doc;
+
         CancellationTokenSource _cts;
         SettableTokenList _sandbox;
-        Document _doc;
         Task _docTask;
         
         #endregion
@@ -132,7 +133,7 @@
 
             if (response != null)
             {
-                await _doc.LoadAsync(response, cancel);
+                await _doc.LoadAsync(response, cancel).ConfigureAwait(false);
                 response.Dispose();
             }
         }

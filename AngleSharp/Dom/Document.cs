@@ -1605,7 +1605,7 @@
         /// <param name="response">The response to consider.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal Task<IDocument> LoadAsync(IResponse response, CancellationToken cancelToken)
+        internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
         {
             _contentType = MimeTypes.Html;
             Open(response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html));
