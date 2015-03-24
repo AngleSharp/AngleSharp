@@ -1681,6 +1681,12 @@
     <Compile Include="..\AngleSharp\Dom\Xml\XmlElement.cs">
       <Link>Dom\Xml\XmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Events\IEventAggregator.cs">
+      <Link>Events\IEventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Events\ISubscriber.cs">
+      <Link>Events\ISubscriber.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\AttrExtensions.cs">
       <Link>Extensions\AttrExtensions.cs</Link>
     </Compile>
