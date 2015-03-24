@@ -121,6 +121,8 @@
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
+    <Compile Include="Events\IEventAggregator.cs" />
+    <Compile Include="Events\ISubscriber.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />
