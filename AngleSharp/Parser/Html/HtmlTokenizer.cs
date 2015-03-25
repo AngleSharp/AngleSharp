@@ -74,7 +74,7 @@
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(ErrorCode code)
+        public void RaiseErrorOccurred(HtmlParseError code)
         {
             if (ErrorOccurred != null)
             {
@@ -151,7 +151,7 @@
                 switch (c)
                 {
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
 
@@ -190,7 +190,7 @@
                         return TagOpen();
 
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         return Data(GetNext());
 
                     case Symbols.EndOfFile:
@@ -242,7 +242,7 @@
                         continue;
 
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
 
@@ -345,7 +345,7 @@
                         return RawtextLT();
 
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
 
@@ -531,30 +531,30 @@
                     if (isHex)
                         Back();
 
-                    RaiseErrorOccurred(ErrorCode.CharacterReferenceWrongNumber);
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
                     return null;
                 }
 
                 if (c != Symbols.Semicolon)
                 {
-                    RaiseErrorOccurred(ErrorCode.CharacterReferenceSemicolonMissing);
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceSemicolonMissing);
                     Back();
                 }
 
                 if (Entities.IsInCharacterTable(num))
                 {
-                    RaiseErrorOccurred(ErrorCode.CharacterReferenceInvalidCode);
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidCode);
                     return Entities.GetSymbolFromTable(num);
                 }
 
                 if (Entities.IsInvalidNumber(num))
                 {
-                    RaiseErrorOccurred(ErrorCode.CharacterReferenceInvalidNumber);
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidNumber);
                     return Symbols.Replacement.ToString();
                 }
 
                 if (Entities.IsInInvalidRange(num))
-                    RaiseErrorOccurred(ErrorCode.CharacterReferenceInvalidRange);
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
 
                 return Entities.Convert(num);
             }
@@ -594,14 +594,14 @@
                     if (allowedCharacter != Symbols.Null && (chr == Symbols.Equality || chr.IsAlphanumericAscii()))
                     {
                         if (chr == Symbols.Equality)
-                            RaiseErrorOccurred(ErrorCode.CharacterReferenceAttributeEqualsFound);
+                            RaiseErrorOccurred(HtmlParseError.CharacterReferenceAttributeEqualsFound);
 
                         InsertionPoint = start;
                         return null;
                     }
 
                     Back();
-                    RaiseErrorOccurred(ErrorCode.CharacterReferenceNotTerminated);
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceNotTerminated);
                 }
 
                 return last;
@@ -641,12 +641,12 @@
             }
             else if (c == Symbols.QuestionMark)
             {
-                RaiseErrorOccurred(ErrorCode.BogusComment);
+                RaiseErrorOccurred(HtmlParseError.BogusComment);
                 return BogusComment(c);
             }
 
             _state = HtmlParseMode.PCData;
-            RaiseErrorOccurred(ErrorCode.AmbiguousOpenTag);
+            RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
             _textBuffer.Append(Symbols.LessThan);
             return Data(c);
         }
@@ -672,19 +672,19 @@
             else if (c == Symbols.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 return Data(GetNext());
             }
             else if (c == Symbols.EndOfFile)
             {
                 Back();
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return HtmlToken.EndOfFile;
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.BogusComment);
+                RaiseErrorOccurred(HtmlParseError.BogusComment);
                 return BogusComment(c);
             }
         }
@@ -717,12 +717,12 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     return HtmlToken.EndOfFile;
                 }
                 else if (c.IsUppercaseAscii())
@@ -749,10 +749,10 @@
                     tag.IsSelfClosing = true;
                     return EmitTag(tag);
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     return HtmlToken.EndOfFile;
                 default:
-                    RaiseErrorOccurred(ErrorCode.ClosingSlashMisplaced);
+                    RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
                     Back();
                     return AttributeBeforeName(tag);
             }
@@ -782,7 +782,7 @@
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.UndefinedMarkupDeclaration);
+                RaiseErrorOccurred(HtmlParseError.UndefinedMarkupDeclaration);
                 return BogusComment(c);
             }
         }
@@ -836,15 +836,15 @@
                 case Symbols.Minus:
                     return CommentDashStart();
                 case Symbols.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                     return Comment();
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     break;
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     break;
                 default:
@@ -867,15 +867,15 @@
                 case Symbols.Minus:
                     return CommentEnd();
                 case Symbols.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
                     return Comment();
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     break;
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     break;
                 default:
@@ -905,11 +905,11 @@
 
                         continue;
                     case Symbols.EndOfFile:
-                        RaiseErrorOccurred(ErrorCode.EOF);
+                        RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
                         break;
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         c = Symbols.Replacement;
                         _stringBuffer.Append(c);
                         continue;
@@ -934,11 +934,11 @@
                 case Symbols.Minus:
                     return CommentEnd();
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     return EmitComment();
                 case Symbols.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     c = Symbols.Replacement;
                     break;
             }
@@ -962,22 +962,22 @@
                         _state = HtmlParseMode.PCData;
                         break;
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _stringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
                         return null;
                     case Symbols.ExclamationMark:
-                        RaiseErrorOccurred(ErrorCode.CommentEndedWithEM);
+                        RaiseErrorOccurred(HtmlParseError.CommentEndedWithEM);
                         return CommentBangEnd();
                     case Symbols.Minus:
-                        RaiseErrorOccurred(ErrorCode.CommentEndedWithDash);
+                        RaiseErrorOccurred(HtmlParseError.CommentEndedWithDash);
                         _stringBuffer.Append(Symbols.Minus);
                         continue;
                     case Symbols.EndOfFile:
-                        RaiseErrorOccurred(ErrorCode.EOF);
+                        RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
                         break;
                     default:
-                        RaiseErrorOccurred(ErrorCode.CommentEndedUnexpected);
+                        RaiseErrorOccurred(HtmlParseError.CommentEndedUnexpected);
                         _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(c);
                         return null;
                 }
@@ -1002,11 +1002,11 @@
                     _state = HtmlParseMode.PCData;
                     break;
                 case Symbols.Null:
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(Symbols.Replacement);
                     return null;
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     break;
                 default:
@@ -1034,13 +1034,13 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
                 var doctype = HtmlToken.Doctype(true);
                 return Emit(doctype);
             }
 
-            RaiseErrorOccurred(ErrorCode.DoctypeUnexpected);
+            RaiseErrorOccurred(HtmlParseError.DoctypeUnexpected);
             return DoctypeNameBefore(c);
         }
 
@@ -1062,7 +1062,7 @@
             else if (c == Symbols.Null)
             {
                 var doctype = HtmlToken.Doctype(false);
-                RaiseErrorOccurred(ErrorCode.Null);
+                RaiseErrorOccurred(HtmlParseError.Null);
                 _stringBuffer.Clear().Append(Symbols.Replacement);
                 return DoctypeName(doctype);
             }
@@ -1070,13 +1070,13 @@
             {
                 var doctype = HtmlToken.Doctype(true);
                 _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 return Emit(doctype);
             }
             else if (c == Symbols.EndOfFile)
             {
                 var doctype = HtmlToken.Doctype(true);
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
                 return Emit(doctype);
             }
@@ -1117,12 +1117,12 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     doctype.IsQuirksForced = true;
                     doctype.Name = _stringBuffer.ToString();
@@ -1152,7 +1152,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
                 doctype.IsQuirksForced = true;
             }
@@ -1168,7 +1168,7 @@
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypeUnexpectedAfterName);
+                RaiseErrorOccurred(HtmlParseError.DoctypeUnexpectedAfterName);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1191,31 +1191,31 @@
             }
             else if (c == Symbols.DoubleQuote)
             {
-                RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
+                RaiseErrorOccurred(HtmlParseError.DoubleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
                 return DoctypePublicIdentifierDoubleQuoted(doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
-                RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
+                RaiseErrorOccurred(HtmlParseError.SingleQuotationMarkUnexpected);
                 doctype.PublicIdentifier = String.Empty;
                 return DoctypePublicIdentifierSingleQuoted(doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.IsQuirksForced = true;
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
+                RaiseErrorOccurred(HtmlParseError.DoctypePublicInvalid);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1247,18 +1247,18 @@
             else if (c == Symbols.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.IsQuirksForced = true;
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypePublicInvalid);
+                RaiseErrorOccurred(HtmlParseError.DoctypePublicInvalid);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1285,20 +1285,20 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
                     _state = HtmlParseMode.PCData;
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
@@ -1332,20 +1332,20 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
                     _state = HtmlParseMode.PCData;
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
                     Back();
@@ -1380,25 +1380,25 @@
             }
             else if (c == Symbols.DoubleQuote)
             {
-                RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
+                RaiseErrorOccurred(HtmlParseError.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
-                RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
+                RaiseErrorOccurred(HtmlParseError.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = String.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(doctype);
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1431,13 +1431,13 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1461,31 +1461,31 @@
             }
             else if (c == Symbols.DoubleQuote)
             {
-                RaiseErrorOccurred(ErrorCode.DoubleQuotationMarkUnexpected);
+                RaiseErrorOccurred(HtmlParseError.DoubleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
                 return DoctypeSystemIdentifierDoubleQuoted(doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
-                RaiseErrorOccurred(ErrorCode.SingleQuotationMarkUnexpected);
+                RaiseErrorOccurred(HtmlParseError.SingleQuotationMarkUnexpected);
                 doctype.SystemIdentifier = string.Empty;
                 return DoctypeSystemIdentifierSingleQuoted(doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.SystemIdentifier = _stringBuffer.ToString();
                 doctype.IsQuirksForced = true;
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 Back();
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypeSystemInvalid);
+                RaiseErrorOccurred(HtmlParseError.DoctypeSystemInvalid);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1515,20 +1515,20 @@
             else if (c == Symbols.GreaterThan)
             {
                 _state = HtmlParseMode.PCData;
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
             }
             else if (c == Symbols.EndOfFile)
             {
-                RaiseErrorOccurred(ErrorCode.EOF);
+                RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
                 Back();
             }
             else
             {
-                RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
                 return BogusDoctype(doctype);
             }
@@ -1555,20 +1555,20 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
                     _state = HtmlParseMode.PCData;
-                    RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
                     Back();
@@ -1601,17 +1601,17 @@
                         _stringBuffer.Clear();
                         return DoctypeSystemIdentifierAfter(doctype);
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _stringBuffer.Append(Symbols.Replacement);
                         continue;
                     case Symbols.GreaterThan:
                         _state = HtmlParseMode.PCData;
-                        RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                        RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                         doctype.IsQuirksForced = true;
                         doctype.SystemIdentifier = _stringBuffer.ToString();
                         break;
                     case Symbols.EndOfFile:
-                        RaiseErrorOccurred(ErrorCode.EOF);
+                        RaiseErrorOccurred(HtmlParseError.EOF);
                         doctype.IsQuirksForced = true;
                         doctype.SystemIdentifier = _stringBuffer.ToString();
                         Back();
@@ -1640,12 +1640,12 @@
                     _state = HtmlParseMode.PCData;
                     break;
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(ErrorCode.EOF);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
                     Back();
                     break;
                 default:
-                    RaiseErrorOccurred(ErrorCode.DoctypeInvalidCharacter);
+                    RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                     return BogusDoctype(doctype);
             }
 
@@ -1705,13 +1705,13 @@
             }
             else if (c == Symbols.Null)
             {
-                RaiseErrorOccurred(ErrorCode.Null);
+                RaiseErrorOccurred(HtmlParseError.Null);
                 _stringBuffer.Clear().Append(Symbols.Replacement);
                 return AttributeName(tag);
             }
             else if (c == Symbols.SingleQuote || c == Symbols.DoubleQuote || c == Symbols.Equality || c == Symbols.LessThan)
             {
-                RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
+                RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
                 _stringBuffer.Clear().Append(c);
                 return AttributeName(tag);
             }
@@ -1763,7 +1763,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c.IsUppercaseAscii())
@@ -1772,7 +1772,7 @@
                 }
                 else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
                 {
-                    RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
+                    RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
                     _stringBuffer.Append(c);
                 }
                 else
@@ -1810,13 +1810,13 @@
             }
             else if (c == Symbols.Null)
             {
-                RaiseErrorOccurred(ErrorCode.Null);
+                RaiseErrorOccurred(HtmlParseError.Null);
                 _stringBuffer.Clear().Append(Symbols.Replacement);
                 return AttributeName(tag);
             }
             else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
             {
-                RaiseErrorOccurred(ErrorCode.AttributeNameInvalid);
+                RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
                 _stringBuffer.Clear().Append(c);
                 return AttributeName(tag);
             }
@@ -1857,18 +1857,18 @@
             }
             else if (c == Symbols.Null)
             {
-                RaiseErrorOccurred(ErrorCode.Null);
+                RaiseErrorOccurred(HtmlParseError.Null);
                 _stringBuffer.Append(Symbols.Replacement);
                 return AttributeUnquotedValue(GetNext(), tag);
             }
             else if (c == Symbols.GreaterThan)
             {
-                RaiseErrorOccurred(ErrorCode.TagClosedWrong);
+                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 return EmitTag(tag);
             }
             else if (c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
             {
-                RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
+                RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
                 _stringBuffer.Clear().Append(c);
                 return AttributeUnquotedValue(GetNext(), tag);
             }
@@ -1910,7 +1910,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1951,7 +1951,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1996,12 +1996,12 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(ErrorCode.Null);
+                    RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
                 else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
                 {
-                    RaiseErrorOccurred(ErrorCode.AttributeValueInvalid);
+                    RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
                     _stringBuffer.Append(c);
                 }
                 else if (c == Symbols.EndOfFile)
@@ -2035,7 +2035,7 @@
             else if (c == Symbols.EndOfFile)
                 return HtmlToken.EndOfFile;
 
-            RaiseErrorOccurred(ErrorCode.AttributeNameExpected);
+            RaiseErrorOccurred(HtmlParseError.AttributeNameExpected);
             Back();
             return AttributeBeforeName(tag);
         }
@@ -2099,7 +2099,7 @@
                         continue;
 
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
 
@@ -2180,7 +2180,7 @@
                             case Symbols.LessThan:
                                 return ScriptDataEscapedLT();
                             case Symbols.Null:
-                                RaiseErrorOccurred(ErrorCode.Null);
+                                RaiseErrorOccurred(HtmlParseError.Null);
                                 _textBuffer.Append(Symbols.Replacement);
                                 break;
                             case Symbols.EndOfFile:
@@ -2194,7 +2194,7 @@
                     case Symbols.LessThan:
                         return ScriptDataEscapedLT();
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
@@ -2227,7 +2227,7 @@
                         _textBuffer.Append(Symbols.GreaterThan);
                         return ScriptData(GetNext());
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscaped(GetNext());
                     case Symbols.EndOfFile:
@@ -2375,11 +2375,11 @@
                                 _textBuffer.Append(Symbols.LessThan);
                                 return ScriptDataEscapedDoubleLT();
                             case Symbols.Null:
-                                RaiseErrorOccurred(ErrorCode.Null);
+                                RaiseErrorOccurred(HtmlParseError.Null);
                                 c = Symbols.Replacement;
                                 break;
                             case Symbols.EndOfFile:
-                                RaiseErrorOccurred(ErrorCode.EOF);
+                                RaiseErrorOccurred(HtmlParseError.EOF);
                                 return HtmlToken.EndOfFile;
                         }
                         break;
@@ -2387,11 +2387,11 @@
                         _textBuffer.Append(Symbols.LessThan);
                         return ScriptDataEscapedDoubleLT();
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
-                        RaiseErrorOccurred(ErrorCode.EOF);
+                        RaiseErrorOccurred(HtmlParseError.EOF);
                         return HtmlToken.EndOfFile;
                 }
 
@@ -2421,11 +2421,11 @@
                         _textBuffer.Append(Symbols.GreaterThan);
                         return ScriptData(GetNext());
                     case Symbols.Null:
-                        RaiseErrorOccurred(ErrorCode.Null);
+                        RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscapedDouble(GetNext());
                     case Symbols.EndOfFile:
-                        RaiseErrorOccurred(ErrorCode.EOF);
+                        RaiseErrorOccurred(HtmlParseError.EOF);
                         return HtmlToken.EndOfFile;
                     default:
                         _textBuffer.Append(c);
@@ -2510,7 +2510,7 @@
                         if (attributes[j].Key == attributes[i].Key)
                         {
                             attributes.RemoveAt(i);
-                            RaiseErrorOccurred(ErrorCode.AttributeDuplicateOmitted);
+                            RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted);
                             break;
                         }
                     }
@@ -2521,10 +2521,10 @@
             else
             {
                 if (tag.IsSelfClosing)
-                    RaiseErrorOccurred(ErrorCode.EndTagCannotBeSelfClosed);
+                    RaiseErrorOccurred(HtmlParseError.EndTagCannotBeSelfClosed);
 
                 if (attributes.Count != 0)
-                    RaiseErrorOccurred(ErrorCode.EndTagCannotHaveAttributes);
+                    RaiseErrorOccurred(HtmlParseError.EndTagCannotHaveAttributes);
             }
 
             return Emit(tag);

@@ -427,7 +427,7 @@
 
                     if (rule == null)
                     {
-                        RaiseErrorOccurred(ErrorCode.UnknownAtRule);
+                        RaiseErrorOccurred(CssParseError.UnknownAtRule);
                         SkipUnknownRule(tokens);
                     }
 
@@ -435,7 +435,7 @@
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
-                    RaiseErrorOccurred(ErrorCode.InvalidBlockStart);
+                    RaiseErrorOccurred(CssParseError.InvalidBlockStart);
                     SkipUnknownRule(tokens);
                     return null;
                 }
@@ -445,7 +445,7 @@
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
                 {
-                    RaiseErrorOccurred(ErrorCode.InvalidToken);
+                    RaiseErrorOccurred(CssParseError.InvalidToken);
                     SkipUnknownRule(tokens);
                     return null;
                 }
@@ -489,7 +489,7 @@
             while (tokens.MoveNext());
 
             if (selector.IsValid == false)
-                RaiseErrorOccurred(ErrorCode.InvalidSelector);
+                RaiseErrorOccurred(CssParseError.InvalidSelector);
 
             tokenizer.IgnoreWhitespace = true;
             return selector.Result;
@@ -511,11 +511,11 @@
 
                 if (!tokens.MoveNext())
                 {
-                    RaiseErrorOccurred(ErrorCode.ColonMissing);
+                    RaiseErrorOccurred(CssParseError.ColonMissing);
                 }
                 else if (tokens.Current.Type != CssTokenType.Colon)
                 {
-                    RaiseErrorOccurred(ErrorCode.ColonMissing);
+                    RaiseErrorOccurred(CssParseError.ColonMissing);
                     JumpToEndOfDeclaration(tokens);
                 }
                 else if (tokens.MoveNext())
@@ -524,7 +524,7 @@
 
                     if (property == null)
                     {
-                        RaiseErrorOccurred(ErrorCode.UnknownDeclarationName);
+                        RaiseErrorOccurred(CssParseError.UnknownDeclarationName);
                         property = new CssUnknownProperty(propertyName, style);
                     }
 
@@ -541,11 +541,11 @@
                 }
                 else
                 {
-                    RaiseErrorOccurred(ErrorCode.ValueMissing);
+                    RaiseErrorOccurred(CssParseError.ValueMissing);
                 }
             }
             else
-                RaiseErrorOccurred(ErrorCode.IdentExpected);
+                RaiseErrorOccurred(CssParseError.IdentExpected);
 
             return null;
         }
@@ -893,7 +893,7 @@
                 case CssTokenType.CurlyBracketClose:
                     break;
                 default: // everything else is unexpected
-                    RaiseErrorOccurred(ErrorCode.InputUnexpected);
+                    RaiseErrorOccurred(CssParseError.InputUnexpected);
                     value.IsFaulted = true;
                     break;
             }
@@ -1751,7 +1751,7 @@
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>
-        void RaiseErrorOccurred(ErrorCode code)
+        void RaiseErrorOccurred(CssParseError code)
         {
             tokenizer.RaiseErrorOccurred(code);
         }
