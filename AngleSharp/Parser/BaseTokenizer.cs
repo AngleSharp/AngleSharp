@@ -25,15 +25,6 @@
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
-
-        #endregion
-
         #region ctor
 
         public BaseTokenizer(TextSource source)
@@ -177,20 +168,6 @@
                 c = GetNext();
 
             return c;
-        }
-
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(ErrorCode code)
-        {
-            if (ErrorOccurred != null)
-            {
-                var position = GetCurrentPosition();
-                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position);
-                ErrorOccurred(this, errorArguments);
-            }
         }
 
         #endregion

@@ -22,6 +22,15 @@
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// The event will be fired once an error has been detected.
+        /// </summary>
+        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -60,6 +69,20 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Fires an error occurred event.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        public void RaiseErrorOccurred(ErrorCode code)
+        {
+            if (ErrorOccurred != null)
+            {
+                var position = GetCurrentPosition();
+                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position);
+                ErrorOccurred(this, errorArguments);
+            }
+        }
 
         /// <summary>
         /// Gets the next available token.
