@@ -81,9 +81,9 @@
                 throw new ArgumentNullException("qualifiedName");
 
             if (!qualifiedName.IsXmlName())
-                throw new DomException(ErrorCode.InvalidCharacter);
+                throw new DomException(DomError.InvalidCharacter);
             else if (!qualifiedName.IsQualifiedName())
-                throw new DomException(ErrorCode.Namespace);
+                throw new DomException(DomError.Namespace);
 
             return new DocumentType(_owner, qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId };
         }

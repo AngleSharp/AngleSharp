@@ -41,9 +41,9 @@
                 var rule = CssParser.ParseRule(value);
 
                 if (rule == null)
-                    throw new DomException(ErrorCode.Syntax);
+                    throw new DomException(DomError.Syntax);
                 else if (rule.Type != _type)
-                    throw new DomException(ErrorCode.InvalidModification);
+                    throw new DomException(DomError.InvalidModification);
 
                 ReplaceWith(rule);
             }

@@ -93,9 +93,9 @@
             if (refNode == null)
                 throw new ArgumentNullException("refNode");
             else if (refNode.NodeType == NodeType.DocumentType)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
             else if (offset > refNode.ChildNodes.Length)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
 
             var bp = new Boundary { Node = refNode, Offset = offset };
 
@@ -108,9 +108,9 @@
             if (refNode == null)
                 throw new ArgumentNullException("refNode");
             else if (refNode.NodeType == NodeType.DocumentType)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
             else if (offset > refNode.ChildNodes.Length)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
 
             var bp = new Boundary { Node = refNode, Offset = offset };
 
@@ -126,7 +126,7 @@
             var parent = refNode.Parent;
 
             if (parent == null)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             _start = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) };
         }
@@ -139,7 +139,7 @@
             var parent = refNode.Parent;
 
             if (parent == null)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             _end = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) };
         }
@@ -152,7 +152,7 @@
             var parent = refNode.Parent;
 
             if (parent == null)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             _start = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) + 1 };
         }
@@ -165,7 +165,7 @@
             var parent = refNode.Parent;
 
             if (parent == null)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             _end = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) + 1 };
         }
@@ -186,7 +186,7 @@
             var parent = refNode.Parent;
 
             if (parent == null)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             var index = parent.ChildNodes.Index(refNode);
             _start = new Boundary { Node = parent, Offset = index };
@@ -198,7 +198,7 @@
             if (refNode == null)
                 throw new ArgumentNullException("refNode");
             else if (refNode.NodeType == NodeType.DocumentType)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             var length = refNode.ChildNodes.Length;
             _start = new Boundary { Node = refNode, Offset = 0 };
@@ -295,7 +295,7 @@
             var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
 
             if (containedChildren.OfType<IDocumentType>().Any())
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
 
             if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
             {
@@ -384,7 +384,7 @@
             var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
 
             if (containedChildren.OfType<IDocumentType>().Any())
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
 
             if (firstPartiallyContainedChild is ICharacterData)
             {
@@ -436,7 +436,7 @@
             var istext = type == NodeType.Text;
 
             if (type == NodeType.ProcessingInstruction || type == NodeType.Comment || (istext && snode.Parent == null))
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
 
             var referenceNode = istext ? snode : _start.ChildAtOffset;
             var parent = referenceNode == null ? snode : referenceNode.Parent;
@@ -473,12 +473,12 @@
             if (newParent == null)
                 throw new ArgumentNullException("newParent");
             else if (Nodes.Any(m => m.NodeType != NodeType.Text && IsPartiallyContained(m)))
-                throw new DomException(ErrorCode.InvalidState);
+                throw new DomException(DomError.InvalidState);
 
             var type = newParent.NodeType;
 
             if (type == NodeType.Document || type == NodeType.DocumentType || type == NodeType.DocumentFragment)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
 
             var fragment = ExtractContent();
 
@@ -507,9 +507,9 @@
             else if (node.GetRoot() != Root)
                 return false;
             else if (node.NodeType == NodeType.DocumentType)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
             else if (offset > node.ChildNodes.Length)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
             else if (_start > new Boundary { Node = node, Offset = offset } || _end < new Boundary { Node = node, Offset = offset })
                 return false;
 
@@ -521,7 +521,7 @@
             if (sourceRange == null)
                 throw new ArgumentNullException("sourceRange");
             else if (Root != sourceRange.Head.GetRoot())
-                throw new DomException(ErrorCode.WrongDocument);
+                throw new DomException(DomError.WrongDocument);
 
             Boundary thisPoint;
             Boundary otherPoint;
@@ -549,7 +549,7 @@
                     break;
 
                 default:
-                    throw new DomException(ErrorCode.NotSupported);
+                    throw new DomException(DomError.NotSupported);
             }
 
             return thisPoint.CompareTo(otherPoint);
@@ -561,11 +561,11 @@
                 throw new ArgumentNullException("node");
 
             if (Root != _start.Node.GetRoot())
-                throw new DomException(ErrorCode.WrongDocument);
+                throw new DomException(DomError.WrongDocument);
             else if (node.NodeType == NodeType.DocumentType)
-                throw new DomException(ErrorCode.InvalidNodeType);
+                throw new DomException(DomError.InvalidNodeType);
             else if (offset > node.ChildNodes.Length)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
 
             if (_start > new Boundary { Node = node, Offset = offset })
                 return RangePosition.Before;

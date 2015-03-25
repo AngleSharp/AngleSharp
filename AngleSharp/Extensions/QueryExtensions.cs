@@ -28,7 +28,7 @@
             var sg = CssParser.ParseSelector(selectors);
 
             if (sg == null)
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
 
             return elements.QuerySelector(sg);
         }
@@ -45,7 +45,7 @@
             var sg = CssParser.ParseSelector(selectors);
 
             if (sg == null)
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
 
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);

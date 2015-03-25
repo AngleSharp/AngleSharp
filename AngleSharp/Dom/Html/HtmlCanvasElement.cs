@@ -104,9 +104,9 @@
         public void SetContext(IRenderingContext context)
         {
             if (_mode != ContextMode.None && _mode != ContextMode.Indirect)
-                throw new DomException(ErrorCode.InvalidState);
+                throw new DomException(DomError.InvalidState);
             else if (context.IsFixed)
-                throw new DomException(ErrorCode.InvalidState);
+                throw new DomException(DomError.InvalidState);
 
             context.Host = this;
             _current = context;

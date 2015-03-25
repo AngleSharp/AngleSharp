@@ -114,7 +114,7 @@
             set
             {
                 if (Double.IsInfinity(value))
-                    throw new DomException(ErrorCode.TypeMismatch);
+                    throw new DomException(DomError.TypeMismatch);
                 else if (Double.IsNaN(value))
                     Value = String.Empty;
                 else

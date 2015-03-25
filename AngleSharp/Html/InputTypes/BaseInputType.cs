@@ -66,7 +66,7 @@
 
         public virtual String ConvertFromNumber(Double value)
         {
-            throw new DomException(ErrorCode.InvalidState);
+            throw new DomException(DomError.InvalidState);
         }
 
         public virtual DateTime? ConvertToDate(String value)
@@ -76,7 +76,7 @@
 
         public virtual String ConvertFromDate(DateTime value)
         {
-            throw new DomException(ErrorCode.InvalidState);
+            throw new DomException(DomError.InvalidState);
         }
 
         public virtual void ConstructDataSet(FormDataSet dataSet)
@@ -86,7 +86,7 @@
 
         public virtual void DoStep(Int32 n)
         {
-            throw new DomException(ErrorCode.InvalidState);
+            throw new DomException(DomError.InvalidState);
         }
 
         #endregion

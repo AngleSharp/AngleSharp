@@ -44,7 +44,7 @@
             var adoptedNode = node as Node;
 
             if (adoptedNode == null)
-                throw new DomException(ErrorCode.NotSupported);
+                throw new DomException(DomError.NotSupported);
 
             if (adoptedNode.Parent != null)
                 adoptedNode.Parent.RemoveChild(adoptedNode, false);

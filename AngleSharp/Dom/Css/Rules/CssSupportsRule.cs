@@ -43,7 +43,7 @@
                 var condition = CssParser.ParseCondition(value);
 
                 if (condition == null)
-                    throw new DomException(ErrorCode.Syntax);
+                    throw new DomException(DomError.Syntax);
 
                 _condition = condition;
             }

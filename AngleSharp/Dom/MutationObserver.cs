@@ -188,16 +188,16 @@
                 options.IsObservingCharacterData = options.IsExaminingOldCharacterData.HasValue && options.IsExaminingOldCharacterData.Value;
 
             if (options.IsExaminingOldAttributeValue.Value && options.IsObservingAttributes.Value == false)
-                throw new DomException(ErrorCode.TypeMismatch);
+                throw new DomException(DomError.TypeMismatch);
 
             if (options.AttributeFilters != null && options.IsObservingAttributes.Value == false)
-                throw new DomException(ErrorCode.TypeMismatch);
+                throw new DomException(DomError.TypeMismatch);
 
             if (options.IsExaminingOldCharacterData.Value && options.IsObservingCharacterData.Value == false)
-                throw new DomException(ErrorCode.TypeMismatch);
+                throw new DomException(DomError.TypeMismatch);
 
             if (options.IsObservingChildNodes == false && options.IsObservingCharacterData.Value == false && options.IsObservingAttributes.Value == false)
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
 
             node.Owner.Mutations.Register(this);
             var existing = this[target];

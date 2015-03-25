@@ -695,7 +695,7 @@
             }
 
             if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
 
             var addedNodes = new NodeList();
             var n = _children.Index(referenceElement);
@@ -796,11 +796,11 @@
         internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (_type != NodeType.Document && _type != NodeType.DocumentFragment && _type != NodeType.Element)
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
             else if (node.IsHostIncludingInclusiveAncestor(this))
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
             else if (child.Parent != this)
-                throw new DomException(ErrorCode.NotFound);
+                throw new DomException(DomError.NotFound);
 
             var type = node.NodeType;
 
@@ -828,7 +828,7 @@
                     }
 
                     if (forbidden)
-                        throw new DomException(ErrorCode.HierarchyRequest);
+                        throw new DomException(DomError.HierarchyRequest);
                 }
 
                 var referenceChild = child.NextSibling;
@@ -861,7 +861,7 @@
                 return child;
             }
             else
-                throw new DomException(ErrorCode.HierarchyRequest);
+                throw new DomException(DomError.HierarchyRequest);
         }
 
         internal virtual void NodeIsAdopted(Document oldDocument)

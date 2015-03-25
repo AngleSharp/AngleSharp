@@ -1576,7 +1576,7 @@
             }
 
             if (tokens.MoveNext())
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
         }
 
         /// <summary>
@@ -1673,7 +1673,7 @@
                 var medium = parser.InMediaValue(tokens);
 
                 if (tokens.MoveNext())
-                    throw new DomException(ErrorCode.Syntax);
+                    throw new DomException(DomError.Syntax);
 
                 return medium;
             }

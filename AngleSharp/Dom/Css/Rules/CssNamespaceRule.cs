@@ -83,7 +83,7 @@
                 foreach (var entry in list)
                 {
                     if (entry.Type != CssRuleType.Charset && entry.Type != CssRuleType.Import && entry.Type != CssRuleType.Namespace)
-                        throw new DomException(ErrorCode.InvalidState);
+                        throw new DomException(DomError.InvalidState);
                 }
             }
         }

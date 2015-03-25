@@ -14,7 +14,7 @@
         /// Creates a new DOMException.
         /// </summary>
         /// <param name="code">The error code.</param>
-        internal DomException(ErrorCode code)
+        public DomException(DomError code)
             : base(code.GetMessage())
         {
             Code = (Int32)code;

@@ -136,7 +136,7 @@
             set
             {
                 if (_readOnly)
-                    throw new DomException(ErrorCode.NoModificationAllowed);
+                    throw new DomException(DomError.NoModificationAllowed);
 
                 Update(value);
                 RaiseChanged();
@@ -2342,7 +2342,7 @@
         public String RemoveProperty(String propertyName)
         {
             if (_readOnly)
-                throw new DomException(ErrorCode.NoModificationAllowed);
+                throw new DomException(DomError.NoModificationAllowed);
 
             var value = GetPropertyValue(propertyName);
 
@@ -2425,7 +2425,7 @@
         public void SetPropertyPriority(String propertyName, String priority)
         {
             if (_readOnly)
-                throw new DomException(ErrorCode.NoModificationAllowed);
+                throw new DomException(DomError.NoModificationAllowed);
             
             if (!Factory.Properties.IsSupported(propertyName))
                 return;
@@ -2454,7 +2454,7 @@
         public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
             if (_readOnly)
-                throw new DomException(ErrorCode.NoModificationAllowed);
+                throw new DomException(DomError.NoModificationAllowed);
 
             if (!Factory.Properties.IsSupported(propertyName))
                 return;

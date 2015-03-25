@@ -288,13 +288,13 @@
                 if (parent != null)
                 {
                     if (Owner != null && Owner.DocumentElement == this)
-                        throw new DomException(ErrorCode.NoModificationAllowed);
+                        throw new DomException(DomError.NoModificationAllowed);
 
                     parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
                     parent.RemoveChild(this);
                 }
                 else
-                    throw new DomException(ErrorCode.NotSupported);
+                    throw new DomException(DomError.NotSupported);
             }
         }
         
@@ -559,7 +559,7 @@
             if (value != null)
             {
                 if (!name.IsXmlName())
-                    throw new DomException(ErrorCode.InvalidCharacter);
+                    throw new DomException(DomError.InvalidCharacter);
 
                 if (_namespace == Namespaces.HtmlUri)
                     name = name.ToLowerInvariant();
@@ -612,23 +612,23 @@
                     namespaceUri = null;
 
                 if (!name.IsXmlName())
-                    throw new DomException(ErrorCode.InvalidCharacter);
+                    throw new DomException(DomError.InvalidCharacter);
                 else if (!name.IsQualifiedName())
-                    throw new DomException(ErrorCode.Namespace);
+                    throw new DomException(DomError.Namespace);
 
                 var index = name.IndexOf(Symbols.Colon);
                 var prefix = index >= 0 ? name.Substring(0, index) : null;
                 var localName = index >= 0 ? name.Substring(index + 1) : name;
 
                 if (prefix != null && namespaceUri == null)
-                    throw new DomException(ErrorCode.Namespace);
+                    throw new DomException(DomError.Namespace);
 
                 if (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri)
-                    throw new DomException(ErrorCode.Namespace);
+                    throw new DomException(DomError.Namespace);
                 else if ((name == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
-                    throw new DomException(ErrorCode.Namespace);
+                    throw new DomException(DomError.Namespace);
                 else if (namespaceUri == Namespaces.XmlNsUri && name != Namespaces.XmlNsPrefix && prefix != Namespaces.XmlNsPrefix)
-                    throw new DomException(ErrorCode.Namespace);
+                    throw new DomException(DomError.Namespace);
 
                 for (int i = 0; i < _attributes.Count; i++)
                 {

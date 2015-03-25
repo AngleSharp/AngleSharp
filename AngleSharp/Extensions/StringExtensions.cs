@@ -727,7 +727,7 @@
                 foreach (var character in value)
                 {
                     if (character == Symbols.Null)
-                        throw new DomException(ErrorCode.InvalidCharacter);
+                        throw new DomException(DomError.InvalidCharacter);
                     else if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
                         builder.Append(Symbols.ReverseSolidus).Append(character);
                     else if (character.IsInRange((Int32)0x1, (Int32)0x1f) || character == (Char)0x7b)

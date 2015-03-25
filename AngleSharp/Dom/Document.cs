@@ -852,7 +852,7 @@
             set 
             {
                 if (value is IHtmlBodyElement == false && value is HtmlFrameSetElement == false)
-                    throw new DomException(ErrorCode.HierarchyRequest);
+                    throw new DomException(DomError.HierarchyRequest);
 
                 var body = Body;
 
@@ -864,7 +864,7 @@
                     var root = DocumentElement;
 
                     if (root == null)
-                        throw new DomException(ErrorCode.HierarchyRequest);
+                        throw new DomException(DomError.HierarchyRequest);
                     else
                         root.AppendChild(value); 
                 }
@@ -1084,7 +1084,7 @@
             var view = DefaultView;
 
             if (view == null)
-                throw new DomException(ErrorCode.InvalidAccess);
+                throw new DomException(DomError.InvalidAccess);
 
             return view.Open(url, name, features, replace);
         }
@@ -1096,7 +1096,7 @@
         public IDocument Open(String type = "text/html", String replace = null)
         {
             if (_contentType != MimeTypes.Html)
-                throw new DomException(ErrorCode.InvalidState);
+                throw new DomException(DomError.InvalidState);
 
             if (IsInBrowsingContext && _context.Active != this)
                 return null;
@@ -1201,7 +1201,7 @@
         public INode Import(INode externalNode, Boolean deep = true)
         {
             if (externalNode.NodeType == NodeType.Document)
-                throw new DomException(ErrorCode.NotSupported);
+                throw new DomException(DomError.NotSupported);
 
             return externalNode.Clone(deep);
         }
@@ -1221,7 +1221,7 @@
         public INode Adopt(INode externalNode)
         {
             if (externalNode.NodeType == NodeType.Document)
-                throw new DomException(ErrorCode.NotSupported);
+                throw new DomException(DomError.NotSupported);
 
             this.AdoptNode(externalNode);
             return externalNode;
@@ -1239,7 +1239,7 @@
             var ev = Factory.Events.Create(type);
 
             if (ev == null)
-                throw new DomException(ErrorCode.NotSupported);
+                throw new DomException(DomError.NotSupported);
 
             return ev;
         }
@@ -1319,7 +1319,7 @@
         public IElement CreateElement(String localName)
         {
             if (!localName.IsXmlName())
-                throw new DomException(ErrorCode.InvalidCharacter);
+                throw new DomException(DomError.InvalidCharacter);
 
             return Factory.HtmlElements.Create(localName, this);
         }
@@ -1340,20 +1340,20 @@
                 namespaceUri = null;
 
             if (!qualifiedName.IsXmlName())
-                throw new DomException(ErrorCode.InvalidCharacter);
+                throw new DomException(DomError.InvalidCharacter);
             else if (!qualifiedName.IsQualifiedName())
-                throw new DomException(ErrorCode.Namespace);
+                throw new DomException(DomError.Namespace);
 
             var parts = qualifiedName.Split(':');
             var prefix = parts.Length == 2 ? parts[0] : null;
             var localName = parts.Length == 2 ? parts[1] : qualifiedName;
 
             if (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri)
-                throw new DomException(ErrorCode.Namespace);
+                throw new DomException(DomError.Namespace);
             else if ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
-                throw new DomException(ErrorCode.Namespace);
+                throw new DomException(DomError.Namespace);
             else if (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix))
-                throw new DomException(ErrorCode.Namespace);
+                throw new DomException(DomError.Namespace);
 
             Element element = null;
 
@@ -1403,7 +1403,7 @@
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             if (!target.IsXmlName() || data.Contains("?>"))
-                throw new DomException(ErrorCode.InvalidCharacter);
+                throw new DomException(DomError.InvalidCharacter);
 
             return new ProcessingInstruction(this, target) { Data = data };
         }

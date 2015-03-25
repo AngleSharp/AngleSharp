@@ -177,7 +177,7 @@
             var length = _content.Length;
 
             if (offset > length)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
 
             if (offset + count > length)
                 return _content.Substring(offset);
@@ -228,7 +228,7 @@
             var length = _content.Length;
 
             if (offset > length)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
 
             if (offset + count > length)
                 count = length - offset;

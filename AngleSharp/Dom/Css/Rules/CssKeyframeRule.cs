@@ -43,7 +43,7 @@
                 var selector = CssParser.ParseKeyText(value);
 
                 if (selector == null)
-                    throw new DomException(ErrorCode.Syntax);
+                    throw new DomException(DomError.Syntax);
 
                 _selector = selector;
             }

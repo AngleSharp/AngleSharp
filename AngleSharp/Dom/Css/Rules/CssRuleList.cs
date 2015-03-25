@@ -100,12 +100,12 @@
         internal void RemoveAt(Int32 index)
         {
             if (index >= _rules.Count)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
 
             var oldRule = _rules[index];
 
             if (oldRule.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
-                throw new DomException(ErrorCode.InvalidState);
+                throw new DomException(DomError.InvalidState);
 
             _rules.RemoveAt(index);
             oldRule.Parent = null;
@@ -115,13 +115,13 @@
         internal void Insert(CssRule value, Int32 index, ICssStyleSheet owner, ICssRule parent)
         {
             if (value == null)
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
             else if (value.Type == CssRuleType.Charset)
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
             else if (index > _rules.Count)
-                throw new DomException(ErrorCode.IndexSizeError);
+                throw new DomException(DomError.IndexSizeError);
             else if (value.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
-                throw new DomException(ErrorCode.InvalidState);
+                throw new DomException(DomError.InvalidState);
 
             _rules.Insert(index, value);
             value.Owner = owner;

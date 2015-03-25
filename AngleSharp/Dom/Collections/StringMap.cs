@@ -80,14 +80,14 @@
         String Check(String name)
         {
             if (name.StartsWith(Tags.Xml, StringComparison.OrdinalIgnoreCase))
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
             else if (name.IndexOf(Symbols.Semicolon) >= 0)
-                throw new DomException(ErrorCode.Syntax);
+                throw new DomException(DomError.Syntax);
 
             for (int i = 0; i < name.Length; i++)
             {
                 if (name[i].IsUppercaseAscii())
-                    throw new DomException(ErrorCode.Syntax);
+                    throw new DomException(DomError.Syntax);
             }
 
             return name;
