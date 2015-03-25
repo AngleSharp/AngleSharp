@@ -400,6 +400,9 @@
     <Compile Include="..\AngleSharp\Dom\Constants\DocumentReadyState.cs">
       <Link>Dom\Constants\DocumentReadyState.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Constants\DomError.cs">
+      <Link>Dom\Constants\DomError.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\EventPhase.cs">
       <Link>Dom\Constants\EventPhase.cs</Link>
     </Compile>
