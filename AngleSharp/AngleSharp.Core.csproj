@@ -122,6 +122,8 @@
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
+    <Compile Include="Events\CssParseErrorEvent.cs" />
+    <Compile Include="Events\HtmlParseErrorEvent.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\ISubscriber.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
@@ -664,7 +666,6 @@
     <Compile Include="Dom\Io\FileEntry.cs" />
     <Compile Include="Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
-    <Compile Include="Parser\ParseErrorEventArgs.cs" />
     <Compile Include="ApiExtensions.cs" />
     <Compile Include="Html\AttributeNames.cs" />
     <Compile Include="Css\FunctionNames.cs" />
