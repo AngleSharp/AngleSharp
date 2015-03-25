@@ -33,19 +33,6 @@
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ParseError
-        {
-            add { tokenizer.ErrorOccurred += value; }
-            remove { tokenizer.ErrorOccurred -= value; }
-        }
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -83,7 +70,7 @@
             selector = new CssSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
-            tokenizer = new CssTokenizer(stylesheet.Source)
+            tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.GetEvents())
             {
                 IgnoreComments = true,
                 IgnoreWhitespace = true
@@ -1412,7 +1399,7 @@
         public static ISelector ParseSelector(String selectorText, IConfiguration configuration = null)
         {
             var source = new TextSource(selectorText);
-            var tokenizer = new CssTokenizer(source);
+            var tokenizer = new CssTokenizer(source, configuration.GetEvents());
             tokenizer.IgnoreComments = true;
             var tokens = tokenizer.Tokens;
             var creator = Pool.NewSelectorConstructor();

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
@@ -22,23 +23,14 @@
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        public HtmlTokenizer(TextSource source)
-            : base(source)
+        public HtmlTokenizer(TextSource source, IEventAggregator events)
+            : base(source, events)
         {
             _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
@@ -76,11 +68,11 @@
         /// <param name="code">The associated error code.</param>
         public void RaiseErrorOccurred(HtmlParseError code)
         {
-            if (ErrorOccurred != null)
+            if (_events != null)
             {
                 var position = GetCurrentPosition();
-                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position);
-                ErrorOccurred(this, errorArguments);
+                var errorEvent = new HtmlParseErrorEvent(code, position);
+                _events.Publish(errorEvent);
             }
         }
 

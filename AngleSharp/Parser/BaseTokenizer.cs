@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser
 {
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -16,6 +17,7 @@
 
         protected readonly StringBuilder _stringBuffer;
         protected readonly StringBuilder _textBuffer;
+        protected readonly IEventAggregator _events;
         readonly Stack<UInt16> _columns;
         readonly TextSource _source;
 
@@ -27,10 +29,11 @@
 
         #region ctor
 
-        public BaseTokenizer(TextSource source)
+        public BaseTokenizer(TextSource source, IEventAggregator events)
         {
             _stringBuffer = Pool.NewStringBuilder();
             _textBuffer = Pool.NewStringBuilder();
+            _events = events;
             _columns = new Stack<UInt16>();
             _source = source;
             _current = Symbols.Null;

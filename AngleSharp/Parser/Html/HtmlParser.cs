@@ -44,19 +44,6 @@
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ParseError
-        {
-            add { tokenizer.ErrorOccurred += value; }
-            remove { tokenizer.ErrorOccurred -= value; }
-        }
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -94,7 +81,7 @@
         /// </param>
         internal HtmlParser(Document document)
         {
-            tokenizer = new HtmlTokenizer(document.Source);
+            tokenizer = new HtmlTokenizer(document.Source, document.Options.GetEvents());
 			sync = new Object();
             started = false;
             doc = document;

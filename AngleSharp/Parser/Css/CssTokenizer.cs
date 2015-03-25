@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -21,19 +22,10 @@
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// The event will be fired once an error has been detected.
-        /// </summary>
-        public event EventHandler<ParseErrorEventArgs> ErrorOccurred;
-
-        #endregion
-
         #region ctor
 
-        public CssTokenizer(TextSource source)
-            : base(source)
+        public CssTokenizer(TextSource source, IEventAggregator events)
+            : base(source, events)
         {
         }
 
@@ -90,11 +82,11 @@
         /// <param name="code">The associated error code.</param>
         public void RaiseErrorOccurred(CssParseError code)
         {
-            if (ErrorOccurred != null)
+            if (_events != null)
             {
                 var position = GetCurrentPosition();
-                var errorArguments = new ParseErrorEventArgs(code.GetCode(), code.GetMessage(), position);
-                ErrorOccurred(this, errorArguments);
+                var errorEvent = new CssParseErrorEvent(code, position);
+                _events.Publish(errorEvent);
             }
         }
 
