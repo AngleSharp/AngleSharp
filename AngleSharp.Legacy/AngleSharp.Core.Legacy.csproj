@@ -1684,6 +1684,12 @@
     <Compile Include="..\AngleSharp\Dom\Xml\XmlElement.cs">
       <Link>Dom\Xml\XmlElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Events\CssParseErrorEvent.cs">
+      <Link>Events\CssParseErrorEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Events\HtmlParseErrorEvent.cs">
+      <Link>Events\HtmlParseErrorEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Events\IEventAggregator.cs">
       <Link>Events\IEventAggregator.cs</Link>
     </Compile>
@@ -2577,9 +2583,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlToken.cs">
       <Link>Parser\Html\Tokens\HtmlToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\ParseErrorEventArgs.cs">
-      <Link>Parser\ParseErrorEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
