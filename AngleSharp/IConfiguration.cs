@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Network;
-    using AngleSharp.Parser;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -58,10 +57,5 @@
         /// Gets an enumeration over all available (e.g. http) requesters.
         /// </summary>
         IEnumerable<IRequester> Requesters { get; }
-
-        /// <summary>
-        /// Method that is called once parse errors are encountered.
-        /// </summary>
-        void ReportError(ParseErrorEventArgs e);
     }
 }

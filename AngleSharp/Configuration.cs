@@ -157,15 +157,6 @@
         #region Methods
 
         /// <summary>
-        /// Reports an error by writing to the debug console.
-        /// </summary>
-        /// <param name="e">The parse error event arguments.</param>
-        public virtual void ReportError(ParseErrorEventArgs e)
-        {
-            Debug.WriteLine(e.ToString());
-        }
-
-        /// <summary>
         /// Sets the default configuration to use, when the configuration
         /// is omitted.
         /// </summary>

@@ -56,7 +56,7 @@
             var stream = new TextSource(sourceCode);
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
-            return Construct(doc, configuration).Parse();
+            return ParserFor(doc).Parse();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@
                 var stream = new TextSource(response.Content, configuration.DefaultEncoding());
                 var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
                 var doc = new Document(browsingContext, stream) { DocumentUri = url.OriginalString };
-                return await Construct(doc, configuration).ParseAsync(cancel).ConfigureAwait(false);
+                return await ParserFor(doc).ParseAsync(cancel).ConfigureAwait(false);
             }
         }
 
@@ -145,7 +145,7 @@
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
-            return Construct(doc, configuration).Parse();
+            return ParserFor(doc).Parse();
         }
 
         /// <summary>
@@ -191,8 +191,7 @@
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
-            var parser = Construct(doc, configuration);
-            return await parser.ParseAsync(cancel).ConfigureAwait(false);
+            return await ParserFor(doc).ParseAsync(cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -218,7 +217,7 @@
             var stream = new TextSource(sourceCode);
             var doc = new Document(browsingContext, stream);
             var node = context as Element;
-            var parser = Construct(doc, configuration);
+            var parser = ParserFor(doc);
 
             if (node == null)
                 return parser.Parse().ChildNodes;
@@ -270,7 +269,7 @@
 
             var stream = new TextSource(sourceCode);
             var sheet = new CssStyleSheet(configuration, stream) { Href = url };
-            return Construct(sheet, configuration).Result;
+            return ParserFor(sheet).Parse();
         }
 
         /// <summary>
@@ -332,7 +331,7 @@
             {
                 var source = new TextSource(response.Content, configuration.DefaultEncoding());
                 var sheet = new CssStyleSheet(configuration, source) { Href = url.OriginalString };
-                return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
+                return await ParserFor(sheet).ParseAsync(cancel).ConfigureAwait(false);
             }
         }
 
@@ -357,7 +356,7 @@
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CssStyleSheet(configuration, source) { Href = url };
-            return Construct(sheet, configuration).Result;
+            return ParserFor(sheet).Parse();
         }
 
         /// <summary>
@@ -402,7 +401,7 @@
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CssStyleSheet(configuration, source) { Href = url };
-            return await Construct(sheet, configuration).ParseAsync(cancel).ConfigureAwait(false);
+            return await ParserFor(sheet).ParseAsync(cancel).ConfigureAwait(false);
         }
 
         #endregion
@@ -413,28 +412,18 @@
         /// Creates a new parser with the specified source.
         /// </summary>
         /// <param name="document">The document to fill.</param>
-        /// <param name="configuration">
-        /// Options to use for the document generation.
-        /// </param>
-        static HtmlParser Construct(Document document, IConfiguration configuration)
+        static HtmlParser ParserFor(Document document)
         {
-            var parser = new HtmlParser(document);
-            parser.ParseError += (s, e) => configuration.ReportError(e);
-            return parser;
+            return new HtmlParser(document);
         }
 
         /// <summary>
         /// Creates a new parser with the specified source.
         /// </summary>
         /// <param name="sheet">The document to fill.</param>
-        /// <param name="configuration">
-        /// Options to use for the document generation.
-        /// </param>
-        static CssParser Construct(CssStyleSheet sheet, IConfiguration configuration)
+        static CssParser ParserFor(CssStyleSheet sheet)
         {
-            var parser = new CssParser(sheet);
-            parser.ParseError += (s, e) => configuration.ReportError(e);
-            return parser;
+            return new CssParser(sheet);
         }
 
         #endregion
