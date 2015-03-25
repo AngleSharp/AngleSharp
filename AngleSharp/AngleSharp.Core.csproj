@@ -793,7 +793,6 @@
     <Compile Include="Dom\Css\CssValueType.cs" />
     <Compile Include="Html\Entities.cs" />
     <Compile Include="Dom\Constants\DocumentPositions.cs" />
-    <Compile Include="Foundation\ErrorCode.cs" />
     <Compile Include="Dom\Constants\NodeType.cs" />
     <Compile Include="Dom\Constants\QuirksMode.cs" />
     <Compile Include="Dom\Constants\DocumentReadyState.cs" />
