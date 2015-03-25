@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
@@ -511,6 +512,15 @@
                     return result;
             }
 
+            return null;
+        }
+
+        #endregion
+
+        #region Others
+
+        public static IEventAggregator GetEvents(this IConfiguration options)
+        {
             return null;
         }
 
