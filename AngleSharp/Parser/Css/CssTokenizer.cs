@@ -24,6 +24,11 @@
 
         #region ctor
 
+        /// <summary>
+        /// CSS Tokenization
+        /// </summary>
+        /// <param name="source">The source code manager.</param>
+        /// <param name="events">The event aggregator to use.</param>
         public CssTokenizer(TextSource source, IEventAggregator events)
             : base(source, events)
         {

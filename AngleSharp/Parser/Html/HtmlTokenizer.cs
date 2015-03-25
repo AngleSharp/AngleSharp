@@ -29,6 +29,7 @@
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
+        /// <param name="events">The event aggregator to use.</param>
         public HtmlTokenizer(TextSource source, IEventAggregator events)
             : base(source, events)
         {
