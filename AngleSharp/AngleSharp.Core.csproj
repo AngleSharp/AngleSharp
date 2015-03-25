@@ -65,6 +65,7 @@
     <Compile Include="Css\Map.cs" />
     <Compile Include="Css\Values\MatrixTransform.cs" />
     <Compile Include="Dom\Collections\StyleCollection.cs" />
+    <Compile Include="Dom\Constants\DomError.cs" />
     <Compile Include="Dom\Constants\Sandboxes.cs" />
     <Compile Include="Dom\Constants\TableFrames.cs" />
     <Compile Include="Dom\Constants\TableRules.cs" />
