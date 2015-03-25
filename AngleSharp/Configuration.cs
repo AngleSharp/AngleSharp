@@ -2,12 +2,11 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Events;
     using AngleSharp.Network;
-    using AngleSharp.Parser;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
 
     /// <summary>
@@ -27,6 +26,7 @@
         readonly List<IRequester> _requesters;
         readonly List<IService> _services;
 
+        IEventAggregator _events;
         CultureInfo _culture;
         Boolean _scripting;
         Boolean _styling;
@@ -150,6 +150,16 @@
         {
             get { return _culture ?? CultureInfo.CurrentUICulture; }
             set { _culture = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the event aggregator to use. By default
+        /// no aggregator is used.
+        /// </summary>
+        public IEventAggregator Events
+        {
+            get { return _events; }
+            set { _events = value; }
         }
 
         #endregion

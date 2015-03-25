@@ -519,9 +519,14 @@
 
         #region Others
 
+        /// <summary>
+        /// Tries to get the assigned event aggregator. That can also be null.
+        /// </summary>
+        /// <param name="options">The configuration to use.</param>
+        /// <returns>The event aggregator or null.</returns>
         public static IEventAggregator GetEvents(this IConfiguration options)
         {
-            return null;
+            return options != null && options.Events != null ? options.Events : null;
         }
 
         #endregion

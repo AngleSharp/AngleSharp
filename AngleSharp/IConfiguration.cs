@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
+    using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using System;
@@ -57,5 +58,10 @@
         /// Gets an enumeration over all available (e.g. http) requesters.
         /// </summary>
         IEnumerable<IRequester> Requesters { get; }
+
+        /// <summary>
+        /// Gets the assigned event aggregator.
+        /// </summary>
+        IEventAggregator Events { get; }
     }
 }
