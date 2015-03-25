@@ -1723,9 +1723,6 @@
     <Compile Include="..\AngleSharp\Extensions\ElementExtensions.cs">
       <Link>Extensions\ElementExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Extensions\ErrorExtensions.cs">
-      <Link>Extensions\ErrorExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Extensions\EventTargetExtensions.cs">
       <Link>Extensions\EventTargetExtensions.cs</Link>
     </Compile>
@@ -1791,9 +1788,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Factory.cs">
       <Link>Factory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\ErrorCode.cs">
-      <Link>Foundation\ErrorCode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Keywords.cs">
       <Link>Foundation\Keywords.cs</Link>
@@ -2497,8 +2491,14 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssCombinator.cs">
       <Link>Parser\Css\CssCombinator.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssParseError.cs">
+      <Link>Parser\Css\CssParseError.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssParser.cs">
       <Link>Parser\Css\CssParser.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssParserExtensions.cs">
+      <Link>Parser\Css\CssParserExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssSelectorConstructor.cs">
       <Link>Parser\Css\CssSelectorConstructor.cs</Link>
@@ -2562,6 +2562,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlHelpers.cs">
       <Link>Parser\Html\HtmlHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlParseError.cs">
+      <Link>Parser\Html\HtmlParseError.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlParseMode.cs">
       <Link>Parser\Html\HtmlParseMode.cs</Link>
