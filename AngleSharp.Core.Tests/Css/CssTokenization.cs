@@ -12,7 +12,7 @@ namespace AngleSharp.Core.Tests
         public void CssParserIdentifier()
         {
             var teststring = "h1 { background: blue; }";
-            var parser = new CssTokenizer(new TextSource(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring), null);
             var list = parser.Tokens;
             CssToken token = null;
 
@@ -29,7 +29,7 @@ namespace AngleSharp.Core.Tests
         public void CssParserAtRule()
         {
             var teststring = "@media { background: blue; }";
-            var parser = new CssTokenizer(new TextSource(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring), null);
             var list = parser.Tokens;
             CssToken token = null;
 
@@ -47,7 +47,7 @@ namespace AngleSharp.Core.Tests
         {
             var url = "http://someurl";
             var teststring = "url(" + url + ")";
-            var parser = new CssTokenizer(new TextSource(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring), null);
             var list = parser.Tokens;
             CssStringToken token = null;
 
@@ -65,7 +65,7 @@ namespace AngleSharp.Core.Tests
         {
             var url = "http://someurl";
             var teststring = "url(\"" + url + "\")";
-            var parser = new CssTokenizer(new TextSource(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring), null);
             var list = parser.Tokens;
             CssStringToken token = null;
 
@@ -83,7 +83,7 @@ namespace AngleSharp.Core.Tests
         {
             var url = "http://someurl";
             var teststring = "url('" + url + "')";
-            var parser = new CssTokenizer(new TextSource(teststring));
+            var parser = new CssTokenizer(new TextSource(teststring), null);
             var list = parser.Tokens;
             CssStringToken token = null;
 
