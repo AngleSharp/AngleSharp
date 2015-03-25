@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Reflection;
 
     /// <summary>
     /// Some methods for working with bare objects.
@@ -63,6 +65,22 @@
         public static Double Constraint(this Double value, Double min, Double max)
         {
             return value < min ? min : (value > max ? max : value);
+        }
+
+        /// <summary>
+        /// Retrieves a string describing the error of a given error code.
+        /// </summary>
+        /// <param name="code">A specific error code.</param>
+        /// <returns>The description of the error.</returns>
+        public static String GetMessage<T>(this T code)
+            where T : struct
+        {
+            var attr = typeof(T).GetTypeInfo().GetDeclaredField(code.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
+
+            if (attr != null)
+                return attr.Description;
+
+            return "An unknown error occurred.";
         }
     }
 }

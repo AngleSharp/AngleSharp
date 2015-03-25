@@ -142,6 +142,9 @@
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgDocument.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
+    <Compile Include="Parser\Css\CssParseError.cs" />
+    <Compile Include="Parser\Css\CssParserExtensions.cs" />
+    <Compile Include="Parser\Html\HtmlParseError.cs" />
     <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
@@ -886,7 +889,6 @@
     <Compile Include="Dom\Html\HtmlVideoElement.cs" />
     <Compile Include="Dom\Mathml\MathElement.cs" />
     <Compile Include="Dom\Node.cs" />
-    <Compile Include="Extensions\ErrorExtensions.cs" />
     <Compile Include="Dom\Collections\NodeList.cs" />
     <Compile Include="Dom\Notation.cs" />
     <Compile Include="Dom\Svg\SvgElement.cs" />

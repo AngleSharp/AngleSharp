@@ -11,7 +11,7 @@
 #endif
 
     /// <summary>
-    /// Extensions to be used exclusively by the parser.
+    /// Extensions to be used exclusively by the parser or the tokenizer.
     /// </summary>
     [DebuggerStepThrough]
     static class HtmlParserExtensions
@@ -29,6 +29,16 @@
                 element.Attributes.Add(new Attr(element, attribute.Key, attribute.Value));
                 element.AttributeChanged(attribute.Key, null, null, true);
             }
+        }
+
+        /// <summary>
+        /// Retrieves a number describing the error of a given error code.
+        /// </summary>
+        /// <param name="code">A specific error code.</param>
+        /// <returns>The code of the error.</returns>
+        public static Int32 GetCode(this HtmlParseError code)
+        {
+            return (Int32)code;
         }
 
         /// <summary>
