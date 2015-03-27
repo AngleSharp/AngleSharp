@@ -72,6 +72,13 @@
             return element.ParentElement.LocateNamespace(prefix);
         }
 
+        /// <summary>
+        /// Checks if the element with the provided prefix matches the CSS
+        /// namespace.
+        /// </summary>
+        /// <param name="el">The element to examine.</param>
+        /// <param name="prefix">The namespace in question.</param>
+        /// <returns>True if the namespace is matched, else false.</returns>
         public static Boolean MatchesCssNamespace(this IElement el, String prefix)
         {
             if (prefix == "*")
@@ -85,6 +92,12 @@
             return nsUri == GetCssNamespace(el, prefix);
         }
 
+        /// <summary>
+        /// Gets the CSS namespace that is defined via the provided prefix.
+        /// </summary>
+        /// <param name="el">The element that is connected to a doc.</param>
+        /// <param name="prefix">The prefix to lookup.</param>
+        /// <returns>The namespace url for the prefix.</returns>
         public static String GetCssNamespace(this IElement el, String prefix)
         {
             return el.Owner.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespace(prefix);
