@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -140,85 +138,13 @@
             if (IsReady)
                 return this;
 
-            Func<IElement, IEnumerable<IElement>> transform = null;
-            char delim;
-
-            switch (combinator)
+            selectors.Add(new CombinatorSelector
             {
-                case CssCombinator.Child:
-                {
-                    delim = Symbols.GreaterThan;
-                    transform = el => Single(el.ParentElement);
-                    break;
-                }
-                case CssCombinator.AdjacentSibling:
-                {
-                    delim = Symbols.Plus;
-                    transform = el => Single(el.PreviousElementSibling);
-                    break;
-                }
-                case CssCombinator.Descendent:
-                {
-                    delim = Symbols.Space;
-                    transform = el =>
-                    {
-                        var parents = new List<IElement>();
-                        var parent = el.ParentElement;
+                selector = combinator.Change(selector),
+                transform = combinator.Transform,
+                delimiter = combinator.Delimiter
+            });
 
-                        while (parent != null)
-                        {
-                            parents.Add(parent);
-                            parent = parent.ParentElement;
-                        }
-
-                        return parents;
-                    };
-                    break;
-                }
-                case CssCombinator.Sibling:
-                {
-                    delim = Symbols.Tilde;
-                    transform = el =>
-                    {
-                        var parent = el.ParentElement;
-
-                        if (parent == null)
-                            return new IElement[0];
-
-                        var siblings = new List<IElement>();
-
-                        foreach (var child in parent.ChildNodes)
-                        {
-                            var element = child as IElement;
-
-                            if (element == null)
-                                continue;
-                            else if (Object.ReferenceEquals(element, el))
-                                break;
-                            else
-                                siblings.Add(element);
-                        }
-
-                        return siblings;
-                    };
-                    break;
-                }
-                case CssCombinator.Namespace:
-                {
-                    var prefix = selector.Text;
-                    delim = Symbols.Pipe;
-                    transform = el => Single(el);
-                    selector = new SimpleSelector(el => MatchesCssNamespace(el, prefix), Priority.Zero, prefix);
-                    break;
-                }
-                case CssCombinator.Column:
-                //TODO no real implementation yet
-                //see: http://dev.w3.org/csswg/selectors-4/#the-column-combinator
-                default:
-                    return this;
-            }
-
-            selectors.Add(new CombinatorSelector { selector = selector, transform = transform, delimiter = delim });
             return this;
         }
 
@@ -238,25 +164,7 @@
 
         #region Helpers
 
-        static Boolean MatchesCssNamespace(IElement el, String prefix)
-        {
-            if (prefix == "*")
-                return true;
-
-            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix) ?? el.NamespaceUri;
-
-            if (prefix == String.Empty)
-                return nsUri == String.Empty;
-
-            return nsUri == GetCssNamespace(el, prefix);
-        }
-
-        static String GetCssNamespace(IElement el, String prefix)
-        {
-            return el.Owner.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespace(prefix);
-        }
-
-        Boolean MatchCascade(int pos, IElement element)
+        Boolean MatchCascade(Int32 pos, IElement element)
         {
             var elements = selectors[pos].transform(element);
 
@@ -270,14 +178,6 @@
             }
 
             return false;
-        }
-
-        static IEnumerable<IElement> Single(IElement element)
-        {
-            if (element == null)
-                yield break;
-
-            yield return element;
         }
 
         #endregion
