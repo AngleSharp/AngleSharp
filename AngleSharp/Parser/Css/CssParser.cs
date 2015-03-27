@@ -1448,6 +1448,34 @@
         }
 
         /// <summary>
+        /// Takes a string and transforms it into a CSS value.
+        /// </summary>
+        /// <param name="valueText">The string to parse.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
+        /// <returns>The CSSValue object.</returns>
+        public static ICssValue ParseValue(String valueText, IConfiguration configuration = null)
+        {
+            var parser = new CssParser(valueText, configuration ?? Configuration.Default);
+            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+
+            if (!tokens.MoveNext())
+                return null;
+
+            var value = parser.InValue(tokens);
+
+            if (tokens.MoveNext())
+                value = null;
+
+            return value;
+        }
+
+        #endregion
+
+        #region Internal static methods
+
+        /// <summary>
         /// Takes a string and transforms it into a CSS rule.
         /// </summary>
         /// <param name="ruleText">The string to parse.</param>
@@ -1512,37 +1540,13 @@
         }
 
         /// <summary>
-        /// Takes a string and transforms it into a CSS value.
-        /// </summary>
-        /// <param name="valueText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSValue object.</returns>
-        public static ICssValue ParseValue(String valueText, IConfiguration configuration = null)
-        {
-            var parser = new CssParser(valueText, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return null;
-
-            var value = parser.InValue(tokens);
-
-            if (tokens.MoveNext())
-                value = null;
-
-            return value;
-        }
-
-        /// <summary>
-        /// Takes a string and transforms it into a stream of CSS mediums.
+        /// Takes a string and transforms it into a stream of CSS media.
         /// </summary>
         /// <param name="mediaText">The string to parse.</param>
         /// <param name="configuration">
         /// Optional: The configuration to use for construction.
         /// </param>
-        /// <returns>The stream of medias.</returns>
+        /// <returns>The stream of media.</returns>
         internal static IEnumerable<CssMedium> ParseMediaList(String mediaText, IConfiguration configuration = null)
         {
             var parser = new CssParser(mediaText, configuration);
@@ -1573,7 +1577,7 @@
         /// <param name="configuration">
         /// Optional: The configuration to use for construction.
         /// </param>
-        /// <returns>The condition.</returns>
+        /// <returns>The parsed condition.</returns>
         internal static CssSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
         {
             var parser = new CssParser(conditionText, configuration ?? Configuration.Default);
@@ -1590,10 +1594,15 @@
             return condition;
         }
 
-        #endregion
-
-        #region Internal static methods
-
+        /// <summary>
+        /// Takes a string and transforms it into an enumeration of special
+        /// document functions and their arguments.
+        /// </summary>
+        /// <param name="source">The string to parse.</param>
+        /// <param name="configuration">
+        /// Optional: The configuration to use for construction.
+        /// </param>
+        /// <returns>The iterator over the function-argument tuples.</returns>
         internal static IEnumerable<Tuple<CssDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
@@ -1649,7 +1658,7 @@
         /// <param name="configuration">
         /// Optional: The configuration to use for construction.
         /// </param>
-        /// <returns>The CssMedium object.</returns>
+        /// <returns>The CSS medium.</returns>
         internal static CssMedium ParseMedium(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
