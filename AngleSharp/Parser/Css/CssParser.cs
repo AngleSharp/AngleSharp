@@ -292,7 +292,7 @@
                 if (token.Type == CssTokenType.Url)
                     rule.NamespaceUri = token.Data;
 
-                JumpToNextSemicolon(tokens);
+                tokens.JumpToNextSemicolon();
             }
 
             return rule;
@@ -318,7 +318,7 @@
                     tokens.MoveNext();
                 }
 
-                JumpToNextSemicolon(tokens);
+                tokens.JumpToNextSemicolon();
             }
 
             return rule;
@@ -346,7 +346,7 @@
                         import.Media = parser.InMediaList(tokens);
                 }
 
-                JumpToNextSemicolon(tokens);
+                tokens.JumpToNextSemicolon();
             }
 
             return import;
@@ -415,7 +415,7 @@
                     if (rule == null)
                     {
                         RaiseErrorOccurred(CssParseError.UnknownAtRule);
-                        SkipUnknownRule(tokens);
+                        tokens.SkipUnknownRule();
                     }
 
                     return rule;
@@ -423,7 +423,7 @@
                 case CssTokenType.CurlyBracketOpen:
                 {
                     RaiseErrorOccurred(CssParseError.InvalidBlockStart);
-                    SkipUnknownRule(tokens);
+                    tokens.SkipUnknownRule();
                     return null;
                 }
                 case CssTokenType.String:
@@ -433,7 +433,7 @@
                 case CssTokenType.SquareBracketClose:
                 {
                     RaiseErrorOccurred(CssParseError.InvalidToken);
-                    SkipUnknownRule(tokens);
+                    tokens.SkipUnknownRule();
                     return null;
                 }
                 default:
@@ -503,7 +503,7 @@
                 else if (tokens.Current.Type != CssTokenType.Colon)
                 {
                     RaiseErrorOccurred(CssParseError.ColonMissing);
-                    JumpToEndOfDeclaration(tokens);
+                    tokens.JumpToEndOfDeclaration();
                 }
                 else if (tokens.MoveNext())
                 {
@@ -523,7 +523,7 @@
                     if (IsImportant(tokens))
                         property.IsImportant = true;
 
-                    JumpToEndOfDeclaration(tokens);
+                    tokens.JumpToEndOfDeclaration();
                     return property;
                 }
                 else
@@ -602,7 +602,7 @@
                         if (token.Type == CssTokenType.String)
                             return Tuple.Create(CssDocumentRule.DocumentFunction.RegExp, ((CssStringToken)token).Data);
 
-                        JumpToClosedArguments(tokens);
+                        tokens.JumpToClosedArguments();
                     }
                     break;
             }
@@ -717,10 +717,10 @@
                 if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                     tokens.MoveNext();
 
-                JumpToEndOfDeclaration(tokens);
+                tokens.JumpToEndOfDeclaration();
             }
             else if (list.Length == 0 && tokens.MoveNext())
-                JumpToEndOfDeclaration(tokens);
+                tokens.JumpToEndOfDeclaration();
 
             return list;
         }
@@ -778,7 +778,7 @@
 
             if (token.Type != CssTokenType.Ident)
             {
-                JumpToClosedArguments(tokens);
+                tokens.JumpToClosedArguments();
                 return null;
             }
 
@@ -852,7 +852,7 @@
             {
                 case CssTokenType.Dimension: // e.g. "3px"
                 case CssTokenType.Percentage: // e.g. "5%"
-                    return TakeValue(ToUnit((CssUnitToken)token), tokens);
+                    return TakeValue(((CssUnitToken)token).ToUnit(), tokens);
                 case CssTokenType.Hash:// e.g. "#ABCDEF"
                     return TakeValue(GetColorFromHexValue(token.Data), tokens);
                 case CssTokenType.Delim:// e.g. "#"
@@ -1206,182 +1206,6 @@
                 if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
                     break;
             }
-        }
-
-        static void JumpToEndOfDeclaration(IEnumerator<CssToken> tokens)
-        {
-            var round = 0;
-            var curly = 0;
-            var square = 0;
-
-            do
-            {
-                switch (tokens.Current.Type)
-                {
-                    case CssTokenType.CurlyBracketClose:
-                        if (round <= 0 && curly <= 0 && square <= 0)
-                            return;
-                        else
-                            curly--;
-                        break;
-                    case CssTokenType.CurlyBracketOpen:
-                        curly++;
-                        break;
-                    case CssTokenType.RoundBracketClose:
-                        round--;
-                        break;
-                    case CssTokenType.Function:
-                    case CssTokenType.RoundBracketOpen:
-                        round++;
-                        break;
-                    case CssTokenType.SquareBracketClose:
-                        square--;
-                        break;
-                    case CssTokenType.SquareBracketOpen:
-                        square++;
-                        break;
-                    case CssTokenType.Semicolon:
-                        if (round <= 0 && curly <= 0 && square <= 0)
-                            return;
-                        else
-                            break;
-                }
-            }
-            while (tokens.MoveNext());
-        }
-
-        static void JumpToNextSemicolon(IEnumerator<CssToken> tokens)
-        {
-            var round = 0;
-            var curly = 0;
-            var square = 0;
-
-            do
-            {
-                switch (tokens.Current.Type)
-                {
-                    case CssTokenType.CurlyBracketClose:
-                        curly--;
-                        break;
-                    case CssTokenType.CurlyBracketOpen:
-                        curly++;
-                        break;
-                    case CssTokenType.RoundBracketClose:
-                        round--;
-                        break;
-                    case CssTokenType.Function:
-                    case CssTokenType.RoundBracketOpen:
-                        round++;
-                        break;
-                    case CssTokenType.SquareBracketClose:
-                        square--;
-                        break;
-                    case CssTokenType.SquareBracketOpen:
-                        square++;
-                        break;
-                    case CssTokenType.Semicolon:
-                        if (round <= 0 && curly <= 0 && square <= 0)
-                            return;
-
-                        break;
-                }
-            }
-            while (tokens.MoveNext());
-        }
-
-        static void JumpToClosedArguments(IEnumerator<CssToken> tokens)
-        {
-            var round = 0;
-            var curly = 0;
-            var square = 0;
-
-            do
-            {
-                switch (tokens.Current.Type)
-                {
-                    case CssTokenType.CurlyBracketClose:
-                        curly--;
-                        break;
-                    case CssTokenType.CurlyBracketOpen:
-                        curly++;
-                        break;
-                    case CssTokenType.RoundBracketClose:
-                        if (round <= 0 && curly <= 0 && square <= 0)
-                            return;
-                        else
-                            round--;
-                        break;
-                    case CssTokenType.Function:
-                    case CssTokenType.RoundBracketOpen:
-                        round++;
-                        break;
-                    case CssTokenType.SquareBracketClose:
-                        square--;
-                        break;
-                    case CssTokenType.SquareBracketOpen:
-                        square++;
-                        break;
-                }
-            }
-            while (tokens.MoveNext());
-        }
-
-        /// <summary>
-        /// State that is called once in the head of an unknown @ rule.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        static void SkipUnknownRule(IEnumerator<CssToken> tokens)
-        {
-            var curly = 0;
-            var round = 0;
-            var square = 0;
-            var cont = true;
-
-            do
-            {
-                var token = tokens.Current;
-
-                switch (token.Type)
-                {
-                    case CssTokenType.Semicolon:
-                        cont = curly > 0 || round > 0 || square > 0;
-                        break;
-                    case CssTokenType.CurlyBracketClose:
-                        curly--;
-                        cont = curly > 0 || round > 0 || square > 0;
-                        break;
-                    case CssTokenType.Function:
-                    case CssTokenType.RoundBracketOpen:
-                        round++;
-                        break;
-                    case CssTokenType.RoundBracketClose:
-                        round--;
-                        break;
-                    case CssTokenType.SquareBracketClose:
-                        square--;
-                        break;
-                    case CssTokenType.SquareBracketOpen:
-                        square++;
-                        break;
-                    case CssTokenType.CurlyBracketOpen:
-                        curly++;
-                        break;
-                }
-            }
-            while (cont && tokens.MoveNext());
-        }
-
-        /// <summary>
-        /// Converts the given unit to a value. Uses number for 0.
-        /// </summary>
-        /// <param name="token">The token to consider.</param>
-        /// <returns>The created value.</returns>
-        static ICssValue ToUnit(CssUnitToken token)
-        {
-            if (token.Type == CssTokenType.Percentage)
-                return new Percent(token.Value);
-
-            return Factory.Units.Create(token.Value, token.Unit.ToLowerInvariant());
         }
 
         #endregion
