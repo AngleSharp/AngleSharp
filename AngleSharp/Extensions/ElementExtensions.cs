@@ -72,6 +72,24 @@
             return element.ParentElement.LocateNamespace(prefix);
         }
 
+        public static Boolean MatchesCssNamespace(this IElement el, String prefix)
+        {
+            if (prefix == "*")
+                return true;
+
+            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix) ?? el.NamespaceUri;
+
+            if (prefix == String.Empty)
+                return nsUri == String.Empty;
+
+            return nsUri == GetCssNamespace(el, prefix);
+        }
+
+        public static String GetCssNamespace(this IElement el, String prefix)
+        {
+            return el.Owner.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespace(prefix);
+        }
+
         /// <summary>
         /// Checks if the element is currently hovered.
         /// </summary>
