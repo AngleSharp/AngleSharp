@@ -189,6 +189,30 @@
             while (tokens.MoveNext());
         }
 
+        public static CssMedium GetMedium(this IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+            var medium = new CssMedium();
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                var ident = token.Data;
+
+                if (String.Compare(ident, Keywords.Not, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    tokens.MoveNext();
+                    medium.IsInverse = true;
+                }
+                else if (String.Compare(ident, Keywords.Only, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    tokens.MoveNext();
+                    medium.IsExclusive = true;
+                }
+            }
+
+            return medium;
+        }
+
         /// <summary>
         /// State that is called once in the head of an unknown @ rule.
         /// </summary>

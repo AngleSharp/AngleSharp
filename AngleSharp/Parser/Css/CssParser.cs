@@ -678,7 +678,7 @@
         /// <returns>The medium.</returns>
         CssMedium InMediaValue(IEnumerator<CssToken> tokens)
         {
-            var medium = GetMedium(tokens);
+            var medium = tokens.GetMedium();
             var token = tokens.Current;
 
             if (token.Type == CssTokenType.Ident)
@@ -744,30 +744,6 @@
             }
 
             return Tuple.Create(feature, value.ToValue());
-        }
-
-        static CssMedium GetMedium(IEnumerator<CssToken> tokens)
-        {
-            var token = tokens.Current;
-            var medium = new CssMedium();
-
-            if (token.Type == CssTokenType.Ident)
-            {
-                var ident = token.Data;
-
-                if (String.Compare(ident, Keywords.Not, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    tokens.MoveNext();
-                    medium.IsInverse = true;
-                }
-                else if (String.Compare(ident, Keywords.Only, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    tokens.MoveNext();
-                    medium.IsExclusive = true;
-                }
-            }
-
-            return medium;
         }
 
         #endregion
