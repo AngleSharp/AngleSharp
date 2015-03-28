@@ -21,6 +21,60 @@
             return (Int32)code;
         }
 
+        /// <summary>
+        /// Before the name of an @keyframes rule has been detected.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The name of the keyframes.</returns>
+        public static String InKeyframesName(this IEnumerator<CssToken> tokens)
+        {
+            var token = tokens.Current;
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                tokens.MoveNext();
+                return token.Data;
+            }
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Called in the text for a frame in the @keyframes rule.
+        /// </summary>
+        /// <param name="tokens">The stream of tokens.</param>
+        /// <returns>The text of the keyframe.</returns>
+        public static KeyframeSelector InKeyframeText(this IEnumerator<CssToken> tokens)
+        {
+            var keys = new List<Percent>();
+
+            do
+            {
+                var token = tokens.Current;
+
+                if (keys.Count > 0)
+                {
+                    if (token.Type == CssTokenType.CurlyBracketOpen)
+                        break;
+                    else if (token.Type != CssTokenType.Comma || !tokens.MoveNext())
+                        return null;
+
+                    token = tokens.Current;
+                }
+
+                if (token.Type == CssTokenType.Percentage)
+                    keys.Add(new Percent(((CssUnitToken)token).Value));
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.From))
+                    keys.Add(Percent.Zero);
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.To))
+                    keys.Add(Percent.Hundred);
+                else
+                    return null;
+            } while (tokens.MoveNext());
+
+            return new KeyframeSelector(keys);
+        }
+
         public static void JumpToEndOfDeclaration(this IEnumerator<CssToken> tokens)
         {
             var round = 0;

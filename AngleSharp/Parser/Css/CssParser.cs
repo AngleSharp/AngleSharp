@@ -259,7 +259,7 @@
             var rule = new CssKeyframesRule();
 
             if (tokens.MoveNext())
-                rule.Name = parser.InKeyframesName(tokens);
+                rule.Name = tokens.InKeyframesName();
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                 parser.FillRules(rule, tokens);
@@ -615,24 +615,6 @@
         #region Keyframes
 
         /// <summary>
-        /// Before the name of an @keyframes rule has been detected.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The name of the keyframes.</returns>
-        String InKeyframesName(IEnumerator<CssToken> tokens)
-        {
-            var token = tokens.Current;
-
-            if (token.Type == CssTokenType.Ident)
-            {
-                tokens.MoveNext();
-                return token.Data;
-            }
-
-            return String.Empty;
-        }
-
-        /// <summary>
         /// Before the curly bracket of an @keyframes rule has been seen.
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
@@ -640,49 +622,13 @@
         CssKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
         {
             var rule = new CssKeyframeRule();
-            rule.Key = InKeyframeText(tokens);
+            rule.Key = tokens.InKeyframeText();
             FillDeclarations(rule.Style, tokens);
 
             if (rule.Key == null)
                 return null;
 
             return rule;
-        }
-
-        /// <summary>
-        /// Called in the text for a frame in the @keyframes rule.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The text of the keyframe.</returns>
-        KeyframeSelector InKeyframeText(IEnumerator<CssToken> tokens)
-        {
-            var keys = new List<Percent>();
-
-            do
-            {
-                var token = tokens.Current;
-
-                if (keys.Count > 0)
-                {
-                    if (token.Type == CssTokenType.CurlyBracketOpen)
-                        break;
-                    else if (token.Type != CssTokenType.Comma || !tokens.MoveNext())
-                        return null;
-
-                    token = tokens.Current;
-                }
-
-                if (token.Type == CssTokenType.Percentage)
-                    keys.Add(new Percent(((CssUnitToken)token).Value));
-                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.From))
-                    keys.Add(Percent.Zero);
-                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.To))
-                    keys.Add(Percent.Hundred);
-                else
-                    return null;
-            } while (tokens.MoveNext());
-
-            return new KeyframeSelector(keys);
         }
 
         #endregion
@@ -1250,7 +1196,7 @@
             if (!tokens.MoveNext())
                 return null;
 
-            var selector = parser.InKeyframeText(tokens);
+            var selector = tokens.InKeyframeText();
 
             if (tokens.MoveNext())
                 selector = null;
