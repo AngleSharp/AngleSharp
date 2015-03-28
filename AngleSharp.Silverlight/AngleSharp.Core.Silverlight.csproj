@@ -2467,11 +2467,17 @@
     <Compile Include="..\AngleSharp\Network\HttpMethod.cs">
       <Link>Network\HttpMethod.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\IDocumentLoader.cs">
+      <Link>Network\IDocumentLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequester.cs">
       <Link>Network\IRequester.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IResourceLoader.cs">
+      <Link>Network\IResourceLoader.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IResponse.cs">
       <Link>Network\IResponse.cs</Link>
@@ -2698,7 +2704,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
