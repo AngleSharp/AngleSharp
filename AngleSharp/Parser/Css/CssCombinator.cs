@@ -48,12 +48,18 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the transformation function for the combinator.
+        /// </summary>
         public Func<IElement, IEnumerable<IElement>> Transform
         {
             get;
             protected set;
         }
 
+        /// <summary>
+        /// Gets the delimiter that represents the combinator.
+        /// </summary>
         public Char Delimiter
         {
             get;
@@ -64,6 +70,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// Changes the selector on the LHS according to some special rules.
+        /// </summary>
+        /// <param name="selector">The original selector.</param>
+        /// <returns>The modified (or unmodified) selector.</returns>
         public virtual ISelector Change(ISelector selector)
         {
             return selector;

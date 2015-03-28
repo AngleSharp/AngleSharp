@@ -39,9 +39,12 @@
             get
             {
                 var sum = new Priority();
+                var n = selectors.Count;
 
-                for (int i = 0; i < selectors.Count; i++)
-                    sum += selectors[i].selector.Specifity;
+                for (int i = 0; i < n; i++)
+                {
+                    sum += selectors[i].Selector.Specifity;
+                }
 
                 return sum;
             }
@@ -61,9 +64,11 @@
                     var n = selectors.Count - 1;
 
                     for (int i = 0; i < n; i++)
-                        sb.Append(selectors[i].selector.Text).Append(selectors[i].delimiter);
+                    {
+                        sb.Append(selectors[i].Selector.Text).Append(selectors[i].Delimiter);
+                    }
 
-                    sb.Append(selectors[n].selector.Text);
+                    sb.Append(selectors[n].Selector.Text);
                 }
 
                 return sb.ToPool();
@@ -100,12 +105,9 @@
         {
             var last = selectors.Count - 1;
 
-            if (selectors[last].selector.Match(element))
+            if (selectors[last].Selector.Match(element))
             {
-                if (last > 0)
-                    return MatchCascade(last - 1, element);
-                else
-                    return true;
+                return last > 0 ? MatchCascade(last - 1, element) : true;
             }
 
             return false;
@@ -120,7 +122,12 @@
         {
             if (!IsReady)
             {
-                selectors.Add(new CombinatorSelector { selector = selector, transform = null });
+                selectors.Add(new CombinatorSelector
+                {
+                    Selector = selector,
+                    Transform = null,
+                    Delimiter = Symbols.Null
+                });
                 IsReady = true;
             }
 
@@ -140,9 +147,9 @@
 
             selectors.Add(new CombinatorSelector
             {
-                selector = combinator.Change(selector),
-                transform = combinator.Transform,
-                delimiter = combinator.Delimiter
+                Selector = combinator.Change(selector),
+                Transform = combinator.Transform,
+                Delimiter = combinator.Delimiter
             });
 
             return this;
@@ -166,13 +173,13 @@
 
         Boolean MatchCascade(Int32 pos, IElement element)
         {
-            var elements = selectors[pos].transform(element);
+            var newElements = selectors[pos].Transform(element);
 
-            foreach (var e in elements)
+            foreach (var newElement in newElements)
             {
-                if (selectors[pos].selector.Match(e))
+                if (selectors[pos].Selector.Match(newElement))
                 {
-                    if (pos == 0 || MatchCascade(pos - 1, e))
+                    if (pos == 0 || MatchCascade(pos - 1, newElement))
                         return true;
                 }
             }
@@ -186,9 +193,9 @@
 
         struct CombinatorSelector
         {
-            public Char delimiter;
-            public Func<IElement, IEnumerable<IElement>> transform;
-            public ISelector selector;
+            public Char Delimiter;
+            public Func<IElement, IEnumerable<IElement>> Transform;
+            public ISelector Selector;
         }
 
         #endregion
