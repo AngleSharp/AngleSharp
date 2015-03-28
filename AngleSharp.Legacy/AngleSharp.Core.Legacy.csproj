@@ -2452,11 +2452,17 @@
     <Compile Include="..\AngleSharp\Network\HttpMethod.cs">
       <Link>Network\HttpMethod.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\IDocumentLoader.cs">
+      <Link>Network\IDocumentLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequester.cs">
       <Link>Network\IRequester.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IResourceLoader.cs">
+      <Link>Network\IResourceLoader.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IResponse.cs">
       <Link>Network\IResponse.cs</Link>
