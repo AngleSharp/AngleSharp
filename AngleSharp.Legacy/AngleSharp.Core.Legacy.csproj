@@ -2554,14 +2554,8 @@
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssUnitToken.cs">
       <Link>Parser\Css\Tokens\CssUnitToken.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Helpers\ForeignHelpers.cs">
-      <Link>Parser\Html\Helpers\ForeignHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Helpers\MathMLHelpers.cs">
-      <Link>Parser\Html\Helpers\MathMLHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Helpers\SvgHelpers.cs">
-      <Link>Parser\Html\Helpers\SvgHelpers.cs</Link>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlForeignExtensions.cs">
+      <Link>Parser\Html\HtmlForeignExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlHelpers.cs">
       <Link>Parser\Html\HtmlHelpers.cs</Link>
