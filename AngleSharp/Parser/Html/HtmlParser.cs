@@ -3261,7 +3261,7 @@
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
-                var node = Factory.SvgElements.Create(tag.Name.AdjustSvgTagName(), doc);
+                var node = Factory.SvgElements.CreateSanatized(tag.Name, doc);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {

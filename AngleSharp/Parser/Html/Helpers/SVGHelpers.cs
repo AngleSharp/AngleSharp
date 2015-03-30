@@ -10,48 +10,10 @@
     {
         #region Fields and Initialization
 
-        static readonly Dictionary<String, String> tagNames = new Dictionary<String, String>();
         static readonly Dictionary<String, String> attributeNames = new Dictionary<String, String>();
 
         static SvgHelpers()
-        {
-            tagNames.Add("altglyph", "altGlyph");
-            tagNames.Add("altglyphdef", "altGlyphDef");
-            tagNames.Add("altglyphitem", "altGlyphItem");
-            tagNames.Add("animatecolor", "animateColor");
-            tagNames.Add("animatemotion", "animateMotion");
-            tagNames.Add("animatetransform", "animateTransform");
-            tagNames.Add("clippath", "clipPath");
-            tagNames.Add("feblend", "feBlend");
-            tagNames.Add("fecolormatrix", "feColorMatrix");
-            tagNames.Add("fecomponenttransfer", "feComponentTransfer");
-            tagNames.Add("fecomposite", "feComposite");
-            tagNames.Add("feconvolvematrix", "feConvolveMatrix");
-            tagNames.Add("fediffuselighting", "feDiffuseLighting");
-            tagNames.Add("fedisplacementmap", "feDisplacementMap");
-            tagNames.Add("fedistantlight", "feDistantLight");
-            tagNames.Add("feflood", "feFlood");
-            tagNames.Add("fefunca", "feFuncA");
-            tagNames.Add("fefuncb", "feFuncB");
-            tagNames.Add("fefuncg", "feFuncG");
-            tagNames.Add("fefuncr", "feFuncR");
-            tagNames.Add("fegaussianblur", "feGaussianBlur");
-            tagNames.Add("feimage", "feImage");
-            tagNames.Add("femerge", "feMerge");
-            tagNames.Add("femergenode", "feMergeNode");
-            tagNames.Add("femorphology", "feMorphology");
-            tagNames.Add("feoffset", "feOffset");
-            tagNames.Add("fepointlight", "fePointLight");
-            tagNames.Add("fespecularlighting", "feSpecularLighting");
-            tagNames.Add("fespotlight", "feSpotLight");
-            tagNames.Add("fetile", "feTile");
-            tagNames.Add("feturbulence", "feTurbulence");
-            tagNames.Add("foreignobject", "foreignObject");
-            tagNames.Add("glyphref", "glyphRef");
-            tagNames.Add("lineargradient", "linearGradient");
-            tagNames.Add("radialgradient", "radialGradient");
-            tagNames.Add("textpath", "textPath");
-            
+        {            
             attributeNames.Add("attributename", "attributeName");
             attributeNames.Add("attributetype", "attributeType");
             attributeNames.Add("basefrequency", "baseFrequency");
@@ -119,21 +81,6 @@
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adjusts the tag name to the correct capitalization.
-        /// </summary>
-        /// <param name="tagName">The name of adjust.</param>
-        /// <returns>The name with the correct capitalization.</returns>
-        public static String AdjustSvgTagName(this String tagName)
-        {
-            String adjustedTagName;
-
-            if (tagNames.TryGetValue(tagName, out adjustedTagName))
-                return adjustedTagName;
-
-            return tagName;
-        }
 
         /// <summary>
         /// Adjusts the attribute name to the correct capitalization.
