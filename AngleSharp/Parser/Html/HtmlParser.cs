@@ -1188,7 +1188,7 @@
                 {
                     var name = tag.Attributes[i].Key;
                     var value = tag.Attributes[i].Value;
-                    element.SetAdjustedAttribute(name.AdjustMathMLAttributeName(), value);
+                    element.AdjustAttribute(name.AdjustToMathAttribute(), value);
                 }
 
                 AddElement(element);
@@ -1205,7 +1205,7 @@
                 {
                     var name = tag.Attributes[i].Key;
                     var value = tag.Attributes[i].Value;
-                    element.SetAdjustedAttribute(name.AdjustSvgAttributeName(), value);
+                    element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
                 }
 
                 AddElement(element);
@@ -3254,7 +3254,7 @@
                 {
                     var name = tag.Attributes[i].Key;
                     var value = tag.Attributes[i].Value;
-                    node.SetAdjustedAttribute(name.AdjustMathMLAttributeName(), value);
+                    node.AdjustAttribute(name.AdjustToMathAttribute(), value);
                 }
 
                 return node;
@@ -3267,7 +3267,7 @@
                 {
                     var name = tag.Attributes[i].Key;
                     var value = tag.Attributes[i].Value;
-                    node.SetAdjustedAttribute(name.AdjustSvgAttributeName(), value);
+                    node.AdjustAttribute(name.AdjustToSvgAttribute(), value);
                 }
 
                 return node;

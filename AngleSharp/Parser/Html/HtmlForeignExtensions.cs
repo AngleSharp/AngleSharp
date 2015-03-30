@@ -88,7 +88,7 @@
         /// <param name="element">The element to host the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public static void SetAdjustedAttribute(this Element element, String name, String value)
+        public static void AdjustAttribute(this Element element, String name, String value)
         {
             if (name.Length > 6 && String.Compare("xlink:", 0, name, 0, 6) == 0)
             {
@@ -127,7 +127,7 @@
         /// </summary>
         /// <param name="attributeName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static String AdjustMathMLAttributeName(this String attributeName)
+        public static String AdjustToMathAttribute(this String attributeName)
         {
             if (attributeName.Equals("definitionurl"))
                 return "definitionURL";
@@ -140,7 +140,7 @@
         /// </summary>
         /// <param name="attributeName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static String AdjustSvgAttributeName(this String attributeName)
+        public static String AdjustToSvgAttribute(this String attributeName)
         {
             String adjustedAttributeName;
 
