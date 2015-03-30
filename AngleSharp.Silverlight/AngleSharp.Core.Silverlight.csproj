@@ -2569,14 +2569,8 @@
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssUnitToken.cs">
       <Link>Parser\Css\Tokens\CssUnitToken.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Helpers\ForeignHelpers.cs">
-      <Link>Parser\Html\Helpers\ForeignHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Helpers\MathMLHelpers.cs">
-      <Link>Parser\Html\Helpers\MathMLHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\Helpers\SvgHelpers.cs">
-      <Link>Parser\Html\Helpers\SvgHelpers.cs</Link>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlForeignExtensions.cs">
+      <Link>Parser\Html\HtmlForeignExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlHelpers.cs">
       <Link>Parser\Html\HtmlHelpers.cs</Link>
@@ -2710,7 +2704,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
