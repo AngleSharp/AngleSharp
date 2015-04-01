@@ -111,6 +111,16 @@
             }
 
             Console.WriteLine(String.Empty.PadRight(totalWidth, '-'));
+            Console.Write("Total".Left(widthPerColumn));
+
+            foreach (var parser in _parsers)
+            {
+                var total = _results.Where(m => m.Parser == parser).Sum(m => m.Shortest.Milliseconds);
+                Console.Write(((total / _repeats)  + "ms").Center(widthPerColumn));
+            }
+
+            Console.WriteLine();
+            Console.WriteLine(String.Empty.PadRight(totalWidth, '-'));
             Console.Write("Fastest".Left(widthPerColumn));
 
             foreach (var parser in _parsers)
@@ -119,6 +129,18 @@
                 Console.Write(winner.ToString().Center(widthPerColumn));
             }
 
+            Console.WriteLine();
+            Console.WriteLine(String.Empty.PadRight(totalWidth, '-'));
+            Console.Write("Slowest".Left(widthPerColumn));
+
+            foreach (var parser in _parsers)
+            {
+                var loser = _tests.Count(test => _results.Where(m => m.Test == test).OrderBy(m => m.Shortest).Select(m => m.Parser).Last() == parser);
+                Console.Write(loser.ToString().Center(widthPerColumn));
+            }
+
+            Console.WriteLine();
+            Console.WriteLine(String.Empty.PadRight(totalWidth, '-'));
             Console.WriteLine();
         }
     }
