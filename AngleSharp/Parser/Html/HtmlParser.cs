@@ -1039,13 +1039,8 @@
                         var format = _formattingElements[i];
                         RaiseErrorOccurred(HtmlParseError.AnchorNested);
                         HeisenbergAlgorithm(HtmlTagToken.Close(Tags.A));
-
-                        if (_openElements.Contains(format))
-                            _openElements.Remove(format);
-
-                        if (_formattingElements.Contains(format))
-                            _formattingElements.RemoveAt(i);
-
+                        _openElements.Remove(format);
+                        _formattingElements.Remove(format);
                         break;
                     }
                 }
@@ -1362,7 +1357,7 @@
 
                 if (_openElements.Count != 1 && _openElements[1] is HtmlBodyElement && _frameset)
                 {
-                    _openElements[1].Parent.RemoveChild(_openElements[1]);
+                    _openElements[1].RemoveFromParent();
 
                     while (_openElements.Count > 1)
                         CloseCurrentNode();
@@ -1412,10 +1407,8 @@
 
                     for (int i = 0; i < tag.Attributes.Count; i++)
                     {
-                        if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
-                            continue;
-
-                        input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
+                        if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt) == false)
+                            input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
                     }
 
                     InBody(input);
