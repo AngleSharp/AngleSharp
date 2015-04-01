@@ -6,6 +6,7 @@
     using NUnit.Framework;
     using System.IO;
     using System.Linq;
+    using System.Threading;
 
     [TestFixture]
     public class HttpRequesterTests
@@ -26,7 +27,7 @@
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -49,7 +50,7 @@
                 request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(500, (int)response.StatusCode);
@@ -69,7 +70,7 @@
                 request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(400, (int)response.StatusCode);
@@ -89,7 +90,7 @@
                 request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(403, (int)response.StatusCode);
@@ -109,7 +110,7 @@
                 request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(404, (int)response.StatusCode);
@@ -130,7 +131,7 @@
                 request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -158,7 +159,7 @@
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -186,7 +187,7 @@
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -207,7 +208,7 @@
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(405, (int)response.StatusCode);
@@ -228,7 +229,7 @@
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(405, (int)response.StatusCode);
@@ -249,7 +250,7 @@
                 request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request).Result)
+                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -276,7 +277,7 @@
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request))
+                using (var response = http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.IsFalse(response.IsCompleted);
