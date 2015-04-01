@@ -27,12 +27,6 @@
         Boolean IsStyling { get; set; }
 
         /// <summary>
-        /// Gets or sets the current embedding mode. Enabling embedding will
-        /// emulate the document being rendered in an iframe.
-        /// </summary>
-        Boolean IsEmbedded { get; set; }
-
-        /// <summary>
         /// Gets or sets the culture to use.
         /// </summary>
         CultureInfo Culture { get; set; }

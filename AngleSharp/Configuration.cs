@@ -30,7 +30,6 @@
         CultureInfo _culture;
         Boolean _scripting;
         Boolean _styling;
-        Boolean _embedded;
 
         /// <summary>
         /// A fixed configuration that cannot be changed.
@@ -53,7 +52,6 @@
         {
             _scripting = false;
             _styling = true;
-            _embedded = false;
             _culture = CultureInfo.CurrentUICulture;
             _requesters = new List<IRequester>();
             _services = new List<IService>();
@@ -128,18 +126,6 @@
         {
             get { return _styling; }
             set { _styling = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the current embedding mode. Normally the document is NOT
-        /// embedded. Enabling embedding will emulate the document being rendered
-        /// in an iframe.
-        /// Default is false.
-        /// </summary>
-        public Boolean IsEmbedded
-        {
-            get { return _embedded; }
-            set { _embedded = value; }
         }
 
         /// <summary>
