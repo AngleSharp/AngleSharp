@@ -144,7 +144,9 @@
         /// <summary>
         /// Parses the given source asynchronously and creates the document.
         /// </summary>
-        /// <returns>The task which could be awaited or continued differently.</returns>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
         public Task<IDocument> ParseAsync()
         {
             return ParseAsync(CancellationToken.None);
@@ -154,7 +156,9 @@
         /// Parses the given source asynchronously and creates the document.
         /// </summary>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        /// <returns>The task which could be awaited or continued differently.</returns>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
         public Task<IDocument> ParseAsync(CancellationToken cancelToken)
         {
 			lock (sync)
@@ -187,14 +191,83 @@
         }
 
         /// <summary>
-        /// Switches to the fragment algorithm with the specified context element.
+        /// Switches to the fragment algorithm with the specified context
+        /// element. Then parses the given source asynchronously and creates
+        /// the document.
         /// </summary>
-        /// <param name="context">The context element where the algorithm is applied to.</param>
-        /// <returns>The current instance for chaining.</returns>
-        internal HtmlParser SwitchToFragment(Element context)
+        /// <param name="context">
+        /// The context element where the algorithm is applied to.
+        /// </param>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<IDocument> ParseFragmentAsync(IElement context)
         {
-            if (started)
-                throw new InvalidOperationException("Fragment mode has to be activated before running the parser!");
+            return ParseFragmentAsync(context, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Switches to the fragment algorithm with the specified context
+        /// element. Then parses the given source asynchronously and creates
+        /// the document.
+        /// </summary>
+        /// <param name="context">
+        /// The context element where the algorithm is applied to.
+        /// </param>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<IDocument> ParseFragmentAsync(IElement context, CancellationToken cancelToken)
+        {
+            lock (sync)
+            {
+                if (!started)
+                {
+                    started = true;
+                    SwitchToFragment(context as Element);
+                    task = KernelAsync(cancelToken);
+                }
+            }
+
+            return task;
+        }
+
+        /// <summary>
+        /// Switches to the fragment algorithm with the specified context
+        /// element. Then parses the given source and creates the document.
+        /// </summary>
+        /// <param name="context">
+        /// The context element where the algorithm is applied to.
+        /// </param>
+        /// <returns></returns>
+        public IDocument ParseFragment(IElement context)
+        {
+            lock (sync)
+            {
+                if (!started)
+                {
+                    started = true;
+                    SwitchToFragment(context as Element);
+                    Kernel();
+                }
+            }
+
+            return doc;
+        }
+
+        /// <summary>
+        /// Switches to the fragment algorithm with the specified context
+        /// element.
+        /// </summary>
+        /// <param name="context">
+        /// The context element where the algorithm is applied to.
+        /// </param>
+        /// <returns>The current instance for chaining.</returns>
+        void SwitchToFragment(Element context)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
 
             var tagName = context.NodeName;
 
@@ -232,8 +305,6 @@
                 context = context.ParentElement as Element;
             }
             while (context != null);
-
-            return this;
         }
 
         void Restart()
@@ -248,14 +319,14 @@
         }
 
         /// <summary>
-        /// Resets the current insertation mode to the rules according to the algorithm specified
-        /// in 8.2.3.1 The insertion mode.
+        /// Resets the current insertation mode to the rules according to the
+        /// algorithm specified in 8.2.3.1 The insertion mode.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-insertion-mode
         /// </summary>
-        void Reset(Node context = null)
+        void Reset(INode context = null)
         {
             var last = false;
-            Node node;
+            var node = default(INode);
 
             for (var i = open.Count - 1; i >= 0; i--)
             {

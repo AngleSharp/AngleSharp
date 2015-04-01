@@ -227,7 +227,7 @@
             if (owner != null && owner.QuirksMode != QuirksMode.Off)
                 doc.QuirksMode = owner.QuirksMode;
 
-            return parser.SwitchToFragment(node).Parse().DocumentElement.ChildNodes;
+            return parser.ParseFragment(node).DocumentElement.ChildNodes;
         }
 
         #endregion
