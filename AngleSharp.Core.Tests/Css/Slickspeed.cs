@@ -17,8 +17,7 @@ namespace AngleSharp.Core.Tests.Css
             {
                 Culture = new CultureInfo("en-US"),
                 IsScripting = true,
-                IsStyling = false,
-                IsEmbedded = false
+                IsStyling = false
             };
             document = DocumentBuilder.Html(Assets.w3c_selectors, config);
         }
