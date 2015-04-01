@@ -129,7 +129,7 @@
 
         async Task LoadAsync(IRequester requester, Url url, CancellationToken cancel)
         {
-            var response = await requester.LoadAsync(url).ConfigureAwait(false);
+            var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false);
 
             if (response != null)
             {

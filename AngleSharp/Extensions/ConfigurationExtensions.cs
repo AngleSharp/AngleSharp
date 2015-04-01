@@ -228,18 +228,6 @@
         /// </summary>
         /// <param name="options">The configuration to use.</param>
         /// <param name="url">The address of the image.</param>
-        /// <returns>A task that will end with an image info or null.</returns>
-        public static Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url)
-            where TResource : IResourceInfo
-        {
-            return options.LoadResource<TResource>(url, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Tries to load an image if a proper image service can be found.
-        /// </summary>
-        /// <param name="options">The configuration to use.</param>
-        /// <param name="url">The address of the image.</param>
         /// <param name="cancel">
         /// Token to trigger in case of cancellation.
         /// </param>
