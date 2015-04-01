@@ -37,6 +37,7 @@
         Boolean frameset;
         Element fragmentContext;
         Boolean foster;
+        Boolean embedded;
         Int32 nesting;
         Boolean started;
         HtmlScriptElement pendingParsingBlock;
@@ -89,6 +90,7 @@
             templateMode = new Stack<HtmlTreeMode>();
             formatting = new List<Element>();
             frameset = true;
+            embedded = false;
             insert = HtmlTreeMode.Initial;
         }
 
@@ -110,6 +112,14 @@
         public Boolean IsAsync
         {
             get { return task != null; }
+        }
+
+        /// <summary>
+        /// Gets if the parser has run for an embedded document.
+        /// </summary>
+        public Boolean IsEmbedded
+        {
+            get { return embedded; }
         }
 
         /// <summary>
@@ -183,6 +193,60 @@
                 if (!started)
                 {
                     started = true;
+                    Kernel();
+                }
+            }
+
+            return doc;
+        }
+
+        /// <summary>
+        /// Parses the given source as an embedded document asynchronously and
+        /// creates the document.
+        /// </summary>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<IDocument> ParseEmbeddedAsync()
+        {
+            return ParseEmbeddedAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Parses the given source as an embedded document asynchronously and
+        /// creates the document.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<IDocument> ParseEmbeddedAsync(CancellationToken cancelToken)
+        {
+            lock (sync)
+            {
+                if (!started)
+                {
+                    started = true;
+                    embedded = true;
+                    task = KernelAsync(cancelToken);
+                }
+            }
+
+            return task;
+        }
+
+        /// <summary>
+        /// Parses the given source as an embedded document and creates the
+        /// document.
+        /// </summary>
+        public IDocument ParseEmbedded()
+        {
+            lock (sync)
+            {
+                if (!started)
+                {
+                    started = true;
+                    embedded = true;
                     Kernel();
                 }
             }
@@ -533,7 +597,7 @@
                 }
             }
 
-            if (!doc.Options.IsEmbedded)
+            if (embedded == false)
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeMissing);
                 doc.QuirksMode = QuirksMode.On;
