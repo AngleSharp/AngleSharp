@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets or sets the origin of the request, if any.
         /// </summary>
-        public Url Origin
+        public String Origin
         {
             get;
             set;
