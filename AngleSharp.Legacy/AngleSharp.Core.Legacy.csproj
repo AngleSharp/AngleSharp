@@ -2452,6 +2452,9 @@
     <Compile Include="..\AngleSharp\Network\DefaultResponse.cs">
       <Link>Network\DefaultResponse.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\DocumentRequest.cs">
+      <Link>Network\DocumentRequest.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\HeaderNames.cs">
       <Link>Network\HeaderNames.cs</Link>
     </Compile>
@@ -2484,6 +2487,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\PortNumbers.cs">
       <Link>Network\PortNumbers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ResourceRequest.cs">
+      <Link>Network\ResourceRequest.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
