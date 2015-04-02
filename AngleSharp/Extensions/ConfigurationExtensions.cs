@@ -9,7 +9,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -212,45 +211,25 @@
         }
 
         /// <summary>
-        /// Tries to get a requester for the given scheme or a default
-        /// requester, if nothing could be found.
+        /// Tries to convert the response to the resource type.
         /// </summary>
         /// <param name="options">The configuration to use.</param>
-        /// <param name="protocol">The scheme to find a requester for.</param>
-        /// <returns>A requester for the scheme or null.</returns>
-        public static IRequester GetRequesterOrDefault(this IConfiguration options, String protocol)
-        {
-            return options.GetRequester(protocol) ?? new DefaultRequester();
-        }
-
-        /// <summary>
-        /// Tries to load an image if a proper image service can be found.
-        /// </summary>
-        /// <param name="options">The configuration to use.</param>
-        /// <param name="url">The address of the image.</param>
+        /// <param name="response">The response to process.</param>
         /// <param name="cancel">
         /// Token to trigger in case of cancellation.
         /// </param>
         /// <returns>A task that will end with an image info or null.</returns>
-        public static async Task<TResource> LoadResource<TResource>(this IConfiguration options, Url url, CancellationToken cancel)
+        public static async Task<TResource> GetResource<TResource>(this IConfiguration options, IResponse response, CancellationToken cancel)
             where TResource : IResourceInfo
         {
-            var requester = options.GetRequester(url.Scheme);
-
-            if (requester != null)
+            if (response != null)
             {
-                using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
+                var resourceServices = options.GetServices<IResourceService<TResource>>();
+
+                foreach (var resourceService in resourceServices)
                 {
-                    if (response == null)
-                        return default(TResource);
-
-                    var resourceServices = options.GetServices<IResourceService<TResource>>();
-
-                    foreach (var resourceService in resourceServices)
-                    {
-                        if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                            return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
-                    }
+                    if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
                 }
             }
 

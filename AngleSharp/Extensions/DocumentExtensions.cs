@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services;
     using System;
     using System.Diagnostics;
@@ -343,6 +344,22 @@
         public static void ReleaseStorageMutex(this Document document)
         {
             //TODO
+        }
+
+        /// <summary>
+        /// Gets the resource loader for the given document, by creating it if
+        /// possible.
+        /// </summary>
+        /// <param name="document">The document that hosts the loader.</param>
+        /// <returns>A resource loader or null.</returns>
+        public static IResourceLoader CreateLoader(this Document document)
+        {
+            var loader = document.Options.GetService<ILoaderService>();
+
+            if (loader == null)
+                return null;
+
+            return loader.CreateResourceLoader(document);
         }
     }
 }
