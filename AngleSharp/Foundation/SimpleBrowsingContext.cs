@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
+    using AngleSharp.Network;
 
     /// <summary>
     /// A simple and lightweight browsing context.
@@ -11,6 +12,7 @@
 
         readonly IConfiguration _configuration;
         readonly Sandboxes _security;
+        readonly IDocumentLoader _loader;
         IDocument _active;
 
         #endregion
@@ -21,6 +23,7 @@
         {
             _configuration = configuration;
             _security = security;
+            _loader = this.CreateLoader();
         }
 
         #endregion
@@ -30,6 +33,11 @@
         public IDocument Active
         {
             get { return _active; }
+        }
+
+        public IDocumentLoader Loader
+        {
+            get { return _loader; }
         }
 
         public IConfiguration Configuration

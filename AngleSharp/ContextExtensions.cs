@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using System;
     using System.Diagnostics;
     using System.Threading;
@@ -14,30 +15,23 @@
     [DebuggerStepThrough]
     public static class ContextExtensions
     {
-        #region Browsing Context
+        #region Navigation
 
         /// <summary>
         /// Opens a new document without any content in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
+        /// <param name="url">[Optional] The base URL of the document.</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static IDocument OpenNew(this IBrowsingContext context)
+        public static IDocument OpenNew(this IBrowsingContext context, String url = null)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            return new Document(context);
-        }
-
-        /// <summary>
-        /// Opens a new document asynchronously in the given context.
-        /// </summary>
-        /// <param name="context">The browsing context to use.</param>
-        /// <param name="response">The response to examine.</param>
-        /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response)
-        {
-            return context.OpenAsync(response, CancellationToken.None);
+            var doc = new Document(context) { DocumentUri = url };
+            context.NavigateTo(doc);
+            doc.FinishLoading();
+            return doc;
         }
 
         /// <summary>
@@ -56,18 +50,8 @@
 
             var doc = new Document(context);
             await doc.LoadAsync(response, cancel).ConfigureAwait(false);
+            context.NavigateTo(doc);
             return doc;
-        }
-
-        /// <summary>
-        /// Opens a new document asynchronously in the given context.
-        /// </summary>
-        /// <param name="context">The browsing context to use.</param>
-        /// <param name="url">The URL to load.</param>
-        /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url)
-        {
-            return context.OpenAsync(url, CancellationToken.None);
         }
 
         /// <summary>
@@ -84,11 +68,30 @@
             else if (url == null)
                 throw new ArgumentNullException("url");
 
-            var config = context.Configuration;
-            var requester = config.GetRequesterOrDefault(url.Scheme);
+            var request = new DocumentRequest(url) { Origin = context.Active.Origin };
 
-            using (var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false))
+            using (var response = await context.Loader.LoadAsync(request, cancel).ConfigureAwait(false))
                 return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Internal
+
+        /// <summary>
+        /// Gets the document loader for the given context, by creating it if
+        /// possible.
+        /// </summary>
+        /// <param name="context">The context that hosts the loader.</param>
+        /// <returns>A document loader or null.</returns>
+        internal static IDocumentLoader CreateLoader(this IBrowsingContext context)
+        {
+            var loader = context.Configuration.GetService<ILoaderService>();
+
+            if (loader == null)
+                return null;
+
+            return loader.CreateDocumentLoader(context);
         }
 
         #endregion

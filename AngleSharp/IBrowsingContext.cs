@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
+    using AngleSharp.Network;
 
     /// <summary>
     /// Represents the browsing context interface.
@@ -33,6 +34,11 @@
         IConfiguration Configuration { get; }
 
         /// <summary>
+        /// Gets the assigned document loader, if any.
+        /// </summary>
+        IDocumentLoader Loader { get; }
+
+        /// <summary>
         /// Gets the parent of the current context, if any. If a parent is
         /// available, then the current context contains only embedded
         /// documents.
@@ -47,8 +53,8 @@
         IDocument Creator { get; }
 
         /// <summary>
-        /// Navigates to the given document, by including it in the session
-        /// history and setting it as the active document.
+        /// Navigates to the given document. Includes the document in the
+        /// session history and sets it as the active document.
         /// </summary>
         /// <param name="document">The new document.</param>
         void NavigateTo(IDocument document);

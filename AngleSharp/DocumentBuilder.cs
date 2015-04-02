@@ -33,7 +33,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
-            return new Document(browsingContext) { DocumentUri = url };
+            return browsingContext.OpenNew(url);
         }
 
         /// <summary>
@@ -56,6 +56,7 @@
             var stream = new TextSource(sourceCode);
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
+            browsingContext.NavigateTo(doc);
             return ParserFor(doc).Parse();
         }
 
@@ -104,7 +105,7 @@
         /// [Optional] Custom options to use for the document generation.
         /// </param>
         /// <returns>The task that constructs the HTML document.</returns>
-        public static async Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
+        public static Task<IDocument> HtmlAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
         {
             if (url == null)
                 throw new ArgumentNullException("url");
@@ -112,15 +113,8 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            var requester = configuration.GetRequesterOrDefault(url.Scheme);
-
-            using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
-            {
-                var stream = new TextSource(response.Content, configuration.DefaultEncoding());
-                var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
-                var doc = new Document(browsingContext, stream) { DocumentUri = url.OriginalString };
-                return await ParserFor(doc).ParseAsync(cancel).ConfigureAwait(false);
-            }
+            var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
+            return browsingContext.OpenAsync(new Url(url), cancel);
         }
 
         /// <summary>
@@ -145,6 +139,7 @@
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
+            browsingContext.NavigateTo(doc);
             return ParserFor(doc).Parse();
         }
 
@@ -191,6 +186,7 @@
             var stream = new TextSource(content, configuration.DefaultEncoding());
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
             var doc = new Document(browsingContext, stream) { DocumentUri = url };
+            browsingContext.NavigateTo(doc);
             return await ParserFor(doc).ParseAsync(cancel).ConfigureAwait(false);
         }
 
