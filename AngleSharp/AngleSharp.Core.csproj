@@ -146,6 +146,7 @@
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgDocument.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
+    <Compile Include="Network\DocumentRequest.cs" />
     <Compile Include="Network\IDocumentLoader.cs" />
     <Compile Include="Network\IResourceLoader.cs" />
     <Compile Include="Network\ResourceRequest.cs" />

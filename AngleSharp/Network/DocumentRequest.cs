@@ -1,0 +1,69 @@
+﻿namespace AngleSharp.Network
+{
+    using System;
+    using System.IO;
+
+    /// <summary>
+    /// Represents the arguments to load a document.
+    /// </summary>
+    public class DocumentRequest
+    {
+        /// <summary>
+        /// Creates a new document request for the given url.
+        /// </summary>
+        /// <param name="target">The resource's url.</param>
+        public DocumentRequest(Url target)
+        {
+            Target = target;
+            Origin = null;
+            Method = HttpMethod.Get;
+            Body = MemoryStream.Null;
+            MimeType = null;
+        }
+
+        /// <summary>
+        /// Gets the target of the request.
+        /// </summary>
+        public Url Target
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets or sets the origin of the request, if any.
+        /// </summary>
+        public Url Origin
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the method to use.
+        /// </summary>
+        public HttpMethod Method
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the stream of the request's body.
+        /// </summary>
+        public Stream Body
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the mime-type to use, if any.
+        /// </summary>
+        public String MimeType
+        {
+            get;
+            set;
+        }
+    }
+}
