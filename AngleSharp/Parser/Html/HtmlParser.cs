@@ -31,16 +31,16 @@
         readonly Stack<HtmlTreeMode> _templateModes;
         readonly Object _syncGuard;
 
+        HtmlFormElement _currentFormElement;
+        HtmlScriptElement _currentScriptElement;
         HtmlTreeMode _currentMode;
         HtmlTreeMode _previousMode;
-        HtmlFormElement _currentFormElement;
         Element _fragmentContext;
         Boolean _foster;
         Boolean _embedded;
         Boolean _frameset;
-        Int32 _nestingLevel;
+        Int32 _nested;
         Boolean _started;
-        HtmlScriptElement _pendingScript;
         Task<IDocument> _parsing;
 
         #endregion
@@ -3640,24 +3640,24 @@
             _document.ProvideStableState();
             CloseCurrentNode();
             _currentMode = _previousMode;
-            _nestingLevel++;
+            _nested++;
             script.Prepare();
-            _nestingLevel--;
+            _nested--;
 
-            if (_pendingScript == null || _nestingLevel != 0)
+            if (_currentScriptElement == null || _nested != 0)
                 return;
 
             do
             {
-                script = _pendingScript;
-                _pendingScript = null;
+                script = _currentScriptElement;
+                _currentScriptElement = null;
                 _document.WaitForReady();
-                _nestingLevel++;
+                _nested++;
                 script.Run();
-                _nestingLevel--;
+                _nested--;
                 _tokenizer.ResetInsertionPoint();
             }
-            while (_pendingScript != null);
+            while (_currentScriptElement != null);
         }
 
         /// <summary>
