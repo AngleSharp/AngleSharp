@@ -148,6 +148,7 @@
     <Compile Include="Linq\SelectorExtensions.cs" />
     <Compile Include="Network\IDocumentLoader.cs" />
     <Compile Include="Network\IResourceLoader.cs" />
+    <Compile Include="Network\ResourceRequest.cs" />
     <Compile Include="Parser\Css\CssParseError.cs" />
     <Compile Include="Parser\Css\CssParserExtensions.cs" />
     <Compile Include="Parser\Html\HtmlParseError.cs" />
