@@ -5,7 +5,7 @@
     /// requests include, but are not limited to, media, script and styling
     /// resources.
     /// </summary>
-    interface IResourceLoader
+    public interface IResourceLoader
     {
     }
 }
