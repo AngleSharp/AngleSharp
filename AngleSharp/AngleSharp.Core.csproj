@@ -151,7 +151,6 @@
     <Compile Include="Parser\Css\CssParseError.cs" />
     <Compile Include="Parser\Css\CssParserExtensions.cs" />
     <Compile Include="Parser\Html\HtmlParseError.cs" />
-    <Compile Include="Services\ICacheLoaderService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\ILoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />

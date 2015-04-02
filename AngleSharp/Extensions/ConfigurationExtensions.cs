@@ -466,45 +466,6 @@
 
         #endregion
 
-        #region Cache loading
-
-        /// <summary>
-        /// Tries to load the content for the given url from cache.
-        /// </summary>
-        /// <param name="options">The configuration to use.</param>
-        /// <param name="url">The address of the resource.</param>
-        /// <returns>A task with the contents or null.</returns>
-        public static Task<Stream> LoadCached(this IConfiguration options, Url url)
-        {
-            return options.LoadCached(url, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Tries to load the content for the given url from cache.
-        /// </summary>
-        /// <param name="options">The configuration to use.</param>
-        /// <param name="url">The address of the resource.</param>
-        /// <param name="cancel">
-        /// Token to trigger in case of cancellation.
-        /// </param>
-        /// <returns>A task with the contents or null.</returns>
-        public static async Task<Stream> LoadCached(this IConfiguration options, Url url, CancellationToken cancel)
-        {
-            var caches = options.GetServices<ICacheLoaderService>();
-
-            foreach (var cache in caches)
-            {
-                var result = await cache.LoadAsync(url, cancel);
-
-                if (result != null)
-                    return result;
-            }
-
-            return null;
-        }
-
-        #endregion
-
         #region Others
 
         /// <summary>
