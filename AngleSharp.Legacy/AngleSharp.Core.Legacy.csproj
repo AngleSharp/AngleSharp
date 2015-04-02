@@ -2596,9 +2596,6 @@
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Services\ICacheLoaderService.cs">
-      <Link>Services\ICacheLoaderService.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Services\IClipboardService.cs">
       <Link>Services\IClipboardService.cs</Link>
     </Compile>
@@ -2616,6 +2613,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\IImageService.cs">
       <Link>Services\IImageService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\ILoaderService.cs">
+      <Link>Services\ILoaderService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\INavigatorService.cs">
       <Link>Services\INavigatorService.cs</Link>
