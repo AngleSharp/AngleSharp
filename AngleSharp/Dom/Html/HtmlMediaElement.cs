@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
@@ -448,7 +449,9 @@
 
         async Task<TResource> LoadAsync(Url url, CancellationToken cancel)
         {
-            var media = await Owner.Options.LoadResource<TResource>(url, cancel).ConfigureAwait(false);
+            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
+            var media = await Owner.Options.GetResource<TResource>(response, cancel).ConfigureAwait(false);
 
             if (media == null)
                 _network = MediaNetworkState.NoSource;

@@ -4,7 +4,6 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,8 +15,7 @@
     {
         #region Fields
 
-        readonly Document _doc;
-
+        readonly IBrowsingContext _context;
         CancellationTokenSource _cts;
         SettableTokenList _sandbox;
         Task _docTask;
@@ -29,7 +27,7 @@
         public HtmlIFrameElement(Document owner)
             : base(owner, Tags.Iframe, NodeFlags.LiteralText)
         {
-            _doc = new Document(owner.NewChildContext(Sandboxes.None));
+            _context = owner.NewChildContext(Sandboxes.None);
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
@@ -92,7 +90,7 @@
         /// </summary>
         public IWindow ContentWindow
         {
-            get { return _doc != null ? _doc.DefaultView : null; }
+            get { return _context.Current; }
         }
 
         #endregion
@@ -106,7 +104,6 @@
 
             _docTask = null;
             _cts = null;
-            _doc.Dispose();
         }
 
         void UpdateSource(String src)
@@ -117,24 +114,8 @@
             if (!String.IsNullOrEmpty(src))
             {
                 var url = this.HyperReference(src);
-                var requester = Owner.Options.GetRequester(url.Scheme);
-
-                if (requester == null)
-                    return;
-
                 _cts = new CancellationTokenSource();
-                _docTask = LoadAsync(requester, url, _cts.Token);
-            }
-        }
-
-        async Task LoadAsync(IRequester requester, Url url, CancellationToken cancel)
-        {
-            var response = await requester.LoadAsync(url, cancel).ConfigureAwait(false);
-
-            if (response != null)
-            {
-                await _doc.LoadAsync(response, cancel).ConfigureAwait(false);
-                response.Dispose();
+                _docTask = _context.OpenAsync(url, _cts.Token);
             }
         }
 

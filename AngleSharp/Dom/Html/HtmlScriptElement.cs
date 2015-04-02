@@ -225,13 +225,8 @@
                 }
 
                 var url = this.HyperReference(src);
-                var requester = options.GetRequester(url.Scheme);
-
-                if (requester == null)
-                    return;
-
                 _cts = new CancellationTokenSource();
-                _loadingTask = PrepareAsync(requester, url, _cts.Token);
+                _loadingTask = PrepareAsync(url, _cts.Token);
             }
             else if (_parserInserted && Owner.HasScriptBlockingStyleSheet())
             {
@@ -243,7 +238,7 @@
             }
         }
 
-        async Task<IResponse> PrepareAsync(IRequester requester, Url url, CancellationToken cancel)
+        async Task<IResponse> PrepareAsync(Url url, CancellationToken cancel)
         {
             if (_parserInserted && !IsAsync)
             {
@@ -261,7 +256,8 @@
                 Owner.AddScript(this);
             }
 
-            var response = await requester.LoadWithCorsAsync(url, CrossOrigin.ToEnum(CorsSetting.None), Owner.Origin, OriginBehavior.Taint, cancel);
+            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var response = await Owner.Loader.FetchWithCorsAsync(request, CrossOrigin.ToEnum(CorsSetting.None), OriginBehavior.Taint, cancel);
 
             if (_parserInserted && !IsAsync)
                 _readyToBeExecuted = true;

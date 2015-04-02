@@ -3,7 +3,6 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -31,9 +30,11 @@
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
         readonly IWindow _view;
+        readonly IResourceLoader _loader;
 
         QuirksMode _quirksMode;
         Sandboxes _sandbox;
+        Boolean _async;
         Boolean _designMode;
         Boolean _shown;
         Boolean _salvageable;
@@ -435,7 +436,7 @@
         internal Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
-            IsAsync = true;
+            _async = true;
             _context = context ?? new SimpleBrowsingContext(Configuration.Default, Sandboxes.None);
             _source = source;
             _referrer = String.Empty;
@@ -455,7 +456,7 @@
             _salvageable = true;
             _shown = false;
             _sandbox = Sandboxes.None;
-            _context.NavigateTo(this);
+            _loader = this.CreateLoader();
         }
 
         #endregion
@@ -552,8 +553,7 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get;
-            internal set;
+            get { return _async; }
         }
 
         /// <summary>
@@ -1037,6 +1037,14 @@
         internal IElement FocusElement
         {
             get { return _focus; }
+        }
+
+        /// <summary>
+        /// Gets the resource loader for the document to use.
+        /// </summary>
+        internal IResourceLoader Loader
+        {
+            get { return _loader; }
         }
 
         #endregion
@@ -1784,7 +1792,7 @@
             else
             {
                 var url = new Url(e.CurrentLocation);
-                await _context.OpenAsync(url);
+                await _context.OpenAsync(url, CancellationToken.None);
             }
         }
 

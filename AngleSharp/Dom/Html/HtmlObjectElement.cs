@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
     using System.Threading;
@@ -159,7 +160,9 @@
 
         async Task<IObjectInfo> LoadAsync(Url url, CancellationToken cancel)
         {
-            var resource = await Owner.Options.LoadResource<IObjectInfo>(url, cancel).ConfigureAwait(false);
+            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
+            var resource = await Owner.Options.GetResource<IObjectInfo>(response, cancel).ConfigureAwait(false);
             this.FireSimpleEvent(EventNames.Load);
             return resource;
         }

@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
     using System.Threading;
@@ -79,7 +80,9 @@
 
         async Task<IImageInfo> LoadAsync(HtmlInputElement inp, Url url, CancellationToken cancel)
         {
-            var image = await inp.Owner.Options.LoadResource<IImageInfo>(url, cancel).ConfigureAwait(false);
+            var request = new ResourceRequest(url) { Origin = inp.Owner.Origin };
+            var response = await inp.Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
+            var image = await inp.Owner.Options.GetResource<IImageInfo>(response, cancel).ConfigureAwait(false);
             inp.FireSimpleEvent(EventNames.Load);
             return image;
         }

@@ -240,20 +240,16 @@
                 if (url != null && (_buffer == null || !url.Equals(_buffer)))
                 {
                     _buffer = url;
-                    var requester = Owner.Options.GetRequester(url.Scheme);
-
-                    if (requester == null)
-                        return;
-
                     _cts = new CancellationTokenSource();
-                    _loadingTask = LoadAsync(requester, url, _cts.Token);
+                    _loadingTask = LoadAsync(url, _cts.Token);
                 }
             }
         }
 
-        async Task LoadAsync(IRequester requester, Url url, CancellationToken cancel)
+        async Task LoadAsync(Url url, CancellationToken cancel)
         {
-            var response = await requester.LoadAsync(url, _cts.Token).ConfigureAwait(false);
+            var request = new ResourceRequest(url);
+            var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
             if (response != null)
             {

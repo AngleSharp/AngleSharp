@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
     using System.Threading;
@@ -180,11 +181,13 @@
             }
         }
 
-        async Task<IImageInfo> LoadAsync(Url image, CancellationToken cancel)
+        async Task<IImageInfo> LoadAsync(Url url, CancellationToken cancel)
         {
-            var info = await Owner.Options.LoadResource<IImageInfo>(image, cancel).ConfigureAwait(false);
+            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
+            var image = await Owner.Options.GetResource<IImageInfo>(response, cancel).ConfigureAwait(false);
             this.FireSimpleEvent(EventNames.Load);
-            return info;
+            return image;
         }
 
         #endregion
