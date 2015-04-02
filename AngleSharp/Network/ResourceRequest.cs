@@ -14,6 +14,7 @@
         public ResourceRequest(Url target)
         {
             Target = target;
+            Origin = null;
             IsManualRedirectDesired = false;
             IsSameOriginForced = false;
             IsCookieBlocked = false;
@@ -26,6 +27,15 @@
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Gets or sets the origin of the request, if any.
+        /// </summary>
+        public Url Origin
+        {
+            get;
+            set;
         }
 
         /// <summary>
