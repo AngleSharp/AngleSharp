@@ -7,7 +7,7 @@
 
     class AngleSharpSelector : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration { IsStyling = false, IsScripting = true };
+        static readonly IConfiguration configuration = new Configuration { IsStyling = false };
 
         IDocument document;
 
