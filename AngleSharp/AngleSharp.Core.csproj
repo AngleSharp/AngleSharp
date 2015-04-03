@@ -146,6 +146,8 @@
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgDocument.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
+    <Compile Include="Network\DefaultDocumentLoader.cs" />
+    <Compile Include="Network\DefaultResourceLoader.cs" />
     <Compile Include="Network\DocumentRequest.cs" />
     <Compile Include="Network\IDocumentLoader.cs" />
     <Compile Include="Network\IResourceLoader.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="Parser\Css\CssParseError.cs" />
     <Compile Include="Parser\Css\CssParserExtensions.cs" />
     <Compile Include="Parser\Html\HtmlParseError.cs" />
+    <Compile Include="Services\Default\LoaderService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\ILoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />

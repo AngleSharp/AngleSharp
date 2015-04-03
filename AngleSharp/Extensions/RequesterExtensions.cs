@@ -2,9 +2,8 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Network;
-    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,19 +16,25 @@
         #region Loading
 
         /// <summary>
-        /// Loads the given URI by using an asynchronous GET request.
+        /// Loads the given URI by using an asynchronous request.
         /// </summary>
-        /// <param name="requester">The requester to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> LoadAsync(this IRequester requester, Url url, CancellationToken cancel)
+        /// <param name="requesters">The requesters to try.</param>
+        /// <param name="request">The data of the request to send.</param>
+        /// <param name="cancel">
+        /// The token which can be used to cancel the request.
+        /// </param>
+        /// <returns>
+        /// The task which will eventually return the response.
+        /// </returns>
+        public static Task<IResponse> LoadAsync(this IEnumerable<IRequester> requesters, IRequest request, CancellationToken cancel)
         {
-            return requester.RequestAsync(new DefaultRequest
+            foreach (var requester in requesters)
             {
-                Address = url,
-                Method = HttpMethod.Get
-            }, cancel);
+                if (requester.SupportsProtocol(request.Address.Scheme))
+                    return requester.RequestAsync(request, cancel);
+            }
+
+            return DefaultResponse;
         }
 
         #endregion
@@ -37,12 +42,17 @@
         #region Sending
 
         /// <summary>
-        /// Loads the given URI by using an asynchronous request with the given method and body.
+        /// Loads the given URI by using an asynchronous request with the given
+        /// method and body.
         /// </summary>
         /// <param name="loader">The document loader to use.</param>
         /// <param name="request">The request to issue.</param>
-        /// <param name="cancel">The token which can be used to cancel the request.</param>
-        /// <returns>The task which will eventually return the response.</returns>
+        /// <param name="cancel">
+        /// The token which can be used to cancel the request.
+        /// </param>
+        /// <returns>
+        /// The task which will eventually return the response.
+        /// </returns>
         public static Task<IResponse> SendAsync(this IDocumentLoader loader, DocumentRequest request, CancellationToken cancel)
         {
             if (loader == null)
@@ -53,10 +63,10 @@
 
         #endregion
 
-        #region Resources
+        #region Fetching
 
         /// <summary>
-        /// Performs a fetch from the given URI by using an asynchronous GET
+        /// Performs a fetch from the given URI by using an asynchronous
         /// request.
         /// </summary>
         /// <param name="loader">The resource loader to use.</param>
@@ -64,7 +74,9 @@
         /// <param name="cancel">
         /// The token which can be used to cancel the request.
         /// </param>
-        /// <returns>The task which will eventually return the stream.</returns>
+        /// <returns>
+        /// The task which will eventually return the stream.
+        /// </returns>
         public static Task<IResponse> FetchAsync(this IResourceLoader loader, ResourceRequest request, CancellationToken cancel)
         {
             if (loader == null)
