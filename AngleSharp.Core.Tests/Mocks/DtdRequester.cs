@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
@@ -20,7 +21,7 @@
             if (stream == null)
                 throw new ArgumentException("The DTD " + name + " could not be found! Check the name and the availability of this DTD.");
 
-            return new DefaultResponse { Content = stream };
+            return new Response { Content = stream };
         }
 
         public Task<IResponse> RequestAsync(IRequest request)

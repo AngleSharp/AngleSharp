@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
     using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,7 +12,7 @@
     {
         public IResponse Request(IRequest request)
         {
-            return new DefaultResponse { Address = request.Address, Content = new MemoryStream() };
+            return new Response { Address = request.Address, Content = new MemoryStream() };
         }
 
         public Task<IResponse> RequestAsync(IRequest request)

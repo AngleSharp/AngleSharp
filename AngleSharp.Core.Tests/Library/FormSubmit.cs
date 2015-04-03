@@ -62,7 +62,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeNormal";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultRequester());
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -89,7 +89,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeFile";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultRequester());
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -120,7 +120,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartNormal";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultRequester());
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -147,7 +147,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFile";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultRequester());
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -178,7 +178,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFiles";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultRequester());
+                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
                 Assert.AreEqual(1, html.Forms.Length);
                 var form = html.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;

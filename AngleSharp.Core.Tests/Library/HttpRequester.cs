@@ -1,29 +1,22 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
-    using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using NUnit.Framework;
     using System.IO;
-    using System.Linq;
     using System.Threading;
 
     [TestFixture]
     public class HttpRequesterTests
     {
         [Test]
-        public void DefaultGetHttpRequester()
-        {
-            Assert.IsFalse(Configuration.Default.Requesters.Any());
-        }
-
-        [Test]
         public void SimpleHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
@@ -45,8 +38,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
 
@@ -65,8 +58,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
 
@@ -85,8 +78,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
 
@@ -105,8 +98,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
 
@@ -125,8 +118,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/post");
                 request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
@@ -153,8 +146,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/put");
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
@@ -181,8 +174,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/delete");
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
@@ -202,8 +195,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/get");
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
@@ -223,8 +216,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/get");
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
@@ -245,8 +238,8 @@
             if (Helper.IsNetworkAvailable())
             {
                 var agent = "MyAgent";
-                var http = new DefaultRequester(agent);
-                var request = new DefaultRequest();
+                var http = new HttpRequester(agent);
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
 
@@ -272,8 +265,8 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new DefaultRequester();
-                var request = new DefaultRequest();
+                var http = new HttpRequester();
+                var request = new Request();
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
