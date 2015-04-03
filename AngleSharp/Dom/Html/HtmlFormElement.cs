@@ -473,7 +473,7 @@
         /// <param name="method">The HTTP method.</param>
         /// <param name="body">The entity body of the request.</param>
         /// <param name="mime">The MIME type of the entity body.</param>
-        async Task<IDocument> NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
+        Task<IDocument> NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
         {
             if (_navigationTask != null)
             {
@@ -482,16 +482,15 @@
                 _cts = new CancellationTokenSource();
             }
 
-            var context = Owner.Context;
             var request = new DocumentRequest(action)
             {
-                Origin = context.Active.Origin,
+                Origin = Owner.Origin,
                 Body = body,
                 MimeType = mime,
                 Method = method
             };
 
-            return await context.OpenAsync(request, _cts.Token).ConfigureAwait(false);
+            return Owner.Context.OpenAsync(request, _cts.Token);
         }
 
         /// <summary>
