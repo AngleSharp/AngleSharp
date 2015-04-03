@@ -3,7 +3,6 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Linq;
 
     sealed class ScriptingMediaFeature : MediaFeature
     {
@@ -51,7 +50,7 @@
             var options = device.Options;
             var available = ScriptingState.None;
 
-            if (options != null && options.IsScripting && options.ScriptEngines.Any())
+            if (options != null && options.IsScripting())
                 available = device.DeviceType == RenderDevice.Kind.Screen ? ScriptingState.Enabled : ScriptingState.InitialOnly;
 
             return _state == available;

@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Scripting;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -196,7 +197,7 @@
 
             _started = true;
 
-            if (!Owner.Options.IsScripting)
+            if (Owner.Options.IsScripting() == false)
                 return;
 
             var eventAttr = GetOwnAttribute(AttributeNames.Event);

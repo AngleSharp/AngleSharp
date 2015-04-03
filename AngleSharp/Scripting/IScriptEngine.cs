@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+﻿namespace AngleSharp.Scripting
 {
     using AngleSharp.Network;
     using System;

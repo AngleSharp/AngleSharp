@@ -39,6 +39,7 @@
         Boolean _foster;
         Boolean _embedded;
         Boolean _frameset;
+        Boolean _scripting;
         Int32 _nested;
         Boolean _started;
         Task<IDocument> _parsing;
@@ -91,6 +92,7 @@
             _formattingElements = new List<Element>();
             _frameset = true;
             _embedded = false;
+            _scripting = document.Options.IsScripting();
             _currentMode = HtmlTreeMode.Initial;
         }
 
@@ -343,7 +345,7 @@
                 _tokenizer.State = HtmlParseMode.Script;
             else if (tagName == Tags.Plaintext)
                 _tokenizer.State = HtmlParseMode.Plaintext;
-            else if (tagName == Tags.NoScript && _document.Options.IsScripting)
+            else if (tagName == Tags.NoScript && _scripting)
                 _tokenizer.State = HtmlParseMode.Rawtext;
 
             var root = new HtmlHtmlElement(_document);
@@ -785,7 +787,7 @@
                         RCDataAlgorithm(token.AsTag());
                         return;
                     }
-                    else if (tagName.IsOneOf(Tags.Style, Tags.NoFrames) || (_document.Options.IsScripting && tagName == Tags.NoScript))
+                    else if (tagName.IsOneOf(Tags.Style, Tags.NoFrames) || (_scripting && tagName == Tags.NoScript))
                     {
                         RawtextAlgorithm(token.AsTag());
                         return;
@@ -1300,7 +1302,7 @@
             }
             else if (tagName == Tags.NoScript)
             {
-                if (_document.Options.IsScripting)
+                if (_scripting)
                 {
                     RawtextAlgorithm(tag);
                     return;

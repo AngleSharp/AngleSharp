@@ -159,6 +159,7 @@
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\ILoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
+    <Compile Include="Services\IScriptingService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
@@ -464,11 +465,11 @@
     <Compile Include="Services\IEventService.cs" />
     <Compile Include="Services\IImageService.cs" />
     <Compile Include="Services\IResourceService.cs" />
-    <Compile Include="Interfaces\IScriptEngine.cs" />
+    <Compile Include="Scripting\IScriptEngine.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Interfaces\IStyleEngine.cs" />
     <Compile Include="Services\IVideoService.cs" />
-    <Compile Include="Dom\ScriptOptions.cs" />
+    <Compile Include="Scripting\ScriptOptions.cs" />
     <Compile Include="Dom\StyleOptions.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />

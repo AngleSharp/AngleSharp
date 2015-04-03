@@ -53,26 +53,6 @@
 
         #endregion
 
-        #region Scripting
-
-        /// <summary>
-        /// Sets scripting to true and returns the same instance.
-        /// </summary>
-        /// <typeparam name="TConfiguration">Implementation of IConfiguration.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithScripting<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : IConfiguration
-        {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-
-            configuration.IsScripting = true;
-            return configuration;
-        }
-
-        #endregion
-
         #region Loading Resources
 
         /// <summary>

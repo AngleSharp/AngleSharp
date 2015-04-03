@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Events;
     using AngleSharp.Network;
+    using AngleSharp.Scripting;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -264,6 +265,11 @@
 
         #region Parsing Scripts
 
+        public static Boolean IsScripting(this IConfiguration configuration)
+        {
+            return configuration.GetService<IScriptingService>() != null;
+        }
+
         /// <summary>
         /// Tries to resolve a script engine for the given type name.
         /// </summary>
@@ -274,11 +280,10 @@
         /// </returns>
         public static IScriptEngine GetScriptEngine(this IConfiguration configuration, String type)
         {
-            foreach (var scriptEngine in configuration.ScriptEngines)
-            {
-                if (scriptEngine.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
-                    return scriptEngine;
-            }
+            var service = configuration.GetService<IScriptingService>();
+
+            if (service != null)
+                return service.GetEngine(type);
 
             return null;
         }
@@ -295,13 +300,10 @@
         /// </param>
         public static void RunScript(this IConfiguration configuration, String source, ScriptOptions options, String type = null)
         {
-            if (configuration.IsScripting)
-            {
-                var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
+            var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
 
-                if (engine != null)
-                    engine.Evaluate(source, options);
-            }
+            if (engine != null)
+                engine.Evaluate(source, options);
         }
 
         /// <summary>
@@ -320,13 +322,10 @@
         /// </param>
         public static void RunScript(this IConfiguration configuration, IResponse response, ScriptOptions options, String type = null)
         {
-            if (configuration.IsScripting)
-            {
-                var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
+            var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
 
-                if (engine != null)
-                    engine.Evaluate(response, options);
-            }
+            if (engine != null)
+                engine.Evaluate(response, options);
         }
 
         #endregion

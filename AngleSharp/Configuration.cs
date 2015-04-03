@@ -20,14 +20,12 @@
     {
         #region Fields
 
-        readonly List<IScriptEngine> _scripts;
         readonly List<IStyleEngine> _styles;
         readonly List<IService> _services;
         readonly List<IRequester> _requesters;
 
         IEventAggregator _events;
         CultureInfo _culture;
-        Boolean _scripting;
         Boolean _styling;
 
         /// <summary>
@@ -49,12 +47,10 @@
         /// </summary>
         public Configuration()
         {
-            _scripting = false;
             _styling = true;
             _culture = CultureInfo.CurrentUICulture;
             _services = new List<IService>();
             _requesters = new List<IRequester>();
-            _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
             Register(new CssStyleEngine());
         }
@@ -69,15 +65,6 @@
         public IEnumerable<IService> Services
         {
             get { return _services; }
-        }
-
-        /// <summary>
-        /// Gets an enumeration over the available script engines.
-        /// By default no script engine is integrated.
-        /// </summary>
-        public IEnumerable<IScriptEngine> ScriptEngines
-        {
-            get { return _scripts; }
         }
 
         /// <summary>
@@ -105,16 +92,6 @@
         internal static IConfiguration Default
         {
             get { return customConfiguration ?? defaultConfiguration; }
-        }
-
-        /// <summary>
-        /// Gets or sets the current scripting mode.
-        /// Default is false.
-        /// </summary>
-        public Boolean IsScripting
-        {
-            get { return _scripting; }
-            set { _scripting = value; }
         }
 
         /// <summary>
@@ -179,20 +156,6 @@
         }
 
         /// <summary>
-        /// Adds the given script engine.
-        /// </summary>
-        /// <param name="scriptEngine">The engine to register.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Register(IScriptEngine scriptEngine)
-        {
-            if (scriptEngine == null)
-                throw new ArgumentNullException("scriptEngine");
-
-            _scripts.Add(scriptEngine);
-            return this;
-        }
-
-        /// <summary>
         /// Adds the given styling engine.
         /// </summary>
         /// <param name="styleEngine">The engine to register.</param>
@@ -217,20 +180,6 @@
                 throw new ArgumentNullException("requester");
 
             _requesters.Add(requester);
-            return this;
-        }
-
-        /// <summary>
-        /// Removes the given script engine.
-        /// </summary>
-        /// <param name="scriptEngine">The script engine to unregister.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Unregister(IScriptEngine scriptEngine)
-        {
-            if (scriptEngine == null)
-                throw new ArgumentNullException("scriptEngine");
-
-            _scripts.Remove(scriptEngine);
             return this;
         }
 
