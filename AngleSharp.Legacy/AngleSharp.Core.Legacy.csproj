@@ -1639,9 +1639,6 @@
     <Compile Include="..\AngleSharp\Dom\PseudoElement.cs">
       <Link>Dom\PseudoElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\ScriptOptions.cs">
-      <Link>Dom\ScriptOptions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\StyleOptions.cs">
       <Link>Dom\StyleOptions.cs</Link>
     </Compile>
@@ -2314,9 +2311,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IRange.cs">
       <Link>Interfaces\IRange.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IScriptEngine.cs">
-      <Link>Interfaces\IScriptEngine.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ISettableTokenList.cs">
       <Link>Interfaces\ISettableTokenList.cs</Link>
     </Compile>
@@ -2605,6 +2599,12 @@
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Scripting\IScriptEngine.cs">
+      <Link>Scripting\IScriptEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Scripting\ScriptOptions.cs">
+      <Link>Scripting\ScriptOptions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Default\LoaderService.cs">
       <Link>Services\Default\LoaderService.cs</Link>
     </Compile>
@@ -2643,6 +2643,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\IResourceService.cs">
       <Link>Services\IResourceService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IScriptingService.cs">
+      <Link>Services\IScriptingService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IService.cs">
       <Link>Services\IService.cs</Link>
