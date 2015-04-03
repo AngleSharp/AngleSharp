@@ -373,7 +373,7 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _navigationTask = NavigateTo(action, HttpMethod.Get);
+            _navigationTask = NavigateTo(new DocumentRequest(action) { Origin = Owner.Origin });
         }
 
         /// <summary>
@@ -430,7 +430,7 @@
         /// </summary>
         void GetActionUrl(Url action)
         {
-            _navigationTask = NavigateTo(action, HttpMethod.Get);
+            _navigationTask = NavigateTo(new DocumentRequest(action) { Origin = Owner.Origin });
         }
 
         /// <summary>
@@ -442,8 +442,8 @@
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var mimeType = String.Empty;
-            var result = default(Stream);
+            var mimeType = default(String);
+            var result = MemoryStream.Null;
 
             if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
             {
@@ -461,7 +461,13 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            _navigationTask = NavigateTo(action, HttpMethod.Post, result, mimeType);
+            _navigationTask = NavigateTo(new DocumentRequest(action)
+            {
+                Method = HttpMethod.Post,
+                Body = result,
+                MimeType = mimeType,
+                Origin = Owner.Origin
+            });
         }
 
         /// <summary>
@@ -469,11 +475,8 @@
         /// entity body of the mime type.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#plan-to-navigate
         /// </summary>
-        /// <param name="action">The action to use.</param>
-        /// <param name="method">The HTTP method.</param>
-        /// <param name="body">The entity body of the request.</param>
-        /// <param name="mime">The MIME type of the entity body.</param>
-        Task<IDocument> NavigateTo(Url action, HttpMethod method, Stream body = null, String mime = null)
+        /// <param name="request">The request to issue.</param>
+        Task<IDocument> NavigateTo(DocumentRequest request)
         {
             if (_navigationTask != null)
             {
@@ -481,14 +484,6 @@
                 _navigationTask = null;
                 _cts = new CancellationTokenSource();
             }
-
-            var request = new DocumentRequest(action)
-            {
-                Origin = Owner.Origin,
-                Body = body,
-                MimeType = mime,
-                Method = method
-            };
 
             return Owner.Context.OpenAsync(request, _cts.Token);
         }
