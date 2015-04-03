@@ -2458,9 +2458,6 @@
     <Compile Include="..\AngleSharp\Linq\StyleSheetExtensions.cs">
       <Link>Linq\StyleSheetExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\Default\DefaultResponse.cs">
-      <Link>Network\Default\DefaultResponse.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
       <Link>Network\Default\DocumentLoader.cs</Link>
     </Compile>
@@ -2472,6 +2469,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\ResourceLoader.cs">
       <Link>Network\Default\ResourceLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\Response.cs">
+      <Link>Network\Default\Response.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DocumentRequest.cs">
       <Link>Network\DocumentRequest.cs</Link>
