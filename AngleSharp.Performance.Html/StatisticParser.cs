@@ -8,7 +8,7 @@
 
     class StatisticParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration { IsStyling = false };
+        static readonly IConfiguration configuration = new Configuration().WithoutCss();
 
         readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
 
