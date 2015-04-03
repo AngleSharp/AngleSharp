@@ -7,7 +7,7 @@
 
     class AngleSharpSelector : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration { IsStyling = false };
+        static readonly IConfiguration configuration = new Configuration().WithoutCss();
 
         IDocument document;
 
