@@ -39,26 +39,16 @@
         /// <summary>
         /// Loads the given URI by using an asynchronous request with the given method and body.
         /// </summary>
-        /// <param name="requester">The requester to use.</param>
-        /// <param name="url">The url that yields the path to the desired action.</param>
-        /// <param name="content">The body that should be used in the request.</param>
-        /// <param name="mimeType">The mime-type of the request.</param>
-        /// <param name="method">The method that is used for sending the request asynchronously.</param>
+        /// <param name="loader">The document loader to use.</param>
+        /// <param name="request">The request to issue.</param>
         /// <param name="cancel">The token which can be used to cancel the request.</param>
         /// <returns>The task which will eventually return the response.</returns>
-        public static Task<IResponse> SendAsync(this IRequester requester, Url url, Stream content, String mimeType, HttpMethod method, CancellationToken cancel)
+        public static Task<IResponse> SendAsync(this IDocumentLoader loader, DocumentRequest request, CancellationToken cancel)
         {
-            var request = new DefaultRequest
-            {
-                Address = url,
-                Content = content,
-                Method = method
-            };
+            if (loader == null)
+                return DefaultResponse;
 
-            if (mimeType != null)
-                request.Headers[HeaderNames.ContentType] = mimeType;
-
-            return requester.RequestAsync(request, cancel);
+            return loader.LoadAsync(request, cancel);
         }
 
         #endregion

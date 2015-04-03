@@ -491,8 +491,7 @@
                 Method = method
             };
 
-            using (var response = await context.Loader.LoadAsync(request, _cts.Token).ConfigureAwait(false))
-                return await context.OpenAsync(response, _cts.Token).ConfigureAwait(false);
+            return await context.OpenAsync(request, _cts.Token).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -506,7 +505,9 @@
             var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))
+            {
                 action.Query = sr.ReadToEnd();
+            }
 
             GetActionUrl(action);
         }
@@ -522,12 +523,8 @@
 
             foreach (var field in Elements)
             {
-                if (field.ParentElement is IHtmlDataListElement)
-                    continue;
-                else if (field.IsDisabled)
-                    continue;
-
-                field.ConstructDataSet(formDataSet, submitter);
+                if (field.ParentElement is IHtmlDataListElement == false && field.IsDisabled == false)
+                    field.ConstructDataSet(formDataSet, submitter);
             }
 
             return formDataSet;
@@ -539,7 +536,7 @@
         /// </summary>
         /// <param name="encType">The encoding type used by the form.</param>
         /// <returns>A valid encoding type.</returns>
-        String CheckEncType(String encType)
+        static String CheckEncType(String encType)
         {
             if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) || encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
                 return encType;

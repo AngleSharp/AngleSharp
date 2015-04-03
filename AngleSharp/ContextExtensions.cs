@@ -21,7 +21,7 @@
         /// Opens a new document without any content in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
-        /// <param name="url">[Optional] The base URL of the document.</param>
+        /// <param name="url">The optional base URL of the document.</param>
         /// <returns>The new, yet empty, document.</returns>
         public static IDocument OpenNew(this IBrowsingContext context, String url = null)
         {
@@ -35,7 +35,8 @@
         }
 
         /// <summary>
-        /// Opens a new document asynchronously in the given context.
+        /// Opens a new document created from the response asynchronously in
+        /// the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="response">The response to examine.</param>
@@ -55,13 +56,33 @@
         }
 
         /// <summary>
-        /// Opens a new document asynchronously in the given context.
+        /// Opens a new document loaded from the specified request
+        /// asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="request">The request to issue.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel)
+        {
+            if (context == null)
+                throw new ArgumentNullException("context");
+            else if (request == null)
+                throw new ArgumentNullException("request");
+
+            using (var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false))
+                return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Opens a new document loaded from the provided url asynchronously in
+        /// the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="url">The URL to load.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
@@ -69,9 +90,7 @@
                 throw new ArgumentNullException("url");
 
             var request = new DocumentRequest(url) { Origin = context.Active.Origin };
-
-            using (var response = await context.Loader.LoadAsync(request, cancel).ConfigureAwait(false))
-                return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+            return context.OpenAsync(request, cancel);
         }
 
         #endregion
