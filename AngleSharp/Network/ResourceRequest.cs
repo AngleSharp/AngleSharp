@@ -18,6 +18,7 @@
             IsManualRedirectDesired = false;
             IsSameOriginForced = false;
             IsCookieBlocked = false;
+            IsCredentialOmitted = false;
         }
 
         /// <summary>
@@ -51,6 +52,15 @@
         /// Gets or sets if the force same origin flag is active.
         /// </summary>
         public Boolean IsSameOriginForced
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets if the omit credentials flag is active.
+        /// </summary>
+        public Boolean IsCredentialOmitted
         {
             get;
             set;

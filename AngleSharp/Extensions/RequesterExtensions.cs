@@ -87,7 +87,8 @@
 
         /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by
-        /// using an asynchronous GET request.
+        /// using an asynchronous GET request. For more information see:
+        /// http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
         /// </summary>
         /// <param name="loader">The resource loader to use.</param>
         /// <param name="request">The request to issue.</param>
@@ -101,14 +102,68 @@
         /// <returns>
         /// The task which will eventually return the stream.
         /// </returns>
-        public static Task<IResponse> FetchWithCorsAsync(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior, CancellationToken cancel)
+        public static async Task<IResponse> FetchWithCorsAsync(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior, CancellationToken cancel)
         {
-            if (loader == null)
-                return DefaultResponse;
+            var url = request.Target;
 
-            //TODO
-            //http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
-            return loader.LoadAsync(request, cancel);
+            if (request.Origin == url.Origin.Href || url.Scheme == KnownProtocols.Data || url.Href == "about:blank")
+            {
+                while (true)
+                {
+                    var data = new ResourceRequest(url)
+                    {
+                        Origin = request.Origin,
+                        IsManualRedirectDesired = true
+                    };
+
+                    var result = await loader.LoadAsync(data, cancel).ConfigureAwait(false);
+
+                    if (result.StatusCode == System.Net.HttpStatusCode.Redirect ||
+                        result.StatusCode == System.Net.HttpStatusCode.RedirectKeepVerb ||
+                        result.StatusCode == System.Net.HttpStatusCode.RedirectMethod ||
+                        result.StatusCode == System.Net.HttpStatusCode.TemporaryRedirect ||
+                        result.StatusCode == System.Net.HttpStatusCode.MovedPermanently ||
+                        result.StatusCode == System.Net.HttpStatusCode.MultipleChoices)
+                    {
+                        url = new Url(result.Headers.GetOrDefault(HeaderNames.Location, url.Href));
+
+                        if (request.Origin == url.Origin.Href)
+                        {
+                            request = new ResourceRequest(url)
+                            {
+                                IsCookieBlocked = request.IsCookieBlocked,
+                                IsSameOriginForced = request.IsSameOriginForced,
+                                Origin = request.Origin
+                            };
+                            return await loader.FetchWithCorsAsync(request, setting, behavior, cancel).ConfigureAwait(false);
+                        }
+                    }
+                    else
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            if (setting == CorsSetting.None)
+            {
+                if (behavior == OriginBehavior.Taint)
+                    await loader.LoadAsync(request, cancel).ConfigureAwait(false);
+            }
+
+            if (setting == CorsSetting.Anonymous)
+                request.IsCredentialOmitted = true;
+
+            if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
+            {
+                var result = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
+
+                //TODO If CORS cross-origin request is success
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                    return result;
+            }
+
+            throw new DomException(DomError.Network);
         }
 
         #endregion
