@@ -40,7 +40,10 @@
             };
 
             if (request.MimeType != null)
-                data.Headers["mime-type"] = request.MimeType;
+                data.Headers[HeaderNames.ContentType] = request.MimeType;
+            
+            if (request.Origin != null)
+                data.Headers[HeaderNames.Referer] = request.Origin;
 
             return _requesters.LoadAsync(data, cancel);
         }
