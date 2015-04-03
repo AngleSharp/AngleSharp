@@ -8,14 +8,14 @@
     /// <summary>
     /// The default HTTP response encapsulation object.
     /// </summary>
-    sealed class DefaultResponse : IResponse
+    sealed class Response : IResponse
     {
         #region ctor
 
         /// <summary>
         /// Creates a new default response object.
         /// </summary>
-        public DefaultResponse()
+        public Response()
         {
             Headers = new Dictionary<String, String>();
             StatusCode = HttpStatusCode.Accepted;

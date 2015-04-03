@@ -689,7 +689,7 @@
     <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Network\Default\Request.cs" />
     <Compile Include="Network\Default\HttpRequester.cs" />
-    <Compile Include="Network\Default\DefaultResponse.cs" />
+    <Compile Include="Network\Default\Response.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
     <Compile Include="Dom\Css\CssStyleDeclaration.cs" />
