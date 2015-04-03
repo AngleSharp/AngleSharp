@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Events;
     using AngleSharp.Network;
@@ -191,6 +192,11 @@
 
         #region Parsing Styles
 
+        public static Boolean IsStyling(this IConfiguration configuration)
+        {
+            return configuration.GetService<IStylingService>() != null;
+        }
+
         /// <summary>
         /// Tries to resolve a style engine for the given type name.
         /// </summary>
@@ -201,11 +207,10 @@
         /// </returns>
         public static IStyleEngine GetStyleEngine(this IConfiguration configuration, String type)
         {
-            foreach (var styleEngine in configuration.StyleEngines)
-            {
-                if (styleEngine.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
-                    return styleEngine;
-            }
+            var service = configuration.GetService<IStylingService>();
+
+            if (service != null)
+                return service.GetEngine(type);
 
             return null;
         }

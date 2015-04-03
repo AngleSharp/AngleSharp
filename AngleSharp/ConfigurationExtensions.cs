@@ -14,11 +14,12 @@
     public static class ConfigurationExtensions
     {
         #region Styling
-
+        
         /// <summary>
-        /// Sets styling to true and registers a new CSS style engine, if none is available.
+        /// Registers the default styling service with a new CSS style engine
+        /// to retrieve, if no other styling service has been registered yet.
         /// </summary>
-        /// <typeparam name="TConfiguration">Configuration or derived.</typeparam>
+        /// <typeparam name="TConfiguration">Configuration type.</typeparam>
         /// <param name="configuration">The configuration to modify.</param>
         /// <returns>The same object, for chaining.</returns>
         public static TConfiguration WithCss<TConfiguration>(this TConfiguration configuration)
@@ -27,27 +28,34 @@
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
 
-            configuration.IsStyling = true;
-
-            if (configuration.StyleEngines.OfType<CssStyleEngine>().Any() == false)
-                configuration.Register(new CssStyleEngine());
+            if (configuration.GetServices<IStylingService>().Any() == false)
+            {
+                var service = new StylingService();
+                var engine = new CssStyleEngine();
+                service.Register(engine);
+                configuration.Register(service);
+            }
 
             return configuration;
         }
 
         /// <summary>
-        /// Sets styling to true and returns the same instance.
+        /// Unregisters the styling services.
         /// </summary>
-        /// <typeparam name="TConfiguration">Implementation of IConfiguration.</typeparam>
+        /// <typeparam name="TConfiguration">Configuration type.</typeparam>
         /// <param name="configuration">The configuration to modify.</param>
         /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithStyling<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : IConfiguration
+        public static TConfiguration WithoutCss<TConfiguration>(this TConfiguration configuration)
+            where TConfiguration : Configuration
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
 
-            configuration.IsStyling = true;
+            var services = configuration.GetServices<IStylingService>().ToArray();
+
+            foreach (var service in services)
+                configuration.Unregister(service);
+
             return configuration;
         }
 
@@ -56,10 +64,10 @@
         #region Loading Resources
 
         /// <summary>
-        /// Registers the default loader service if no other loader has been
+        /// Registers the default loader service, if no other loader has been
         /// registered yet.
         /// </summary>
-        /// <typeparam name="TConfiguration">The type of config.</typeparam>
+        /// <typeparam name="TConfiguration">Configuration type.</typeparam>
         /// <param name="configuration">The configuration to modify.</param>
         /// <param name="setup">
         /// The optional setup for the loader service.

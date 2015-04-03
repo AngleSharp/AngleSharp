@@ -156,10 +156,12 @@
     <Compile Include="Parser\Css\CssParserExtensions.cs" />
     <Compile Include="Parser\Html\HtmlParseError.cs" />
     <Compile Include="Services\Default\LoaderService.cs" />
+    <Compile Include="Services\Default\StylingService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\ILoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IScriptingService.cs" />
+    <Compile Include="Services\IStylingService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
@@ -467,10 +469,10 @@
     <Compile Include="Services\IResourceService.cs" />
     <Compile Include="Scripting\IScriptEngine.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Interfaces\IStyleEngine.cs" />
+    <Compile Include="Css\IStyleEngine.cs" />
     <Compile Include="Services\IVideoService.cs" />
     <Compile Include="Scripting\ScriptOptions.cs" />
-    <Compile Include="Dom\StyleOptions.cs" />
+    <Compile Include="Css\StyleOptions.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssCounterStyleRule.cs" />

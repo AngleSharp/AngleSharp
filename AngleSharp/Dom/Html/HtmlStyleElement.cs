@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
@@ -114,7 +115,7 @@
 
         IStyleSheet CreateSheet()
         {
-            if (Owner.Options.IsStyling)
+            if (Owner.Options.IsStyling())
             {
                 var config = Owner.Options;
                 var options = new StyleOptions

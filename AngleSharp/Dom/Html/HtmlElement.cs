@@ -302,7 +302,7 @@
 
         CssStyleDeclaration CreateStyle()
         {
-            if (Owner.Options.IsStyling)
+            if (Owner.Options.IsStyling())
             {
                 var style = new CssStyleDeclaration(GetOwnAttribute(AttributeNames.Style));
                 style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);

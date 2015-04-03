@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Services;
@@ -20,13 +18,11 @@
     {
         #region Fields
 
-        readonly List<IStyleEngine> _styles;
         readonly List<IService> _services;
         readonly List<IRequester> _requesters;
 
         IEventAggregator _events;
         CultureInfo _culture;
-        Boolean _styling;
 
         /// <summary>
         /// A fixed configuration that cannot be changed.
@@ -47,12 +43,10 @@
         /// </summary>
         public Configuration()
         {
-            _styling = true;
             _culture = CultureInfo.CurrentUICulture;
             _services = new List<IService>();
             _requesters = new List<IRequester>();
-            _styles = new List<IStyleEngine>();
-            Register(new CssStyleEngine());
+            this.WithCss();
         }
 
         #endregion
@@ -65,15 +59,6 @@
         public IEnumerable<IService> Services
         {
             get { return _services; }
-        }
-
-        /// <summary>
-        /// Gets an enumeration over the available style engines,
-        /// besides the default CSS engine.
-        /// </summary>
-        public IEnumerable<IStyleEngine> StyleEngines
-        {
-            get { return _styles; }
         }
 
         /// <summary>
@@ -92,16 +77,6 @@
         internal static IConfiguration Default
         {
             get { return customConfiguration ?? defaultConfiguration; }
-        }
-
-        /// <summary>
-        /// Gets or sets the current CSS mode.
-        /// Default is true.
-        /// </summary>
-        public Boolean IsStyling
-        {
-            get { return _styling; }
-            set { _styling = value; }
         }
 
         /// <summary>
@@ -156,20 +131,6 @@
         }
 
         /// <summary>
-        /// Adds the given styling engine.
-        /// </summary>
-        /// <param name="styleEngine">The engine to register.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Register(IStyleEngine styleEngine)
-        {
-            if (styleEngine == null)
-                throw new ArgumentNullException("styleEngine");
-
-            _styles.Add(styleEngine);
-            return this;
-        }
-
-        /// <summary>
         /// Adds the given requester.
         /// </summary>
         /// <param name="requester">The requester to register.</param>
@@ -180,20 +141,6 @@
                 throw new ArgumentNullException("requester");
 
             _requesters.Add(requester);
-            return this;
-        }
-
-        /// <summary>
-        /// Removes the given style engine.
-        /// </summary>
-        /// <param name="styleEngine">The style engine to unregister.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Unregister(IStyleEngine styleEngine)
-        {
-            if (styleEngine == null)
-                throw new ArgumentNullException("styleEngine");
-
-            _styles.Remove(styleEngine);
             return this;
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -230,7 +231,7 @@
 
         void TargetChanged()
         {
-            if (Owner.Options.IsStyling)
+            if (Owner.Options.IsStyling())
             {
                 if (_cts != null)
                     _cts.Cancel();
