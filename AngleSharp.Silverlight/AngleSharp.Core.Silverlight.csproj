@@ -2458,14 +2458,20 @@
     <Compile Include="..\AngleSharp\Linq\StyleSheetExtensions.cs">
       <Link>Linq\StyleSheetExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\DefaultRequest.cs">
-      <Link>Network\DefaultRequest.cs</Link>
+    <Compile Include="..\AngleSharp\Network\Default\DefaultResponse.cs">
+      <Link>Network\Default\DefaultResponse.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\DefaultRequester.cs">
-      <Link>Network\DefaultRequester.cs</Link>
+    <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
+      <Link>Network\Default\DocumentLoader.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\DefaultResponse.cs">
-      <Link>Network\DefaultResponse.cs</Link>
+    <Compile Include="..\AngleSharp\Network\Default\HttpRequester.cs">
+      <Link>Network\Default\HttpRequester.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\Request.cs">
+      <Link>Network\Default\Request.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\ResourceLoader.cs">
+      <Link>Network\Default\ResourceLoader.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\DocumentRequest.cs">
       <Link>Network\DocumentRequest.cs</Link>
@@ -2614,6 +2620,9 @@
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\LoaderService.cs">
+      <Link>Services\Default\LoaderService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
     </Compile>
@@ -2710,7 +2719,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
