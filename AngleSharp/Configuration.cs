@@ -4,7 +4,6 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Events;
     using AngleSharp.Network;
-    using AngleSharp.Network.Default;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -58,7 +57,6 @@
             _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
             Register(new CssStyleEngine());
-            Register(new HttpRequester());
         }
 
         #endregion
