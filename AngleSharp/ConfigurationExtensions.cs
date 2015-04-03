@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom.Css;
+    using AngleSharp.Services.Default;
     using System;
     using System.Linq;
 
@@ -64,6 +65,32 @@
                 throw new ArgumentNullException("configuration");
 
             configuration.IsScripting = true;
+            return configuration;
+        }
+
+        #endregion
+
+        #region Loading Resources
+
+        /// <summary>
+        /// Registers the default loader service.
+        /// </summary>
+        /// <typeparam name="TConfiguration">Configuration or derived.</typeparam>
+        /// <param name="configuration">The configuration to modify.</param>
+        /// <param name="setup">The optional setup for the loader service.</param>
+        /// <returns>The same object, for chaining.</returns>
+        public static TConfiguration WithDefaultLoader<TConfiguration>(this TConfiguration configuration, Action<LoaderService> setup = null)
+            where TConfiguration : Configuration
+        {
+            if (configuration == null)
+                throw new ArgumentNullException("configuration");
+
+            var service = new LoaderService(configuration.Requesters);
+
+            if (setup != null)
+                setup(service);
+
+            configuration.Register(service);
             return configuration;
         }
 

@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Events;
     using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -23,6 +24,7 @@
         readonly List<IScriptEngine> _scripts;
         readonly List<IStyleEngine> _styles;
         readonly List<IService> _services;
+        readonly List<IRequester> _requesters;
 
         IEventAggregator _events;
         CultureInfo _culture;
@@ -52,9 +54,11 @@
             _styling = true;
             _culture = CultureInfo.CurrentUICulture;
             _services = new List<IService>();
+            _requesters = new List<IRequester>();
             _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
             Register(new CssStyleEngine());
+            Register(new HttpRequester());
         }
 
         #endregion
@@ -85,6 +89,14 @@
         public IEnumerable<IStyleEngine> StyleEngines
         {
             get { return _styles; }
+        }
+
+        /// <summary>
+        /// Gets an enumeration over the available requesters.
+        /// </summary>
+        public IEnumerable<IRequester> Requesters
+        {
+            get { return _requesters; }
         }
 
         /// <summary>
@@ -197,6 +209,20 @@
         }
 
         /// <summary>
+        /// Adds the given requester.
+        /// </summary>
+        /// <param name="requester">The requester to register.</param>
+        /// <returns>The current instance for chaining.</returns>
+        public Configuration Register(IRequester requester)
+        {
+            if (requester == null)
+                throw new ArgumentNullException("requester");
+
+            _requesters.Add(requester);
+            return this;
+        }
+
+        /// <summary>
         /// Removes the given script engine.
         /// </summary>
         /// <param name="scriptEngine">The script engine to unregister.</param>
@@ -235,6 +261,20 @@
                 throw new ArgumentNullException("service");
 
             _services.Remove(service);
+            return this;
+        }
+
+        /// <summary>
+        /// Removes the given requester.
+        /// </summary>
+        /// <param name="requester">The requester to unregister.</param>
+        /// <returns>The current instance for chaining.</returns>
+        public Configuration Unregister(IRequester requester)
+        {
+            if (requester == null)
+                throw new ArgumentNullException("requester");
+
+            _requesters.Remove(requester);
             return this;
         }
 
