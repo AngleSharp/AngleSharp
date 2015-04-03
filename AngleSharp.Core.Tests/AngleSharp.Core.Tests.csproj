@@ -160,6 +160,7 @@
     <Compile Include="Library\UrlValidation.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
+    <Compile Include="Mocks\EnableScripting.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

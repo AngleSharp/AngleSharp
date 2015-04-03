@@ -3,6 +3,8 @@
     using AngleSharp;
     using AngleSharp.Dom;
     using AngleSharp.Network;
+    using AngleSharp.Scripting;
+    using AngleSharp.Services;
     using NUnit.Framework;
     using System;
 
@@ -17,8 +19,7 @@
         {
             configuration = new Configuration();
             scripting = new TestScriptEngine();
-            configuration.IsScripting = true;
-            configuration.Register(scripting);
+            configuration.Register(new TestScriptService(scripting));
         }
 
         [TearDown]
@@ -42,6 +43,21 @@
             Assert.AreEqual(1, doc.QuerySelectorAll("b").Length);
             var bold = doc.QuerySelector("b");
             Assert.AreEqual("Dynamically written", bold.TextContent);
+        }
+
+        class TestScriptService : IScriptingService
+        {
+            readonly TestScriptEngine _engine;
+
+            public TestScriptService(TestScriptEngine engine)
+            {
+                _engine = engine;
+            }
+
+            public IScriptEngine GetEngine(String mimeType)
+            {
+                return _engine;
+            }
         }
 
         class TestScriptEngine : IScriptEngine

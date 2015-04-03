@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using AngleSharp.Core.Tests.Mocks;
+using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using AngleSharp.Parser.Html;
 using NUnit.Framework;
@@ -2822,7 +2823,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
             var source = @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>";
-            var config = new Configuration { IsScripting = true };
+            var config = new Configuration();
+            config.Register(new EnableScripting());
             var parser = new HtmlParser(source, config);
             var doc = parser.Parse();
 
@@ -4920,7 +4922,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithNoScriptCommentInside()
         {
             var source = @"<noscript><!--<noscript></noscript>--></noscript>";
-            var config = new Configuration { IsScripting = true };
+            var config = new Configuration();
+            config.Register(new EnableScripting());
             var parser = new HtmlParser(source, config);
             var doc = parser.Parse();
 
@@ -4961,7 +4964,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
             var source = @"<noscript><!--</noscript>X<noscript>--></noscript>";
-            var config = new Configuration { IsScripting = true };
+            var config = new Configuration();
+            config.Register(new EnableScripting());
             var parser = new HtmlParser(source, config);
             var doc = parser.Parse();
 
@@ -5012,7 +5016,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithIFrameInside()
         {
             var source = @"<noscript><iframe></noscript>X";
-            var config = new Configuration { IsScripting = true };
+            var config = new Configuration();
+            config.Register(new EnableScripting());
             var parser = new HtmlParser(source, config);
             var doc = parser.Parse();
 

@@ -1,4 +1,5 @@
 ﻿using AngleSharp;
+using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom;
 using NUnit.Framework;
 using System.Globalization;
@@ -16,9 +17,9 @@ namespace AngleSharp.Core.Tests.Css
             var config = new Configuration
             {
                 Culture = new CultureInfo("en-US"),
-                IsScripting = true,
                 IsStyling = false
             };
+            config.Register(new EnableScripting());
             document = DocumentBuilder.Html(Assets.w3c_selectors, config);
         }
 

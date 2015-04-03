@@ -1,3 +1,4 @@
+using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom;
 using NUnit.Framework;
 
@@ -578,7 +579,7 @@ namespace AngleSharp.Core.Tests
         public void NoScriptTriggersRawtextMode()
         {
             var config = new Configuration();
-            config.IsScripting = true;
+            config.Register(new EnableScripting());
             var doc = DocumentBuilder.Html(@"<noscript><!--</noscript>--></noscript>", config);
 
             var dochtml0 = doc.ChildNodes[0];
@@ -618,7 +619,6 @@ namespace AngleSharp.Core.Tests
         public void NoScriptElementWithComment()
         {
             var config = new Configuration();
-            config.IsScripting = false;
             var doc = DocumentBuilder.Html(@"<noscript><!--</noscript>--></noscript>", config);
 
             var dochtml0 = doc.ChildNodes[0];
