@@ -469,8 +469,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
-            var doc = new Document();
-            var element = doc.CreateElement<IHtmlSpanElement>();
+            var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: red; color: black;";
             element.SetAttribute("style", text);
             Assert.AreEqual(text, element.Style.CssText);
@@ -480,8 +479,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
-            var doc = new Document();
-            var element = doc.CreateElement<IHtmlSpanElement>();
+            var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: red; color: black;";
             element.SetAttribute("style", String.Empty);
             Assert.AreEqual(String.Empty, element.Style.CssText);

@@ -14,12 +14,9 @@ namespace AngleSharp.Core.Tests.Css
         [TestFixtureSetUp]
         public void Setup()
         {
-            var config = new Configuration
-            {
-                Culture = new CultureInfo("en-US"),
-                IsStyling = false
-            };
-            config.Register(new EnableScripting());
+            var config = new Configuration { Culture = new CultureInfo("en-US") }
+                .WithoutCss()
+                .Register(new EnableScripting());
             document = DocumentBuilder.Html(Assets.w3c_selectors, config);
         }
 

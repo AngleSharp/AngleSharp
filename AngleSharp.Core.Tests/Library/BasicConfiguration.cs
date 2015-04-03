@@ -1,7 +1,8 @@
-﻿using AngleSharp;
-using AngleSharp.Dom.Css;
+﻿using AngleSharp.Dom.Css;
+using AngleSharp.Extensions;
+using AngleSharp.Network;
+using AngleSharp.Services;
 using NUnit.Framework;
-using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
 {
@@ -12,7 +13,9 @@ namespace AngleSharp.Core.Tests.Library
         public void HasStyleEngine()
         {
             var config = new Configuration();
-            var engine = config.StyleEngines.FirstOrDefault();
+            var service = config.GetService<IStylingService>();
+            Assert.IsNotNull(service);
+            var engine = service.GetEngine(MimeTypes.Css);
             Assert.IsNotNull(engine);
             Assert.IsInstanceOf<CssStyleEngine>(engine);
         }
