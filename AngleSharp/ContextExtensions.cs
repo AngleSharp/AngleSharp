@@ -89,7 +89,12 @@
             else if (url == null)
                 throw new ArgumentNullException("url");
 
-            var request = new DocumentRequest(url) { Origin = context.Active.Origin };
+            var current = context.Active;
+            var request = new DocumentRequest(url);
+
+            if (current != null)
+                request.Origin = current.Origin;
+
             return context.OpenAsync(request, cancel);
         }
 
