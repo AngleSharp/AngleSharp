@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Network
+﻿namespace AngleSharp.Network.Default
 {
     using System;
     using System.Collections.Generic;
@@ -7,14 +7,14 @@
     /// <summary>
     /// The default HTTP request encapsulation type.
     /// </summary>
-    sealed class DefaultRequest : IRequest
+    sealed class Request : IRequest
     {
         #region ctor
 
         /// <summary>
         /// Creates a new default requests.
         /// </summary>
-        public DefaultRequest()
+        public Request()
         {
             Headers = new Dictionary<String, String>();
         }

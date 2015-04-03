@@ -1,16 +1,16 @@
-﻿namespace AngleSharp.Network
+﻿namespace AngleSharp.Network.Default
 {
     using AngleSharp.Extensions;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class DefaultDocumentLoader : IDocumentLoader
+    public class DocumentLoader : IDocumentLoader
     {
         readonly IEnumerable<IRequester> _requesters;
         readonly IBrowsingContext _context;
 
-        public DefaultDocumentLoader(IEnumerable<IRequester> requesters, IBrowsingContext context)
+        public DocumentLoader(IEnumerable<IRequester> requesters, IBrowsingContext context)
         {
             _requesters = requesters;
             _context = context;
@@ -18,7 +18,7 @@
 
         public Task<IResponse> LoadAsync(DocumentRequest request, CancellationToken cancel)
         {
-            var data = new DefaultRequest
+            var data = new Request
             {
                 Address = request.Target,
                 Content = request.Body,

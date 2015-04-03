@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using System;
     using System.Collections.Generic;
 
@@ -51,7 +52,7 @@
             if (IsNavigationEnabled == false)
                 return null;
 
-            return new DefaultDocumentLoader(_requesters, context);
+            return new DocumentLoader(_requesters, context);
         }
 
         /// <summary>
@@ -64,7 +65,7 @@
             if (IsResourceLoadingEnabled == false)
                 return null;
 
-            return new DefaultResourceLoader(_requesters, document);
+            return new ResourceLoader(_requesters, document);
         }
     }
 }

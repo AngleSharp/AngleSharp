@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Network
+﻿namespace AngleSharp.Network.Default
 {
     using AngleSharp.Extensions;
     using System;
@@ -12,13 +12,13 @@
     /// <summary>
     /// The default (ready-to-use) HTTP requester.
     /// </summary>
-    public sealed class DefaultRequester : IRequester
+    public sealed class HttpRequester : IRequester
     {
         #region Constants
 
         const Int32 BufferSize = 4096;
 
-        static readonly String _version = typeof(DefaultRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        static readonly String _version = typeof(HttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
         static readonly String _agentName = "AngleSharp/" + _version;
         static readonly Dictionary<String, PropertyInfo> _propCache;
         static readonly List<String> _restricted;
@@ -34,7 +34,7 @@
 
         #region ctor
 
-        static DefaultRequester()
+        static HttpRequester()
         {
             _propCache = new Dictionary<String, PropertyInfo>();
             _restricted = new List<String>();
@@ -45,7 +45,7 @@
         /// in the info object.
         /// </summary>
         /// <param name="userAgent">The user-agent name to use, if any.</param>
-        public DefaultRequester(String userAgent = null)
+        public HttpRequester(String userAgent = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
             _headers = new Dictionary<String, String>();

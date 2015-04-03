@@ -146,8 +146,8 @@
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Interfaces\Svg\ISvgDocument.cs" />
     <Compile Include="Linq\SelectorExtensions.cs" />
-    <Compile Include="Network\DefaultDocumentLoader.cs" />
-    <Compile Include="Network\DefaultResourceLoader.cs" />
+    <Compile Include="Network\Default\DocumentLoader.cs" />
+    <Compile Include="Network\Default\ResourceLoader.cs" />
     <Compile Include="Network\DocumentRequest.cs" />
     <Compile Include="Network\IDocumentLoader.cs" />
     <Compile Include="Network\IResourceLoader.cs" />
@@ -687,9 +687,9 @@
     <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Foundation\Pool.cs" />
-    <Compile Include="Network\DefaultRequest.cs" />
-    <Compile Include="Network\DefaultRequester.cs" />
-    <Compile Include="Network\DefaultResponse.cs" />
+    <Compile Include="Network\Default\Request.cs" />
+    <Compile Include="Network\Default\HttpRequester.cs" />
+    <Compile Include="Network\Default\DefaultResponse.cs" />
     <Compile Include="Network\IRequest.cs" />
     <Compile Include="Network\IRequester.cs" />
     <Compile Include="Dom\Css\CssStyleDeclaration.cs" />
