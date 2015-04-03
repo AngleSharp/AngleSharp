@@ -110,6 +110,9 @@
     <Compile Include="..\AngleSharp\Css\FunctionNames.cs">
       <Link>Css\FunctionNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\IStyleEngine.cs">
+      <Link>Css\IStyleEngine.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\IValueConverter.cs">
       <Link>Css\IValueConverter.cs</Link>
     </Compile>
@@ -193,6 +196,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\RuleNames.cs">
       <Link>Css\RuleNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\StyleOptions.cs">
+      <Link>Css\StyleOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\TransformMatrix.cs">
       <Link>Css\TransformMatrix.cs</Link>
@@ -1639,9 +1645,6 @@
     <Compile Include="..\AngleSharp\Dom\PseudoElement.cs">
       <Link>Dom\PseudoElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\StyleOptions.cs">
-      <Link>Dom\StyleOptions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\StyleSheet.cs">
       <Link>Dom\StyleSheet.cs</Link>
     </Compile>
@@ -2320,9 +2323,6 @@
     <Compile Include="..\AngleSharp\Interfaces\IStringMap.cs">
       <Link>Interfaces\IStringMap.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IStyleEngine.cs">
-      <Link>Interfaces\IStyleEngine.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStyleSheet.cs">
       <Link>Interfaces\IStyleSheet.cs</Link>
     </Compile>
@@ -2608,6 +2608,9 @@
     <Compile Include="..\AngleSharp\Services\Default\LoaderService.cs">
       <Link>Services\Default\LoaderService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\StylingService.cs">
+      <Link>Services\Default\StylingService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
     </Compile>
@@ -2652,6 +2655,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\ISpellCheckService.cs">
       <Link>Services\ISpellCheckService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IStylingService.cs">
+      <Link>Services\IStylingService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IVideoService.cs">
       <Link>Services\IVideoService.cs</Link>
