@@ -5,9 +5,11 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Network;
     using AngleSharp.Services;
+    using AngleSharp.Services.Media;
     using System;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -360,6 +362,36 @@
                 return null;
 
             return loader.CreateResourceLoader(document);
+        }
+
+        /// <summary>
+        /// Tries to load the resource of the resource type from the request.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <param name="request">The issued request.</param>
+        /// <param name="cancel">
+        /// Token to trigger in case of cancellation.
+        /// </param>
+        /// <returns>A task that will end with an image info or null.</returns>
+        public static async Task<TResource> LoadResource<TResource>(this Document document, ResourceRequest request, CancellationToken cancel)
+            where TResource : IResourceInfo
+        {
+            var loader = document.Loader;
+            var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
+
+            if (response != null)
+            {
+                var options = document.Options;
+                var resourceServices = options.GetServices<IResourceService<TResource>>();
+
+                foreach (var resourceService in resourceServices)
+                {
+                    if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                }
+            }
+
+            return default(TResource);
         }
     }
 }

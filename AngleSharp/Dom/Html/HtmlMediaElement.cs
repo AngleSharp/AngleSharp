@@ -450,8 +450,7 @@
         async Task<TResource> LoadAsync(Url url, CancellationToken cancel)
         {
             var request = new ResourceRequest(url) { Origin = Owner.Origin };
-            var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
-            var media = await Owner.Options.GetResource<TResource>(response, cancel).ConfigureAwait(false);
+            var media = await Owner.LoadResource<TResource>(request, cancel).ConfigureAwait(false);
 
             if (media == null)
                 _network = MediaNetworkState.NoSource;

@@ -4,14 +4,11 @@
     using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Services;
-    using AngleSharp.Services.Media;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined
@@ -187,36 +184,6 @@
             }
 
             return substitute;
-        }
-
-        #endregion
-
-        #region Resource Services
-
-        /// <summary>
-        /// Tries to convert the response to the resource type.
-        /// </summary>
-        /// <param name="options">The configuration to use.</param>
-        /// <param name="response">The response to process.</param>
-        /// <param name="cancel">
-        /// Token to trigger in case of cancellation.
-        /// </param>
-        /// <returns>A task that will end with an image info or null.</returns>
-        public static async Task<TResource> GetResource<TResource>(this IConfiguration options, IResponse response, CancellationToken cancel)
-            where TResource : IResourceInfo
-        {
-            if (response != null)
-            {
-                var resourceServices = options.GetServices<IResourceService<TResource>>();
-
-                foreach (var resourceService in resourceServices)
-                {
-                    if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                        return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
-                }
-            }
-
-            return default(TResource);
         }
 
         #endregion
