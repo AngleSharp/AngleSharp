@@ -6,7 +6,7 @@
 
     class AngleSharpParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration { IsStyling = false, IsScripting = false };
+        static readonly IConfiguration configuration = new Configuration { IsStyling = false };
 
         public String Name
         {
