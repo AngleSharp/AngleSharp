@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -239,99 +238,6 @@
         public static ICssStyleSheet ParseCss(this String content, IConfiguration configuration = null)
         {
             return DocumentBuilder.Css(content, configuration);
-        }
-
-        /// <summary>
-        /// Uses the URL to download the content, parse it as HTML and
-        /// returning a new HTMLDocument with the DOM representation.
-        /// </summary>
-        /// <param name="uri">
-        /// The source of the HTML content.
-        /// </param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The HTML document.</returns>
-        public static IDocument GetHtml(this Uri uri, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.Html(uri, configuration);
-        }
-
-        /// <summary>
-        /// Uses the URL to download the content, parse it as CSS and returning
-        /// a new CSSStyleSheet with the CSS-OM representation.
-        /// </summary>
-        /// <param name="uri">The source of the CSS content.</param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The CSS stylesheet.</returns>
-        public static ICssStyleSheet GetCss(this Uri uri, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.Css(uri, configuration);
-        }
-
-        /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as
-        /// HTML and returning a new HTMLDocument with the DOM representation.
-        /// </summary>
-        /// <param name="uri">The source of the HTML content.</param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The HTML document.</returns>
-        public static Task<IDocument> GetHtmlAsync(this Uri uri, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.HtmlAsync(uri, configuration);
-        }
-
-        /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as
-        /// HTML and returning a new HTMLDocument with the DOM representation.
-        /// </summary>
-        /// <param name="uri">The source of the HTML content.</param>
-        /// <param name="cancel">
-        /// The cancellation token for aborting the download.</param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The HTML document.</returns>
-        public static Task<IDocument> GetHtmlAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.HtmlAsync(uri, cancel, configuration);
-        }
-
-        /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as
-        /// CSS and returning a new CSSStyleSheet with the CSS-OM
-        /// representation.
-        /// </summary>
-        /// <param name="uri">The source of the CSS content.</param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The CSS stylesheet.</returns>
-        public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.CssAsync(uri, configuration);
-        }
-
-        /// <summary>
-        /// Uses the URL to download the content asynchronously, parse it as
-        /// CSS and returning a new CSSStyleSheet with the CSS-OM
-        /// representation.
-        /// </summary>
-        /// <param name="uri">The source of the CSS content.</param>
-        /// <param name="cancel">
-        /// The cancellation token for aborting the download.
-        /// </param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The CSS stylesheet.</returns>
-        public static Task<ICssStyleSheet> GetCssAsync(this Uri uri, CancellationToken cancel, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.CssAsync(uri, cancel, configuration);
         }
 
         #endregion

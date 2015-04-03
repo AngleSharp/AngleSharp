@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom.Css;
-    using AngleSharp.Network;
     using System;
     using System.Linq;
 
@@ -65,27 +64,6 @@
                 throw new ArgumentNullException("configuration");
 
             configuration.IsScripting = true;
-            return configuration;
-        }
-
-        #endregion
-
-        #region Requester
-
-        /// <summary>
-        /// Include the default http/https requester for external resources. Returns the same instance.
-        /// </summary>
-        /// <typeparam name="TConfiguration">Configuration or derived.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <param name="agent">User-Agent information if any.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithDefaultRequester<TConfiguration>(this TConfiguration configuration, String agent = null)
-            where TConfiguration : Configuration
-        {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-
-            configuration.Register(new DefaultRequester(agent));
             return configuration;
         }
 

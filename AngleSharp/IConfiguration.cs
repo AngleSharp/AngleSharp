@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Events;
-    using AngleSharp.Network;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -47,11 +46,6 @@
         /// Gets an enumeration over the available services.
         /// </summary>
         IEnumerable<IService> Services { get; }
-
-        /// <summary>
-        /// Gets an enumeration over all available (e.g. http) requesters.
-        /// </summary>
-        IEnumerable<IRequester> Requesters { get; }
 
         /// <summary>
         /// Gets the assigned event aggregator.

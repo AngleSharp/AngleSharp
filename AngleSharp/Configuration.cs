@@ -10,12 +10,11 @@
     using System.Globalization;
 
     /// <summary>
-    /// Represents context configuration for the AngleSharp library.
-    /// Custom configurations can be made by deriving from this class,
-    /// just implementing IConfiguration or modifying an instance of
-    /// this specific class. To change the default configuration one
-    /// needs to provide a service that implements IConfiguration in
-    /// the dependency resolver.
+    /// Represents context configuration for the AngleSharp library. Custom
+    /// configurations can be made by deriving from this class, just
+    /// implementing IConfiguration or modifying an instance of this specific
+    /// class. To change the default configuration one needs to provide a
+    /// service that implements IConfiguration in the dependency resolver.
     /// </summary>
     public class Configuration : IConfiguration
     {
@@ -23,7 +22,6 @@
 
         readonly List<IScriptEngine> _scripts;
         readonly List<IStyleEngine> _styles;
-        readonly List<IRequester> _requesters;
         readonly List<IService> _services;
 
         IEventAggregator _events;
@@ -53,7 +51,6 @@
             _scripting = false;
             _styling = true;
             _culture = CultureInfo.CurrentUICulture;
-            _requesters = new List<IRequester>();
             _services = new List<IService>();
             _scripts = new List<IScriptEngine>();
             _styles = new List<IStyleEngine>();
@@ -88,14 +85,6 @@
         public IEnumerable<IStyleEngine> StyleEngines
         {
             get { return _styles; }
-        }
-
-        /// <summary>
-        /// Gets an enumeration over all available (e.g. http) requesters.
-        /// </summary>
-        public IEnumerable<IRequester> Requesters
-        {
-            get { return _requesters; }
         }
 
         /// <summary>
@@ -194,20 +183,6 @@
         }
 
         /// <summary>
-        /// Adds the given requester.
-        /// </summary>
-        /// <param name="requester">The requester to register.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Register(IRequester requester)
-        {
-            if (requester == null)
-                throw new ArgumentNullException("requester");
-
-            _requesters.Add(requester);
-            return this;
-        }
-
-        /// <summary>
         /// Adds the given styling engine.
         /// </summary>
         /// <param name="styleEngine">The engine to register.</param>
@@ -260,20 +235,6 @@
                 throw new ArgumentNullException("service");
 
             _services.Remove(service);
-            return this;
-        }
-
-        /// <summary>
-        /// Removes the given requester.
-        /// </summary>
-        /// <param name="requester">The requester to unregister.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Unregister(IRequester requester)
-        {
-            if (requester == null)
-                throw new ArgumentNullException("requester");
-
-            _requesters.Remove(requester);
             return this;
         }
 

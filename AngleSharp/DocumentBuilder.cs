@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using System;
@@ -266,69 +265,6 @@
             var stream = new TextSource(sourceCode);
             var sheet = new CssStyleSheet(configuration, stream) { Href = url };
             return ParserFor(sheet).Parse();
-        }
-
-        /// <summary>
-        /// Builds a new CSS StyleSheet with the given URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <param name="configuration">
-        /// Optional custom options to use for the sheet generation.
-        /// </param>
-        /// <returns>The constructed CSS stylesheet.</returns>
-        public static ICssStyleSheet Css(Uri url, IConfiguration configuration = null)
-        {
-            return CssAsync(url, configuration).Result;
-        }
-
-        /// <summary>
-        /// Builds a new CSS StyleSheet asynchronously by requesting the given
-        /// URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <param name="configuration">
-        /// Optional custom options to use for the sheet generation.
-        /// </param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static Task<ICssStyleSheet> CssAsync(Uri url, IConfiguration configuration = null)
-        {
-            return CssAsync(url, CancellationToken.None, configuration);
-        }
-
-        /// <summary>
-        /// Builds a new CSS StyleSheet asynchronously by requesting the given
-        /// URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL which points to the address containing the source code.
-        /// </param>
-        /// <param name="cancel">
-        /// The cancellation token for cancelling the asynchronous request.
-        /// </param>
-        /// <param name="configuration">
-        /// Optional custom options to use for the sheet generation.
-        /// </param>
-        /// <returns>The task which constructs the CSS stylesheet.</returns>
-        public static async Task<ICssStyleSheet> CssAsync(Uri url, CancellationToken cancel, IConfiguration configuration = null)
-        {
-            if (url == null)
-                throw new ArgumentException("url");
-
-            if (configuration == null)
-                configuration = AngleSharp.Configuration.Default;
-
-            var requester = configuration.GetRequester(url.Scheme) ?? new DefaultRequester();
-            
-            using (var response = await requester.LoadAsync(new Url(url), cancel).ConfigureAwait(false))
-            {
-                var source = new TextSource(response.Content, configuration.DefaultEncoding());
-                var sheet = new CssStyleSheet(configuration, source) { Href = url.OriginalString };
-                return await ParserFor(sheet).ParseAsync(cancel).ConfigureAwait(false);
-            }
         }
 
         /// <summary>

@@ -194,23 +194,6 @@
         #region Resource Services
 
         /// <summary>
-        /// Tries to get a requester for the given scheme.
-        /// </summary>
-        /// <param name="options">The configuration to use.</param>
-        /// <param name="protocol">The scheme to find a requester for.</param>
-        /// <returns>A requester for the scheme or null.</returns>
-        public static IRequester GetRequester(this IConfiguration options, String protocol)
-        {
-            foreach (var requester in options.Requesters)
-            {
-                if (requester.SupportsProtocol(protocol))
-                    return requester;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Tries to convert the response to the resource type.
         /// </summary>
         /// <param name="options">The configuration to use.</param>
