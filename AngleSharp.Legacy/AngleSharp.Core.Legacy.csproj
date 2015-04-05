@@ -1696,9 +1696,6 @@
     <Compile Include="..\AngleSharp\Events\ISubscriber.cs">
       <Link>Events\ISubscriber.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Events\RequestEndEvent.cs">
-      <Link>Events\RequestEndEvent.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Events\RequestStartEvent.cs">
       <Link>Events\RequestStartEvent.cs</Link>
     </Compile>
