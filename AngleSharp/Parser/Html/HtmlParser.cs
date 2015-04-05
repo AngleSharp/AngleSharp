@@ -149,6 +149,15 @@
             get { return _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null; }
         }
 
+        /// <summary>
+        /// Gets if scripting should be considered to be enabled.
+        /// </summary>
+        public Boolean IsScripting
+        {
+            get { return _scripting; }
+            internal set { _scripting = value; }
+        }
+
         #endregion
 
         #region Methods
