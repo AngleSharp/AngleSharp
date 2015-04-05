@@ -70,7 +70,7 @@
             selector = new CssSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
-            tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.GetEvents())
+            tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.Events)
             {
                 IgnoreComments = true,
                 IgnoreWhitespace = true
@@ -1138,14 +1138,11 @@
         /// Takes a string and transforms it into a selector object.
         /// </summary>
         /// <param name="selectorText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
         /// <returns>The Selector object.</returns>
-        public static ISelector ParseSelector(String selectorText, IConfiguration configuration = null)
+        public static ISelector ParseSelector(String selectorText)
         {
             var source = new TextSource(selectorText);
-            var tokenizer = new CssTokenizer(source, configuration.GetEvents());
+            var tokenizer = new CssTokenizer(source, null);
             tokenizer.IgnoreComments = true;
             var tokens = tokenizer.Tokens;
             var creator = Pool.NewSelectorConstructor();

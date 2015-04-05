@@ -83,7 +83,7 @@
         /// </param>
         internal HtmlParser(Document document)
         {
-            _tokenizer = new HtmlTokenizer(document.Source, document.Options.GetEvents());
+            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events);
 			_syncGuard = new Object();
             _started = false;
             _document = document;
