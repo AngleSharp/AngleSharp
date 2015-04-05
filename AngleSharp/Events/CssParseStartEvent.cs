@@ -36,7 +36,7 @@
         /// Sets the sheet by invoking the ended event.
         /// </summary>
         /// <param name="sheet">The sheet to propagate.</param>
-        public void SetResponse(ICssStyleSheet sheet)
+        public void SetResult(ICssStyleSheet sheet)
         {
             if (Ended != null)
                 Ended(sheet);

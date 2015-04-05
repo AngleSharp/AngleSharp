@@ -40,7 +40,7 @@
                         events.Publish(evt);
 
                     var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    evt.SetResponse(result);
+                    evt.SetResult(result);
                     return result;
                 }
             }

@@ -36,7 +36,7 @@
         /// Sets the document by invoking the ended event.
         /// </summary>
         /// <param name="document">The document to propagate.</param>
-        public void SetResponse(IDocument document)
+        public void SetResult(IDocument document)
         {
             if (Ended != null)
                 Ended(document);

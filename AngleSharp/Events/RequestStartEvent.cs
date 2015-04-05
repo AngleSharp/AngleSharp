@@ -46,7 +46,7 @@
         /// Sets the response by invoking the ended event.
         /// </summary>
         /// <param name="response">The response to propagate.</param>
-        public void SetResponse(IResponse response)
+        public void SetResult(IResponse response)
         {
             if (Ended != null)
                 Ended(response);

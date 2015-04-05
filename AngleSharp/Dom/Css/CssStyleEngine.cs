@@ -99,7 +99,7 @@
                 events.Publish(evt);
 
             parser.Parse();
-            evt.SetResponse(style);
+            evt.SetResult(style);
             return style;
         }
 

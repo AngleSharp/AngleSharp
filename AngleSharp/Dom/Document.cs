@@ -1646,7 +1646,7 @@
                 events.Publish(evt);
 
             var result = await parser.ParseAsync(cancelToken).ConfigureAwait(false);
-            evt.SetResponse(result);
+            evt.SetResult(result);
         }
 
         /// <summary>
