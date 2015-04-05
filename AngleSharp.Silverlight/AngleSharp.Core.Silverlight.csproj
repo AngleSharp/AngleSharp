@@ -1711,9 +1711,6 @@
     <Compile Include="..\AngleSharp\Events\ISubscriber.cs">
       <Link>Events\ISubscriber.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Events\RequestEndEvent.cs">
-      <Link>Events\RequestEndEvent.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Events\RequestStartEvent.cs">
       <Link>Events\RequestStartEvent.cs</Link>
     </Compile>
@@ -2728,7 +2725,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
