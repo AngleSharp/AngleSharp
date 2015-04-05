@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -1613,15 +1614,23 @@
         /// <param name="response">The response to consider.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
+        internal async Task LoadAsync(IResponse response, CancellationToken cancelToken)
         {
+            var config = Options;
             _contentType = MimeTypes.Html;
             Open(response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html));
             DocumentUri = response.Address.Href;
             ReadyState = DocumentReadyState.Loading;
-            _source = new TextSource(response.Content, Options.DefaultEncoding());
+            _source = new TextSource(response.Content, config.DefaultEncoding());
+            var events = config.Events;
             var parser = new HtmlParser(this);
-            return parser.ParseAsync(cancelToken);
+            var evt = new HtmlParseStartEvent(parser);
+
+            if (events != null)
+                events.Publish(evt);
+
+            var result = await parser.ParseAsync(cancelToken).ConfigureAwait(false);
+            evt.SetResponse(result);
         }
 
         /// <summary>
