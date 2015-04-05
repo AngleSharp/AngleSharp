@@ -51,6 +51,33 @@
 
         #endregion
 
+        #region Default
+
+        /// <summary>
+        /// Gets the default configuration to use. The default
+        /// configuration can be overriden by placing some
+        /// configuration in the DependencyResolver.
+        /// </summary>
+        internal static IConfiguration Default
+        {
+            get { return customConfiguration ?? defaultConfiguration; }
+        }
+
+        /// <summary>
+        /// Sets the default configuration to use, when the configuration
+        /// is omitted.
+        /// </summary>
+        /// <param name="configuration">The configuration to set.</param>
+        public static void SetDefault(IConfiguration configuration)
+        {
+            if (configuration == null)
+                throw new ArgumentNullException("configuration");
+
+            customConfiguration = configuration;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -67,16 +94,6 @@
         public IEnumerable<IRequester> Requesters
         {
             get { return _requesters; }
-        }
-
-        /// <summary>
-        /// Gets the default configuration to use. The default
-        /// configuration can be overriden by placing some
-        /// configuration in the DependencyResolver.
-        /// </summary>
-        internal static IConfiguration Default
-        {
-            get { return customConfiguration ?? defaultConfiguration; }
         }
 
         /// <summary>
@@ -102,19 +119,6 @@
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Sets the default configuration to use, when the configuration
-        /// is omitted.
-        /// </summary>
-        /// <param name="configuration">The configuration to set.</param>
-        public static void SetDefault(IConfiguration configuration)
-        {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-
-            customConfiguration = configuration;
-        }
 
         /// <summary>
         /// Adds the provided service.

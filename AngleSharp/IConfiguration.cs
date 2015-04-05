@@ -12,9 +12,9 @@
     public interface IConfiguration
     {
         /// <summary>
-        /// Gets or sets the culture to use.
+        /// Gets the culture to use.
         /// </summary>
-        CultureInfo Culture { get; set; }
+        CultureInfo Culture { get; }
 
         /// <summary>
         /// Gets an enumeration over the available services.
