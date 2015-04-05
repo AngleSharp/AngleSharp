@@ -34,14 +34,13 @@
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
                 {
+                    var evt = new RequestStartEvent(requester, request);
+
                     if (events != null)
-                        events.Publish(new RequestStartEvent(requester, request));
+                        events.Publish(evt);
 
                     var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-
-                    if (events != null)
-                        events.Publish(new RequestEndEvent(request, result));
-
+                    evt.SetResponse(result);
                     return result;
                 }
             }

@@ -126,7 +126,6 @@
     <Compile Include="Events\HtmlParseErrorEvent.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\ISubscriber.cs" />
-    <Compile Include="Events\RequestEndEvent.cs" />
     <Compile Include="Events\RequestStartEvent.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
