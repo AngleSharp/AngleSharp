@@ -123,7 +123,9 @@
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Events\CssParseErrorEvent.cs" />
+    <Compile Include="Events\CssParseStartEvent.cs" />
     <Compile Include="Events\HtmlParseErrorEvent.cs" />
+    <Compile Include="Events\HtmlParseStartEvent.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\ISubscriber.cs" />
     <Compile Include="Events\RequestStartEvent.cs" />
