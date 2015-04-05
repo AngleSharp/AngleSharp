@@ -449,7 +449,7 @@
 
         async Task<TResource> LoadAsync(Url url, CancellationToken cancel)
         {
-            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var request = this.CreateRequestFor(url);
             var media = await Owner.LoadResource<TResource>(request, cancel).ConfigureAwait(false);
 
             if (media == null)

@@ -121,7 +121,7 @@
             {
                 while (true)
                 {
-                    var data = new ResourceRequest(url)
+                    var data = new ResourceRequest(request.Source, url)
                     {
                         Origin = request.Origin,
                         IsManualRedirectDesired = true
@@ -140,7 +140,7 @@
 
                         if (request.Origin == url.Origin.Href)
                         {
-                            request = new ResourceRequest(url)
+                            request = new ResourceRequest(request.Source, url)
                             {
                                 IsCookieBlocked = request.IsCookieBlocked,
                                 IsSameOriginForced = request.IsSameOriginForced,

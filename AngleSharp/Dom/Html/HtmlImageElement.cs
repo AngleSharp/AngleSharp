@@ -183,7 +183,7 @@
 
         async Task<IImageInfo> LoadAsync(Url url, CancellationToken cancel)
         {
-            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var request = this.CreateRequestFor(url);
             var image = await Owner.LoadResource<IImageInfo>(request, cancel).ConfigureAwait(false);
             this.FireSimpleEvent(EventNames.Load);
             return image;

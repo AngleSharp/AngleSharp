@@ -249,7 +249,7 @@
 
         async Task LoadAsync(Url url, CancellationToken cancel)
         {
-            var request = new ResourceRequest(url);
+            var request = this.CreateRequestFor(url);
             var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
             if (response != null)

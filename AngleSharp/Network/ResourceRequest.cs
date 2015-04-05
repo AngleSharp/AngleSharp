@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Network
 {
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>
@@ -10,15 +11,26 @@
         /// <summary>
         /// Creates a new resource request for the given url.
         /// </summary>
+        /// <param name="source">The request's source.</param>
         /// <param name="target">The resource's url.</param>
-        public ResourceRequest(Url target)
+        public ResourceRequest(IElement source, Url target)
         {
+            Source = source;
             Target = target;
             Origin = null;
             IsManualRedirectDesired = false;
             IsSameOriginForced = false;
             IsCookieBlocked = false;
             IsCredentialOmitted = false;
+        }
+
+        /// <summary>
+        /// Gets the source of the request.
+        /// </summary>
+        public IElement Source
+        {
+            get;
+            private set;
         }
 
         /// <summary>

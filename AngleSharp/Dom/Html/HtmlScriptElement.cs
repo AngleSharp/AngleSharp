@@ -257,7 +257,7 @@
                 Owner.AddScript(this);
             }
 
-            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var request = this.CreateRequestFor(url);
             var response = await Owner.Loader.FetchWithCorsAsync(request, CrossOrigin.ToEnum(CorsSetting.None), OriginBehavior.Taint, cancel);
 
             if (_parserInserted && !IsAsync)

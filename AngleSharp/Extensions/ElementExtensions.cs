@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
     using System.Diagnostics;
 
@@ -70,6 +71,18 @@
             }
 
             return element.ParentElement.LocateNamespace(prefix);
+        }
+
+        /// <summary>
+        /// Creates a new resource request from the provided element for the
+        /// given url.
+        /// </summary>
+        /// <param name="element">The element creating a request.</param>
+        /// <param name="url">The address that specifies the target.</param>
+        /// <returns>The new resource request with the information.</returns>
+        public static ResourceRequest CreateRequestFor(this IElement element, Url url)
+        {
+            return new ResourceRequest(element, url) { Origin = element.Owner.Origin };
         }
 
         /// <summary>

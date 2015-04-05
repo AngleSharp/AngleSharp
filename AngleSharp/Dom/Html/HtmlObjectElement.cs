@@ -160,7 +160,7 @@
 
         async Task<IObjectInfo> LoadAsync(Url url, CancellationToken cancel)
         {
-            var request = new ResourceRequest(url) { Origin = Owner.Origin };
+            var request = this.CreateRequestFor(url);
             var resource = await Owner.LoadResource<IObjectInfo>(request, cancel).ConfigureAwait(false);
             this.FireSimpleEvent(EventNames.Load);
             return resource;

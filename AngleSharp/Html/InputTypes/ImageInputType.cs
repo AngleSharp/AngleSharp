@@ -80,7 +80,7 @@
 
         async Task<IImageInfo> LoadAsync(HtmlInputElement inp, Url url, CancellationToken cancel)
         {
-            var request = new ResourceRequest(url) { Origin = inp.Owner.Origin };
+            var request = inp.CreateRequestFor(url);
             var image = await inp.Owner.LoadResource<IImageInfo>(request, cancel).ConfigureAwait(false);
             inp.FireSimpleEvent(EventNames.Load);
             return image;
