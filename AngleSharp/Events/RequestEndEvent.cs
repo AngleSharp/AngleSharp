@@ -10,27 +10,27 @@
         /// <summary>
         /// Creates a new event for finishing a request.
         /// </summary>
-        /// <param name="requester">The associated requester.</param>
         /// <param name="request">The data of the request.</param>
-        public RequestEndEvent(IRequester requester, IRequest request)
+        /// <param name="response">The received response.</param>
+        public RequestEndEvent(IRequest request, IResponse response)
         {
-            Requester = requester;
             Request = request;
-        }
-
-        /// <summary>
-        /// Gets the associated requester.
-        /// </summary>
-        public IRequester Requester
-        {
-            get;
-            private set;
+            Response = response;
         }
 
         /// <summary>
         /// Gets the request data that has been transmitted.
         /// </summary>
         public IRequest Request
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the response to the transmitted request.
+        /// </summary>
+        public IResponse Response
         {
             get;
             private set;

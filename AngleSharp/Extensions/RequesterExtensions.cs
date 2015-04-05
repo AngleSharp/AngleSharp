@@ -40,7 +40,7 @@
                     var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
 
                     if (events != null)
-                        events.Publish(new RequestEndEvent(requester, request));
+                        events.Publish(new RequestEndEvent(request, result));
 
                     return result;
                 }
