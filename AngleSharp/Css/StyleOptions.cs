@@ -45,7 +45,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the configuratio for the stylesheet.
+        /// Gets or sets the configuration for the stylesheet.
         /// </summary>
         public IConfiguration Configuration
         {

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
@@ -57,9 +58,7 @@
                 IsDisabled = options.IsDisabled,
                 Title = options.Title
             };
-            var parser = new CssParser(style);
-            parser.Parse();
-            return style;
+            return Parse(style, options);
         }
 
         /// <summary>
@@ -83,8 +82,24 @@
                 IsDisabled = options.IsDisabled,
                 Title = options.Title
             };
+            return Parse(style, options);
+        }
+
+        #endregion
+
+        #region Helper
+
+        static IStyleSheet Parse(CssStyleSheet style, StyleOptions options)
+        {
             var parser = new CssParser(style);
+            var evt = new CssParseStartEvent(parser);
+            var events = options.Configuration.Events;
+
+            if (events != null)
+                events.Publish(evt);
+
             parser.Parse();
+            evt.SetResponse(style);
             return style;
         }
 
