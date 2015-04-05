@@ -874,6 +874,14 @@
         }
 
         /// <summary>
+        /// Gets the browsing context to use.
+        /// </summary>
+        public IBrowsingContext Context
+        {
+            get { return _context; }
+        }
+
+        /// <summary>
         /// Gets or sets the document cookie.
         /// </summary>
         public String Cookie
@@ -978,14 +986,6 @@
         internal IConfiguration Options
         {
             get { return _context.Configuration; }
-        }
-
-        /// <summary>
-        /// Gets the browsing context to use.
-        /// </summary>
-        internal IBrowsingContext Context
-        {
-            get { return _context; }
         }
 
         /// <summary>

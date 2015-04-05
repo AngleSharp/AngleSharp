@@ -542,5 +542,10 @@
         /// <returns>The modified value.</returns>
         [DomName("queryCommandValue")]
         String GetCommandValue(String commandId);
+
+        /// <summary>
+        /// Gets the browsing context to use.
+        /// </summary>
+        IBrowsingContext Context { get; }
     }
 }
