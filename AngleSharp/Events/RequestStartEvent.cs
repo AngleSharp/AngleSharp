@@ -9,9 +9,9 @@
     public class RequestStartEvent
     {
         /// <summary>
-        /// Event handler called once the request ended.
+        /// Action called once the request ended.
         /// </summary>
-        public event EventHandler<IResponse> Ended;
+        public event Action<IResponse> Ended;
 
         /// <summary>
         /// Creates a new event for starting a request.
@@ -49,7 +49,7 @@
         public void SetResponse(IResponse response)
         {
             if (Ended != null)
-                Ended(this, response);
+                Ended(response);
         }
     }
 }
