@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Events;
     using AngleSharp.Network;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -20,21 +21,32 @@
         /// </summary>
         /// <param name="requesters">The requesters to try.</param>
         /// <param name="request">The data of the request to send.</param>
+        /// <param name="events">The event aggregator.</param>
         /// <param name="cancel">
         /// The token which can be used to cancel the request.
         /// </param>
         /// <returns>
         /// The task which will eventually return the response.
         /// </returns>
-        public static Task<IResponse> LoadAsync(this IEnumerable<IRequester> requesters, IRequest request, CancellationToken cancel)
+        public static async Task<IResponse> LoadAsync(this IEnumerable<IRequester> requesters, IRequest request, IEventAggregator events, CancellationToken cancel)
         {
             foreach (var requester in requesters)
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
-                    return requester.RequestAsync(request, cancel);
+                {
+                    if (events != null)
+                        events.Publish(new RequestStartEvent(requester, request));
+
+                    var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+
+                    if (events != null)
+                        events.Publish(new RequestEndEvent(requester, request));
+
+                    return result;
+                }
             }
 
-            return DefaultResponse;
+            return default(IResponse);
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Network.Default
 {
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System.Collections.Generic;
     using System.Threading;
@@ -32,6 +33,7 @@
         /// <returns>The task creating the response.</returns>
         public virtual Task<IResponse> LoadAsync(DocumentRequest request, CancellationToken cancel)
         {
+            var events = _context.Configuration.Events;
             var data = new Request
             {
                 Address = request.Target,
@@ -45,7 +47,7 @@
             if (request.Origin != null)
                 data.Headers[HeaderNames.Referer] = request.Origin;
 
-            return _requesters.LoadAsync(data, cancel);
+            return _requesters.LoadAsync(data, events, cancel);
         }
     }
 }

@@ -33,13 +33,14 @@
         /// <returns>The task creating the response.</returns>
         public virtual Task<IResponse> LoadAsync(ResourceRequest request, CancellationToken cancel)
         {
+            var events = _document.Context.Configuration.Events;
             var data = new Request
             {
                 Address = request.Target,
                 Method = HttpMethod.Get
             };
 
-            return _requesters.LoadAsync(data, cancel);
+            return _requesters.LoadAsync(data, events, cancel);
         }
     }
 }
