@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Mathml
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class MathOperatorElement : MathElement
     {
-        public MathOperatorElement(Document owner)
-            : base(owner, Tags.Mo, NodeFlags.Special | NodeFlags.MathTip | NodeFlags.Scoped)
+        public MathOperatorElement(Document owner, String prefix = null)
+            : base(owner, Tags.Mo, prefix, NodeFlags.Special | NodeFlags.MathTip | NodeFlags.Scoped)
 	    {
 	    }
     }

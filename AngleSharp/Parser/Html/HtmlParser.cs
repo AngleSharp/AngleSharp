@@ -3387,7 +3387,7 @@
         {
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
-                var node = Factory.MathElements.Create(tag.Name, _document);
+                var node = Factory.MathElements.Create(_document, tag.Name);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {

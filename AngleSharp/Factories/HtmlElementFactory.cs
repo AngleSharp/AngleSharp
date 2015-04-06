@@ -11,7 +11,9 @@
     /// </summary>
     sealed class HtmlElementFactory
     {
-        readonly Dictionary<String, Func<Document, String, HtmlElement>> creators = new Dictionary<String, Func<Document, String, HtmlElement>>(StringComparer.OrdinalIgnoreCase)
+        delegate HtmlElement Creator(Document owner, String prefix);
+
+        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { Tags.Base, (document, prefix) => new HtmlBaseElement(document, prefix) },
             { Tags.BaseFont, (document, prefix) => new HtmlBaseFontElement(document, prefix) },
@@ -149,7 +151,7 @@
         /// <returns>The specialized HTMLElement instance.</returns>
         public HtmlElement Create(Document document, String localName, String prefix = null)
         {
-            Func<Document, String, HtmlElement> creator;
+            Creator creator;
 
             if (creators.TryGetValue(localName, out creator))
                 return creator(document, prefix);

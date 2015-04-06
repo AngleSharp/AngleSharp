@@ -1370,7 +1370,7 @@
             else if (namespaceUri == Namespaces.SvgUri)
                 element = Factory.SvgElements.Create(localName, this);
             else if (namespaceUri == Namespaces.MathMlUri)
-                element = Factory.MathElements.Create(localName, this);
+                element = Factory.MathElements.Create(this, localName, prefix);
             else
                 element = new Element(this, localName, prefix, namespaceUri);
             
