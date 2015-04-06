@@ -26,9 +26,8 @@
         /// Creates a standard HTML element.
         /// </summary>
         public HtmlElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags | NodeFlags.HtmlMember)
+            : base(owner, name, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
         {
-            NamespaceUri = Namespaces.HtmlUri;
             RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
         }
 

@@ -21,9 +21,8 @@
         /// Creates a new SVG element.
         /// </summary>
         public SvgElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags | NodeFlags.SvgMember)
+            : base(owner, name, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
         {
-            NamespaceUri = Namespaces.SvgUri;
         }
 
         #endregion

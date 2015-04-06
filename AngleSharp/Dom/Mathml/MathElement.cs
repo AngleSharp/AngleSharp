@@ -14,9 +14,8 @@
         /// Creates a new MathML element.
         /// </summary>
         public MathElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags | NodeFlags.MathMember)
+            : base(owner, name, Namespaces.MathMlUri, flags | NodeFlags.MathMember)
         {
-            NamespaceUri = Namespaces.MathMlUri;
         }
 
         #endregion

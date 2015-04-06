@@ -1358,14 +1358,12 @@
             var prefix = parts.Length == 2 ? parts[0] : null;
             var localName = parts.Length == 2 ? parts[1] : qualifiedName;
 
-            if (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri)
-                throw new DomException(DomError.Namespace);
-            else if ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
-                throw new DomException(DomError.Namespace);
-            else if (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix))
+            if ((prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri) ||
+                ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri) ||
+                (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix)))
                 throw new DomException(DomError.Namespace);
 
-            Element element = null;
+            var element = default(Element);
 
             if (namespaceUri == Namespaces.HtmlUri)
                 element = Factory.HtmlElements.Create(localName, this);
@@ -1374,7 +1372,7 @@
             else if (namespaceUri == Namespaces.MathMlUri)
                 element = Factory.MathElements.Create(localName, this);
             else
-                element = new Element(this, localName) { NamespaceUri = namespaceUri };
+                element = new Element(this, localName, namespaceUri);
 
             element.Prefix = prefix;
             return element;

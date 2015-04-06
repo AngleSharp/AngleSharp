@@ -20,10 +20,10 @@
 
         readonly List<IAttr> _attributes;
         readonly Dictionary<String, Action<String>> _attributeHandlers;
+        readonly String _namespace;
 
-        HtmlElementCollection _elements;
         String _prefix;
-        String _namespace;
+        HtmlElementCollection _elements;
         TokenList _classList;
 
         #endregion
@@ -34,8 +34,17 @@
         /// Creates a new element node.
         /// </summary>
         public Element(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, NodeType.Element, flags)
+            : this(owner, name, null, flags)
         {
+        }
+
+        /// <summary>
+        /// Creates a new element node.
+        /// </summary>
+        public Element(Document owner, String localName, String namespaceUri, NodeFlags flags = NodeFlags.None)
+            : base(owner, localName, NodeType.Element, flags)
+        {
+            _namespace = namespaceUri;
             _attributes = new List<IAttr>();
             _attributeHandlers = new Dictionary<String, Action<String>>();
             RegisterAttributeObserver(AttributeNames.Class, UpdateClassList);
@@ -52,7 +61,7 @@
         public String Prefix
         {
             get { return _prefix; }
-            internal set { _prefix = value; }
+            set { _prefix = value; }
         }
 
         /// <summary>
@@ -69,7 +78,6 @@
         public String NamespaceUri
         {
             get { return _namespace; }
-            internal set { _namespace = value; }
         }
 
         /// <summary>
@@ -452,7 +460,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Element(Owner, NodeName, Flags);
+            var node = new Element(Owner, LocalName, _namespace, Flags);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
@@ -917,7 +925,6 @@
         /// </param>
         protected static void CopyAttributes(Element source, Element target)
         {
-            target._namespace = source._namespace;
             target._prefix = source._prefix;
 
             for (int i = 0; i < source._attributes.Count; i++)

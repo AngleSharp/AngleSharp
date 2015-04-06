@@ -3364,7 +3364,7 @@
 
             if (node != null)
             {
-                AddForeignElement(node);
+                CurrentNode.AddNode(node);
 
                 if (!tag.IsSelfClosing)
                 {
@@ -3892,16 +3892,6 @@
             {
                 foster.AddNode(element);
             }
-        }
-
-        /// <summary>
-        /// Appends a configured foreign node to the current node.
-        /// </summary>
-        /// <param name="element">The node which will be added to the list.</param>
-        void AddForeignElement(Element element)
-        {
-            element.NamespaceUri = AdjustedCurrentNode.NamespaceUri;
-            CurrentNode.AddNode(element);
         }
 
         /// <summary>
