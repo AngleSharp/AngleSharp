@@ -237,7 +237,7 @@
 
                 if (element != null)
                 {
-                    if (tagName == null || element.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                    if (tagName == null || element.LocalName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)

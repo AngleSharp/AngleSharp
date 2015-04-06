@@ -58,7 +58,12 @@
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
         {
             var temp = Pool.NewStringBuilder();
-            temp.Append(Symbols.LessThan).Append(element.NodeName);
+            temp.Append(Symbols.LessThan);
+
+            if (!String.IsNullOrEmpty(element.Prefix))
+                temp.Append(element.Prefix).Append(Symbols.Colon);
+
+            temp.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
                 temp.Append(" ").Append(Stringify(attribute));
@@ -69,7 +74,10 @@
 
         String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
         {
-            return selfClosing ? String.Empty : String.Concat("</", element.NodeName, ">");
+            var prefix = element.Prefix;
+            var name = element.LocalName;
+            var tag = !String.IsNullOrEmpty(prefix) ? prefix + ":" + name : name;
+            return selfClosing ? String.Empty : String.Concat("</", tag, ">");
         }
 
         #endregion

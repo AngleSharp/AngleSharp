@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Xml
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// The object representation of an XMLElement.
@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new XML element.
         /// </summary>
-        public XmlElement(Document owner, String name)
-            : base(owner, name, null, Namespaces.XmlUri)
+        public XmlElement(Document owner, String name, String prefix = null)
+            : base(owner, name, prefix, Namespaces.XmlUri)
         {
         }
 
@@ -42,7 +42,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new XmlElement(Owner, NodeName);
+            var node = new XmlElement(Owner, LocalName, Prefix);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             node.IdAttribute = IdAttribute;

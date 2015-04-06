@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Dom
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Parser.Css;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
 
     /// <summary>
     /// Represents an element node.
@@ -22,6 +22,7 @@
         readonly Dictionary<String, Action<String>> _attributeHandlers;
         readonly String _namespace;
         readonly String _prefix;
+        readonly String _localName;
 
         HtmlElementCollection _elements;
         TokenList _classList;
@@ -42,8 +43,9 @@
         /// Creates a new element node.
         /// </summary>
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
-            : base(owner, localName, NodeType.Element, flags)
+            : base(owner, (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant(), NodeType.Element, flags)
         {
+            _localName = localName;
             _prefix = prefix;
             _namespace = namespaceUri;
             _attributes = new List<IAttr>();
@@ -68,7 +70,7 @@
         /// </summary>
         public String LocalName
         {
-            get { return NodeName; }
+            get { return _localName; }
         }
 
         /// <summary>
@@ -140,7 +142,7 @@
         /// </summary>
         public String TagName
         {
-            get { return (_prefix != null ? String.Concat(_prefix, ":", NodeName) : NodeName).ToUpperInvariant(); }
+            get { return NodeName; }
         }
 
         /// <summary>

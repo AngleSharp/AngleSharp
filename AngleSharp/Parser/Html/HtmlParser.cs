@@ -344,7 +344,7 @@
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            var tagName = context.NodeName;
+            var tagName = context.LocalName;
 
             if (tagName.IsOneOf(Tags.Title, Tags.Textarea))
                 _tokenizer.State = HtmlParseMode.RCData;
@@ -398,10 +398,10 @@
         /// algorithm specified in 8.2.3.1 The insertion mode.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-insertion-mode
         /// </summary>
-        void Reset(INode context = null)
+        void Reset(IElement context = null)
         {
             var last = false;
-            var node = default(INode);
+            var node = default(IElement);
 
             for (var i = _openElements.Count - 1; i >= 0; i--)
             {
@@ -413,7 +413,7 @@
                     node = context ?? node;
                 }
 
-                var tagName = node.NodeName;
+                var tagName = node.LocalName;
 
                 if (tagName == Tags.Select)
                     _currentMode = HtmlTreeMode.InSelect;
@@ -459,7 +459,7 @@
             if (node == null || token.IsEof || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
                 (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
                 (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) || 
-                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.NodeName == Tags.AnnotationXml))
+                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.LocalName == Tags.AnnotationXml))
                 Home(token);
             else
                 Foreign(token);
@@ -1299,7 +1299,7 @@
                 {
                     GenerateImpliedEndTagsExceptFor(Tags.Rtc);
 
-                    if (CurrentNode.NodeName.IsOneOf(Tags.Ruby, Tags.Rtc) == false)
+                    if (CurrentNode.LocalName.IsOneOf(Tags.Ruby, Tags.Rtc) == false)
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode);
                 }
 
@@ -1487,7 +1487,7 @@
                 var node = _currentFormElement;
                 _currentFormElement = null;
 
-                if (node != null && IsInScope(node.NodeName))
+                if (node != null && IsInScope(node.LocalName))
                 {
                     GenerateImpliedEndTags();
 
@@ -1512,7 +1512,7 @@
                 {
                     GenerateImpliedEndTags();
 
-                    if (CurrentNode.NodeName != tagName)
+                    if (CurrentNode.LocalName != tagName)
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode);
 
                     ClearStackBackTo<HtmlHeadingElement>();
@@ -1529,7 +1529,7 @@
                 {
                     GenerateImpliedEndTagsExceptFor(tagName);
 
-                    if (CurrentNode.NodeName != tagName)
+                    if (CurrentNode.LocalName != tagName)
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode);
 
                     ClearStackBackTo(tagName);
@@ -1546,7 +1546,7 @@
                 {
                     GenerateImpliedEndTags();
 
-                    if (CurrentNode.NodeName != tagName)
+                    if (CurrentNode.LocalName != tagName)
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode);
 
                     ClearStackBackTo(tagName);
@@ -2748,7 +2748,7 @@
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InColumnGroupEndTagColgroup()
         {
-            if (CurrentNode.NodeName == Tags.Colgroup)
+            if (CurrentNode.LocalName == Tags.Colgroup)
             {
                 CloseCurrentNode();
                 _currentMode = HtmlTreeMode.InTable;
@@ -2808,9 +2808,9 @@
 
             while (true)
             {
-                if (node is HtmlListItemElement && node.NodeName == Tags.Li)
+                if (node is HtmlListItemElement && node.LocalName == Tags.Li)
                 {
-                    InBody(HtmlTagToken.Close(node.NodeName));
+                    InBody(HtmlTagToken.Close(node.LocalName));
                     break;
                 }
 
@@ -2838,9 +2838,9 @@
 
             while (true)
             {
-                if (node is HtmlListItemElement && (node.NodeName == Tags.Dd || node.NodeName == Tags.Dt))
+                if (node is HtmlListItemElement && (node.LocalName == Tags.Dd || node.LocalName == Tags.Dt))
                 {
-                    InBody(HtmlTagToken.Close(node.NodeName));
+                    InBody(HtmlTagToken.Close(node.LocalName));
                     break;
                 }
 
@@ -2867,7 +2867,7 @@
             {
                 GenerateImpliedEndTags();
 
-                if (CurrentNode.NodeName != tagName)
+                if (CurrentNode.LocalName != tagName)
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode);
 
                 ClearStackBackTo(tagName);
@@ -2906,7 +2906,7 @@
                     if (_formattingElements[j] == null)
                         break;
                     
-                    if (_formattingElements[j].NodeName == tag.Name)
+                    if (_formattingElements[j].LocalName == tag.Name)
                     {
                         index = j;
                         formattingElement = _formattingElements[j];
@@ -2929,7 +2929,7 @@
                     break;
                 }
 
-                if (!IsInScope(formattingElement.NodeName))
+                if (!IsInScope(formattingElement.LocalName))
                 {
                     RaiseErrorOccurred(HtmlParseError.ElementNotInScope);
                     break;
@@ -3066,11 +3066,11 @@
 
             do
             {
-                if (node.NodeName == tag.Name)
+                if (node.LocalName == tag.Name)
                 {
                     GenerateImpliedEndTagsExceptFor(tag.Name);
 
-                    if (node.NodeName == tag.Name)
+                    if (node.LocalName == tag.Name)
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
 
                     for (int i = _openElements.Count - 1; index <= i; i--)
@@ -3323,12 +3323,12 @@
 
                     if (script == null)
                     {
-                        if (node.NodeName != tagName)
+                        if (node.LocalName != tagName)
                             RaiseErrorOccurred(HtmlParseError.TagClosingMismatch);
 
                         for (int i = _openElements.Count - 1; i > 0; i--)
                         {
-                            if (node.NodeName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                            if (node.LocalName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
                             {
                                 _openElements.RemoveRange(i + 1, _openElements.Count - i - 1);
                                 CloseCurrentNode();
@@ -3469,7 +3469,7 @@
             {
                 var node = _openElements[i];
 
-                if (node.NodeName == tagName)
+                if (node.LocalName == tagName)
                     return true;
                 else if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
@@ -3565,7 +3565,7 @@
             {
                 var node = _openElements[i];
 
-                if (node.NodeName == tagName)
+                if (node.LocalName == tagName)
                     return true;
                 else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
@@ -3585,7 +3585,7 @@
             {
                 var node = _openElements[i];
 
-                if (node.NodeName == tagName)
+                if (node.LocalName == tagName)
                     return true;
                 else if (node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                     continue;
@@ -3697,7 +3697,7 @@
         {
             for (int i = 0; i < _openElements.Count; i++)
             {
-                if (_openElements[i].NodeName == tagName)
+                if (_openElements[i].LocalName == tagName)
                     return true;
             }
 
@@ -3965,7 +3965,7 @@
         {
             var node = CurrentNode;
 
-            while (node.NodeName != tagName && node is HtmlHtmlElement == false && node is HtmlTemplateElement == false)
+            while (node.LocalName != tagName && node is HtmlHtmlElement == false && node is HtmlTemplateElement == false)
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -3995,7 +3995,7 @@
         {
             var node = CurrentNode;
 
-            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && node.NodeName != tagName)
+            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && node.LocalName != tagName)
             {
                 CloseCurrentNode();
                 node = CurrentNode;

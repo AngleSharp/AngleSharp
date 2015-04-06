@@ -35,7 +35,7 @@
         /// </summary>
         public IHtmlTableCaptionElement Caption
         {
-            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.NodeName == Tags.Caption); }
+            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName == Tags.Caption); }
             set { DeleteCaption(); InsertChild(0, value); }
         }
 
@@ -44,7 +44,7 @@
         /// </summary>
         public IHtmlTableSectionElement Head
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.NodeName == Tags.Thead); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == Tags.Thead); }
             set { DeleteHead(); AppendChild(value); }
         }
 
@@ -53,7 +53,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlTableSectionElement> Bodies
         {
-            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.NodeName == Tags.Tbody)); }
+            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName == Tags.Tbody)); }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@
         /// </summary>
         public IHtmlTableSectionElement Foot
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.NodeName == Tags.Tfoot); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == Tags.Tfoot); }
             set { DeleteFoot(); AppendChild(value); }
         }
 
@@ -72,8 +72,8 @@
         {
             get
             {
-                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.NodeName == Tags.Thead);
-                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.NodeName == Tags.Tfoot);
+                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == Tags.Thead);
+                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == Tags.Tfoot);
 
                 foreach (var head in heads)
                 {
