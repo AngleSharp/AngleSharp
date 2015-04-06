@@ -1,4 +1,5 @@
-﻿using AngleSharp.Core.Tests.Mocks;
+﻿using System;
+using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom;
 using AngleSharp.Parser.Html;
 using NUnit.Framework;
@@ -12,10 +13,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlScriptTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void ScriptElementAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script>");
+            var doc = Html(@"<!doctype html><script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -50,7 +56,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithTextAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script>a");
+            var doc = Html(@"<!doctype html><script>a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -89,7 +95,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><");
+            var doc = Html(@"<!doctype html><script><");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -130,7 +136,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></");
+            var doc = Html(@"<!doctype html><script></");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -169,7 +175,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingUppercaseLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></S");
+            var doc = Html(@"<!doctype html><script></S");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -208,7 +214,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingTwoUppercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></SC");
+            var doc = Html(@"<!doctype html><script></SC");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -247,7 +253,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingThreeUppercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></SCR");
+            var doc = Html(@"<!doctype html><script></SCR");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -286,7 +292,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingFourUppercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRI");
+            var doc = Html(@"<!doctype html><script></SCRI");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -325,7 +331,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingFiveUppercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRIP");
+            var doc = Html(@"<!doctype html><script></SCRIP");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -364,7 +370,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingSixUppercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRIPT");
+            var doc = Html(@"<!doctype html><script></SCRIPT");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -403,7 +409,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingSevenUppercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></SCRIPT ");
+            var doc = Html(@"<!doctype html><script></SCRIPT ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -438,7 +444,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingLowercaseLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></s");
+            var doc = Html(@"<!doctype html><script></s");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -477,7 +483,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingTwoLowercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></sc");
+            var doc = Html(@"<!doctype html><script></sc");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -516,7 +522,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingThreeLowercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></scr");
+            var doc = Html(@"<!doctype html><script></scr");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -555,7 +561,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingFourLowercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></scri");
+            var doc = Html(@"<!doctype html><script></scri");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -594,7 +600,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingFiveLowercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></scrip");
+            var doc = Html(@"<!doctype html><script></scrip");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -633,7 +639,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingSixLowercaseLettersAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></script");
+            var doc = Html(@"<!doctype html><script></script");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -672,7 +678,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenClosingSixLowercaseLettersAndSpaceAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script></script ");
+            var doc = Html(@"<!doctype html><script></script ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -707,7 +713,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenBogusCommentAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!");
+            var doc = Html(@"<!doctype html><script><!");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -746,7 +752,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenBogusCommentAndLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!a");
+            var doc = Html(@"<!doctype html><script><!a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -785,7 +791,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenBogusCommentAndDashAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!-");
+            var doc = Html(@"<!doctype html><script><!-");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -824,7 +830,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenBogusCommentAndDashLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!-a");
+            var doc = Html(@"<!doctype html><script><!-a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -863,7 +869,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--");
+            var doc = Html(@"<!doctype html><script><!--");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -902,7 +908,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--a");
+            var doc = Html(@"<!doctype html><script><!--a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -941,7 +947,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<");
+            var doc = Html(@"<!doctype html><script><!--<");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -980,7 +986,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<a");
+            var doc = Html(@"<!doctype html><script><!--<a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1019,7 +1025,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenSlashAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--</");
+            var doc = Html(@"<!doctype html><script><!--</");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1058,7 +1064,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashClosingScriptUnfinishedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--</script");
+            var doc = Html(@"<!doctype html><script><!--</script");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1097,7 +1103,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashClosingScriptUnfinishedSpacesAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--</script ");
+            var doc = Html(@"<!doctype html><script><!--</script ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1136,7 +1142,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenLetterSAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<s");
+            var doc = Html(@"<!doctype html><script><!--<s");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1175,7 +1181,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script");
+            var doc = Html(@"<!doctype html><script><!--<script");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1214,7 +1220,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script ");
+            var doc = Html(@"<!doctype html><script><!--<script ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1255,7 +1261,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesOpenAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script <");
+            var doc = Html(@"<!doctype html><script><!--<script <");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1294,7 +1300,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesOpenLetterAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script <a");
+            var doc = Html(@"<!doctype html><script><!--<script <a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1333,7 +1339,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentScriptTagInsideAndClosingAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </");
+            var doc = Html(@"<!doctype html><script><!--<script </");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1372,7 +1378,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndClosingSTagAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </s");
+            var doc = Html(@"<!doctype html><script><!--<script </s");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1411,7 +1417,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndClosingScriptTagUnfinishedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script");
+            var doc = Html(@"<!doctype html><script><!--<script </script");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1450,7 +1456,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndClosingScriptMisspelledUnfinishedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </scripta");
+            var doc = Html(@"<!doctype html><script><!--<script </scripta");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1489,7 +1495,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndClosingScriptUnfinishedSpacesAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script ");
+            var doc = Html(@"<!doctype html><script><!--<script </script ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1528,7 +1534,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndClosedScriptAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script>");
+            var doc = Html(@"<!doctype html><script><!--<script </script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1567,7 +1573,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenScriptTagAndTrailingSlashWhenClosingScriptAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script/");
+            var doc = Html(@"<!doctype html><script><!--<script </script/");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1606,7 +1612,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenScriptTagAndOpenBracketAfterSpaceAfterClosingScriptAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script <");
+            var doc = Html(@"<!doctype html><script><!--<script </script <");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1645,7 +1651,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndOpenLowercaseAAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script <a");
+            var doc = Html(@"<!doctype html><script><!--<script </script <a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1684,7 +1690,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingTagAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </");
+            var doc = Html(@"<!doctype html><script><!--<script </script </");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1723,7 +1729,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script");
+            var doc = Html(@"<!doctype html><script><!--<script </script </script");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1762,7 +1768,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagUnfinishedWithSpacesAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script ");
+            var doc = Html(@"<!doctype html><script><!--<script </script </script ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1801,7 +1807,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagUnfinishedTrailingSlashAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script/");
+            var doc = Html(@"<!doctype html><script><!--<script </script </script/");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1840,7 +1846,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosedScriptTagAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script </script </script>");
+            var doc = Html(@"<!doctype html><script><!--<script </script </script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1879,7 +1885,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -");
+            var doc = Html(@"<!doctype html><script><!--<script -");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1918,7 +1924,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAndLowercaseAAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -a");
+            var doc = Html(@"<!doctype html><script><!--<script -a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1957,7 +1963,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAndOpenBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -<");
+            var doc = Html(@"<!doctype html><script><!--<script -<");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1996,7 +2002,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --");
+            var doc = Html(@"<!doctype html><script><!--<script --");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2035,7 +2041,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesLowercaseAAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --a");
+            var doc = Html(@"<!doctype html><script><!--<script --a");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2074,7 +2080,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesOpenBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --<");
+            var doc = Html(@"<!doctype html><script><!--<script --<");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2113,7 +2119,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithCommentThatHostsScriptElementAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script -->");
+            var doc = Html(@"<!doctype html><script><!--<script -->");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2152,7 +2158,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithCommentThatHostsScriptElementAndOpenBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --><");
+            var doc = Html(@"<!doctype html><script><!--<script --><");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2191,7 +2197,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithCommentThatHostsScriptElementAndOpenClosingBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></");
+            var doc = Html(@"<!doctype html><script><!--<script --></");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2230,7 +2236,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithCommentThatHostsScriptElementUnfinishedClosingBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script");
+            var doc = Html(@"<!doctype html><script><!--<script --></script");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2269,7 +2275,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithCommentThatHostsScriptElementUnfinishedClosingBracketWithSpacesAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script ");
+            var doc = Html(@"<!doctype html><script><!--<script --></script ");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2308,7 +2314,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosedCommentThatHostsUnfinishedScriptElementAndClosingUnfinishedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script/");
+            var doc = Html(@"<!doctype html><script><!--<script --></script/");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2347,7 +2353,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosedCommentThatHostsUnfinishedScriptElementClosedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script --></script>");
+            var doc = Html(@"<!doctype html><script><!--<script --></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2386,7 +2392,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosedCommentThatHostsScriptPairWithMistakeClosedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script><\/script>--></script>");
+            var doc = Html(@"<!doctype html><script><!--<script><\/script>--></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2425,7 +2431,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosedCommentThatHostsScriptPairWithMistakesClosedAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></scr'+'ipt>--></script>");
+            var doc = Html(@"<!doctype html><script><!--<script></scr'+'ipt>--></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2464,7 +2470,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script></script>");
+            var doc = Html(@"<!doctype html><script><!--<script></script><script></script></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2503,7 +2509,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAndClosingBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>--><!--</script>");
+            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>--><!--</script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2542,7 +2548,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAndHasASpaceBeforeClosingBracketAfterDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>-- ></script>");
+            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>-- ></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2581,7 +2587,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithMultipleEscapedCommentsWrongBarelyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>- -></script>");
+            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>- -></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2620,7 +2626,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithMultipleEscapedCommentsWrongClearlyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>- - ></script>");
+            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>- - ></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2659,7 +2665,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithMultipleEscapedCommentsWrongWronglyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></script><script></script>-></script>");
+            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>-></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2698,7 +2704,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithEscapedOpenedScriptTagFollowedByText()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script>--!></script>X");
+            var doc = Html(@"<!doctype html><script><!--<script>--!></script>X");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2737,7 +2743,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithSpecialCharactersInWronglyEscapedScriptTag()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<scr'+'ipt></script>--></script>");
+            var doc = Html(@"<!doctype html><script><!--<scr'+'ipt></script>--></script>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2780,7 +2786,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithEscapedScriptTagClosedWrongWithSpecialCharacters()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><script><!--<script></scr'+'ipt></script>X");
+            var doc = Html(@"<!doctype html><script><!--<script></scr'+'ipt></script>X");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2970,7 +2976,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithinBodyThatisInsideNoframes()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><noframes><body><script><!--...</script></body></noframes></html>");
+            var doc = Html(@"<!doctype html><noframes><body><script><!--...</script></body></noframes></html>");
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3009,7 +3015,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptStandalone()
         {
-            var doc = DocumentBuilder.Html(@"<script>");
+            var doc = Html(@"<script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3039,7 +3045,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithTextLowercaseA()
         {
-            var doc = DocumentBuilder.Html(@"<script>a");
+            var doc = Html(@"<script>a");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3073,7 +3079,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithTextLt()
         {
-            var doc = DocumentBuilder.Html(@"<script><");
+            var doc = Html(@"<script><");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3107,7 +3113,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithTextLtSlash()
         {
-            var doc = DocumentBuilder.Html(@"<script></");
+            var doc = Html(@"<script></");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3141,7 +3147,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagSpace()
         {
-            var doc = DocumentBuilder.Html(@"<script></SCRIPT ");
+            var doc = Html(@"<script></SCRIPT ");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3171,7 +3177,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagLowercaseS()
         {
-            var doc = DocumentBuilder.Html(@"<script></s");
+            var doc = Html(@"<script></s");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3205,7 +3211,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSC()
         {
-            var doc = DocumentBuilder.Html(@"<script></sc");
+            var doc = Html(@"<script></sc");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3239,7 +3245,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCR()
         {
-            var doc = DocumentBuilder.Html(@"<script></scr");
+            var doc = Html(@"<script></scr");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3273,7 +3279,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRI()
         {
-            var doc = DocumentBuilder.Html(@"<script></scri");
+            var doc = Html(@"<script></scri");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3307,7 +3313,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRIP()
         {
-            var doc = DocumentBuilder.Html(@"<script></scrip");
+            var doc = Html(@"<script></scrip");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3341,7 +3347,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRIPT()
         {
-            var doc = DocumentBuilder.Html(@"<script></script");
+            var doc = Html(@"<script></script");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3375,7 +3381,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithClosingScriptSpaceInsteadOfGt()
         {
-            var doc = DocumentBuilder.Html(@"<script></script ");
+            var doc = Html(@"<script></script ");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3405,7 +3411,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEm()
         {
-            var doc = DocumentBuilder.Html(@"<script><!");
+            var doc = Html(@"<script><!");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3439,7 +3445,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmLowercaseA()
         {
-            var doc = DocumentBuilder.Html(@"<script><!a");
+            var doc = Html(@"<script><!a");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3473,7 +3479,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDash()
         {
-            var doc = DocumentBuilder.Html(@"<script><!-");
+            var doc = Html(@"<script><!-");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3507,7 +3513,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashLowercaseA()
         {
-            var doc = DocumentBuilder.Html(@"<script><!-a");
+            var doc = Html(@"<script><!-a");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3541,7 +3547,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashDash()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--");
+            var doc = Html(@"<script><!--");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3575,7 +3581,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashDashLowercaseA()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--a");
+            var doc = Html(@"<script><!--a");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3609,7 +3615,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashDashLt()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<");
+            var doc = Html(@"<script><!--<");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3643,7 +3649,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashDashLtLowercaseA()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<a");
+            var doc = Html(@"<script><!--<a");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3677,7 +3683,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashDashLtSlash()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--</");
+            var doc = Html(@"<script><!--</");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3711,7 +3717,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptLtEmDashDashLtSlashLowercaseSCRIPT()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--</script");
+            var doc = Html(@"<script><!--</script");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3745,7 +3751,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithStartCommentScriptInside()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script </s");
+            var doc = Html(@"<script><!--<script </s");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3779,7 +3785,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithStartCommentAndThreeEscapes()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script </script </script ");
+            var doc = Html(@"<script><!--<script </script </script ");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3813,7 +3819,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithStartCommentAndEffectivelyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script </script </script>");
+            var doc = Html(@"<script><!--<script </script </script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3847,7 +3853,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpeningCommentAndDashLowercaseA()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script -a");
+            var doc = Html(@"<script><!--<script -a");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3881,7 +3887,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptThatTriesToEscapeAnotherScriptTag()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script --");
+            var doc = Html(@"<script><!--<script --");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3915,7 +3921,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptThatContainsAnotherScriptTagInsideCommentAndIsNotFinished()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script --><");
+            var doc = Html(@"<script><!--<script --><");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3949,7 +3955,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptThatContainsAnotherScriptTagInsideAComment()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script --></script");
+            var doc = Html(@"<script><!--<script --></script");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3983,7 +3989,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithCommentThatTriesToOpenCloseButMisspells()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script><\/script>--></script>");
+            var doc = Html(@"<script><!--<script><\/script>--></script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4017,7 +4023,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithScriptsInCommentCommentBeforeClosing()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>--><!--</script>");
+            var doc = Html(@"<script><!--<script></script><script></script>--><!--</script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4051,7 +4057,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithScriptsInCommentSpaceBeforeBracket()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>-- ></script>");
+            var doc = Html(@"<script><!--<script></script><script></script>-- ></script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4085,7 +4091,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithScriptsInCommentSpaceBetweenDash()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>- -></script>");
+            var doc = Html(@"<script><!--<script></script><script></script>- -></script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4119,7 +4125,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithScriptsInCommentDashMissing()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script></script><script></script>-></script>");
+            var doc = Html(@"<script><!--<script></script><script></script>-></script>");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4153,7 +4159,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithValidCommentAndTextAfter()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script>--!></script>X");
+            var doc = Html(@"<script><!--<script>--!></script>X");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4187,7 +4193,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithOpenCommentAndClosingMisspelledTextAfter()
         {
-            var doc = DocumentBuilder.Html(@"<script><!--<script></scr'+'ipt></script>X");
+            var doc = Html(@"<script><!--<script></scr'+'ipt></script>X");
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

@@ -1,4 +1,5 @@
-using AngleSharp;
+using System;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
@@ -10,11 +11,16 @@ namespace AngleSharp.Core.Tests.Html
     /// </summary>
 	[TestFixture]
 	public class ValidityPatternMismatchTests
-	{
-		[Test]
+    {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
+        [Test]
 		public void TestPatternmismatchInputText1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -36,7 +42,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputText2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -59,7 +65,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputText3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -82,7 +88,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputText4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -105,7 +111,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputText5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -128,7 +134,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputSearch1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -150,7 +156,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputSearch2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -173,7 +179,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputSearch3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -196,7 +202,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputSearch4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -219,7 +225,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputSearch5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -242,7 +248,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputTel1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -264,7 +270,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputTel2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -287,7 +293,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputTel3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -310,7 +316,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputTel4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -333,7 +339,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputTel5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -356,7 +362,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputUrl1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -378,7 +384,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputUrl2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -401,7 +407,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputUrl3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -424,7 +430,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputUrl4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -447,7 +453,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputUrl5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -470,7 +476,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputEmail1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -492,7 +498,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputEmail2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -515,7 +521,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputEmail3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -538,7 +544,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputEmail4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -561,7 +567,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputEmail5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -584,7 +590,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputPassword1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -606,7 +612,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputPassword2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -629,7 +635,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputPassword3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -652,7 +658,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputPassword4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -675,7 +681,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestPatternmismatchInputPassword5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";

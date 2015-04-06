@@ -13,10 +13,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class TrickyTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void BoldAndNotBold()
         {
-            var doc = DocumentBuilder.Html(@"<b><p>Bold </b> Not bold</p>
+            var doc = Html(@"<b><p>Bold </b> Not bold</p>
 Also not bold.");
 
             var dochtml = doc.ChildNodes[0] as Element;
@@ -71,7 +76,7 @@ Also not bold.");
         [Test]
         public void ItalicAndOrRed()
         {
-            var doc = DocumentBuilder.Html(@"<html>
+            var doc = Html(@"<html>
 <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
 <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
 <p>Italic and red. </i> Red.</font> I should not be red.</p>
@@ -225,7 +230,7 @@ Also not bold.");
         [Test]
         public void FormattingParagraphs()
         {
-            var doc = DocumentBuilder.Html(@"<html><body>
+            var doc = Html(@"<html><body>
 <p><font size=""7"">First paragraph.</p>
 <p>Second paragraph.</p></font>
 <b><p><i>Bold and Italic</b> Italic</p>");
@@ -336,7 +341,7 @@ Also not bold.");
         [Test]
         public void DefinitionListWithFormatting()
         {
-            var doc = DocumentBuilder.Html(@"<html>
+            var doc = Html(@"<html>
 <dl>
 <dt><b>Boo
 <dd>Goo?
@@ -417,7 +422,7 @@ Also not bold.");
         [Test]
         public void HelloWorldWithSomeDivs()
         {
-            var doc = DocumentBuilder.Html(@"<html><body>
+            var doc = Html(@"<html><body>
 <label><a><div>Hello<div>World</div></a></label>  
 </body></html>");
 
@@ -489,7 +494,7 @@ Also not bold.");
         [Test]
         public void TableFormattingGoneWild()
         {
-            var doc = DocumentBuilder.Html(@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>");
+            var doc = Html(@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -589,7 +594,7 @@ Also not bold.");
         [Test]
         public void YouShouldSeeThisText()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><p><a><p>You should see this text.");
+            var doc = Html(@"<table><tr><p><a><p>You should see this text.");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -660,7 +665,7 @@ Also not bold.");
         [Test]
         public void InsanelyBadlyNestedTagSequence()
         {
-            var doc = DocumentBuilder.Html(@"<TABLE>
+            var doc = Html(@"<TABLE>
 <TR>
 <CENTER><CENTER><TD></TD></TR><TR>
 <FONT>
@@ -821,7 +826,7 @@ This page contains an insanely badly-nested tag sequence.");
         [Test]
         public void ImplicitlyClosingDivs()
         {
-            var doc = DocumentBuilder.Html(@"<html>
+            var doc = Html(@"<html>
 <body>
 <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
 nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>

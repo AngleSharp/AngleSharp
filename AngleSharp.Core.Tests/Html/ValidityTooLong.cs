@@ -1,4 +1,5 @@
-using AngleSharp;
+using System;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
@@ -10,11 +11,16 @@ namespace AngleSharp.Core.Tests.Html
     /// </summary>
     [TestFixture]
 	public class ValidityTooLongTests
-	{
-		[Test]
+    {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
+        [Test]
 		public void TestToolongInputText1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -37,7 +43,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -60,7 +66,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -83,7 +89,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -106,7 +112,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -129,7 +135,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -153,7 +159,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -177,7 +183,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -201,7 +207,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputText9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -225,7 +231,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -248,7 +254,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -271,7 +277,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -294,7 +300,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -317,7 +323,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -340,7 +346,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -364,7 +370,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -388,7 +394,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -412,7 +418,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputSearch9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -436,7 +442,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -459,7 +465,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -482,7 +488,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -505,7 +511,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -528,7 +534,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -551,7 +557,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -575,7 +581,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -599,7 +605,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -623,7 +629,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputTel9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -647,7 +653,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -670,7 +676,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -693,7 +699,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -716,7 +722,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -739,7 +745,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -762,7 +768,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -786,7 +792,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -810,7 +816,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -834,7 +840,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputUrl9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -858,7 +864,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -881,7 +887,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -904,7 +910,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -927,7 +933,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -950,7 +956,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -973,7 +979,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -997,7 +1003,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -1021,7 +1027,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -1045,7 +1051,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputEmail9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -1069,7 +1075,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1092,7 +1098,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1115,7 +1121,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1138,7 +1144,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1161,7 +1167,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1184,7 +1190,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1208,7 +1214,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1232,7 +1238,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1256,7 +1262,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongInputPassword9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -1280,7 +1286,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1301,7 +1307,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1322,7 +1328,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1343,7 +1349,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1364,7 +1370,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1385,7 +1391,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1407,7 +1413,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1429,7 +1435,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1451,7 +1457,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestToolongTextarea9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");

@@ -1,16 +1,22 @@
 ﻿using System;
-using NUnit.Framework;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
+using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class MeterElementTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void MeterDefaultValues()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 0;
             Assert.AreEqual(0.0, meter.Value);
@@ -24,7 +30,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterSettingValuesToMinMaxLowHighAndOpt()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 3;
             meter.Minimum = -10.1;
@@ -43,7 +49,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterInvalidFloatingPointNumberValues()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.SetAttribute("value", "foobar");
             meter.SetAttribute("min", "foobar");
@@ -62,7 +68,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterMaxLessThanMin()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 0.0;
             meter.Minimum = 0.0;
@@ -78,7 +84,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueLessThanMin()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 0.0;
             meter.Minimum = 10.0;
@@ -94,7 +100,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueGreaterThanMax()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 30.0;
             meter.Minimum = 10.0;
@@ -110,7 +116,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterLowLessThanMin()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 15.0;
             meter.Minimum = 10.0;
@@ -127,7 +133,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterLowGreaterThanMax()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 15.0;
             meter.Minimum = 10.0;
@@ -144,7 +150,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterHighLessThanLow()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 15.0;
             meter.Minimum = 10.0;
@@ -162,7 +168,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterHighGreaterThanMax()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 15.0;
             meter.Minimum = 10.0;
@@ -180,7 +186,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterOptimumLessThanMin()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 15.0;
             meter.Minimum = 10.0;
@@ -199,7 +205,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterOptimumGreaterThanMax()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var meter = document.CreateElement<IHtmlMeterElement>();
             meter.Value = 15.0;
             meter.Minimum = 10.0;
@@ -218,7 +224,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueMustBeZeroWhenAStringIsGiven()
         {
-            var document = DocumentBuilder.Html("<meter value=abc></meter>");
+            var document = Html("<meter value=abc></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(0.0, meter.Value);
         }
@@ -226,7 +232,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterDefaultValueOfMinIsZero()
         {
-            var document = DocumentBuilder.Html("<meter value=-10></meter>");
+            var document = Html("<meter value=-10></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(0.0, meter.Minimum);
             Assert.AreEqual(0.0, meter.Value);
@@ -235,7 +241,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterDefaultValueOfMaxIsOne()
         {
-            var document = DocumentBuilder.Html("<meter value=10></meter>");
+            var document = Html("<meter value=10></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(1.0, meter.Maximum);
             Assert.AreEqual(1.0, meter.Value);
@@ -244,7 +250,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueSmallerThanOneGivenMinAndMaxNotSpecifiedSameAsDefaultMax()
         {
-            var document = DocumentBuilder.Html("<meter value=10 min=-3.1></meter>");
+            var document = Html("<meter value=10 min=-3.1></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(1.0, meter.Maximum);
             Assert.AreEqual(1.0, meter.Value);
@@ -253,7 +259,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueLargerThanOrEqualToOneGivenToMinAndMaxNotSpecified()
         {
-            var document = DocumentBuilder.Html("<meter value=210 min=12.1></meter>");
+            var document = Html("<meter value=210 min=12.1></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(12.1, meter.Maximum);
             Assert.AreEqual(12.1, meter.Value);
@@ -262,7 +268,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueSmallerThanZeroGivenToMaxAndMinNotSpecifiedSameAsDefault()
         {
-            var document = DocumentBuilder.Html("<meter value=-10 max=-5342.55></meter>");
+            var document = Html("<meter value=-10 max=-5342.55></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(0.0, meter.Value);
             Assert.AreEqual(0.0, meter.Minimum);
@@ -272,7 +278,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterValueLargerThanOrEqualToZeroGivenToMaxAndMinNoSpecifiedSameAsDefault()
         {
-            var document = DocumentBuilder.Html("<meter value=210 max=-9.9></meter>");
+            var document = Html("<meter value=210 max=-9.9></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(0.0, meter.Value);
             Assert.AreEqual(0.0, meter.Minimum);
@@ -282,7 +288,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterMinMustBeZeroWhenAStringIsGiven()
         {
-            var document = DocumentBuilder.Html("<meter value=-2 min=hugfe></meter>");
+            var document = Html("<meter value=-2 min=hugfe></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(0.0, meter.Minimum);
             Assert.AreEqual(0.0, meter.Value);
@@ -291,7 +297,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterMaxMustBeOneWhenAStringIsGiven()
         {
-            var document = DocumentBuilder.Html("<meter value=2.4 max=min></meter>");
+            var document = Html("<meter value=2.4 max=min></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(1.0, meter.Maximum);
             Assert.AreEqual(1.0, meter.Value);
@@ -300,7 +306,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterIllegalLowWithMinNotAffectTheActualValue()
         {
-            var document = DocumentBuilder.Html("<meter value=-20 min=-10.3 low=ahuge></meter>");
+            var document = Html("<meter value=-20 min=-10.3 low=ahuge></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(-10.3, meter.Low);
         }
@@ -308,7 +314,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MeterIllegalHighWithMaxNotAffectTheActualValue()
         {
-            var document = DocumentBuilder.Html("<meter value=2.4 high=old max=1.5></meter>");
+            var document = Html("<meter value=2.4 high=old max=1.5></meter>");
             var meter = document.QuerySelector("meter") as IHtmlMeterElement;
             Assert.AreEqual(1.5, meter.High);
             Assert.AreEqual(1.5, meter.Value);

@@ -1,18 +1,24 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using System.Linq;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
-using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class DOMExtensionsTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void ExtensionAttrWithEmptyList()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(0, elements.Count());
         }
@@ -20,7 +26,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionBeforeWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
@@ -37,7 +43,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionAfterWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
@@ -54,7 +60,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionAppendWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
@@ -79,7 +85,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionPrependWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
@@ -104,7 +110,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
 </div>");
@@ -126,7 +132,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapWithSimpleText()
         {
-            var document = DocumentBuilder.Html(@"<p>Hello</p>
+            var document = Html(@"<p>Hello</p>
 <p>cruel</p>
 <p>World</p>");
             var body = document.Body;
@@ -151,7 +157,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapWithComplexElements()
         {
-            var document = DocumentBuilder.Html(@"<span>Span Text</span>
+            var document = Html(@"<span>Span Text</span>
 <strong>What about me?</strong>
 <span>Another One</span>");
             var body = document.Body;
@@ -181,7 +187,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapInnerWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
 </div>");
@@ -207,7 +213,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapInnerWithSimpleText()
         {
-            var document = DocumentBuilder.Html(@"<p>Hello</p>
+            var document = Html(@"<p>Hello</p>
 <p>cruel</p>
 <p>World</p>");
             var body = document.Body;
@@ -240,7 +246,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapAllWithSimpleElements()
         {
-            var document = DocumentBuilder.Html(@"<div class='container'>
+            var document = Html(@"<div class='container'>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
 </div>");
@@ -259,7 +265,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionWrapAllWithComplexElements()
         {
-            var document = DocumentBuilder.Html(@"<span>Span Text</span>
+            var document = Html(@"<span>Span Text</span>
 <strong>What about me?</strong>
 <span>Another One</span>");
             Assert.AreEqual(3, document.Body.ChildElementCount);
@@ -277,7 +283,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionAttrWithOneElement()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element");
+            var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(1, elements.Count());
 
@@ -292,7 +298,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionAttrWithOneElementButMultipleAttributes()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element");
+            var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Attr(new
             {
                 test1 = "test",
@@ -317,7 +323,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionAttrWithMultipleElements()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var document = Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(4, elements.Count());
 
@@ -357,7 +363,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionCssWithEmptyListAndEmptyDeclaration()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var elements = document.QuerySelectorAll("li").Css(new { });
             Assert.AreEqual(0, elements.Count());
         }
@@ -365,7 +371,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionCssWithEmptyListOnly()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(0, elements.Count());
         }
@@ -373,7 +379,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionCssWithOneElement()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element");
+            var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(1, elements.Count());
 
@@ -387,7 +393,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionCssWithOneElementButMultipleCssRules()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element");
+            var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Css(new
             {
                 color = "red",
@@ -409,7 +415,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionCssWithMultipleElements()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
+            var document = Html("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
             var elements = document.QuerySelectorAll("li").Css("color", "red");
             Assert.AreEqual(4, elements.Count());
 
@@ -449,7 +455,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionTextWithEmptyList()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(0, elements.Count());
         }
@@ -457,7 +463,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionTextWithOneElement()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element");
+            var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(1, elements.Count());
 
@@ -469,7 +475,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionTextWithMultipleElements()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var document = Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(4, elements.Count());
 
@@ -501,7 +507,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionHtmlWithEmptyList()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var elements = document.QuerySelectorAll("li").Html("<p>Some paragraph</p>");
             Assert.AreEqual(0, elements.Count());
         }
@@ -509,7 +515,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionHtmlWithOneElement()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element");
+            var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(1, elements.Count());
 
@@ -534,7 +540,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionHtmlWithMultipleElements()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var document = Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(4, elements.Count());
 
@@ -561,7 +567,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ExtensionHtmlWithMultipleNestedElements()
         {
-            var document = DocumentBuilder.Html("<ul><li>First element</li><li>Second element</li><li>third</li><li class=bla><ul><li>First nested</li><li>Second nested</li><li><ul><li>Last nesting level</li></ul></li></ul></li>");
+            var document = Html("<ul><li>First element</li><li>Second element</li><li>third</li><li class=bla><ul><li>First nested</li><li>Second nested</li><li><ul><li>Last nesting level</li></ul></li></ul></li>");
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(8, elements.Count());
 

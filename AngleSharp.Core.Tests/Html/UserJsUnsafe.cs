@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using AngleSharp.Html;
 using NUnit.Framework;
@@ -12,10 +13,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class UserJsUnsafeTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void Html5LibSvgCdata()
         {
-            var doc = DocumentBuilder.Html(@"<svg><![CDATA[foo
+            var doc = Html(@"<svg><![CDATA[foo
 bar]]>");
             var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);
@@ -47,7 +53,7 @@ bar]]>");
         [Test]
         public void Html5LibScriptDataCommentStarted()
         {
-            var doc = DocumentBuilder.Html(@"<script type=""data""><!--foo" + Symbols.Null.ToString() + "</script>");
+            var doc = Html(@"<script type=""data""><!--foo" + Symbols.Null.ToString() + "</script>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -78,7 +84,7 @@ bar]]>");
         [Test]
         public void Html5LibScriptDataCommentFinishing()
         {
-            var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo--" + Symbols.Null.ToString() + "</script>");
+            var doc = Html(@"<script type=""data""><!-- foo--" + Symbols.Null.ToString() + "</script>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -109,7 +115,7 @@ bar]]>");
         [Test]
         public void Html5LibScriptDataEnding()
         {
-            var doc = DocumentBuilder.Html(@"<script type=""data""><!-- foo-<</script>");
+            var doc = Html(@"<script type=""data""><!-- foo-<</script>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -140,7 +146,7 @@ bar]]>");
         [Test]
         public void Html5LibScriptDataParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<script type=""data""><!--<p></script>");
+            var doc = Html(@"<script type=""data""><!--<p></script>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -171,7 +177,7 @@ bar]]>");
         [Test]
         public void Html5LibDoctypeInHeadImplicit()
         {
-            var doc = DocumentBuilder.Html(@"<html><!DOCTYPE html>");
+            var doc = Html(@"<html><!DOCTYPE html>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -192,7 +198,7 @@ bar]]>");
         [Test]
         public void Html5LibDoctypeInBodyImplicit()
         {
-            var doc = DocumentBuilder.Html(@"<html><head></head><!DOCTYPE html>");
+            var doc = Html(@"<html><head></head><!DOCTYPE html>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);

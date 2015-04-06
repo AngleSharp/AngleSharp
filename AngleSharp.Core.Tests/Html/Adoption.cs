@@ -1,3 +1,4 @@
+using System;
 using AngleSharp.Dom;
 using NUnit.Framework;
 
@@ -11,10 +12,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class AdoptionTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void AdoptAnchorInOpenParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<a><p></a></p>");
+            var doc = Html(@"<a><p></a></p>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -56,7 +62,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorWithContentInOpenParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<a>1<p>2</a>3</p>");
+            var doc = Html(@"<a>1<p>2</a>3</p>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -110,7 +116,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorWithContentInOpenButton()
         {
-            var doc = DocumentBuilder.Html(@"<a>1<button>2</a>3</button>");
+            var doc = Html(@"<a>1<button>2</a>3</button>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -164,7 +170,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptBoldWithContentInOpenAnchor()
         {
-            var doc = DocumentBuilder.Html(@"<a>1<b>2</a>3</b>");
+            var doc = Html(@"<a>1<b>2</a>3</b>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -218,7 +224,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorWithContentInOpenDiv()
         {
-            var doc = DocumentBuilder.Html(@"<a>1<div>2<div>3</a>4</div>5</div>");
+            var doc = Html(@"<a>1<div>2<div>3</a>4</div>5</div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -292,7 +298,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorWithContentInOpenParagraphWithContentInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><a>1<p>2</a>3</p>");
+            var doc = Html(@"<table><a>1<p>2</a>3</p>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -352,7 +358,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptBoldAndAnchorInOpenParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<b><b><a><p></a>");
+            var doc = Html(@"<b><b><a><p></a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -406,7 +412,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptBoldInAnchorAndAnchorWithBoldInOpenParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<b><a><b><p></a>");
+            var doc = Html(@"<b><a><b><p></a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -467,7 +473,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorAndBoldInOpenParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<a><b><b><p></a>");
+            var doc = Html(@"<a><b><b><p></a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -533,7 +539,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptStrikeWithContentCopyAttributes()
         {
-            var doc = DocumentBuilder.Html(@"<p>1<s id=""A"">2<b id=""B"">3</p>4</s>5</b>");
+            var doc = Html(@"<p>1<s id=""A"">2<b id=""B"">3</p>4</s>5</b>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -628,7 +634,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorInTableWithContent()
         {
-            var doc = DocumentBuilder.Html(@"<table><a>1<td>2</td>3</table>");
+            var doc = Html(@"<table><a>1<td>2</td>3</table>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -701,7 +707,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptContentInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table>A<td>B</td>C</table>");
+            var doc = Html(@"<table>A<td>B</td>C</table>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -758,7 +764,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorInForeignSvgElementWithRowAndInput()
         {
-            var doc = DocumentBuilder.Html(@"<a><svg><tr><input></a>");
+            var doc = Html(@"<a><svg><tr><input></a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -806,7 +812,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorAndBoldInOpenDivElements()
         {
-            var doc = DocumentBuilder.Html(@"<div><a><b><div><div><div><div><div><div><div><div><div><div></a>");
+            var doc = Html(@"<div><a><b><div><div><div><div><div><div><div><div><div><div></a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -962,7 +968,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorBoldUnderlineItalicCodeInOpenDiv()
         {
-            var doc = DocumentBuilder.Html(@"<div><a><b><u><i><code><div></a>");
+            var doc = Html(@"<div><a><b><u><i><code><div></a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1052,7 +1058,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptBoldWithContent()
         {
-            var doc = DocumentBuilder.Html(@"<b><b><b><b>x</b></b></b></b>y");
+            var doc = Html(@"<b><b><b><b>x</b></b></b></b>y");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1109,7 +1115,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptBoldInOpenParagraphWithContent()
         {
-            var doc = DocumentBuilder.Html(@"<p><b><b><b><b><p>x");
+            var doc = Html(@"<p><b><b><b><b><p>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1192,7 +1198,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptBoldAndItalicWithContentInOpenParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<b>1<i>2<p>3</b>4");
+            var doc = Html(@"<b>1<i>2<p>3</b>4");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1263,7 +1269,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AdoptAnchorInOpenDivWithStyleAndAddress()
         {
-            var doc = DocumentBuilder.Html(@"<a><div><style></style><address><a>");
+            var doc = Html(@"<a><div><style></style><address><a>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

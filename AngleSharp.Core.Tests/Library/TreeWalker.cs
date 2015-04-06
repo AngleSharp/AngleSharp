@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
@@ -8,6 +9,11 @@ namespace AngleSharp.Core.Tests.Library
     [TestFixture]
     public class TreeWalkerTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void TreeWalkerJavaScriptKitDivision()
         {
@@ -15,7 +21,7 @@ namespace AngleSharp.Core.Tests.Library
 <p>Some <span>text</span></p>
 <b>Bold text</b>
 </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = Html(source);
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("contentarea");
@@ -43,7 +49,7 @@ namespace AngleSharp.Core.Tests.Library
         public void TreeWalkerJavaScriptKitParagraph()
         {
             var source = @"<p id=essay>George<span> loves </span><b>JavaScript!</b></p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = Html(source);
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("essay");
@@ -71,7 +77,7 @@ namespace AngleSharp.Core.Tests.Library
 <li class='item'>List 2</li>
 <li>List 3</li>
 </ul>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = Html(source);
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("mylist");
@@ -123,7 +129,7 @@ namespace AngleSharp.Core.Tests.Library
             <b>2.Section</b><br />
         </span>
     </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = Html(source);
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("content");

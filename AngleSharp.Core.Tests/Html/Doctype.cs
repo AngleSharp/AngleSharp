@@ -1,3 +1,4 @@
+using System;
 using AngleSharp.Dom;
 using NUnit.Framework;
 
@@ -10,10 +11,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class DoctypeTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void DoctypeHtml5Standard()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html>Hello");
+            var doc = Html(@"<!DOCTYPE html>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -49,7 +55,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtml5MixedCase()
         {
-            var doc = DocumentBuilder.Html(@"<!dOctYpE HtMl>Hello");
+            var doc = Html(@"<!dOctYpE HtMl>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -85,7 +91,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtml5MissingSpace()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPEhtml>Hello");
+            var doc = Html(@"<!DOCTYPEhtml>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -121,7 +127,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeWithoutName()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE>Hello");
+            var doc = Html(@"<!DOCTYPE>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -157,7 +163,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeOnlySpace()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE >Hello");
+            var doc = Html(@"<!DOCTYPE >Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -193,7 +199,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPotato()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato>Hello");
+            var doc = Html(@"<!DOCTYPE potato>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -229,7 +235,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomTrailingSpace()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato >Hello");
+            var doc = Html(@"<!DOCTYPE potato >Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -265,7 +271,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomAdditionalIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato taco>Hello");
+            var doc = Html(@"<!DOCTYPE potato taco>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -301,7 +307,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomAdditionalIdentifierAndString()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato taco ""ddd>Hello");
+            var doc = Html(@"<!DOCTYPE potato taco ""ddd>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -337,7 +343,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato sYstEM>Hello");
+            var doc = Html(@"<!DOCTYPE potato sYstEM>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -373,7 +379,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifierTrailingSpaces()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato sYstEM    >Hello");
+            var doc = Html(@"<!DOCTYPE potato sYstEM    >Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -409,7 +415,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifierAdditionalIdentifierWithMoreSpaces()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE   potato       sYstEM  ggg>Hello");
+            var doc = Html(@"<!DOCTYPE   potato       sYstEM  ggg>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -445,7 +451,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifierAdditionalIdentifierTrailingSpaces()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato SYSTEM taco  >Hello");
+            var doc = Html(@"<!DOCTYPE potato SYSTEM taco  >Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -481,7 +487,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifierWithInformationDoubleInSingleQuotes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato SYSTEM 'taco""'>Hello");
+            var doc = Html(@"<!DOCTYPE potato SYSTEM 'taco""'>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -517,7 +523,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifierWithInformationNormalQuotes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato SYSTEM ""taco"">Hello");
+            var doc = Html(@"<!DOCTYPE potato SYSTEM ""taco"">Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -553,7 +559,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomSystemIdentifierWithInformationSingleInDoubleQuotes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato SYSTEM ""tai'co"">Hello");
+            var doc = Html(@"<!DOCTYPE potato SYSTEM ""tai'co"">Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -589,7 +595,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomInvalidSystemIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato SYSTEMtaco ""ddd"">Hello");
+            var doc = Html(@"<!DOCTYPE potato SYSTEMtaco ""ddd"">Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -625,7 +631,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomUnknownIdentifierBeforeSystemIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato grass SYSTEM taco>Hello");
+            var doc = Html(@"<!DOCTYPE potato grass SYSTEM taco>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -661,7 +667,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato pUbLIc>Hello");
+            var doc = Html(@"<!DOCTYPE potato pUbLIc>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -697,7 +703,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifierTrailingSpace()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato pUbLIc >Hello");
+            var doc = Html(@"<!DOCTYPE potato pUbLIc >Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -733,7 +739,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomInvalidPublicIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato pUbLIcgoof>Hello");
+            var doc = Html(@"<!DOCTYPE potato pUbLIcgoof>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -769,7 +775,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifierWithAdditionalIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato PUBLIC goof>Hello");
+            var doc = Html(@"<!DOCTYPE potato PUBLIC goof>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -805,7 +811,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifierWithInformationSingleQuoteInDoubleQuotes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato PUBLIC ""go'of"">Hello");
+            var doc = Html(@"<!DOCTYPE potato PUBLIC ""go'of"">Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -841,7 +847,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifierWithInformationSingleQuotesWithInvalidIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato PUBLIC 'go'of'>Hello");
+            var doc = Html(@"<!DOCTYPE potato PUBLIC 'go'of'>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -877,7 +883,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifierWithInformationSingleQuotes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato PUBLIC 'go:hh   of' >Hello");
+            var doc = Html(@"<!DOCTYPE potato PUBLIC 'go:hh   of' >Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -913,7 +919,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomPublicIdentifierWithInformationAndSystemIdentifierWithInvalidIdentifier()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE potato PUBLIC ""W3C-//dfdf"" SYSTEM ggg>Hello");
+            var doc = Html(@"<!DOCTYPE potato PUBLIC ""W3C-//dfdf"" SYSTEM ggg>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -949,7 +955,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemStrictWithLineBreak()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""
+            var doc = Html(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""
    ""http://www.w3.org/TR/html4/strict.dtd"">Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -986,7 +992,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomDots()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE ...>Hello");
+            var doc = Html(@"<!DOCTYPE ...>Hello");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1022,7 +1028,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemTransitionalWithLineBreak()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN""
+            var doc = Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN""
 ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -1055,7 +1061,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemFramesetWithLineBreak()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Frameset//EN""
+            var doc = Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Frameset//EN""
 ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"">");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -1088,7 +1094,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeCustomInvalidIdentifiers()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE root-element [SYSTEM OR PUBLIC FPI] ""uri"" [ 
+            var doc = Html(@"<!DOCTYPE root-element [SYSTEM OR PUBLIC FPI] ""uri"" [ 
 <!-- internal declarations -->
 ]>");
 
@@ -1126,7 +1132,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemUnknownWithLineBreaks()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html PUBLIC
+            var doc = Html(@"<!DOCTYPE html PUBLIC
   ""-//WAPFORUM//DTD XHTML Mobile 1.0//EN""
     ""http://www.wapforum.org/DTD/xhtml-mobile10.dtd"">");
 
@@ -1160,7 +1166,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlSystemStrictWithBodyFollowing()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML SYSTEM ""http://www.w3.org/DTD/HTML4-strict.dtd""><body><b>Mine!</b></body>");
+            var doc = Html(@"<!DOCTYPE HTML SYSTEM ""http://www.w3.org/DTD/HTML4-strict.dtd""><body><b>Mine!</b></body>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1202,7 +1208,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemStrictFollowedDirectlySameQuotesBothDouble()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""""http://www.w3.org/TR/html4/strict.dtd"">");
+            var doc = Html(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""""http://www.w3.org/TR/html4/strict.dtd"">");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1234,7 +1240,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemStrictFollowedDirectlyDifferentQuotesLeadingSingle()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""'http://www.w3.org/TR/html4/strict.dtd'>");
+            var doc = Html(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""'http://www.w3.org/TR/html4/strict.dtd'>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1266,7 +1272,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemStrictFollowedDirectlyDifferentQuotesLeadingDouble()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML PUBLIC""-//W3C//DTD HTML 4.01//EN""'http://www.w3.org/TR/html4/strict.dtd'>");
+            var doc = Html(@"<!DOCTYPE HTML PUBLIC""-//W3C//DTD HTML 4.01//EN""'http://www.w3.org/TR/html4/strict.dtd'>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1298,7 +1304,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoctypeHtmlPublicAndSystemStrictFollowedDirectlySameQuotesBothSingle()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML PUBLIC'-//W3C//DTD HTML 4.01//EN''http://www.w3.org/TR/html4/strict.dtd'>");
+            var doc = Html(@"<!DOCTYPE HTML PUBLIC'-//W3C//DTD HTML 4.01//EN''http://www.w3.org/TR/html4/strict.dtd'>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

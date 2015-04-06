@@ -1,15 +1,19 @@
-﻿using AngleSharp;
+﻿using System;
+using System.Linq;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Collections;
 using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class MutationObserverTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void ConnectMutationObserverChildNodesTriggerManually()
         {
@@ -24,7 +28,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.AreEqual(1, record.Added.Length);
             });
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             observer.Connect(document.Body, new MutationObserverInit
             {
@@ -51,7 +55,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.IsNull(mut[0].PreviousValue);
             });
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             observer.Connect(document.Body, new MutationObserverInit
             {
@@ -72,7 +76,7 @@ namespace AngleSharp.Core.Tests.Library
             var attrName = "something";
             var attrValue = "test";
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             var observer1 = new MutationObserver((mut, obs) =>
             {
@@ -135,7 +139,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.AreEqual(text + replaced, tn.TextContent);
             });
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             observer.Connect(document.Body, new MutationObserverInit
             {
@@ -168,7 +172,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.AreEqual(text + replaced, tn.TextContent);
             });
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             observer.Connect(document.Body, new MutationObserverInit
             {
@@ -197,7 +201,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.AreEqual(0, mut.Length);
             });
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             observer.Connect(document.Body, new MutationObserverInit
             {
@@ -226,7 +230,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.AreEqual(text, mut[0].Added[0].TextContent);
             });
 
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             observer.Connect(document.Body, new MutationObserverInit
             {
@@ -242,7 +246,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttr()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
@@ -275,7 +279,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrWithOldvalue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
@@ -311,7 +315,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrChangeInSubtreeShouldNotGenereateARecord()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             var div = document.CreateElement("div");
             var child = document.CreateElement("div");
@@ -332,7 +336,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrChangeSubtree()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             var div = document.CreateElement("div");
             var child = document.CreateElement("div");
@@ -367,7 +371,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverMultipleObserversOnSameTarget()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
 
             var observer1 = new MutationObserver((obs, mut) => { });
@@ -424,7 +428,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverObserverObservesOnDifferentTarget()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var child = document.CreateElement("div");
             div.AppendChild(child);
@@ -472,7 +476,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverObservingOnTheSameNodeShouldUpdateTheOptions()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, new MutationObserverInit
@@ -503,7 +507,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverDisconnectShouldStopAllEventsAndEmptyTheRecords()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, new MutationObserverInit
@@ -524,7 +528,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverDisconnectShouldNotAffectOtherObservers()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var observer1 = new MutationObserver((obs, mut) => { });
             observer1.Connect(div, new MutationObserverInit
@@ -570,7 +574,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverOneObserverTwoAttributeChanges()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((records, obs) =>
             {
@@ -604,7 +608,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverNestedChanges()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var fresh = true;
             var observer = new MutationObserver((records, obs) =>
@@ -646,7 +650,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverCharacterdata()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
 
             var text = document.CreateTextNode("abc");
             var observer = new MutationObserver((obs, mut) => { });
@@ -675,7 +679,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverCharacterdataWithOldValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var text = testDiv.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -707,7 +711,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverCharacterdataChangeInSubtreeShouldNotGenerateARecord()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -725,7 +729,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverCharacterdataChangeInSubtree()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -755,7 +759,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAppendChild()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, new MutationObserverInit
@@ -791,7 +795,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverInsertBefore()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var a = document.CreateElement("a");
             var b = document.CreateElement("b");
@@ -831,7 +835,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverRemovechild()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var a = div.AppendChild(document.CreateElement("a"));
@@ -871,7 +875,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverDirectChildren()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -916,7 +920,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverSubtree()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -961,7 +965,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverBothDirectAndSubtree()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -1003,7 +1007,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAppendMultipleAtOnceAtTheEnd()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var a = div.AppendChild(document.CreateTextNode("a"));
@@ -1036,7 +1040,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAppendMultipleAtOnceAtTheFront()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var a = div.AppendChild(document.CreateTextNode("a"));
@@ -1069,7 +1073,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAppendMultipleAtOnceInTheMiddle()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
@@ -1103,7 +1107,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverRemoveAllChildren()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
@@ -1134,7 +1138,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverReplaceAllChildrenUsingInnerhtml()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
@@ -1166,7 +1170,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrAndCharacterdata()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -1200,7 +1204,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrChanged()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = document.CreateElement("div");
@@ -1241,7 +1245,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrCallback()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = document.CreateElement("div");
@@ -1280,7 +1284,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverAttrMakeSureTransientGetsRemoved()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = document.CreateElement("div");
@@ -1339,7 +1343,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverChildListCharacterdata()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -1375,7 +1379,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverCharacterdataCallback()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateTextNode("text"));
             var i = 0;
@@ -1408,7 +1412,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverChildlist()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = div.AppendChild(document.CreateElement("div"));
@@ -1454,7 +1458,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void MutationObserverChildlistCallback()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = div.AppendChild(document.CreateElement("div"));

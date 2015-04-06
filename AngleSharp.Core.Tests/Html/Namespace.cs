@@ -1,3 +1,4 @@
+using System;
 using AngleSharp.Dom;
 using NUnit.Framework;
 
@@ -10,10 +11,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class NamespaceTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void UnknownElementWithUnknownNamespaceInBody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc>");
+            var doc = Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -48,7 +54,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnknownElementWithUnknownNamespaceInBodyBeforeSpan()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc><span></span>");
+            var doc = Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc><span></span>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -89,7 +95,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnknownElementWithUnknownNamespaceInHtmlWithUnknownAttribute()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>");
+            var doc = Html(@"<!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -127,7 +133,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DuplicatedHtmlTagWithMultipleXmlLangAttributes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>");
+            var doc = Html(@"<!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -159,7 +165,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NumericAttributeWithNumericValue()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html 123=456>");
+            var doc = Html(@"<!DOCTYPE html><html 123=456>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -191,7 +197,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DuplicatedHtmlTagWithDifferentNumericAttributes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html 123=456><html 789=012>");
+            var doc = Html(@"<!DOCTYPE html><html 123=456><html 789=012>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -226,7 +232,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BodyTagWithNumericAttribute()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><html><body 789=012>");
+            var doc = Html(@"<!DOCTYPE html><html><body 789=012>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

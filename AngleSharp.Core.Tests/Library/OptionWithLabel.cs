@@ -1,6 +1,7 @@
-﻿using AngleSharp.Dom.Html;
+﻿using System;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Html;
 using NUnit.Framework;
-using System;
 
 namespace AngleSharp.Core.Tests.Library
 {
@@ -9,10 +10,15 @@ namespace AngleSharp.Core.Tests.Library
     {
         static readonly String[] spaces = new[] { "\u0020", "\u0009", "\u000A", "\u000C", "\u000D" };
 
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void OptionNoChildrenEmptyLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("label", "");
             Assert.AreEqual("", option.Label);
@@ -21,7 +27,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionNoChildrenLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("label", "label");
             Assert.AreEqual("label", option.Label);
@@ -30,7 +36,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionNoChildrenNamespacedLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("http://www.example.com/", "label", "");
             Assert.AreEqual("", option.Label);
@@ -39,7 +45,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildNoLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             Assert.AreEqual("child", option.Label);
@@ -48,7 +54,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildEmptyLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.SetAttribute("label", "");
@@ -58,7 +64,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.SetAttribute("label", "label");
@@ -68,7 +74,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildNamespacedLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.SetAttribute("http://www.example.com/", "label", "label");
@@ -78,7 +84,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenNoLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -88,7 +94,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenEmptyLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -99,7 +105,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -110,7 +116,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenNamespacedLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -121,7 +127,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionNoChildrenEmptyValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("value", "");
             Assert.AreEqual("", option.Value);
@@ -130,7 +136,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionNoChildrenValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("value", "value");
             Assert.AreEqual("value", option.Value);
@@ -139,7 +145,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionNoChildrenNamespacedValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("http://www.example.com/", "value", "");
             Assert.AreEqual("", option.Value);
@@ -148,7 +154,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildNoValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             Assert.AreEqual("child", option.Value);
@@ -157,7 +163,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildEmptyValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.SetAttribute("value", "");
@@ -167,7 +173,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.SetAttribute("value", "value");
@@ -177,7 +183,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionSingleChildNamespacedValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.SetAttribute("http://www.example.com/", "value", "value");
@@ -187,7 +193,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenNoValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -197,7 +203,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenEmptyValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -208,7 +214,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -219,7 +225,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTwoChildrenNamespacedValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.AppendChild(document.CreateTextNode(" child "));
             option.AppendChild(document.CreateTextNode(" node "));
@@ -263,7 +269,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionWithNonEmptyLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("label", "label");
             option.TextContent = "text";
@@ -273,7 +279,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionWithEmptyLabel()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.SetAttribute("label", "");
             option.TextContent = "text";
@@ -283,7 +289,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTextShouldLeaveNbspAlone()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.TextContent = "\u00a0text";
             Assert.AreEqual("\u00a0text", option.Text);
@@ -292,7 +298,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTextShouldLeaveTrailingNbspAlone()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.TextContent = "text\u00a0";
             Assert.AreEqual("text\u00a0", option.Text);
@@ -301,7 +307,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTextShouldLeaveASingleInternalNbspAlone()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.TextContent = "before\u00a0after";
             Assert.AreEqual("before\u00a0after", option.Text);
@@ -310,7 +316,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionTextShouldLeaveMultipleInternalNbspAlone()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var option = document.CreateElement<IHtmlOptionElement>();
             option.TextContent = "before\u00a0\u00a0after";
             Assert.AreEqual("before\u00a0\u00a0after", option.Text);
@@ -321,7 +327,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             foreach (var space in spaces)
             {
-                var document = DocumentBuilder.Html("");
+                var document = Html("");
                 var option = document.CreateElement<IHtmlOptionElement>();
                 option.TextContent = space + "text";
                 Assert.AreEqual("text", option.Text);
@@ -333,7 +339,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             foreach (var space in spaces)
             {
-                var document = DocumentBuilder.Html("");
+                var document = Html("");
                 var option = document.CreateElement<IHtmlOptionElement>();
                 option.TextContent = "text" + space;
                 Assert.AreEqual("text", option.Text);
@@ -345,7 +351,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             foreach (var space in spaces)
             {
-                var document = DocumentBuilder.Html("");
+                var document = Html("");
                 var option = document.CreateElement<IHtmlOptionElement>();
                 option.TextContent = space + "text" + space;
                 Assert.AreEqual("text", option.Text);
@@ -357,7 +363,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             foreach (var space in spaces)
             {
-                var document = DocumentBuilder.Html("");
+                var document = Html("");
                 var option = document.CreateElement<IHtmlOptionElement>();
                 option.TextContent = "before" + space + "after";
                 Assert.AreEqual("before after", option.Text);
@@ -371,7 +377,7 @@ namespace AngleSharp.Core.Tests.Library
             {
                 foreach (var space2 in spaces)
                 {
-                    var document = DocumentBuilder.Html("");
+                    var document = Html("");
                     var option = document.CreateElement<IHtmlOptionElement>();
                     option.TextContent = "before" + space1 + space2 + "after";
                     Assert.AreEqual("before after", option.Text);

@@ -22,7 +22,7 @@ namespace AngleSharp.Core.Tests
   <li>The background of this second list item should be also green</li>
 </ul>
 <p xmlns=""http://www.w3.org/1999/xhtml"">The background of this paragraph should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("li,p");
 	        Assert.AreEqual(3, selector1.Length);
@@ -35,7 +35,7 @@ namespace AngleSharp.Core.Tests
         public void TypeElementSelectors()
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml"">This address element should have a green background.</address>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
 	        Assert.AreEqual(1, selector1.Length);
@@ -56,7 +56,7 @@ namespace AngleSharp.Core.Tests
 </ul>
 <foo xmlns=""http://www.example.org/a"">And this element, part of a non-HTML namespace,
       should be green too</foo>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*");
 	        Assert.AreEqual(8, selector1.Length);
@@ -79,7 +79,7 @@ namespace AngleSharp.Core.Tests
 <ul xmlns=""http://www.w3.org/1999/xhtml"">
   <li class=""t1"">This item should be green.</li>
 </ul>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*");
 	        Assert.AreEqual(7, selector1.Length);
@@ -96,7 +96,7 @@ namespace AngleSharp.Core.Tests
         public void OmittedUniversalSelector()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""foo"">This paragraph should have a green background</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("#foo");
 	        Assert.AreEqual(1, selector1.Length);
@@ -112,7 +112,7 @@ namespace AngleSharp.Core.Tests
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""title"">This paragraph should have a green background because its TITLE
       attribute is set.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -131,7 +131,7 @@ namespace AngleSharp.Core.Tests
   <span title=""aa"">have a green background.
 </span>
 </address>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
 	        Assert.AreEqual(1, selector1.Length);
@@ -154,7 +154,7 @@ namespace AngleSharp.Core.Tests
   <span class=""a bb c"">have green background because the selector in the last
     rule does not apply to the inner SPANs.</span>
 </address>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -175,7 +175,7 @@ namespace AngleSharp.Core.Tests
         public void AttributeMultivalueSelectorB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""hello world"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -195,7 +195,7 @@ namespace AngleSharp.Core.Tests
   <span lang=""en-fr"">have green background because the language of the inner SPANs
      is not French.</span>
 </address>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -217,7 +217,7 @@ namespace AngleSharp.Core.Tests
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobar"">This paragraph should have a green background<br></br>
 because its title attribute begins with foo</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -233,7 +233,7 @@ because its title attribute begins with foo</p>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobar"">This paragraph should have a green background because
 its title attribute ends with bar</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -249,7 +249,7 @@ its title attribute ends with bar</p>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""foobarufoo"">This paragraph should have a green background because
 its title attribute contains bar</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -271,7 +271,7 @@ its title attribute contains bar</p>";
         the inner SPAN does not match SPAN.t3</span>
 </li>
 </ul>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("li");
 	        Assert.AreEqual(3, selector1.Length);
@@ -295,7 +295,7 @@ it carries both classes t1 and t2.</p>
 
 <div xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This line
 should be green.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -323,7 +323,7 @@ should be green.</div>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1"">This line should be green.</p>
   <p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(2, selector1.Length);
@@ -346,7 +346,7 @@ should be green.</div>";
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" class=""t3"">This line should be green.</div>
   <address xmlns=""http://www.w3.org/1999/xhtml"" class=""t4 t5 t6"">This line should be green.</address>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -369,7 +369,7 @@ should be green.</div>";
         public void NegatedMoreThanOneClassSelectorA()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(1, selector1.Length);
@@ -392,7 +392,7 @@ should be green.</div>";
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" class=""t3"">This line should be green.</div>
   <address xmlns=""http://www.w3.org/1999/xhtml"" class=""t4 t5 t6"">This line should be green.</address>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(1, selector1.Length);
@@ -419,7 +419,7 @@ should be green.</div>";
   <li id=""t2"">This list item should have a green background. because its ID is t2</li>
   <li id=""t3""><span id=""t44"">This list item should have a green background. because the inner SPAN does not match #t4</span></li>
 </ul>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("li");
             Assert.AreEqual(3, selector1.Length);
@@ -441,7 +441,7 @@ should be green.</div>";
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""test"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" id=""pass"">This line should be green.</div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(1, selector1.Length);
@@ -475,7 +475,7 @@ should be green.</div>";
  <!-- This test could also be done using a custom DOCTYPE with an internal subset, which would
       then work in any XHTML UA. However, that requires massive changes to the generator scripts.
       Better, if we need such a test, would be to special-case it and have 15d be a separate file. -->";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll(".warning");
             Assert.AreEqual(1, selector1.Length);
@@ -511,7 +511,7 @@ should be green.</div>";
   <li lang=""fr"">This list item should NOT be green because its language is
        French</li>
 </ol>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("ul li");
             Assert.AreEqual(2, selector1.Length);
@@ -527,7 +527,7 @@ should be green.</div>";
         public void ParsingColonVsColonColonA()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">When you select this text, it shouldn't go red.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p:selection");
             Assert.AreEqual(0, selector1.Length);
@@ -543,7 +543,7 @@ should be green.</div>";
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This line should be green.</p>
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("div");
             Assert.AreEqual(1, selector1.Length);
@@ -560,7 +560,7 @@ should be green.</div>";
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This line should be green.</p>
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("div");
             Assert.AreEqual(1, selector1.Length);
@@ -582,7 +582,7 @@ should be green.</div>";
 This text should be green.
 </foo:bar>
 </p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(1, selector1.Length);
@@ -602,7 +602,7 @@ This text should be green.
 <p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo quux"">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"" class=""foo  quux"">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"" class="" bar "">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(6, selector1.Length);
@@ -622,7 +622,7 @@ This text should be green.
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(2, selector1.Length);
@@ -638,7 +638,7 @@ This text should be green.
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(2, selector1.Length);
@@ -654,7 +654,7 @@ This text should be green.
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(2, selector1.Length);
@@ -670,7 +670,7 @@ This text should be green.
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(2, selector1.Length);
@@ -686,7 +686,7 @@ This text should be green.
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(2, selector1.Length);
@@ -702,7 +702,7 @@ This text should be green.
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class="""">This text should be green.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(2, selector1.Length);
@@ -727,7 +727,7 @@ This text should be green.
   <div id=""test""></div>
 
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("#test");
             Assert.AreEqual(1, selector1.Length);
@@ -753,7 +753,7 @@ This text should be green.
   <div id=""test2""></div>
 
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("#test1");
             Assert.AreEqual(1, selector1.Length);
@@ -788,7 +788,7 @@ This text should be green.
   <div><div><!-- <div/> --><div><div id=""test""></div></div></div></div>
 
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("#test");
             Assert.AreEqual(1, selector1.Length);
@@ -823,7 +823,7 @@ This text should be green.
   <t xmlns="""" test=""test""></t>
 
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("[test]");
             Assert.AreEqual(1, selector1.Length);
@@ -846,7 +846,7 @@ This text should be green.
   <div><p id=""two"">This line should be unstyled. (2)</p><p id=""three"">This line should have a green background. (3)</p><p>This line should be unstyled. (4 moving to 1)</p></div>
 
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("#two:first-child");
             Assert.AreEqual(1, selector1.Length);
@@ -866,7 +866,7 @@ This text should be green.
 <a href=""http://unvisited.example.org/css3-modsel-16/"">This link should have green background.</a>
 (Don't follow this link.)
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p.test a");
 	        Assert.AreEqual(1, selector1.Length);
@@ -884,7 +884,7 @@ This text should be green.
 <a href=""http://www.w3.org/"">You should see a green background assigned by the anchor.</a>
 (Note: You must have visited http://www.w3.org/ for this test to be valid.)
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p.test a");
 	        Assert.AreEqual(1, selector1.Length);
@@ -940,7 +940,7 @@ This text should be green.
   </tr>
  </tbody>
 </table>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:hover");
 	        Assert.AreEqual(0, selector1.Length);
@@ -963,7 +963,7 @@ This text should be green.
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""a"">The background color of <a href=""#foo"">this anchor (<strong>here</strong>)</a> should turn to green when the pointing device hovers over it.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"" class=""b"">The background color of <a href=""#foo"">this anchor (<strong>here</strong>)</a> should <strong>remain green when you hover it</strong>.</p>
 <p xmlns=""http://www.w3.org/1999/xhtml"" class=""c"">The background color of <a href=""http://link.example.com/"">this anchor (<strong>here</strong>)</a> should <strong>remain green when the pointing device hovers over it</strong> (do not follow that link).</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(3, selector1.Length);
@@ -992,7 +992,7 @@ This text should be green.
   <p><sub>This text.</sub></p>
   <p>...and anything else between the top of the first paragraph and the bottom of this paragraph.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div:hover p:first-child");
 	        Assert.AreEqual(0, selector1.Length);
@@ -1005,7 +1005,7 @@ This text should be green.
         public void HoverPseudoClassOnLinksB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml""><a href=""#foo"">Hover <strong>here</strong> and the background of <span>this text should go green</span>.</a></p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(":link,:visited");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1022,7 +1022,7 @@ This text should be green.
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of <a href=""#foo"">the anchor</a>
    should turn to green when it is activated and come back to
    normal when it is released.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("a:active");
 	        Assert.AreEqual(0, selector1.Length);
@@ -1035,7 +1035,7 @@ This text should be green.
         public void ActivePseudoClassOnControls()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml""><button>Activating (e.g. holding the mouse button down on) this button should make it go green.</button></p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("button:active");
 	        Assert.AreEqual(0, selector1.Length);
@@ -1050,7 +1050,7 @@ This text should be green.
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of <a href=""#foo"">anchors</a>
   in this page should turn <a href=""#foo"">to green</a> when they have the
   <a href=""#foo"">focus</a>.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 
             var anchors = doc.QuerySelectorAll("a");
             Assert.AreEqual(3, anchors.Length);
@@ -1084,7 +1084,7 @@ This text should be green.
        It should become green when you select the link above. When you follow
        <a href=""#missing"">this link</a>, the three paragraphs
        should all return to being unstyled.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 
             var paragraphs = doc.QuerySelectorAll("p");
             Assert.AreEqual(3, paragraphs.Length);
@@ -1117,7 +1117,7 @@ This text should be green.
         public void TargetPseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1136,7 +1136,7 @@ This text should be green.
  <br></br>
  <input type=""text"" size=""36"" value=""a text area (enabled) with green background""></input>
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1159,7 +1159,7 @@ This text should be green.
  <br></br>
  <input disabled=""disabled"" type=""text"" size=""36"" value=""a text area (disabled) with green background""></input>
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1179,7 +1179,7 @@ This text should be green.
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
 <input type=""checkbox"" checked=""checked""></input> <span>Everything in this paragraph should have a green background</span></p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("input,span");
 	        Assert.AreEqual(2, selector1.Length);
@@ -1194,7 +1194,7 @@ This text should be green.
         public void RootPseudoClass()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background of the document should be green</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("html");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1209,7 +1209,7 @@ This text should be green.
         public void ImpossibleRulesRootFirstChildEtc()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green (there should be no red on this page).</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(":root:first-child");
 	        Assert.AreEqual(0, selector1.Length);
@@ -1242,7 +1242,7 @@ This text should be green.
         public void ImpossibleRulesHtmlRoot()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green (there should be no red on this page).</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("* html");
 	        Assert.AreEqual(0, selector1.Length);
@@ -1341,7 +1341,7 @@ This text should be green.
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(19, selector1.Length);
@@ -1444,7 +1444,7 @@ This text should be green.
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(19, selector1.Length);
@@ -1547,7 +1547,7 @@ This text should be green.
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(19, selector1.Length);
@@ -1650,7 +1650,7 @@ This text should be green.
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(19, selector1.Length);
@@ -1688,7 +1688,7 @@ This text should be green.
   <dt>Sixth definition term</dt>
     <dd>Sixth definition</dd>
 </dl>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(5, selector1.Length);
@@ -1722,7 +1722,7 @@ This text should be green.
   <dt class=""red"">Sixth definition term that should have green background</dt>
     <dd class=""red"">Sixth definition that should have green background</dd>
 </dl>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(5, selector1.Length);
@@ -1760,7 +1760,7 @@ This text should be green.
 <p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph contains some text
           <span>and a span that should have a green background</span>
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(3, selector1.Length);
@@ -1798,7 +1798,7 @@ This text should be green.
 <p xmlns=""http://www.w3.org/1999/xhtml"">
 <span>This paragraph contains a span that should
      have a green background</span> and some text after it.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(3, selector1.Length);
@@ -1819,7 +1819,7 @@ This text should be green.
 <address>A second address with normal background</address>
 <address>A third address with normal background</address>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1840,7 +1840,7 @@ This text should be green.
 <address>A second address with normal background</address>
 <address class=""red"">A third address that should have a green background</address>
 This div contains 3 addresses above this sentence.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1860,7 +1860,7 @@ This div contains 3 addresses above this sentence.</div>";
 <div xmlns=""http://www.w3.org/1999/xhtml"">This div contains only one paragraph
     <p class=""red"">This paragraph should have green background</p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1881,7 +1881,7 @@ This div contains 3 addresses above this sentence.</div>";
 <address class=""red"">But this address should have green background</address>
 <p>This paragraph should have normal background</p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1902,7 +1902,7 @@ This div contains 3 addresses above this sentence.</div>";
       green background. This very long paragraph should have a first line with green
       background. This very long paragraph should have a first line with green background.
       This very long paragraph should have a first line with green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-line");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1935,7 +1935,7 @@ text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
 	        Assert.AreEqual(1, selector1.Length);
@@ -1968,7 +1968,7 @@ text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2003,7 +2003,7 @@ text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2036,7 +2036,7 @@ text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text. Dummy text. Dummy
 text. Dummy text. Dummy text. Dummy text.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2051,7 +2051,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         public void BeforePseudoElementA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see before this paragraph the words GENERATED CONTENT over green background</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::before");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2064,7 +2064,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         public void BeforePseudoElementB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see before this paragraph the words GENERATED CONTENT over green background</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:before");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2077,7 +2077,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         public void AfterPseudoElementA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see after this paragraph the words GENERATED CONTENT over green background</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::after");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2090,7 +2090,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         public void AfterPseudoElementB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">You should see after this paragraph the words GENERATED CONTENT over green background</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:after");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2123,7 +2123,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
    </tr>
   </tbody>
  </table>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2160,7 +2160,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
    </tr>
   </tbody>
  </table>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
 	        Assert.AreEqual(2, selector1.Length);
@@ -2191,7 +2191,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
    </tr>
   </tbody>
  </table>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2222,7 +2222,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
    </tr>
   </tbody>
  </table>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".white");
 	        Assert.AreEqual(2, selector1.Length);
@@ -2240,7 +2240,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml""> This should be unstyled. </div>
   <div xmlns=""http://www.w3.org/1999/xhtml"" class=""control""> This should have a green background. </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".fail div");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2256,7 +2256,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml""> This should be unstyled. </div>
   <p xmlns=""http://www.w3.org/1999/xhtml""> This should have a green background. </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("#fail div");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2277,7 +2277,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <address>This address is only here to fill some space between two paragraphs.</address>
   <p>This paragraph should be unstyled.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(2, selector1.Length);
@@ -2298,7 +2298,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <address class=""green"">This address is only here to fill some space between two paragraphs and should have a green background.</address>
   <p class=""green"">This paragraph should have a green background too.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2316,7 +2316,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         {
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml""> This should be unstyled. </div>
   <div xmlns=""http://www.w3.org/1999/xhtml"" class=""control""> This should have a green background. </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".fail+div");
 	        Assert.AreEqual(0, selector1.Length);
@@ -2337,7 +2337,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <address>This address is only here to fill some space between two paragraphs</address>
  <p class=""red"">This paragraph should have a green background</p>
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll(".red");
             Assert.AreEqual(3, selector1.Length);
@@ -2358,7 +2358,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <address>This address is only here to fill some space between two paragraphs</address>
   <p class=""green"">This paragraph should have a green background</p>
  </div>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll(".green");
             Assert.AreEqual(3, selector1.Length);
@@ -2382,7 +2382,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <r xmlns="""">This element without a namespace should have a green background.</r>
   <p>This paragraph should be unstyled.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub span,div.stub address,div.stub *|q,div.stub *|r");
 	        Assert.AreEqual(4, selector1.Length);
@@ -2405,7 +2405,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <t xmlns="""">This paragraph should have a green background</t>
 <u xmlns=""http://www.example.org/a"">This paragraph should have a green background</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *|*");
 	        Assert.AreEqual(4, selector1.Length);
@@ -2426,7 +2426,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <t xmlns="""">This paragraph should have a green background</t>
 <u xmlns=""http://www.example.org/a"">This paragraph should have a green background</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *|*");
 	        Assert.AreEqual(4, selector1.Length);
@@ -2447,7 +2447,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </q>
 <s xmlns=""http://www.example.org/a"">This text should be in green characters</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("a|*");
 	        Assert.AreEqual(2, selector1.Length);
@@ -2470,7 +2470,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <s xmlns=""http://www.example.org/a"">This text should be in green characters</s>
 <p>This text should be in green characters</p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2497,7 +2497,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <p class=""tit foo1 tut"">This text should be in green characters</p>
 <u xmlns=""http://www.example.org/b"" test=""tit foo2 tut"">This text should be in green characters</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2528,7 +2528,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <p class=""en-uk"">This text should be in green characters</p>
 <u xmlns=""http://www.example.org/b"" test=""foo2-bar-lol"">This text should be in green characters</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2555,7 +2555,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
      <span title=""si il chantait"">This paragraph should be in green characters.</span>
 </p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2576,7 +2576,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
      <span title=""si il chante"">This paragraph should be in green characters.</span>
 </p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2597,7 +2597,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
      <span title=""si il chante"">This paragraph should be in green characters.</span>
 </p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2617,7 +2617,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <p title=""a paragraph"">This paragraph should have a green background.</p>
   <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This b:r element should have a green background.</r>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2639,7 +2639,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <p title=""a paragraph"">This paragraph should have a green background.</p>
   <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This b:r element should have a green background.</r>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2662,7 +2662,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
      <span class=""tut foo2"">This paragraph should be in green characters.</span>
 </p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2683,7 +2683,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
      <span>This paragraph should be in green characters.</span>
 </p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2701,7 +2701,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <a href=""http://www.w3.org/"">This anchor should have a green background</a>
 (Note: You must have visited http://www.w3.org/ for this test to be valid.)
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2719,7 +2719,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <a href=""http://unvisited.example.org/css3-modsel-62/"">This anchor should have a green background</a>
 (Don't follow this link.)
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub > *");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2737,7 +2737,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <p> <span>The color of this text should be green when the pointing device hovers over it.</span> </p>
   <p> <a href=""http://dummy.example.org/dummy"">The color of this text should be green when the pointing device hovers over it.</a> </p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
 	        Assert.AreEqual(4, selector1.Length);
@@ -2755,7 +2755,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <p> <a href=""http://dummy.example.org/dummy"">This text should turn green while it is active.</a> </p>
   <p> <button>This text should turn green while it is active.</button> </p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
 	        Assert.AreEqual(4, selector1.Length);
@@ -2772,7 +2772,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The background color of all <a href=""#foo"">anchors</a>
   should become <a href=""#foo""> green</a> when they have the
   <a href=""#foo"">focus</a>.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("a:not(:focus)");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2802,7 +2802,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
        It should become blue when you select the link above. When you follow
        <a href=""#missing"">this link</a>, the three paragraphs
        should all return to being unstyled.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(3, selector1.Length);
@@ -2822,7 +2822,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         public void NegatedTargetPseudoClassB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2846,7 +2846,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
      because it is in english.</p>
 </div>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
 	        Assert.AreEqual(4, selector1.Length);
@@ -2865,7 +2865,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
  <br></br>
  <input disabled=""disabled"" type=""text"" size=""36"" value=""a text area (disabled) with green background""></input>
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2888,7 +2888,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
  <br></br>
  <input type=""text"" size=""36"" value=""a text area (enabled) with green background""></input>
 </p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("button");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2908,7 +2908,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
 <input type=""checkbox""></input> <span>Everything in this paragraph should have a green background</span></p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("input,span");
 	        Assert.AreEqual(2, selector1.Length);
@@ -2925,7 +2925,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This paragraph should have a green background and there should be no red anywhere.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:not(:root)");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2942,7 +2942,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This paragraph should have a green background and there should be no red anywhere.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("html:not(:root),test:not(:root)");
 	        Assert.AreEqual(0, selector1.Length);
@@ -3039,7 +3039,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(23, selector1.Length);
@@ -3144,7 +3144,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(23, selector1.Length);
@@ -3249,7 +3249,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(23, selector1.Length);
@@ -3354,7 +3354,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 </tr>
 </table>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(23, selector1.Length);
@@ -3394,7 +3394,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <dt class=""red"">Sixth definition term that should have green background</dt>
     <dd class=""red"">Sixth definition that should have green background</dd>
 </dl>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(10, selector1.Length);
@@ -3428,7 +3428,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <dt class=""green"">Sixth definition term that should have green background</dt>
     <dd class=""green"">Sixth definition that should have green background</dd>
 </dl>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(10, selector1.Length);
@@ -3462,7 +3462,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <dt>Sixth definition term.</dt>
     <dd>Sixth definition.</dd>
 </dl>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(10, selector1.Length);
@@ -3496,7 +3496,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   <dt>Sixth definition term.</dt>
     <dd>Sixth definition.</dd>
 </dl>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(10, selector1.Length);
@@ -3532,7 +3532,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
  </table>
  </div>
  <p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph <span>should be</span> unstyled.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(6, selector1.Length);
@@ -3570,7 +3570,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
  </table>
  </div>
  <p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph <span>should be</span> unstyled.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(6, selector1.Length);
@@ -3608,7 +3608,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   </table>
  </div>
  <p xmlns=""http://www.w3.org/1999/xhtml"">This <span>paragraph should</span> be unstyled.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(6, selector1.Length);
@@ -3646,7 +3646,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
   </table>
  </div>
  <p xmlns=""http://www.w3.org/1999/xhtml"">This <span>paragraph should</span> be unstyled.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(6, selector1.Length);
@@ -3669,7 +3669,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <address class=""red"">A second address that should have a green background</address>
 <address class=""red"">A third address that should have a green background</address>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(2, selector1.Length);
@@ -3690,7 +3690,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <address class=""red"">A second address that should have a green background</address>
 <address>A third address with normal background</address>
 This div should have three addresses above it.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(2, selector1.Length);
@@ -3710,7 +3710,7 @@ This div should have three addresses above it.</div>";
  <div xmlns=""http://www.w3.org/1999/xhtml"">This div contains only one paragraph.
   <p>This paragraph should be unstyled.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3730,7 +3730,7 @@ This div should have three addresses above it.</div>";
  <div xmlns=""http://www.w3.org/1999/xhtml"">This div contains only one paragraph.
   <p>This paragraph should be unstyled.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3751,7 +3751,7 @@ This div should have three addresses above it.</div>";
 <address>But this address should be unstyled.</address>
 <p class=""red"">This paragraph should have green background.</p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".red");
 	        Assert.AreEqual(2, selector1.Length);
@@ -3770,7 +3770,7 @@ This div should have three addresses above it.</div>";
 <address>But this address should be unstyled.</address>
 <p class=""green"">This paragraph should have green background.</p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".green");
 	        Assert.AreEqual(2, selector1.Length);
@@ -3785,7 +3785,7 @@ This div should have three addresses above it.</div>";
         public void NegationPseudoClassCannotBeAnArgumentOfItself()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This paragraph should have a green background</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3810,7 +3810,7 @@ This div should have three addresses above it.</div>";
 </div>
 </div>
 </blockquote>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3828,7 +3828,7 @@ This div should have three addresses above it.</div>";
 <div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
 <div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3848,7 +3848,7 @@ This div should have three addresses above it.</div>";
 <p>This text should be green.</p>
 </div>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3869,7 +3869,7 @@ This div should have three addresses above it.</div>";
 </div>
 </div>
 </blockquote>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3887,7 +3887,7 @@ This div should have three addresses above it.</div>";
 <div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
 <div xmlns=""http://www.w3.org/1999/xhtml"">This text should be unstyled.</div>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This text should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3903,7 +3903,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<style>@namespace test url(http://www.example.org/a);</style>
 <testa xmlns=""http://www.example.org/a"">This paragraph should have a green background</testa>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("testa");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3921,7 +3921,7 @@ This div should have three addresses above it.</div>";
 <div xmlns=""http://www.w3.org/1999/xhtml"" class=""myTest"">
 <testA xmlns=""http://www.example.org/b"">This paragraph should have a green background</testA>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.myTest *");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3937,7 +3937,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<style>@namespace test url(http://www.example.org/b);</style>
 <testA>This paragraph has no declared namespace and should have a green background.</testA>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|testa");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3957,7 +3957,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/b"">This line should have a green background.</q>
 <p xmlns=""http://www.example.org/a"">This line should be unstyleed.</p>
 <p xmlns=""http://www.example.org/b"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p,q");
 	        Assert.AreEqual(5, selector1.Length);
@@ -3977,7 +3977,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/b"" test=""test"">This line should have a green background.</q>
 <p xmlns=""http://www.example.org/a"">This line should be unstyled.</p>
 <p xmlns=""http://www.example.org/b"" test=""test"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p,q");
 	        Assert.AreEqual(5, selector1.Length);
@@ -4001,7 +4001,7 @@ This div should have three addresses above it.</div>";
   <p xmlns=""http://www.example.org/a"">This line should have a green background</p>
   <foo xmlns=""http://www.example.org/b"">This line should have a green background</foo>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.test *");
 	        Assert.AreEqual(5, selector1.Length);
@@ -4026,7 +4026,7 @@ This div should have three addresses above it.</div>";
   <elementB xmlns="""">This line should have a green background</elementB>
  </div>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.green *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -4053,7 +4053,7 @@ This div should have three addresses above it.</div>";
   <elementB xmlns="""">This line should have a green background</elementB>
  </div>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.green *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -4073,7 +4073,7 @@ This div should have three addresses above it.</div>";
 <p xmlns=""http://www.w3.org/1999/xhtml"" title=""a paragraph"">This paragraph should be unstyled.</p>
  <q xmlns=""http://www.example.org/a"" a:title=""a paragraph"">This paragraph should have a green background.</q>
  <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r");
 	        Assert.AreEqual(3, selector1.Length);
@@ -4095,7 +4095,7 @@ This div should have three addresses above it.</div>";
 <p xmlns=""http://www.w3.org/1999/xhtml"" title=""a paragraph"">This paragraph should be unstyled.</p>
  <q xmlns=""http://www.example.org/a"" a:title=""a paragraph"">This paragraph should have a green background.</q>
  <r xmlns=""http://www.example.org/b"" b:title=""a paragraph"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r");
 	        Assert.AreEqual(3, selector1.Length);
@@ -4119,7 +4119,7 @@ This div should have three addresses above it.</div>";
  <s xmlns=""http://www.example.org/a"" a:title=""foobar"">This paragraph should be unstyled.</s>
  <r xmlns=""http://www.example.org/b"" b:title=""foo"">This paragraph should be unstyled.</r>
  <t xmlns=""http://www.example.org/a"" a:title=""footwo"">This paragraph should have a green background</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s");
 	        Assert.AreEqual(4, selector1.Length);
@@ -4142,7 +4142,7 @@ This div should have three addresses above it.</div>";
  <q xmlns=""http://www.example.org/a"" a:title=""foo"">This paragraph should have a green background</q>
  <s xmlns=""http://www.example.org/a"" a:title=""foobar"">This paragraph should be unstyled.</s>
  <r xmlns=""http://www.example.org/b"" b:title=""foo"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r,*|s");
 	        Assert.AreEqual(4, selector1.Length);
@@ -4165,7 +4165,7 @@ This div should have three addresses above it.</div>";
  <q xmlns=""http://www.example.org/a"" a:foo=""hgt bardot f"">This paragraph should be unstyled.</q>
  <r xmlns=""http://www.example.org/a"" a:foo=""hgt bar f"">This paragraph should have a green background.</r>
  <s xmlns=""http://www.example.org/b"" b:foo=""hgt bar f"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r,*|s");
 	        Assert.AreEqual(4, selector1.Length);
@@ -4190,7 +4190,7 @@ This div should have three addresses above it.</div>";
  <q xmlns=""http://www.example.org/a"" a:foo=""hgt bardot f"">This paragraph should be unstyled.</q>
  <r xmlns=""http://www.example.org/a"" a:foo=""hgt bar f"">This paragraph should have a green background.</r>
  <s xmlns=""http://www.example.org/b"" b:foo=""hgt bar f"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p,*|q,*|r,*|s");
 	        Assert.AreEqual(4, selector1.Length);
@@ -4209,7 +4209,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""bargain-trash"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:foo=""bar-drink-glass"">This paragraph should have a green background</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""bar-drink-glass"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4228,7 +4228,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""bargain-trash"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:foo=""bar-drink-glass"">This paragraph should have a green background</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""bar-drink-glass"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4247,7 +4247,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""et si on chantait"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4266,7 +4266,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""et si on chantait"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4285,7 +4285,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" xmlns:a=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" xmlns:a=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" xmlns:b=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4306,7 +4306,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" xmlns:a=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" xmlns:a=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" xmlns:b=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4325,7 +4325,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4346,7 +4346,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4365,7 +4365,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""si on chantait"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4384,7 +4384,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""si on chantait"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4404,7 +4404,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4424,7 +4424,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""si nous chantions"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4444,7 +4444,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""un second deuxieme trois"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:foo=""un deux trois"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un deux trois"">This paragraph should have a green background.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4464,7 +4464,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""un second deuxieme trois"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:foo=""un deux trois"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un deux trois"">This paragraph should have a green background.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4484,7 +4484,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""un-second-deuxieme-trois"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:foo=""un-d-trois"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un-d-trois"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4504,7 +4504,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:foo=""un-second-deuxieme-trois"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" a:foo=""un-d-trois"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un-d-trois"">This paragraph should be unstyled.</s>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4524,7 +4524,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4544,7 +4544,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4564,7 +4564,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4584,7 +4584,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4604,7 +4604,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4624,7 +4624,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4642,7 +4642,7 @@ This div should have three addresses above it.</div>";
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""si on chantait"">This paragraph should have a green background</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4660,7 +4660,7 @@ This div should have three addresses above it.</div>";
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" title=""si on chantait"">This paragraph should have a green background</p>
 <q xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4680,7 +4680,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4700,7 +4700,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4719,7 +4719,7 @@ This div should have three addresses above it.</div>";
 <address xmlns=""http://www.w3.org/1999/xhtml"" class=""bar foofoo toto"">This address should be unstyled.</address>
 <q xmlns=""http://www.example.org/a"" class=""bar foo toto"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/b"" b:class=""bar foo toto"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4738,7 +4738,7 @@ This div should have three addresses above it.</div>";
 <address xmlns=""http://www.w3.org/1999/xhtml"" class=""bar foofoo toto"">This address should be unstyled.</address>
 <q xmlns=""http://www.example.org/a"" class=""bar foo toto"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/b"" b:class=""bar foo toto"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4758,7 +4758,7 @@ This div should have three addresses above it.</div>";
 <address xmlns=""http://www.w3.org/1999/xhtml"" lang=""foo-barbar-toto"">This address should be unstyled.</address>
 <q xmlns=""http://www.example.org/a"" myattr=""tat-tut-tot"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/b"" b:myattr=""tat-tut-tot"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4778,7 +4778,7 @@ This div should have three addresses above it.</div>";
 <address xmlns=""http://www.w3.org/1999/xhtml"" lang=""foo-barbar-toto"">This address should be unstyled.</address>
 <q xmlns=""http://www.example.org/a"" myattr=""tat-tut-tot"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/b"" b:myattr=""tat-tut-tot"">This paragraph should be unstyled.</r>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4798,7 +4798,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4818,7 +4818,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4838,7 +4838,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4858,7 +4858,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4878,7 +4878,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4898,7 +4898,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should have a green background.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should be unstyled.</t>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4921,7 +4921,7 @@ This div should have three addresses above it.</div>";
  <l>This paragraph should have a green background.</l>
  </p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*l");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4948,7 +4948,7 @@ This div should have three addresses above it.</div>";
 <t xmlns="""">This paragraph should have a green background.</t>
 <u xmlns=""http://www.example.org/a"">This paragraph should have a green background.</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.test *:not(div)");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4972,7 +4972,7 @@ This div should have three addresses above it.</div>";
 </l>
 <p xmlns=""http://www.example.org/a"">This paragraph should have a green background</p>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub *");
 	        Assert.AreEqual(0, selector1.Length);
@@ -4995,7 +4995,7 @@ This div should have three addresses above it.</div>";
 <v>This paragraph should be in green characters.</v>
 </u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub **");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5016,7 +5016,7 @@ This div should have three addresses above it.</div>";
 <t xmlns="""">This paragraph should have a green background</t>
 <u xmlns=""http://www.example.org/a"">This paragraph should have a green background</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub **");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5034,7 +5034,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"">This paragraph should be in green characters.</s>
 <u xmlns=""http://www.example.org/a"">This paragraph should be in green characters.</u>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub **");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5050,7 +5050,7 @@ This div should have three addresses above it.</div>";
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <t xmlns="""">This paragraph should be in green characters.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub **");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5069,7 +5069,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/a"" a:title=""foobar"">This paragraph should have a green background.</s>
 <r xmlns=""http://www.example.org/b"" b:title=""foo"">This paragraph should have a green background.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5090,7 +5090,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/a"" a:title=""foobar"">This paragraph should have a green background.</s>
 <r xmlns=""http://www.example.org/b"" b:title=""foo"">This paragraph should have a green background.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5110,7 +5110,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""hgt bar f"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""hgt bar f"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5130,7 +5130,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""hgt bar f"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""hgt bar f"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5150,7 +5150,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""bar-drink-glass"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""bar-drink-glass"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5170,7 +5170,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""bar-drink-glass"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""bar-drink-glass"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5190,7 +5190,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5210,7 +5210,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5230,7 +5230,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5250,7 +5250,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5270,7 +5270,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5290,7 +5290,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5310,7 +5310,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5330,7 +5330,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5351,7 +5351,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5372,7 +5372,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5395,7 +5395,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""un deux trois"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un deux trois"">This paragraph should be unstyled.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5418,7 +5418,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""un deux trois"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un deux trois"">This paragraph should be unstyled.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5441,7 +5441,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""un-d-trois"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un-d-trois"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5464,7 +5464,7 @@ This div should have three addresses above it.</div>";
 <r xmlns=""http://www.example.org/a"" a:foo=""un-d-trois"">This paragraph should be unstyled.</r>
 <s xmlns=""http://www.example.org/b"" b:foo=""un-d-trois"">This paragraph should have a green background.</s>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5487,7 +5487,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5510,7 +5510,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5533,7 +5533,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5556,7 +5556,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5579,7 +5579,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5602,7 +5602,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should be unstyled.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5621,7 +5621,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5640,7 +5640,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" a:title=""si on chantait"">This paragraph should have a green background.</q>
 <r xmlns=""http://www.example.org/a"" title=""si on chantait"">This paragraph should be unstyled.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5661,7 +5661,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5682,7 +5682,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*q,*r,*s,*t");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5703,7 +5703,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" class=""bar foo toto"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/b"" b:class=""bar foo toto"">This paragraph should have a green background.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5724,7 +5724,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" class=""bar foo toto"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/b"" b:class=""bar foo toto"">This paragraph should have a green background.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5746,7 +5746,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" lang=""foo-bar"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/b"" b:lang=""foo-bar"">This paragraph should have a green background.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5768,7 +5768,7 @@ This div should have three addresses above it.</div>";
 <q xmlns=""http://www.example.org/a"" lang=""foo-bar"">This paragraph should be unstyled.</q>
 <r xmlns=""http://www.example.org/b"" b:lang=""foo-bar"">This paragraph should have a green background.</r>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*p,*address,*q,*r");
 	        Assert.AreEqual(0, selector1.Length);
@@ -5794,7 +5794,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
 	        Assert.AreEqual(5, selector1.Length);
@@ -5820,7 +5820,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" b:ti=""si on chantait"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
 	        Assert.AreEqual(5, selector1.Length);
@@ -5846,7 +5846,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
 	        Assert.AreEqual(5, selector1.Length);
@@ -5872,7 +5872,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
 	        Assert.AreEqual(5, selector1.Length);
@@ -5898,7 +5898,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
 	        Assert.AreEqual(5, selector1.Length);
@@ -5924,7 +5924,7 @@ This div should have three addresses above it.</div>";
 <s xmlns=""http://www.example.org/b"" b:title=""si on chantait"">This paragraph should have a green background.</s>
 <t xmlns=""http://www.example.org/b"" title=""si nous chantions"">This paragraph should have a green background.</t>
 </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("*|p, *|q, *|r, *|s, *|t");
             Assert.AreEqual(5, selector1.Length);
@@ -5943,7 +5943,7 @@ This div should have three addresses above it.</div>";
 	        var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <p>This paragraph should have a green background.</p>
  </div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("div :not(:enabled):not(:disabled)");
 	        Assert.AreEqual(1, selector1.Length);
@@ -5974,7 +5974,7 @@ This div should have three addresses above it.</div>";
   <line type=""even"">This line should be unstyled.</line>
   <line type=""odd"">This line should be green.</line>
  </test>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
 	        Assert.AreEqual(15, selector1.Length);
@@ -6009,7 +6009,7 @@ This div should have three addresses above it.</div>";
   <line type=""even"">This line should be unstyled.</line>
   <line type=""odd"">This line should be green.</line>
  </test>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
 	        Assert.AreEqual(15, selector1.Length);
@@ -6050,7 +6050,7 @@ This div should have three addresses above it.</div>";
   <line type=""match"">This line should be green.</line>
   <line type="""">This line should be unstyled.</line>
  </test>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
 	        Assert.AreEqual(21, selector1.Length);
@@ -6091,7 +6091,7 @@ This div should have three addresses above it.</div>";
   <line type=""match"">This line should be green.</line>
   <line type="""">This line should be unstyled.</line>
  </test>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
 	        Assert.AreEqual(21, selector1.Length);
@@ -6132,7 +6132,7 @@ This div should have three addresses above it.</div>";
   <line type=""match"">This line should be green.</line>
   <line type="""">This line should be unstyled.</line>
  </test>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
 	        Assert.AreEqual(21, selector1.Length);
@@ -6173,7 +6173,7 @@ This div should have three addresses above it.</div>";
   <line type=""match"">This line should be green.</line>
   <line type="""">This line should be unstyled.</line>
  </test>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("line");
 	        Assert.AreEqual(21, selector1.Length);
@@ -6192,7 +6192,7 @@ This div should have three addresses above it.</div>";
         public void EmptyPseudoClassAndText()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6208,7 +6208,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address:empty");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6226,7 +6226,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address:empty");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6245,7 +6245,7 @@ This div should have three addresses above it.</div>";
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""><!-- --></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>
  <p xmlns=""http://www.w3.org/1999/xhtml"">(Note: This test is based on unpublished errata.)</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address:empty");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6263,7 +6263,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""> </address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6281,7 +6281,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<address xmlns=""http://www.w3.org/1999/xhtml""><span></span></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6300,7 +6300,7 @@ This div should have three addresses above it.</div>";
 	        var source = @"<address xmlns=""http://tests.example.org/xml-only/""></address>
  <div xmlns=""http://www.w3.org/1999/xhtml"" class=""text"">This line should have a green background.</div>
  <p xmlns=""http://www.w3.org/1999/xhtml"">(Note: This test is based on unpublished errata.)</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("address");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6317,7 +6317,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6336,7 +6336,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""5cm"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6355,7 +6355,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""5cm"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6370,7 +6370,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingD()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""two words"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6385,7 +6385,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingE()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""one.word"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6400,7 +6400,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingF()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""one.word"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".one\\.word");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6415,7 +6415,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingG()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6434,7 +6434,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingH()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 
             Assert.Catch<DomException>(() =>
             {
@@ -6453,7 +6453,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingI()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 
             Assert.Catch<DomException>(() =>
             {
@@ -6472,7 +6472,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingJ()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6491,7 +6491,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingK()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6510,7 +6510,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingOfNewPseudoElements()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">Try selecting some text in this document. It should be have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("::selection");
 	        Assert.AreEqual(0, selector1.Length);
@@ -6529,7 +6529,7 @@ This div should have three addresses above it.</div>";
         public void SyntaxAndParsingOfUnknownPseudoClasses()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6558,7 +6558,7 @@ This div should have three addresses above it.</div>";
  </p>
  <table xmlns=""http://www.w3.org/1999/xhtml""><tr><td>This line should have a green background (or it might be unstyled).</td></tr></table>
  <!-- only allowed to be unstyled if + and ~ are not supported -->";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(2, selector1.Length);
@@ -6651,7 +6651,7 @@ This div should have three addresses above it.</div>";
         public void FirstLetterWithFirstLetterA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The first letter of this paragraph should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6666,7 +6666,7 @@ This div should have three addresses above it.</div>";
         public void FirstLetterWithFirstLetterB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The first letter of this paragraph should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6681,7 +6681,7 @@ This div should have three addresses above it.</div>";
         public void FirstLineWithFirstLineA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The first line of this paragraph should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-line");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6696,7 +6696,7 @@ This div should have three addresses above it.</div>";
         public void FirstLineWithFirstLineB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">The first line of this paragraph should have a green background.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-line");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6712,7 +6712,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This test has <span></span>.</p>
    <p xmlns=""http://www.w3.org/1999/xhtml"">(If the previous line just reads This test has . then this test has failed.)</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("span:before");
 	        Assert.AreEqual(0, selector1.Length);
@@ -6728,7 +6728,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This test has <span></span>.</p>
    <p xmlns=""http://www.w3.org/1999/xhtml"">(If the previous line just reads This test has . then this test has failed.)</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("span::before");
 	        Assert.AreEqual(0, selector1.Length);
@@ -6744,7 +6744,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This test has <span></span>.</p>
    <p xmlns=""http://www.w3.org/1999/xhtml"">(If the previous line just reads This test has . then this test has failed.)</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("span:after");
 	        Assert.AreEqual(0, selector1.Length);
@@ -6760,7 +6760,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This test has <span></span>.</p>
    <p xmlns=""http://www.w3.org/1999/xhtml"">(If the previous line just reads This test has . then this test has failed.)</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("span::after");
 	        Assert.AreEqual(0, selector1.Length);
@@ -6775,7 +6775,7 @@ This div should have three addresses above it.</div>";
         public void LongChainsOfSelectorsA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""span"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".span");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6790,7 +6790,7 @@ This div should have three addresses above it.</div>";
         public void LongChainsOfSelectorsB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""span"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll(".span");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6805,7 +6805,7 @@ This div should have three addresses above it.</div>";
         public void LongChainsOfSelectorsC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p.span");
 	        Assert.AreEqual(0, selector1.Length);
@@ -6820,7 +6820,7 @@ This div should have three addresses above it.</div>";
         public void LongChainsOfSelectorsD()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -6835,7 +6835,7 @@ This div should have three addresses above it.</div>";
         public void LongChainsOfSelectorsE()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml""><span>This line should be green.</span></p>";
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
 
             var selector1 = doc.QuerySelectorAll("span");
             Assert.AreEqual(1, selector1.Length);
@@ -6858,7 +6858,7 @@ This div should have three addresses above it.</div>";
    <testF test:attribute=""fail"">This should be green.</testF>
    <testG test:attribute=""fail"">This should be green.</testG>
   </tests>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
 	        Assert.AreEqual(8, selector1.Length);
@@ -6894,7 +6894,7 @@ This div should have three addresses above it.</div>";
    <testF test:attribute=""fail"">This should be green.</testF>
    <testG test:attribute=""fail"">This should be green.</testG>
   </tests>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
 	        Assert.AreEqual(8, selector1.Length);
@@ -6929,7 +6929,7 @@ This div should have three addresses above it.</div>";
    <testF attribute=""pass"">This should be green.</testF>
    <testG attribute=""pass"">This should be green.</testG>
   </tests>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
 	        Assert.AreEqual(8, selector1.Length);
@@ -6964,7 +6964,7 @@ This div should have three addresses above it.</div>";
    <testF attribute=""pass"">This should be green.</testF>
    <testG attribute=""pass"">This should be green.</testG>
   </tests>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
 	        Assert.AreEqual(8, selector1.Length);
@@ -6993,7 +6993,7 @@ This div should have three addresses above it.</div>";
    <testA attribute=""pass"" test:attribute=""fail"">This should be green.</testA>
    <testB attribute=""fail"" test:attribute=""pass"">This should be green.</testB>
   </tests>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
 	        Assert.AreEqual(0, selector1.Length);
@@ -7012,7 +7012,7 @@ This div should have three addresses above it.</div>";
    <testA attribute=""pass"" test:attribute=""fail"">This should be green.</testA>
    <testB attribute=""fail"" test:attribute=""pass"">This should be green.</testB>
   </tests>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests, tests *");
 	        Assert.AreEqual(3, selector1.Length);
@@ -7029,7 +7029,7 @@ This div should have three addresses above it.</div>";
         public void ParsingNumbersInClassesA()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""13"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -7048,7 +7048,7 @@ This div should have three addresses above it.</div>";
         public void ParsingNumbersInClassesB()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""13"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -7063,7 +7063,7 @@ This div should have three addresses above it.</div>";
         public void ParsingNumbersInClassesC()
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""13"">This line should be green.</p>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -7079,7 +7079,7 @@ This div should have three addresses above it.</div>";
         {
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" id=""id"" class=""class test"">This line should be green.</p>
   <div xmlns=""http://www.w3.org/1999/xhtml"" id=""theid"" class=""class test"">This line should be green.</div>";
-	        var doc = DocumentBuilder.Html(source);
+	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);

@@ -21,7 +21,7 @@ namespace AngleSharp.Core.Tests
             var configuration = new Configuration { Culture = new CultureInfo("en-US") };
             var content = Encoding.UTF8.GetBytes(source);
             var stream = new MemoryStream(content);
-            return DocumentBuilder.Html(stream, configuration);
+            return stream.ToHtmlDocument(configuration);
         }
 
         [Test]

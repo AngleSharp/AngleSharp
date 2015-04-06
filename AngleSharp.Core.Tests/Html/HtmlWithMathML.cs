@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using NUnit.Framework;
 
@@ -11,10 +12,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlWithMathMLTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void MathMLCheckAttributesCaseNormalUnchanged()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><math attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></math>");
+            var doc = Html(@"<!DOCTYPE html><body><math attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -235,7 +241,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLCheckTagCaseNormalUnchanged()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><math><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></math>");
+            var doc = Html(@"<!DOCTYPE html><body><math><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -486,7 +492,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLSingleElement()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math></math>");
+            var doc = Html(@"<!DOCTYPE html><math></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -521,7 +527,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLSingleElementInBody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><math></math>");
+            var doc = Html(@"<!DOCTYPE html><body><math></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -556,7 +562,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLElementWithDivAndObjectElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mi><div><object><div><span></span></div></object></div></mi><mi>");
+            var doc = Html(@"<math><mi><div><object><div><span></span></div></object></div></mi><mi>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -622,7 +628,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLElementWithSvgChild()
         {
-            var doc = DocumentBuilder.Html(@"<math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>");
+            var doc = Html(@"<math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -688,7 +694,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLSingleElementWithChild()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><mi>");
+            var doc = Html(@"<!DOCTYPE html><math><mi>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -729,7 +735,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMiAndMglyphElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mi><mglyph>");
+            var doc = Html(@"<math><mi><mglyph>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -771,7 +777,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMiAndMalignmarkElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mi><malignmark>");
+            var doc = Html(@"<math><mi><malignmark>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -813,7 +819,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMoAndMglyphElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mo><mglyph>");
+            var doc = Html(@"<math><mo><mglyph>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -855,7 +861,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMoAndMalignmarkElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mo><malignmark>");
+            var doc = Html(@"<math><mo><malignmark>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -897,7 +903,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMnAndMglyphElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mn><mglyph>");
+            var doc = Html(@"<math><mn><mglyph>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -939,7 +945,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMnAndMalignmarkElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mn><malignmark>");
+            var doc = Html(@"<math><mn><malignmark>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -981,7 +987,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMsAndMglyphElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><ms><mglyph>");
+            var doc = Html(@"<math><ms><mglyph>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1023,7 +1029,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMsAndMalignmarkElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><ms><malignmark>");
+            var doc = Html(@"<math><ms><malignmark>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1065,7 +1071,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMtextAndMglyphElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mtext><mglyph>");
+            var doc = Html(@"<math><mtext><mglyph>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1107,7 +1113,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMtextAndMalignmarkElements()
         {
-            var doc = DocumentBuilder.Html(@"<math><mtext><malignmark>");
+            var doc = Html(@"<math><mtext><malignmark>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1149,7 +1155,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLAnnotationXmlWithSvgInside()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><math><annotation-xml><svg><u>");
+            var doc = Html(@"<!DOCTYPE html><math><annotation-xml><svg><u>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1201,7 +1207,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLElementInSelect()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><math></math></select>");
+            var doc = Html(@"<!DOCTYPE html><body><select><math></math></select>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1236,7 +1242,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInOptionOfSelect()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><option><math></math></option></select>");
+            var doc = Html(@"<!DOCTYPE html><body><select><option><math></math></option></select>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1277,7 +1283,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><math></math></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><math></math></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1318,7 +1324,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithChildInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi></math></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi></math></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1369,7 +1375,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithChildrenInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi><mi>bar</mi></math></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi><mi>bar</mi></math></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1430,7 +1436,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInTBodySectionOfTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><math><mi>foo</mi><mi>bar</mi></math></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><math><mi>foo</mi><mi>bar</mi></math></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1497,7 +1503,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInRowOfTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><math><mi>foo</mi><mi>bar</mi></math></tr></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><math><mi>foo</mi><mi>bar</mi></math></tr></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1570,7 +1576,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInCellOfTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math></td></tr></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math></td></tr></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1649,7 +1655,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLCompleteExampleInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math><p>baz</td></tr></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math><p>baz</td></tr></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1738,7 +1744,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInCaptionOfTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi></math><p>baz</caption></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi></math><p>baz</caption></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1815,7 +1821,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLImplicitlyClosedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1902,7 +1908,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInCaptionImplicitlyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1983,7 +1989,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInColgroupOfTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><colgroup><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><colgroup><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2070,7 +2076,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInSelectInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tr><td><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><tr><td><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2143,7 +2149,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInSelectInTableImplicitlyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2198,7 +2204,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLOutsideDocumentRoot()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body></html><math><mi>foo</mi><mi>bar</mi><p>baz");
+            var doc = Html(@"<!DOCTYPE html><body></body></html><math><mi>foo</mi><mi>bar</mi><p>baz");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2263,7 +2269,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLOutsideDocumentImplicitlyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz");
+            var doc = Html(@"<!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2328,7 +2334,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset><math><mi></mi><mi></mi><p><span>");
+            var doc = Html(@"<!DOCTYPE html><frameset><math><mi></mi><mi></mi><p><span>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2357,7 +2363,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLOutsideFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset></frameset><math><mi></mi><mi></mi><p><span>");
+            var doc = Html(@"<!DOCTYPE html><frameset></frameset><math><mi></mi><mi></mi><p><span>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2386,7 +2392,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithXLinkAttributes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo><math xlink:href=foo></math>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo><math xlink:href=foo></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2428,7 +2434,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLInBodyWithLangAttribute()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo></mi></math>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo></mi></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2483,7 +2489,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithMiChild()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo /></math>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo /></math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2538,7 +2544,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLWithTextNode()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo />bar</math>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo />bar</math>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

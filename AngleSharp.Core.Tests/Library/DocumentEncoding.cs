@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp;
-    using AngleSharp.Dom.Html;
-    using NUnit.Framework;
     using System;
     using System.Globalization;
     using System.Linq;
+    using AngleSharp;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
 
     [TestFixture]
     public class DocumentEncodingTests
@@ -15,8 +15,8 @@
         {
             var configEnUs = new Configuration { Culture = new CultureInfo("en-US") };
             var configZhCn = new Configuration { Culture = new CultureInfo("zh-CN") };
-            var titleWithEnUs = DocumentBuilder.Html(Helper.StreamFromBytes(Assets.www_baidu), configEnUs).Title;
-            var titleWithZhCn = DocumentBuilder.Html(Helper.StreamFromBytes(Assets.www_baidu), configZhCn).Title;
+            var titleWithEnUs = Helper.StreamFromBytes(Assets.www_baidu).ToHtmlDocument(configEnUs).Title;
+            var titleWithZhCn = Helper.StreamFromBytes(Assets.www_baidu).ToHtmlDocument(configZhCn).Title;
 
             Assert.AreEqual("百度一下，你就知道", titleWithEnUs);
             Assert.AreEqual(titleWithEnUs, titleWithZhCn);
@@ -27,8 +27,8 @@
         {
             var configEnUs = new Configuration { Culture = new CultureInfo("en-US") };
             var configZhCn = new Configuration { Culture = new CultureInfo("zh-CN") };
-            var titleWithEnUs = DocumentBuilder.Html(Helper.StreamFromBytes(Assets.item_jd), configEnUs).Title;
-            var titleWithZhCn = DocumentBuilder.Html(Helper.StreamFromBytes(Assets.item_jd), configZhCn).Title;
+            var titleWithEnUs = Helper.StreamFromBytes(Assets.item_jd).ToHtmlDocument(configEnUs).Title;
+            var titleWithZhCn = Helper.StreamFromBytes(Assets.item_jd).ToHtmlDocument(configZhCn).Title;
 
             Assert.AreEqual("《金庸作品集（21-25）：天龙八部（套装全5册）（朗声旧版）》(金庸)【摘要 书评 试读】- 京东图书", titleWithEnUs);
             Assert.AreEqual(titleWithEnUs, titleWithZhCn);
@@ -38,7 +38,7 @@
         public void TradeEncodingDisplayCharactersFromWindows1252()
         {
             var config = new Configuration { Culture = CultureInfo.GetCultureInfo("de-de") };
-            var doc = DocumentBuilder.Html(Helper.StreamFromBytes(Assets.trade_500), config);
+            var doc = Helper.StreamFromBytes(Assets.trade_500).ToHtmlDocument(config);
             var tr = doc.QuerySelector("tr[mid=375][ordernum=375]");
             var ct = doc.QuerySelector(".countdown_time[title][style]");
             var ni = doc.QuerySelector("*[fid=443861][homesxname]");
@@ -55,7 +55,7 @@
         public void TradeEncodingVariousChecks()
         {
             var source = Helper.StreamFromBytes(Assets.trade_500);
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
 
             var bet_content = document.GetElementById("bet_content");
             Assert.IsNotNull(bet_content);
@@ -82,7 +82,7 @@
         public void EncodingCheckUtf8TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.utf_8);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "  ¥ · £ · € · $ · ¢ · ₡ · ₢ · ₣ · ₤ · ₥ · ₦ · ₧ · ₨ · ₩ · ₪ · ₫ · ₭ · ₮ · ₯ · ₹";
             Assert.AreEqual(text, doc.QuerySelector("big > big").TextContent);
         }
@@ -91,7 +91,7 @@
         public void EncodingCheckWindows1252TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.windows_1252);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "“Hello Double” vs.  ‘Hello single’ vs. it’s";
             Assert.AreEqual(text, doc.QuerySelectorAll("tr > td")[7].TextContent);
         }
@@ -100,7 +100,7 @@
         public void EncodingCheckWindows1251TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.windows_1251);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "Преимущества";
             Assert.AreEqual(text, doc.QuerySelector("h2").TextContent);
         }
@@ -109,7 +109,7 @@
         public void EncodingCheckBomSaysUTF8ButMetaSaysShiftJisTestPage()
         {
             var source = Helper.StreamFromBytes(Assets.shift_jis);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "九州大学言語学研究室";
             Assert.AreEqual(text, doc.QuerySelector("h1").TextContent);
         }
@@ -118,7 +118,7 @@
         public void EncodingCheckRealShiftJisTestPage()
         {
             var source = Helper.StreamFromBytes(Assets.real_shift_jit);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var title = "２ちゃんねる掲示板へようこそ";
             Assert.AreEqual(title, doc.Title);
             var text = "検索";
@@ -129,7 +129,7 @@
         public void EncodingCheckGb2312TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.gb2312);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "汉字";
             Assert.AreEqual(text, doc.QuerySelector("td > span").TextContent);
         }
@@ -138,7 +138,7 @@
         public void EncodingCheckGb18030TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.gb18030);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "hello，欢迎回来！";
             Assert.AreEqual(text, doc.QuerySelector(".pptitle > b").TextContent);
         }
@@ -147,7 +147,7 @@
         public void EncodingCheckBig5TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.big5);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "歷史新聞";
             Assert.AreEqual(text, doc.QuerySelector("#area_sort_3 a").TextContent);
         }
@@ -156,7 +156,7 @@
         public void EncodingCheckIso88591TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.iso_8859_1);
-            var doc = DocumentBuilder.Html(source);
+            var doc = source.ToHtmlDocument();
             var text = "Apri un blog è gratis";
             Assert.AreEqual(text, doc.QuerySelectorAll(".label")[3].TextContent);
         }

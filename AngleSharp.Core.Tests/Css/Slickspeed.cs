@@ -17,7 +17,7 @@ namespace AngleSharp.Core.Tests.Css
             var config = new Configuration { Culture = new CultureInfo("en-US") }
                 .WithoutCss()
                 .Register(new EnableScripting());
-            document = DocumentBuilder.Html(Assets.w3c_selectors, config);
+            document = Assets.w3c_selectors.ToHtmlDocument(config);
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace AngleSharp.Core.Tests
         [SetUp]
         public void Setup()
         {
-            document = DocumentBuilder.Html(Assets.selectors);
+            document = Assets.selectors.ToHtmlDocument();
         }
 
         string GetAttributeValue(INode node, String attrName)
@@ -576,7 +576,7 @@ namespace AngleSharp.Core.Tests
             var source = @"<div><p>Hello in a paragraph</p></div>
 <div>Hello again! (with no paragraph)</div>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "div:has(p)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
@@ -588,7 +588,7 @@ namespace AngleSharp.Core.Tests
         {
             var source = @"<div><section id=first><div><h1></h1></div></section><section id=second></section><section><h5></h5></section></div>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "section:not(:has(h1, h2, h3, h4, h5, h6))";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
@@ -600,7 +600,7 @@ namespace AngleSharp.Core.Tests
         {
             var source = @"<div><section id=first><div><h1></h1></div></section><section id=second></section><section><h5></h5></section></div>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "section:has(:not(h1, h2, h3, h4, h5, h6))";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
@@ -612,7 +612,7 @@ namespace AngleSharp.Core.Tests
         {
             var source = @"<div><h1></h1></div><main><h1></h1></main><section><h1></h1></section><footer><h1></h1></footer>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = ":matches(div, section) > h1";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(2, result.Length);
@@ -627,7 +627,7 @@ namespace AngleSharp.Core.Tests
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "span:matches(.this, .that)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(3, result.Length);
@@ -652,7 +652,7 @@ article h1, article h2, article h3, article h4, article h5, article h6,
 aside h1, aside h2, aside h3, aside h4, aside h5, aside h6, 
 nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var actual = document.QuerySelectorAll(selector);
             var expected = document.QuerySelectorAll(equivalent);
             Assert.AreEqual(6, actual.Length);
@@ -667,7 +667,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "span:nth-child(even)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(3, result.Length);
@@ -687,7 +687,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "span:nth-child(10n-1) ";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(0, result.Length);
@@ -698,7 +698,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "span:nth-child(10n+1) ";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
@@ -712,7 +712,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "span:nth-child(10n+-1) ";
 
             Assert.Catch<DomException>(() =>
@@ -726,7 +726,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "*:nth-child(-n+3)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(5, result.Length);
@@ -745,7 +745,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "*:nth-child(-n+3 of span.this)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(2, result.Length);
@@ -763,7 +763,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
-            var document = DocumentBuilder.Html(source);
+            var document = source.ToHtmlDocument();
             var selector = "span.this:nth-child(-n+3)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);

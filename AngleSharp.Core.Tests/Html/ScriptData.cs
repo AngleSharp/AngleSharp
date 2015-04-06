@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
@@ -10,10 +11,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class ScriptDataTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void ScriptWithQuotedHelloText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'Hello'</script>BAR");
+            var doc = Html(@"FOO<script>'Hello'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -56,7 +62,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithNoContent()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script></script>BAR");
+            var doc = Html(@"FOO<script></script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -94,7 +100,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithNoContentAndSpaceInClosingTag()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script></script >BAR");
+            var doc = Html(@"FOO<script></script >BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -133,7 +139,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithNoContentAndSelfClosingClosingTag()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script></script/>BAR");
+            var doc = Html(@"FOO<script></script/>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -172,7 +178,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithNoContentAndSpacedSelfClosingClosingTag()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script></script/ >BAR");
+            var doc = Html(@"FOO<script></script/ >BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -212,7 +218,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndWrongClosingTag()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain""></scriptx>BAR");
+            var doc = Html(@"FOO<script type=""text/plain""></scriptx>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -251,7 +257,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeInClosingTag()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script></script foo="" > "" dd>BAR");
+            var doc = Html(@"FOO<script></script foo="" > "" dd>BAR");
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Count);
@@ -289,7 +295,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedLtInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<'</script>BAR");
+            var doc = Html(@"FOO<script>'<'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -331,7 +337,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedLtEmInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!'</script>BAR");
+            var doc = Html(@"FOO<script>'<!'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -373,7 +379,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedLtEmDashInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!-'</script>BAR");
+            var doc = Html(@"FOO<script>'<!-'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -415,7 +421,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedCommentStartInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!--'</script>BAR");
+            var doc = Html(@"FOO<script>'<!--'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -457,7 +463,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedCommentStartAndDashInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!---'</script>BAR");
+            var doc = Html(@"FOO<script>'<!---'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -499,7 +505,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedEmptyCommentInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!-->'</script>BAR");
+            var doc = Html(@"FOO<script>'<!-->'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -541,7 +547,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedEmptyShortCommentInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!-->'</script>BAR");
+            var doc = Html(@"FOO<script>'<!-->'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -583,7 +589,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedPotatoCommentInText()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!-- potato'</script>BAR");
+            var doc = Html(@"FOO<script>'<!-- potato'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -625,7 +631,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithQuotedScriptEndInComment()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!-- <sCrIpt'</script>BAR");
+            var doc = Html(@"FOO<script>'<!-- <sCrIpt'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -667,7 +673,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributesAndQuotedScriptEnd()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt>'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt>'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -706,7 +712,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributesAndQuotedScriptStart()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> -'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> -'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -745,7 +751,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributesAndQuotedScriptStartMoreDashes()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> --'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> --'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -784,7 +790,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithValidCommentAndStartInQuotes()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script>'<!-- <sCrIpt> -->'</script>BAR");
+            var doc = Html(@"FOO<script>'<!-- <sCrIpt> -->'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -826,7 +832,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndToleratedStartInCommentAndQuotes()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> --!>'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> --!>'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -865,7 +871,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndInvalidCommentAndQuotes()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> -- >'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt> -- >'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -904,7 +910,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotes()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt '</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt '</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -943,7 +949,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotesTrailingSolidus()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt/'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt/'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -982,7 +988,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotesTrailingBackslash()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt\'</script>BAR");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt\'</script>BAR");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1026,7 +1032,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptWithAttributeAndInvalidStartOfCommentAndQuotesConsistentlyClosed()
         {
-            var doc = DocumentBuilder.Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt/'</script>BAR</script>QUX");
+            var doc = Html(@"FOO<script type=""text/plain"">'<!-- <sCrIpt/'</script>BAR</script>QUX");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

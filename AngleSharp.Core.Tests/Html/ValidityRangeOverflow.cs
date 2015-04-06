@@ -1,4 +1,5 @@
-using AngleSharp;
+using System;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
@@ -10,11 +11,16 @@ namespace AngleSharp.Core.Tests.Html
     /// </summary>
     [TestFixture]
 	public class ValidityRangeOverflowTests
-	{
-		[Test]
+    {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
+        [Test]
 		public void TestRangeoverflowInputDatetime1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -37,7 +43,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -60,7 +66,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -83,7 +89,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -106,7 +112,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -129,7 +135,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -152,7 +158,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -175,7 +181,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -198,7 +204,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -221,7 +227,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime10()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -244,7 +250,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime11()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -267,7 +273,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDatetime12()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -290,7 +296,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -313,7 +319,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -336,7 +342,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -359,7 +365,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -382,7 +388,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -405,7 +411,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -428,7 +434,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -451,7 +457,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -474,7 +480,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -497,7 +503,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputDate10()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -520,7 +526,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -543,7 +549,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -566,7 +572,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -589,7 +595,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -612,7 +618,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -635,7 +641,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -658,7 +664,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -681,7 +687,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -704,7 +710,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputMonth9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -727,7 +733,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -750,7 +756,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -773,7 +779,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -796,7 +802,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -819,7 +825,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -842,7 +848,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -865,7 +871,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -888,7 +894,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -911,7 +917,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -934,7 +940,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputWeek10()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -957,7 +963,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -980,7 +986,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1003,7 +1009,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1026,7 +1032,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1049,7 +1055,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1072,7 +1078,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1095,7 +1101,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1118,7 +1124,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1141,7 +1147,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1164,7 +1170,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime10()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1187,7 +1193,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime11()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1210,7 +1216,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime12()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1233,7 +1239,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime13()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1256,7 +1262,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputTime14()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1279,7 +1285,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber1()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1302,7 +1308,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber2()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1325,7 +1331,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber3()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1348,7 +1354,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber4()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1371,7 +1377,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber5()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1394,7 +1400,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber6()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1417,7 +1423,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber7()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1440,7 +1446,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber8()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1463,7 +1469,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestRangeoverflowInputNumber9()
 		{
-			var document = DocumentBuilder.Html("");
+			var document = Html("");
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";

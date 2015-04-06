@@ -3,16 +3,22 @@ using AngleSharp.Dom;
 using AngleSharp.Html;
 using NUnit.Framework;
 using System.Linq;
+using System;
 
 namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class LiveCollectionTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void HtmlLiveCollectionUpdates()
         {
-            var document = DocumentBuilder.Html("<ul><li>A<li>B<li>C<li>D</ul>");
+            var document = Html("<ul><li>A<li>B<li>C<li>D</ul>");
 
             var body = document.Body;
             Assert.IsNotNull(body);
@@ -40,7 +46,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void HtmlLiveCollectionCompleteDOMRebuildWithInnerHtml()
         {
-            var document = DocumentBuilder.Html("<p><p><p><p><p>");
+            var document = Html("<p><p><p><p><p>");
 
             var body = document.Body;
             Assert.IsNotNull(body);
@@ -78,7 +84,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void HtmlLiveCollectionCompleteDOMRebuildWithText()
         {
-            var document = DocumentBuilder.Html("<p><p><p><p><p>");
+            var document = Html("<p><p><p><p><p>");
 
             var body = document.Body;
             Assert.IsNotNull(body);
@@ -108,7 +114,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void HtmlLiveCollectionWithAttr()
         {
-            var document = DocumentBuilder.Html("<a name=first>some name</a><a name=second>more</a><div><a name=third>last</a><a id=change>not really an anchor</a></div>");
+            var document = Html("<a name=first>some name</a><a name=second>more</a><div><a name=third>last</a><a id=change>not really an anchor</a></div>");
 
             var body = document.Body;
             Assert.IsNotNull(body);
@@ -135,7 +141,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void HtmlLiveCollectionMultiple()
         {
-            var document = DocumentBuilder.Html("<embed></embed><div><object></object><applet></applet>");
+            var document = Html("<embed></embed><div><object></object><applet></applet>");
 
             var body = document.Body;
             Assert.IsNotNull(body);
@@ -156,7 +162,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void HtmlLiveCollectionMultipleWithAttr()
         {
-            var document = DocumentBuilder.Html("<a href='http://127.0.0.1'></a><div class='container'><area href='#'>my area</area>");
+            var document = Html("<a href='http://127.0.0.1'></a><div class='container'><area href='#'>my area</area>");
 
             var body = document.Body;
             Assert.IsNotNull(body);

@@ -1,3 +1,4 @@
+using System;
 using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom;
 using NUnit.Framework;
@@ -11,10 +12,22 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class RawtextTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
+        static IDocument HtmlWithScripting(String code)
+        {
+            var scripting = new EnableScripting();
+            var config = new Configuration().Register(scripting);
+            return code.ToHtmlDocument(config);
+        }
+
         [Test]
         public void IllegalCommentStartInStyleElement()
         {
-            var doc = DocumentBuilder.Html(@"<style> <!-- </style>x");
+            var doc = Html(@"<style> <!-- </style>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -52,7 +65,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StartOfCommentInStyleElement()
         {
-            var doc = DocumentBuilder.Html(@"<style> <!-- </style> --> </style>x");
+            var doc = Html(@"<style> <!-- </style> --> </style>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -94,7 +107,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void IllegalCommentInStyleTag()
         {
-            var doc = DocumentBuilder.Html(@"<style> <!--> </style>x");
+            var doc = Html(@"<style> <!--> </style>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -132,7 +145,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CommentInStyleElement()
         {
-            var doc = DocumentBuilder.Html(@"<style> <!---> </style>x");
+            var doc = Html(@"<style> <!---> </style>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -170,7 +183,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CommentInIframeElement()
         {
-            var doc = DocumentBuilder.Html(@"<iframe> <!---> </iframe>x");
+            var doc = Html(@"<iframe> <!---> </iframe>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -208,7 +221,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StartOfCommentInIframeElement()
         {
-            var doc = DocumentBuilder.Html(@"<iframe> <!--- </iframe>->x</iframe> --> </iframe>x");
+            var doc = Html(@"<iframe> <!--- </iframe>->x</iframe> --> </iframe>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -246,7 +259,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StartOfCommentInScriptElement()
         {
-            var doc = DocumentBuilder.Html(@"<script> <!-- </script> --> </script>x");
+            var doc = Html(@"<script> <!-- </script> --> </script>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -288,7 +301,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StartOfCommentInTitleElement()
         {
-            var doc = DocumentBuilder.Html(@"<title> <!-- </title> --> </title>x");
+            var doc = Html(@"<title> <!-- </title> --> </title>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -330,7 +343,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StartOfCommentInTextareaElement()
         {
-            var doc = DocumentBuilder.Html(@"<textarea> <!--- </textarea>->x</textarea> --> </textarea>x");
+            var doc = Html(@"<textarea> <!--- </textarea>->x</textarea> --> </textarea>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -368,7 +381,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RawtextHalfCommentInStyleElement()
         {
-            var doc = DocumentBuilder.Html(@"<style> <!</-- </style>x");
+            var doc = Html(@"<style> <!</-- </style>x");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -406,7 +419,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void XmpInParagraphElement()
         {
-            var doc = DocumentBuilder.Html(@"<p><xmp></xmp>");
+            var doc = Html(@"<p><xmp></xmp>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -442,7 +455,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RawtextInXmpTag()
         {
-            var doc = DocumentBuilder.Html(@"<xmp> <!-- > --> </xmp>");
+            var doc = Html(@"<xmp> <!-- > --> </xmp>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -476,7 +489,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInTitleTag()
         {
-            var doc = DocumentBuilder.Html(@"<title>&amp;</title>");
+            var doc = Html(@"<title>&amp;</title>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -510,7 +523,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CommentAndEntityInTitleText()
         {
-            var doc = DocumentBuilder.Html(@"<title><!--&amp;--></title>");
+            var doc = Html(@"<title><!--&amp;--></title>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -544,7 +557,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TitleTriggersRawtextMode()
         {
-            var doc = DocumentBuilder.Html(@"<title><!--</title>");
+            var doc = Html(@"<title><!--</title>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -578,9 +591,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NoScriptTriggersRawtextMode()
         {
-            var config = new Configuration();
-            config.Register(new EnableScripting());
-            var doc = DocumentBuilder.Html(@"<noscript><!--</noscript>--></noscript>", config);
+            var doc = HtmlWithScripting(@"<noscript><!--</noscript>--></noscript>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -618,8 +629,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NoScriptElementWithComment()
         {
-            var config = new Configuration();
-            var doc = DocumentBuilder.Html(@"<noscript><!--</noscript>--></noscript>", config);
+            var doc = Html(@"<noscript><!--</noscript>--></noscript>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
@@ -6,10 +7,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlStyleTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void StyleWithCommentThatContainsClosingStyleTag()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style><!--...</style>...--></style>");
+            var doc = Html(@"<!doctype html><style><!--...</style>...--></style>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -52,7 +58,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithCommentsAndText()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style><!--<br><html xmlns:v=""urn:schemas-microsoft-com:vml""><!--[if !mso]><style></style>X");
+            var doc = Html(@"<!doctype html><style><!--<br><html xmlns:v=""urn:schemas-microsoft-com:vml""><!--[if !mso]><style></style>X");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -95,7 +101,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithCommentsAndNestedStyles()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style><!--...<style><!--...--!></style>--></style>");
+            var doc = Html(@"<!doctype html><style><!--...<style><!--...--!></style>--></style>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -138,7 +144,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithNestedCommentAndOtherStyles()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style><!--...</style><!-- --><style>@import ...</style>");
+            var doc = Html(@"<!doctype html><style><!--...</style><!-- --><style>@import ...</style>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -191,7 +197,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithNestedElementAndComment()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style>...<style><!--...</style><!-- --></style>");
+            var doc = Html(@"<!doctype html><style>...<style><!--...</style><!-- --></style>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -234,7 +240,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithCommentInsideThatHostsIEConditional()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style>...<!--[if IE]><style>...</style>X");
+            var doc = Html(@"<!doctype html><style>...<!--[if IE]><style>...</style>X");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -277,7 +283,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TitleWithCommentInsideThatHostsAnotherTitlePair()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><title><!--<title></title>--></title>");
+            var doc = Html(@"<!doctype html><title><!--<title></title>--></title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -320,7 +326,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TitleWithEntityThatIsWronglyClosed()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><title>&lt;/title></title>");
+            var doc = Html(@"<!doctype html><title>&lt;/title></title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -359,7 +365,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithCommentInsideThatContainsAnotherStylePair()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style><!--<style></style>--></style>");
+            var doc = Html(@"<!doctype html><style><!--<style></style>--></style>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -402,7 +408,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleWithOpeningCommentAndClosedStyleInside()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><style><!--</style>X");
+            var doc = Html(@"<!doctype html><style><!--</style>X");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

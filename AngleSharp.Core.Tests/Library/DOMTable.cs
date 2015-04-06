@@ -41,10 +41,15 @@ namespace AngleSharp.Core.Tests.Library
   </tfoot>
 </table> ";
 
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void ChildrenOfTableDirectly()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table");
             SimpleTableTest(document, table, table);
         }
@@ -52,7 +57,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ChildrenOfTableHead()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table");
             var group = table.AppendChild(document.CreateElement("thead")) as IElement;
             SimpleTableTest(document, group, table);
@@ -61,7 +66,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ChildrenOfTableFoot()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table");
             var group = table.AppendChild(document.CreateElement("tfoot")) as IElement;
             SimpleTableTest(document, group, table);
@@ -70,7 +75,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ChildrenOfTableBody()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table");
             var group = table.AppendChild(document.CreateElement("tbody")) as IElement;
             SimpleTableTest(document, group, table);
@@ -79,7 +84,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ChildrenOfTableAndVariousSections()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table");
             var orphan1 = table.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
             orphan1.Id = "orphan1";
@@ -217,7 +222,7 @@ namespace AngleSharp.Core.Tests.Library
               "    </table>" +
               "  </body>" +
               "</html>";
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var doc = DocumentBuilder.Html(text);
             // import <table>
             var table = doc.DocumentElement.GetElementsByTagName("table")[0];
@@ -237,7 +242,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyNoChildNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var tbody = table.CreateBody();
             Assert.AreEqual(table.FirstChild, tbody);
@@ -247,7 +252,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyOneTbodyChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             CollectionAssert.AreEqual(new[] { before }, table.ChildNodes.ToArray());
@@ -260,7 +265,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTwoTbodyChildNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
@@ -274,7 +279,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTheadAndTbodyChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("thead")) as IHtmlTableSectionElement;
             var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
@@ -288,7 +293,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTfootAndTbodyChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tfoot"));
             var before2 = table.AppendChild(document.CreateElement("tbody"));
@@ -302,7 +307,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTbodyAndTheadChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             var after = table.AppendChild(document.CreateElement("thead")) as IHtmlTableSectionElement;
@@ -316,7 +321,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTbodyAndTfootChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             var after = table.AppendChild(document.CreateElement("tfoot")) as IHtmlTableSectionElement;
@@ -330,7 +335,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTwoTbodyChildNodesAndADiv()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             var before2 = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
@@ -345,7 +350,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyOneHtmlOneNamespacedTBodyElement()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody"));
             var after = table.AppendChild(document.CreateElement("x", "tbody"));
@@ -359,7 +364,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyTwoNestedTBodyChildNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tbody"));
             var before2 = before1.AppendChild(document.CreateElement("tbody"));
@@ -373,7 +378,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyATBodyInsideATHead()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("thead"));
             var before2 = before1.AppendChild(document.CreateElement("tbody"));
@@ -387,7 +392,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyATBodyInsideATFoot()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before1 = table.AppendChild(document.CreateElement("tfoot"));
             var before2 = before1.AppendChild(document.CreateElement("tbody"));
@@ -401,7 +406,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyATBodyNodeInsideATHeadChildNodeAfterATBodyChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody"));
             var after1 = table.AppendChild(document.CreateElement("thead"));
@@ -416,7 +421,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableBodyATBodyNodeInsideATFootChildNodeAfterATBodyChildNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody"));
             var after1 = table.AppendChild(document.CreateElement("tfoot"));
@@ -431,7 +436,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableInsertRowShouldNotCopyPrefixes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var parentEl = document.CreateElement(HTMLNS, "html:table") as IHtmlTableElement;
             Assert.AreEqual(HTMLNS, parentEl.NamespaceUri);
             Assert.AreEqual("html", parentEl.Prefix);
@@ -455,7 +460,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableInsertRowShouldInsertIntoTbodyNotTheadIfTableRowsIsEmpty()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var head = table.AppendChild(document.CreateElement("thead"));
             CollectionAssert.AreEqual(new INode[0], table.Rows.ToArray());
@@ -470,7 +475,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableInsertRowShouldInsertIntoTbodyNotTfootIfTableRowsIsEmpty()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var foot = table.AppendChild(document.CreateElement("tfoot"));
             CollectionAssert.AreEqual(new INode[0], table.Rows.ToArray());
@@ -485,7 +490,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableCreateCaptionReturnsTheFirstCaptionElementChildOfTheTable()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
 		<caption>caption</caption>
 		<tr>
 			<td>cell</td>
@@ -501,7 +506,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableCreateCaptionCreatesNewCaptionAndInsertsItAsTheFirstNodeOfTheTableElement()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
 		<tr>
 			<td>cell</td>
 			<td>cell</td>
@@ -517,7 +522,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableDeleteCaptionRemovesTheFirstCaptionElementChildOfTheTableElement()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
 		<caption>caption</caption>
 		<tr>
 			<td>cell</td>
@@ -533,7 +538,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableFirstCaptionElementChild()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
       <tr><td></td></tr>
       <caption>first caption</caption>
       <caption>second caption</caption>
@@ -545,7 +550,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableSettingCaption()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
       <tr><td></td></tr>
       <caption>first caption</caption>
       <caption>second caption</caption>
@@ -565,7 +570,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableWithNoCaption()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
       <tr><td></td></tr>
     </table>");
             var table = document.QuerySelector("table") as IHtmlTableElement;
@@ -575,7 +580,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableWithNestedCaption()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
       <tr><td></td></tr>
     </table>");
             var table = document.QuerySelector("table") as IHtmlTableElement;
@@ -587,7 +592,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableDynamicallyRemovingTheCaption()
         {
-            var document = DocumentBuilder.Html(@"<table>
+            var document = Html(@"<table>
       <tr><td></td></tr>
       <caption>first caption</caption>
     </table>");
@@ -600,7 +605,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInDiv()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("div"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -610,7 +615,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexDefinedInTableHead()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("thead"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -620,7 +625,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexDefinedInTableBody()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("tbody"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -630,7 +635,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexDefinedInTableFoot()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("tfoot"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -640,7 +645,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexDefinedInTable()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
             Assert.AreEqual(0, row.Index);
@@ -649,7 +654,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInTableHeadOfNamespacedTable()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("", "table")
                               .AppendChild(document.CreateElement("thead"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -659,7 +664,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInTableBodyOfNamespacedTable()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("", "table")
                               .AppendChild(document.CreateElement("tbody"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -669,7 +674,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInTableFootOfNamespacedTable()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("", "table")
                               .AppendChild(document.CreateElement("tfoot"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -679,7 +684,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInNamespacedTable()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("", "table")
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
             Assert.AreEqual(-1, row.Index);
@@ -688,7 +693,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInNamespacedTableHead()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("", "thead"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -698,7 +703,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInNamespacedTableBody()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("", "tbody"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -708,7 +713,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowIndexUndefinedInNamespacedTableFoot()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var row = document.CreateElement("table")
                               .AppendChild(document.CreateElement("", "tfoot"))
                               .AppendElement(document.CreateElement<IHtmlTableRowElement>());
@@ -718,7 +723,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInThead()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var tHeadRow = document.GetElementById("ht1") as IHtmlTableRowElement;
             Assert.AreEqual(0, tHeadRow.IndexInSection);
         }
@@ -726,7 +731,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInImplicitTbody()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var tRow1 = document.GetElementById("t1") as IHtmlTableRowElement;
             Assert.AreEqual(0, tRow1.IndexInSection);
         }
@@ -734,7 +739,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableOtherRowInImplicitTbody()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var tRow2 = document.GetElementById("t2") as IHtmlTableRowElement;
             Assert.AreEqual(1, tRow2.IndexInSection);
         }
@@ -742,7 +747,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInExplicitTbody()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var tBodyRow = document.GetElementById("bt1") as IHtmlTableRowElement;
             Assert.AreEqual(1, tBodyRow.IndexInSection);
         }
@@ -750,7 +755,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInTfoot()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var tFootRow = document.GetElementById("ft1") as IHtmlTableRowElement;
             Assert.AreEqual(2, tFootRow.IndexInSection);
         }
@@ -758,7 +763,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInTheadInNestedTable()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var childHeadRow = document.GetElementById("nht1") as IHtmlTableRowElement;
             Assert.AreEqual(0, childHeadRow.IndexInSection);
         }
@@ -766,7 +771,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInImplicitTbodyInNestedTable()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var childRow = document.GetElementById("nt1") as IHtmlTableRowElement;
             Assert.AreEqual(1, childRow.IndexInSection);
         }
@@ -774,7 +779,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableRowInExplicitTbodyInNestedTable()
         {
-            var document = DocumentBuilder.Html(SectionRowIndexCode);
+            var document = Html(SectionRowIndexCode);
             var childBodyRow = document.GetElementById("nbt1") as IHtmlTableRowElement;
             Assert.AreEqual(0, childBodyRow.IndexInSection);
         }
@@ -849,7 +854,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableForCellsWithoutAParentCellIndexShouldBeMissing()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var th = document.CreateElement("th") as IHtmlTableHeaderCellElement;
             Assert.AreEqual(-1, th.Index);
             var td = document.CreateElement("td") as IHtmlTableDataCellElement;
@@ -859,7 +864,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableForCellsWhoseParentIsNotRowCellIndexShouldBeMissing()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var table = document.CreateElement("table");
             var th = table.AppendChild(document.CreateElement("th")) as IHtmlTableHeaderCellElement;
             Assert.AreEqual(-1, th.Index);
@@ -870,7 +875,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableForCellsWhoseParentIsNotARowCellIndexShouldBeMissing()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var tr = document.CreateElement("", "tr");
             var th = tr.AppendChild(document.CreateElement("th")) as IHtmlTableHeaderCellElement;
             Assert.AreEqual(-1, th.Index);
@@ -881,7 +886,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TableForCellsWhoseParentIsARowCellIndexShouldBeTheIndex()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var tr = document.CreateElement("tr");
             var th = tr.AppendChild(document.CreateElement("th")) as IHtmlTableHeaderCellElement;
             Assert.AreEqual(0, th.Index);
@@ -891,7 +896,7 @@ namespace AngleSharp.Core.Tests.Library
 
         static IHtmlTableRowElement MakeRowElement(params String[] names)
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var elm = document.CreateElement("table");
 
             foreach (var name in names)

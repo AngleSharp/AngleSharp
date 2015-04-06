@@ -1,19 +1,24 @@
-﻿using AngleSharp;
+﻿using System;
+using System.Text;
 using AngleSharp.Dom;
 using NUnit.Framework;
-using System.Text;
 
 namespace AngleSharp.Core.Tests.Library
 {
     [TestFixture]
     public class AnalysisWindowTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void GetComputedStyleTrivialInitialScenario()
         {
             var sourceCode = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
 
-            var document = DocumentBuilder.Html(sourceCode);
+            var document = Html(sourceCode);
             var window = document.DefaultView;
             Assert.IsNotNull(document);
 
@@ -52,7 +57,7 @@ namespace AngleSharp.Core.Tests.Library
             source.Append(styles);
             source.Append(body);
 
-            var document = DocumentBuilder.Html(source.ToString());
+            var document = Html(source.ToString());
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 
@@ -92,7 +97,7 @@ namespace AngleSharp.Core.Tests.Library
             source.Append(styles);
             source.Append(body);
 
-            var document = DocumentBuilder.Html(source.ToString());
+            var document = Html(source.ToString());
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 
@@ -122,7 +127,7 @@ namespace AngleSharp.Core.Tests.Library
             source.Append(styles);
             source.Append(body);
 
-            var document = DocumentBuilder.Html(source.ToString());
+            var document = Html(source.ToString());
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 
@@ -157,7 +162,7 @@ em { font-style: italic !important; }
 <body>
 <div><p><span class=bold>Bold <em style='color: red' class=red id=text>text</em>";
 
-            var document = DocumentBuilder.Html(sourceCode);
+            var document = Html(sourceCode);
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 
@@ -185,7 +190,7 @@ em { font-style: italic !important; }
         {
             var sourceCode = "<!doctype html><head><style>p > span::after { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
 
-            var document = DocumentBuilder.Html(sourceCode);
+            var document = Html(sourceCode);
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 
@@ -205,7 +210,7 @@ em { font-style: italic !important; }
         {
             var sourceCode = "<!doctype html><head><style>p > span::after { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
 
-            var document = DocumentBuilder.Html(sourceCode);
+            var document = Html(sourceCode);
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 
@@ -225,7 +230,7 @@ em { font-style: italic !important; }
         {
             var sourceCode = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; } span.bold::before { color: red; content: 'Important!'; }</style></head><body><div><p><span class='bold'>Bold text";
 
-            var document = DocumentBuilder.Html(sourceCode);
+            var document = Html(sourceCode);
             Assert.IsNotNull(document);
             var window = document.DefaultView;
 

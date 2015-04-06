@@ -9,7 +9,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DetectStylesheet()
         {
-            var html = @"<!DOCTYPE html>
+            var source = @"<!DOCTYPE html>
 
 <html>
 <head>
@@ -26,7 +26,7 @@ namespace AngleSharp.Core.Tests
 </body>
 </html>";
 
-            var doc = DocumentBuilder.Html(html);
+            var doc = source.ToHtmlDocument();
             Assert.AreEqual(1, doc.StyleSheets.Length);
             var css = doc.StyleSheets[0] as CssStyleSheet;
             Assert.AreEqual(1, css.Rules.Length);

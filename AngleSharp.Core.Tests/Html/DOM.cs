@@ -1,10 +1,10 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using System.Linq;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Css;
 using AngleSharp.Dom.Html;
 using AngleSharp.Html;
 using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace AngleSharp.Core.Tests
 {
@@ -19,10 +19,15 @@ namespace AngleSharp.Core.Tests
             document = new Document();
         }
 
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void AppendMultipleNodesToParentNode()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var children = new[]
             {
                 document.CreateElement("span"),
@@ -64,7 +69,7 @@ namespace AngleSharp.Core.Tests
                 "class",
                 "style"
             };
-            var document = DocumentBuilder.Html(content);
+            var document = content.ToHtmlDocument();
             var img = document.QuerySelector("img.img-responsive");
             Assert.IsNotNull(img);
             var attributes = img.Attributes.ToArray();
@@ -191,29 +196,29 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlHasRightHeadElement()
         {
-            var doc = new Document();
+            var document = new Document();
             var root = new HtmlHtmlElement(document);
-            doc.AppendChild(root);
+            document.AppendChild(root);
             var head = new HtmlHeadElement(document);
             root.AppendChild(head);
-            Assert.AreEqual(head, doc.Head);
+            Assert.AreEqual(head, document.Head);
         }
 
         [Test]
         public void HtmlHasRightBodyElement()
         {
-            var doc = new Document();
+            var document = new Document();
             var root = new HtmlHtmlElement(document);
-            doc.AppendChild(root);
+            document.AppendChild(root);
             var body = new HtmlBodyElement(document);
             root.AppendChild(body);
-            Assert.AreEqual(body, doc.Body);
+            Assert.AreEqual(body, document.Body);
         }
 
         [Test]
         public void NormalizeRemovesEmptyTextNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = new Document();
             var div = document.CreateElement("div");
             div.AppendChild(document.CreateElement("a"));
             div.AppendChild(document.CreateTextNode(String.Empty));
@@ -227,7 +232,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NormalizeRemovesEmptyTextNodesNested()
         {
-            var document = DocumentBuilder.Html("");
+            var document = new Document();
             var div = document.CreateElement("div");
             var a = document.CreateElement("a");
             a.AppendChild(document.CreateTextNode(""));
@@ -244,7 +249,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NormalizeMergeTextNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = new Document();
             var div = document.CreateElement("div");
             var a = document.CreateElement("a");
             a.AppendChild(document.CreateTextNode(""));
@@ -516,7 +521,7 @@ namespace AngleSharp.Core.Tests
 <!--[if lt IE 9]><script src=""//html5shim.googlecode.com/svn/trunk/html5.js""></script><![endif]-->
 </head><body></body></html>";
 
-            var doc = DocumentBuilder.Html(content);
+            var doc = content.ToHtmlDocument();
 
             var docType = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType);
@@ -540,7 +545,7 @@ namespace AngleSharp.Core.Tests
         public void HtmlCharacterSerialization()
         {
             var content = @"<!doctype html><html><head></head><body></body></html>";
-            var doc = DocumentBuilder.Html(content);
+            var doc = content.ToHtmlDocument();
 
             var body = doc.Body;
             Assert.IsNotNull(body);
@@ -569,7 +574,7 @@ namespace AngleSharp.Core.Tests
 <!--EndFragment-->
 </body>
 </html>";
-            var doc = DocumentBuilder.Html(content);
+            var doc = content.ToHtmlDocument();
 
             var body = doc.Body;
             var span = body.QuerySelector("span") as HtmlSpanElement;
@@ -584,7 +589,7 @@ namespace AngleSharp.Core.Tests
         public void HtmlWithLangAttributeFromStream()
         {
             var fs = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("AngleSharp.Core.Tests.Pages.encoding.html");
-            var doc = DocumentBuilder.Html(fs);
+            var doc = fs.ToHtmlDocument();
 
             var body = doc.Body;
             var span = body.QuerySelector("span") as HtmlSpanElement;
@@ -600,7 +605,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TitleRemovalAndAssignment()
         {
-            var document = DocumentBuilder.Html("<title>sample</title>");
+            var document = Html("<title>sample</title>");
             var head = document.DocumentElement.FirstChild;
             head.RemoveChild(head.FirstChild);
             Assert.AreEqual("", document.Title);
@@ -613,7 +618,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HeadDuplicatedAndInserted()
         {
-            var document = DocumentBuilder.Html("");
+            var document = Html("");
             var head = document.GetElementsByTagName("head")[0];
             Assert.AreEqual(head, document.Head);
             document.DocumentElement.AppendChild(document.CreateElement("head"));

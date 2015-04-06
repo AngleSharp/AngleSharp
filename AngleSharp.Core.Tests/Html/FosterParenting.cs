@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
@@ -12,10 +13,22 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class FosterParentingTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
+        static INodeList HtmlFragment(String code, String context)
+        {
+            var doc = Html("");
+            var element = doc.CreateElement(context);
+            return code.ToHtmlFragment(element);
+        }
+
         [Test]
         public void FosterDivInDivMisclosedSpan()
         {
-            var doc = DocumentBuilder.Html(@"<div>
+            var doc = Html(@"<div>
 <div></div>
 </span>x");
 
@@ -61,7 +74,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTextAndDivInDivMisclosedSpan()
         {
-            var doc = DocumentBuilder.Html(@"<div>x<div></div>
+            var doc = Html(@"<div>x<div></div>
 </span>x");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -106,7 +119,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTextAndDivInDivMisclosedSpanWithText()
         {
-            var doc = DocumentBuilder.Html(@"<div>x<div></div>x</span>x");
+            var doc = Html(@"<div>x<div></div>x</span>x");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -150,7 +163,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTextAndDivInDivWithTextMisclosedSpan()
         {
-            var doc = DocumentBuilder.Html(@"<div>x<div></div>y</span>z");
+            var doc = Html(@"<div>x<div></div>y</span>z");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -194,7 +207,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterDivAndTextInDivAndTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><div>x<div></div>x</span>x");
+            var doc = Html(@"<table><div>x<div></div>x</span>x");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -245,7 +258,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTextInTable()
         {
-            var doc = DocumentBuilder.Html(@"x<table>x");
+            var doc = Html(@"x<table>x");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -279,7 +292,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTableInTable()
         {
-            var doc = DocumentBuilder.Html(@"x<table><table>x");
+            var doc = Html(@"x<table><table>x");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -323,7 +336,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterDivsInBoldFormatting()
         {
-            var doc = DocumentBuilder.Html(@"<b>a<div></div><div></b>y");
+            var doc = Html(@"<b>a<div></div><div></b>y");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -379,7 +392,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterParagraphAndDivInAnchor()
         {
-            var doc = DocumentBuilder.Html(@"<a><div><p></a>");
+            var doc = Html(@"<a><div><p></a>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -433,7 +446,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTitleInBody()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><body><title>X</title>");
+            var doc = Html(@"<!doctype html><body><title>X</title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -472,7 +485,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTitleInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><title>X</title></table>");
+            var doc = Html(@"<!doctype html><table><title>X</title></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -517,7 +530,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterTitleOutsideHead()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><head></head><title>X</title>");
+            var doc = Html(@"<!doctype html><head></head><title>X</title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -556,7 +569,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterMisclosedHeadAndTitle()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html></head><title>X</title>");
+            var doc = Html(@"<!doctype html></head><title>X</title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -595,7 +608,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterMetaInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><meta></table>");
+            var doc = Html(@"<!doctype html><table><meta></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -636,7 +649,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterMetaInTableInTableCell()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table>X<tr><td><table> <meta></table></table>");
+            var doc = Html(@"<!doctype html><table>X<tr><td><table> <meta></table></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -709,7 +722,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterSpaceBeforeHead()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><html> <head>");
+            var doc = Html(@"<!doctype html><html> <head>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -738,7 +751,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterSpaceBeforeHtml()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html> <head>");
+            var doc = Html(@"<!doctype html> <head>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -767,7 +780,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterStyleInTableWithSpaces()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><style> <tr>x </style> </table>");
+            var doc = Html(@"<!doctype html><table><style> <tr>x </style> </table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -816,7 +829,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterScriptInTbodyInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><TBODY><script> <tr>x </script> </table>");
+            var doc = Html(@"<!doctype html><table><TBODY><script> <tr>x </script> </table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -871,7 +884,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterAppletInParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><p><applet><p>X</p></applet>");
+            var doc = Html(@"<!doctype html><p><applet><p>X</p></applet>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -922,7 +935,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterListingBeforeHtml()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><listing>
+            var doc = Html(@"<!doctype html><listing>
 X</listing>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -962,7 +975,7 @@ X</listing>");
         [Test]
         public void FosterSelectWithMisnestedInput()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><select><input>X");
+            var doc = Html(@"<!doctype html><select><input>X");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1007,7 +1020,7 @@ X</listing>");
         [Test]
         public void FosterSelectInSelect()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><select><select>X");
+            var doc = Html(@"<!doctype html><select><select>X");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1046,7 +1059,7 @@ X</listing>");
         [Test]
         public void FosterInputInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><input type=hidDEN></table>");
+            var doc = Html(@"<!doctype html><table><input type=hidDEN></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1088,7 +1101,7 @@ X</listing>");
         [Test]
         public void FosterInputAndTextInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table>X<input type=hidDEN></table>");
+            var doc = Html(@"<!doctype html><table>X<input type=hidDEN></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1134,7 +1147,7 @@ X</listing>");
         [Test]
         public void FosterSpacesAndInputInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table>  <input type=hidDEN></table>");
+            var doc = Html(@"<!doctype html><table>  <input type=hidDEN></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1180,7 +1193,7 @@ X</listing>");
         [Test]
         public void FosterInputAndSpacesWithAttributeInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table>  <input type='hidDEN'></table>");
+            var doc = Html(@"<!doctype html><table>  <input type='hidDEN'></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1226,7 +1239,7 @@ X</listing>");
         [Test]
         public void FosterTwoInputsInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><input type="" hidden""><input type=hidDEN></table>");
+            var doc = Html(@"<!doctype html><table><input type="" hidden""><input type=hidDEN></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1275,7 +1288,7 @@ X</listing>");
         [Test]
         public void FosterSelectInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><table><select>X<tr>");
+            var doc = Html(@"<!doctype html><table><select>X<tr>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1332,7 +1345,7 @@ X</listing>");
         [Test]
         public void FosterTextInSelect()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><select>X</select>");
+            var doc = Html(@"<!doctype html><select>X</select>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1371,7 +1384,7 @@ X</listing>");
         [Test]
         public void MixingUpperAndLowercaseInDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE hTmL><html></html>");
+            var doc = Html(@"<!DOCTYPE hTmL><html></html>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1400,7 +1413,7 @@ X</listing>");
         [Test]
         public void PureUppercaseDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE HTML><html></html>");
+            var doc = Html(@"<!DOCTYPE HTML><html></html>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1429,7 +1442,7 @@ X</listing>");
         [Test]
         public void ParagraphClosedWrongInDiv()
         {
-            var doc = DocumentBuilder.Html(@"<div><p>a</x> b");
+            var doc = Html(@"<div><p>a</x> b");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1469,7 +1482,7 @@ X</listing>");
         [Test]
         public void FosterImplicitCellClosed()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><td><code></code> </table>");
+            var doc = Html(@"<table><tr><td><code></code> </table>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1527,7 +1540,7 @@ X</listing>");
         [Test]
         public void FosterTextInTableAfterRow()
         {
-            var doc = DocumentBuilder.Html(@"<table><b><tr><td>aaa</td></tr>bbb</table>ccc");
+            var doc = Html(@"<table><b><tr><td>aaa</td></tr>bbb</table>ccc");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1605,7 +1618,7 @@ X</listing>");
         [Test]
         public void FosterSpacesAndTextAfterRow()
         {
-            var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> B</table>");
+            var doc = Html(@"A<table><tr> B</tr> B</table>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1651,7 +1664,7 @@ X</listing>");
         [Test]
         public void FosterSpacesTextAndFormattingAfterRow()
         {
-            var doc = DocumentBuilder.Html(@"A<table><tr> B</tr> </em>C</table>");
+            var doc = Html(@"A<table><tr> B</tr> </em>C</table>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1701,7 +1714,7 @@ X</listing>");
         [Test]
         public void FosterKeygenInSelect()
         {
-            var doc = DocumentBuilder.Html(@"<select><keygen>");
+            var doc = Html(@"<select><keygen>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1737,7 +1750,7 @@ X</listing>");
         [Test]
         public void StandardDoctypeProvidedAndSpaceShouldBePlacedInBodyWithSecondHeadIgnored()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html></head> <head>");
+            var doc = Html(@"<!doctype html></head> <head>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1770,7 +1783,7 @@ X</listing>");
         [Test]
         public void StandardDoctypeProvidedAndFormShouldNotCloseInDiv()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><form><div></form><div>");
+            var doc = Html(@"<!doctype html><form><div></form><div>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1817,7 +1830,7 @@ X</listing>");
         [Test]
         public void StandardDoctypeProvidedAndEntityInTitleUsed()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><title>&amp;</title>");
+            var doc = Html(@"<!doctype html><title>&amp;</title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1856,7 +1869,7 @@ X</listing>");
         [Test]
         public void StandardDoctypeProvidedAndStrangeTitleEntered()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype html><title><!--&amp;--></title>");
+            var doc = Html(@"<!doctype html><title><!--&amp;--></title>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1895,7 +1908,7 @@ X</listing>");
         [Test]
         public void BareDocTypeProvidedWithNoOtherContent()
         {
-            var doc = DocumentBuilder.Html(@"<!doctype>");
+            var doc = Html(@"<!doctype>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1926,7 +1939,7 @@ X</listing>");
         [Test]
         public void UnfinishedCommentShouldBePlacedOnTop()
         {
-            var doc = DocumentBuilder.Html(@"<!---x");
+            var doc = Html(@"<!---x");
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1955,8 +1968,8 @@ X</listing>");
         [Test]
         public void FragmentAnotherBodyAndDivOpenedInContextOfADiv()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body>
-<div>", Factory.HtmlElements.Create(null, "div"));
+            var doc = HtmlFragment(@"<body>
+<div>", "div");
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -1973,7 +1986,7 @@ X</listing>");
         [Test]
         public void FramesetOpenedAndClosedDirectlyFollowedByText()
         {
-            var doc = DocumentBuilder.Html(@"<frameset></frameset>
+            var doc = Html(@"<frameset></frameset>
 foo");
 
             var dochtml0 = doc.ChildNodes[0];
@@ -2002,7 +2015,7 @@ foo");
         [Test]
         public void FramesetOpenedAndClosedDirectlyFollowedByNoframes()
         {
-            var doc = DocumentBuilder.Html(@"<frameset></frameset>
+            var doc = Html(@"<frameset></frameset>
 <noframes>");
 
             var dochtml0 = doc.ChildNodes[0];
@@ -2037,7 +2050,7 @@ foo");
         [Test]
         public void FramesetOpenedAndClosedDirectlyFollowedByOpenedDiv()
         {
-            var doc = DocumentBuilder.Html(@"<frameset></frameset>
+            var doc = Html(@"<frameset></frameset>
 <div>");
 
             var dochtml0 = doc.ChildNodes[0];
@@ -2066,7 +2079,7 @@ foo");
         [Test]
         public void FramesetOpenedAndClosedDirectlyFollowedByClosedHtml()
         {
-            var doc = DocumentBuilder.Html(@"<frameset></frameset>
+            var doc = Html(@"<frameset></frameset>
 </html>");
 
             var dochtml0 = doc.ChildNodes[0];
@@ -2095,7 +2108,7 @@ foo");
         [Test]
         public void FramesetOpenedAndClosedDirectlyFollowedByClosedDiv()
         {
-            var doc = DocumentBuilder.Html(@"<frameset></frameset>
+            var doc = Html(@"<frameset></frameset>
 </div>");
 
             var dochtml0 = doc.ChildNodes[0];
@@ -2124,7 +2137,7 @@ foo");
         [Test]
         public void FormOpenedInExistingForm()
         {
-            var doc = DocumentBuilder.Html(@"<form><form>");
+            var doc = Html(@"<form><form>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2154,7 +2167,7 @@ foo");
         [Test]
         public void ButtonOpenedInExistingButton()
         {
-            var doc = DocumentBuilder.Html(@"<button><button>");
+            var doc = Html(@"<button><button>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2190,7 +2203,7 @@ foo");
         [Test]
         public void NormalCellClosedAsHeaderCellInRowInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><td></th>");
+            var doc = Html(@"<table><tr><td></th>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2238,7 +2251,7 @@ foo");
         [Test]
         public void CellInCaptionSpawnedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><caption><td>");
+            var doc = Html(@"<table><caption><td>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2292,7 +2305,7 @@ foo");
         [Test]
         public void DivOpenedInCaptionSpawnedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><caption><div>");
+            var doc = Html(@"<table><caption><div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2334,7 +2347,7 @@ foo");
         [Test]
         public void FragmentWithClosedCaptionAndOpenDivInContextOfACaption()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</caption><div>", Factory.HtmlElements.Create(null, "caption"));
+            var doc = HtmlFragment(@"</caption><div>", "caption");
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2346,7 +2359,7 @@ foo");
         [Test]
         public void DivInCaptionSpawnedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><caption><div></caption>");
+            var doc = Html(@"<table><caption><div></caption>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2388,7 +2401,7 @@ foo");
         [Test]
         public void CloseTableAfterCaptionHasBeenCreatedInsideTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><caption></table>");
+            var doc = Html(@"<table><caption></table>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2424,7 +2437,7 @@ foo");
         [Test]
         public void FragmentCloseTableAndOpenDivInContextOfACaption()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><div>", Factory.HtmlElements.Create(null, "caption"));
+            var doc = HtmlFragment(@"</table><div>", "caption");
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2436,7 +2449,7 @@ foo");
         [Test]
         public void UnexpectedClosingOfTheBodyInACaptionWithinATableElement()
         {
-            var doc = DocumentBuilder.Html(@"<table><caption></body></col></colgroup></html></tbody></td></tfoot></th></thead></tr>");
+            var doc = Html(@"<table><caption></body></col></colgroup></html></tbody></td></tfoot></th></thead></tr>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2472,7 +2485,7 @@ foo");
         [Test]
         public void DivInCaptionDirectlyPlacedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><caption><div></div>");
+            var doc = Html(@"<table><caption><div></div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2514,7 +2527,7 @@ foo");
         [Test]
         public void ClosingBodyInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><td></body></caption></col></colgroup></html>");
+            var doc = Html(@"<table><tr><td></body></caption></col></colgroup></html>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2562,7 +2575,7 @@ foo");
         [Test]
         public void FragmentWithMultipleClosingTableElementsInContextOfACell()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table></tbody></tfoot></thead></tr><div>", Factory.HtmlElements.Create(null, "td"));
+            var doc = HtmlFragment(@"</table></tbody></tfoot></thead></tr><div>", "td");
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2574,7 +2587,7 @@ foo");
         [Test]
         public void TextInColGroupSpawnedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><colgroup>foo");
+            var doc = Html(@"<table><colgroup>foo");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2614,7 +2627,7 @@ foo");
         [Test]
         public void FragmentTextAndColInContextOfAColgroup()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"foo<col>", Factory.HtmlElements.Create(null, "colgroup"));
+            var doc = HtmlFragment(@"foo<col>", "colgroup");
 
             var doccol0 = doc[0];
             Assert.AreEqual(0, doccol0.ChildNodes.Length);
@@ -2626,7 +2639,7 @@ foo");
         [Test]
         public void CloseColInColGroupSpawnedInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><colgroup></col>");
+            var doc = Html(@"<table><colgroup></col>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2662,7 +2675,7 @@ foo");
         [Test]
         public void OpenDivInFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<frameset><div>");
+            var doc = Html(@"<frameset><div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2686,7 +2699,7 @@ foo");
         [Test]
         public void FragmentCloseFramesetAndOpenFrameInContextOfAFrameset()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Factory.HtmlElements.Create(null, "frameset"));
+            var doc = HtmlFragment(@"</frameset><frame>", "frameset");
 
             var docframe0 = doc[0];
             Assert.AreEqual(0, docframe0.ChildNodes.Length);
@@ -2698,7 +2711,7 @@ foo");
         [Test]
         public void CloseDivInAFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<frameset></div>");
+            var doc = Html(@"<frameset></div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2722,7 +2735,7 @@ foo");
         [Test]
         public void FragmentCloseBodyAndOpenDivInContextOfABody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</body><div>", Factory.HtmlElements.Create(null, "body"));
+            var doc = HtmlFragment(@"</body><div>", "body");
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2734,7 +2747,7 @@ foo");
         [Test]
         public void OpenDivInARowSpawnedInATable()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><div>");
+            var doc = Html(@"<table><tr><div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2782,7 +2795,7 @@ foo");
         [Test]
         public void FragmentCloseRowAndOpenCellInContextOfARow()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</tr><td>", Factory.HtmlElements.Create(null, "tr"));
+            var doc = HtmlFragment(@"</tr><td>", "tr");
 
             var doctd0 = doc[0];
             Assert.AreEqual(0, doctd0.ChildNodes.Length);
@@ -2794,7 +2807,7 @@ foo");
         [Test]
         public void FragmentCloseBodyFootAndHeadAndOpenCellInContextOfARow()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</tbody></tfoot></thead><td>", Factory.HtmlElements.Create(null, "tr"));
+            var doc = HtmlFragment(@"</tbody></tfoot></thead><td>", "tr");
 
             var doctd0 = doc[0];
             Assert.AreEqual(0, doctd0.ChildNodes.Length);
@@ -2806,7 +2819,7 @@ foo");
         [Test]
         public void FosterIncludedDivInARowSpawnedInATableFollowedByACell()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><div><td>");
+            var doc = Html(@"<table><tr><div><td>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2860,7 +2873,7 @@ foo");
         [Test]
         public void FragmentCaptionAndOtherTableElementsInContextOfATBody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<caption><col><colgroup><tbody><tfoot><thead><tr>", Factory.HtmlElements.Create(null, "tbody"));
+            var doc = HtmlFragment(@"<caption><col><colgroup><tbody><tfoot><thead><tr>", "tbody");
 
             var doctr0 = doc[0];
             Assert.AreEqual(0, doctr0.ChildNodes.Length);
@@ -2872,7 +2885,7 @@ foo");
         [Test]
         public void OpenTBodyAndCloseTHeadInATable()
         {
-            var doc = DocumentBuilder.Html(@"<table><tbody></thead>");
+            var doc = Html(@"<table><tbody></thead>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2908,7 +2921,7 @@ foo");
         [Test]
         public void FragmentCloseTableAndOpenRowInContextOfATBody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create(null, "tbody"));
+            var doc = HtmlFragment(@"</table><tr>", "tbody");
 
             var doctr0 = doc[0];
             Assert.AreEqual(0, doctr0.ChildNodes.Length);
@@ -2920,7 +2933,7 @@ foo");
         [Test]
         public void VariousTableElementsWithMisclosedBody()
         {
-            var doc = DocumentBuilder.Html(@"<table><tbody></body></caption></col></colgroup></html></td></th></tr>");
+            var doc = Html(@"<table><tbody></body></caption></col></colgroup></html></td></th></tr>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2956,7 +2969,7 @@ foo");
         [Test]
         public void OpenTBodyAndCloseADivSpawnedInATable()
         {
-            var doc = DocumentBuilder.Html(@"<table><tbody></div>");
+            var doc = Html(@"<table><tbody></div>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2992,7 +3005,7 @@ foo");
         [Test]
         public void OpenTableInATable()
         {
-            var doc = DocumentBuilder.Html(@"<table><table>");
+            var doc = Html(@"<table><table>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3028,7 +3041,7 @@ foo");
         [Test]
         public void OpenVariousTableElementsWhenMiscloseTheHtmlElement()
         {
-            var doc = DocumentBuilder.Html(@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr>");
+            var doc = Html(@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3058,7 +3071,7 @@ foo");
         [Test]
         public void FragmentCloseTableAndOpenRowInContextOfATable()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create(null, "table"));
+            var doc = HtmlFragment(@"</table><tr>", "table");
 
             var doctbody0 = doc[0];
             Assert.AreEqual(1, doctbody0.ChildNodes.Length);
@@ -3076,7 +3089,7 @@ foo");
         [Test]
         public void FragmentOpenAndCloseBodyCloseHtmlInContextOfAHtml()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body></body></html>", Factory.HtmlElements.Create(null, "html"));
+            var doc = HtmlFragment(@"<body></body></html>", "html");
 
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -3095,7 +3108,7 @@ foo");
         [Test]
         public void SimpleDocumentWithOnlyASingleFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<html><frameset></frameset></html> ");
+            var doc = Html(@"<html><frameset></frameset></html> ");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(3, dochtml0.ChildNodes.Length);
@@ -3123,7 +3136,7 @@ foo");
         [Test]
         public void LegacyDoctypeInConjunctionWithACorrectlyClosedHtmlElement()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD HTML 4.01//EN""><html></html>");
+            var doc = Html(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD HTML 4.01//EN""><html></html>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3154,7 +3167,7 @@ foo");
         [Test]
         public void FramesetElementEnclosedInAParamElement()
         {
-            var doc = DocumentBuilder.Html(@"<param><frameset></frameset>");
+            var doc = Html(@"<param><frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3178,7 +3191,7 @@ foo");
         [Test]
         public void FramesetElementEnclosedInASourceElement()
         {
-            var doc = DocumentBuilder.Html(@"<source><frameset></frameset>");
+            var doc = Html(@"<source><frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3202,7 +3215,7 @@ foo");
         [Test]
         public void FramesetElementEnclosedInATrackElement()
         {
-            var doc = DocumentBuilder.Html(@"<track><frameset></frameset>");
+            var doc = Html(@"<track><frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3226,7 +3239,7 @@ foo");
         [Test]
         public void FramesetElementFollowingAMisclosedHtmlTag()
         {
-            var doc = DocumentBuilder.Html(@"</html><frameset></frameset>");
+            var doc = Html(@"</html><frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3250,7 +3263,7 @@ foo");
         [Test]
         public void FramesetElementFollowingAMisclosedBodyElement()
         {
-            var doc = DocumentBuilder.Html(@"</body><frameset></frameset>");
+            var doc = Html(@"</body><frameset></frameset>");
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

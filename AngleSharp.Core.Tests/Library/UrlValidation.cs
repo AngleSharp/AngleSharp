@@ -1,3 +1,5 @@
+using System;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
@@ -9,11 +11,16 @@ namespace AngleSharp.Core.Tests.Library
     /// </summary>
     [TestFixture]
 	public class UrlValidationTests
-	{
-		[Test]
+    {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
+        [Test]
 		public void DocumentUrlTest1()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -32,7 +39,7 @@ org");
 		[Test]
 		public void DocumentUrlTest2()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -50,7 +57,7 @@ org");
 		[Test]
 		public void DocumentUrlTest3()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -68,7 +75,7 @@ org");
 		[Test]
 		public void DocumentUrlTest4()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -87,7 +94,7 @@ org");
 		[Test]
 		public void DocumentUrlTest5()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -105,7 +112,7 @@ org");
 		[Test]
 		public void DocumentUrlTest6()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -123,7 +130,7 @@ org");
 		[Test]
 		public void DocumentUrlTest7()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -141,7 +148,7 @@ org");
 		[Test]
 		public void DocumentUrlTest8()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -159,7 +166,7 @@ org");
 		[Test]
 		public void DocumentUrlTest9()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -177,7 +184,7 @@ org");
 		[Test]
 		public void DocumentUrlTest10()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -195,7 +202,7 @@ org");
 		[Test]
 		public void DocumentUrlTest11()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -213,7 +220,7 @@ org");
 		[Test]
 		public void DocumentUrlTest14()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -232,7 +239,7 @@ org");
 		[Test]
 		public void DocumentUrlTest16()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -250,7 +257,7 @@ org");
 		[Test]
 		public void DocumentUrlTest18()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -268,7 +275,7 @@ org");
 		[Test]
 		public void DocumentUrlTest19()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -286,7 +293,7 @@ org");
 		[Test]
 		public void DocumentUrlTest20()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -304,7 +311,7 @@ org");
 		[Test]
 		public void DocumentUrlTest21()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -322,7 +329,7 @@ org");
 		[Test]
 		public void DocumentUrlTest22()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -340,7 +347,7 @@ org");
 		[Test]
 		public void DocumentUrlTest23()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -358,7 +365,7 @@ org");
 		[Test]
 		public void DocumentUrlTest24()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -376,7 +383,7 @@ org");
 		[Test]
 		public void DocumentUrlTest25()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -394,7 +401,7 @@ org");
 		[Test]
 		public void DocumentUrlTest26()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -412,7 +419,7 @@ org");
 		[Test]
 		public void DocumentUrlTest27()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -430,7 +437,7 @@ org");
 		[Test]
 		public void DocumentUrlTest28()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -448,7 +455,7 @@ org");
 		[Test]
 		public void DocumentUrlTest29()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -466,7 +473,7 @@ org");
 		[Test]
 		public void DocumentUrlTest30()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -484,7 +491,7 @@ org");
 		[Test]
 		public void DocumentUrlTest31()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -502,7 +509,7 @@ org");
 		[Test]
 		public void DocumentUrlTest32()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -520,7 +527,7 @@ org");
 		[Test]
 		public void DocumentUrlTest33()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -538,7 +545,7 @@ org");
 		[Test]
 		public void DocumentUrlTest34()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -556,7 +563,7 @@ org");
 		[Test]
 		public void DocumentUrlTest35()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -574,7 +581,7 @@ org");
 		[Test]
 		public void DocumentUrlTest36()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -592,7 +599,7 @@ org");
 		[Test]
 		public void DocumentUrlTest37()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -610,7 +617,7 @@ org");
 		[Test]
 		public void DocumentUrlTest38()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -628,7 +635,7 @@ org");
 		[Test]
 		public void DocumentUrlTest39()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -646,7 +653,7 @@ org");
 		[Test]
 		public void DocumentUrlTest40()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -664,7 +671,7 @@ org");
 		[Test]
 		public void DocumentUrlTest41()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -682,7 +689,7 @@ org");
 		[Test]
 		public void DocumentUrlTest42()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -700,7 +707,7 @@ org");
 		[Test]
 		public void DocumentUrlTest43()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -718,7 +725,7 @@ org");
 		[Test]
 		public void DocumentUrlTest44()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -736,7 +743,7 @@ org");
 		[Test]
 		public void DocumentUrlTest45()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -754,7 +761,7 @@ org");
 		[Test]
 		public void DocumentUrlTest46()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -772,7 +779,7 @@ org");
 		[Test]
 		public void DocumentUrlTest47()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -790,7 +797,7 @@ org");
 		[Test]
 		public void DocumentUrlTest48()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -808,7 +815,7 @@ org");
 		[Test]
 		public void DocumentUrlTest49()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -826,7 +833,7 @@ org");
 		[Test]
 		public void DocumentUrlTest50()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -844,7 +851,7 @@ org");
 		[Test]
 		public void DocumentUrlTest51()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -862,7 +869,7 @@ org");
 		[Test]
 		public void DocumentUrlTest52()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -880,7 +887,7 @@ org");
 		[Test]
 		public void DocumentUrlTest53()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -898,7 +905,7 @@ org");
 		[Test]
 		public void DocumentUrlTest54()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -916,7 +923,7 @@ org");
 		[Test]
 		public void DocumentUrlTest55()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -934,7 +941,7 @@ org");
 		[Test]
 		public void DocumentUrlTest56()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -952,7 +959,7 @@ org");
 		[Test]
 		public void DocumentUrlTest57()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -970,7 +977,7 @@ org");
 		[Test]
 		public void DocumentUrlTest62()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -988,7 +995,7 @@ org");
 		[Test]
 		public void DocumentUrlTest63()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1006,7 +1013,7 @@ org");
 		[Test]
 		public void DocumentUrlTest64()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1024,7 +1031,7 @@ org");
 		[Test]
 		public void DocumentUrlTest65()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1042,7 +1049,7 @@ org");
 		[Test]
 		public void DocumentUrlTest66()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1060,7 +1067,7 @@ org");
 		[Test]
 		public void DocumentUrlTest67()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1078,7 +1085,7 @@ org");
 		[Test]
 		public void DocumentUrlTest68()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1096,7 +1103,7 @@ org");
 		[Test]
 		public void DocumentUrlTest69()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1114,7 +1121,7 @@ org");
 		[Test]
 		public void DocumentUrlTest70()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1132,7 +1139,7 @@ org");
 		[Test]
 		public void DocumentUrlTest71()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1150,7 +1157,7 @@ org");
 		[Test]
 		public void DocumentUrlTest72()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1168,7 +1175,7 @@ org");
 		[Test]
 		public void DocumentUrlTest73()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1186,7 +1193,7 @@ org");
 		[Test]
 		public void DocumentUrlTest74()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1204,7 +1211,7 @@ org");
 		[Test]
 		public void DocumentUrlTest75()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1222,7 +1229,7 @@ org");
 		[Test]
 		public void DocumentUrlTest76()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1240,7 +1247,7 @@ org");
 		[Test]
 		public void DocumentUrlTest77()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1258,7 +1265,7 @@ org");
 		[Test]
 		public void DocumentUrlTest78()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1276,7 +1283,7 @@ org");
 		[Test]
 		public void DocumentUrlTest79()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1294,7 +1301,7 @@ org");
 		[Test]
 		public void DocumentUrlTest80()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1312,7 +1319,7 @@ org");
 		[Test]
 		public void DocumentUrlTest81()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1330,7 +1337,7 @@ org");
 		[Test]
 		public void DocumentUrlTest82()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1348,7 +1355,7 @@ org");
 		[Test]
 		public void DocumentUrlTest83()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1366,7 +1373,7 @@ org");
 		[Test]
 		public void DocumentUrlTest84()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1384,7 +1391,7 @@ org");
 		[Test]
 		public void DocumentUrlTest85()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1402,7 +1409,7 @@ org");
 		[Test]
 		public void DocumentUrlTest86()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1420,7 +1427,7 @@ org");
 		[Test]
 		public void DocumentUrlTest87()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1438,7 +1445,7 @@ org");
 		[Test]
 		public void DocumentUrlTest88()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1456,7 +1463,7 @@ org");
 		[Test]
 		public void DocumentUrlTest89()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1474,7 +1481,7 @@ org");
 		[Test]
 		public void DocumentUrlTest90()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1492,7 +1499,7 @@ org");
 		[Test]
 		public void DocumentUrlTest91()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1510,7 +1517,7 @@ org");
 		[Test]
 		public void DocumentUrlTest92()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://example.org/foo/bar";
@@ -1528,7 +1535,7 @@ org");
 		[Test]
 		public void DocumentUrlTest93()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1546,7 +1553,7 @@ org");
 		[Test]
 		public void DocumentUrlTest94()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1564,7 +1571,7 @@ org");
 		[Test]
 		public void DocumentUrlTest95()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1582,7 +1589,7 @@ org");
 		[Test]
 		public void DocumentUrlTest96()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1600,7 +1607,7 @@ org");
 		[Test]
 		public void DocumentUrlTest97()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1618,7 +1625,7 @@ org");
 		[Test]
 		public void DocumentUrlTest98()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1636,7 +1643,7 @@ org");
 		[Test]
 		public void DocumentUrlTest99()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1654,7 +1661,7 @@ org");
 		[Test]
 		public void DocumentUrlTest100()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1672,7 +1679,7 @@ org");
 		[Test]
 		public void DocumentUrlTest101()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1690,7 +1697,7 @@ org");
 		[Test]
 		public void DocumentUrlTest102()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1708,7 +1715,7 @@ org");
 		[Test]
 		public void DocumentUrlTest103()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1726,7 +1733,7 @@ org");
 		[Test]
 		public void DocumentUrlTest104()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1744,7 +1751,7 @@ org");
 		[Test]
 		public void DocumentUrlTest105()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1762,7 +1769,7 @@ org");
 		[Test]
 		public void DocumentUrlTest106()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1780,7 +1787,7 @@ org");
 		[Test]
 		public void DocumentUrlTest107()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1798,7 +1805,7 @@ org");
 		[Test]
 		public void DocumentUrlTest108()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1816,7 +1823,7 @@ org");
 		[Test]
 		public void DocumentUrlTest109()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1834,7 +1841,7 @@ org");
 		[Test]
 		public void DocumentUrlTest110()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1852,7 +1859,7 @@ org");
 		[Test]
 		public void DocumentUrlTest111()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"file:///tmp/mock/path";
@@ -1870,7 +1877,7 @@ org");
 		[Test]
 		public void DocumentUrlTest112()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1888,7 +1895,7 @@ org");
 		[Test]
 		public void DocumentUrlTest113()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1906,7 +1913,7 @@ org");
 		[Test]
 		public void DocumentUrlTest114()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1924,7 +1931,7 @@ org");
 		[Test]
 		public void DocumentUrlTest115()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1942,7 +1949,7 @@ org");
 		[Test]
 		public void DocumentUrlTest116()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1960,7 +1967,7 @@ org");
 		[Test]
 		public void DocumentUrlTest117()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1978,7 +1985,7 @@ org");
 		[Test]
 		public void DocumentUrlTest118()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -1996,7 +2003,7 @@ org");
 		[Test]
 		public void DocumentUrlTest119()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2014,7 +2021,7 @@ org");
 		[Test]
 		public void DocumentUrlTest120()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2032,7 +2039,7 @@ org");
 		[Test]
 		public void DocumentUrlTest121()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2050,7 +2057,7 @@ org");
 		[Test]
 		public void DocumentUrlTest122()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2068,7 +2075,7 @@ org");
 		[Test]
 		public void DocumentUrlTest123()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2086,7 +2093,7 @@ org");
 		[Test]
 		public void DocumentUrlTest124()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2104,7 +2111,7 @@ org");
 		[Test]
 		public void DocumentUrlTest125()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2122,7 +2129,7 @@ org");
 		[Test]
 		public void DocumentUrlTest126()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2140,7 +2147,7 @@ org");
 		[Test]
 		public void DocumentUrlTest127()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2158,7 +2165,7 @@ org");
 		[Test]
 		public void DocumentUrlTest128()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2176,7 +2183,7 @@ org");
 		[Test]
 		public void DocumentUrlTest129()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2194,7 +2201,7 @@ org");
 		[Test]
 		public void DocumentUrlTest130()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2212,7 +2219,7 @@ org");
 		[Test]
 		public void DocumentUrlTest131()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2230,7 +2237,7 @@ org");
 		[Test]
 		public void DocumentUrlTest132()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2248,7 +2255,7 @@ org");
 		[Test]
 		public void DocumentUrlTest133()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2266,7 +2273,7 @@ org");
 		[Test]
 		public void DocumentUrlTest134()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2284,7 +2291,7 @@ org");
 		[Test]
 		public void DocumentUrlTest135()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2302,7 +2309,7 @@ org");
 		[Test]
 		public void DocumentUrlTest136()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2320,7 +2327,7 @@ org");
 		[Test]
 		public void DocumentUrlTest137()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2338,7 +2345,7 @@ org");
 		[Test]
 		public void DocumentUrlTest138()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2356,7 +2363,7 @@ org");
 		[Test]
 		public void DocumentUrlTest139()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2374,7 +2381,7 @@ org");
 		[Test]
 		public void DocumentUrlTest140()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2392,7 +2399,7 @@ org");
 		[Test]
 		public void DocumentUrlTest141()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2410,7 +2417,7 @@ org");
 		[Test]
 		public void DocumentUrlTest142()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2428,7 +2435,7 @@ org");
 		[Test]
 		public void DocumentUrlTest143()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2446,7 +2453,7 @@ org");
 		[Test]
 		public void DocumentUrlTest144()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2464,7 +2471,7 @@ org");
 		[Test]
 		public void DocumentUrlTest145()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2482,7 +2489,7 @@ org");
 		[Test]
 		public void DocumentUrlTest146()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2500,7 +2507,7 @@ org");
 		[Test]
 		public void DocumentUrlTest147()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2518,7 +2525,7 @@ org");
 		[Test]
 		public void DocumentUrlTest148()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2536,7 +2543,7 @@ org");
 		[Test]
 		public void DocumentUrlTest149()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2554,7 +2561,7 @@ org");
 		[Test]
 		public void DocumentUrlTest150()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2572,7 +2579,7 @@ org");
 		[Test]
 		public void DocumentUrlTest152()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2590,7 +2597,7 @@ org");
 		//TODO [Test]
 		public void DocumentUrlTest153()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2608,7 +2615,7 @@ org");
 		[Test]
 		public void DocumentUrlTest154()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2626,7 +2633,7 @@ org");
 		[Test]
 		public void DocumentUrlTest155()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2644,7 +2651,7 @@ org");
 		[Test]
 		public void DocumentUrlTest157()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2662,7 +2669,7 @@ org");
 		[Test]
 		public void DocumentUrlTest158()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2680,7 +2687,7 @@ org");
 		[Test]
 		public void DocumentUrlTest159()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2698,7 +2705,7 @@ org");
 		[Test]
 		public void DocumentUrlTest160()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2716,7 +2723,7 @@ org");
 		[Test]
 		public void DocumentUrlTest161()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2734,7 +2741,7 @@ org");
 		[Test]
 		public void DocumentUrlTest163()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2752,7 +2759,7 @@ org");
 		[Test]
 		public void DocumentUrlTest164()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2770,7 +2777,7 @@ org");
 		[Test]
 		public void DocumentUrlTest165()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2788,7 +2795,7 @@ org");
 		[Test]
 		public void DocumentUrlTest166()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2806,7 +2813,7 @@ org");
 		[Test]
 		public void DocumentUrlTest167()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2824,7 +2831,7 @@ org");
 		[Test]
 		public void DocumentUrlTest168()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2842,7 +2849,7 @@ org");
 		[Test]
 		public void DocumentUrlTest169()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2860,7 +2867,7 @@ org");
 		[Test]
 		public void DocumentUrlTest170()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2878,7 +2885,7 @@ org");
 		[Test]
 		public void DocumentUrlTest171()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2896,7 +2903,7 @@ org");
 		[Test]
 		public void DocumentUrlTest172()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2914,7 +2921,7 @@ org");
 		[Test]
 		public void DocumentUrlTest173()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2932,7 +2939,7 @@ org");
 		[Test]
 		public void DocumentUrlTest174()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2950,7 +2957,7 @@ org");
 		[Test]
 		public void DocumentUrlTest175()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2968,7 +2975,7 @@ org");
 		[Test]
 		public void DocumentUrlTest176()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -2986,7 +2993,7 @@ org");
 		[Test]
 		public void DocumentUrlTest177()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3004,7 +3011,7 @@ org");
 		[Test]
 		public void DocumentUrlTest178()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3022,7 +3029,7 @@ org");
 		[Test]
 		public void DocumentUrlTest179()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3040,7 +3047,7 @@ org");
 		[Test]
 		public void DocumentUrlTest180()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3058,7 +3065,7 @@ org");
 		[Test]
 		public void DocumentUrlTest181()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3076,7 +3083,7 @@ org");
 		[Test]
 		public void DocumentUrlTest182()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3094,7 +3101,7 @@ org");
 		[Test]
 		public void DocumentUrlTest183()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3112,7 +3119,7 @@ org");
 		[Test]
 		public void DocumentUrlTest184()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3130,7 +3137,7 @@ org");
 		[Test]
 		public void DocumentUrlTest185()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3148,7 +3155,7 @@ org");
 		[Test]
 		public void DocumentUrlTest186()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3166,7 +3173,7 @@ org");
 		[Test]
 		public void DocumentUrlTest187()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3184,7 +3191,7 @@ org");
 		[Test]
 		public void DocumentUrlTest188()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3202,7 +3209,7 @@ org");
 		[Test]
 		public void DocumentUrlTest189()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3220,7 +3227,7 @@ org");
 		[Test]
 		public void DocumentUrlTest190()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3238,7 +3245,7 @@ org");
 		[Test]
 		public void DocumentUrlTest191()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3256,7 +3263,7 @@ org");
 		[Test]
 		public void DocumentUrlTest192()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3274,7 +3281,7 @@ org");
 		[Test]
 		public void DocumentUrlTest193()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3292,7 +3299,7 @@ org");
 		[Test]
 		public void DocumentUrlTest194()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3310,7 +3317,7 @@ org");
 		[Test]
 		public void DocumentUrlTest195()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3328,7 +3335,7 @@ org");
 		[Test]
 		public void DocumentUrlTest196()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3346,7 +3353,7 @@ org");
 		[Test]
 		public void DocumentUrlTest197()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3364,7 +3371,7 @@ org");
 		[Test]
 		public void DocumentUrlTest198()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3382,7 +3389,7 @@ org");
 		[Test]
 		public void DocumentUrlTest199()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3400,7 +3407,7 @@ org");
 		[Test]
 		public void DocumentUrlTest200()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3418,7 +3425,7 @@ org");
 		[Test]
 		public void DocumentUrlTest201()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3436,7 +3443,7 @@ org");
 		[Test]
 		public void DocumentUrlTest202()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3454,7 +3461,7 @@ org");
 		[Test]
 		public void DocumentUrlTest203()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3472,7 +3479,7 @@ org");
 		[Test]
 		public void DocumentUrlTest204()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3490,7 +3497,7 @@ org");
 		[Test]
 		public void DocumentUrlTest205()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3508,7 +3515,7 @@ org");
 		[Test]
 		public void DocumentUrlTest206()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3526,7 +3533,7 @@ org");
 		[Test]
 		public void DocumentUrlTest207()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3544,7 +3551,7 @@ org");
 		[Test]
 		public void DocumentUrlTest208()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3562,7 +3569,7 @@ org");
 		[Test]
 		public void DocumentUrlTest209()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3580,7 +3587,7 @@ org");
 		[Test]
 		public void DocumentUrlTest220()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3598,7 +3605,7 @@ org");
 		[Test]
 		public void DocumentUrlTest221()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3616,7 +3623,7 @@ org");
 		[Test]
 		public void DocumentUrlTest222()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3634,7 +3641,7 @@ org");
 		[Test]
 		public void DocumentUrlTest223()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3652,7 +3659,7 @@ org");
 		[Test]
 		public void DocumentUrlTest227()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"about:blank";
@@ -3670,7 +3677,7 @@ org");
 		[Test]
 		public void DocumentUrlTest228()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3688,7 +3695,7 @@ org");
 		[Test]
 		public void DocumentUrlTest229()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3706,7 +3713,7 @@ org");
 		[Test]
 		public void DocumentUrlTest230()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3724,7 +3731,7 @@ org");
 		[Test]
 		public void DocumentUrlTest231()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3742,7 +3749,7 @@ org");
 		[Test]
 		public void DocumentUrlTest232()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3760,7 +3767,7 @@ org");
 		[Test]
 		public void DocumentUrlTest233()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3778,7 +3785,7 @@ org");
 		[Test]
 		public void DocumentUrlTest234()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3796,7 +3803,7 @@ org");
 		[Test]
 		public void DocumentUrlTest235()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3814,7 +3821,7 @@ org");
 		[Test]
 		public void DocumentUrlTest236()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3832,7 +3839,7 @@ org");
 		[Test]
 		public void DocumentUrlTest237()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3850,7 +3857,7 @@ org");
 		[Test]
 		public void DocumentUrlTest238()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3868,7 +3875,7 @@ org");
 		[Test]
 		public void DocumentUrlTest239()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://www.example.com/test";
@@ -3886,7 +3893,7 @@ org");
 		[Test]
 		public void DocumentUrlTest240()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -3904,7 +3911,7 @@ org");
         //TODO [Test]
         public void DocumentUrlTest244()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -3922,7 +3929,7 @@ org");
         //TODO [Test]
         public void DocumentUrlTest245()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -3940,7 +3947,7 @@ org");
         //TODO [Test]
         public void DocumentUrlTest248()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -3958,7 +3965,7 @@ org");
         //TODO [Test]
         public void DocumentUrlTest253()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -3976,7 +3983,7 @@ org");
         //TODO [Test]
         public void DocumentUrlTest257()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -3994,7 +4001,7 @@ org");
         [Test]
         public void DocumentUrlTest258()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -4012,7 +4019,7 @@ org");
         //TODO [Test]
         public void DocumentUrlTest262()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";
@@ -4030,7 +4037,7 @@ org");
 		[Test]
 		public void DocumentUrlTest264()
 		{
-			var document = DocumentBuilder.Html("<base id=base>");
+			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
 			Assert.IsNotNull(element);
 			element.Href = @"http://other.com/";

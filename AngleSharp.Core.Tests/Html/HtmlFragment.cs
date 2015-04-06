@@ -1,9 +1,9 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using System.Collections.Generic;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Extensions;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace AngleSharp.Core.Tests
 {
@@ -15,16 +15,21 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlFragmentTests
     {
-        HtmlElement Create(String tagName)
+        static INodeList HtmlFragment(String code, IElement context = null)
         {
-            var doc = new Document();
-            return doc.CreateElement(tagName) as HtmlElement;
+            return code.ToHtmlFragment(context);
+        }
+
+        static IElement Create(String tagName)
+        {
+            var doc = "".ToHtmlDocument();
+            return doc.CreateElement(tagName);
         }
 
         [Test]
         public void FragmentBodyContextDoubleBodyAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body><span>", Create("body"));
+            var doc = HtmlFragment(@"<body><span>", Create("body"));
 
             var docspan0 = doc[0] as Element;
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -36,7 +41,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentBodyContextSpanAndDoubleBodyElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><body>", Create("body"));
+            var doc = HtmlFragment(@"<span><body>", Create("body"));
 
             var docspan0 = doc[0] as Element;
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -48,7 +53,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentDivContextSpanAndDoubleBodyElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><body>", Create("div"));
+            var doc = HtmlFragment(@"<span><body>", Create("div"));
 
             var docspan0 = doc[0] as Element;
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -60,7 +65,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentHtmlContextBodyAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body><span>", Create("html"));
+            var doc = HtmlFragment(@"<body><span>", Create("html"));
 
             var dochead0 = doc[0] as Element;
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -84,7 +89,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentBodyContextFramesetAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", Create("body"));
+            var doc = HtmlFragment(@"<frameset><span>", Create("body"));
 
             var docspan0 = doc[0] as Element;
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -97,7 +102,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentBodyContextSpanAndFramesetElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", Create("body"));
+            var doc = HtmlFragment(@"<span><frameset>", Create("body"));
 
             var docspan0 = doc[0] as Element;
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -109,7 +114,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentDivContextSpanAndFramesetElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<span><frameset>", Create("div"));
+            var doc = HtmlFragment(@"<span><frameset>", Create("div"));
 
             var docspan0 = doc[0] as Element;
             Assert.AreEqual(0, docspan0.ChildNodes.Length);
@@ -121,7 +126,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentHtmlContextEmpty()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"", Create("html"));
+            var doc = HtmlFragment(@"", Create("html"));
             var dochead0 = doc[0] as Element;
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
             Assert.AreEqual(0, dochead0.Attributes.Count);
@@ -138,7 +143,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentHtmlContextFramesetAndSpanElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<frameset><span>", Create("html"));
+            var doc = HtmlFragment(@"<frameset><span>", Create("html"));
 
             var dochead0 = doc[0] as Element;
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -156,7 +161,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTableContextOpeningTableAndTrElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<table><tr>", Create("table"));
+            var doc = HtmlFragment(@"<table><tr>", Create("table"));
 
             var doctbody0 = doc[0] as Element;
             Assert.AreEqual(1, doctbody0.ChildNodes.Length);
@@ -174,7 +179,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTableContextClosingTableAndTrElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Create("table"));
+            var doc = HtmlFragment(@"</table><tr>", Create("table"));
 
             var doctbody0 = doc[0] as Element;
             Assert.AreEqual(1, doctbody0.ChildNodes.Length);
@@ -192,7 +197,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentFramesetContextClosingFramesetAndFrameElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Create("frameset"));
+            var doc = HtmlFragment(@"</frameset><frame>", Create("frameset"));
 
             var docframe0 = doc[0] as Element;
             Assert.AreEqual(0, docframe0.ChildNodes.Length);
@@ -204,7 +209,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentSelectContextClosingSelectAndOptionElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</select><option>", Create("select"));
+            var doc = HtmlFragment(@"</select><option>", Create("select"));
             var docoption0 = doc[0] as Element;
             Assert.AreEqual(0, docoption0.ChildNodes.Length);
             Assert.AreEqual(0, docoption0.Attributes.Count);
@@ -215,7 +220,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentSelectContextInputAndOptionElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<input><option>", Create("select"));
+            var doc = HtmlFragment(@"<input><option>", Create("select"));
 
             var docoption0 = doc[0] as Element;
             Assert.AreEqual(0, docoption0.ChildNodes.Length);
@@ -227,7 +232,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTdContextTableAndDoubleTdElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<table><td><td>", Create("td"));
+            var doc = HtmlFragment(@"<table><td><td>", Create("td"));
 
             var doctable0 = doc[0] as Element;
             Assert.AreEqual(1, doctable0.ChildNodes.Length);
@@ -264,7 +269,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTdContextTfootAndAnchorElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<tfoot><a>", Create("td"));
+            var doc = HtmlFragment(@"<tfoot><a>", Create("td"));
 
             var doca0 = doc[0] as Element;
             Assert.AreEqual(0, doca0.ChildNodes.Length);
@@ -276,7 +281,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTrContextTdAndFinishedTableAndTdElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<td><table></table><td>", Create("tr"));
+            var doc = HtmlFragment(@"<td><table></table><td>", Create("tr"));
 
             var doctd0 = doc[0] as Element;
             Assert.AreEqual(1, doctd0.ChildNodes.Length);
@@ -300,7 +305,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTbodyContextTdAndTableAndTbodyAndMisplacedAnchorAndTrElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<td><table><tbody><a><tr>", Create("tbody"));
+            var doc = HtmlFragment(@"<td><table><tbody><a><tr>", Create("tbody"));
 
             var doctr0 = doc[0] as Element;
             Assert.AreEqual(1, doctr0.ChildNodes.Length);
@@ -343,7 +348,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTbodyContextMisplacedTheadAndAnchorElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<thead><a>", Create("tbody"));
+            var doc = HtmlFragment(@"<thead><a>", Create("tbody"));
 
             var doca0 = doc[0] as Element;
             Assert.AreEqual(0, doca0.ChildNodes.Length);
@@ -355,7 +360,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentColgroupContextClosingColgroupAndColElement()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</colgroup><col>", Create("colgroup"));
+            var doc = HtmlFragment(@"</colgroup><col>", Create("colgroup"));
 
             var doccol0 = doc[0] as Element;
             Assert.AreEqual(0, doccol0.ChildNodes.Length);
@@ -367,7 +372,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentDivContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"direct div content", Create("div"));
+            var doc = HtmlFragment(@"direct div content", Create("div"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -377,7 +382,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTextareaContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"direct textarea content", Create("textarea"));
+            var doc = HtmlFragment(@"direct textarea content", Create("textarea"));
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
             Assert.AreEqual("direct textarea content", docText0.TextContent);
@@ -386,7 +391,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentTextAreaContextWithTextAndMarkup()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"textarea content with <em>pseudo</em> <foo>markup", Create("textarea"));
+            var doc = HtmlFragment(@"textarea content with <em>pseudo</em> <foo>markup", Create("textarea"));
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
             Assert.AreEqual("textarea content with <em>pseudo</em> <foo>markup", docText0.TextContent);
@@ -395,7 +400,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentStyleContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"this is &#x0043;DATA inside a <style> element", Create("style"));
+            var doc = HtmlFragment(@"this is &#x0043;DATA inside a <style> element", Create("style"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -405,7 +410,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentPlaintextContext()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</plaintext>", Create("plaintext"));
+            var doc = HtmlFragment(@"</plaintext>", Create("plaintext"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -415,7 +420,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentHtmlContextWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"setting html's innerHTML", Create("html"));
+            var doc = HtmlFragment(@"setting html's innerHTML", Create("html"));
 
             var dochead0 = doc[0] as Element;
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -437,7 +442,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentHeadContextWithTextInTitle()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<title>setting head's innerHTML</title>", Create("head"));
+            var doc = HtmlFragment(@"<title>setting head's innerHTML</title>", Create("head"));
 
             var doctitle0 = doc[0] as Element;
             Assert.AreEqual(1, doctitle0.ChildNodes.Length);
@@ -453,7 +458,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterFragmentDoubleClosedBody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body>X</body></body>", Create("html"));
+            var doc = HtmlFragment(@"<body>X</body></body>", Create("html"));
 
             var dochead0 = doc[0] as Element;
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
@@ -475,7 +480,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentButtonWithText()
         {
-            var doc = DocumentBuilder.HtmlFragment("<button>Boo!</button>");
+            var doc = HtmlFragment("<button>Boo!</button>");
             var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
 
             Assert.IsNotNull(buttonElement);
@@ -485,7 +490,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentButtonWithTextAndAttribute()
         {
-            var doc = DocumentBuilder.HtmlFragment("<button type=SEARCH>Boo!</button>");
+            var doc = HtmlFragment("<button type=SEARCH>Boo!</button>");
             var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
 
             Assert.IsNotNull(buttonElement);
@@ -497,7 +502,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentButtonDefaultSubmitType()
         {
-            var doc = DocumentBuilder.HtmlFragment("<button>Boo!</button>");
+            var doc = HtmlFragment("<button>Boo!</button>");
             var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
 
             Assert.IsNotNull(buttonElement);
@@ -536,7 +541,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentUnquotedAttributeHandling()
         {
-            var doc = DocumentBuilder.HtmlFragment("<div custattribute=10/23/2012 id=\"tableSample\"><span>sample text</span></div>");
+            var doc = HtmlFragment("<div custattribute=10/23/2012 id=\"tableSample\"><span>sample text</span></div>");
             var obj = doc.QuerySelector("#tableSample");
 
             Assert.AreEqual("10/23/2012", obj.GetAttribute("custattribute"));
@@ -545,7 +550,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentCaretsInAttributes()
         {
-            var doc = DocumentBuilder.HtmlFragment("<div><img src=\"test.png\" alt=\">\" /></div>");
+            var doc = HtmlFragment("<div><img src=\"test.png\" alt=\">\" /></div>");
             var div = doc.QuerySelector("div");
 
             Assert.IsNotNull(div);

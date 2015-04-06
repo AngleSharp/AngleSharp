@@ -1,4 +1,4 @@
-﻿using AngleSharp;
+﻿using System;
 using AngleSharp.Dom;
 using NUnit.Framework;
 
@@ -11,11 +11,16 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
     public class DomManipulation
     {
-        public IDocument CreateDocument()
+        static IDocument CreateDocument()
         {
-            var doc = DocumentBuilder.Html("");
+            var doc = Html("");
             doc.RemoveChild(doc.DocumentElement);
             return doc;
+        }
+
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
         }
 
         [Test]
@@ -168,14 +173,14 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void DocumentTitleExactMatch()
         {
-            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var doc = Html("<title>document.title with head blown away</title>");
             Assert.AreEqual("document.title with head blown away", doc.Title);
         }
 
         [Test]
         public void DocumentRemoveHeadAndReadOutTitle()
         {
-            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var doc = Html("<title>document.title with head blown away</title>");
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);
@@ -187,7 +192,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void DocumentFreshTitleAppendedAfterHeadRemoved()
         {
-            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var doc = Html("<title>document.title with head blown away</title>");
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);
@@ -200,7 +205,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void DocumentInsertTitleBeforePreviouslyInsertedTitle()
         {
-            var doc = DocumentBuilder.Html("<title>document.title with head blown away</title>");
+            var doc = Html("<title>document.title with head blown away</title>");
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);

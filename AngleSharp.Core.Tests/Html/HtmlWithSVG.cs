@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using NUnit.Framework;
 
@@ -12,10 +13,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlWithSVGTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void SvgCheckAttributesCaseNormalUnchanged()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></svg>");
+            var doc = Html(@"<!DOCTYPE html><body><svg attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -236,7 +242,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgCheckAttributesCaseUppercaseModified()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><BODY><SVG ATTRIBUTENAME='' ATTRIBUTETYPE='' BASEFREQUENCY='' BASEPROFILE='' CALCMODE='' CLIPPATHUNITS='' CONTENTSCRIPTTYPE='' CONTENTSTYLETYPE='' DIFFUSECONSTANT='' EDGEMODE='' EXTERNALRESOURCESREQUIRED='' FILTERRES='' FILTERUNITS='' GLYPHREF='' GRADIENTTRANSFORM='' GRADIENTUNITS='' KERNELMATRIX='' KERNELUNITLENGTH='' KEYPOINTS='' KEYSPLINES='' KEYTIMES='' LENGTHADJUST='' LIMITINGCONEANGLE='' MARKERHEIGHT='' MARKERUNITS='' MARKERWIDTH='' MASKCONTENTUNITS='' MASKUNITS='' NUMOCTAVES='' PATHLENGTH='' PATTERNCONTENTUNITS='' PATTERNTRANSFORM='' PATTERNUNITS='' POINTSATX='' POINTSATY='' POINTSATZ='' PRESERVEALPHA='' PRESERVEASPECTRATIO='' PRIMITIVEUNITS='' REFX='' REFY='' REPEATCOUNT='' REPEATDUR='' REQUIREDEXTENSIONS='' REQUIREDFEATURES='' SPECULARCONSTANT='' SPECULAREXPONENT='' SPREADMETHOD='' STARTOFFSET='' STDDEVIATION='' STITCHTILES='' SURFACESCALE='' SYSTEMLANGUAGE='' TABLEVALUES='' TARGETX='' TARGETY='' TEXTLENGTH='' VIEWBOX='' VIEWTARGET='' XCHANNELSELECTOR='' YCHANNELSELECTOR='' ZOOMANDPAN=''></SVG>");
+            var doc = Html(@"<!DOCTYPE html><BODY><SVG ATTRIBUTENAME='' ATTRIBUTETYPE='' BASEFREQUENCY='' BASEPROFILE='' CALCMODE='' CLIPPATHUNITS='' CONTENTSCRIPTTYPE='' CONTENTSTYLETYPE='' DIFFUSECONSTANT='' EDGEMODE='' EXTERNALRESOURCESREQUIRED='' FILTERRES='' FILTERUNITS='' GLYPHREF='' GRADIENTTRANSFORM='' GRADIENTUNITS='' KERNELMATRIX='' KERNELUNITLENGTH='' KEYPOINTS='' KEYSPLINES='' KEYTIMES='' LENGTHADJUST='' LIMITINGCONEANGLE='' MARKERHEIGHT='' MARKERUNITS='' MARKERWIDTH='' MASKCONTENTUNITS='' MASKUNITS='' NUMOCTAVES='' PATHLENGTH='' PATTERNCONTENTUNITS='' PATTERNTRANSFORM='' PATTERNUNITS='' POINTSATX='' POINTSATY='' POINTSATZ='' PRESERVEALPHA='' PRESERVEASPECTRATIO='' PRIMITIVEUNITS='' REFX='' REFY='' REPEATCOUNT='' REPEATDUR='' REQUIREDEXTENSIONS='' REQUIREDFEATURES='' SPECULARCONSTANT='' SPECULAREXPONENT='' SPREADMETHOD='' STARTOFFSET='' STDDEVIATION='' STITCHTILES='' SURFACESCALE='' SYSTEMLANGUAGE='' TABLEVALUES='' TARGETX='' TARGETY='' TEXTLENGTH='' VIEWBOX='' VIEWTARGET='' XCHANNELSELECTOR='' YCHANNELSELECTOR='' ZOOMANDPAN=''></SVG>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -457,7 +463,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgCheckAttributesCaseLowercaseModified()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg attributename='' attributetype='' basefrequency='' baseprofile='' calcmode='' clippathunits='' contentscripttype='' contentstyletype='' diffuseconstant='' edgemode='' externalresourcesrequired='' filterres='' filterunits='' glyphref='' gradienttransform='' gradientunits='' kernelmatrix='' kernelunitlength='' keypoints='' keysplines='' keytimes='' lengthadjust='' limitingconeangle='' markerheight='' markerunits='' markerwidth='' maskcontentunits='' maskunits='' numoctaves='' pathlength='' patterncontentunits='' patterntransform='' patternunits='' pointsatx='' pointsaty='' pointsatz='' preservealpha='' preserveaspectratio='' primitiveunits='' refx='' refy='' repeatcount='' repeatdur='' requiredextensions='' requiredfeatures='' specularconstant='' specularexponent='' spreadmethod='' startoffset='' stddeviation='' stitchtiles='' surfacescale='' systemlanguage='' tablevalues='' targetx='' targety='' textlength='' viewbox='' viewtarget='' xchannelselector='' ychannelselector='' zoomandpan=''></svg>");
+            var doc = Html(@"<!DOCTYPE html><body><svg attributename='' attributetype='' basefrequency='' baseprofile='' calcmode='' clippathunits='' contentscripttype='' contentstyletype='' diffuseconstant='' edgemode='' externalresourcesrequired='' filterres='' filterunits='' glyphref='' gradienttransform='' gradientunits='' kernelmatrix='' kernelunitlength='' keypoints='' keysplines='' keytimes='' lengthadjust='' limitingconeangle='' markerheight='' markerunits='' markerwidth='' maskcontentunits='' maskunits='' numoctaves='' pathlength='' patterncontentunits='' patterntransform='' patternunits='' pointsatx='' pointsaty='' pointsatz='' preservealpha='' preserveaspectratio='' primitiveunits='' refx='' refy='' repeatcount='' repeatdur='' requiredextensions='' requiredfeatures='' specularconstant='' specularexponent='' spreadmethod='' startoffset='' stddeviation='' stitchtiles='' surfacescale='' systemlanguage='' tablevalues='' targetx='' targety='' textlength='' viewbox='' viewtarget='' xchannelselector='' ychannelselector='' zoomandpan=''></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -679,7 +685,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgCheckTagCaseNormalUnchanged()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></svg>");
+            var doc = Html(@"<!DOCTYPE html><body><svg><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -930,7 +936,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgCheckTagCaseLowercaseModified()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg><altglyph /><altglyphdef /><altglyphitem /><animatecolor /><animatemotion /><animatetransform /><clippath /><feblend /><fecolormatrix /><fecomponenttransfer /><fecomposite /><feconvolvematrix /><fediffuselighting /><fedisplacementmap /><fedistantlight /><feflood /><fefunca /><fefuncb /><fefuncg /><fefuncr /><fegaussianblur /><feimage /><femerge /><femergenode /><femorphology /><feoffset /><fepointlight /><fespecularlighting /><fespotlight /><fetile /><feturbulence /><foreignobject /><glyphref /><lineargradient /><radialgradient /><textpath /></svg>");
+            var doc = Html(@"<!DOCTYPE html><body><svg><altglyph /><altglyphdef /><altglyphitem /><animatecolor /><animatemotion /><animatetransform /><clippath /><feblend /><fecolormatrix /><fecomponenttransfer /><fecomposite /><feconvolvematrix /><fediffuselighting /><fedisplacementmap /><fedistantlight /><feflood /><fefunca /><fefuncb /><fefuncg /><fefuncr /><fegaussianblur /><feimage /><femerge /><femergenode /><femorphology /><feoffset /><fepointlight /><fespecularlighting /><fespotlight /><fetile /><feturbulence /><foreignobject /><glyphref /><lineargradient /><radialgradient /><textpath /></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1181,7 +1187,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgCheckTagCaseUppercaseModified()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><BODY><SVG><ALTGLYPH /><ALTGLYPHDEF /><ALTGLYPHITEM /><ANIMATECOLOR /><ANIMATEMOTION /><ANIMATETRANSFORM /><CLIPPATH /><FEBLEND /><FECOLORMATRIX /><FECOMPONENTTRANSFER /><FECOMPOSITE /><FECONVOLVEMATRIX /><FEDIFFUSELIGHTING /><FEDISPLACEMENTMAP /><FEDISTANTLIGHT /><FEFLOOD /><FEFUNCA /><FEFUNCB /><FEFUNCG /><FEFUNCR /><FEGAUSSIANBLUR /><FEIMAGE /><FEMERGE /><FEMERGENODE /><FEMORPHOLOGY /><FEOFFSET /><FEPOINTLIGHT /><FESPECULARLIGHTING /><FESPOTLIGHT /><FETILE /><FETURBULENCE /><FOREIGNOBJECT /><GLYPHREF /><LINEARGRADIENT /><RADIALGRADIENT /><TEXTPATH /></SVG>");
+            var doc = Html(@"<!DOCTYPE html><BODY><SVG><ALTGLYPH /><ALTGLYPHDEF /><ALTGLYPHITEM /><ANIMATECOLOR /><ANIMATEMOTION /><ANIMATETRANSFORM /><CLIPPATH /><FEBLEND /><FECOLORMATRIX /><FECOMPONENTTRANSFER /><FECOMPOSITE /><FECONVOLVEMATRIX /><FEDIFFUSELIGHTING /><FEDISPLACEMENTMAP /><FEDISTANTLIGHT /><FEFLOOD /><FEFUNCA /><FEFUNCB /><FEFUNCG /><FEFUNCR /><FEGAUSSIANBLUR /><FEIMAGE /><FEMERGE /><FEMERGENODE /><FEMORPHOLOGY /><FEOFFSET /><FEPOINTLIGHT /><FESPECULARLIGHTING /><FESPOTLIGHT /><FETILE /><FETURBULENCE /><FOREIGNOBJECT /><GLYPHREF /><LINEARGRADIENT /><RADIALGRADIENT /><TEXTPATH /></SVG>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1432,7 +1438,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleNodeInBody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg><solidColor /></svg>");
+            var doc = Html(@"<!DOCTYPE html><body><svg><solidColor /></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1473,7 +1479,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleElement()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg></svg>");
+            var doc = Html(@"<!DOCTYPE html><svg></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1508,7 +1514,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleElementFollowedByCdata()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg></svg><![CDATA[a]]>");
+            var doc = Html(@"<!DOCTYPE html><svg></svg><![CDATA[a]]>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1547,7 +1553,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleElementInBody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><svg></svg>");
+            var doc = Html(@"<!DOCTYPE html><body><svg></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1582,7 +1588,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleElementInSelect()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><svg></svg></select>");
+            var doc = Html(@"<!DOCTYPE html><body><select><svg></svg></select>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1617,7 +1623,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleElementInOptionInSelect()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><select><option><svg></svg></option></select>");
+            var doc = Html(@"<!DOCTYPE html><body><select><option><svg></svg></option></select>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1658,7 +1664,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgSingleElementInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><svg></svg></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><svg></svg></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1699,7 +1705,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><svg><g>foo</g></svg></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><svg><g>foo</g></svg></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1750,7 +1756,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupAndTextInTable()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><svg><g>foo</g><g>bar</g></svg></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><svg><g>foo</g><g>bar</g></svg></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1812,7 +1818,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupInTbody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><svg><g>foo</g><g>bar</g></svg></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><svg><g>foo</g><g>bar</g></svg></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1879,7 +1885,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupAndTextInTbody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><svg><g>foo</g><g>bar</g></svg></tr></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><svg><g>foo</g><g>bar</g></svg></tr></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1952,7 +1958,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupInTableCell()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg></td></tr></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg></td></tr></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2031,7 +2037,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupAndTextInTableCell()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg><p>baz</td></tr></tbody></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg><p>baz</td></tr></tbody></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2120,7 +2126,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupAndTextInTableCaption()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g></svg><p>baz</caption></table>");
+            var doc = Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g></svg><p>baz</caption></table>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2197,7 +2203,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupInTableCaption()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2284,7 +2290,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInCaptionWithMisclosedEnding()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2365,7 +2371,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInColgroupWithMisclosedEnding()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><colgroup><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><colgroup><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2452,7 +2458,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupInSelectMisclosed()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2525,7 +2531,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupInSelectAndTableMisclosed()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body><table><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = Html(@"<!DOCTYPE html><body><table><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2580,7 +2586,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementOutsideDocumentRoot()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body></html><svg><g>foo</g><g>bar</g><p>baz");
+            var doc = Html(@"<!DOCTYPE html><body></body></html><svg><g>foo</g><g>bar</g><p>baz");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2645,7 +2651,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementOutsideBody()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz");
+            var doc = Html(@"<!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2710,7 +2716,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset><svg><g></g><g></g><p><span>");
+            var doc = Html(@"<!DOCTYPE html><frameset><svg><g></g><g></g><p><span>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2739,7 +2745,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementOutsideFrameset()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><frameset></frameset><svg><g></g><g></g><p><span>");
+            var doc = Html(@"<!DOCTYPE html><frameset></frameset><svg><g></g><g></g><p><span>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2768,7 +2774,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInBodyWithXlinkAttribute()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2812,7 +2818,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupThatHasXlinkAttribute()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo></g></svg>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo></g></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2871,7 +2877,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithGroupThatHasNamespacedAttributes()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo /></svg>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo /></svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2930,7 +2936,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithSelfClosingGroup()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo />bar</svg>");
+            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo />bar</svg>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2993,7 +2999,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithMisclosedPath()
         {
-            var doc = DocumentBuilder.Html(@"<svg></path>");
+            var doc = Html(@"<svg></path>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3023,7 +3029,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInDivMisclosed()
         {
-            var doc = DocumentBuilder.Html(@"<div><svg></div>a");
+            var doc = Html(@"<div><svg></div>a");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3064,7 +3070,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithPathInDivMisclosed()
         {
-            var doc = DocumentBuilder.Html(@"<div><svg><path></div>a");
+            var doc = Html(@"<div><svg><path></div>a");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3110,7 +3116,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithMisclosedPathInDiv()
         {
-            var doc = DocumentBuilder.Html(@"<div><svg><path></svg><path>");
+            var doc = Html(@"<div><svg><path></svg><path>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3158,7 +3164,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithPathAndMathInDiv()
         {
-            var doc = DocumentBuilder.Html(@"<div><svg><path><foreignObject><math></div>a");
+            var doc = Html(@"<div><svg><path><foreignObject><math></div>a");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3216,7 +3222,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithPathAndForeignObjectInDiv()
         {
-            var doc = DocumentBuilder.Html(@"<div><svg><path><foreignObject><p></div>a");
+            var doc = Html(@"<div><svg><path><foreignObject><p></div>a");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3274,7 +3280,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithDescDivAndAnotherSvg()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><desc><div><svg><ul>a");
+            var doc = Html(@"<!DOCTYPE html><svg><desc><div><svg><ul>a");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3337,7 +3343,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithDescAndAnotherSvgElement()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><svg><desc><svg><ul>a");
+            var doc = Html(@"<!DOCTYPE html><svg><desc><svg><ul>a");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3394,7 +3400,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInParagraph()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><p><svg><desc><p>");
+            var doc = Html(@"<!DOCTYPE html><p><svg><desc><p>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3447,7 +3453,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementWithTitleInSvgNamespace()
         {
-            var doc = DocumentBuilder.Html(@"<!DOCTYPE html><p><svg><title><p>");
+            var doc = Html(@"<!DOCTYPE html><p><svg><title><p>");
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3500,7 +3506,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgElementInDivWithForeignObject()
         {
-            var doc = DocumentBuilder.Html(@"<div><svg><path><foreignObject><p></foreignObject><p>");
+            var doc = Html(@"<div><svg><path><foreignObject><p></foreignObject><p>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3560,7 +3566,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgWithScriptAndPathElement()
         {
-            var doc = DocumentBuilder.Html(@"<svg><script></script><path>");
+            var doc = Html(@"<svg><script></script><path>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3602,7 +3608,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgInsideTableWithRow()
         {
-            var doc = DocumentBuilder.Html(@"<table><svg></svg><tr>");
+            var doc = Html(@"<table><svg></svg><tr>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3650,7 +3656,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgInsideMathMLWithAnnotationXml()
         {
-            var doc = DocumentBuilder.Html(@"<math><annotation-xml><svg></svg></annotation-xml><mi>");
+            var doc = Html(@"<math><annotation-xml><svg></svg></annotation-xml><mi>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3698,7 +3704,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgInsideMathMLWithAnnotationXmlAndForeignObject()
         {
-            var doc = DocumentBuilder.Html(@"<math><annotation-xml><svg><foreignObject><div><math><mi></mi></math><span></span></div></foreignObject><path></path></svg></annotation-xml><mi>");
+            var doc = Html(@"<math><annotation-xml><svg><foreignObject><div><math><mi></mi></math><span></span></div></foreignObject><path></path></svg></annotation-xml><mi>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3782,7 +3788,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SvgInsideMathMLWithAnnotationXmlAndOthers()
         {
-            var doc = DocumentBuilder.Html(@"<math><annotation-xml><svg><foreignObject><math><mi><svg></svg></mi><mo></mo></math><span></span></foreignObject><path></path></svg></annotation-xml><mi>");
+            var doc = Html(@"<math><annotation-xml><svg><foreignObject><math><mi><svg></svg></mi><mo></mo></math><span></span></foreignObject><path></path></svg></annotation-xml><mi>");
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

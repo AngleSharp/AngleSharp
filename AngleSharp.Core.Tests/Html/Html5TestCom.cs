@@ -1,8 +1,8 @@
-﻿using AngleSharp.Dom;
+﻿using System;
+using AngleSharp.Dom;
 using AngleSharp.Extensions;
 using AngleSharp.Html;
 using NUnit.Framework;
-using System;
 
 namespace AngleSharp.Core.Tests
 {
@@ -13,10 +13,15 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class Html5TestComTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void WrongDivTagMistake()
         {
-            var doc = DocumentBuilder.Html(@"<div<div>");
+            var doc = Html(@"<div<div>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -46,7 +51,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WrongDivAttributeMistake()
         {
-            var doc = DocumentBuilder.Html(@"<div foo<bar=''>");
+            var doc = Html(@"<div foo<bar=''>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -77,7 +82,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WrongDivLetterInAttributeMistake()
         {
-            var doc = DocumentBuilder.Html(@"<div foo=`bar`>");
+            var doc = Html(@"<div foo=`bar`>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -108,7 +113,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesAngles()
         {
-            var doc = DocumentBuilder.Html(@"&lang;&rang;");
+            var doc = Html(@"&lang;&rang;");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -136,7 +141,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesApos()
         {
-            var doc = DocumentBuilder.Html(@"&apos;");
+            var doc = Html(@"&apos;");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -164,7 +169,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesKopf()
         {
-            var doc = DocumentBuilder.Html(@"&Kopf;");
+            var doc = Html(@"&Kopf;");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -192,7 +197,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesNotinva()
         {
-            var doc = DocumentBuilder.Html(@"&notinva;");
+            var doc = Html(@"&notinva;");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -220,7 +225,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentAsDoctype()
         {
-            var doc = DocumentBuilder.Html(@"<?import namespace=""foo"" implementation=""#bar"">");
+            var doc = Html(@"<?import namespace=""foo"" implementation=""#bar"">");
 
             var comment = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, comment.NodeType);
@@ -248,7 +253,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MisplacedCdataSection()
         {
-            var doc = DocumentBuilder.Html(@"<![CDATA[x]]>");
+            var doc = Html(@"<![CDATA[x]]>");
             var cdata = doc.ChildNodes[0];
             Assert.AreEqual(0, cdata.ChildNodes.Length);
             Assert.AreEqual("[CDATA[x]]", cdata.TextContent);
@@ -276,7 +281,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TextAreaWithComments()
         {
-            var doc = DocumentBuilder.Html(@"<textarea><!--</textarea>--></textarea>");
+            var doc = Html(@"<textarea><!--</textarea>--></textarea>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -314,7 +319,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnsortedListWithEntries()
         {
-            var doc = DocumentBuilder.Html(@"<ul><li>A </li> <li>B</li></ul>");
+            var doc = Html(@"<ul><li>A </li> <li>B</li></ul>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -368,7 +373,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithFormAndInputs()
         {
-            var doc = DocumentBuilder.Html(@"<table><form><input type=hidden><input></form><div></div></table>");
+            var doc = Html(@"<table><form><input type=hidden><input></form><div></div></table>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -423,7 +428,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLTag()
         {
-            var doc = DocumentBuilder.Html(@"<math></math>");
+            var doc = Html(@"<math></math>");
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);

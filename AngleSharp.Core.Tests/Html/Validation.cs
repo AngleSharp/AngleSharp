@@ -1,4 +1,5 @@
-﻿using AngleSharp;
+﻿using System;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
 
@@ -7,10 +8,15 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
     public class ValidationTests
     {
+        static IDocument Html(String code)
+        {
+            return code.ToHtmlDocument();
+        }
+
         [Test]
         public void BasicInvalidFormValidation()
         {
-            var doc = DocumentBuilder.Html(@"<form id=""fm1"">
+            var doc = Html(@"<form id=""fm1"">
   <fieldset id=""test0"">
     <input type=""text"" required value="""" id=""test1"">
   </fieldset>
@@ -29,7 +35,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void BasicValidFormValidation()
         {
-            var doc = DocumentBuilder.Html(@"<form id=""fm2"">
+            var doc = Html(@"<form id=""fm2"">
   <fieldset>
     <input type=""text"" required value=""abc"">
   </fieldset>
@@ -48,7 +54,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void InvalidFormValidationWithChanges()
         {
-            var doc = DocumentBuilder.Html(@"<form id=""fm3"">
+            var doc = Html(@"<form id=""fm3"">
   <fieldset id=""fs"">
     <legend><input type=""text"" id=""inp1""></legend>
     <input type=""text"" required value="""" id=""inp2"">

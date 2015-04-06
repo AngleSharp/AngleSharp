@@ -16,7 +16,7 @@ namespace AngleSharp.Core.Tests
         [SetUp]
         public void Setup()
         {
-            document = DocumentBuilder.Html(Assets.quirksmode);
+            document = Assets.quirksmode.ToHtmlDocument();
         }
 
         [Test]
