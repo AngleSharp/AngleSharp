@@ -1,13 +1,13 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// A set of useful extension methods when dealing with the DOM.
@@ -40,12 +40,12 @@
             var parameterLess = ctor != null;
             
             if (parameterLess == false)
-                ctor = type.GetConstructor(new Type[] { typeof(Document) });
+                ctor = type.GetConstructor(new Type[] { typeof(Document), typeof(String) });
 
             if (ctor == null)
                 return default(TElement);
 
-            var element = (TElement)(parameterLess ? ctor.Invoke(null) : ctor.Invoke(new Object[] { document }));
+            var element = (TElement)(parameterLess ? ctor.Invoke(null) : ctor.Invoke(new Object[] { document, default(String) }));
             var el = element as Element;
 
             if (element != null)

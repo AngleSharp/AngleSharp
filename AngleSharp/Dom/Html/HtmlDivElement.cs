@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -12,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML div element.
         /// </summary>
-        public HtmlDivElement(Document owner)
-            : base(owner, Tags.Div, NodeFlags.Special)
+        public HtmlDivElement(Document owner, String prefix = null)
+            : base(owner, Tags.Div, prefix, NodeFlags.Special)
         {
         }
 

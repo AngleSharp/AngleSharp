@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents an HTML button element.
@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new HTML button element.
         /// </summary>
-        public HtmlButtonElement(Document owner)
-            : base(owner, Tags.Button)
+        public HtmlButtonElement(Document owner, String prefix = null)
+            : base(owner, Tags.Button, prefix)
         {
         }
 

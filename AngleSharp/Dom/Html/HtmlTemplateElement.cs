@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the template element.
@@ -16,8 +16,8 @@
 
         #region ctor
 
-        public HtmlTemplateElement(Document owner)
-            : base(owner, Tags.Template, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+        public HtmlTemplateElement(Document owner, String prefix = null)
+            : base(owner, Tags.Template, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
             _content = new DocumentFragment(owner);
         }

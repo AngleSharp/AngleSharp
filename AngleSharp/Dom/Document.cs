@@ -1331,7 +1331,7 @@
             if (!localName.IsXmlName())
                 throw new DomException(DomError.InvalidCharacter);
 
-            return Factory.HtmlElements.Create(localName, this);
+            return Factory.HtmlElements.Create(this, localName);
         }
 
         /// <summary>
@@ -1366,15 +1366,14 @@
             var element = default(Element);
 
             if (namespaceUri == Namespaces.HtmlUri)
-                element = Factory.HtmlElements.Create(localName, this);
+                element = Factory.HtmlElements.Create(this, localName, prefix);
             else if (namespaceUri == Namespaces.SvgUri)
                 element = Factory.SvgElements.Create(localName, this);
             else if (namespaceUri == Namespaces.MathMlUri)
                 element = Factory.MathElements.Create(localName, this);
             else
-                element = new Element(this, localName, namespaceUri);
-
-            element.Prefix = prefix;
+                element = new Element(this, localName, prefix, namespaceUri);
+            
             return element;
         }
 

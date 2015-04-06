@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -14,8 +15,8 @@
         /// <summary>
         /// Creates a new HTML wbr element.
         /// </summary>
-        public HtmlWbrElement(Document owner)
-            : base(owner, Tags.Wbr, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlWbrElement(Document owner, String prefix)
+            : base(owner, Tags.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

@@ -11,8 +11,8 @@
     {
         #region ctor
 
-        public HtmlTableColElement(Document owner)
-            : base(owner, Tags.Col, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlTableColElement(Document owner, String prefix = null)
+            : base(owner, Tags.Col, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

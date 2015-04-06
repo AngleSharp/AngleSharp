@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the HTML isindex element.
@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new isindex element.
         /// </summary>
-        public HtmlIsIndexElement(Document owner)
-            : base(owner, Tags.IsIndex, NodeFlags.Special)
+        public HtmlIsIndexElement(Document owner, String prefix)
+            : base(owner, Tags.IsIndex, prefix, NodeFlags.Special)
         {
         }
 

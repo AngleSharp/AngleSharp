@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
-    using System;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -23,8 +23,8 @@
         /// <summary>
         /// Creates a new HTML input element.
         /// </summary>
-        public HtmlInputElement(Document owner)
-            : base(owner, Tags.Input, NodeFlags.SelfClosing)
+        public HtmlInputElement(Document owner, String prefix = null)
+            : base(owner, Tags.Input, prefix, NodeFlags.SelfClosing)
         {
             RegisterAttributeObserver(AttributeNames.Type, UpdateType);
             UpdateType(null);

@@ -19,8 +19,8 @@
 
         #region ctor
 
-        public HtmlTableRowElement(Document owner)
-            : base(owner, Tags.Tr, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+        public HtmlTableRowElement(Document owner, String prefix = null)
+            : base(owner, Tags.Tr, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
 

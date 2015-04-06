@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlPlaintextElement : HtmlElement
     {
-        public HtmlPlaintextElement(Document owner)
-            : base(owner, Tags.Plaintext, NodeFlags.Special | NodeFlags.LiteralText)
+        public HtmlPlaintextElement(Document owner, String prefix)
+            : base(owner, Tags.Plaintext, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

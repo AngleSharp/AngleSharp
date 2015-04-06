@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlTeletypeTextElement : HtmlElement
     {
-        public HtmlTeletypeTextElement(Document owner)
-            : base(owner, Tags.Tt, NodeFlags.HtmlFormatting)
+        public HtmlTeletypeTextElement(Document owner, String prefix)
+            : base(owner, Tags.Tt, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

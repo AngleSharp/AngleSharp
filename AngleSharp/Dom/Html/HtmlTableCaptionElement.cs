@@ -10,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlTableCaptionElement(Document owner)
-            : base(owner, Tags.Caption, NodeFlags.Special | NodeFlags.Scoped)
+        public HtmlTableCaptionElement(Document owner, String prefix = null)
+            : base(owner, Tags.Caption, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
 

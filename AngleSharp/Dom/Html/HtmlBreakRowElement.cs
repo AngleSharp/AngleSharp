@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -12,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML br element
         /// </summary>
-        public HtmlBreakRowElement(Document owner)
-            : base(owner, Tags.Br, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlBreakRowElement(Document owner, String prefix)
+            : base(owner, Tags.Br, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

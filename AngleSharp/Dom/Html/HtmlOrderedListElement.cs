@@ -11,8 +11,8 @@
     {
         #region ctor
 
-        public HtmlOrderedListElement(Document owner)
-            : base(owner, Tags.Ol, NodeFlags.Special | NodeFlags.HtmlListScoped)
+        public HtmlOrderedListElement(Document owner, String prefix)
+            : base(owner, Tags.Ol, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
 

@@ -14,8 +14,8 @@
         /// <summary>
         /// Creates a new HTML textarea element.
         /// </summary>
-        public HtmlTextAreaElement(Document owner)
-            : base(owner, Tags.Textarea, NodeFlags.LineTolerance)
+        public HtmlTextAreaElement(Document owner, String prefix = null)
+            : base(owner, Tags.Textarea, prefix, NodeFlags.LineTolerance)
         {
         }
 

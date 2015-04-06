@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML param element.
         /// </summary>
-        public HtmlParamElement(Document owner)
-            : base(owner, Tags.Param, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlParamElement(Document owner, String prefix)
+            : base(owner, Tags.Param, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

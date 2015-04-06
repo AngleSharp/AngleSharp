@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents the HTML frameset element.
@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        public HtmlFrameSetElement(Document owner)
-            : base(owner, Tags.Frameset, NodeFlags.Special)
+        public HtmlFrameSetElement(Document owner, String prefix = null)
+            : base(owner, Tags.Frameset, prefix, NodeFlags.Special)
         {
         }
 

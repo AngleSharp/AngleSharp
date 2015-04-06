@@ -10,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlFormControlElementWithState(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags)
+        public HtmlFormControlElementWithState(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, prefix, flags)
         {
             CanContainRangeEndpoint = false;
         }

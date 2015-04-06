@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Html;
 
@@ -9,8 +10,8 @@
     [DomHistorical]
     sealed class HtmlAppletElement : HtmlElement
     {
-        public HtmlAppletElement(Document owner)
-            : base(owner, Tags.Applet, NodeFlags.Special | NodeFlags.Scoped)
+        public HtmlAppletElement(Document owner, String prefix)
+            : base(owner, Tags.Applet, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

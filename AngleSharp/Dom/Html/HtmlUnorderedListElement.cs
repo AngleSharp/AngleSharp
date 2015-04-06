@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlUnorderedListElement(Document owner)
-            : base(owner, Tags.Ul, NodeFlags.Special | NodeFlags.HtmlListScoped)
+        public HtmlUnorderedListElement(Document owner, String prefix)
+            : base(owner, Tags.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
 

@@ -11,8 +11,8 @@
     {
         #region ctor
 
-        public HtmlTableColgroupElement(Document owner)
-            : base(owner, Tags.Colgroup, NodeFlags.Special)
+        public HtmlTableColgroupElement(Document owner, String prefix = null)
+            : base(owner, Tags.Colgroup, prefix, NodeFlags.Special)
         {
         }
 

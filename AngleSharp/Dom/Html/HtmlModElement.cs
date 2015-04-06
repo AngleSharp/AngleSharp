@@ -10,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlModElement(Document owner, String name)
-            : base(owner, name)
+        public HtmlModElement(Document owner, String name, String prefix)
+            : base(owner, name, prefix)
         {
         }
 

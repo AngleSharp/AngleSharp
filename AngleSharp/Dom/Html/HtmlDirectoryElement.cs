@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Html;
 
@@ -12,8 +13,8 @@
     {
         #region ctor
 
-        public HtmlDirectoryElement(Document owner)
-            : base (owner, Tags.Dir, NodeFlags.Special)
+        public HtmlDirectoryElement(Document owner, String prefix)
+            : base (owner, Tags.Dir, prefix, NodeFlags.Special)
         {
         }
 

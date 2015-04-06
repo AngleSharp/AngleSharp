@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -12,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML picture element.
         /// </summary>
-        public HtmlPictureElement(Document owner)
-            : base(owner, Tags.Picture)
+        public HtmlPictureElement(Document owner, String prefix = null)
+            : base(owner, Tags.Picture, prefix)
         {
         }
 

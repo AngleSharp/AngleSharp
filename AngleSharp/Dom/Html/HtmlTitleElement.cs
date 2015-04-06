@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the title element.
@@ -11,8 +11,8 @@
         /// <summary>
         /// Creates a new HTML title element.
         /// </summary>
-        public HtmlTitleElement(Document owner)
-            : base(owner, Tags.Title, NodeFlags.Special)
+        public HtmlTitleElement(Document owner, String prefix = null)
+            : base(owner, Tags.Title, prefix, NodeFlags.Special)
         {
         }
 

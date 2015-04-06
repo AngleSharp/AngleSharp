@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML details element.
         /// </summary>
-        public HtmlDetailsElement(Document owner)
-            : base(owner, Tags.Details, NodeFlags.Special)
+        public HtmlDetailsElement(Document owner, String prefix)
+            : base(owner, Tags.Details, prefix, NodeFlags.Special)
         {
         }
 

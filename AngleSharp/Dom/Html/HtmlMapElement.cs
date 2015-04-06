@@ -18,8 +18,8 @@
 
         #region ctor
 
-        public HtmlMapElement(Document owner)
-            : base(owner, Tags.Map)
+        public HtmlMapElement(Document owner, String prefix)
+            : base(owner, Tags.Map, prefix)
         {
         }
 

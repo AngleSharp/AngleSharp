@@ -19,8 +19,8 @@
 
         #region ctor
 
-        public HtmlOutputElement(Document owner)
-            : base(owner, Tags.Output)
+        public HtmlOutputElement(Document owner, String prefix)
+            : base(owner, Tags.Output, prefix)
         {
         }
 

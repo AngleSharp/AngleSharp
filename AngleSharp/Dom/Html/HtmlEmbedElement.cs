@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the embed element.
@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new Embed element.
         /// </summary>
-        public HtmlEmbedElement(Document owner)
-            : base(owner, Tags.Embed, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlEmbedElement(Document owner, String prefix)
+            : base(owner, Tags.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

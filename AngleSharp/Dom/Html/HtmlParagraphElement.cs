@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
 
@@ -13,8 +14,8 @@
         /// <summary>
         /// Creates a new HTML paragraph element.
         /// </summary>
-        public HtmlParagraphElement(Document owner)
-            : base(owner, Tags.P, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+        public HtmlParagraphElement(Document owner, String prefix)
+            : base(owner, Tags.P, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
 

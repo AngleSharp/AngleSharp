@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Html;
 
@@ -9,8 +10,8 @@
     [DomHistorical]
     sealed class HtmlBgsoundElement : HtmlElement
     {
-        public HtmlBgsoundElement(Document owner)
-            : base(owner, Tags.Bgsound, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlBgsoundElement(Document owner, String prefix)
+            : base(owner, Tags.Bgsound, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
     }

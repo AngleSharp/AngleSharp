@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents the base class for frame owned elements.
@@ -11,8 +11,8 @@
     {
         #region ctor
 
-        public HtmlFrameOwnerElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags)
+        public HtmlFrameOwnerElement(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, prefix, flags)
         {
         }
 

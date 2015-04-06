@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
-    using System;
 
     /// <summary>
     /// Represents the HTML video element.
@@ -23,8 +23,8 @@
         /// <summary>
         /// Creates a new HTML video element.
         /// </summary>
-        public HtmlVideoElement(Document owner)
-            : base(owner, Tags.Video)
+        public HtmlVideoElement(Document owner, String prefix)
+            : base(owner, Tags.Video, prefix)
         {
             _poster = new BoundLocation(this, AttributeNames.Poster);
             _videos = null;

@@ -10,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlTimeElement(Document owner)
-            : base(owner, Tags.Time, NodeFlags.Special)
+        public HtmlTimeElement(Document owner, String prefix)
+            : base(owner, Tags.Time, prefix, NodeFlags.Special)
         {
         }
 

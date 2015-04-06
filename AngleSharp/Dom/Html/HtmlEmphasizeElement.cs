@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlEmphasizeElement : HtmlElement
     {
-        public HtmlEmphasizeElement(Document owner)
-            : base(owner, Tags.Em, NodeFlags.HtmlFormatting)
+        public HtmlEmphasizeElement(Document owner, String prefix)
+            : base(owner, Tags.Em, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

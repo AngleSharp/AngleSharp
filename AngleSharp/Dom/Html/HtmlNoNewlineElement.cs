@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlNoNewlineElement : HtmlElement
     {
-        public HtmlNoNewlineElement(Document owner)
-            : base(owner, Tags.NoBr, NodeFlags.HtmlFormatting)
+        public HtmlNoNewlineElement(Document owner, String prefix)
+            : base(owner, Tags.NoBr, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

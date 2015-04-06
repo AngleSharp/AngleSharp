@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlRubyElement : HtmlElement
     {
-        public HtmlRubyElement(Document owner)
-            : base(owner, Tags.Ruby)
+        public HtmlRubyElement(Document owner, String prefix)
+            : base(owner, Tags.Ruby, prefix)
         {
         }
     }

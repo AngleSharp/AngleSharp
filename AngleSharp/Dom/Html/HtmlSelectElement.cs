@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Linq;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents the select element.
@@ -23,8 +23,8 @@
         /// <summary>
         /// Creates a new HTML select element.
         /// </summary>
-        public HtmlSelectElement(Document owner)
-            : base(owner, Tags.Select)
+        public HtmlSelectElement(Document owner, String prefix = null)
+            : base(owner, Tags.Select, prefix)
         {
             RegisterAttributeObserver(AttributeNames.Value, value => Value = value);
         }

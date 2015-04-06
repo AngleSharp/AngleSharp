@@ -63,44 +63,44 @@
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
-        /// <param name="tag">The given tag name.</param>
+        /// <param name="localName">The given tag name.</param>
         /// <param name="document">The document that owns the element.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement Create(String tag, Document document)
+        public SvgElement Create(String localName, Document document)
         {
             Func<Document, SvgElement> creator;
 
-            if (creators.TryGetValue(tag, out creator))
+            if (creators.TryGetValue(localName, out creator))
                 return creator(document);
 
-            return new SvgElement(document, tag);
+            return new SvgElement(document, localName);
         }
 
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
-        /// <param name="tag">The given tag name, which is sanatized.</param>
+        /// <param name="localName">The given tag name, which is sanatized.</param>
         /// <param name="document">The document that owns the element.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement CreateSanatized(String tag, Document document)
+        public SvgElement CreateSanatized(String localName, Document document)
         {
-            var newTag = SanatizeTag(tag);
+            var newTag = SanatizeTag(localName);
             return Create(newTag, document);
         }
 
         /// <summary>
         /// Adjusts the tag name to the correct capitalization.
         /// </summary>
-        /// <param name="tagName">The name of adjust.</param>
+        /// <param name="localName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        String SanatizeTag(String tagName)
+        String SanatizeTag(String localName)
         {
             String adjustedTagName;
 
-            if (adjustedTagNames.TryGetValue(tagName, out adjustedTagName))
+            if (adjustedTagNames.TryGetValue(localName, out adjustedTagName))
                 return adjustedTagName;
 
-            return tagName;
+            return localName;
         }
     }
 }

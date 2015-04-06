@@ -24,17 +24,17 @@
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag name.
         /// </summary>
-        /// <param name="tag">The given tag name.</param>
+        /// <param name="localName">The given tag name.</param>
         /// <param name="document">The document that owns the element.</param>
         /// <returns>The specialized MathMLElement instance.</returns>
-        public MathElement Create(String tag, Document document)
+        public MathElement Create(String localName, Document document)
         {
             Func<Document, MathElement> creator;
 
-            if (creators.TryGetValue(tag, out creator))
+            if (creators.TryGetValue(localName, out creator))
                 return creator(document);
 
-            return new MathElement(document, tag);
+            return new MathElement(document, localName);
 
         }
     }

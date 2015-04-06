@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Dom.Media;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
@@ -20,8 +21,8 @@
         /// <summary>
         /// Creates a new HTML audio element.
         /// </summary>
-        public HtmlAudioElement(Document owner)
-            : base(owner, Tags.Audio)
+        public HtmlAudioElement(Document owner, String prefix)
+            : base(owner, Tags.Audio, prefix)
         {
             _audios = null;
         }

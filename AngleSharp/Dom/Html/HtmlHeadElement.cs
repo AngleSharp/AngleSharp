@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlHeadElement(Document owner)
-            : base(owner, Tags.Head, NodeFlags.Special)
+        public HtmlHeadElement(Document owner, String prefix = null)
+            : base(owner, Tags.Head, prefix, NodeFlags.Special)
         {
         }
 

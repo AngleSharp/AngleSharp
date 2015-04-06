@@ -30,8 +30,8 @@
         /// <summary>
         /// Creates a new HTML script element.
         /// </summary>
-        public HtmlScriptElement(Document owner)
-            : base(owner, Tags.Script, NodeFlags.Special | NodeFlags.LiteralText)
+        public HtmlScriptElement(Document owner, String prefix = null)
+            : base(owner, Tags.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
 

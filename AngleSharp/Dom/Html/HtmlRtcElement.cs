@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlRtcElement : HtmlElement
     {
-        public HtmlRtcElement(Document owner)
-            : base(owner, Tags.Rtc, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+        public HtmlRtcElement(Document owner, String prefix)
+            : base(owner, Tags.Rtc, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
     }

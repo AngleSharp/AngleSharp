@@ -1,5 +1,11 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Mathml;
@@ -7,12 +13,6 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the Tree construction as specified in
@@ -3797,7 +3797,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = Factory.HtmlElements.Create(tag.Name, _document);
+            var element = Factory.HtmlElements.Create(_document, tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

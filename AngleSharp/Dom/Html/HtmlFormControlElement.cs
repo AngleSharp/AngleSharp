@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Linq;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents the base class for all HTML form control elements.
@@ -21,8 +21,8 @@
 
         #region ctor
 
-        public HtmlFormControlElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags | NodeFlags.Special)
+        public HtmlFormControlElement(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, prefix, flags | NodeFlags.Special)
         {
             _vstate = new ValidityState();
             _labels = new NodeList();

@@ -23,8 +23,8 @@
         /// <summary>
         /// Creates a new HTML progress element.
         /// </summary>
-        public HtmlProgressElement(Document owner)
-            : base(owner, Tags.Progress)
+        public HtmlProgressElement(Document owner, String prefix)
+            : base(owner, Tags.Progress, prefix)
         {
             labels = new NodeList();
         }

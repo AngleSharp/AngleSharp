@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        public HtmlListItemElement(Document owner, String name)
-            : base(owner, name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+        public HtmlListItemElement(Document owner, String name, String prefix)
+            : base(owner, name, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
 

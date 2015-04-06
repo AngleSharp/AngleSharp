@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new HTML fieldset element.
         /// </summary>
-        public HtmlFieldSetElement(Document owner)
-            : base(owner, Tags.Fieldset)
+        public HtmlFieldSetElement(Document owner, String prefix)
+            : base(owner, Tags.Fieldset, prefix)
         {
         }
 

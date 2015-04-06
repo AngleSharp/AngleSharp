@@ -14,7 +14,7 @@
         /// Creates a new XML element.
         /// </summary>
         public XmlElement(Document owner, String name)
-            : base(owner, name, Namespaces.XmlUri)
+            : base(owner, name, null, Namespaces.XmlUri)
         {
         }
 

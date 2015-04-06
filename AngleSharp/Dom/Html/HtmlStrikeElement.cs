@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlStrikeElement : HtmlElement
     {
-        public HtmlStrikeElement(Document owner)
-            : base(owner, Tags.Strike, NodeFlags.HtmlFormatting)
+        public HtmlStrikeElement(Document owner, String prefix)
+            : base(owner, Tags.Strike, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

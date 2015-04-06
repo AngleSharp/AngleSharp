@@ -22,8 +22,8 @@
         /// <summary>
         /// Creates a new anchor element.
         /// </summary>
-        public HtmlAnchorElement(Document owner)
-            : base(owner, Tags.A, NodeFlags.HtmlFormatting)
+        public HtmlAnchorElement(Document owner, String prefix = null)
+            : base(owner, Tags.A, prefix, NodeFlags.HtmlFormatting)
         {
             _location = new BoundLocation(this, AttributeNames.Href);
             RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);

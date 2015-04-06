@@ -21,8 +21,8 @@
         readonly List<IAttr> _attributes;
         readonly Dictionary<String, Action<String>> _attributeHandlers;
         readonly String _namespace;
+        readonly String _prefix;
 
-        String _prefix;
         HtmlElementCollection _elements;
         TokenList _classList;
 
@@ -34,16 +34,17 @@
         /// Creates a new element node.
         /// </summary>
         public Element(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : this(owner, name, null, flags)
+            : this(owner, name, null, null, flags)
         {
         }
 
         /// <summary>
         /// Creates a new element node.
         /// </summary>
-        public Element(Document owner, String localName, String namespaceUri, NodeFlags flags = NodeFlags.None)
+        public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : base(owner, localName, NodeType.Element, flags)
         {
+            _prefix = prefix;
             _namespace = namespaceUri;
             _attributes = new List<IAttr>();
             _attributeHandlers = new Dictionary<String, Action<String>>();
@@ -55,13 +56,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the namespace prefix of the specified node, or null if
-        /// no prefix is specified.
+        /// Gets the namespace prefix of the specified node, if any.
         /// </summary>
         public String Prefix
         {
             get { return _prefix; }
-            set { _prefix = value; }
         }
 
         /// <summary>
@@ -73,7 +72,7 @@
         }
 
         /// <summary>
-        /// Gets the namespace URI of this node.
+        /// Gets the namespace URI of this node, if any.
         /// </summary>
         public String NamespaceUri
         {
@@ -460,7 +459,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Element(Owner, LocalName, _namespace, Flags);
+            var node = new Element(Owner, LocalName, _prefix, _namespace, Flags);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
@@ -925,8 +924,6 @@
         /// </param>
         protected static void CopyAttributes(Element source, Element target)
         {
-            target._prefix = source._prefix;
-
             for (int i = 0; i < source._attributes.Count; i++)
                 target._attributes.Add(new Attr(target, source._attributes[i].Name, source._attributes[i].Value));
         }

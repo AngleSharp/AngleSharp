@@ -18,8 +18,8 @@
 
         #region ctor
 
-        public HtmlTableCellElement(Document owner, String name)
-            : base(owner, name, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
+        public HtmlTableCellElement(Document owner, String name, String prefix)
+            : base(owner, name, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
         {
         }
 

@@ -23,8 +23,8 @@
         /// <summary>
         /// Creates a new HTML meter element.
         /// </summary>
-        public HtmlMeterElement(Document owner)
-            : base(owner, Tags.Meter)
+        public HtmlMeterElement(Document owner, String prefix)
+            : base(owner, Tags.Meter, prefix)
         {
             labels = new NodeList();
         }

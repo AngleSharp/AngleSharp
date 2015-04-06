@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlAddressElement : HtmlElement
     {
-        public HtmlAddressElement(Document owner)
-            : base(owner, Tags.Address, NodeFlags.Special)
+        public HtmlAddressElement(Document owner, String prefix)
+            : base(owner, Tags.Address, prefix, NodeFlags.Special)
         {
         }
     }

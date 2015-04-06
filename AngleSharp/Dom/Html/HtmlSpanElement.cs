@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlSpanElement(Document owner)
-            : base(owner, Tags.Span)
+        public HtmlSpanElement(Document owner, String prefix = null)
+            : base(owner, Tags.Span, prefix)
         {
             Owner = owner;
         }

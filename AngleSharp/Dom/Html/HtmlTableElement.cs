@@ -21,8 +21,8 @@
 
         #region ctor
 
-        public HtmlTableElement(Document owner)
-            : base(owner, Tags.Table, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+        public HtmlTableElement(Document owner, String prefix = null)
+            : base(owner, Tags.Table, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
 

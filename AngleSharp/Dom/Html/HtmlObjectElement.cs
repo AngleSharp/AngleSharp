@@ -23,8 +23,8 @@
 
         #region ctor
 
-        public HtmlObjectElement(Document owner)
-            : base(owner, Tags.Object, NodeFlags.Scoped)
+        public HtmlObjectElement(Document owner, String prefix)
+            : base(owner, Tags.Object, prefix, NodeFlags.Scoped)
         {
             _data = new BoundLocation(this, AttributeNames.Data);
             RegisterAttributeObserver(AttributeNames.Data, UpdateSource);

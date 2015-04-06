@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -12,8 +13,8 @@
         /// <summary>
         /// Creates a new hr element.
         /// </summary>
-        public HtmlHrElement(Document owner)
-            : base(owner, Tags.Hr, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlHrElement(Document owner, String prefix = null)
+            : base(owner, Tags.Hr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

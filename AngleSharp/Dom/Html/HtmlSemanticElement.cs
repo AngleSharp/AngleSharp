@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Represents an HTML element with only semantic meaning.
@@ -10,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlSemanticElement(Document owner, String name)
-            : base(owner, name, NodeFlags.Special)
+        public HtmlSemanticElement(Document owner, String name, String prefix)
+            : base(owner, name, prefix, NodeFlags.Special)
         {
         }
 

@@ -22,8 +22,8 @@
         /// <summary>
         /// Creates a new area element.
         /// </summary>
-        public HtmlAreaElement(Document owner)
-            : base(owner, Tags.Area, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlAreaElement(Document owner, String prefix)
+            : base(owner, Tags.Area, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _location = new BoundLocation(this, AttributeNames.Href);
             RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);

@@ -19,8 +19,8 @@
         /// <summary>
         /// Creates a new HTML source element.
         /// </summary>
-        public HtmlSourceElement(Document owner)
-            : base(owner, Tags.Source, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlSourceElement(Document owner, String prefix)
+            : base(owner, Tags.Source, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _src = new BoundLocation(this, AttributeNames.Src);
         }

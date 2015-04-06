@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        public HtmlMarqueeElement(Document owner)
-            : base(owner, Tags.Marquee, NodeFlags.Special | NodeFlags.Scoped)
+        public HtmlMarqueeElement(Document owner, String prefix)
+            : base(owner, Tags.Marquee, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
 

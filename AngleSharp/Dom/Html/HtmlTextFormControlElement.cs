@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents the base class for all HTML text form controls.
@@ -21,8 +21,8 @@
 
         #region ctor
 
-        public HtmlTextFormControlElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, flags)
+        public HtmlTextFormControlElement(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, prefix, flags)
         {
         }
 

@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML optgroup element.
         /// </summary>
-        public HtmlOptionsGroupElement(Document owner)
-            : base(owner, Tags.Optgroup, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+        public HtmlOptionsGroupElement(Document owner, String prefix = null)
+            : base(owner, Tags.Optgroup, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 

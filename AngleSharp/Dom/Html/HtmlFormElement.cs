@@ -31,8 +31,8 @@
         /// <summary>
         /// Creates a new HTML form element.
         /// </summary>
-        public HtmlFormElement(Document owner)
-            : base(owner, Tags.Form, NodeFlags.Special)
+        public HtmlFormElement(Document owner, String prefix = null)
+            : base(owner, Tags.Form, prefix, NodeFlags.Special)
         {
             _cts = new CancellationTokenSource();
         }

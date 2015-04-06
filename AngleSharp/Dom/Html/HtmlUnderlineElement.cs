@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class HtmlUnderlineElement : HtmlElement
     {
-        public HtmlUnderlineElement(Document owner)
-            : base(owner, Tags.U, NodeFlags.HtmlFormatting)
+        public HtmlUnderlineElement(Document owner, String prefix)
+            : base(owner, Tags.U, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

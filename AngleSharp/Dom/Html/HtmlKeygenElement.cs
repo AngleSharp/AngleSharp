@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML keygen element.
         /// </summary>
-        public HtmlKeygenElement(Document owner)
-            : base(owner, Tags.Keygen, NodeFlags.SelfClosing)
+        public HtmlKeygenElement(Document owner, String prefix = null)
+            : base(owner, Tags.Keygen, prefix, NodeFlags.SelfClosing)
         {
         }
 

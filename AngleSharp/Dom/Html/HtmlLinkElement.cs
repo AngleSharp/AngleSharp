@@ -30,8 +30,8 @@
         /// <summary>
         /// Creates a new HTML link element.
         /// </summary>
-        public HtmlLinkElement(Document owner)
-            : base(owner, Tags.Link, NodeFlags.Special | NodeFlags.SelfClosing)
+        public HtmlLinkElement(Document owner, String prefix)
+            : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
             RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);

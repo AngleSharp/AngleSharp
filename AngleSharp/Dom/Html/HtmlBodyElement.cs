@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a HTML body element.
         /// </summary>
-        public HtmlBodyElement(Document owner)
-            : base(owner, Tags.Body, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+        public HtmlBodyElement(Document owner, String prefix = null)
+            : base(owner, Tags.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
 

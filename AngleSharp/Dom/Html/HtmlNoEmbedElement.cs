@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlNoEmbedElement(Document owner)
-            : base(owner, Tags.NoEmbed, NodeFlags.Special | NodeFlags.LiteralText)
+        public HtmlNoEmbedElement(Document owner, String prefix)
+            : base(owner, Tags.NoEmbed, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
 

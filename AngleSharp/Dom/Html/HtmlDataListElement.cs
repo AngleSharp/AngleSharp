@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Html;
 
@@ -19,8 +20,8 @@
         /// <summary>
         /// Creates a new datalist element.
         /// </summary>
-        public HtmlDataListElement(Document owner)
-            : base(owner, Tags.Datalist)
+        public HtmlDataListElement(Document owner, String prefix)
+            : base(owner, Tags.Datalist, prefix)
         {
         }
 

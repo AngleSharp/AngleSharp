@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlNoFramesElement(Document owner)
-            : base(owner, Tags.NoFrames, NodeFlags.Special | NodeFlags.LiteralText)
+        public HtmlNoFramesElement(Document owner, String prefix)
+            : base(owner, Tags.NoFrames, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
 

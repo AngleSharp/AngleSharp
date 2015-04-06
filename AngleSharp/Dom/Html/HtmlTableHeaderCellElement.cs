@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region ctor
 
-        public HtmlTableHeaderCellElement(Document owner)
-            : base(owner, Tags.Th)
+        public HtmlTableHeaderCellElement(Document owner, String prefix)
+            : base(owner, Tags.Th, prefix)
         {
         }
 

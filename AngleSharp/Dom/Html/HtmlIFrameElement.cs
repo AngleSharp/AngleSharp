@@ -24,8 +24,8 @@
 
         #region ctor
 
-        public HtmlIFrameElement(Document owner)
-            : base(owner, Tags.Iframe, NodeFlags.LiteralText)
+        public HtmlIFrameElement(Document owner, String prefix)
+            : base(owner, Tags.Iframe, prefix, NodeFlags.LiteralText)
         {
             _context = owner.NewChildContext(Sandboxes.None);
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);

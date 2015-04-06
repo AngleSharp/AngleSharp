@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents a standard HTML element in the node tree.
@@ -25,8 +25,8 @@
         /// <summary>
         /// Creates a standard HTML element.
         /// </summary>
-        public HtmlElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
+        public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
+            : base(owner, localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
         {
             RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
         }
@@ -253,7 +253,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = Factory.HtmlElements.Create(NodeName, Owner);
+            var node = Factory.HtmlElements.Create(Owner, LocalName, Prefix);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

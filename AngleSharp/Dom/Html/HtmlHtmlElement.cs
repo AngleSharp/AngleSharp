@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using System;
+    using AngleSharp.Html;
     
     /// <summary>
     /// Represents the HTML html element.
@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates a new HTML html tag.
         /// </summary>
-        public HtmlHtmlElement(Document owner)
-            : base(owner, Tags.Html, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+        public HtmlHtmlElement(Document owner, String prefix = null)
+            : base(owner, Tags.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
 
