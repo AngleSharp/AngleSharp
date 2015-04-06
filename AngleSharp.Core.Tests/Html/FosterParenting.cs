@@ -1956,7 +1956,7 @@ X</listing>");
         public void FragmentAnotherBodyAndDivOpenedInContextOfADiv()
         {
             var doc = DocumentBuilder.HtmlFragment(@"<body>
-<div>", Factory.HtmlElements.Create("div", null));
+<div>", Factory.HtmlElements.Create(null, "div"));
 
             var docText0 = doc[0];
             Assert.AreEqual(NodeType.Text, docText0.NodeType);
@@ -2334,7 +2334,7 @@ foo");
         [Test]
         public void FragmentWithClosedCaptionAndOpenDivInContextOfACaption()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</caption><div>", Factory.HtmlElements.Create("caption", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</caption><div>", Factory.HtmlElements.Create(null, "caption"));
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2424,7 +2424,7 @@ foo");
         [Test]
         public void FragmentCloseTableAndOpenDivInContextOfACaption()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><div>", Factory.HtmlElements.Create("caption", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</table><div>", Factory.HtmlElements.Create(null, "caption"));
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2562,7 +2562,7 @@ foo");
         [Test]
         public void FragmentWithMultipleClosingTableElementsInContextOfACell()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table></tbody></tfoot></thead></tr><div>", Factory.HtmlElements.Create("td", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</table></tbody></tfoot></thead></tr><div>", Factory.HtmlElements.Create(null, "td"));
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2614,7 +2614,7 @@ foo");
         [Test]
         public void FragmentTextAndColInContextOfAColgroup()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"foo<col>", Factory.HtmlElements.Create("colgroup", null));
+            var doc = DocumentBuilder.HtmlFragment(@"foo<col>", Factory.HtmlElements.Create(null, "colgroup"));
 
             var doccol0 = doc[0];
             Assert.AreEqual(0, doccol0.ChildNodes.Length);
@@ -2686,7 +2686,7 @@ foo");
         [Test]
         public void FragmentCloseFramesetAndOpenFrameInContextOfAFrameset()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Factory.HtmlElements.Create("frameset", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</frameset><frame>", Factory.HtmlElements.Create(null, "frameset"));
 
             var docframe0 = doc[0];
             Assert.AreEqual(0, docframe0.ChildNodes.Length);
@@ -2722,7 +2722,7 @@ foo");
         [Test]
         public void FragmentCloseBodyAndOpenDivInContextOfABody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</body><div>", Factory.HtmlElements.Create("body", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</body><div>", Factory.HtmlElements.Create(null, "body"));
 
             var docdiv0 = doc[0];
             Assert.AreEqual(0, docdiv0.ChildNodes.Length);
@@ -2782,7 +2782,7 @@ foo");
         [Test]
         public void FragmentCloseRowAndOpenCellInContextOfARow()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</tr><td>", Factory.HtmlElements.Create("tr", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</tr><td>", Factory.HtmlElements.Create(null, "tr"));
 
             var doctd0 = doc[0];
             Assert.AreEqual(0, doctd0.ChildNodes.Length);
@@ -2794,7 +2794,7 @@ foo");
         [Test]
         public void FragmentCloseBodyFootAndHeadAndOpenCellInContextOfARow()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</tbody></tfoot></thead><td>", Factory.HtmlElements.Create("tr", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</tbody></tfoot></thead><td>", Factory.HtmlElements.Create(null, "tr"));
 
             var doctd0 = doc[0];
             Assert.AreEqual(0, doctd0.ChildNodes.Length);
@@ -2860,7 +2860,7 @@ foo");
         [Test]
         public void FragmentCaptionAndOtherTableElementsInContextOfATBody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<caption><col><colgroup><tbody><tfoot><thead><tr>", Factory.HtmlElements.Create("tbody", null));
+            var doc = DocumentBuilder.HtmlFragment(@"<caption><col><colgroup><tbody><tfoot><thead><tr>", Factory.HtmlElements.Create(null, "tbody"));
 
             var doctr0 = doc[0];
             Assert.AreEqual(0, doctr0.ChildNodes.Length);
@@ -2908,7 +2908,7 @@ foo");
         [Test]
         public void FragmentCloseTableAndOpenRowInContextOfATBody()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create("tbody", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create(null, "tbody"));
 
             var doctr0 = doc[0];
             Assert.AreEqual(0, doctr0.ChildNodes.Length);
@@ -3058,7 +3058,7 @@ foo");
         [Test]
         public void FragmentCloseTableAndOpenRowInContextOfATable()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create("table", null));
+            var doc = DocumentBuilder.HtmlFragment(@"</table><tr>", Factory.HtmlElements.Create(null, "table"));
 
             var doctbody0 = doc[0];
             Assert.AreEqual(1, doctbody0.ChildNodes.Length);
@@ -3076,7 +3076,7 @@ foo");
         [Test]
         public void FragmentOpenAndCloseBodyCloseHtmlInContextOfAHtml()
         {
-            var doc = DocumentBuilder.HtmlFragment(@"<body></body></html>", Factory.HtmlElements.Create("html", null));
+            var doc = DocumentBuilder.HtmlFragment(@"<body></body></html>", Factory.HtmlElements.Create(null, "html"));
 
             var dochead0 = doc[0];
             Assert.AreEqual(0, dochead0.ChildNodes.Length);
