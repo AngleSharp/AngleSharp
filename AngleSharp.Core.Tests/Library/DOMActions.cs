@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
+using AngleSharp.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
 
@@ -613,7 +615,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void RemoveShouldWorkOnSelectElements()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var div = document.CreateElement<IHtmlDivElement>();
             var select = document.CreateElement<IHtmlSelectElement>();
             div.AppendChild(select);
@@ -625,9 +627,69 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void HtmlTagShouldBeEqualToNodeNameAndUppercase()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var div = document.CreateElement("div");
+            Assert.AreEqual("div", div.LocalName);
+            Assert.IsNull(div.Prefix);
+            Assert.AreEqual("DIV", div.NodeName);
+            Assert.AreEqual("DIV", div.TagName);
+            Assert.AreEqual(Namespaces.HtmlUri, div.NamespaceUri);
+        }
+
+        [Test]
+        public void XmlTagShouldBeEqualToNodeNameAndPreserveCase()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var myTag = document.CreateElement(Namespaces.XmlUri, "xml:myTag");
+            Assert.AreEqual("myTag", myTag.LocalName);
+            Assert.AreEqual("xml", myTag.Prefix);
+            Assert.AreEqual("xml:myTag", myTag.NodeName);
+            Assert.AreEqual("xml:myTag", myTag.TagName);
+            Assert.AreEqual(Namespaces.XmlUri, myTag.NamespaceUri);
+        }
+
+        [Test]
+        public void SvgTagShouldBeEqualToNodeNameAndLowercase()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var title = document.CreateElement(Namespaces.SvgUri, "title");
+            Assert.AreEqual("title", title.LocalName);
+            Assert.IsNull(title.Prefix);
+            Assert.AreEqual("title", title.NodeName);
+            Assert.AreEqual("title", title.TagName);
+            Assert.AreEqual(Namespaces.SvgUri, title.NamespaceUri);
+        }
+
+        [Test]
+        public void MathMlTagShouldBeEqualToNodeNameAndLowercase()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var mi = document.CreateElement(Namespaces.MathMlUri, "mi");
+            Assert.AreEqual("mi", mi.LocalName);
+            Assert.IsNull(mi.Prefix);
+            Assert.AreEqual("mi", mi.NodeName);
+            Assert.AreEqual("mi", mi.TagName);
+            Assert.AreEqual(Namespaces.MathMlUri, mi.NamespaceUri);
+        }
+
+        [Test]
+        public void CustomTagShouldBeEqualToNodeNameAndPreserveCase()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var element = document.CreateElement("", "fooBar");
+            Assert.AreEqual("fooBar", element.LocalName);
+            Assert.IsNull(element.Prefix);
+            Assert.AreEqual("fooBar", element.NodeName);
+            Assert.AreEqual("fooBar", element.TagName);
+            Assert.IsNull(element.NamespaceUri);
+        }
+
+        [Test]
         public void TheTypeAttributeMustReturnFieldset()
         {
-            var document = DocumentBuilder.Html(@"<form name=fm1>
+            var source = (@"<form name=fm1>
   <fieldset id=fs_outer>
   <legend><input type=""checkbox"" name=""cb""></legend>
   <input type=text name=""txt"" id=""ctl1"">
@@ -638,6 +700,7 @@ namespace AngleSharp.Core.Tests.Library
     </fieldset>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             var fm1 = document.Forms["fm1"];
             var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
             var children_outer = fs_outer.Elements;
@@ -647,7 +710,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheFormAttributeMustReturnTheFieldsetsFormOwner()
         {
-            var document = DocumentBuilder.Html(@"<form name=fm1>
+            var source = (@"<form name=fm1>
   <fieldset id=fs_outer>
   <legend><input type=""checkbox"" name=""cb""></legend>
   <input type=text name=""txt"" id=""ctl1"">
@@ -658,6 +721,7 @@ namespace AngleSharp.Core.Tests.Library
     </fieldset>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             var fm1 = document.Forms["fm1"];
             var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
             var children_outer = fs_outer.Elements;
@@ -667,7 +731,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheElementsMustReturnAnHtmlFormControlsCollectionObject()
         {
-            var document = DocumentBuilder.Html(@"<form name=fm1>
+            var source = (@"<form name=fm1>
   <fieldset id=fs_outer>
   <legend><input type=""checkbox"" name=""cb""></legend>
   <input type=text name=""txt"" id=""ctl1"">
@@ -678,6 +742,7 @@ namespace AngleSharp.Core.Tests.Library
     </fieldset>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             var fm1 = document.Forms["fm1"];
             var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
             var children_outer = fs_outer.Elements;
@@ -688,7 +753,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheControlsMustRootAtTheFieldsetElement()
         {
-            var document = DocumentBuilder.Html(@"<form name=fm1>
+            var source = (@"<form name=fm1>
   <fieldset id=fs_outer>
   <legend><input type=""checkbox"" name=""cb""></legend>
   <input type=text name=""txt"" id=""ctl1"">
@@ -699,6 +764,7 @@ namespace AngleSharp.Core.Tests.Library
     </fieldset>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             var fm1 = document.Forms["fm1"];
             var fs_outer = document.GetElementById("fs_outer") as IHtmlFieldSetElement;
             var children_outer = fs_outer.Elements;
@@ -711,7 +777,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheDisabledAttributeCausesAllFormControlDescendantsOfTheFieldsetElementToBeDisabled()
         {
-            var document = DocumentBuilder.Html(@"<form>
+            var source = (@"<form>
   <fieldset disabled>
     <legend>
       <input type=checkbox id=clubc_l1>
@@ -723,6 +789,7 @@ namespace AngleSharp.Core.Tests.Library
     <p><label>Card number: <input id=clubnum required pattern=""[-0-9]+""></label></p>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname").WillValidate);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum").WillValidate);
@@ -735,13 +802,14 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheFirstLegendElementIsNotAChildOfTheDisabledFieldsetDescendantsShouldBeDisabled()
         {
-            var document = DocumentBuilder.Html(@"<form>
+            var source = (@"<form>
   <fieldset disabled>
     <p><legend><input type=checkbox id=club2></legend></p>
     <p><label>Name on card: <input id=clubname2 required></label></p>
     <p><label>Card number: <input id=clubnum2 required pattern=""[-0-9]+""></label></p>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname2").WillValidate);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum2").WillValidate);
@@ -751,7 +819,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheLegendElementIsNotAChildOfTheDisabledFieldsetDescendantsShouldBeDisabled()
         {
-            var document = DocumentBuilder.Html(@"<form>
+            var source = @"<form>
   <fieldset disabled>
     <fieldset>
       <legend><input type=checkbox id=club3></legend>
@@ -759,7 +827,8 @@ namespace AngleSharp.Core.Tests.Library
     <p><label>Name on card: <input id=clubname3 required></label></p>
     <p><label>Card number: <input id=clubnum3 required pattern=""[-0-9]+""></label></p>
   </fieldset>
-</form>");
+</form>";
+            var document = source.ToHtmlDocument();
             Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname3").WillValidate);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum3").WillValidate);
@@ -769,7 +838,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TheLegendElementIsChildOfTheDisabledFieldsetDescendantsShouldNotBeDisabled()
         {
-            var document = DocumentBuilder.Html(@"<form>
+            var source = (@"<form>
   <fieldset disabled>
     <legend>
       <fieldset><input type=checkbox id=club4></fieldset>
@@ -778,6 +847,7 @@ namespace AngleSharp.Core.Tests.Library
     <p><label>Card number: <input id=clubnum4 required pattern=""[-0-9]+""></label></p>
   </fieldset>
 </form>");
+            var document = source.ToHtmlDocument();
             Assert.IsTrue(document.QuerySelector<IHtmlFieldSetElement>("fieldset").IsDisabled);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname4").WillValidate);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum4").WillValidate);
