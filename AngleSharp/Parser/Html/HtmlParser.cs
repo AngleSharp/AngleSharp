@@ -3070,7 +3070,7 @@
                 {
                     GenerateImpliedEndTagsExceptFor(tag.Name);
 
-                    if (node.LocalName == tag.Name)
+                    if (node.LocalName != tag.Name)
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
 
                     for (int i = _openElements.Count - 1; index <= i; i--)
