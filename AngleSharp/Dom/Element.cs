@@ -43,7 +43,15 @@
         /// Creates a new element node.
         /// </summary>
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
-            : base(owner, (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant(), NodeType.Element, flags)
+            : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new element node.
+        /// </summary>
+        public Element(Document owner, String name, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, NodeType.Element, flags)
         {
             _localName = localName;
             _prefix = prefix;

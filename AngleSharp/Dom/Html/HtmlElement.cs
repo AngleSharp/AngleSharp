@@ -26,7 +26,7 @@
         /// Creates a standard HTML element.
         /// </summary>
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
-            : base(owner, localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
+            : base(owner, Combine(prefix, localName), localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
         {
             RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
         }
@@ -318,6 +318,15 @@
 
             if (_style != null)
                 _style.Update(value);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static String Combine(String prefix, String localName)
+        {
+            return (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
         }
 
         #endregion

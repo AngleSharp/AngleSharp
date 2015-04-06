@@ -1,5 +1,12 @@
 ﻿namespace AngleSharp.Dom
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
@@ -8,13 +15,6 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
