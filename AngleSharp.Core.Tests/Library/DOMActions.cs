@@ -1,9 +1,8 @@
-﻿using AngleSharp;
+﻿using System.Linq;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Linq;
 using NUnit.Framework;
-using System.Linq;
 
 namespace AngleSharp.Core.Tests.Library
 {
