@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using AngleSharp.Core.Tests.Mocks;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Css;
 using AngleSharp.Dom.Html;
+using AngleSharp.Events;
 using AngleSharp.Html;
 using NUnit.Framework;
 
@@ -22,6 +24,18 @@ namespace AngleSharp.Core.Tests
         static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
+        }
+
+        [Test]
+        public void ClosingSpanTagShouldNotResultInAnError()
+        {
+            var events = new EventReceiver<HtmlParseErrorEvent>();
+            var config = new Configuration();
+            config.Events = events;
+            var source = @"<!DOCTYPE html><html><head></head><body><span>test</span></body></html>";
+            var document = source.ToHtmlDocument(config);
+            Assert.AreEqual(0, events.Received.Count);
+
         }
 
         [Test]
