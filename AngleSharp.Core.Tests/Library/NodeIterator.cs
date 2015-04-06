@@ -137,7 +137,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNotNull(rootnode);
 
             var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Element,
-                m => m.NodeName == "span" ? FilterResult.Accept : FilterResult.Skip);
+                m => m.GetTagName() == "span" ? FilterResult.Accept : FilterResult.Skip);
             Assert.IsNotNull(iterator);
             Assert.AreEqual(rootnode, iterator.Root);
 
@@ -147,7 +147,7 @@ namespace AngleSharp.Core.Tests.Library
 
             while (node != null)
             {
-                Assert.AreEqual("span", node.NodeName);
+                Assert.AreEqual("span", node.GetTagName());
                 sections++;
                 node = iterator.Next();
             }

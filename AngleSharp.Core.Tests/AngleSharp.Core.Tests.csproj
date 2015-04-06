@@ -175,6 +175,7 @@
     <Compile Include="Html\HtmlFragment.cs" />
     <Compile Include="Html\HtmlEntity.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
+    <Compile Include="TestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">

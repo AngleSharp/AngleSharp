@@ -1,8 +1,7 @@
-﻿using AngleSharp;
+﻿using System.Collections.Generic;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace AngleSharp.Core.Tests.Library
 {
@@ -131,7 +130,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNotNull(rootnode);
 
             var walker = doc.CreateTreeWalker(rootnode, FilterSettings.Element, 
-                m => m.NodeName == "span" ? FilterResult.Accept : FilterResult.Skip);
+                m => m.GetTagName() == "span" ? FilterResult.Accept : FilterResult.Skip);
             Assert.IsNotNull(walker);
             Assert.AreEqual(rootnode, walker.Current);
 
@@ -141,7 +140,7 @@ namespace AngleSharp.Core.Tests.Library
 
             while (node != null)
             {
-                Assert.AreEqual("span", node.NodeName);
+                Assert.AreEqual("span", node.GetTagName());
                 sections++;
                 node = walker.ToNextSibling();
             }

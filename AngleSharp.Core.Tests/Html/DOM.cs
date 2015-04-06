@@ -33,9 +33,9 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(2, document.Body.ChildNodes.Length);
             var span = document.Body.ChildNodes[0];
             var em = document.Body.ChildNodes[1];
-            Assert.AreEqual("span", span.NodeName);
+            Assert.AreEqual("span", span.GetTagName());
             Assert.AreEqual(0, span.ChildNodes.Length);
-            Assert.AreEqual("em", em.NodeName);
+            Assert.AreEqual("em", em.GetTagName());
             Assert.AreEqual(0, em.ChildNodes.Length);
         }
 
@@ -527,12 +527,12 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(2, html.ChildNodes.Length);
             Assert.AreEqual(2, html.Attributes.Count());
             Assert.AreEqual(NodeType.Element, html.NodeType);
-            Assert.AreEqual(@"html", html.NodeName);
+            Assert.AreEqual(@"html", html.GetTagName());
 
             var head = doc.Head;
             Assert.AreEqual(19, head.ChildNodes.Length);
             Assert.AreEqual(0, head.Attributes.Count());
-            Assert.AreEqual("head", head.NodeName);
+            Assert.AreEqual("head", head.GetTagName());
             Assert.AreEqual(NodeType.Element, head.NodeType);
         }
 

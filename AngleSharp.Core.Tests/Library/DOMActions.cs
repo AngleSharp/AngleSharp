@@ -136,7 +136,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Prepend(newDiv);
             Assert.AreEqual(1, document.Body.ChildElementCount);
-            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+            Assert.AreEqual("div", document.Body.Children[0].GetTagName());
         }
 
         [Test]
@@ -148,8 +148,8 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Prepend(newDiv, newAnchor);
             Assert.AreEqual(2, document.Body.ChildElementCount);
-            Assert.AreEqual("div", document.Body.Children[0].NodeName);
-            Assert.AreEqual("a", document.Body.Children[1].NodeName);
+            Assert.AreEqual("div", document.Body.Children[0].GetTagName());
+            Assert.AreEqual("a", document.Body.Children[1].GetTagName());
         }
 
         [Test]
@@ -161,9 +161,9 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, document.Body.ChildElementCount);
             document.Body.Prepend(newDiv, newAnchor);
             Assert.AreEqual(3, document.Body.ChildElementCount);
-            Assert.AreEqual("div", document.Body.Children[0].NodeName);
-            Assert.AreEqual("a", document.Body.Children[1].NodeName);
-            Assert.AreEqual("span", document.Body.Children[2].NodeName);
+            Assert.AreEqual("div", document.Body.Children[0].GetTagName());
+            Assert.AreEqual("a", document.Body.Children[1].GetTagName());
+            Assert.AreEqual("span", document.Body.Children[2].GetTagName());
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Append(newDiv);
             Assert.AreEqual(1, document.Body.ChildElementCount);
-            Assert.AreEqual("div", document.Body.Children[0].NodeName);
+            Assert.AreEqual("div", document.Body.Children[0].GetTagName());
         }
 
         [Test]
@@ -195,8 +195,8 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Append(newDiv, newAnchor);
             Assert.AreEqual(2, document.Body.ChildElementCount);
-            Assert.AreEqual("div", document.Body.Children[0].NodeName);
-            Assert.AreEqual("a", document.Body.Children[1].NodeName);
+            Assert.AreEqual("div", document.Body.Children[0].GetTagName());
+            Assert.AreEqual("a", document.Body.Children[1].GetTagName());
         }
 
         [Test]
@@ -208,9 +208,9 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, document.Body.ChildElementCount);
             document.Body.Append(newDiv, newAnchor);
             Assert.AreEqual(3, document.Body.ChildElementCount);
-            Assert.AreEqual("span", document.Body.Children[0].NodeName);
-            Assert.AreEqual("div", document.Body.Children[1].NodeName);
-            Assert.AreEqual("a", document.Body.Children[2].NodeName);
+            Assert.AreEqual("span", document.Body.Children[0].GetTagName());
+            Assert.AreEqual("div", document.Body.Children[1].GetTagName());
+            Assert.AreEqual("a", document.Body.Children[2].GetTagName());
         }
 
         [Test]

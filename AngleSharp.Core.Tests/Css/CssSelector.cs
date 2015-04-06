@@ -57,8 +57,8 @@ namespace AngleSharp.Core.Tests
         {
             var results = RunQuery("*:empty");
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("head", results[0].NodeName);
-            Assert.AreEqual("input", results[1].NodeName);
+            Assert.AreEqual("head", results[0].GetTagName());
+            Assert.AreEqual("input", results[1].GetTagName());
         }
         
         [Test]
@@ -67,10 +67,10 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery(":nth-child(2)");
 
             Assert.AreEqual(4, result.Length);
-            Assert.AreEqual("body", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
-            Assert.AreEqual("span", result[2].NodeName);
-            Assert.AreEqual("p", result[3].NodeName);
+            Assert.AreEqual("body", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
+            Assert.AreEqual("span", result[2].GetTagName());
+            Assert.AreEqual("p", result[3].GetTagName());
         }
 
         [Test]
@@ -79,10 +79,10 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("*:nth-child(2)");
 
             Assert.AreEqual(4, result.Length);
-            Assert.AreEqual("body", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
-            Assert.AreEqual("span", result[2].NodeName);
-            Assert.AreEqual("p", result[3].NodeName);
+            Assert.AreEqual("body", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
+            Assert.AreEqual("span", result[2].GetTagName());
+            Assert.AreEqual("p", result[3].GetTagName());
         }
 
         [Test]
@@ -91,8 +91,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("p:nth-child(2)");
 
             Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("p", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("p", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
 
         [Test]
@@ -101,10 +101,10 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery(":nth-last-child(2)");
 
             Assert.AreEqual(4, result.Length);
-            Assert.AreEqual("head", result[0].NodeName);
-            Assert.AreEqual("div", result[1].NodeName);
-            Assert.AreEqual("span", result[2].NodeName);
-            Assert.AreEqual("div", result[3].NodeName);
+            Assert.AreEqual("head", result[0].GetTagName());
+            Assert.AreEqual("div", result[1].GetTagName());
+            Assert.AreEqual("span", result[2].GetTagName());
+            Assert.AreEqual("div", result[3].GetTagName());
         }
         
         [Test]
@@ -113,8 +113,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("#myDiv :nth-last-child(2)");
 
             Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
-            Assert.AreEqual("span", result[1].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
+            Assert.AreEqual("span", result[1].GetTagName());
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("span:nth-last-child(2)");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("span", result[0].GetTagName());
         }
         
         [Test]
@@ -140,8 +140,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("p.hiclass,a");
 
             Assert.AreEqual(3, result.Length);
-            Assert.AreEqual("a", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("a", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
 
         [Test]
@@ -150,8 +150,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("p.hiclass, a");
 
             Assert.AreEqual(3, result.Length);
-            Assert.AreEqual("a", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("a", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
 
         [Test]
@@ -160,8 +160,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("p.hiclass , a");
 
             Assert.AreEqual(3, result.Length);
-            Assert.AreEqual("a", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("a", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
         
         [Test]
@@ -170,8 +170,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("p.hiclass ,a");
 
             Assert.AreEqual(3, result.Length);
-            Assert.AreEqual("a", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("a", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("#myDiv");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("div#myDiv");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("#theBody #myDiv");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
         }
 
         [Test]
@@ -223,8 +223,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("#myDiv *");
 
             Assert.AreEqual(5, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("#theBody>#myDiv");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
         }
 
         [Test]
@@ -250,8 +250,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("#myDiv>*");
 
             Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
-            Assert.AreEqual("p", result[1].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
+            Assert.AreEqual("p", result[1].GetTagName());
         }
 
         [Test]
@@ -272,16 +272,16 @@ namespace AngleSharp.Core.Tests
         public void ElementSelectorSingleTagName()
         {
             Assert.AreEqual(1, RunQuery("body").Length);
-            Assert.AreEqual("body", RunQuery("body")[0].NodeName);
+            Assert.AreEqual("body", RunQuery("body")[0].GetTagName());
         }
 
         [Test]
         public void ElementSelectorSingleTagNameMatchingMultipleElements()
         {
             Assert.AreEqual(3, RunQuery("p").Length);
-            Assert.AreEqual("p", RunQuery("p")[0].NodeName);
-            Assert.AreEqual("p", RunQuery("p")[1].NodeName);
-            Assert.AreEqual("p", RunQuery("p")[2].NodeName);
+            Assert.AreEqual("p", RunQuery("p")[0].GetTagName());
+            Assert.AreEqual("p", RunQuery("p")[1].GetTagName());
+            Assert.AreEqual("p", RunQuery("p")[2].GetTagName());
         }
 
         [Test]
@@ -306,7 +306,7 @@ namespace AngleSharp.Core.Tests
         public void ElementSelectorBasicPositivePrecedenceThreeTags()
         {
             Assert.AreEqual(1, RunQuery("div p a").Length);
-            Assert.AreEqual("a", RunQuery("div p a")[0].NodeName);
+            Assert.AreEqual("a", RunQuery("div p a")[0].GetTagName());
         }
 
         [Test]
@@ -327,8 +327,8 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery(".checkit");
 
             Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("div", result[0].NodeName);
-            Assert.AreEqual("div", result[1].NodeName);
+            Assert.AreEqual("div", result[0].GetTagName());
+            Assert.AreEqual("div", result[1].GetTagName());
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery(".omg.ohyeah");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("p", result[0].NodeName);
+            Assert.AreEqual("p", result[0].GetTagName());
             Assert.AreEqual("eeeee", result[0].TextContent);
         }
 
@@ -347,7 +347,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("p.ohyeah");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("p", result[0].NodeName);
+            Assert.AreEqual("p", result[0].GetTagName());
             Assert.AreEqual("eeeee", result[0].TextContent);
         }
 
@@ -357,7 +357,7 @@ namespace AngleSharp.Core.Tests
             var result = RunQuery("div .ohyeah");
 
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("p", result[0].NodeName);
+            Assert.AreEqual("p", result[0].GetTagName());
             Assert.AreEqual("eeeee", result[0].TextContent);
         }
 
@@ -438,7 +438,7 @@ namespace AngleSharp.Core.Tests
         {
             var result = RunQuery("div ~ form");
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("form", result[0].NodeName);
+            Assert.AreEqual("form", result[0].GetTagName());
         }
 
         [Test]
@@ -447,8 +447,8 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("div[id]");
 
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
-            Assert.AreEqual("div", results[1].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
+            Assert.AreEqual("div", results[1].GetTagName());
         }
 
         [Test]
@@ -457,7 +457,7 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("div[id=\"someOtherDiv\"]");
 
             Assert.AreEqual(1, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
         }
 
         [Test]
@@ -466,7 +466,7 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("p[class~=\"ohyeah\"]");
 
             Assert.AreEqual(1, results.Length);
-            Assert.AreEqual("p", results[0].NodeName);
+            Assert.AreEqual("p", results[0].GetTagName());
             Assert.AreEqual("eeeee", results[0].TextContent);
         }
 
@@ -489,9 +489,9 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("[class=\"checkit\"]");
 
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
             Assert.AreEqual("woooeeeee", results[0].TextContent);
-            Assert.AreEqual("div", results[1].NodeName);
+            Assert.AreEqual("div", results[1].GetTagName());
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
@@ -501,9 +501,9 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("*[class=\"checkit\"]");
 
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
             Assert.AreEqual("woooeeeee", results[0].TextContent);
-            Assert.AreEqual("div", results[1].NodeName);
+            Assert.AreEqual("div", results[1].GetTagName());
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
@@ -513,9 +513,9 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("*[class^=check]");
 
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
             Assert.AreEqual("woooeeeee", results[0].TextContent);
-            Assert.AreEqual("div", results[1].NodeName);
+            Assert.AreEqual("div", results[1].GetTagName());
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
@@ -531,9 +531,9 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("*[class$=it]");
 
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
             Assert.AreEqual("woooeeeee", results[0].TextContent);
-            Assert.AreEqual("div", results[1].NodeName);
+            Assert.AreEqual("div", results[1].GetTagName());
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
@@ -549,9 +549,9 @@ namespace AngleSharp.Core.Tests
             var results = RunQuery("*[class*=heck]");
 
             Assert.AreEqual(2, results.Length);
-            Assert.AreEqual("div", results[0].NodeName);
+            Assert.AreEqual("div", results[0].GetTagName());
             Assert.AreEqual("woooeeeee", results[0].TextContent);
-            Assert.AreEqual("div", results[1].NodeName);
+            Assert.AreEqual("div", results[1].GetTagName());
             Assert.AreEqual("woootooowe", results[1].TextContent);
         }
 
@@ -616,10 +616,10 @@ namespace AngleSharp.Core.Tests
             var selector = ":matches(div, section) > h1";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("h1", result[0].NodeName);
-            Assert.AreEqual("h1", result[1].NodeName);
-            Assert.AreEqual("div", result[0].Parent.NodeName);
-            Assert.AreEqual("section", result[1].Parent.NodeName);
+            Assert.AreEqual("h1", result[0].GetTagName());
+            Assert.AreEqual("h1", result[1].GetTagName());
+            Assert.AreEqual("div", result[0].Parent.GetTagName());
+            Assert.AreEqual("section", result[1].Parent.GetTagName());
         }
 
         [Test]
@@ -631,9 +631,9 @@ namespace AngleSharp.Core.Tests
             var selector = "span:matches(.this, .that)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(3, result.Length);
-            Assert.AreEqual("span", result[0].NodeName);
-            Assert.AreEqual("span", result[1].NodeName);
-            Assert.AreEqual("span", result[2].NodeName);
+            Assert.AreEqual("span", result[0].GetTagName());
+            Assert.AreEqual("span", result[1].GetTagName());
+            Assert.AreEqual("span", result[2].GetTagName());
             Assert.AreEqual("this", result[0].ClassName);
             Assert.AreEqual("that", result[1].ClassName);
             Assert.AreEqual("this", result[2].ClassName);
@@ -671,9 +671,9 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = "span:nth-child(even)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(3, result.Length);
-            Assert.AreEqual("span", result[0].NodeName);
-            Assert.AreEqual("span", result[1].NodeName);
-            Assert.AreEqual("span", result[2].NodeName);
+            Assert.AreEqual("span", result[0].GetTagName());
+            Assert.AreEqual("span", result[1].GetTagName());
+            Assert.AreEqual("span", result[2].GetTagName());
             Assert.AreEqual("italic", result[0].ClassName);
             Assert.AreEqual(null, result[1].ClassName);
             Assert.AreEqual("this", result[2].ClassName);
@@ -702,7 +702,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = "span:nth-child(10n+1) ";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("span", result[0].GetTagName());
             Assert.AreEqual(null, result[0].ClassName);
             Assert.AreEqual("1", result[0].TextContent);
         }
@@ -730,11 +730,11 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = "*:nth-child(-n+3)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(5, result.Length);
-            Assert.AreEqual("head", result[0].NodeName);
-            Assert.AreEqual("body", result[1].NodeName);
-            Assert.AreEqual("span", result[2].NodeName);
-            Assert.AreEqual("span", result[3].NodeName);
-            Assert.AreEqual("span", result[4].NodeName);
+            Assert.AreEqual("head", result[0].GetTagName());
+            Assert.AreEqual("body", result[1].GetTagName());
+            Assert.AreEqual("span", result[2].GetTagName());
+            Assert.AreEqual("span", result[3].GetTagName());
+            Assert.AreEqual("span", result[4].GetTagName());
             Assert.AreEqual("1", result[2].TextContent);
             Assert.AreEqual("2", result[3].TextContent);
             Assert.AreEqual("3", result[4].TextContent);
@@ -749,11 +749,11 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = "*:nth-child(-n+3 of span.this)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("span", result[0].GetTagName());
             Assert.AreEqual("this", result[0].ClassName);
             Assert.AreEqual("3", result[0].TextContent);
 
-            Assert.AreEqual("span", result[1].NodeName);
+            Assert.AreEqual("span", result[1].GetTagName());
             Assert.AreEqual("this", result[1].ClassName);
             Assert.AreEqual("6", result[1].TextContent);
         }
@@ -767,7 +767,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = "span.this:nth-child(-n+3)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("span", result[0].NodeName);
+            Assert.AreEqual("span", result[0].GetTagName());
             Assert.AreEqual("this", result[0].ClassName);
             Assert.AreEqual("3", result[0].TextContent);
         }

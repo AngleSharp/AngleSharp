@@ -19,7 +19,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, body.ChildNodes.Length);
 
             var ul = body.ChildNodes[0];
-            Assert.AreEqual("ul", ul.NodeName);
+            Assert.AreEqual("ul", ul.GetTagName());
             Assert.AreEqual(NodeType.Element, ul.NodeType);
 
             var live = ((Element)ul).Children;
@@ -51,7 +51,7 @@ namespace AngleSharp.Core.Tests.Library
 
             foreach (var child in live)
             {
-                Assert.AreEqual("p", child.NodeName);
+                Assert.AreEqual("p", child.GetTagName());
                 Assert.AreEqual(0, child.ChildNodes.Length);
                 Assert.AreEqual(0, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
@@ -67,7 +67,7 @@ namespace AngleSharp.Core.Tests.Library
 
             foreach (var child in live)
             {
-                Assert.AreEqual("p", child.NodeName);
+                Assert.AreEqual("p", child.GetTagName());
                 Assert.AreEqual(1, child.ChildNodes.Length);
                 Assert.AreEqual(0, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
@@ -89,7 +89,7 @@ namespace AngleSharp.Core.Tests.Library
 
             foreach (var child in live)
             {
-                Assert.AreEqual("p", child.NodeName);
+                Assert.AreEqual("p", child.GetTagName());
                 Assert.AreEqual(0, child.ChildNodes.Length);
                 Assert.AreEqual(0, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
@@ -119,7 +119,7 @@ namespace AngleSharp.Core.Tests.Library
 
             foreach (var child in live)
             {
-                Assert.AreEqual("a", child.NodeName);
+                Assert.AreEqual("a", child.GetTagName());
                 Assert.AreEqual(1, child.Attributes.Count());
                 Assert.AreEqual(NodeType.Element, child.NodeType);
                 Assert.IsNotNull(child.GetAttribute("name"));
@@ -179,7 +179,7 @@ namespace AngleSharp.Core.Tests.Library
             foreach (var element in live)
             {
                 Assert.IsNotNull(element.GetAttribute("href"));
-                Assert.IsTrue(element.NodeName == "a" || element.NodeName == "area");
+                Assert.IsTrue(element.GetTagName() == "a" || element.GetTagName() == "area");
             }
         }
     }
