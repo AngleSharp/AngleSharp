@@ -36,22 +36,30 @@
             if (type == null)
                 return default(TElement);
 
-            var ctor = type.GetConstructor();
-            var parameterLess = ctor != null;
+            var ctors = type.GetConstructors();
+
+            foreach (var ctor in ctors.OrderBy(m => m.GetParameters().Length))
+            {
+                var parameters = ctor.GetParameters();
+                var arguments = new Object[parameters.Length];
+
+                for (var i = 0; i < parameters.Length; i++)
+                {
+                    var isDocument = parameters[i].ParameterType == typeof(Document);
+                    arguments[i] = isDocument ? document : parameters[i].DefaultValue;
+                }
+
+                var obj = ctor.Invoke(arguments);
+
+                if (obj != null)
+                {
+                    var element = (TElement)obj;
+                    document.Adopt(element);
+                    return element;
+                }
+            }
             
-            if (parameterLess == false)
-                ctor = type.GetConstructor(new Type[] { typeof(Document), typeof(String) });
-
-            if (ctor == null)
-                return default(TElement);
-
-            var element = (TElement)(parameterLess ? ctor.Invoke(null) : ctor.Invoke(new Object[] { document, default(String) }));
-            var el = element as Element;
-
-            if (element != null)
-                document.Adopt(element);
-
-            return element;
+            return default(TElement);
         }
 
         /// <summary>
