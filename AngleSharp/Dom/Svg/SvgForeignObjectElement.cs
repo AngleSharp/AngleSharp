@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class SvgForeignObjectElement : SvgElement
     {
-        public SvgForeignObjectElement(Document owner)
-            : base(owner, Tags.ForeignObject, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
+        public SvgForeignObjectElement(Document owner, String prefix = null)
+            : base(owner, Tags.ForeignObject, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

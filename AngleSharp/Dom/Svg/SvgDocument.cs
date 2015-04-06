@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
-    using System;
 
     /// <summary>
     /// Represents a document node that contains only SVG nodes.

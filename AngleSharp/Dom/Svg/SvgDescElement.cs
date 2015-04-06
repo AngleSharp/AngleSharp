@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
+    using System;
     using AngleSharp.Html;
 
     /// <summary>
@@ -7,8 +8,8 @@
     /// </summary>
     sealed class SvgDescElement : SvgElement
     {
-        public SvgDescElement(Document owner)
-            : base(owner, Tags.Desc, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
+        public SvgDescElement(Document owner, String prefix = null)
+            : base(owner, Tags.Desc, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

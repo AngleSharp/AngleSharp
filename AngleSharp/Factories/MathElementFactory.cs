@@ -24,7 +24,7 @@
         };
 
         /// <summary>
-        /// Returns a specialized MathMLElement instance for the given tag name.
+        /// Returns a specialized MathMLElement instance for the given tag.
         /// </summary>
         /// <param name="document">The document that owns the element.</param>
         /// <param name="localName">The given tag name.</param>

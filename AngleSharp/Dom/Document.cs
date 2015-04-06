@@ -1368,7 +1368,7 @@
             if (namespaceUri == Namespaces.HtmlUri)
                 element = Factory.HtmlElements.Create(this, localName, prefix);
             else if (namespaceUri == Namespaces.SvgUri)
-                element = Factory.SvgElements.Create(localName, this);
+                element = Factory.SvgElements.Create(this, localName, prefix);
             else if (namespaceUri == Namespaces.MathMlUri)
                 element = Factory.MathElements.Create(this, localName, prefix);
             else

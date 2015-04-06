@@ -1,23 +1,25 @@
 ﻿namespace AngleSharp.Factories
 {
+    using System;
+    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Svg;
     using AngleSharp.Html;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
     sealed class SvgElementFactory
     {
-        readonly Dictionary<String, Func<Document, SvgElement>> creators = new Dictionary<String, Func<Document, SvgElement>>(StringComparer.OrdinalIgnoreCase)
+        delegate SvgElement Creator(Document owner, String prefix);
+
+        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { Tags.Svg, document => new SvgSvgElement(document) },
-            { Tags.Circle, document => new SvgCircleElement(document) },
-            { Tags.Desc, document => new SvgDescElement(document) },
-            { Tags.ForeignObject, document => new SvgForeignObjectElement(document) },
-            { Tags.Title, document => new SvgTitleElement(document) }
+            { Tags.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
+            { Tags.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
+            { Tags.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
+            { Tags.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
+            { Tags.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
         };
 
         readonly Dictionary<String, String> adjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
@@ -63,15 +65,16 @@
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
-        /// <param name="localName">The given tag name.</param>
         /// <param name="document">The document that owns the element.</param>
+        /// <param name="localName">The given tag name.</param>
+        /// <param name="prefix">The prefix of the element, if any.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement Create(String localName, Document document)
+        public SvgElement Create(Document document, String localName, String prefix = null)
         {
-            Func<Document, SvgElement> creator;
+            Creator creator;
 
             if (creators.TryGetValue(localName, out creator))
-                return creator(document);
+                return creator(document, prefix);
 
             return new SvgElement(document, localName);
         }
@@ -79,13 +82,13 @@
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
-        /// <param name="localName">The given tag name, which is sanatized.</param>
         /// <param name="document">The document that owns the element.</param>
+        /// <param name="localName">The name to be sanatized.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement CreateSanatized(String localName, Document document)
+        public SvgElement CreateSanatized(Document document, String localName)
         {
             var newTag = SanatizeTag(localName);
-            return Create(newTag, document);
+            return Create(document, newTag);
         }
 
         /// <summary>

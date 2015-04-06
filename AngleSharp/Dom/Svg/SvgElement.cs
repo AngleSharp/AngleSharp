@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Html;
-    using System;
 
     /// <summary>
     /// Represents an element of the SVG DOM.
@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new SVG element.
         /// </summary>
-        public SvgElement(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, null, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
+        public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
+            : base(owner, name, prefix, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
         {
         }
 
@@ -48,7 +48,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = Factory.SvgElements.Create(NodeName, Owner);
+            var node = Factory.SvgElements.Create(Owner, LocalName, Prefix);
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;

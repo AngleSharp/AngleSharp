@@ -3400,7 +3400,7 @@
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
-                var node = Factory.SvgElements.CreateSanatized(tag.Name, _document);
+                var node = Factory.SvgElements.CreateSanatized(_document, tag.Name);
 
                 for (int i = 0; i < tag.Attributes.Count; i++)
                 {
