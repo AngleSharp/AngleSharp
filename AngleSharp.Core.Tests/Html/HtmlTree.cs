@@ -35,7 +35,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void Html5DocumentType()
         {
-            var dom = DocumentBuilder.Html("<!doctype html >");
+            var dom = Html("<!doctype html >");
 
             Assert.AreEqual("html", dom.Doctype.Name);
             Assert.AreEqual("", dom.Doctype.PublicIdentifier);
@@ -49,7 +49,7 @@ namespace AngleSharp.Core.Tests
         {
             var xhtmlType = "<!DOCTYPE html PUBLIC \"-//w3c//dtd xhtml 1.0\">";
 
-            var dom = DocumentBuilder.Html(xhtmlType);
+            var dom = Html(xhtmlType);
 
             Assert.AreEqual("html", dom.Doctype.Name);
             Assert.AreEqual("-//w3c//dtd xhtml 1.0", dom.Doctype.PublicIdentifier);

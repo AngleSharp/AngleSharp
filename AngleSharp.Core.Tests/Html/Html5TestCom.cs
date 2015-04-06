@@ -460,7 +460,7 @@ namespace AngleSharp.Core.Tests
         public void TabsInClassNames()
         {
             var html = "<html><body><div class=\"class1\tclass2\"></div></body></html>";
-            var dom = DocumentBuilder.Html(html);
+            var dom = Html(html);
             var div = dom.QuerySelector("div");
 
             Assert.AreEqual(2, div.ClassList.Length);
@@ -472,7 +472,7 @@ namespace AngleSharp.Core.Tests
         public void NewLinesInClassNames()
         {
             var html = "<html><body><div class=\"class1" + Environment.NewLine + "class2  class3\r\n\t class4\"></div></body></html>";
-            var dom = DocumentBuilder.Html(html);
+            var dom = Html(html);
             var div = dom.QuerySelector("div");
 
             Assert.AreEqual(4, div.ClassList.Length);
@@ -492,7 +492,7 @@ namespace AngleSharp.Core.Tests
      <td><a href=#url-scheme title=url-scheme>&lt;scheme&gt;</a>
      </tr></table>";
 
-            var dom = DocumentBuilder.Html(html);
+            var dom = Html(html);
 
             Assert.AreEqual(1, dom.QuerySelectorAll("tbody").Length);
             Assert.AreEqual("table", dom.QuerySelector("tbody").Parent.GetTagName());
@@ -508,7 +508,7 @@ namespace AngleSharp.Core.Tests
         <tr><td><dfn id=dom-uda-protocol title=dom-uda-protocol><code>protocol</code></dfn>
      <td><a href=#url-scheme title=url-scheme>&lt;scheme&gt;</a>
      </tr></table>";
-            var dom = DocumentBuilder.Html(html);
+            var dom = Html(html);
 
             // should create wrapper
             Assert.AreEqual(1, dom.QuerySelectorAll("body").Length);
@@ -549,7 +549,7 @@ namespace AngleSharp.Core.Tests
             alert('done');
             </script>";
 
-            var dom = DocumentBuilder.Html(test);
+            var dom = Html(test);
             Assert.AreEqual(4, dom.QuerySelectorAll("script").Length);
         }
 
@@ -560,7 +560,7 @@ namespace AngleSharp.Core.Tests
             <script id=script1 type=""text/javascript"" src=""stuff""></script>
             <div id=div1>This should be in the body.</div>";
 
-            var dom = DocumentBuilder.Html(test);
+            var dom = Html(test);
             Assert.AreEqual(dom.QuerySelector("#script1"), dom.QuerySelector("head > :first-child"));
             Assert.AreEqual(dom.QuerySelector("#div1"), dom.QuerySelector("body > :first-child"));
         }
@@ -573,7 +573,7 @@ namespace AngleSharp.Core.Tests
                 <script id=script1 type=""text/javascript"" src=""stuff""></script>";
 
 
-            var dom = DocumentBuilder.Html(test);
+            var dom = Html(test);
 
             Assert.AreEqual(0, dom.QuerySelector("head").Children.Length);
             Assert.AreEqual(2, dom.QuerySelector("body").Children.Length);
@@ -588,7 +588,7 @@ namespace AngleSharp.Core.Tests
                 border
                 =0 cellspacing=
                 ""2"" cellpadding=""2"" width=""100%""><span" + (Char)10 + "id=test></span></table>";
-            var dom = DocumentBuilder.HtmlFragment(test);
+            var dom = test.ToHtmlFragment();
 
             var body = dom.QuerySelector("body");
             Assert.IsNotNull(body);
@@ -601,9 +601,9 @@ namespace AngleSharp.Core.Tests
         public void HtmlPageSupportsRoundTripping()
         {
             var originalSourceCode = Assets.selectors;
-            var initialDocument = DocumentBuilder.Html(originalSourceCode);
+            var initialDocument = originalSourceCode.ToHtmlDocument();
             var initialSourceCode = initialDocument.ToHtml();
-            var finalDocument = DocumentBuilder.Html(initialSourceCode);
+            var finalDocument = initialSourceCode.ToHtmlDocument();
             var finalSourceCode = finalDocument.ToHtml();
             Assert.AreEqual(initialSourceCode, finalSourceCode);
         }

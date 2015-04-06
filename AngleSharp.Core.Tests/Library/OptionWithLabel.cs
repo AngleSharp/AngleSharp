@@ -236,8 +236,8 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionInOptGroup()
         {
-            var testcase = DocumentBuilder.Html(@"<select id=""test"" name=""entry""><optgroup label=""Main menu""><option value=""1"">Exit</option></optgroup></select>");
-            var select = testcase.GetElementById("test") as IHtmlSelectElement;
+            var document = Html(@"<select id=""test"" name=""entry""><optgroup label=""Main menu""><option value=""1"">Exit</option></optgroup></select>");
+            var select = document.GetElementById("test") as IHtmlSelectElement;
             Assert.IsNotNull(select);
             var option = select.QuerySelector("option") as IHtmlOptionElement;
             Assert.IsNotNull(option);
@@ -253,8 +253,8 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void OptionsInOptGroupMixedWithOptionsNoInOptGroup()
         {
-            var testcase = DocumentBuilder.Html(@"<select><optgroup><option>1</option><option>2</option></optgroup><option>3</option><optgroup><option>4</option><option>5</option></optgroup></select>");
-            var select = testcase.QuerySelector("select") as IHtmlSelectElement;
+            var document = Html(@"<select><optgroup><option>1</option><option>2</option></optgroup><option>3</option><optgroup><option>4</option><option>5</option></optgroup></select>");
+            var select = document.QuerySelector("select") as IHtmlSelectElement;
             Assert.IsNotNull(select);
             var options = select.Options;
             Assert.IsNotNull(options);

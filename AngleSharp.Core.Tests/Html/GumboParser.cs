@@ -952,7 +952,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboCommentInVerbatimMode()
         {
-            var doc = DocumentBuilder.Html(@"<body> <div id='onegoogle'>Text</div>  </body><!-- comment 
+            var doc = Html(@"<body> <div id='onegoogle'>Text</div>  </body><!-- comment 
 
 -->");
             var document = doc.DocumentElement;
@@ -973,7 +973,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboCommentInText()
         {
-            var doc = DocumentBuilder.Html(@"Start <!-- comment --> end");
+            var doc = Html(@"Start <!-- comment --> end");
             var body = doc.Body;
             Assert.AreEqual(3, body.ChildNodes.Length);
 
@@ -994,7 +994,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnknownTag1()
         {
-            var doc = DocumentBuilder.Html(@"<foo>1<p>2</FOO>");
+            var doc = Html(@"<foo>1<p>2</FOO>");
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 
@@ -1007,7 +1007,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnknownTag2()
         {
-            var doc = DocumentBuilder.Html(@"<div><sarcasm><div></div></sarcasm></div>");
+            var doc = Html(@"<div><sarcasm><div></div></sarcasm></div>");
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length); 
             
@@ -1023,7 +1023,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboInvalidEndTag()
         {
-            var doc = DocumentBuilder.Html(@"<a><img src=foo.jpg></img></a>");
+            var doc = Html(@"<a><img src=foo.jpg></img></a>");
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 
@@ -1041,7 +1041,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboTables()
         {
-            var doc = DocumentBuilder.Html(@"<html><table>
+            var doc = Html(@"<html><table>
   <tr><br /></invalid-tag>
     <th>One</th>
     <td>Two</td>
@@ -1115,7 +1115,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboStartParagraphInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table><P></tr></td>foo</table>");
+            var doc = Html(@"<table><P></tr></td>foo</table>");
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1139,7 +1139,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboEndParagraphInTable()
         {
-            var doc = DocumentBuilder.Html(@"<table></p></table>");
+            var doc = Html(@"<table></p></table>");
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1159,7 +1159,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnclosedTableTags()
         {
-            var doc = DocumentBuilder.Html(@"<html><table>
+            var doc = Html(@"<html><table>
   <tr>
     <td>One
     <td>Two
@@ -1225,7 +1225,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMisnestedTable1()
         {
-            var doc = DocumentBuilder.Html(@"<table><tr><div><td></div></table>");
+            var doc = Html(@"<table><tr><div><td></div></table>");
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1259,7 +1259,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMisnestedTable2()
         {
-            var doc = DocumentBuilder.Html(@"<table><td>Cell1<table><th>Cell2<tr>Cell3</table>");
+            var doc = Html(@"<table><td>Cell1<table><th>Cell2<tr>Cell3</table>");
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 

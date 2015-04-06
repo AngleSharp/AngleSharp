@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using AngleSharp.Dom;
+using AngleSharp.Dom.Css;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests
@@ -23,6 +24,11 @@ namespace AngleSharp.Core.Tests
             return DocumentBuilder.Html(sourceCode, configuration);
         }
 
+        public static ICssStyleSheet ToCssStylesheet(this String sourceCode, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Css(sourceCode, configuration);
+        }
+
         public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
         {
             return DocumentBuilder.HtmlFragment(sourceCode, context, configuration);
@@ -31,6 +37,11 @@ namespace AngleSharp.Core.Tests
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
             return DocumentBuilder.Html(content, configuration);
+        }
+
+        public static ICssStyleSheet ToCssStylesheet(this Stream content, IConfiguration configuration = null)
+        {
+            return DocumentBuilder.Css(content, configuration);
         }
     }
 }

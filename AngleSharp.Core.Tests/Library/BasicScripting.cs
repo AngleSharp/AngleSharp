@@ -36,7 +36,8 @@
             {
                 options.Document.Write("<b>Dynamically written</b>");
             };
-            var doc = DocumentBuilder.Html("<title>Some title</title><body><script type='c-sharp'>//...</script>", configuration);
+            var source = "<title>Some title</title><body><script type='c-sharp'>//...</script>";
+            var doc = source.ToHtmlDocument(configuration);
             Assert.IsNotNull(doc);
             Assert.IsNotNull(doc.Body.TextContent);
             Assert.AreEqual("//...Dynamically written", doc.Body.TextContent);

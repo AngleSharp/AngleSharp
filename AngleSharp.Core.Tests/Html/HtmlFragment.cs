@@ -514,7 +514,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentClassNameCaseNumbered()
         {
-            var dom = DocumentBuilder.HtmlFragment("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />");
+            var dom = HtmlFragment("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />");
             var el = dom.QuerySelector("div");
 
             Assert.IsNotNull(el);
@@ -529,7 +529,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FragmentClassNameOnlyCase()
         {
-            var dom = DocumentBuilder.HtmlFragment("<div class=\"class CLASS\" />");
+            var dom = HtmlFragment("<div class=\"class CLASS\" />");
             var el = dom.QuerySelector("div");
 
             Assert.IsNotNull(el);
@@ -561,7 +561,7 @@ namespace AngleSharp.Core.Tests
         public void FragmentUnwrapWithoutParent()
         {
             var s = "This is <b> a big</b> text";
-            var f = DocumentBuilder.HtmlFragment(s);
+            var f = s.ToHtmlFragment();
             var t = f.QuerySelector("b");
 
             Assert.AreEqual("<b> a big</b>", t.OuterHtml);
@@ -571,7 +571,7 @@ namespace AngleSharp.Core.Tests
         public void FragmentRoundtripEncoding()
         {
             var html = "<span>Test &nbsp; nbsp</span>";
-            var dom = DocumentBuilder.HtmlFragment(html);
+            var dom = HtmlFragment(html);
 
             var body = dom.QuerySelector("body");
             Assert.IsNotNull(body);
@@ -584,7 +584,7 @@ namespace AngleSharp.Core.Tests
         public void FragmentClassAndStyleAsBoolean()
         {
             var html = @"<span class="""" style="""">Test </span><div class style><br /></div>";
-            var dom = DocumentBuilder.HtmlFragment(html);
+            var dom = HtmlFragment(html);
 
             var body = dom.QuerySelector("body");
             Assert.IsNotNull(body);
@@ -597,7 +597,7 @@ namespace AngleSharp.Core.Tests
         public void FragmentUtf8HighValuesConversion()
         {
             var html = @"<span>&#55449;&#56580;</span>";
-            var dom = DocumentBuilder.HtmlFragment(html);
+            var dom = HtmlFragment(html);
             var span = dom.QuerySelector("span");
 
             Assert.IsNotNull(span);

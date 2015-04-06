@@ -768,7 +768,7 @@ h1 { color: blue }");
 
             using (var memoryStream = new MemoryStream(bs, false))
             {
-                var sheet = DocumentBuilder.Css(memoryStream);
+                var sheet = memoryStream.ToCssStylesheet();
             }
         }
 
@@ -779,7 +779,7 @@ h1 { color: blue }");
 
             using (var memoryStream = new MemoryStream(bs, false))
             {
-                var sheet = DocumentBuilder.Css(memoryStream);
+                var sheet = memoryStream.ToCssStylesheet();
                 Assert.IsNotNull(sheet);
                 Assert.AreEqual(0, sheet.Rules.Length);
             }
@@ -788,7 +788,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetFromStringWithQuestionMarksLeadingToInfiniteLoop()
         {
-            var sheet = DocumentBuilder.Css("U+???\0");
+            var sheet = "U+???\0".ToCssStylesheet();
             Assert.IsNotNull(sheet);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
@@ -811,9 +811,9 @@ p.info span {
 p.info span::after {
 	content: ': ';
 }";
-            var initialSheet = DocumentBuilder.Css(originalSourceCode);
+            var initialSheet = originalSourceCode.ToCssStylesheet();
             var initialSourceCode = initialSheet.CssText;
-            var finalSheet = DocumentBuilder.Css(initialSourceCode);
+            var finalSheet = initialSourceCode.ToCssStylesheet();
             var finalSourceCode = finalSheet.CssText;
             Assert.AreEqual(initialSourceCode, finalSourceCode);
             Assert.AreEqual(initialSheet.Rules.Length, finalSheet.Rules.Length);
